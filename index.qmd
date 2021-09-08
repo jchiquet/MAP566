@@ -1,0 +1,69 @@
+---
+title: "Welcome"
+format: html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(readODS)
+library(DT)
+```
+
+## Course description
+
+The objective of this course is to show students how statistics is used in practice to answer a specific question, by introducing a series of important model-based approaches.
+
+The students will learn to select and use appropriate statistical methodologies and acquire solid and practical skills by working-out examples on real-world data sets from various areas including medicine, genomics, ecology, and others.
+
+All analyses will be conducted with the R software, possibly with interfacing to Python. No strong knwoledge neither of R or Python programming is required (only basic scripting).
+
+## Schedule (tentative)
+
+**Teachers** : Julien Chiquet (lecture + 1 PC), Geneviève Robin (2 PC)
+
+**Course Evaluation**: 2 individual homework assignements + a final exam/project 
+
+**Course Language**: French with all material in English
+
+**Numerus closus**: 80 students
+
+1. Statistical tests (x1)
+
+    - Two-populations comparison
+    - Power analysis
+    - Multiple Testing
+
+2. Regression models (x2)
+
+    - Linear and Non Linear Regression models
+    - Nonlinear regression models
+    - Inference Diagnostic, Model comparison
+
+3. Mixed effects models (x2)
+
+    - Linear mixed effects models
+    - Nonlinear mixed effects models
+    - EM algorithm
+
+4. Mixture models and model-based clustering (x2)
+
+    - Gaussian mixture models for data clustering
+    - Stochastic Block Models for graph clustering
+    - (Variational) EM algorithm
+
+5. Model-based Dimension Reduction (x2)
+
+    - Multivariate Gaussian model
+    - Probabilistic Gaussian PCA
+    - Generalized mixed effect models
+
+<!-- 
+
+```{r, echo = FALSE}
+readODS::read_ods(path = "schedule.ods") %>% 
+  datatable(options = list(pageLength = 24, dom = "t", ordering = FALSE), rownames = FALSE)
+```
+
+-->
+

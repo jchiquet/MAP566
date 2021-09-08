@@ -1,0 +1,114 @@
+project:
+  type: site
+  output-dir: _site
+
+execute:
+  freeze: true
+  
+format:
+  html:
+    theme: [cosmo, theme.scss]
+    toc: true
+    html-math-method: katex
+    code-copy: true
+    code-overflow: wrap
+
+site:
+  title: "MAP566 - Stats in Action"
+  repo-url: https://github.com/jchiquet/MAP566
+  repo-actions: issue
+  page-navigation: true
+
+  navbar:
+    logo: logo_X.jpg
+    background: primary
+    sidebar-menus: true
+    left:
+      - text: Getting Started
+        href: getting-started.qmd
+      - icon: github
+        href: https://github.com/jchiquet/MAP566
+    
+    right:
+      - sidebar:tests
+      - sidebar:regression
+      - sidebar:mixed-models
+      - sidebar:mixture-models
+      - sidebar:multivariate-models
+      - sidebar:homework
+
+  sidebar:
+    - id: tests
+      title: "Hypothesis Testing"
+      style: "docked"    
+      collapse-level: 2
+      align: left
+      contents:
+        - section: "Lectures"
+          contents:
+            - docs/tests/lectures-single.qmd
+            - docs/tests/lectures-multiple.qmd
+        - section: "PC/Labs"
+          contents:
+            - docs/tests/exercices-single.qmd
+            - docs/tests/exercices-multiple.qmd
+        - section: "Documents"
+          contents:
+            - text: "article"
+
+    - id: regression
+      title: "Regression models"
+      contents:
+        - section: "Lectures"
+          contents:
+            - docs/regression-models/lectures-lrm.qmd
+            - docs/regression-models/lectures-nlrm.qmd
+            - docs/regression-models/lectures-gaussian-mle.qmd
+        - section: "PC/Labs"
+          contents:
+            - docs/tests/exercices-regressions-polynomial.qmd
+            - docs/tests/exercices-regression-nonlinear.qmd
+
+    - id: mixed-models
+      title: "Mixed models"
+      contents:
+        - section: "Lectures"
+          contents:
+            - docs/mixed-models/lectures-lmm.qmd
+            - docs/mixed-models/lectures-nlmm.qmd
+        - section: "PC/Labs"
+          contents:
+            - docs/mixed-models/exercices-lmm.qmd
+            - docs/mixed-models/exercices-nlmm.qmd
+
+    - id: mixture-models
+      title: "Mixture models"
+      contents:
+        - section: "Lectures"
+          contents:
+            - docs/mixture-models/lectures-gmm.qmd
+            - docs/mixture-models/lectures-sbm.qmd
+        - section: "PC/Labs"
+          contents:
+            - docs/mixture-models/exercices-gmm.qmd
+            - docs/mixture-models/exercices-sbm.qmd
+
+    - id: multivariate-models
+      title: "Multivariate models"
+      contents:
+        - section: "Lectures"
+          contents:
+            - docs/multivar-models/lectures-ppca.qmd
+            - docs/multivar-models/lectures-glmm.qmd
+        - section: "PC/Labs"
+          contents:
+            - docs/multivar-models/exercices-ppca.qmd
+            - docs/multivar-models/exercices-glmm.qmd
+
+    - id: homework
+      title: "Homework"
+        
+  footer:
+    left: "Last update: september 2021"
+
+bibliography: biblio_MAP566.bib
