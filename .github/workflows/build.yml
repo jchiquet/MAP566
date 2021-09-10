@@ -7,22 +7,11 @@ on:
 jobs:
   website:
     name: Build Website with rmarkdown
-    if: "contains(github.event.head_commit.message, 'do_website')"
+    if: "contains(github.event.head_commit.message, 'build')"
     runs-on: "ubuntu-latest"
     steps:
       - name: Checking out repository for Github action
         uses: actions/checkout@v2
-
-      # - name: Installing additional system libraries with APT
-      #   run: xargs -a binder/apt.txt sudo apt-get install
-      # - name: Caching miniconda
-      #   uses: actions/cache@v1
-      #   env:
-      #     # Increase this value to reset cache if binder/environment.yml has not changed
-      #     CACHE_NUMBER: 0
-      #   with:
-      #     path: ~/conda_pkgs_dir
-      #     key: ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{ hashFiles('binder/environment.yml') }}
 
       - name: Setting up miniconda with specified dependencies
         uses: conda-incubator/setup-miniconda@v2
@@ -30,19 +19,6 @@ jobs:
           auto-update-conda: true
           environment-file: environment.yml
           activate-environment: MAP566      
-      
-       #  with:
-       #    activate-environment: MAP573
-       #    channel-priority: strict
-       #    environment-file: binder/environment.yml
-       #    use-only-tar-bz2: true # IMPORTANT: This needs to be set for caching to work properly!
-       # - uses: goanpeca/setup-miniconda@v1
-       
-      - name: Installing additional R packages
-        shell: bash -l {0}
-        run: | 
-          export LANG=en_US.UTF-8
-          conda run -n MAP566 Rscript additional_install.R
 
       - name: Installing quarto
         uses: quarto-dev/quarto-actions/install-quarto@v1
