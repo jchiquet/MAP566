@@ -3,15 +3,6 @@ title: "Welcome"
 format: html
 ---
 
-<!--
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-library(tidyverse)
-library(readODS)
-library(DT)
-```
--->
-
 ## Course description
 
 The objective of this course is to show students how statistics is used in practice to answer a specific question, by introducing a series of important model-based approaches.
@@ -59,13 +50,4 @@ All analyses will be conducted with the R software, possibly with interfacing to
     - Multivariate Gaussian model
     - Probabilistic Gaussian PCA
     - Generalized mixed effect models
-
-<!-- 
-
-```{r, echo = FALSE}
-readODS::read_ods(path = "schedule.ods") %>% 
-  datatable(options = list(pageLength = 24, dom = "t", ordering = FALSE), rownames = FALSE)
-```
-
--->
 
