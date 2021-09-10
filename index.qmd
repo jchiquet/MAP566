@@ -11,6 +11,15 @@ The students will learn to select and use appropriate statistical methodologies 
 
 All analyses will be conducted with the R software, possibly with interfacing to Python. No strong knwoledge neither of R or Python programming is required (only basic scripting).
 
+::: {.callout-note appearance="simple"}
+
+## Important remark
+
+Much of the material used in this course is due to [Marc Lavielle](http://www.cmap.polytechnique.fr/~lavielle/), who was the first to set up the [Statistics in Actions](http://sia.webpopix.org/) course.
+We only have made some adjustments to it.
+
+:::
+
 ## Schedule (tentative)
 
 **Teachers** : Julien Chiquet (lecture + 1 PC), Geneviève Robin (2 PC)
@@ -20,6 +29,9 @@ All analyses will be conducted with the R software, possibly with interfacing to
 **Course Language**: French with all material in English
 
 **Numerus closus**: 80 students
+
+
+
 
 1. Statistical tests (x1)
 

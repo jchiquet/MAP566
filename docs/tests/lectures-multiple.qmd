@@ -1,5 +1,5 @@
 ---
-title: 'Statistical tests
+title: 'Statistical tests'
 subtitle: 'Multiple comparisons'
 author: "Marc Lavielle </br> January 12th, 2020 </br> &nbsp; <hr>"
 ---
