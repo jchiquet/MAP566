@@ -3,12 +3,14 @@ title: "Welcome"
 format: html
 ---
 
+<!--
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(readODS)
 library(DT)
 ```
+-->
 
 ## Course description
 
