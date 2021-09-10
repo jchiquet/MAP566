@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.2.144">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>MAP566 - Stats in Action – Statistical tests</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+   var mathElements = document.getElementsByClassName("math");
+   var macros = [];
+   for (var i = 0; i < mathElements.length; i++) {
+    var texText = mathElements[i].firstChild;
+    if (mathElements[i].tagName == "SPAN") {
+     katex.render(texText.data, mathElements[i], {
+      displayMode: mathElements[i].classList.contains('display'),
+      throwOnError: false,
+      macros: macros,
+      fleqn: false
+     });
+  }}});
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+  <link href="../../docs/tests/lectures-multiple.html" rel="next">
+  <script src="../../site_libs/quarto-html/quarto.js"></script>
+  <script src="../../site_libs/quarto-html/popper.min.js"></script>
+  <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="../../site_libs/quarto-html/clipboard.min.js"></script>
+  <script src="../../site_libs/quarto-html/anchor.min.js"></script>
+  <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div id="quarto-search-results"></div>
+<header id="quarto-header" class="headroom fixed-top">
+<nav class="navbar navbar-expand-lg navbar-light ">
+    <div class="container-fluid">
+  <a class="navbar-brand" href="../../index.html">
+    <img src="../../logo_X.jpg" alt="">
+    <span class="navbar-title">MAP566 - Stats in Action</span>
+  </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../getting-started.html">Getting Started</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/jchiquet/MAP566"><i class="bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+        <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hypothesis-testing" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hypothesis Testing</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-hypothesis-testing">    
+        <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/tests/lectures-single.html">Statistical tests</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/tests/lectures-multiple.html">Statistical tests</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">PC/Labs</li>
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Documents</li>
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-regression-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Regression models</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-regression-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">PC/Labs</li>
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixed-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mixed models</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixed-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">PC/Labs</li>
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mixture models</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixture-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">PC/Labs</li>
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-multivariate-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Multivariate models</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-multivariate-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">PC/Labs</li>
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-homework" role="button" data-bs-toggle="dropdown" aria-expanded="false">Homework</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-homework">    
+    </ul>
+  </li>
+</ul>
+      </div> <!-- /navcollapse -->
+  </div> <!-- /container-fluid -->
+</nav>
+<nav class="quarto-secondary-nav py-2 d-lg-none d-md-block " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <div class="container-fluid d-flex justify-content-between">
+    <h1 class="quarto-secondary-nav-title mb-0 fs-3 d-inline">Statistical tests</h1>
+    <button type="button" class="quarto-btn-toggle btn d-lg-none py-0 px-1 d-inline-block border-0 ">
+      <i class="bi bi-chevron-right"></i>
+    </button>
+  </div>
+</nav>
+</header>
+ <!-- /navbar/sidebar -->
+<div class="container-fluid quarto-container d-flex flex-column page-layout-article">
+<div class="row flex-fill" id="quarto-content">
+  <div id="quarto-sidebar" class="col col-12 col-lg-3 d-lg-flex px-0 pt-0 sidebar collapse sidebar-navigation">
+    <nav class="me-lg-auto docked overflow-auto">
+  <div class="sidebar-menu-container"> 
+  <ul class="list-unstyled mt-1 px-3">
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#lectures-collapse" aria-expanded="true">
+              <div class="me-auto sidebar-section-item">Lectures</div>
+            <div><i class="bi bi-chevron-right ms-2"></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="lectures-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../../docs/tests/lectures-single.html" class="active">Statistical tests</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../../docs/tests/lectures-multiple.html" class="">Statistical tests</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#pc/labs-collapse" aria-expanded="true">
+              <div class="me-auto sidebar-section-item">PC/Labs</div>
+            <div><i class="bi bi-chevron-right ms-2"></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="pc/labs-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#documents-collapse" aria-expanded="true">
+              <div class="me-auto sidebar-section-item">Documents</div>
+            <div><i class="bi bi-chevron-right ms-2"></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="documents-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+        </ul>
+      </div>
+    </li>
+  </ul>
+  </ul>
+  </div>
+</nav>
+  </div>
+  <div id="quarto-toc-sidebar" class=" pt-0 col col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-toc order-last"><nav id="TOC" role="doc-toc">
+<h2 id="toc-title">On this page</h2>
+<ul>
+<li><a href="#introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+<li><a href="#students-t-test" class="nav-link" data-scroll-target="#students-t-test">Student’s t-test</a>
+<ul class="collapse">
+<li><a href="#one-sample-t-test" class="nav-link" data-scroll-target="#one-sample-t-test">One sample t-test</a>
+<ul class="collapse">
+<li><a href="#one-sided-test" class="nav-link" data-scroll-target="#one-sided-test">One sided test</a></li>
+<li><a href="#two-sided-test" class="nav-link" data-scroll-target="#two-sided-test">Two sided test</a></li>
+<li><a href="#confidence-interval-for-the-mean" class="nav-link" data-scroll-target="#confidence-interval-for-the-mean">Confidence interval for the mean</a></li>
+</ul></li>
+<li><a href="#two-samples-t-test" class="nav-link" data-scroll-target="#two-samples-t-test">Two samples t-test</a>
+<ul class="collapse">
+<li><a href="#what-should-we-test" class="nav-link" data-scroll-target="#what-should-we-test">What should we test?</a></li>
+<li><a href="#assuming-equal-variances" class="nav-link" data-scroll-target="#assuming-equal-variances">Assuming equal variances</a></li>
+<li><a href="#assuming-different-variances" class="nav-link" data-scroll-target="#assuming-different-variances">Assuming different variances</a></li>
+</ul></li>
+<li><a href="#power-of-a-t-test" class="nav-link" data-scroll-target="#power-of-a-t-test">Power of a t-test</a></li>
+</ul></li>
+<li><a href="#mann-whitney-wilcoxon-test" class="nav-link" data-scroll-target="#mann-whitney-wilcoxon-test">Mann-Whitney-Wilcoxon test</a></li>
+<li><a href="#the-limited-role-of-the-p-value" class="nav-link" data-scroll-target="#the-limited-role-of-the-p-value">The limited role of the p-value</a></li>
+</ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav></div>
+  <div class="col mx-auto col-sm-12 col-md-9 col-lg-7 col-xl-7 px-lg-4 pe-xxl-4 ps-xxl-0">
+<main>
+<header id="title-block-header">
+<h1 class="title d-none d-lg-block display-7">Statistical tests</h1>
+<p class="subtitle lead">Single comparison</p>
+<p class="author">Marc Lavielle <br> January 12th, 2020 <br> &nbsp;
+</p><hr><p></p>
+</header>
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>A feeding study served to authorize the MON863 maize, a genetically modified organism (GMO) developed by the Monsanto company, by the European and American authorities. It included male and female rats. For each sex, one group was fed with GMOs in the equilibrated diet, and one with the closest control regimen without GMOs.</p>
+<p>We are interested in the weight of the rats after a period of 14 weeks.</p>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>ratWeight <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"ratWeight.csv"</span>, <span class="at">stringsAsFactors =</span> T)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">subset</span>(ratWeight, week<span class="sc">==</span><span class="dv">14</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>       id week weight  regime gender dosage
+14 B38602   14  514.9 Control   Male    11%
+28 B38603   14  505.0 Control   Male    11%
+42 B38604   14  545.1 Control   Male    11%
+56 B38605   14  596.6 Control   Male    11%
+70 B38606   14  516.8 Control   Male    11%
+84 B38607   14  518.1 Control   Male    11%</code></pre>
+</div>
+</div>
+<p>The data per gender and regime is displayed below</p>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2) </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>data) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>weight,<span class="at">y=</span><span class="fu">as.numeric</span>(regime),<span class="at">colour=</span>regime, <span class="at">shape=</span>gender)) <span class="sc">+</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="cn">NULL</span>) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="cn">NULL</span>, <span class="at">limits=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">10</span>)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"weight (g)"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lectures-single_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="960"></p>
+</div>
+</div>
+<p>The following table provides the mean weight in each group</p>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(weight <span class="sc">~</span> regime<span class="sc">+</span>gender, <span class="at">data=</span>data, <span class="at">FUN=</span> <span class="st">"mean"</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>   regime gender   weight
+1 Control Female 278.2825
+2     GMO Female 287.3225
+3 Control   Male 513.7077
+4     GMO   Male 498.7359</code></pre>
+</div>
+</div>
+<p>Our main objective is to detect some possible effect of the diet on the weight. More precisly, we would like to know if the differences observed in the data are due to random fluctuations in sampling or to differences in diet.</p>
+<p><br></p>
+</section>
+<section id="students-t-test" class="level1">
+<h1>Student’s t-test</h1>
+<section id="one-sample-t-test" class="level2">
+<h2 class="anchored" data-anchor-id="one-sample-t-test">One sample t-test</h2>
+<p>Before considering the problem of comparing two groups, let us start looking at the weight of the male rats only:</p>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span><span class="fu">subset</span>(data,gender<span class="sc">==</span><span class="st">"Male"</span>)) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>weight,<span class="at">y=</span><span class="dv">0</span>), <span class="at">colour=</span><span class="st">"red"</span>) <span class="sc">+</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="cn">NULL</span>) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="cn">NULL</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"weight (g)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lectures-single_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="864"></p>
+</div>
+</div>
+<p>Let <span class="math inline">x_1, x_2, x_n</span> the weights of the <span class="math inline">n</span> male rats. We will assume that the <span class="math inline">x_i</span>’s are independent and normally distributed with mean <span class="math inline">\mu</span> and variance <span class="math inline">\sigma^2</span>:</p>
+<p><span class="math display"> x_i \iid {\cal N}(\mu \ , \ \sigma^2)</span> <br></p>
+<section id="one-sided-test" class="level3">
+<h3 class="anchored" data-anchor-id="one-sided-test">One sided test</h3>
+<p>We want to test</p>
+<p><span class="math display">H_0: \ ``\mu \leq \mu_0" \quad \text{versus} \quad H_1: \ ``\mu &gt; \mu_0" </span></p>
+<p>Function <code>t.test</code> can be used for performing this test:</p>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> data[data<span class="sc">$</span>gender<span class="sc">==</span><span class="st">"Male"</span>,<span class="st">"weight"</span>]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>mu0 <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x, <span class="at">alternative=</span><span class="st">"greater"</span>, <span class="at">mu=</span>mu0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>
+    One Sample t-test
+
+data:  x
+t = 1.2708, df = 77, p-value = 0.1038
+alternative hypothesis: true mean is greater than 500
+95 percent confidence interval:
+ 498.0706      Inf
+sample estimates:
+mean of x 
+ 506.2218 </code></pre>
+</div>
+</div>
+<p>Let us see what these outputs are and how they are computed.</p>
+<p>Let <span class="math inline">\bar{x} = n^{-1}\sum_{i=1}^n x_i</span> be the empirical mean of the data. <span class="math display"> \bar{x} \sim {\cal N}(\mu \ , \ \frac{\sigma^2}{n})</span> Then, <span class="math display"> \begin{aligned}
+\frac{\sqrt{n}(\bar{x} - \mu)}{\sigma} \ &amp;   \sim \ {\cal N}(0 \ , \ 1) \\ 
+\frac{\sqrt{n}(\bar{x} - \mu)}{s} \ &amp;   \sim  \ t_{n-1} 
+\end{aligned} </span></p>
+<p>where <span class="math display">s^2 = \frac{1}{n-1}\sum_{i=1}^n (x_i - \bar{x})^2 </span> is the empirical variance of the <span class="math inline">x_i</span>’s.</p>
+<p>The statistic used for the test should be a function of the data whose distribution under <span class="math inline">H_0</span> is known, and whose expected behavior under <span class="math inline">H_1</span> allows one to define a <em>rejection region</em> (or <em>critical region</em>) for the null hypothesis.</p>
+<p>Here, the test statistic is <span class="math display">
+T_{\rm stat} = \frac{(\bar{x} - \mu_0)}{s/\sqrt{n}}  </span> which follows a <span class="math inline">t</span>-distribution with <span class="math inline">n-1</span> degrees of freedom when <span class="math inline">\mu=\mu_0</span>.</p>
+<p><span class="math inline">\bar{x}</span> is expected to be less than or equal to <span class="math inline">\mu_0</span> under the null hypothesis, and greater than <span class="math inline">\mu_0</span> under the alternative hypothesis, Hence, <span class="math inline">T_{\rm stat}</span> is expected to be less than or equal to 0 under <span class="math inline">H_0</span> and greater than 0 under <span class="math inline">H_1</span>. We then reject the null hypothesis <span class="math inline">H_0</span> if <span class="math inline">T_{\rm stat}</span> is greater than some threshold <span class="math inline">q</span>.</p>
+<p>Such decision rule may lead to two kinds of error:</p>
+<ul>
+<li>The <strong>type I error</strong> is the incorrect rejection of null hypothesis when it is true,</li>
+<li>The <strong>type II error</strong> is the failure to reject the null hypothesis when it is false.</li>
+</ul>
+<p>The type I error rate or <em>significance level</em> is therefore the probability of rejecting the null hypothesis given that it is true.</p>
+<p>In our case, for a given significance level <span class="math inline">\alpha</span>, we will reject <span class="math inline">H_0</span> if <span class="math inline">T_{\rm stat} &gt; qt_{1-\alpha,n-1}</span>, where <span class="math inline">qt_{1-\alpha,n-1}</span> is the quantile of order <span class="math inline">1-\alpha</span> for a <span class="math inline">t</span>-distribution with <span class="math inline">n-1</span> degrees of freedom.</p>
+<p>Indeed, by definition,</p>
+<p><span class="math display"> \begin{aligned}
+\prob{\text{reject } H_0 \ | \ H_0 \ \text{true}} &amp;= {\mathbb P}(T_{\rm stat} &gt; qt_{1-\alpha,n-1} \ | \ \mu \leq \mu_0) \\
+&amp; \leq {\mathbb P}(T_{\rm stat} &gt; qt_{1-\alpha,n-1} \ | \ \mu = \mu_0) \\
+&amp; \leq {\mathbb P}(t_{n-1} &gt; qt_{1-\alpha,n-1}) \\
+&amp; \leq \alpha
+\end{aligned} </span></p>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>x.mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(x)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>x.sd <span class="ot">&lt;-</span> <span class="fu">sd</span>(x)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> n<span class="dv">-1</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>t.stat <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n)<span class="sc">*</span>(x.mean<span class="sc">-</span>mu0)<span class="sc">/</span>x.sd</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(t.stat,<span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>alpha, df))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 1.270806 1.664885</code></pre>
+</div>
+</div>
+<p>We therefore don’t reject <span class="math inline">H_0</span> in our example since <span class="math inline">T_{\rm stat} &lt; qt_{1-\alpha,n-1}</span>.</p>
+<p>We can equivalently compute the significance level for which the test becomes significant. This value is called the <em>p-value</em>: <span class="math display">\begin{aligned}
+p_{\rm value} &amp; = \max{\mathbb P}_{H_0}(T_{\rm stat} &gt; T_{\rm stat}^{\rm obs}) \\
+&amp; = {\mathbb P}(T_{\rm stat} &gt; T_{\rm stat}^{\rm obs}  \ | \ \mu=\mu_0) \\
+&amp;= 1 - \prob{t_{n-1} \leq T_{\rm stat}^{\rm obs}}
+\end{aligned}</span></p>
+<p>Now, <span class="math inline">T_{\rm stat} &gt; qt_{1-\alpha,n-1}</span> under <span class="math inline">H_0</span> if and only if <span class="math inline">\prob{t_{n-1} \leq T_{\rm stat}^{\rm obs}} \geq 1-\alpha</span>. Then, the test is significant at the level <span class="math inline">\alpha</span> if and only if <span class="math inline">p_{\rm value}\leq \alpha</span>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb11"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>p.value <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(t.stat,df) </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p.value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 0.1038119</code></pre>
+</div>
+</div>
+<div class="cell">
+
+</div>
+<p>Here, we would reject <span class="math inline">H_0</span> for any significance level <span class="math inline">\alpha \geq</span> 0.104.</p>
+<p><strong>Important:</strong> The fact that the test is not significant at the level <span class="math inline">\alpha</span> does not allow us to conclude that <span class="math inline">H_0</span> is true, i.e.&nbsp;that <span class="math inline">\mu</span> is less than or equal to 500. We can only say that the data does not allow us to conclude that <span class="math inline">\mu&gt;500</span>.</p>
+<p>Imagine now that we want to test if <span class="math inline">\mu \geq 515</span> for instance. The alternative here is <span class="math inline">H_1: \ ``\mu &lt; 515</span>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb13"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>mu0 <span class="ot">&lt;-</span> <span class="dv">515</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x, <span class="at">alternative=</span><span class="st">"less"</span>, <span class="at">mu=</span>mu0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>
+    One Sample t-test
+
+data:  x
+t = -1.793, df = 77, p-value = 0.03845
+alternative hypothesis: true mean is less than 515
+95 percent confidence interval:
+    -Inf 514.373
+sample estimates:
+mean of x 
+ 506.2218 </code></pre>
+</div>
+</div>
+<p>More generally, we may want to test <span class="math display">H_0: \ ``\mu \geq \mu_0" \quad \text{versus} \quad H_1: \ ``\mu &lt; \mu_0" </span> We still use the statistic <span class="math inline">T_{\rm stat} = \sqrt{n}(\bar{x}-\mu_0)/s</span> for this test, but the rejection region is now the area that lies to the left of the critical value <span class="math inline">qt_{\alpha,n-1}</span> since</p>
+<p><span class="math display"> \begin{aligned}
+\prob{\text{reject } H_0 \ | \ H_0 \ \text{true}} &amp;= {\mathbb P}(T_{\rm stat} &lt; qt_{\alpha,n-1} \ | \ \mu \geq \mu_0) \\
+&amp; \leq {\mathbb P}(T_{\rm stat} &lt; qt_{\alpha,n-1} \ | \ \mu = \mu_0) \\
+&amp; \leq \alpha
+\end{aligned} </span></p>
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>t.stat <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n)<span class="sc">*</span>(x.mean<span class="sc">-</span>mu0)<span class="sc">/</span>x.sd</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>p.value <span class="ot">&lt;-</span> <span class="fu">pt</span>(t.stat,df)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(t.stat, df, p.value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] -1.79295428 77.00000000  0.03845364</code></pre>
+</div>
+</div>
+<p>Here, the p-value is less than <span class="math inline">\alpha=0.05</span>: we then reject the null hypothesis at the <span class="math inline">5\%</span> level and conclude that <span class="math inline">\mu &lt; 515</span>.</p>
+<p><br></p>
+</section>
+<section id="two-sided-test" class="level3">
+<h3 class="anchored" data-anchor-id="two-sided-test">Two sided test</h3>
+<p>A two sided test (or two tailed test) can be used to test if <span class="math inline">\mu=500</span> for instance</p>
+<div class="cell">
+<div class="sourceCode" id="cb17"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>mu0 <span class="ot">=</span> <span class="dv">500</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x, <span class="at">alternative=</span><span class="st">"two.sided"</span>, <span class="at">mu=</span>mu0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>
+    One Sample t-test
+
+data:  x
+t = 1.2708, df = 77, p-value = 0.2076
+alternative hypothesis: true mean is not equal to 500
+95 percent confidence interval:
+ 496.4727 515.9709
+sample estimates:
+mean of x 
+ 506.2218 </code></pre>
+</div>
+</div>
+<p>More generally, we can test <span class="math display">H_0: \ ``\mu = \mu_0" \quad \text{versus} \quad H_1: \ ``\mu \neq \mu_0" </span> The test also uses the statistic <span class="math inline">T_{\rm stat} = \sqrt{n}(\bar{x}-\mu_0)/s</span>, but the rejection region has now two parts: we reject <span class="math inline">H_0</span> if <span class="math inline">|T_{\rm stat}| &gt; qt_{1-\alpha/2}</span>. Indeed,</p>
+<p><span class="math display"> \begin{aligned}
+\prob{\text{reject } H_0 \ | \ H_0 \ \text{true}} &amp;= {\mathbb P}(|T_{\rm stat}| &gt; qt_{1 -\frac{\alpha}{2},n-1} \ | \ \mu = \mu_0) \\
+&amp; = {\mathbb P}(T_{\rm stat} &lt; qt_{\frac{\alpha}{2},n-1} \ | \ \mu = \mu_0) +
+ {\mathbb P}(T_{\rm stat} &gt; qt_{1-\frac{\alpha}{2},n-1} \ | \ \mu = \mu_0)\\
+&amp;= \prob{t_{n-1} \leq qt_{\frac{\alpha}{2},n-1}} +  \prob{t_{n-1} \geq qt_{1-\frac{\alpha}{2},n-1}} \\
+ &amp;= \frac{\alpha}{2} + \frac{\alpha}{2} \\
+&amp; = \alpha
+\end{aligned} </span></p>
+<p>The p-value of the test is now</p>
+<p><span class="math display">\begin{aligned}
+p_{\rm value} &amp; = {\mathbb P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm obs}|) \\
+&amp; = {\mathbb P}_{H_0}(T_{\rm stat} &lt; -|T_{\rm stat}^{\rm obs}|)  + {\mathbb P}_{H_0}(T_{\rm stat} &gt; |T_{\rm stat}^{\rm obs}|)\\
+&amp;= \prob{t_{n-1} \leq -|T_{\rm stat}^{\rm obs}|} +  \prob{t_{n-1} \geq |T_{\rm stat}^{\rm obs}|} \\
+&amp;= 2 \,\prob{t_{n-1} \leq -|T_{\rm stat}^{\rm obs}|}
+\end{aligned}</span></p>
+<div class="cell">
+<div class="sourceCode" id="cb19"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>t.stat <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n)<span class="sc">*</span>(x.mean<span class="sc">-</span>mu0)<span class="sc">/</span>x.sd</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>p.value <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span><span class="fu">pt</span>(<span class="sc">-</span><span class="fu">abs</span>(t.stat),df) </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(t.stat, df, p.value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1]  1.2708058 77.0000000  0.2076238</code></pre>
+</div>
+</div>
+<div class="cell">
+
+</div>
+<p>Here, <span class="math inline">p_{\rm value}=</span> 0.208. Then, for any significance level less than 0.208, we cannot reject the hypothesis that <span class="math inline">\mu = 500</span>.</p>
+<p><br></p>
+</section>
+<section id="confidence-interval-for-the-mean" class="level3">
+<h3 class="anchored" data-anchor-id="confidence-interval-for-the-mean">Confidence interval for the mean</h3>
+<p>We have just seen that the data doesn’t allow us to reject the hypothesis that <span class="math inline">\mu = 500</span>. But we would come to the same conclusion with other values of <span class="math inline">\mu_0</span>. In particular, we will never reject the hypothesis that <span class="math inline">\mu = \bar{x}</span>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb21"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x, <span class="at">mu=</span>x.mean, <span class="at">conf.level=</span><span class="dv">1</span><span class="sc">-</span>alpha)<span class="sc">$</span>p.value</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+</div>
+<p>For a given significance level (<span class="math inline">\alpha = 0.05</span> for instance), we will not reject the null hypothesis for values of <span class="math inline">\mu_0</span> close enough to <span class="math inline">\bar{x}</span>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb23"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>pv<span class="fl">.510</span> <span class="ot">&lt;-</span> <span class="fu">t.test</span>(x, <span class="at">mu=</span><span class="dv">510</span>, <span class="at">conf.level=</span><span class="dv">1</span><span class="sc">-</span>alpha)<span class="sc">$</span>p.value</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>pv<span class="fl">.497</span> <span class="ot">&lt;-</span> <span class="fu">t.test</span>(x, <span class="at">mu=</span><span class="dv">497</span>, <span class="at">conf.level=</span><span class="dv">1</span><span class="sc">-</span>alpha)<span class="sc">$</span>p.value</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(pv<span class="fl">.510</span>, pv<span class="fl">.497</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 0.44265350 0.06340045</code></pre>
+</div>
+</div>
+<p>On the other hand, we will reject <span class="math inline">H_0</span> for values of <span class="math inline">\mu_0</span> far enough from <span class="math inline">\bar{x}</span>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb25"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>pv<span class="fl">.520</span> <span class="ot">&lt;-</span> <span class="fu">t.test</span>(x, <span class="at">mu=</span><span class="dv">520</span>, <span class="at">conf.level=</span><span class="dv">1</span><span class="sc">-</span>alpha)<span class="sc">$</span>p.value</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>pv<span class="fl">.490</span> <span class="ot">&lt;-</span> <span class="fu">t.test</span>(x, <span class="at">mu=</span><span class="dv">490</span>, <span class="at">conf.level=</span><span class="dv">1</span><span class="sc">-</span>alpha)<span class="sc">$</span>p.value</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(pv<span class="fl">.520</span>, pv<span class="fl">.490</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 0.006204188 0.001406681</code></pre>
+</div>
+</div>
+<p>There exist two values of <span class="math inline">\mu_0</span> for which the decision is borderline</p>
+<div class="cell">
+<div class="sourceCode" id="cb27"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>pv1 <span class="ot">&lt;-</span> <span class="fu">t.test</span>(x, <span class="at">mu=</span><span class="fl">496.47</span>, <span class="at">conf.level=</span><span class="dv">1</span><span class="sc">-</span>alpha)<span class="sc">$</span>p.value</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>pv2 <span class="ot">&lt;-</span> <span class="fu">t.test</span>(x, <span class="at">mu=</span><span class="fl">515.97</span>, <span class="at">conf.level=</span><span class="dv">1</span><span class="sc">-</span>alpha)<span class="sc">$</span>p.value</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(pv1,pv2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 0.04993761 0.05001986</code></pre>
+</div>
+</div>
+<p>In fact, for a given <span class="math inline">\alpha</span>, these two values <span class="math inline">\mu_{\alpha,{\rm lower}}</span> and <span class="math inline">\mu_{\alpha,{\rm upper}}</span> define a <em>confidence interval</em> for <span class="math inline">\mu</span>: We are ``confident’’ at the level <span class="math inline">1-\alpha</span> that any value between <span class="math inline">\mu_{\alpha,{\rm lower}}</span> and <span class="math inline">\mu_{\alpha,{\rm upper}}</span> is a possible value for <span class="math inline">\mu</span>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb29"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">490</span>,<span class="dv">520</span>,<span class="at">by=</span><span class="fl">0.25</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>t.stat <span class="ot">&lt;-</span> (x.mean<span class="sc">-</span>mu)<span class="sc">/</span>x.sd<span class="sc">*</span><span class="fu">sqrt</span>(n)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>pval <span class="ot">&lt;-</span> <span class="fu">pmin</span>(<span class="fu">pt</span>(<span class="sc">-</span>t.stat,df) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span> <span class="fu">pt</span>(t.stat,df)),<span class="fu">pt</span>(t.stat,df) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span> <span class="fu">pt</span>(<span class="sc">-</span>t.stat,df)))</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>dd <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">mu=</span>mu, <span class="at">p.value=</span>pval)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>CI <span class="ot">&lt;-</span> x.mean <span class="sc">+</span> x.sd<span class="sc">/</span><span class="fu">sqrt</span>(n)<span class="sc">*</span><span class="fu">qt</span>(<span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>), df)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>dd) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>mu,<span class="at">y=</span>p.value)) <span class="sc">+</span> </span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept=</span>x.mean,<span class="at">colour=</span><span class="st">"red"</span>, <span class="at">linetype=</span><span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span>alpha,<span class="at">colour=</span><span class="st">"green"</span>, <span class="at">linetype=</span><span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept=</span>CI,<span class="at">colour=</span><span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">round</span>(<span class="fu">c</span>(<span class="dv">490</span>,<span class="dv">500</span>,<span class="dv">510</span>,<span class="dv">520</span>,CI,x.mean),<span class="dv">2</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lectures-single_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>By construction,</p>
+<p><span class="math display">\begin{aligned}
+1-\alpha &amp;=  \prob{ qt_{\frac{\alpha}{2},n-1} &lt; \frac{\bar{x}-\mu}{s/\sqrt{n}} &lt; qt_{1-\frac{\alpha}{2},n-1} } \\
+&amp;= \prob{ \bar{x} +\frac{s}{\sqrt{n}}qt_{\frac{\alpha}{2},n-1} &lt; \mu &lt; \bar{x} +\frac{s}{\sqrt{n}}qt_{1-\frac{\alpha}{2},n-1} } 
+\end{aligned}</span></p>
+<p>The confidence interval of level <span class="math inline">1-\alpha</span> for <span class="math inline">\mu</span> is therefore the interval <span class="math display">{\rm CI}_{1-\alpha} = [\bar{x} +\frac{s}{\sqrt{n}}qt_{\frac{\alpha}{2},n-1} \ \ , \ \ 
+\bar{x} +\frac{s}{\sqrt{n}}qt_{1-\frac{\alpha}{2},n-1}] </span></p>
+<div class="cell">
+<div class="sourceCode" id="cb30"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>(CI <span class="ot">&lt;-</span> x.mean <span class="sc">+</span> x.sd<span class="sc">/</span><span class="fu">sqrt</span>(n)<span class="sc">*</span><span class="fu">qt</span>(<span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>), df))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 496.4727 515.9709</code></pre>
+</div>
+</div>
+<p><strong>Remark 1:</strong> The fact that <span class="math inline">\prob{ \mu \in {\rm CI}_{1-\alpha}} = 1- \alpha</span> does not mean that <span class="math inline">\mu</span> is a random variable! It is the bounds of the confidence interval that are random because they are function of the data.</p>
+<p>A confidence interval of level <span class="math inline">1-\alpha</span> should be interpreted like this: imagine that we repeat the same experiment many times, with the same experimental conditions, and that we build a confidence interval for <span class="math inline">\mu</span> for each of these replicate. Then, the true mean <span class="math inline">\mu</span> will lie in the confidence interval <span class="math inline">(1-\alpha)100\%</span> of the times.</p>
+<p>Let us check this property with a Monte Carlo simulation.</p>
+<div class="cell">
+<div class="sourceCode" id="cb32"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="dv">100000</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="dv">40</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">length=</span>L)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (l <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span>L)) {</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n,mu,sd)</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  ci.l <span class="ot">&lt;-</span> <span class="fu">mean</span>(x) <span class="sc">+</span> <span class="fu">sd</span>(x)<span class="sc">/</span><span class="fu">sqrt</span>(n)<span class="sc">*</span><span class="fu">qt</span>(<span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>),n<span class="dv">-1</span>)</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  R[l] <span class="ot">&lt;-</span> (mu <span class="sc">&gt;</span> ci.l[<span class="dv">1</span>]  <span class="sc">&amp;&amp;</span> mu <span class="sc">&lt;</span> ci.l[<span class="dv">2</span>])</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(R)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 0.95065</code></pre>
+</div>
+</div>
+<p><strong>Remark 2:</strong></p>
+<p>The decision rule to reject or not the null hypothesis can be derived from the confidence interval. Indeed, the confidence interval plays the role of an acceptance region: we reject <span class="math inline">H_0</span> if <span class="math inline">\mu_0</span> does not belong to <span class="math inline">{\rm CI}_{1-\alpha}</span>.</p>
+<p>In the case of a one sided test, the output of <code>t.test</code> called confidence interval is indeed an acceptance region for <span class="math inline">\mu</span>, but not a ``confidence interval’’ (we cannot seriouly consider that <span class="math inline">\mu</span> can take any value above 500 for instance )</p>
+<div class="cell">
+<div class="sourceCode" id="cb34"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(x.mean <span class="sc">+</span> x.sd<span class="sc">/</span><span class="fu">sqrt</span>(n)<span class="sc">*</span><span class="fu">qt</span>(alpha,df) , <span class="cn">Inf</span>),</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="sc">-</span><span class="cn">Inf</span>, x.mean <span class="sc">+</span> x.sd<span class="sc">/</span><span class="fu">sqrt</span>(n)<span class="sc">*</span><span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>alpha,df)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>         [,1]     [,2]
+[1,] 499.0229      Inf
+[2,]     -Inf 513.4207</code></pre>
+</div>
+</div>
+<p><br></p>
+</section>
+</section>
+<section id="two-samples-t-test" class="level2">
+<h2 class="anchored" data-anchor-id="two-samples-t-test">Two samples t-test</h2>
+<section id="what-should-we-test" class="level3">
+<h3 class="anchored" data-anchor-id="what-should-we-test">What should we test?</h3>
+<p>Let us now compare the weights of the male and female rats. ::: {.cell}</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> data[data<span class="sc">$</span>gender<span class="sc">==</span><span class="st">"Female"</span> ,<span class="st">"weight"</span>]</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>dmean <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="fu">mean</span>(x),<span class="fu">mean</span>(y)),<span class="at">gender=</span><span class="fu">c</span>(<span class="st">"Male"</span>,<span class="st">"Female"</span>))</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span><span class="fu">subset</span>(data,regime<span class="sc">==</span><span class="st">"Control"</span>)) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>weight,<span class="at">y=</span><span class="dv">0</span>,<span class="at">colour=</span>gender)) <span class="sc">+</span> </span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>dmean, <span class="fu">aes</span>(x,<span class="at">y=</span><span class="dv">0</span>,<span class="at">colour=</span>gender), <span class="at">size=</span><span class="dv">4</span>) <span class="sc">+</span> </span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="cn">NULL</span>) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="cn">NULL</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"weight (g)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lectures-single_files/figure-html/unnamed-chunk-44-1.png" class="img-fluid" width="768"></p>
+</div>
+<p>:::</p>
+<p>Looking at the data is more than enough for concluding that the mean weight of the males is (much) larger than the mean weight of the females Computing a <span class="math inline">p</span>-value here is of little interest </p>
+<div class="cell">
+<div class="sourceCode" id="cb37"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  x and y
+t = 46.45, df = 163.44, p-value &lt; 2.2e-16
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ 211.5862 230.3738
+sample estimates:
+mean of x mean of y 
+ 503.7825  282.8025 </code></pre>
+</div>
+</div>
+<p>Let us see now what happens if we compare the control and GMO groups for the male rats. ::: {.cell}</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> data[data<span class="sc">$</span>gender<span class="sc">==</span><span class="st">"Male"</span> <span class="sc">&amp;</span> data<span class="sc">$</span>regime<span class="sc">==</span><span class="st">"Control"</span>,<span class="st">"weight"</span>]</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> data[data<span class="sc">$</span>gender<span class="sc">==</span><span class="st">"Male"</span> <span class="sc">&amp;</span> data<span class="sc">$</span>regime<span class="sc">==</span><span class="st">"GMO"</span>,<span class="st">"weight"</span>]</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>dmean <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="fu">mean</span>(x),<span class="fu">mean</span>(y)),<span class="at">regime=</span><span class="fu">c</span>(<span class="st">"Control"</span>,<span class="st">"GMO"</span>))</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>data[data<span class="sc">$</span>gender<span class="sc">==</span><span class="st">"Male"</span>,]) <span class="sc">+</span>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>weight,<span class="at">y=</span><span class="fu">as.numeric</span>(regime),<span class="at">colour=</span>regime)) <span class="sc">+</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>dmean, <span class="fu">aes</span>(x,<span class="at">y=</span><span class="fu">as.numeric</span>(regime),<span class="at">colour=</span>regime), <span class="at">size=</span><span class="dv">4</span>) <span class="sc">+</span> </span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="cn">NULL</span>) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="cn">NULL</span>, <span class="at">limits=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">6</span>,<span class="dv">9</span>)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"weight (g)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stderr">
+<pre><code>Warning in FUN(X[[i]], ...): NAs introduced by coercion</code></pre>
+</div>
+<div class="cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="lectures-single_files/figure-html/unnamed-chunk-48-1.png" class="img-fluid" width="768"></p>
+</div>
+<p>:::</p>
+<p>We observe a difference between the two empirical means (the mean weight after 14 weeks is greater in the control group), but we cannot say how significant this difference is by simply looking at the data. Performing a statistical test is now necessary.</p>
+<p>Let <span class="math inline">x_{1}, x_{2}, \ldots, x_{n_x}</span> be the weights of the <span class="math inline">n_x</span> male rats of the control group and <span class="math inline">y_{1}, y_{2}, \ldots, y_{n_x}</span> the weights of the <span class="math inline">n_y</span> male rats of the GMO group. We will assume normal distributions for both <span class="math inline">(x_{i})</span> and <span class="math inline">(y_{i})</span>:</p>
+<p><span class="math display"> x_{i} \iid {\cal N}(\mu_x \ , \ \sigma^2_x) \quad ; \quad y_{i} \iid {\cal N}(\mu_y \ , \ \sigma^2_y)</span></p>
+<p>We want to test</p>
+<p><span class="math display">H_0: \ ``\mu_x = \mu_y" \quad \text{versus} \quad H_1: \ ``\mu_x \neq \mu_y" </span></p>
+<p><br></p>
+</section>
+<section id="assuming-equal-variances" class="level3">
+<h3 class="anchored" data-anchor-id="assuming-equal-variances">Assuming equal variances</h3>
+<p>We can use the function <code>t.test</code> assuming first equal variances (<span class="math inline">\sigma^2_x=\sigma_y^2</span>) ::: {.cell}</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x, y, <span class="at">conf.level=</span><span class="dv">1</span><span class="sc">-</span>alpha, <span class="at">var.equal=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>
+    Two Sample t-test
+
+data:  x and y
+t = 1.5426, df = 76, p-value = 0.1271
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -4.358031 34.301621
+sample estimates:
+mean of x mean of y 
+ 513.7077  498.7359 </code></pre>
+</div>
+<p>::: The test statistic is <span class="math display">T_{\rm stat} = \frac{\bar{x} - \bar{y}}{s_p \sqrt{\frac{1}{n_x}+\frac{1}{n_y}}}  </span> where <span class="math inline">s_p^2</span> is the <em>pooled variance</em>:</p>
+<p><span class="math display">s_p^2 = \frac{1}{n_x+n_y-2} \left(\sum_{i=1}^{n_x} (x_{i}-\bar{x})^2 + \sum_{i=1}^{n_y} (y_{i}-\bar{y})^2 \right)  </span></p>
+<p>Under the null hypothesis, <span class="math inline">T_{\rm stat}</span> follows a <span class="math inline">t</span>-distribution with <span class="math inline">n_x+n_y-2</span> degree of freedom. The <span class="math inline">p</span>-value is therefore</p>
+<p><span class="math display">\begin{aligned}
+p_{\rm value} &amp; = {\mathbb P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm obs}|) \\
+&amp;= \prob{t_{n_x+n_y-2} \leq -T_{\rm stat}^{\rm obs}} + 1 - \prob{t_{n_x+n_y-2} \leq T_{\rm stat}^{\rm obs}}
+\end{aligned}</span></p>
+<div class="cell">
+<div class="sourceCode" id="cb44"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>nx <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>ny <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>x.mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(x)</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>y.mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(y)</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>x.sc <span class="ot">&lt;-</span> <span class="fu">sum</span>((x<span class="sc">-</span>x.mean)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>y.sc <span class="ot">&lt;-</span> <span class="fu">sum</span>((y<span class="sc">-</span>y.mean)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>xy.sd <span class="ot">&lt;-</span> <span class="fu">sqrt</span>((x.sc<span class="sc">+</span>y.sc)<span class="sc">/</span>(nx<span class="sc">+</span>ny<span class="dv">-2</span>))</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>t.stat <span class="ot">&lt;-</span> (x.mean<span class="sc">-</span>y.mean)<span class="sc">/</span>xy.sd<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">/</span>nx<span class="sc">+</span><span class="dv">1</span><span class="sc">/</span>ny)</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> nx <span class="sc">+</span> ny <span class="sc">-</span><span class="dv">2</span></span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>p.value <span class="ot">&lt;-</span> <span class="fu">pt</span>(<span class="sc">-</span>t.stat,df) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span> <span class="fu">pt</span>(t.stat,df))</span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(t.stat, df, p.value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1]  1.5426375 76.0000000  0.1270726</code></pre>
+</div>
+</div>
+<p>The confidence interval for the mean difference <span class="math inline">\mu_x-\mu_y</span> is computed as <span class="math display">{\rm CI}_{1-\alpha} = [\bar{x} - \bar{y} +s_p \sqrt{\frac{1}{n_x}+\frac{1}{n_y}}qt_{\frac{\alpha}{2},n_x+n_y-2} \ \ , \ \ 
+\bar{x} - \bar{y} +s_p \sqrt{\frac{1}{n_x}+\frac{1}{n_y}}qt_{1-\frac{\alpha}{2},n_x+n_y-2} ] </span></p>
+<div class="cell">
+<div class="sourceCode" id="cb46"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>x.mean<span class="sc">-</span>y.mean  <span class="sc">+</span> xy.sd<span class="sc">*</span><span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">/</span>nx<span class="sc">+</span><span class="dv">1</span><span class="sc">/</span>ny)<span class="sc">*</span><span class="fu">qt</span>(<span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>),df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] -4.358031 34.301621</code></pre>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="assuming-different-variances" class="level3">
+<h3 class="anchored" data-anchor-id="assuming-different-variances">Assuming different variances</h3>
+<p>Assuming equal variances for the two groups may be disputable. ::: {.cell}</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(data<span class="sc">$</span>weight <span class="sc">~</span> data<span class="sc">$</span>regime, <span class="at">FUN=</span> <span class="st">"sd"</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>  data$regime data$weight
+1     Control    123.0689
+2         GMO    111.8559</code></pre>
+</div>
+<p>:::</p>
+<p>We can then use the <code>t.test</code> function with different variances (which is the default) ::: {.cell}</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x, y, <span class="at">conf.level=</span><span class="dv">1</span><span class="sc">-</span>alpha)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  x and y
+t = 1.5426, df = 75.976, p-value = 0.1271
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -4.358129 34.301719
+sample estimates:
+mean of x mean of y 
+ 513.7077  498.7359 </code></pre>
+</div>
+<p>:::</p>
+<div class="cell">
+
+</div>
+<p>The Welch (or Satterthwaite) approximation to the degrees of freedom is used instead of <span class="math inline">n_x+n_y-2=</span> 76:</p>
+<p><span class="math display">\df_W = \frac{(c_x + c_y)^2}{{c_x^2}/{(n_x-1)} + {c_y^2}/{(n_y-1)}}</span> where <span class="math inline">c_x = \sum (x_{i}-\bar{x})^2/(n_x(n_x-1))</span> and <span class="math inline">c_y = \sum (y_{i}-\bar{y})^2/(n_y(n_y-1))</span>.</p>
+<p>Furthermore, unlike in Student’s t-test with equal variances, the denominator is not based on a pooled variance estimate:</p>
+<p><span class="math display">T_{\rm stat} = \frac{\bar{x} - \bar{y}}{ \sqrt{{s_x^2}/{n_x}+{s_y^2}/{n_y}}}  </span> where <span class="math inline">s_x^2</span> and <span class="math inline">s_y^2</span> are the empirical variances of <span class="math inline">(x_i)</span> and <span class="math inline">(y_i)</span>: <span class="math display"> s_x^2 = \frac{1}{n_x-1}\sum_{i=1}^{n_x} (x_{i}-\bar{x})^2  \quad ; \quad
+s_y^2 = \frac{1}{n_y-1}\sum_{i=1}^{n_y} (y_{i}-\bar{y})^2</span></p>
+<div class="cell">
+<div class="sourceCode" id="cb52"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>sbar.xy <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">var</span>(x)<span class="sc">/</span>nx<span class="sc">+</span><span class="fu">var</span>(y)<span class="sc">/</span>ny)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>t.stat <span class="ot">&lt;-</span> (x.mean<span class="sc">-</span>y.mean)<span class="sc">/</span>sbar.xy</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>cx <span class="ot">&lt;-</span> x.sc<span class="sc">/</span>(nx<span class="dv">-1</span>)<span class="sc">/</span>nx</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>cy <span class="ot">&lt;-</span> y.sc<span class="sc">/</span>(ny<span class="dv">-1</span>)<span class="sc">/</span>ny</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>dfw <span class="ot">&lt;-</span> (cx <span class="sc">+</span> cy)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (cx<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>(nx<span class="dv">-1</span>) <span class="sc">+</span> cy<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>(ny<span class="dv">-1</span>))</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>p.value <span class="ot">&lt;-</span> <span class="fu">pt</span>(<span class="sc">-</span>t.stat,dfw) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span> <span class="fu">pt</span>(t.stat,dfw))</span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(t.stat, dfw, p.value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1]  1.5426375 75.9760868  0.1270739</code></pre>
+</div>
+</div>
+<p>The confidence interval for <span class="math inline">\mu_x-\mu_y</span> is now computed as <span class="math display">{\rm CI}_{1-\alpha} = [\bar{x} - \bar{y} +\sqrt{\frac{s_x^2}{n_x}+\frac{s_y^2}{n_y}} \ qt_{\frac{\alpha}{2},\df_W} \ \ , \ \ 
+\bar{x} - \bar{y} +\sqrt{\frac{s_x^2}{n_x}+\frac{s_y^2}{n_y}} \ qt_{1-\frac{\alpha}{2},\df_W} ] </span></p>
+<div class="cell">
+<div class="sourceCode" id="cb54"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>x.mean<span class="sc">-</span>y.mean  <span class="sc">+</span> sbar.xy<span class="sc">*</span><span class="fu">qt</span>(<span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>),dfw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] -4.358129 34.301719</code></pre>
+</div>
+</div>
+<p><br></p>
+</section>
+</section>
+<section id="power-of-a-t-test" class="level2">
+<h2 class="anchored" data-anchor-id="power-of-a-t-test">Power of a t-test</h2>
+<p>Until now, we have demonstrated that the experimental data does not highlight any significant difference in weight between the control group and the GMO group.</p>
+<p>Of course, that does not mean that there is no difference between the two groups. Indeed, <strong>absence of evidence is not evidence of absence</strong>. In fact, no experimental study would be able to demonstrate the absence of effect of the diet on the weight.</p>
+<p>Now, the appropriate question is rather to evaluate what the experimental study can detect. If feeding a population of rats with GMOs has a signicant biological effect on the weight, can we ensure with a reasonable level of confidence that our statistical test will reject the null hypothesis and conclude that there is indeed a difference in weight between the two groups?</p>
+<p>A <em>power analysis</em> allows us to determine the sample size required to detect an effect of a given size with a given degree of confidence. Conversely, it allows us to determine the probability of detecting an effect of a given size with a given level of confidence, under sample size constraints.</p>
+<p>For a given <span class="math inline">\delta \in {\mathbb R}</span>, let <span class="math inline">\beta(\delta)</span> be the type II error rate, i.e.&nbsp;the probability to fail rejecting <span class="math inline">H_0</span> when <span class="math inline">\mu_x-\mu_y = \delta</span>, with <span class="math inline">\delta\neq 0</span>.</p>
+<p>The power of the test is the probability to reject the null hypothesis when it is false. It is also a function of <span class="math inline">\delta =\mu_x-\mu_y</span> defined as</p>
+<p><span class="math display"> \begin{aligned}
+\eta(\delta) &amp;= 1 - \beta(\delta) \\
+&amp;= \prob{\text{reject } H_0 \ | \ \mu_x-\mu_y=\delta } 
+\end{aligned} </span></p>
+<p>Remember that, for a two sided test, we reject the null hypothesis when <span class="math inline">|T_{\rm stat}| &gt; qt_{1-\alpha/2, \df}</span>, where <span class="math inline">\df</span> is the appropriate degree of freedom.</p>
+<p>On the other hand, <span class="math inline">{(\bar{x} - \bar{y} - \delta)}/{s_{xy}}</span>, where <span class="math inline">s_{xy} = \sqrt{{s_x^2}/{n_x}+{s_y^2}/{n_y}}</span>, follows a <span class="math inline">t</span>-distribution with <span class="math inline">\df</span> degrees of freedom. Thus,</p>
+<p><span class="math display"> \begin{aligned}
+\eta(\delta) &amp;= 1 - {\mathbb P}(qt_{\frac{\alpha}{2},\df} &lt; T_{\rm stat} &lt; qt_{1 -\frac{\alpha}{2},\df} \ | \ \mu_x-\mu_y=\delta) \\
+&amp; = 1- {\mathbb P}(qt_{\frac{\alpha}{2},\df} &lt; \frac{\bar{x} - \bar{y}}{s_{xy}} &lt; qt_{1-\frac{\alpha}{2},\df} \ | \ \mu_x-\mu_y=\delta) \\
+&amp;= 1- {\mathbb P}(qt_{\frac{\alpha}{2},\df} - \frac{\delta}{s_{xy}} &lt; \frac{\bar{x} - \bar{y} - \delta}{s_{xy}} &lt; qt_{1-\frac{\alpha}{2},\df} - \frac{\delta}{s_{xy}} \ | \ \mu_x-\mu_y=\delta) \\
+&amp;= 1 - Ft_{\df}(qt_{1-\frac{\alpha}{2},\df} - \frac{\delta}{s_{xy}}) + Ft_{\df}(qt_{\frac{\alpha}{2},\df} - \frac{\delta}{s_{xy}})
+\end{aligned} </span></p>
+<p>As an example, let us compute the probability to detect a difference in weight of 10g with two groups of 80 rats each and assuming that the standard deviation is 30g in each group.</p>
+<div class="cell">
+<div class="sourceCode" id="cb56"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>alpha<span class="ot">=</span><span class="fl">0.05</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>nx.new <span class="ot">&lt;-</span> ny.new <span class="ot">&lt;-</span> <span class="dv">80</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>delta.mu <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>x.sd <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> nx.new<span class="sc">+</span>ny.new<span class="dv">-2</span></span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> delta.mu<span class="sc">/</span>x.sd<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">/</span>nx.new<span class="sc">+</span><span class="dv">1</span><span class="sc">/</span>ny.new)</span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">-</span><span class="fu">pt</span>(<span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>,df)<span class="sc">-</span>dt,df) <span class="sc">+</span> <span class="fu">pt</span>(<span class="fu">qt</span>(alpha<span class="sc">/</span><span class="dv">2</span>,df)<span class="sc">-</span>dt,df) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 0.5528906</code></pre>
+</div>
+</div>
+<p>The function <code>pwr.t.test</code> allows to compute this power:</p>
+<div class="cell">
+<div class="sourceCode" id="cb58"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.t.test</span>(<span class="at">n=</span>nx.new, <span class="at">d=</span>delta.mu<span class="sc">/</span>x.sd, <span class="at">type=</span><span class="st">"two.sample"</span>, <span class="at">alternative=</span><span class="st">"two.sided"</span>, <span class="at">sig.level=</span>alpha)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>
+     Two-sample t test power calculation 
+
+              n = 80
+              d = 0.3333333
+      sig.level = 0.05
+          power = 0.5538758
+    alternative = two.sided
+
+NOTE: n is number in *each* group</code></pre>
+</div>
+</div>
+<p>Let us perform a Monte Carlo simulation, to check this result and better understand what it means. Imagine that the ``true’’ difference in weight is <span class="math inline">\delta=10</span>g. Then, if could repeat the same experiment a (very) large number of times, we would reject the null hypothesis in <span class="math inline">55\%</span> of cases.</p>
+<div class="cell">
+<div class="sourceCode" id="cb60"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="dv">100000</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>mux <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>muy <span class="ot">&lt;-</span> mux <span class="sc">+</span> delta.mu</span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>Rt <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">length=</span>L)</span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (l <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span>L)) {</span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>  x.sim <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(nx.new,mux,x.sd)</span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>  y.sim <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(ny.new,muy,x.sd)</span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a>  Rt[l] <span class="ot">&lt;-</span> <span class="fu">t.test</span>(x.sim, y.sim, <span class="at">alternative=</span><span class="st">"two.sided"</span>)<span class="sc">$</span>p.value <span class="sc">&lt;</span> alpha</span>
+<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Rt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 0.55335</code></pre>
+</div>
+</div>
+<p>We may consider this probability as too small. If our objective is a power of 80% at least, with the same significance level, we need to increase the sample size.</p>
+<div class="cell">
+<div class="sourceCode" id="cb62"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.t.test</span>(<span class="at">power=</span><span class="fl">0.8</span>, <span class="at">d=</span>delta.mu<span class="sc">/</span>x.sd, <span class="at">sig.level=</span>alpha) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>
+     Two-sample t test power calculation 
+
+              n = 142.2462
+              d = 0.3333333
+      sig.level = 0.05
+          power = 0.8
+    alternative = two.sided
+
+NOTE: n is number in *each* group</code></pre>
+</div>
+</div>
+<div class="cell">
+
+</div>
+<p>Indeed, we see that <span class="math inline">n\geq</span> 143 animals per group are required in order to reach a power of 80%.</p>
+<div class="cell">
+<div class="sourceCode" id="cb64"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>nx.new <span class="ot">&lt;-</span> ny.new <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(<span class="fu">pwr.t.test</span>(<span class="at">power=</span><span class="fl">0.8</span>, <span class="at">d=</span>delta.mu<span class="sc">/</span>x.sd, <span class="at">sig.level=</span>alpha)<span class="sc">$</span>n)</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> nx.new<span class="sc">+</span>ny.new<span class="dv">-2</span></span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> delta.mu<span class="sc">/</span>x.sd<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">/</span>nx.new<span class="sc">+</span><span class="dv">1</span><span class="sc">/</span>ny.new)</span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">-</span><span class="fu">pt</span>(<span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>,df)<span class="sc">-</span>dt,df) <span class="sc">+</span> <span class="fu">pt</span>(<span class="fu">qt</span>(alpha<span class="sc">/</span><span class="dv">2</span>,df)<span class="sc">-</span>dt,df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 0.8020466</code></pre>
+</div>
+</div>
+<p>An alternative for increasing the power consists in increasing the type I error rate</p>
+<div class="cell">
+<div class="sourceCode" id="cb66"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.t.test</span>(<span class="at">power=</span><span class="fl">0.8</span>, <span class="at">d=</span>delta.mu<span class="sc">/</span>x.sd, <span class="at">n=</span><span class="dv">80</span>, <span class="at">sig.level=</span><span class="cn">NULL</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>
+     Two-sample t test power calculation 
+
+              n = 80
+              d = 0.3333333
+      sig.level = 0.2067337
+          power = 0.8
+    alternative = two.sided
+
+NOTE: n is number in *each* group</code></pre>
+</div>
+</div>
+<p>If we accept a significance level of about 20%, then we will be less demanding for rejecting <span class="math inline">H_0</span>: we will reject the null hypothesis when <span class="math inline">|T_{\rm stat}|&gt;qt_{0.9,158}</span>= 1.29, instead of <span class="math inline">|T_{\rm stat}|&gt;qt_{0.975,158}</span>= 1.98. This strategy will therefore increase the power, but also the type I error rate.</p>
+<p><br></p>
+</section>
+</section>
+<section id="mann-whitney-wilcoxon-test" class="level1">
+<h1>Mann-Whitney-Wilcoxon test</h1>
+<p>The Mann-Whitney-Wilcoxon test, or Wilcoxon rank sum test, can be used to test if the weight in one of the two groups tends to be greater than in the other group.</p>
+<p>The Mann-Whitney-Wilcoxon test is a <em>non parametric test</em>: we don’t make the assumption that the distribution of the data belongs to a family of parametric ditributions.</p>
+<p>The logic behind the Wilcoxon test is quite simple. The data are ranked to produce two rank totals, one for each group. If there is a systematic difference between the two groups, then most of the high ranks will belong to one group and most of the low ranks will belong to the other one. As a result, the rank totals will be quite different and one of the rank totals will be quite small. On the other hand, if the two groups are similar, then high and low ranks will be distributed fairly evenly between the two groups and the rank totals will be fairly similar.</p>
+<p>In our example, we don’t clearly see any of the two groups on the right or on the left of the scatter plot</p>
+<div class="cell">
+<div class="sourceCode" id="cb68"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>data[data<span class="sc">$</span>gender<span class="sc">==</span><span class="st">"Male"</span>,]) <span class="sc">+</span>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>weight,<span class="at">y=</span><span class="fu">as.numeric</span>(regime),<span class="at">colour=</span>regime)) <span class="sc">+</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="cn">NULL</span>) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="cn">NULL</span>, <span class="at">limits=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">6</span>,<span class="dv">9</span>)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"weight (g)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lectures-single_files/figure-html/unnamed-chunk-80-1.png" class="img-fluid" width="768"></p>
+</div>
+</div>
+<p>We can check that the Mann-Whitney-Wilcoxon test is not significant (at the level 0.05)</p>
+<div class="cell">
+<div class="sourceCode" id="cb69"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wilcox.test</span>(x, y, <span class="at">alternative=</span><span class="st">"two.sided"</span>, <span class="at">conf.level=</span><span class="dv">1</span><span class="sc">-</span>alpha)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stderr">
+<pre><code>Warning in wilcox.test.default(x, y, alternative = "two.sided", conf.level = 1
+- : cannot compute exact p-value with ties</code></pre>
+</div>
+<div class="cell-output-stdout">
+<pre><code>
+    Wilcoxon rank sum test with continuity correction
+
+data:  x and y
+W = 904.5, p-value = 0.1516
+alternative hypothesis: true location shift is not equal to 0</code></pre>
+</div>
+</div>
+<p>The test statistic <span class="math inline">W_x</span> is computed a follows:</p>
+<ul>
+<li>Assign numeric ranks to all the observations, beginning with 1 for the smallest value. Where there are groups of tied values, assign a rank equal to the midpoint of unadjusted rankings</li>
+<li>define <span class="math inline">R_x</span> (resp. <span class="math inline">R_y</span>) as the sum of the ranks for the observations which came from sample <span class="math inline">x</span> (resp. <span class="math inline">y</span>)</li>
+<li>Let <span class="math inline">W_x = R_x - {n_x(n_x+1)}/{2}</span> and <span class="math inline">W_y = R_y - {n_y(n_y+1)}/{2}</span></li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb72"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>nx <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>ny <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>Wx<span class="ot">=</span><span class="fu">sum</span>(<span class="fu">rank</span>(<span class="fu">c</span>(x,y))[<span class="dv">1</span><span class="sc">:</span>nx]) <span class="sc">-</span> nx<span class="sc">*</span>(nx<span class="sc">+</span><span class="dv">1</span>)<span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>Wy<span class="ot">=</span><span class="fu">sum</span>(<span class="fu">rank</span>(<span class="fu">c</span>(y,x))[<span class="dv">1</span><span class="sc">:</span>ny]) <span class="sc">-</span> ny<span class="sc">*</span>(ny<span class="sc">+</span><span class="dv">1</span>)<span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(Wx, Wy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 904.5 616.5</code></pre>
+</div>
+</div>
+<p>For a two sided tests and assuming that <span class="math inline">W_x^{\rm obs}&gt;W_y^{\rm obs}</span>, the <span class="math inline">p</span>-value is <span class="math display"> p_{\rm value} =  \prob{W_y \leq W_y^{\rm obs}} + \prob{W_x \geq W_x^{\rm obs}}</span> The distribution of <span class="math inline">W_x</span> and <span class="math inline">W_y</span> are tabulated and this <span class="math inline">p</span>-value can then be computed</p>
+<div class="cell">
+<div class="sourceCode" id="cb74"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pwilcox</span>(Wy,ny,nx)<span class="sc">+</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pwilcox</span>(Wx,nx,ny)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 0.1508831</code></pre>
+</div>
+</div>
+<p>We could of course exchange the roles of <span class="math inline">x</span> and <span class="math inline">y</span>. In this case the test statistic would be <span class="math inline">W_y</span> but the p-value would be the same.</p>
+<div class="cell">
+<div class="sourceCode" id="cb76"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wilcox.test</span>(y, x, <span class="at">alternative=</span><span class="st">"two.sided"</span>, <span class="at">conf.level=</span><span class="dv">1</span><span class="sc">-</span>alpha)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stderr">
+<pre><code>Warning in wilcox.test.default(y, x, alternative = "two.sided", conf.level = 1
+- : cannot compute exact p-value with ties</code></pre>
+</div>
+<div class="cell-output-stdout">
+<pre><code>
+    Wilcoxon rank sum test with continuity correction
+
+data:  y and x
+W = 616.5, p-value = 0.1516
+alternative hypothesis: true location shift is not equal to 0</code></pre>
+</div>
+</div>
+<p><strong>Remark:</strong> It is easy to show that <span class="math inline">W_x+W_y=n_x n_y</span></p>
+<div class="cell">
+<div class="sourceCode" id="cb79"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(Wx<span class="sc">+</span>Wy, nx<span class="sc">*</span>ny)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 1521 1521</code></pre>
+</div>
+</div>
+<p>Unlike the t-test, the Mann-Whitney-Wilcoxon does not require the assumption of normal distributions. However, it is nearly as efficient as the t-test on normal distributions. That means that both tests have similar power.</p>
+<p>This important property can easily be checked by Monte Carlo simulation. Let us simulate <span class="math inline">L</span> replicates of the experiments under <span class="math inline">H_1</span>, assuming that <span class="math inline">\mu_y=\mu_x +15</span>. We can then compare the power of both tests by comparing the rajection rates of the null hypothesis.</p>
+<div class="cell">
+<div class="sourceCode" id="cb81"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>mux <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb81-4"><a href="#cb81-4" aria-hidden="true" tabindex="-1"></a>muy <span class="ot">&lt;-</span> <span class="dv">520</span></span>
+<span id="cb81-5"><a href="#cb81-5" aria-hidden="true" tabindex="-1"></a>sdx <span class="ot">&lt;-</span> sdy <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb81-6"><a href="#cb81-6" aria-hidden="true" tabindex="-1"></a>nx <span class="ot">&lt;-</span> ny <span class="ot">&lt;-</span> <span class="dv">40</span></span>
+<span id="cb81-7"><a href="#cb81-7" aria-hidden="true" tabindex="-1"></a>Rt <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">length=</span>L)</span>
+<span id="cb81-8"><a href="#cb81-8" aria-hidden="true" tabindex="-1"></a>Rw <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">length=</span>L)</span>
+<span id="cb81-9"><a href="#cb81-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (l <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span>L)) {</span>
+<span id="cb81-10"><a href="#cb81-10" aria-hidden="true" tabindex="-1"></a>  x.sim <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(nx,mux,sdx)</span>
+<span id="cb81-11"><a href="#cb81-11" aria-hidden="true" tabindex="-1"></a>  y.sim <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(ny,muy,sdy)</span>
+<span id="cb81-12"><a href="#cb81-12" aria-hidden="true" tabindex="-1"></a>  Rt[l] <span class="ot">&lt;-</span> <span class="fu">t.test</span>(x.sim, y.sim)<span class="sc">$</span>p.value <span class="sc">&lt;</span> alpha</span>
+<span id="cb81-13"><a href="#cb81-13" aria-hidden="true" tabindex="-1"></a>  Rw[l] <span class="ot">&lt;-</span> <span class="fu">wilcox.test</span>(x.sim, y.sim)<span class="sc">$</span>p.value <span class="sc">&lt;</span> alpha</span>
+<span id="cb81-14"><a href="#cb81-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb81-15"><a href="#cb81-15" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">mean</span>(Rt), <span class="fu">mean</span>(Rw))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 0.8360 0.8173</code></pre>
+</div>
+</div>
+<p>On the other hand, the Wilcoxon test may be much more powerful than the t-test for non normal distributions when the empirical mean converges slowly in distribution to the normal distribution. Such is the case, for instance, of the log-normal ditribution which is strongly skewed for large variances.</p>
+<div class="cell">
+<div class="sourceCode" id="cb83"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>mux <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>muy <span class="ot">&lt;-</span> <span class="dv">6</span></span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>sdx <span class="ot">&lt;-</span> sdy <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>nx <span class="ot">&lt;-</span> ny <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb83-5"><a href="#cb83-5" aria-hidden="true" tabindex="-1"></a>Rt <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">length=</span>L)</span>
+<span id="cb83-6"><a href="#cb83-6" aria-hidden="true" tabindex="-1"></a>Rw <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">length=</span>L)</span>
+<span id="cb83-7"><a href="#cb83-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (l <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span>L)) {</span>
+<span id="cb83-8"><a href="#cb83-8" aria-hidden="true" tabindex="-1"></a>  x.sim <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">rnorm</span>(nx,mux,sdx))</span>
+<span id="cb83-9"><a href="#cb83-9" aria-hidden="true" tabindex="-1"></a>  y.sim <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">rnorm</span>(ny,muy,sdy))</span>
+<span id="cb83-10"><a href="#cb83-10" aria-hidden="true" tabindex="-1"></a>  Rt[l] <span class="ot">&lt;-</span> <span class="fu">t.test</span>(x.sim, y.sim, <span class="at">alternative=</span><span class="st">"two.sided"</span>)<span class="sc">$</span>p.value <span class="sc">&lt;</span> alpha</span>
+<span id="cb83-11"><a href="#cb83-11" aria-hidden="true" tabindex="-1"></a>  Rw[l] <span class="ot">&lt;-</span> <span class="fu">wilcox.test</span>(x.sim, y.sim, <span class="at">alternative=</span><span class="st">"two.sided"</span>)<span class="sc">$</span>p.value <span class="sc">&lt;</span> alpha</span>
+<span id="cb83-12"><a href="#cb83-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb83-13"><a href="#cb83-13" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">mean</span>(Rt), <span class="fu">mean</span>(Rw))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 0.6700 0.8511</code></pre>
+</div>
+</div>
+<p><br></p>
+<!--
+# About the p-value 
+
+</br>
+
+## Computing the p-value 
+
+ The p-value is the probability that, using the statistical model defined by the null hypothesis $H_0$, the test statistics (i.e. the statistical summary of the data used for the test) would be the same as or ``more extreme'' than the actual observed statistics. -->
+</section>
+<section id="the-limited-role-of-the-p-value" class="level1">
+<h1>The limited role of the p-value</h1>
+<p>First of all it is important to emphasis that statistics is a tool for supporting decision-making. It is not a decision tool that can be used blindly.</p>
+<p>A <span class="math inline">p</span>-value below the sacrosanct 0.05 threshold does not mean that GMOs have some negative impacts on human health, or that a drug is better than another one. On the other hand, a <span class="math inline">p</span>-value above 0.05 does not mean that GMOs are safe or that a drug has no effect.</p>
+<p>The American Statistical Association (ASA) has released a <a href="http://amstat.tandfonline.com/doi/abs/10.1080/00031305.2016.1154108">“Statement on Statistical Significance and P-Values”</a> with six principles underlying the proper use and interpretation of the p-value.</p>
+<p>“The p-value was never intended to be a substitute for scientific reasoning,” said Ron Wasserstein, the ASA’s executive director. “Well-reasoned statistical arguments contain much more than the value of a single number and whether that number exceeds an arbitrary threshold. The ASA statement is intended to steer research into a ‘post p&lt;0.05 era.’” “Over time it appears the p-value has become a gatekeeper for whether work is publishable, at least in some fields,” said Jessica Utts, ASA president. “This apparent editorial bias leads to the ‘file-drawer effect,’ in which research with statistically significant outcomes are much more likely to get published, while other work that might well be just as important scientifically is never seen in print. It also leads to practices called by such names as ‘p-hacking’ and ‘data dredging’ that emphasize the search for small p-values over other statistical and scientific reasoning.”</p>
+<p>The statement’s six principles, many of which address misconceptions and misuse of the pvalue, are the following:</p>
+<ol type="1">
+<li>P-values can indicate how incompatible the data are with a specified statistical model.</li>
+<li>P-values do not measure the probability that the studied hypothesis is true, or the probability that the data were produced by random chance alone.</li>
+<li>Scientific conclusions and business or policy decisions should not be based only on whether a p-value passes a specific threshold.</li>
+<li>Proper inference requires full reporting and transparency.</li>
+<li>A p-value, or statistical significance, does not measure the size of an effect or the importance of a result.</li>
+<li>By itself, a p-value does not provide a good measure of evidence regarding a model or hypothesis.</li>
+</ol>
+<p>As an illustration, assume that the diet has a real impact on the weight: after 14 weeks, rats fed with GMOs weigh in average 15g less than control rats.</p>
+<p>It will be extremly unlikely to conclude that there is an effect with only 10 rats per group, even if we observe a difference of 15g in the two samples.</p>
+<div class="cell">
+<div class="sourceCode" id="cb85"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="dv">15</span></span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a>x.sim <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n,mu,sd)</span>
+<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a>y.sim <span class="ot">&lt;-</span> x.sim <span class="sc">+</span> delta</span>
+<span id="cb85-7"><a href="#cb85-7" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x.sim, y.sim)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  x.sim and y.sim
+t = -1.5287, df = 18, p-value = 0.1437
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -35.614688   5.614688
+sample estimates:
+mean of x mean of y 
+  482.285   497.285 </code></pre>
+</div>
+</div>
+<p>This basic example shows that a difference considered as biologically significant may not be statistically significant.</p>
+<p>On the other hand, a small difference considered as not biologically significant (1g for instance) may be considered as statistically significant if the group sizes are large enough.</p>
+<div class="cell">
+<div class="sourceCode" id="cb87"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>x.sim <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n,mu,sd)</span>
+<span id="cb87-4"><a href="#cb87-4" aria-hidden="true" tabindex="-1"></a>y.sim <span class="ot">&lt;-</span> x.sim <span class="sc">+</span> delta</span>
+<span id="cb87-5"><a href="#cb87-5" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x.sim, y.sim)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  x.sim and y.sim
+t = -2.3493, df = 19998, p-value = 0.01882
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -1.8343403 -0.1656597
+sample estimates:
+mean of x mean of y 
+  500.397   501.397 </code></pre>
+</div>
+</div>
+<p>This example confirms the need for a power analysis as a complement of the comparison test. We will see that equivalence testing may also be relevant for evaluating what the data allows to say.</p>
+
+<!-- -->
+</section>
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    window.tippy(el, {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    }); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      const id = new URL(ref.getAttribute('href')).hash.replace(/^#/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</main>
+<div class="page-navigation page-navigation-docked">
+  <div class="nav-page nav-page-previous">
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../docs/tests/lectures-multiple.html">
+        <span class="nav-page-text">Statistical tests</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</div>
+</div> <!-- /main column -->
+</div> <!-- /row -->
+<div class="row">
+  <div class="nav-footer">
+    <div class="nav-footer-left me-auto">Last update: september 2021</div>   
+  </div>
+</div>
+</div> <!-- /container fluid -->
+
+
+</body></html>
