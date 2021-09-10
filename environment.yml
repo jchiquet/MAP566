@@ -1,0 +1,9 @@
+name: MAP566
+channels:
+  - conda-forge
+dependencies:
+  - r-base=4.1.1
+  - r-gridextra
+  - r-knitr
+  - r-pwr
+  - r-tidyverse
