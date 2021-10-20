@@ -3,7 +3,8 @@ project:
   output-dir: _site
 
 execute:
-  freeze: true
+  freeze: auto
+  cache: true
   
 format:
   html:
@@ -46,12 +47,11 @@ site:
       contents:
         - section: "Lectures"
           contents:
-            - docs/tests/lectures-single.qmd
-            - docs/tests/lectures-multiple.qmd
-        - section: "PC/Labs"
+            - docs/tests/map566-lectures-single.qmd
+            - docs/tests/map566-lectures-multiple.qmd
+        - section: "Labs"
           contents:
-            - docs/tests/exercices-single.qmd
-            - docs/tests/exercices-multiple.qmd
+            - docs/tests/map566-labs-tests.qmd
         - section: "Documents"
           contents:
             - text: "article"
@@ -109,6 +109,6 @@ site:
       title: "Homework"
         
   footer:
-    left: "Last update: september 2021"
+    left: "Last update: October 2021"
 
 bibliography: biblio_MAP566.bib

@@ -1,7 +1,5 @@
 ---
-title: 'Statistical tests'
-subtitle: 'Single comparison'
-author: "Marc Lavielle </br> January 12th, 2020 </br> &nbsp; <hr>"
+title: 'Statistical Tests'
 ---
 
 # Introduction
@@ -12,7 +10,7 @@ For each sex, one group was fed with GMOs in the equilibrated diet, and one with
 We are interested in the weight of the rats after a period of 14 weeks. 
 
 ```{r}
-ratWeight <- read.csv("ratWeight.csv", stringsAsFactors = T)
+ratWeight <- read.csv("data/ratWeight.csv", stringsAsFactors = T)
 data <- subset(ratWeight, week==14)
 head(data)
 ```

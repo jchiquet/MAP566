@@ -1,7 +1,5 @@
 ---
-title: 'Statistical tests'
-subtitle: 'Multiple comparisons'
-author: "Marc Lavielle </br> January 12th, 2020 </br> &nbsp; <hr>"
+title: 'Multiple Testing'
 ---
 
 # Introduction
@@ -53,7 +51,7 @@ See the opinion of the [Haut Conseil des Biotechnologies](http://www.hautconseil
 Here is a summary of the data,
 
 ```{r}
-data <- read.csv("ratSurvival.csv", stringsAsFactors = T)
+data <- read.csv("data/ratSurvival.csv", stringsAsFactors = T)
 head(data)
 summary(data)
 levels(data$regimen)
@@ -319,14 +317,12 @@ c(wilcox.test(x,y,"greater")$p.value, wilcox.test(x,y,"greater")$p.value*18)
 
 (Example from [Handbook of Biological Statistics](http://www.biostathandbook.com/multiplecomparisons.html))
 
-Garc?a-Arenzana et al. (2014) tested associations of 25 dietary variables with [mammographic density](https://breast-cancer-research.biomedcentral.com/articles/10.1186/bcr2102), an important risk factor for breast cancer, in Spanish women. They found the following results
+Garcia-Arenzana et al. (2014) tested associations of 25 dietary variables with [mammographic density](https://breast-cancer-research.biomedcentral.com/articles/10.1186/bcr2102), an important risk factor for breast cancer, in Spanish women. They found the following results
 
 ```{r}
-data <- read.csv("dietary.csv", stringsAsFactors = T)
+data <- read.csv("data/dietary.csv", stringsAsFactors = T)
 data
 ```
-
-<!-- ![](ijc0134-1916-f1.jpg) -->
 
 We can see that five of the variables show a significant  $p$-value (<0.05). However, because Garc?a-Arenzana et al. (2014) tested 25 dietary variables, we would expect one or two variables to show a significant result purely by chance, even if diet had no real effect on mammographic density. 
 
