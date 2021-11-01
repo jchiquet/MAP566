@@ -1,66 +1,83 @@
 ---
-title: 'Statistical Tests'
+title: "Statistical Tests"
+format:
+  html:
+    code-fold: false
 ---
+
+### Preliminary {.unnumbered}
+
+Only functions from `R`-base and stats (preloaded) are required plus packages from the **tidyverse** for data representation and manipulation.
+
+```{r tests-config, message = FALSE}
+#| code-fold: false
+library(tidyverse)
+library(ggfortify)  # extend some ggplot2 features
+library(kableExtra) # fancy table display
+library(viridis)    # color-blind palette
+theme_set(theme_bw())
+```
 
 # Introduction
 
-A feeding study served to authorize the MON863 maize, a genetically modified organism (GMO) developed by the Monsanto company,  by the European and American authorities. It included male and female rats. 
-For each sex, one group was fed with GMOs in the equilibrated diet, and one with the closest control regimen without GMOs.
+A feeding study served to authorize the MON863 maize, a genetically modified organism (GMO) developed by the Monsanto company,  by the European and American authorities. It included male and female rats. For each sex, one group was fed with GMOs in the equilibrated diet, and one with the closest control regimen without GMOs.
 
-We are interested in the weight of the rats after a period of 14 weeks. 
+We are interested in the weight of thttps://ggplot2.tidyverse.org/reference/geom_histogram.htmlhe rats after a period of 14 weeks. 
 
 ```{r}
-ratWeight <- read.csv("data/ratWeight.csv", stringsAsFactors = T)
-data <- subset(ratWeight, week==14)
-head(data)
+rat_weight <- read_csv("../../data/ratWeight.csv") %>% filter(week == 14) %>% select(-week)
+head(rat_weight) %>% kable() %>% kableExtra::kable_classic()
 ```
 
 The data per gender and regime is displayed  below  
 
-```{r, message=FALSE, warning=FALSE, fig.height=3, fig.width=10}
-library(ggplot2) 
-theme_set(theme_bw())
-ggplot(data=data) + geom_point(aes(x=weight,y=as.numeric(regime),colour=regime, shape=gender)) + 
-  ylab(NULL) + scale_y_continuous(breaks=NULL, limits=c(-5,10)) + xlab("weight (g)") 
+```{r, message=FALSE, warning=FALSE, fig.height=5, fig.width=10}
+#| code-fold: true
+rat_weight %>% 
+  ggplot() + aes(x = gender, y = weight) +
+  geom_violin(aes(fill = regime)) + geom_jitter(alpha = 0.5) +  ylab("weight (g)") +
+  scale_fill_viridis(discrete = TRUE)
 ```
 
 The following table provides the mean weight in each group
 
-```{r}
-aggregate(weight ~ regime+gender, data=data, FUN= "mean" )
+```{r, message = FALSE}
+#| code-fold: true
+rat_weight %>% group_by(regime, gender) %>% 
+  summarise('average weight' = mean(weight), count = n()) %>% 
+  kable() %>% kable_classic()
 ```
-Our main objective is to detect some possible effect of the diet on the weight. More precisly, we would like to know  if the differences observed in the data are due to random fluctuations in sampling or to differences in diet.
 
-</br>
+Our main objective is to detect some possible effect of the diet on the weight. More precisely, we would like to know  if the differences observed in the data are due to random fluctuations in sampling or to differences in diet.
 
 # Student's t-test
-
 
 ## One sample t-test
 
 Before considering the problem of comparing two groups, let us start looking at the weight of the male rats only: 
 
-```{r, fig.height=2, fig.width=9}
-ggplot(data=subset(data,gender=="Male")) + geom_point(aes(x=weight,y=0), colour="red") + 
-  ylab(NULL) + scale_y_continuous(breaks=NULL) + xlab("weight (g)")
+```{r, message=FALSE, warning=FALSE, fig.height=5, fig.width=10}
+#| code-fold: true
+rat_weight %>% filter(gender == "Male") %>% 
+  ggplot() + aes(x = regime, y = weight) +
+  geom_violin(aes(fill = regime)) + geom_jitter(alpha = 0.5) +  ylab("weight (g)") +
+  scale_fill_viridis(discrete = TRUE)
 ```
 
 Let $x_1, x_2, x_n$ the weights of the $n$ male rats. We will assume that the $x_i$'s are independent and normally distributed with mean $\mu$ and variance $\sigma^2$:
 
-$$ x_i \iid {\cal N}(\mu \ , \ \sigma^2)$$
-</br>
+$$ x_i \sim^{\mathrm{iid}} \mathcal{N}(\mu \ , \ \sigma^2)$$
 
 ### One sided test
 
 We want to test 
-
 
 $$H_0: \ ``\mu \leq \mu_0" \quad \text{versus} \quad H_1: \ ``\mu > \mu_0" $$
 
 Function `t.test` can be used for performing this test:
 
 ```{r}
-x <- data[data$gender=="Male","weight"]
+x <- rat_weight %>% filter(gender == "Male") %>% pull("weight")
 mu0 <- 500
 t.test(x, alternative="greater", mu=mu0)
 ```
@@ -68,10 +85,10 @@ t.test(x, alternative="greater", mu=mu0)
 Let us see what these outputs are and how they are computed.
 
 Let $\bar{x} = n^{-1}\sum_{i=1}^n x_i$ be the empirical mean of  the data.
-$$ \bar{x} \sim {\cal N}(\mu \ , \ \frac{\sigma^2}{n})$$
+$$ \bar{x} \sim \mathcal{N}(\mu \ , \ \frac{\sigma^2}{n})$$
 Then, 
 $$ \begin{aligned}
-\frac{\sqrt{n}(\bar{x} - \mu)}{\sigma} \ &   \sim \ {\cal N}(0 \ , \ 1) \\ 
+\frac{\sqrt{n}(\bar{x} - \mu)}{\sigma} \ &   \sim \ \mathcal{N}(0 \ , \ 1) \\ 
 \frac{\sqrt{n}(\bar{x} - \mu)}{s} \ &   \sim  \ t_{n-1} 
 \end{aligned} $$
 
@@ -102,21 +119,19 @@ In our case, for a given significance level $\alpha$, we will reject $H_0$ if $T
 Indeed, by definition,
 
 $$ \begin{aligned}
-\prob{\text{reject } H_0 \ | \ H_0 \ \text{true}} &= {\mathbb P}(T_{\rm stat} > qt_{1-\alpha,n-1} \ | \ \mu \leq \mu_0) \\
-& \leq {\mathbb P}(T_{\rm stat} > qt_{1-\alpha,n-1} \ | \ \mu = \mu_0) \\
-& \leq {\mathbb P}(t_{n-1} > qt_{1-\alpha,n-1}) \\
+\mathbb{P}(\text{reject } H_0 \ | \ H_0 \ \text{true}) &= \mathbb{P}(T_{\rm stat} > qt_{1-\alpha,n-1} \ | \ \mu \leq \mu_0) \\
+& \leq \mathbb{P}(T_{\rm stat} > qt_{1-\alpha,n-1} \ | \ \mu = \mu_0) \\
+& \leq \mathbb{P}(t_{n-1} > qt_{1-\alpha,n-1}) \\
 & \leq \alpha
 \end{aligned} $$
 
-
-
 ```{r}
 alpha <- 0.05
-x.mean <- mean(x)
-x.sd <- sd(x)
+x_mean <- mean(x)
+x_sd <- sd(x)
 n <- length(x)
-df <- n-1
-t.stat <- sqrt(n)*(x.mean-mu0)/x.sd
+df <- n - 1
+t.stat <- sqrt(n)*(x_mean-mu0)/x_sd
 c(t.stat,qt(1-alpha, df))
 ```
 We therefore don't reject $H_0$ in our example since $T_{\rm stat} < qt_{1-\alpha,n-1}$.
@@ -124,12 +139,12 @@ We therefore don't reject $H_0$ in our example since $T_{\rm stat} < qt_{1-\alph
 We can equivalently compute the significance level for which the test becomes significant.
 This value is called the *p-value*:
 $$\begin{aligned}
-p_{\rm value} & = \max{\mathbb P}_{H_0}(T_{\rm stat} > T_{\rm stat}^{\rm obs}) \\
-& = {\mathbb P}(T_{\rm stat} > T_{\rm stat}^{\rm obs}  \ | \ \mu=\mu_0) \\
-&= 1 - \prob{t_{n-1} \leq T_{\rm stat}^{\rm obs}}
+p_{\rm value} & = \max\mathbb{P}_{H_0}(T_{\rm stat} > T_{\rm stat}^{\rm obs}) \\
+& = \mathbb{P}(T_{\rm stat} > T_{\rm stat}^{\rm obs}  \ | \ \mu=\mu_0) \\
+&= 1 - \mathbb{P}{t_{n-1} \leq T_{\rm stat}^{\rm obs}}
 \end{aligned}$$
 
-Now, $T_{\rm stat} > qt_{1-\alpha,n-1}$ under $H_0$ if and only if $\prob{t_{n-1} \leq T_{\rm stat}^{\rm obs}} \geq 1-\alpha$.
+Now, $T_{\rm stat} > qt_{1-\alpha,n-1}$ under $H_0$ if and only if $\mathbb{P}{t_{n-1} \leq T_{\rm stat}^{\rm obs}} \geq 1-\alpha$.
 Then, the test is significant at the level $\alpha$ if and only if $p_{\rm value}\leq \alpha$.
 
 ```{r}
@@ -141,75 +156,70 @@ print(p.value)
 p172 <- p.value
 ```
 
-
 Here, we would reject $H_0$ for any significance level $\alpha \geq$ `r round(p172,3)`.
 
 **Important:** The fact that the test is not significant at the level $\alpha$ does not allow us to conclude that $H_0$ is true, i.e. that $\mu$ is less than or equal to 500. We can only say that the data does not allow us to conclude that $\mu>500$. 
 
 
-
 Imagine now that we want to test if $\mu \geq 515$ for instance. The alternative here is $H_1: \ ``\mu < 515$.
-
 
 ```{r}
 mu0 <- 515
-t.test(x, alternative="less", mu=mu0)
+t.test(x, alternative = "less", mu = mu0)
 ```
+
 More generally, we may want to test
 $$H_0: \ ``\mu \geq \mu_0" \quad \text{versus} \quad H_1: \ ``\mu < \mu_0" $$
 We still use the statistic $T_{\rm stat} = \sqrt{n}(\bar{x}-\mu_0)/s$ for this test, but the rejection region is now the area that lies to the left of the critical value $qt_{\alpha,n-1}$ since
 
 $$ \begin{aligned}
-\prob{\text{reject } H_0 \ | \ H_0 \ \text{true}} &= {\mathbb P}(T_{\rm stat} < qt_{\alpha,n-1} \ | \ \mu \geq \mu_0) \\
-& \leq {\mathbb P}(T_{\rm stat} < qt_{\alpha,n-1} \ | \ \mu = \mu_0) \\
+\mathbb{P}(\text{reject } H_0 \ | \ H_0 \ \text{true}) &= \mathbb{P}(T_{\rm stat} < qt_{\alpha,n-1} \ | \ \mu \geq \mu_0) \\
+& \leq \mathbb{P}(T_{\rm stat} < qt_{\alpha,n-1} \ | \ \mu = \mu_0) \\
 & \leq \alpha
 \end{aligned} $$
 
 
 ```{r}
-t.stat <- sqrt(n)*(x.mean-mu0)/x.sd
+t.stat <- sqrt(n)*(x_mean-mu0)/x_sd
 p.value <- pt(t.stat,df)
 c(t.stat, df, p.value)
 ```
 Here, the p-value is less than $\alpha=0.05$: we then reject the null hypothesis at the $5\%$ level and conclude that $\mu < 515$.
 
-</br>
-
 ### Two sided test
 
-  A two sided test (or two tailed test) can be used to test if $\mu=500$ for instance
- 
+A two sided test (or two tailed test) can be used to test if $\mu=500$ for instance
   
 ```{r}
 mu0 = 500
-t.test(x, alternative="two.sided", mu=mu0)
+t.test(x, alternative = "two.sided", mu  =mu0)
 ```
  
  More generally, we can test
 $$H_0: \ ``\mu = \mu_0" \quad \text{versus} \quad H_1: \ ``\mu \neq \mu_0" $$
- The test also uses the statistic $T_{\rm stat} = \sqrt{n}(\bar{x}-\mu_0)/s$, but the rejection region has now two parts: we reject $H_0$ if $|T_{\rm stat}| > qt_{1-\alpha/2}$. Indeed,
+The test also uses the statistic $T_{\rm stat} = \sqrt{n}(\bar{x}-\mu_0)/s$, but the rejection region has now two parts: we reject $H_0$ if $|T_{\rm stat}| > qt_{1-\alpha/2}$. Indeed,
  
  $$ \begin{aligned}
-\prob{\text{reject } H_0 \ | \ H_0 \ \text{true}} &= {\mathbb P}(|T_{\rm stat}| > qt_{1 -\frac{\alpha}{2},n-1} \ | \ \mu = \mu_0) \\
-& = {\mathbb P}(T_{\rm stat} < qt_{\frac{\alpha}{2},n-1} \ | \ \mu = \mu_0) +
- {\mathbb P}(T_{\rm stat} > qt_{1-\frac{\alpha}{2},n-1} \ | \ \mu = \mu_0)\\
-&= \prob{t_{n-1} \leq qt_{\frac{\alpha}{2},n-1}} +  \prob{t_{n-1} \geq qt_{1-\frac{\alpha}{2},n-1}} \\
+\mathbb{P}(\text{reject } H_0 \ | \ H_0 \ \text{true}) &= \mathbb{P}(|T_{\rm stat}| > qt_{1 -\frac{\alpha}{2},n-1} \ | \ \mu = \mu_0) \\
+& = \mathbb{P}(T_{\rm stat} < qt_{\frac{\alpha}{2},n-1} \ | \ \mu = \mu_0) +
+ \mathbb{P}(T_{\rm stat} > qt_{1-\frac{\alpha}{2},n-1} \ | \ \mu = \mu_0)\\
+&= \mathbb{P}{t_{n-1} \leq qt_{\frac{\alpha}{2},n-1}} +  \mathbb{P}{t_{n-1} \geq qt_{1-\frac{\alpha}{2},n-1}} \\
  &= \frac{\alpha}{2} + \frac{\alpha}{2} \\
 & = \alpha
 \end{aligned} $$
+
  
  The p-value of the test is now
- 
  $$\begin{aligned}
-p_{\rm value} & = {\mathbb P}_{H_0}(|T_{\rm stat}| > |T_{\rm stat}^{\rm obs}|) \\
-& = {\mathbb P}_{H_0}(T_{\rm stat} < -|T_{\rm stat}^{\rm obs}|)  + {\mathbb P}_{H_0}(T_{\rm stat} > |T_{\rm stat}^{\rm obs}|)\\
-&= \prob{t_{n-1} \leq -|T_{\rm stat}^{\rm obs}|} +  \prob{t_{n-1} \geq |T_{\rm stat}^{\rm obs}|} \\
-&= 2 \,\prob{t_{n-1} \leq -|T_{\rm stat}^{\rm obs}|}
+p_{\rm value} & = \mathbb{P}_{H_0}(|T_{\rm stat}| > |T_{\rm stat}^{\rm obs}|) \\
+& = \mathbb{P}_{H_0}(T_{\rm stat} < -|T_{\rm stat}^{\rm obs}|)  + \mathbb{P}_{H_0}(T_{\rm stat} > |T_{\rm stat}^{\rm obs}|)\\
+&= \mathbb{P}{t_{n-1} \leq -|T_{\rm stat}^{\rm obs}|} +  \mathbb{P}{t_{n-1} \geq |T_{\rm stat}^{\rm obs}|} \\
+&= 2 \,\mathbb{P}{t_{n-1} \leq -|T_{\rm stat}^{\rm obs}|}
 \end{aligned}$$
  
  
 ```{r}
-t.stat <- sqrt(n)*(x.mean-mu0)/x.sd
+t.stat <- sqrt(n)*(x_mean-mu0)/x_sd
 p.value <- 2*pt(-abs(t.stat),df) 
 c(t.stat, df, p.value)
 ```
@@ -217,79 +227,72 @@ c(t.stat, df, p.value)
 p246 <- p.value
 ```
 
-
 Here, $p_{\rm value}=$ `r round(p246,3)`. Then, for any significance level less than `r round(p246,3)`, we cannot reject the hypothesis that $\mu = 500$.
 
-</br>
-  
 ### Confidence interval for the mean
 
-We have just seen that the data doesn't allow us to reject the hypothesis that $\mu = 500$.
-But we would come to the same conclusion with other values of $\mu_0$.
-In particular, we will never reject the hypothesis that $\mu = \bar{x}$:
+We have just seen that the data doesn't allow us to reject the hypothesis that $\mu = 500$. But we would come to the same conclusion with other values of $\mu_0$. In particular, we will never reject the hypothesis that $\mu = \bar{x}$:
 
 ```{r}
-t.test(x, mu=x.mean, conf.level=1-alpha)$p.value
+t.test(x, mu=x_mean, conf.level = 1 - alpha)$p.value
 ```
 For a given significance level ($\alpha = 0.05$ for instance), we will not reject the null hypothesis for values of $\mu_0$ close enough to $\bar{x}$.
   
 ```{r}
-pv.510 <- t.test(x, mu=510, conf.level=1-alpha)$p.value
-pv.497 <- t.test(x, mu=497, conf.level=1-alpha)$p.value
+pv.510 <- t.test(x, mu = 510, conf.level = 1-alpha)$p.value
+pv.497 <- t.test(x, mu = 497, conf.level = 1-alpha)$p.value
 c(pv.510, pv.497)
 ```
 
 On the other hand, we will reject $H_0$ for values of $\mu_0$ far enough from $\bar{x}$:
 
 ```{r}
-pv.520 <- t.test(x, mu=520, conf.level=1-alpha)$p.value
-pv.490 <- t.test(x, mu=490, conf.level=1-alpha)$p.value
+pv.520 <- t.test(x, mu = 520, conf.level = 1-alpha)$p.value
+pv.490 <- t.test(x, mu = 490, conf.level = 1-alpha)$p.value
 c(pv.520, pv.490)
 ```
 
 There exist two values of $\mu_0$ for which the decision is borderline
   
 ```{r}
-pv1 <- t.test(x, mu=496.47, conf.level=1-alpha)$p.value
-pv2 <- t.test(x, mu=515.97, conf.level=1-alpha)$p.value
+pv1 <- t.test(x, mu = 496.47, conf.level = 1-alpha)$p.value
+pv2 <- t.test(x, mu = 515.97, conf.level = 1-alpha)$p.value
 c(pv1,pv2)
 ```
 
 In fact, for a given $\alpha$,  these two values $\mu_{\alpha,{\rm lower}}$ and  $\mu_{\alpha,{\rm upper}}$ define a *confidence interval* for $\mu$: We are ``confident'' at the level $1-\alpha$ that any value between $\mu_{\alpha,{\rm lower}}$ and  $\mu_{\alpha,{\rm upper}}$ is a possible value for $\mu$.
 
 ```{r}
+#| code-fold: true
 mu <- seq(490,520,by=0.25)
-t.stat <- (x.mean-mu)/x.sd*sqrt(n)
+t.stat <- (x_mean-mu)/x_sd*sqrt(n)
 pval <- pmin(pt(-t.stat,df) + (1- pt(t.stat,df)),pt(t.stat,df) + (1- pt(-t.stat,df)))
-dd <- data.frame(mu=mu, p.value=pval)
-CI <- x.mean + x.sd/sqrt(n)*qt(c(alpha/2,1-alpha/2), df)
-ggplot(data=dd) + geom_line(aes(x=mu,y=p.value)) + 
-  geom_vline(xintercept=x.mean,colour="red", linetype=2)+
-  geom_hline(yintercept=alpha,colour="green", linetype=2)+
-  geom_vline(xintercept=CI,colour="red") +
-  scale_x_continuous(breaks=round(c(490,500,510,520,CI,x.mean),2)) 
+dd <- data.frame(mu = mu, p.value = pval)
+CI <- x_mean + x_sd/sqrt(n)*qt(c(alpha/2,1-alpha/2), df)
+ggplot(data=dd) + geom_line(aes(x = mu, y = p.value)) + 
+  geom_vline(xintercept = x_mean, colour="red", linetype=2)+
+  geom_hline(yintercept = alpha, colour="green", linetype=2)+
+  geom_vline(xintercept = CI, colour="red") +
+  scale_x_continuous(breaks = round(c(490,500,510,520,CI,x.mean),2)) 
 ```
-
 
 By construction,
 
 $$\begin{aligned}
-1-\alpha &=  \prob{ qt_{\frac{\alpha}{2},n-1} < \frac{\bar{x}-\mu}{s/\sqrt{n}} < qt_{1-\frac{\alpha}{2},n-1} } \\
-&= \prob{ \bar{x} +\frac{s}{\sqrt{n}}qt_{\frac{\alpha}{2},n-1} < \mu < \bar{x} +\frac{s}{\sqrt{n}}qt_{1-\frac{\alpha}{2},n-1} } 
+1-\alpha &=  \mathbb{P}\left(qt_{\frac{\alpha}{2},n-1} < \frac{\bar{x}-\mu}{s/\sqrt{n}} < qt_{1-\frac{\alpha}{2},n-1} \right) \\
+&= \mathbb{P}\left(\bar{x} +\frac{s}{\sqrt{n}}qt_{\frac{\alpha}{2},n-1} < \mu < \bar{x} +\frac{s}{\sqrt{n}}qt_{1-\frac{\alpha}{2},n-1} \right) 
 \end{aligned}$$
 
 The confidence interval of level $1-\alpha$ for $\mu$ is therefore the interval
-$${\rm CI}_{1-\alpha} = [\bar{x} +\frac{s}{\sqrt{n}}qt_{\frac{\alpha}{2},n-1} \ \ , \ \ 
-\bar{x} +\frac{s}{\sqrt{n}}qt_{1-\frac{\alpha}{2},n-1}] $$
+$${\rm CI}_{1-\alpha} = \left[\bar{x} +\frac{s}{\sqrt{n}}qt_{\frac{\alpha}{2},n-1} \ \ , \ \ 
+\bar{x} +\frac{s}{\sqrt{n}}qt_{1-\frac{\alpha}{2},n-1}\right] $$
 
 ```{r}
-(CI <- x.mean + x.sd/sqrt(n)*qt(c(alpha/2,1-alpha/2), df))
+(CI <- x_mean + x_sd / sqrt(n) * qt(c(alpha/2,1-alpha/2), df))
 ```
 
-
 **Remark 1:** 
-The fact that $\prob{ \mu \in {\rm CI}_{1-\alpha}} = 1- \alpha$
-  does not mean that $\mu$ is a random variable! It is the bounds of the confidence interval that  are random because they are function of the data.
+The fact that $\mathbb{P}( \mu \in {\rm CI}_{1-\alpha}) = 1- \alpha$ does not mean that $\mu$ is a random variable! It is the bounds of the confidence interval that  are random because they are function of the data.
   
 A confidence interval of level $1-\alpha$ should be interpreted like this: imagine that we repeat  the same experiment many times, with the same experimental conditions, and that we build a confidence interval for $\mu$ for each of these replicate. Then, the true mean $\mu$ will lie in the confidence interval  $(1-\alpha)100\%$ of the times.
 
@@ -298,8 +301,7 @@ Let us check this property with a Monte Carlo simulation.
 ```{r}
 L <- 100000
 n <- 100
-mu <- 500
-sd <- 40
+mu <- 500; sd <- 40
 R <- vector(length=L)
 for (l in (1:L)) {
   x <- rnorm(n,mu,sd)
@@ -307,6 +309,17 @@ for (l in (1:L)) {
   R[l] <- (mu > ci.l[1]  && mu < ci.l[2])
 }
 mean(R)
+```
+
+```{r}
+L <- 100000
+n <- 100
+mu <- 500; sd <- 40
+R <- replicate(L, {
+  ci <- mean(x) + sd(x)/sqrt(n)*qt(c(alpha/2, 1-alpha/2),n-1)
+  R <- (mu > ci[1]  & mu < ci[2])
+  R
+})
 ```
 
 **Remark 2:**  
@@ -363,7 +376,7 @@ We observe a difference between the two empirical means (the mean weight after 1
 
 Let $x_{1}, x_{2}, \ldots, x_{n_x}$ be the weights of the $n_x$ male rats of the control group and $y_{1}, y_{2}, \ldots, y_{n_x}$ the weights of the $n_y$ male rats of the GMO group. We will assume normal distributions for both $(x_{i})$ and $(y_{i})$:
 
-$$ x_{i} \iid {\cal N}(\mu_x \ , \ \sigma^2_x) \quad ; \quad y_{i} \iid {\cal N}(\mu_y \ , \ \sigma^2_y)$$
+$$ x_{i} \sim^{\mathrm{iid}} \mathcal{N}(\mu_x \ , \ \sigma^2_x) \quad ; \quad y_{i} \sim^{\mathrm{iid}} \mathcal{N}(\mu_y \ , \ \sigma^2_y)$$
 
 We want to test 
 
@@ -387,8 +400,8 @@ $$s_p^2 = \frac{1}{n_x+n_y-2} \left(\sum_{i=1}^{n_x} (x_{i}-\bar{x})^2 + \sum_{i
 Under the null hypothesis, $T_{\rm stat}$ follows a $t$-distribution with $n_x+n_y-2$ degree of freedom. The $p$-value is therefore
 
 $$\begin{aligned}
-p_{\rm value} & = {\mathbb P}_{H_0}(|T_{\rm stat}| > |T_{\rm stat}^{\rm obs}|) \\
-&= \prob{t_{n_x+n_y-2} \leq -T_{\rm stat}^{\rm obs}} + 1 - \prob{t_{n_x+n_y-2} \leq T_{\rm stat}^{\rm obs}}
+p_{\rm value} & = \mathbb{P}_{H_0}(|T_{\rm stat}| > |T_{\rm stat}^{\rm obs}|) \\
+&= \mathbb{P}{t_{n_x+n_y-2} \leq -T_{\rm stat}^{\rm obs}} + 1 - \mathbb{P}{t_{n_x+n_y-2} \leq T_{\rm stat}^{\rm obs}}
 \end{aligned}$$
 
 ```{r}
@@ -485,7 +498,7 @@ The power of the test is the probability to reject the null hypothesis when it i
 
 $$ \begin{aligned}
 \eta(\delta) &= 1 - \beta(\delta) \\
-&= \prob{\text{reject } H_0 \ | \ \mu_x-\mu_y=\delta } 
+&= \mathbb{P}{\text{reject } H_0 \ | \ \mu_x-\mu_y=\delta } 
 \end{aligned} $$
 
 Remember that, for a two sided test,  we reject the null hypothesis when  $|T_{\rm stat}| > qt_{1-\alpha/2, \df}$, where $\df$ is the appropriate degree of freedom.
@@ -494,9 +507,9 @@ On the other hand, ${(\bar{x} - \bar{y} - \delta)}/{s_{xy}}$, where $s_{xy} = \s
 Thus,
 
 $$ \begin{aligned}
-\eta(\delta) &= 1 - {\mathbb P}(qt_{\frac{\alpha}{2},\df} < T_{\rm stat} < qt_{1 -\frac{\alpha}{2},\df} \ | \ \mu_x-\mu_y=\delta) \\
-& = 1- {\mathbb P}(qt_{\frac{\alpha}{2},\df} < \frac{\bar{x} - \bar{y}}{s_{xy}} < qt_{1-\frac{\alpha}{2},\df} \ | \ \mu_x-\mu_y=\delta) \\
-&= 1- {\mathbb P}(qt_{\frac{\alpha}{2},\df} - \frac{\delta}{s_{xy}} < \frac{\bar{x} - \bar{y} - \delta}{s_{xy}} < qt_{1-\frac{\alpha}{2},\df} - \frac{\delta}{s_{xy}} \ | \ \mu_x-\mu_y=\delta) \\
+\eta(\delta) &= 1 - \mathbb{P}(qt_{\frac{\alpha}{2},\df} < T_{\rm stat} < qt_{1 -\frac{\alpha}{2},\df} \ | \ \mu_x-\mu_y=\delta) \\
+& = 1- \mathbb{P}(qt_{\frac{\alpha}{2},\df} < \frac{\bar{x} - \bar{y}}{s_{xy}} < qt_{1-\frac{\alpha}{2},\df} \ | \ \mu_x-\mu_y=\delta) \\
+&= 1- \mathbb{P}(qt_{\frac{\alpha}{2},\df} - \frac{\delta}{s_{xy}} < \frac{\bar{x} - \bar{y} - \delta}{s_{xy}} < qt_{1-\frac{\alpha}{2},\df} - \frac{\delta}{s_{xy}} \ | \ \mu_x-\mu_y=\delta) \\
 &= 1 - Ft_{\df}(qt_{1-\frac{\alpha}{2},\df} - \frac{\delta}{s_{xy}}) + Ft_{\df}(qt_{\frac{\alpha}{2},\df} - \frac{\delta}{s_{xy}})
 \end{aligned} $$
 
@@ -609,7 +622,7 @@ c(Wx, Wy)
 ```
 
 For a two sided tests and assuming that $W_x^{\rm obs}>W_y^{\rm obs}$, the $p$-value is 
-$$ p_{\rm value} =  \prob{W_y \leq W_y^{\rm obs}} + \prob{W_x \geq W_x^{\rm obs}}$$
+$$ p_{\rm value} =  \mathbb{P}{W_y \leq W_y^{\rm obs}} + \mathbb{P}{W_x \geq W_x^{\rm obs}}$$
 The distribution of $W_x$ and $W_y$ are tabulated and this $p$-value can then be computed
 
 ```{r}

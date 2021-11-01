@@ -1,9 +1,8 @@
 ---
 title: "Welcome"
-format: html
 ---
 
-## Course description
+## Course description {.unnumbered}
 
 The objective of this course is to show students how statistics is used in practice to answer a specific question, by introducing a series of important model-based approaches.
 
@@ -13,14 +12,14 @@ All analyses will be conducted with the R software, possibly with interfacing to
 
 ::: {.callout-note appearance="simple"}
 
-## Important remark
+## Important remark {.unnumbered}
 
 Much of the material used in this course is due to [Marc Lavielle](http://www.cmap.polytechnique.fr/~lavielle/), who was the first to set up the [Statistics in Actions](http://sia.webpopix.org/) course.
 We only have made some adjustments to it.
 
 :::
 
-## Schedule (tentative)
+## Schedule (tentative) {.unnumbered}
 
 **Teachers** : Julien Chiquet (lecture + 1 PC), Geneviève Robin (2 PC)
 

@@ -10,8 +10,10 @@ format:
   html:
     theme: [cosmo, theme.scss]
     toc: true
+    number-sections: true
     html-math-method: katex
     code-copy: true
+    code-summary: "Show the code"
     code-overflow: wrap
 
 site:
@@ -47,11 +49,11 @@ site:
       contents:
         - section: "Lectures"
           contents:
-            - docs/tests/map566-lectures-single.qmd
-            - docs/tests/map566-lectures-multiple.qmd
+            - docs/tests/map566-lecture-single.Rmd
+            - docs/tests/map566-lecture-multiple.qmd
         - section: "Labs"
           contents:
-            - docs/tests/map566-labs-tests.qmd
+            - docs/tests/map566-lab-tests.qmd
         - section: "Documents"
           contents:
             - text: "article"
@@ -61,14 +63,12 @@ site:
       contents:
         - section: "Lectures"
           contents:
-            - docs/regression-models/lectures-lrm.qmd
-            - docs/regression-models/lectures-nlrm.qmd
-            - docs/regression-models/lectures-gaussian-mle.qmd
+            - docs/regression/map566-lecture-regression-background.qmd
+            - docs/regression/map566-lecture-polynomial-regression.qmd
         - section: "PC/Labs"
           contents:
-            - docs/tests/exercices-regressions-polynomial.qmd
-            - docs/tests/exercices-regression-nonlinear.qmd
-
+            - docs/regression/map566-lab-polynomial-regression.qmd
+            - docs/regression/map566-lab-nonlinear-regression.qmd
     - id: mixed-models
       title: "Mixed models"
       contents:

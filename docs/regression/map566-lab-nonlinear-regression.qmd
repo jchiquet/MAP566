@@ -1,0 +1,54 @@
+---
+title: 'Nonlinear regression: exercices'
+---
+
+## Preliminary
+
+The usual libraries: 
+
+```{r linear-regression-config, message = FALSE}
+library(tidyverse)
+library(ggfortify) # extend some ggplot2 features
+library(broom)
+theme_set(theme_bw())
+```
+
+## Introduction
+
+We consider the same data file `ratWeight.csv` with rat weights measured over 14 weeks during a subchronic toxicity study related to the question of genetically modified (GM) corn. 
+
+## Questions
+
+1. Load the `ratWeight.csv` data file and plot the weight of the females of the control group
+
+2. Select the ID `B38837` and fit a polynomial model to the growth curve of this female rat.
+
+3. Fit a Gompertz model $f_1(t) = A e^{-b e^{-k\, t}}$ to this data.
+
+*Hint:* use for initial values: $A = 200, b = 1, k = 0.1$.
+
+4. Fit the two following growth models:
+
+  * Asymptotic regression model:
+
+$$f_2(t)  = A \left( 1 - b\, e^{-k\, t} \right)$$
+
+  * Logistic curve:
+$$f_3(t)  = \frac{A}{1 + e^{-\gamma( t-\tau)}}$$
+
+
+
+5. Propose two other parameterizations of the asymptotic regression model which involves 
+
+  a. the weight at birth $w_0$ (when $t=0$), the limit weight $w_\infty$ (when $t\to \infty$) and $k$
+  b. the weight at birth, the weight at the end of the study $w_{14}$ and the ratio $r=(w_{14}-w_{7})/(w_7 - w_0)$
+
+Can we compare these models?
+
+6. We will now use model $f_{2a}$.  Check that the estimate of $\beta=(w_0, w_\infty, k)$ obtained with the `nls` function is the least squares estimate.
+
+7. Check that this estimate is also the least squares estimate of the linearized model. Then, how are computed the standard errors of $\hat\beta$?
+
+8. Compute 90% confidence intervals for the model parameters using several approaches (profile likelihood, linearization, parametric bootstrap)
+
+9. Compute a 90% confidence interval for the predicted weight and a 90% prediction interval for the measured weight using the delta method.

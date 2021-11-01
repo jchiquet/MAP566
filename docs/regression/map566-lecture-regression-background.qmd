@@ -1,0 +1,502 @@
+---
+title: "Linear regression: quick recap"
+format:
+  html:
+    toc: true
+    number-sections: true
+    html-math-method: katex
+---
+
+## Regression models  {.unnumbered}
+
+A *regression model*  relates a response variable $y$ to a set of explanatory variables $x$. 
+Assuming that we have access to $n$ set of values $(x_j, y_j)$, $1 \leq j \leq n)$, of these variable, the regression model is assumed to take the form 
+$$y_j = f(x_j,\beta) + \varepsilon_j \quad ; \quad 1\leq j \leq n$$
+
+where $f$ is a *structural model* which depends on a $p$-vector of parameters  $\beta$. We will assume that the residuals $(\varepsilon_j)$ are independent random variables with mean 0 and variance $\sigma^2$:
+$$ 
+\mathbb{E}{\varepsilon_j} = 0 \quad ; \quad  \mathbb{E}{\varepsilon^2_j} = \sigma^2 \quad ; \quad \mathbb{E}{\varepsilon_j \varepsilon_k} = 0  \ (j \neq k)
+$$
+
+
+## Ordinary least squares
+
+### Least squares estimator
+
+A method for choosing automatically the "best parameters" $\beta$ consists in minimizing the sum of squared errors of prediction, i.e. the residual sum of squares (RSS) : 
+
+$$ 
+RSS(\beta) = \sum_{j=1}^n (y_j - f(x_j))^2 = \|y - X\beta \|^2
+$$
+
+Then, 
+$$
+\hat{\beta} = \arg\min_{\beta} \|y - X\beta \|^2 = (X^\prime X)^{-1}X^\prime y 
+$$
+
+### Estimation of the residual error variance
+
+An unbiased estimate of $\sigma^2$ is 
+$$
+\hat{\sigma}^2 = \frac{1}{n-p} \|y - X\hat{\beta} \|^2 
+$$
+Indeed,
+
+$$
+\begin{aligned}
+\|y - X\hat{\beta} \|^2 &= \| y - X(X^\prime X)^{-1}X^\prime y\|^2   \\
+&= \| \left({\rm I}_n - X(X^\prime X)^{-1}X^\prime \right) \varepsilon\|^2 \\
+&= \varepsilon^\prime \left({\rm I}_n - X(X^\prime X)^{-1}X^\prime \right)^\prime \left({\rm I}_n - X(X^\prime X)^{-1}X^\prime \right) \varepsilon \\
+&= \varepsilon^\prime \left({\rm I}_n - X(X^\prime X)^{-1}X^\prime \right) \varepsilon \\
+&= {\rm trace} \left\{ \varepsilon^\prime \left({\rm I}_n - X(X^\prime X)^{-1}X^\prime \right) \varepsilon \right\} \\
+&= {\rm trace} \left\{  \left({\rm I}_n - X(X^\prime X)^{-1}X^\prime \right) \varepsilon \varepsilon^\prime \right\} 
+\end{aligned}
+$$
+Then,
+
+$$
+\begin{aligned}
+\mathbb{E}{\|y - X\hat{\beta} \|^2} &= {\rm trace} \left(  \left({\rm I}_n - X(X^\prime X)^{-1}X^\prime \right) \mathbb{E}{\varepsilon \varepsilon^\prime} \right) \\
+&= \sigma^2 {\rm trace} \left(  {\rm I}_n - X(X^\prime X)^{-1}X^\prime \right) \\
+&= \sigma^2 \left( {\rm trace} \left( {\rm I}_n \right)  - {\rm trace} \left(X(X^\prime X)^{-1}X^\prime \right) \right) \\
+&= \sigma^2 \left( n  - {\rm trace} \left((X^\prime X)^{-1}X^\prime X \right) \right) \\
+&= \sigma^2 \left( n  - {\rm trace} \left({\rm I}_d \right) \right) \\
+&= \sigma^2 ( n - p)
+\end{aligned}
+$$
+
+The standard deviation of the residual errors, called *residual standard error* in `R`, is the square root of this estimated variance
+
+### The standard errors of the estimates
+
+We can remark that
+$$
+\begin{aligned}
+\hat{\beta} &=  (X^\prime X)^{-1}X^\prime y \\
+&= \beta + (X^\prime X)^{-1}X^\prime \varepsilon
+\end{aligned}
+$$
+
+Then, since $\mathbb{E}{e}=0$,
+$$ \mathbb{E}{\hat{\beta}} = \beta$$
+
+and 
+$$
+\begin{aligned}
+\mathbb{V}{\hat\beta} &=  \mathbb{V}{(X^\prime X)^{-1}X^\prime \varepsilon} \\
+&= (X^\prime X)^{-1}X^\prime \mathbb{V}{\varepsilon} X (X^\prime X)^{-1} \\
+&= \sigma^2 (X^\prime X)^{-1}
+\end{aligned}
+$$
+
+We can therefore use this formula to compute the variance covariance matrix of $\hat\beta$. Then, the standard error of each component of $\hat\beta$ is defined as the square root of the diagonal elements of the variance-covariance matrix $V=\mathbb{V}{\hat\beta}$:
+
+$${\rm se}(\hat\beta_k) = \sqrt{V_{k k}} $$
+
+## Maximum likelihood approach
+
+If we assume that $(\varepsilon_j, 1 \leq j \leq n)$ is a sequence of independent and normally distributed random variables with mean 0 and variance $1$:
+$$ 
+\varepsilon_j \sim^{\mathrm{iid}} \mathcal{N}(0, 1),
+$$
+then the $y_j$ are also independent and normally distributed:
+
+$$ y_j \sim \mathcal{N}(f(x_j, \beta),\sigma^2).$$
+The vector $y=(y_1,y_2,\ldots,y_n)$ is therefore a Gaussian vector which probability density function (pdf) depends on a vector of parameters $\theta=(\beta,\sigma^2)$:
+
+$$\begin{aligned}
+\mathbb{P}(y ; \theta) = \prod_{j=1}^n \mathbb{P}(y_j; \theta) & = \prod_{j=1}^n \frac{1}{\sqrt{2\pi \sigma^2}} \text{exp}\left(-\frac{1}{2\sigma^2}(y_j - f(x_j, \beta))^2 \right) \\
+& =  (2\pi \sigma^2)^{-\frac{n}{2}} \text{exp}\left(-\frac{1}{2\sigma^2}\sum_{j=1}^n(y_j - f(x_j, \beta))^2\right).
+\end{aligned}$$
+
+### Likelihood
+
+For a given vector of observations $y$, the likelihood $\ell$ is the function of the parameter $\theta=(\beta,\sigma^2)$ defined as:
+
+$$ 
+\ell(\theta) = \mathbb{P}(y ; \theta) 
+$$
+The log-likelihood is therefore
+$$
+\log\ell(\theta) = -\frac{n}{2}\log(2\pi) - \frac{n}{2}\log(\sigma^2) - \frac{1}{2\sigma^2}\sum_{j=1}^n(y_j - f(x_j,\beta))^2
+$$
+
+### Maximum likelihood estimator
+
+
+Assume that $\theta$ takes its values in a subset $\Theta$ of $\mathbb{R}^p$. Then, the *Maximum Likelihood* (ML) estimator of $\theta$ is a function of $y$ that maximizes the likelihood function:
+
+$$ 
+\hat{\theta} = \arg\max_{\theta \in \Theta}\ell(\theta) = \arg\max_{\theta \in \Theta}\log\ell(\theta)
+$$
+
+Maximization of the log-likelihood can be performed in two steps:  
+
+* $\beta$, the parameter of the structural model is estimated by minimizing the residual sum of squares:
+
+$$\begin{aligned}
+\hat{\beta} &= \arg\min_{\beta} \left\{
+n\log(2\pi) + n\log(\sigma^2) + \frac{1}{\sigma^2}\sum_{j=1}^n(y_j - f(x_j,\beta))^2
+\right\} \\
+&= \arg\min_{\beta}\sum_{j=1}^n(y_j - f(x_j,\beta))^2
+\end{aligned}$$
+
+We see that, for this model, the Maximum Likelihood estimator $\hat{\beta}$ is also the Least Squares estimator of $\beta$. 
+
+* $\sigma^2$, the variance of the residual errors $\varepsilon_j$ is estimated in a second step: 
+
+$$\begin{aligned}
+\hat{\sigma}^2 &= \arg\min_{\sigma^2 \in \mathbb{R}^+} \left\{
+n\log(2\pi) + n\log(\sigma^2) + \frac{1}{\sigma^2}\sum_{j=1}^n(y_j - f(x_j,\hat{\beta}))^2
+\right\} \\
+&= \frac{1}{n}\sum_{j=1}^n(y_j - f(x_j,\hat{\beta}))^2
+\end{aligned}$$
+
+
+
+Finally, the log-likelihood computed with $\hat{\theta}=(\hat{\beta},\hat{\sigma}^2)$ reduces to
+$$
+\log\ell(\hat{\theta}) = -\frac{n}{2}\log(2\pi) - \frac{n}{2}\log\left(\frac{1}{n}\sum_{j=1}^n(y_j - f(x_j,\hat{\beta}))^2\right) -\frac{n}{2}
+$$
+
+### The Fisher Information matrix
+
+### Some general definitions
+
+The partial derivative of the log-likelihood  with respect to $\theta$ is called the *score*. Under general regularity conditions,  the expected value of the score is 0. Indeed,  it is easy to show that
+
+$$\mathbb{E}{\frac{\partial}{\partial \theta} \log\mathbb{P}(y;\theta^\star)} = 0.$$
+
+where $\theta^\star$ is the ``true'' unknown value of $\theta$ such that the observations $y$ where generated with model $\mathbb{P}(\cdot;\theta^\star)$. 
+
+The variance of the score is called the *Fisher information matrix* (FIM):
+$$
+I_n(\theta^\star) = \mathbb{E}{\left(\frac{\partial}{\partial \theta} \log\mathbb{P}(y;\theta^\star)\right)\left(\frac{\partial}{\partial \theta} \log\mathbb{P}(y;\theta^\star)\right)^\prime}.
+$$
+
+Furthermore, it can be shown that if $\log\ell$ is twice differentiable with respect to $\theta$,
+
+$$
+\begin{aligned}
+I_n(\theta^\star) &= -  \mathbb{E}{\frac{\partial^2}{\partial \theta \partial \theta^\prime} \log\mathbb{P}(y;\theta^\star)} \\
+&= - \sum_{j=1}^n \mathbb{E}{\frac{\partial^2}{\partial \theta \partial \theta^\prime} \log\mathbb{P}(y_j;\theta^\star)} 
+\end{aligned}
+$$
+
+### The central limit theorem
+
+The following central limit theorem (CLT) holds under certain regularity conditions:
+$$ 
+I_n(\theta^\star)^{\frac{1}{2}}(\hat{\theta}-\theta^\star) \xrightarrow{n\to \infty} {\mathcal N}(0,{\rm Id}_n) .
+$$
+This theorem shows that under  relevant hypotheses, the estimator $\hat{\theta}$ is consistent and converges to $\theta^\star$ at  rate  $\sqrt{n}$ since $I_n={\cal O}(n)$.
+
+
+The normalizing term
+$I_n(\theta^\star)^{-1}$ is  unknown since it depends on the unknown parameter $\theta^\star$.
+We can  use instead the *observed Fisher information*:
+$$
+\begin{aligned}
+ I_{y}(\hat{\theta}) &= - \frac{\partial^2}{\partial \theta^2} \log\ell(\hat{\theta}) \\
+&=-\sum_{i=1}^n \frac{\partial^2}{\partial \theta^2} \log \mathbb{P}(y_i ; \hat{\theta}).
+\end{aligned}
+$$
+We can then approximate the distribution of $\hat{\theta}$ by a normal distribution with mean $\theta^\star$ and variance-covariance matrix $I_y(\hat{\theta})^{-1}$:
+$$
+\hat{\theta} \approx {\mathcal N}(\theta^\star , I_y(\hat{\theta})^{-1}) .
+$$
+The square roots of the diagonal elements of $I_y(\hat{\theta})^{-1}$ are called the *standard errors* (s.e.) of the elements of $\hat{\theta}$.
+
+### The FIM for a regression model
+
+We have seen that, for a regression model,
+$$
+\begin{aligned}
+\log\ell(\theta) &= \log\ell(\beta,\sigma^2) \\
+&= -\frac{n}{2}\log(2\pi) - \frac{n}{2}\log(\sigma^2) - \frac{1}{2\sigma^2}\sum_{j=1}^n(y_j - f(x_j,\beta))^2
+\end{aligned}
+$$
+By definition,
+
+$$
+I_n(\theta) =  \left( \begin{array}{cc} 
+-\mathbb{E}{\frac{\partial^2}{\partial \beta \partial \beta^\prime} \log\ell(\beta,\sigma^2)} & 
+-\mathbb{E}{\frac{\partial^2}{\partial \beta \partial \sigma^2} \log\ell(\beta,\sigma^2)} \\ 
+-\mathbb{E}{\frac{\partial^2}{\partial \sigma^2 \partial \beta^\prime } \log\ell(\beta,\sigma^2)} &  
+-\mathbb{E}{\frac{\partial^2}{\partial \sigma^{2^2} } \log\ell(\beta,\sigma^2)}
+\end{array} \right)
+$$
+
+Then,
+$$
+\begin{aligned}
+\mathbb{E}{\frac{\partial^2}{\partial \beta \partial \sigma^2} \log\ell(\beta,\sigma^2)} &=
+ -\frac{1}{\sigma^4} \times\frac{\partial}{\partial \beta}f(x_j,\beta) \times\mathbb{E}{y_j - f(x_j,\beta)} \\
+ &= 0
+\end{aligned}
+$$
+
+and the FIM reduces to 
+
+
+$$
+I_n(\theta) =  \left( \begin{array}{cc} 
+-  \mathbb{E}{\frac{\partial^2}{\partial \beta \partial \beta^\prime} \log\ell(\beta,\sigma^2)} & 0 \\ 
+0 &  -\mathbb{E}{\frac{\partial^2}{\partial \sigma^{2^2} } \log\ell(\beta,\sigma^2)}
+\end{array} \right)
+$$
+
+Because of the bloc structure of $I_n(\theta^\star)$, the variance-covariance of $\hat{\beta}$ can be estimated by 
+$I^{-1}_y(\hat{\beta})$ where 
+$$
+\begin{aligned}
+ I_y(\hat{\beta}) &= - \frac{\partial^2}{\partial \beta \partial \beta^\prime} \log\ell(\hat{\beta},\hat{\sigma}^2) \\
+&= \frac{1}{2\hat\sigma^2}\frac{\partial^2}{\partial \beta \partial \beta^\prime} \left(\sum_{j=1}^n(y_j - f(x_j,\hat\beta))^2 \right) \\
+&= \frac{1}{\hat\sigma^2} \sum_{j=1}^n \left( 
+\left(\frac{\partial}{\partial \beta}f(x_j,\hat\beta)\right)\left(\frac{\partial}{\partial \beta}f(x_j,\hat\beta)\right)^\prime - \frac{\partial^2}{\partial \beta \partial \beta^\prime}f(x_j,\hat\beta)y_j
+\right)
+\end{aligned}
+$$
+**Remark:** In the case of a linear model $y=X\beta+e$, we find that
+$I_y(\hat{\beta}) = (X^\prime X)/\hat\sigma^2$.
+
+
+The variance of $\hat{\sigma}^2$ is estimated by $I^{-1}_y(\hat{\sigma}^2)$ where
+$$
+\begin{aligned}
+I_y(\hat{\sigma}^2) &= -\frac{\partial^2}{\partial \sigma^{2^2} } \log\ell(\hat{\beta},\hat{\sigma}^2) \\
+&= -\frac{n}{2\hat\sigma^4} + \frac{1}{\hat\sigma^6}\sum_{j=1}^n(y_j - f(x_j,\hat\beta))^2 \\
+&= \frac{n}{2\hat\sigma^4}
+\end{aligned}
+$$
+
+Then, ${\rm se}(\hat{\sigma}^2) = \hat{\sigma}^2/\sqrt{n/2}$.
+
+## Statistical inference and diagnostics
+
+Suppose that residuals $(\varepsilon_j)$ are independent and normally distributed with mean 0 and variance $\sigma^2$:
+$$ 
+\varepsilon_j \sim^{\mathrm{iid}} \mathcal{N}(0 \ , \ \sigma^2).
+$$
+
+### Statistical tests for the model parameters
+
+In this case, $\hat{\beta}$ is also normally distributed:
+
+$$ 
+\hat{\beta} \sim \mathcal{N}(\beta \ , \ \sigma^2 (X^\prime X)^{-1})
+$$
+and, for $k=1, 2, \ldots , p$,
+$$t_k = \frac{\hat{\beta}_k - \beta_k}{{\rm se}(\hat{\beta}_k)}$$ 
+follows a $t$-distribution with $n-d$ degrees of freedom.
+
+
+For each component $\beta_k$ of $\beta$, we can then perform a $t$-test (known as the *Wald test*) to test 
+$$
+H_{k,0} : ``\beta_k = 0"  \quad \text{versus} \quad H_{k,1}: ``\beta_k \neq 0" $$
+
+
+Indeed, under the null hypothesis $H_{k,0}$, 
+$t_{{\rm stat}, k} = {\hat{\beta}_k}/{{\rm se}(\hat{\beta}_k)}$ 
+follows a $t$-distribution with $n-d$ degrees of freedom.
+
+The $p$-value for this test is therefore
+
+$$
+p_k= \mathbb{P}{|t_{n-d}| \geq |t_{{\rm stat}, k}^{\rm obs}| } = 2(1 - \mathbb{P}{t_{n-d} \leq |t_{{\rm stat}, k}^{\rm obs}| } )
+$$
+
+### Confidence interval for the model parameters
+
+Using the fact that $t_k$ follows a $t$-distribution with $n-p$ degrees of freedom, we can build a confidence interval for $\beta_k$ of level $1-\alpha$:
+
+$${\rm CI}_{1-\alpha}(\beta_k) = [\hat{\beta}_k + qt_{\alpha/2, n-d}\ {\rm se}(\hat{\beta}_k) \ , \ \hat{\beta}_k + qt_{1-\alpha/2, n-d}\ {\rm se}(\hat{\beta}_k)]$$
+where $qt_{\alpha/2, n-d}$ and $qt_{1-\alpha/2, n-d}$ are the quantiles of order $\alpha/2$ and $1-\alpha/2$ for a $t$-distribution with $n-p$ df. 
+
+Indeed, we can easily check that $\mathbb{P}{{\rm CI}_{1-\alpha}(\beta_k) \ni \beta_k} = 1-\alpha$.
+
+The function `confint` computes such confidence intervals for $\beta$  (default level = 95%))
+
+### F-test of the overall significance
+
+A F-test is also performed to test if at least one of the coefficients $\beta_1, \ldots , \beta_{p}$ is non zero:
+
+$$
+\begin{aligned}
+H_0 &:  \quad (\beta_1, \beta_2, \cdots ,\beta_p) = (0, 0, \cdots, 0) \\
+H_1 &:  \quad (\beta_1, \beta_2, \cdots ,\beta_p) \neq (0, 0, \cdots, 0)
+\end{aligned}
+$$
+
+The test statistic for testing $H_0$ against $H_1$ is
+$$
+\begin{aligned}
+F_{\rm stat} &=  \frac{\|X\hat{\beta} - \bar{y}\|^2/(p-1)}{\|y - X\hat{\beta} \|^2/(n-p)}
+\end{aligned}
+$$
+
+Let us show that, under the null hypothesis, the test statistic $F_{\rm stat}$ has a F distribution with $(p-1,n-p)$ degrees of freedom:
+
+By construction, $\|y - X\hat{\beta} \|^2/\sigma^2$ has a $\chi^2$ distribution with $n-d$ df.
+On the other hand, under $H_0$, $y_j=\varepsilon_j \sim^{\mathrm{iid}} \mathcal{N}(0,\sigma^2)$ and $\|y - \bar{y}\|^2/\sigma^2$ has a $\chi^2$ distribution with $n-1$ df.
+
+Using the fact that
+$$
+\|y - \bar{y}\|^2 = \|X\hat{\beta} - \bar{y}\|^2 + \|y - X\hat{\beta} \|^2
+$$
+We deduce that, under $H_0$, $\|X\hat{\beta} - \bar{y}\|^2/\sigma^2$ has a $\chi^2$ distribution with $(n-1) - (n-p) = p-1$ df which leads to the conclusion since $(\chi^2(\nu_1)/\nu1)/(\chi^2(\nu_2)/\nu2) = F(\nu_1,\nu_2)$.
+
+
+The $p$-value of the F-test is therefore
+$$\text{p-value(F-test)} = \mathbb{P}{F_{p-1,n-p} > F_{\rm stat}}=1- \mathbb{P}{F_{p-1,n-p} \leq F_{\rm stat}}$$
+
+**Remark:** t-test and F-test are equivalent for linear models with only one predictor. In the case of polynomial regression of degree $d = 1$, both tests can be used equally for testing if $\beta_1=0$. 
+Indeed,
+$$
+\begin{aligned}
+F_{\rm stat} &=  \frac{\|\hat{\beta}_0 + \hat{\beta}_1 x - \bar{y}\|^2}{\|y - \hat{\beta}_0 - \hat{\beta}_1 x\|^2/(n-2)} \\[1.5ex]
+&=  \frac{\hat{\beta}_1^2 \|x - \bar{x}\|^2}{\hat{\sigma}^2} = \frac{\hat{\beta}_1^2}{se^2(\hat{\beta}_1)} = t_{\rm stat}^2
+\end{aligned}
+$$
+
+Furthermore, if $t_{\rm stat}$ has a $t$ distribution with $n-2$ df, then $t_{\rm stat}^2$ has a $F$ distribution with $(1,n-2)$ df. Both p-values are therefore equal.
+
+### Coefficient of determination
+
+The multiple R-squared $R^2$ is the proportion of variation in the response variable that has been explained by the model. Using the fact that
+$$
+\|y - \bar{y}\|^2 = \|X\hat{\beta} - \bar{y}\|^2 + \|y - X\hat{\beta} \|^2
+$$
+
+
+$$
+R^2 =  \frac{\|X\hat{\beta} - \bar{y}\|^2}{\|y - \bar{y}\|^2} = 1 - \frac{\|y - X\hat{\beta} \|^2}{\|y - \bar{y}\|^2} 
+$$
+
+By construction, adding more predictors to the model, i.e. increasing the degree of the polynome, is always going to increase the R-squared value. Adjusted R-squared penalizes this effect by normalizing each term by the associated degree of freedom. 
+
+$$
+\begin{aligned}
+R^2_{\rm adj} &=  1 - \frac{\|y - X\hat{\beta} \|^2/(n-p)}{\|y - \bar{y}\|^2/(n-1)} 
+\end{aligned}
+$$
+
+The R-squared is a purely descriptive statistics. The adjusted R-squared should be preferably used to compare the explanatory power of models built from the same dataset. 
+
+### Some diagnostic plots
+
+Several diagnostic plots are available. The first one plots the estimated residuals $y_j - \hat{f}(x_j)$  versus the predicted (or fitted) values with a smooth line.
+
+The second diagnostic plot is a *normal QQ plot*. The QQ plot is obtained by plotting the standardized residuals (i.e. the residuals divided by their standard deviation) versus the theoretical quantiles of order $1/(n+1)$, $2/(n+1)$, $\ldots$, $n/(n+1)$. If the residuals are normally distributed, then the points should be randomly distributed around the line $y=x$.
+
+## Model comparison
+
+Again, we assume in this part that the residual errors are independent and identically distributed (i.i.d.), with a normal distribution, mean 0 and variance $\sigma^2$.
+
+### ANOVA
+
+Consider two **nested** linear models with, respectively, $p_1$ and $p_2$ coefficients. Let $\hat{y}_1$ and $\hat{y}_2$ be the respective predicted values under.  Cochran Theorem states that
+
+$$ \|y - \hat{y}_1 \|^2 = \|\hat{y}_2 - \hat{y}_1\|^2 + \|y - \hat{y}_2 \|^2 $$
+
+Then, the statistics used for the test is 
+
+$$
+F_{\rm stat} =  \frac{\text{explained variance}}{\text{unexplained variance}} = \frac{\|\hat{y}_2 - \hat{y}_1\|^2/(p_2 - p_1)}{\|y - \hat{y}_2 \|^2/(n-p_2)}
+$$
+
+Under the null, the test statistics $F_{\rm stat}$ follows a $F$ distribution with $(p_2-p_1 , n-p_2)$ degrees of freedom.
+
+This ANOVA test can be performed by means of the `anova` function.
+
+### Likelihood ratio test
+
+When two models are nested, we can compare them by performing a likelihood ratio test (LRT). 
+
+Let $\log\ell_1$ and $\log\ell_2$ be the log-likelihood functions of models $\mathcal{M}_1$ and $\mathcal{M}_2$. Then, for large $n$, the distribution of the test statistics
+$$
+\begin{aligned}
+LRT_{\rm stat} &= 2(\log\ell_2(\hat\theta_2) - \log\ell_1(\hat\theta_1) \\
+&= n \log \left( \frac{\sum_{j=1}^n(y_j - f_1(x_j,\hat{\beta_1}))^2}{\sum_{j=1}^n(y_j - f_2(x_j,\hat{\beta_2}))^2} \right)
+\end{aligned}
+$$ 
+can be approximated by a $\chi^2$ distribution with $p_2-p_1=d_2-d_1$ df. 
+
+### Deviance
+
+The deviance for a given **regression model** and a given set of observations $y$, is a measure of goodness of fit defined, in `R`, as:
+
+$$
+D = \sum_{j=1}^n(y_j - f(x_j,\hat{\beta}))^2
+$$
+
+### Information criteria
+
+Functions `AIC` and `BIC` compute the Akaike information criterion and Bayesian information criterion. AIC and BIC are *penalized* versions of the log-likelihood defined by:
+
+$$
+\begin{aligned}
+AIC &= -2\log\ell(\hat{\theta}) + 2P \\
+BIC &= -2\log\ell(\hat{\theta}) + \log(n)P 
+\end{aligned}
+$$
+where $P$ is the number of parameters of the model, i.e. the length of $\theta$.
+
+
+On one hand, $-2\log\ell(\hat{\theta})$ decreases when $P$ increases. On the other hand, the penalization term ($2P$ or $\log(n)P$) increases with $P$. 
+The objective of these criteria is to propose a model with an optimal compromise between the goodness of fit (measured by the log-likelihood) and the complexity of  the model (measured by the number of parameters $P$).
+
+<a name="poly4"></a>
+
+### Confidence and prediction intervals
+
+For given values $x^{\mathrm{new}}$ of the explanatory variable, we can use the fitted model for estimating the predicted response $f^{\mathrm{new}}=f(x^{\mathrm{new}})$. This estimation is defined as
+
+$$
+\hat{f^{\mathrm{new}}} = f(x^{\mathrm{new}} ,\hat{\beta})
+$$
+
+$\hat{f^{\mathrm{new}}}$ is a random variable since it is a function of the observed $y$. We can compute a confidence interval for $f^{\mathrm{new}}$ with function `predict(interval = "confidence")`,  since $\hat{f^{\mathrm{new}}}= x^{\mathrm{new}} \hat{\beta}$, 
+$$
+\hat{f^{\mathrm{new}}} \sim \mathcal{N} (f^{\mathrm{new}} , {\rm Var}(\hat{f^{\mathrm{new}}} ) )
+$$
+
+where 
+$$\begin{aligned}
+{\rm Var}(\hat{f^{\mathrm{new}}} ) &=  {x^{\mathrm{new}}} {\rm Var}(\hat{\beta}) {x^{\mathrm{new}}}^\prime \\
+&= \sigma^2 x^{\mathrm{new}}(X^\prime X)^{-1}{x^{\mathrm{new}}}^\prime
+\end{aligned}$$
+
+$\widehat{{\rm Var}(\hat{f^{\mathrm{new}}})}$, an estimate of ${\rm Var}(\hat{f^{\mathrm{new}}} )$ is obtained using $\hat\sigma^2$ instead of $\sigma^2$.
+
+Then,
+$$
+\begin{aligned}
+\left({{\rm Var}(\hat{f^{\mathrm{new}}})} \right)^{-1/2}(\hat{f^{\mathrm{new}}} - f^{\mathrm{new}}) &\sim \mathcal{N}(0,  {\rm Id}_{n^{\mathrm{new}}} )  \\
+\left(\widehat{{\rm Var}(\hat{f^{\mathrm{new}}})} \right)^{-1/2}(\hat{f^{\mathrm{new}}} - f^{\mathrm{new}}) &\sim t_{n^{\mathrm{new}},n-p}
+\end{aligned}
+$$
+where $t_{n^{\mathrm{new}},n-p}$ is the multivariate $t$ distribution with $n-p$ degrees of freedom (the components of this $n^{\mathrm{new}}$-vector are independent and follow a $t$ distribution with $n-p$ df).
+
+Consider now  a vector of new measured values $y^{\mathrm{new}}$. We can  again use the `predict(interval = "prediction")` function for computing a prediction interval for $y^{\mathrm{new}}$. By definition of the model,
+$$
+y^{\mathrm{new}} \sim \mathcal{N} (f^{\mathrm{new}} , \sigma^2 \, {\rm Id}_{n^{\mathrm{new}}} )
+$$
+Then, if we want to compute a prediction interval for $y^{\mathrm{new}}$, we must take into account the variability of $y^{\mathrm{new}}$ around $f^{\mathrm{new}}$, but also the uncertainty on $f^{\mathrm{new}}$ since it is unknown:
+
+$$y^{\mathrm{new}} = \hat{f^{\mathrm{new}}} + (f^{\mathrm{new}}-\hat{f^{\mathrm{new}}}) + \varepsilon^{\mathrm{new}} $$
+Thus,
+$$
+y^{\mathrm{new}} - \hat{f^{\mathrm{new}}} \sim \mathcal{N}(0, {\rm Var}(\hat{f^{\mathrm{new}}}) + \sigma^2 \, {\rm Id}_{n^{\mathrm{new}}} )
+$$
+Then,
+$$
+\begin{aligned}
+\left(x^{\mathrm{new}} {\rm Var}(\hat{\beta}) x^{\mathrm{new}} + {\sigma}^2 {\rm Id}_{n^{\mathrm{new}}} \right)^{-1/2}(y^{\mathrm{new}} - \hat{f^{\mathrm{new}}}) & \sim \mathcal{N}(0,  {\rm Id}_{n^{\mathrm{new}}} ) \\
+\left(x^{\mathrm{new}} \widehat{{\rm Var}(\hat{\beta})} x^{\mathrm{new}} + \hat{\sigma}^2 {\rm Id}_{n^{\mathrm{new}}} \right)^{-1/2}(y^{\mathrm{new}} - \hat{f^{\mathrm{new}}}) & \sim t_{n^{\mathrm{new}},n-p} 
+\end{aligned}
+$$
+
+<a name="poly5"></a>
+</br>
+
