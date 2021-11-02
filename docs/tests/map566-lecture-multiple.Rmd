@@ -51,7 +51,7 @@ See the opinion of the [Haut Conseil des Biotechnologies](http://www.hautconseil
 Here is a summary of the data,
 
 ```{r}
-data <- read.csv("data/ratSurvival.csv", stringsAsFactors = T)
+data <- read.csv("../../data/ratSurvival.csv", stringsAsFactors = T)
 head(data)
 summary(data)
 levels(data$regimen)
@@ -320,7 +320,7 @@ c(wilcox.test(x,y,"greater")$p.value, wilcox.test(x,y,"greater")$p.value*18)
 Garcia-Arenzana et al. (2014) tested associations of 25 dietary variables with [mammographic density](https://breast-cancer-research.biomedcentral.com/articles/10.1186/bcr2102), an important risk factor for breast cancer, in Spanish women. They found the following results
 
 ```{r}
-data <- read.csv("data/dietary.csv", stringsAsFactors = T)
+data <- read.csv("../../data/dietary.csv", stringsAsFactors = T)
 data
 ```
 
