@@ -2,7 +2,7 @@
 title: 'Statistical tests: exercices'
 ---
 
-## Preliminary
+## Preliminary {.unnumbered}
 
 Only functions from `R`-base and stats (preloaded) are required plus packages from the tidyverse for data representation and manipulation:
 
