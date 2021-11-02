@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.2.243">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>MAP566 - Stats in Action - Polynomial regression model: exercices</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+   var mathElements = document.getElementsByClassName("math");
+   var macros = [];
+   for (var i = 0; i < mathElements.length; i++) {
+    var texText = mathElements[i].firstChild;
+    if (mathElements[i].tagName == "SPAN") {
+     katex.render(texText.data, mathElements[i], {
+      displayMode: mathElements[i].classList.contains('display'),
+      throwOnError: false,
+      macros: macros,
+      fleqn: false
+     });
+  }}});
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="../../site_libs/clipboard/clipboard.min.js"></script>
+  <meta name="quarto:offset" content="../../">
+  <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+  <script src="../../site_libs/quarto-search/fuse.min.js"></script>
+  <script src="../../site_libs/quarto-search/quarto-search.js"></script>
+  <link href="../../docs/regression/map566-lab-nonlinear-regression.html" rel="next">
+  <link href="../../docs/regression/map566-lecture-polynomial-regression.html" rel="prev">
+  <script src="../../site_libs/quarto-html/quarto.js"></script>
+  <script src="../../site_libs/quarto-html/popper.min.js"></script>
+  <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="../../site_libs/quarto-html/anchor.min.js"></script>
+  <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <script id="quarto-search-options" type="application/json">{
+    "location": "navbar",
+    "copy-button": false,
+    "collapse-after": 2,
+    "panel-placement": "end",
+    "type": "overlay",
+    "limit": 20
+  }</script>
+  <script src="../../site_libs/kePrint-0.0.1/kePrint.js"></script>
+  <link href="../../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+</head>
+<body class="docked">
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <img src="../../logo_X.jpg" alt="">
+    <span class="navbar-title">MAP566 - Stats in Action</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../getting-started.html">Getting Started</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/jchiquet/MAP566"><i class="bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hypothesis-testing" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hypothesis Testing</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-hypothesis-testing">    
+        <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-single.html">Statistical Tests</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-multiple.html">Multiple Testing</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Labs</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html">Statistical tests: exercices</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Documents</li>
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-regression-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Regression models</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-regression-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html">Linear regression: quick recap</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html">Polynomial regression models</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">PC/Labs</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-polynomial-regression.html">Polynomial regression model: exercices</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-nonlinear-regression.html">Nonlinear regression: exercices</a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixed-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mixed models</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixed-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">PC/Labs</li>
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mixture models</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixture-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">PC/Labs</li>
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-multivariate-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Multivariate models</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-multivariate-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">PC/Labs</li>
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-homework" role="button" data-bs-toggle="dropdown" aria-expanded="false">Homework</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-homework">    
+    </ul>
+  </li>
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Polynomial regression model: exercices</h1>
+      <button type="button" class="quarto-btn-toggle btn">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+  <div class="sidebar-menu-container"> 
+  <ul class="list-unstyled mt-1">
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#lectures-collapse" aria-expanded="true">
+              <div class="me-auto sidebar-section-item">Lectures</div>
+            <div><i class="bi bi-chevron-right ms-2"></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="lectures-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../../docs/regression/map566-lecture-regression-background.html" class="">Linear regression: quick recap</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../../docs/regression/map566-lecture-polynomial-regression.html" class="">Polynomial regression models</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#pc/labs-collapse" aria-expanded="true">
+              <div class="me-auto sidebar-section-item">PC/Labs</div>
+            <div><i class="bi bi-chevron-right ms-2"></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="pc/labs-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../../docs/regression/map566-lab-polynomial-regression.html" class="active">Polynomial regression model: exercices</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../../docs/regression/map566-lab-nonlinear-regression.html" class="">Nonlinear regression: exercices</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+  </ul>
+  </div>
+</nav>
+<!-- toc -->
+    <nav id="TOC" role="doc-toc" class="sidebar sidebar-toc">
+<h2 id="toc-title">On this page</h2>
+<ul>
+<li><a href="#preliminary" class="nav-link active" data-scroll-target="#preliminary"> <span class="header-section-number">1</span> Preliminary</a></li>
+<li><a href="#introduction" class="nav-link" data-scroll-target="#introduction"> <span class="header-section-number">2</span> Introduction</a></li>
+<li><a href="#questions" class="nav-link" data-scroll-target="#questions"> <span class="header-section-number">3</span> Questions</a></li>
+</ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<!-- main -->
+<main class="content">
+<header id="title-block-header">
+<h1 class="title d-none d-lg-block display-7">Polynomial regression model: exercices</h1>
+</header>
+
+<section id="preliminary" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="preliminary"><span class="header-section-number">1</span> Preliminary</h2>
+<p>Only functions from <code>R</code>-base and stats (preloaded) are required plus packages from the <strong>tidyverse</strong> for data representation and manipulation. You could also try the package <strong>broom</strong> that standardizes the output of built-in R functions for statistical modelling</p>
+<div class="cell" data-hash="map566-lab-polynomial-regression_cache/html/linear-regression-config_e8fb8dde2d607496b5d9fa42e6ce262d">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify) <span class="co"># extend some ggplot2 features</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="introduction" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="introduction"><span class="header-section-number">2</span> Introduction</h2>
+<p>The file <code>ratWeight.csv</code> consists of rat weights measured over 14 weeks during a subchronic toxicity study related to the question of genetically modified (GM) corn.</p>
+<p>We will only consider the weight of rat B38625.</p>
+<div class="cell" data-hash="map566-lab-polynomial-regression_cache/html/linear-regression-read_9200858cdba7b40d5cd0fe8bccbe914e">
+<div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../data/ratWeight.csv"</span>) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(id <span class="sc">==</span> <span class="st">'B38625'</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="sc">%&gt;%</span> kableExtra<span class="sc">::</span><span class="fu">kbl</span>() <span class="sc">%&gt;%</span> kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> id </th>
+   <th style="text-align:right;"> week </th>
+   <th style="text-align:right;"> weight </th>
+   <th style="text-align:left;"> regime </th>
+   <th style="text-align:left;"> gender </th>
+   <th style="text-align:left;"> dosage </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> B38625 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 219.8 </td>
+   <td style="text-align:left;"> Control </td>
+   <td style="text-align:left;"> Male </td>
+   <td style="text-align:left;"> 33% </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> B38625 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 268.0 </td>
+   <td style="text-align:left;"> Control </td>
+   <td style="text-align:left;"> Male </td>
+   <td style="text-align:left;"> 33% </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> B38625 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 320.9 </td>
+   <td style="text-align:left;"> Control </td>
+   <td style="text-align:left;"> Male </td>
+   <td style="text-align:left;"> 33% </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> B38625 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 358.6 </td>
+   <td style="text-align:left;"> Control </td>
+   <td style="text-align:left;"> Male </td>
+   <td style="text-align:left;"> 33% </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> B38625 </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 386.4 </td>
+   <td style="text-align:left;"> Control </td>
+   <td style="text-align:left;"> Male </td>
+   <td style="text-align:left;"> 33% </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> B38625 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 418.8 </td>
+   <td style="text-align:left;"> Control </td>
+   <td style="text-align:left;"> Male </td>
+   <td style="text-align:left;"> 33% </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> B38625 </td>
+   <td style="text-align:right;"> 7 </td>
+   <td style="text-align:right;"> 442.5 </td>
+   <td style="text-align:left;"> Control </td>
+   <td style="text-align:left;"> Male </td>
+   <td style="text-align:left;"> 33% </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> B38625 </td>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 472.5 </td>
+   <td style="text-align:left;"> Control </td>
+   <td style="text-align:left;"> Male </td>
+   <td style="text-align:left;"> 33% </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> B38625 </td>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:right;"> 484.0 </td>
+   <td style="text-align:left;"> Control </td>
+   <td style="text-align:left;"> Male </td>
+   <td style="text-align:left;"> 33% </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> B38625 </td>
+   <td style="text-align:right;"> 10 </td>
+   <td style="text-align:right;"> 508.4 </td>
+   <td style="text-align:left;"> Control </td>
+   <td style="text-align:left;"> Male </td>
+   <td style="text-align:left;"> 33% </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> B38625 </td>
+   <td style="text-align:right;"> 11 </td>
+   <td style="text-align:right;"> 521.7 </td>
+   <td style="text-align:left;"> Control </td>
+   <td style="text-align:left;"> Male </td>
+   <td style="text-align:left;"> 33% </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> B38625 </td>
+   <td style="text-align:right;"> 12 </td>
+   <td style="text-align:right;"> 520.5 </td>
+   <td style="text-align:left;"> Control </td>
+   <td style="text-align:left;"> Male </td>
+   <td style="text-align:left;"> 33% </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> B38625 </td>
+   <td style="text-align:right;"> 13 </td>
+   <td style="text-align:right;"> 530.5 </td>
+   <td style="text-align:left;"> Control </td>
+   <td style="text-align:left;"> Male </td>
+   <td style="text-align:left;"> 33% </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> B38625 </td>
+   <td style="text-align:right;"> 14 </td>
+   <td style="text-align:right;"> 530.8 </td>
+   <td style="text-align:left;"> Control </td>
+   <td style="text-align:left;"> Male </td>
+   <td style="text-align:left;"> 33% </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<p>Based on this data, our objective is to build a regression model of the form</p>
+<p><span class="math display">y_j = f(x_j) + e_j \quad ; \quad 1 \leq j \leq n</span></p>
+<p>We will restrict ourselves to polynomial regression, by considering functions of the form</p>
+<p><span class="math display">
+\begin{aligned}
+f(x) &amp;= f(x ; c_0, c_1, c_2, \ldots, c_d) \\
+&amp;= c_0 + c_1 x + c_2 x^2 + \ldots + c_d x^d
+\end{aligned}
+</span></p>
+</section>
+<section id="questions" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="questions"><span class="header-section-number">3</span> Questions</h2>
+<ol type="1">
+<li><p>Plot the data</p></li>
+<li><p>Fit several polynomials (degree 0, 1, 2, 3, 6, …) to this data using the <code>lm</code> function.</p></li>
+<li><p>Look at some diagnostic plots to eliminate miss-specified models.</p></li>
+<li><p>Compare the predictive performance of the models that have been retained.</p></li>
+<li><p>Use statistical tests and information criteria to compare the models and select <em>“the best one”</em>.</p></li>
+</ol>
+
+
+</section>
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</main> <!-- /main -->
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../docs/regression/map566-lecture-polynomial-regression.html">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Polynomial regression models</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../docs/regression/map566-lab-nonlinear-regression.html">
+        <span class="nav-page-text">Nonlinear regression: exercices</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Last update: November 2021</div>   
+  </div>
+</footer>
+
+
+</body></html>

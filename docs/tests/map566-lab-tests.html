@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.2.243">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>MAP566 - Stats in Action - Statistical tests: exercices</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+   var mathElements = document.getElementsByClassName("math");
+   var macros = [];
+   for (var i = 0; i < mathElements.length; i++) {
+    var texText = mathElements[i].firstChild;
+    if (mathElements[i].tagName == "SPAN") {
+     katex.render(texText.data, mathElements[i], {
+      displayMode: mathElements[i].classList.contains('display'),
+      throwOnError: false,
+      macros: macros,
+      fleqn: false
+     });
+  }}});
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="../../site_libs/clipboard/clipboard.min.js"></script>
+  <meta name="quarto:offset" content="../../">
+  <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+  <script src="../../site_libs/quarto-search/fuse.min.js"></script>
+  <script src="../../site_libs/quarto-search/quarto-search.js"></script>
+  <link href="../../docs/tests/map566-lecture-multiple.html" rel="prev">
+  <script src="../../site_libs/quarto-html/quarto.js"></script>
+  <script src="../../site_libs/quarto-html/popper.min.js"></script>
+  <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="../../site_libs/quarto-html/anchor.min.js"></script>
+  <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <script id="quarto-search-options" type="application/json">{
+    "location": "navbar",
+    "copy-button": false,
+    "collapse-after": 2,
+    "panel-placement": "end",
+    "type": "overlay",
+    "limit": 20
+  }</script>
+</head>
+<body class="docked">
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <img src="../../logo_X.jpg" alt="">
+    <span class="navbar-title">MAP566 - Stats in Action</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../getting-started.html">Getting Started</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/jchiquet/MAP566"><i class="bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hypothesis-testing" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hypothesis Testing</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-hypothesis-testing">    
+        <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-single.html">Statistical Tests</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-multiple.html">Multiple Testing</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Labs</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html">Statistical tests: exercices</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Documents</li>
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-regression-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Regression models</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-regression-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html">Linear regression: quick recap</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html">Polynomial regression models</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">PC/Labs</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-polynomial-regression.html">Polynomial regression model: exercices</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-nonlinear-regression.html">Nonlinear regression: exercices</a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixed-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mixed models</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixed-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">PC/Labs</li>
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mixture models</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixture-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">PC/Labs</li>
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-multivariate-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Multivariate models</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-multivariate-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">PC/Labs</li>
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-homework" role="button" data-bs-toggle="dropdown" aria-expanded="false">Homework</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-homework">    
+    </ul>
+  </li>
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Statistical tests: exercices</h1>
+      <button type="button" class="quarto-btn-toggle btn">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+  <div class="sidebar-menu-container"> 
+  <ul class="list-unstyled mt-1">
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#lectures-collapse" aria-expanded="true">
+              <div class="me-auto sidebar-section-item">Lectures</div>
+            <div><i class="bi bi-chevron-right ms-2"></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="lectures-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../../docs/tests/map566-lecture-single.html" class="">Statistical Tests</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../../docs/tests/map566-lecture-multiple.html" class="">Multiple Testing</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#labs-collapse" aria-expanded="true">
+              <div class="me-auto sidebar-section-item">Labs</div>
+            <div><i class="bi bi-chevron-right ms-2"></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="labs-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../../docs/tests/map566-lab-tests.html" class="active">Statistical tests: exercices</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#documents-collapse" aria-expanded="true">
+              <div class="me-auto sidebar-section-item">Documents</div>
+            <div><i class="bi bi-chevron-right ms-2"></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="documents-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+        </ul>
+      </div>
+    </li>
+  </ul>
+  </ul>
+  </div>
+</nav>
+<!-- toc -->
+    <nav id="TOC" role="doc-toc" class="sidebar sidebar-toc">
+<h2 id="toc-title">On this page</h2>
+<ul>
+<li><a href="#preliminary" class="nav-link active" data-scroll-target="#preliminary">Preliminary</a></li>
+<li><a href="#gene-expression" class="nav-link" data-scroll-target="#gene-expression"> <span class="header-section-number">1</span> Gene expression</a></li>
+<li><a href="#smoking-no-smoking" class="nav-link" data-scroll-target="#smoking-no-smoking"> <span class="header-section-number">2</span> Smoking, no smoking</a></li>
+<li><a href="#efficacy-of-the-bnt162b2-mrna-covid-19-vaccine" class="nav-link" data-scroll-target="#efficacy-of-the-bnt162b2-mrna-covid-19-vaccine"> <span class="header-section-number">3</span> Efficacy of the BNT162b2 mRNA Covid-19 Vaccine</a></li>
+<li><a href="#identification-of-genes" class="nav-link" data-scroll-target="#identification-of-genes"> <span class="header-section-number">4</span> Identification of genes</a></li>
+</ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<!-- main -->
+<main class="content">
+<header id="title-block-header">
+<h1 class="title d-none d-lg-block display-7">Statistical tests: exercices</h1>
+</header>
+
+<section id="preliminary" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="preliminary">Preliminary</h2>
+<p>Only functions from <code>R</code>-base and stats (preloaded) are required plus packages from the tidyverse for data representation and manipulation:</p>
+<div class="cell" data-hash="map566-lab-tests_cache/html/test-config_d22faeb7311af10c727a3ebdcc5ee4b0">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="gene-expression" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="gene-expression"><span class="header-section-number">1</span> Gene expression</h2>
+<p>The dataset <code>geHT.csv</code> consists of gene expression measurements for ten genes under control and treatment conditions, with four replicates each.</p>
+<div class="cell" data-hash="map566-lab-tests_cache/html/test-gene-read_08876df343e74dcedc2ba6c2c9df8776">
+<div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>gene_data  <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"../../data/geHT.csv"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>controls   <span class="ot">&lt;-</span> gene_data <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="fu">starts_with</span>(<span class="st">"c"</span>)) <span class="sc">%&gt;%</span> <span class="fu">unlist</span>()</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>treatments <span class="ot">&lt;-</span> gene_data <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="fu">starts_with</span>(<span class="st">"t"</span>)) <span class="sc">%&gt;%</span> <span class="fu">unlist</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol type="1">
+<li><p>Plot the data using boxplots to compare control versus treatment</p></li>
+<li><p>Test the hypothesis that the mean of the control expression values is 2000.</p></li>
+</ol>
+<p><em>Hint:</em> Use the <code>t.test</code> function to perform the test (<code>&gt; ?t.test</code> for more information about this function)</p>
+<ol start="3" type="1">
+<li>Test that there is no difference overall between the treatments and controls for any of the genes (test that the whole experiment didn’t work or there are no differentially expressed genes)</li>
+</ol>
+<p><em>Hint:</em> Compare the results ignoring/knowing that the data are paired data.</p>
+<ol start="4" type="1">
+<li>Test if the variances for the gene expression are the same under treatment or control conditions</li>
+</ol>
+<p><em>Hint:</em> Perform a <span class="math inline">F</span> test to compare the two variances using the <code>var.test</code> function (<code>&gt; ?var.test</code> for more information about this function)</p>
+</section>
+<section id="smoking-no-smoking" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="smoking-no-smoking"><span class="header-section-number">2</span> Smoking, no smoking</h2>
+<ol type="1">
+<li>There are 88 smokers among a group of 300 people of a same population. Test that the proportion of smokers in this population is less than or equal to 0.25, greater than or equal to 0.25, equal to 0.25. Show that we can use an exact test, or a test relying on an approximation.</li>
+</ol>
+<p><em>Hint:</em> What is the probability distribution of the number <span class="math inline">X_1</span> of smokers in this group of <span class="math inline">n_1=300</span> people ? Look at the <code>binom.test</code> and <code>prop.test</code> functions.</p>
+<ol start="2" type="1">
+<li>There are 90 smokers in another group of 400 people, coming from another population. Can we conclude that the proportion of smokers are different in these two populations?</li>
+</ol>
+<p><em>Hint:</em> look at the <code>fisher.test</code> and <code>prop.test</code> functions.</p>
+<div class="cell" data-hash="map566-lab-tests_cache/html/test-hint-smoking_a78757f9c0c39495132ca48a45364689">
+<div class="sourceCode" id="cb3"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## help in building thecontingency table</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>smokers     <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">88</span>, <span class="dv">90</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>non.smokers <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">300-88</span>, <span class="dv">400-90</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>smoke <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(smokers,non.smokers), <span class="at">nrow =</span> <span class="dv">2</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>smoke</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>     [,1] [,2]
+[1,]   88  212
+[2,]   90  310</code></pre>
+</div>
+</div>
+</section>
+<section id="efficacy-of-the-bnt162b2-mrna-covid-19-vaccine" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="efficacy-of-the-bnt162b2-mrna-covid-19-vaccine"><span class="header-section-number">3</span> Efficacy of the BNT162b2 mRNA Covid-19 Vaccine</h2>
+<p>In an ongoing multinational, placebo-controlled, observer-blinded, pivotal efficacy trial, a total of 43,548 participants underwent randomization, of whom 43,448 received injections: 21,720 with BNT162b2 and 21,728 with placebo. There were 8 cases of Covid-19 with onset at least 7 days after the second dose among participants assigned to receive BNT162b2 and 162 cases among those assigned to placebo.</p>
+<p>Based on this result, <a href="https://www.pfizer.com/news/press-release/press-release-detail/pfizer-and-biontech-conclude-phase-3-study-covid-19-vaccine">Pfizer</a> concludes that BNT162b2 was 95% effective in preventing Covid-19.</p>
+<ol type="1">
+<li>How was this value obtained?</li>
+</ol>
+<p><em>Hint:</em> The idea is to compare the observed number of BNT162b2 participants who were really infected with the expected number of BNT162b2 participants who would have been infected if the vaccine was not more effective than the placebo.</p>
+<p>Let <span class="math inline">p_0</span> and <span class="math inline">p_1</span> be the probabilities to be infected in the placebo and BNT162b2 groups. How can <span class="math inline">p_0</span> and <span class="math inline">p_1</span> be estimated? How can the expected number of BNT162b2 participants be estimated under the null hypothesis (<span class="math inline">p_0=p_1</span>)?</p>
+<ol start="2" type="1">
+<li>Derive a 95% confidence interval for the vaccine efficacy <span class="math inline">VE</span> using a normal approximation for <span class="math inline">\log(\hat{p}_1/\hat{p}_0)</span> where <span class="math inline">\hat{p}_0</span> and <span class="math inline">\hat{p}_1</span> are the empirical proportions of cases of Covid-19 in the two groups,</li>
+</ol>
+<p><em>Hint:</em> What are the asymptotic distributions of <span class="math inline">\hat{p}_0</span> and <span class="math inline">\hat{p}_1</span>? Using the delta-method, compute the asymptotic distribution for <span class="math inline">\log(\hat{p}_0)</span> and <span class="math inline">\log(\hat{p}_1)</span> and <span class="math inline">\log(\hat{p}_1/\hat{p}_0)</span>. Derive a confidence interval for <span class="math inline">\log(p_1/p0)</span> and then for <span class="math inline">VE</span>.</p>
+<ol start="3" type="1">
+<li>Derive a 95% confidence interval for the vaccine efficacy approximating a confidence interval for <span class="math inline">{p}_1/{p}_0</span> by a prediction interval for <span class="math inline">\hat{p}_1/\hat{p}_0</span> and using a Monte-Carlo simulation for estimating this prediction interval.</li>
+</ol>
+<p><em>Hint:</em></p>
+<div class="cell" data-hash="map566-lab-tests_cache/html/test-hint-covid-q3_7a89262b171bc6ef16b2ce66fdd7016a">
+<div class="sourceCode" id="cb5"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>K <span class="ot">&lt;-</span> <span class="dv">1000000</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>x0 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(K, n0, hat.p0)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(K, n1, hat.p1)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="do">## just complete to estimate the target quantities</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="identification-of-genes" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="identification-of-genes"><span class="header-section-number">4</span> Identification of genes</h2>
+<p>Breast cancer is the most common malignant disease in Western women. In these patients, it is not the primary tumour, but its metastases at distant sites that are the main cause of death.</p>
+<p>Prognostic markers are needed to identify patients who are at the highest risk for developing metastases, which might enable oncologists to begin tailoring treatment strategies to individual patients. Gene-expression signatures of primary breast tumours might be one way to identify the patients who are most likely to develop metastatic cancer.</p>
+<p>The datafile <code>geneMFS.csv</code> contains the expression level of 11 genes and the metastasis-free survival (the period until metastasis is detected) for 527 patients.</p>
+<div class="cell" data-hash="map566-lab-tests_cache/html/test-cancer-read_799622e6a11df34fdaa4df9c049bf47e">
+<div class="sourceCode" id="cb6"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>cancer <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../data/geneMFS.csv"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The objective of this study is to identify which genes may be good or poor prognosis for the development of metastasis.</p>
+<ol type="1">
+<li>Graphically compare the distribution of the gene expressions in the groups of patients with early metastasis (MFS &lt;1000) and late metastasis (MFS&gt;1000).</li>
+</ol>
+<p><em>Hint:</em> Consider using <code>scale_y_log10()</code></p>
+<ol start="2" type="1">
+<li>Compare the gene expression levels in these two groups using a parametric test.</li>
+</ol>
+<p><em>Hint:</em> Perform a t-test for comparing the log-expression of each gene. Use the <code>p.adjust</code> function to apply the Bonferroni correction and the Benjamini-Hochberg correction to these <span class="math inline">p</span>-values.</p>
+<ol start="3" type="1">
+<li>Compare these results with those obtained using a non parametric test.</li>
+</ol>
+<p><em>Hint:</em> Perform Wilcoxon rank sum tests (using the <code>wilcox.test</code> function) instead of <span class="math inline">t</span> tests.</p>
+
+
+</section>
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</main> <!-- /main -->
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../docs/tests/map566-lecture-multiple.html">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Multiple Testing</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Last update: November 2021</div>   
+  </div>
+</footer>
+
+
+</body></html>

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.2.144">
+  <meta name="generator" content="quarto-0.2.243">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>MAP566 - Stats in Action – Statistical tests</title>
+  <title>MAP566 - Stats in Action - Multiple Testing</title>
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -97,32 +97,45 @@
   <![endif]-->
   <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
   <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-  <link href="../../docs/tests/lectures-single.html" rel="prev">
+  <script src="../../site_libs/clipboard/clipboard.min.js"></script>
+  <meta name="quarto:offset" content="../../">
+  <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+  <script src="../../site_libs/quarto-search/fuse.min.js"></script>
+  <script src="../../site_libs/quarto-search/quarto-search.js"></script>
+  <link href="../../docs/tests/map566-lab-tests.html" rel="next">
+  <link href="../../docs/tests/map566-lecture-single.html" rel="prev">
   <script src="../../site_libs/quarto-html/quarto.js"></script>
   <script src="../../site_libs/quarto-html/popper.min.js"></script>
   <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-  <script src="../../site_libs/quarto-html/clipboard.min.js"></script>
   <script src="../../site_libs/quarto-html/anchor.min.js"></script>
   <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
   <link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
   <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
   <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
   <link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <script id="quarto-search-options" type="application/json">{
+    "location": "navbar",
+    "copy-button": false,
+    "collapse-after": 2,
+    "panel-placement": "end",
+    "type": "overlay",
+    "limit": 20
+  }</script>
 </head>
-<body>
+<body class="docked">
 <div id="quarto-search-results"></div>
-<header id="quarto-header" class="headroom fixed-top">
-<nav class="navbar navbar-expand-lg navbar-light ">
-    <div class="container-fluid">
-  <a class="navbar-brand" href="../../index.html">
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
     <img src="../../logo_X.jpg" alt="">
     <span class="navbar-title">MAP566 - Stats in Action</span>
   </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
-      <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav navbar-nav-scroll me-auto">
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
     <a class="nav-link" href="../../getting-started.html">Getting Started</a>
   </li>  
@@ -132,19 +145,22 @@
  </a>
   </li>  
 </ul>
-        <ul class="navbar-nav navbar-nav-scroll ms-auto">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hypothesis-testing" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hypothesis Testing</a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-hypothesis-testing">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/tests/lectures-single.html">Statistical tests</a>
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-single.html">Statistical Tests</a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/tests/lectures-multiple.html">Statistical tests</a>
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-multiple.html">Multiple Testing</a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">PC/Labs</li>
+        <li class="dropdown-header">Labs</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html">Statistical tests: exercices</a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Documents</li>
     </ul>
@@ -153,8 +169,20 @@
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-regression-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Regression models</a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-regression-models">    
         <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html">Linear regression: quick recap</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html">Polynomial regression models</a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">PC/Labs</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-polynomial-regression.html">Polynomial regression model: exercices</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-nonlinear-regression.html">Nonlinear regression: exercices</a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -187,25 +215,25 @@
     </ul>
   </li>
 </ul>
-      </div> <!-- /navcollapse -->
-  </div> <!-- /container-fluid -->
-</nav>
-<nav class="quarto-secondary-nav py-2 d-lg-none d-md-block " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <div class="container-fluid d-flex justify-content-between">
-    <h1 class="quarto-secondary-nav-title mb-0 fs-3 d-inline">Statistical tests</h1>
-    <button type="button" class="quarto-btn-toggle btn d-lg-none py-0 px-1 d-inline-block border-0 ">
-      <i class="bi bi-chevron-right"></i>
-    </button>
-  </div>
-</nav>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Multiple Testing</h1>
+      <button type="button" class="quarto-btn-toggle btn">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
 </header>
- <!-- /navbar/sidebar -->
-<div class="container-fluid quarto-container d-flex flex-column page-layout-article">
-<div class="row flex-fill" id="quarto-content">
-  <div id="quarto-sidebar" class="col col-12 col-lg-3 d-lg-flex px-0 pt-0 sidebar collapse sidebar-navigation">
-    <nav class="me-lg-auto docked overflow-auto">
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
   <div class="sidebar-menu-container"> 
-  <ul class="list-unstyled mt-1 px-3">
+  <ul class="list-unstyled mt-1">
       <ul class="list-unstyled sidebar-section depth1">
     <li class="">
         <div class="me-auto">
@@ -217,10 +245,10 @@
       <div class="collapse  show" id="lectures-collapse">
         <ul class="list-unstyled sidebar-item-contents">
           <li class="sidebar-item">
-  <a href="../../docs/tests/lectures-single.html" class="">Statistical tests</a>
+  <a href="../../docs/tests/map566-lecture-single.html" class="">Statistical Tests</a>
 </li>
           <li class="sidebar-item">
-  <a href="../../docs/tests/lectures-multiple.html" class="active">Statistical tests</a>
+  <a href="../../docs/tests/map566-lecture-multiple.html" class="active">Multiple Testing</a>
 </li>
         </ul>
       </div>
@@ -229,13 +257,16 @@
       <ul class="list-unstyled sidebar-section depth1">
     <li class="">
         <div class="me-auto">
-            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#pc/labs-collapse" aria-expanded="true">
-              <div class="me-auto sidebar-section-item">PC/Labs</div>
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#labs-collapse" aria-expanded="true">
+              <div class="me-auto sidebar-section-item">Labs</div>
             <div><i class="bi bi-chevron-right ms-2"></i></div>
             </a>
         </div>
-      <div class="collapse  show" id="pc/labs-collapse">
+      <div class="collapse  show" id="labs-collapse">
         <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../../docs/tests/map566-lab-tests.html" class="">Statistical tests: exercices</a>
+</li>
         </ul>
       </div>
     </li>
@@ -257,41 +288,38 @@
   </ul>
   </div>
 </nav>
-  </div>
-  <div id="quarto-toc-sidebar" class=" pt-0 col col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-toc order-last"><nav id="TOC" role="doc-toc">
+<!-- toc -->
+    <nav id="TOC" role="doc-toc" class="sidebar sidebar-toc">
 <h2 id="toc-title">On this page</h2>
 <ul>
-<li><a href="#introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-<li><a href="#distribution-of-the-p-values" class="nav-link" data-scroll-target="#distribution-of-the-p-values">Distribution of the p-values</a>
+<li><a href="#introduction" class="nav-link active" data-scroll-target="#introduction"> <span class="header-section-number">1</span> Introduction</a></li>
+<li><a href="#distribution-of-the-p-values" class="nav-link" data-scroll-target="#distribution-of-the-p-values"> <span class="header-section-number">2</span> Distribution of the p-values</a>
 <ul class="collapse">
-<li><a href="#introduction-1" class="nav-link" data-scroll-target="#introduction-1">Introduction</a></li>
-<li><a href="#single-comparison-between-2-groups" class="nav-link" data-scroll-target="#single-comparison-between-2-groups">Single comparison between 2 groups</a></li>
-<li><a href="#a-single-comparison-among-many-others" class="nav-link" data-scroll-target="#a-single-comparison-among-many-others">A single comparison… among many others</a></li>
-<li><a href="#permutation-test" class="nav-link" data-scroll-target="#permutation-test">Permutation test</a></li>
+<li><a href="#introduction-1" class="nav-link" data-scroll-target="#introduction-1"> <span class="header-section-number">2.1</span> Introduction</a></li>
+<li><a href="#single-comparison-between-2-groups" class="nav-link" data-scroll-target="#single-comparison-between-2-groups"> <span class="header-section-number">2.2</span> Single comparison between 2 groups</a></li>
+<li><a href="#a-single-comparison-among-many-others" class="nav-link" data-scroll-target="#a-single-comparison-among-many-others"> <span class="header-section-number">2.3</span> A single comparison… among many others</a></li>
+<li><a href="#permutation-test" class="nav-link" data-scroll-target="#permutation-test"> <span class="header-section-number">2.4</span> Permutation test</a></li>
 </ul></li>
-<li><a href="#controlling-the-family-wase-error-rate" class="nav-link" data-scroll-target="#controlling-the-family-wase-error-rate">Controlling the Family Wase Error Rate</a>
+<li><a href="#controlling-the-family-wase-error-rate" class="nav-link" data-scroll-target="#controlling-the-family-wase-error-rate"> <span class="header-section-number">3</span> Controlling the Family Wase Error Rate</a>
 <ul class="collapse">
-<li><a href="#the-bonferroni-correction" class="nav-link" data-scroll-target="#the-bonferroni-correction">The Bonferroni correction</a></li>
+<li><a href="#the-bonferroni-correction" class="nav-link" data-scroll-target="#the-bonferroni-correction"> <span class="header-section-number">3.1</span> The Bonferroni correction</a></li>
 </ul></li>
-<li><a href="#controlling-the-false-discovery-rate" class="nav-link" data-scroll-target="#controlling-the-false-discovery-rate">Controlling the False Discovery Rate</a>
+<li><a href="#controlling-the-false-discovery-rate" class="nav-link" data-scroll-target="#controlling-the-false-discovery-rate"> <span class="header-section-number">4</span> Controlling the False Discovery Rate</a>
 <ul class="collapse">
-<li><a href="#detecting-associations" class="nav-link" data-scroll-target="#detecting-associations">Detecting associations</a></li>
-<li><a href="#the-benjamini-hochberg-procedure" class="nav-link" data-scroll-target="#the-benjamini-hochberg-procedure">The Benjamini-Hochberg procedure</a></li>
-<li><a href="#a-monte-carlo-simulation" class="nav-link" data-scroll-target="#a-monte-carlo-simulation">A Monte Carlo simulation</a></li>
+<li><a href="#detecting-associations" class="nav-link" data-scroll-target="#detecting-associations"> <span class="header-section-number">4.1</span> Detecting associations</a></li>
+<li><a href="#the-benjamini-hochberg-procedure" class="nav-link" data-scroll-target="#the-benjamini-hochberg-procedure"> <span class="header-section-number">4.2</span> The Benjamini-Hochberg procedure</a></li>
+<li><a href="#a-monte-carlo-simulation" class="nav-link" data-scroll-target="#a-monte-carlo-simulation"> <span class="header-section-number">4.3</span> A Monte Carlo simulation</a></li>
 </ul></li>
 </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav></div>
-  <div class="col mx-auto col-sm-12 col-md-9 col-lg-7 col-xl-7 px-lg-4 pe-xxl-4 ps-xxl-0">
-<main>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<!-- main -->
+<main class="content">
 <header id="title-block-header">
-<h1 class="title d-none d-lg-block display-7">Statistical tests</h1>
-<p class="subtitle lead">Multiple comparisons</p>
-<p class="author">Marc Lavielle <br> January 12th, 2020 <br> &nbsp;
-</p><hr><p></p>
+<h1 class="title d-none d-lg-block display-7">Multiple Testing</h1>
 </header>
 
-<section id="introduction" class="level1">
-<h1>Introduction</h1>
+<section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
 <p>When we perform a large number of statistical tests, some will have <span class="math inline">p</span>-values less than 0.05 purely by chance, even if all the null hypotheses are really true.</p>
 <p>More precisely, if we do a large number <span class="math inline">m</span> of statistical tests, and for <span class="math inline">m_{0\cdot}</span> of them the null hypothesis is actually true, we would expect about 5% of the <span class="math inline">m_{0\cdot}</span> tests to be significant at the 0.05 level, just due to chance: these significant results are false discoveries (or false positives). On the other hand, if some alternative hypothesis are true, we can miss some of them: these non significant results are false negatives.</p>
 <p><span class="math display"> \begin{array}{c|c|c|c}
@@ -313,18 +341,18 @@
 <p>Several procedures exist for controlling either the FWER or the FDR.</p>
 <p><br></p>
 </section>
-<section id="distribution-of-the-p-values" class="level1">
-<h1>Distribution of the p-values</h1>
-<section id="introduction-1" class="level2">
-<h2 class="anchored" data-anchor-id="introduction-1">Introduction</h2>
+<section id="distribution-of-the-p-values" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Distribution of the p-values</h1>
+<section id="introduction-1" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="introduction-1"><span class="header-section-number">2.1</span> Introduction</h2>
 <p>The health effects of a Roundup-tolerant genetically modified maize, cultivated with or without Roundup, and Roundup alone, were studied during a 2 years study in rats.</p>
 <p>For each sex, one control group had access to plain water and standard diet from the closest isogenic non-transgenic maize control; six groups were fed with 11, 22 and 33% of GM NK603 maize either treated or not with Roundup. The final three groups were fed with the control diet and had access to water supplemented with different concentrations of Roundup.</p>
 <p>A sample of 200 rats including 100 males and 100 females was randomized into 20 groups of 10 rats of the same sex. Within each group, rats received the same diet. For each sex, there are therefore nine experimental groups and one control group.</p>
 <p>The file <ttt>ratSurvival.csv</ttt> reports the lifespan (in days) for each animal. Here, the experiment stopped after 720 days. Then, the reported survival time is 720 for those animals who were still alive at the end of the experiment.</p>
 <p>See the opinion of the <a href="http://www.hautconseildesbiotechnologies.fr/sites/www.hautconseildesbiotechnologies.fr/files/file_fields/2015/06/30/121019etudeseraliniaviscshcb.pdf">Haut Conseil des Biotechnologies</a> for more information about this study.</p>
 <p>Here is a summary of the data,</p>
-<div class="cell">
-<div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"ratSurvival.csv"</span>, <span class="at">stringsAsFactors =</span> T)</span>
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-1_b8b915e580edf92aff26011255846c54">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"../../data/ratSurvival.csv"</span>, <span class="at">stringsAsFactors =</span> T)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>  time regimen gender
@@ -354,11 +382,11 @@
 </div>
 <p><br></p>
 </section>
-<section id="single-comparison-between-2-groups" class="level2">
-<h2 class="anchored" data-anchor-id="single-comparison-between-2-groups">Single comparison between 2 groups</h2>
+<section id="single-comparison-between-2-groups" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="single-comparison-between-2-groups"><span class="header-section-number">2.2</span> Single comparison between 2 groups</h2>
 <p>One objective of this study is the comparison of the survival between the control group and the experimental groups.</p>
 <p>Consider for instance the control group of females</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-2_fe57a7b38b900e12ecf8ad3282c408bd">
 <div class="sourceCode" id="cb7"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data.control <span class="ot">&lt;-</span> <span class="fu">subset</span>(data, regimen<span class="sc">==</span><span class="st">"control"</span> <span class="sc">&amp;</span> gender<span class="sc">==</span><span class="st">"female"</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>data.control<span class="sc">$</span>time</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
@@ -366,7 +394,7 @@
 </div>
 </div>
 <p>Only 2 rats of this group died before the end of the experiment. On the other hand, 7 females of the group fed with 22% of maize NK693 died during the experiment.</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-3_68ebdebf8f4efb8e1ad97ae4c476b194">
 <div class="sourceCode" id="cb9"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>data.test <span class="ot">&lt;-</span> <span class="fu">subset</span>(data, regimen<span class="sc">==</span><span class="st">"NK603-22%"</span> <span class="sc">&amp;</span> gender<span class="sc">==</span><span class="st">"female"</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>data.test<span class="sc">$</span>time</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
@@ -381,7 +409,7 @@
 \text{versus } &amp; H_1: \ ``\prob{T_{\rm test}&gt;t} &lt; \prob{T_{\rm control}&gt;t}, \text{ for any } t&gt;0" 
 \end{aligned}</span></p>
 <p>Because of the (right) censoring process, we cannot just compare the mean survival times using a <span class="math inline">t</span>-test. On the other hand, we can use the Wilcoxon-Mann-Whitney test which precisely aims to compare the ranks of the survival times in both groups.</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-4_a4c27363c29c81b9aa91d522dda03e2e">
 <div class="sourceCode" id="cb11"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wilcox.test</span>(data.test<span class="sc">$</span>time, data.control<span class="sc">$</span>time, <span class="at">alternative=</span><span class="st">"less"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>
@@ -395,10 +423,10 @@ alternative hypothesis: true location shift is less than 0</code></pre>
 <p>Here, the <span class="math inline">p</span>-value should lead us to reject the null hypothesis and conclude that 22% of the GM maize in the diet has a negative effect on the survival.</p>
 <p><br></p>
 </section>
-<section id="a-single-comparison-among-many-others" class="level2">
-<h2 class="anchored" data-anchor-id="a-single-comparison-among-many-others">A single comparison… among many others</h2>
+<section id="a-single-comparison-among-many-others" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="a-single-comparison-among-many-others"><span class="header-section-number">2.3</span> A single comparison… among many others</h2>
 <p>Should we really accept this conclusion as it stands? No, because we don’t know the whole story… Remember that there are 9 experimental groups for each sex. Then, 18 comparisons with the control groups are performed.</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-5_c495e203e09cc8347d542f136278d295">
 <div class="sourceCode" id="cb13"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2) ; <span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>pval <span class="ot">&lt;-</span> stat <span class="ot">&lt;-</span> gender <span class="ot">&lt;-</span> regimen <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (g <span class="cf">in</span> <span class="fu">levels</span>(data<span class="sc">$</span>gender)) {</span>
@@ -440,21 +468,21 @@ alternative hypothesis: true location shift is less than 0</code></pre>
 </div>
 </div>
 <p>Let us plot the ordered p-values:</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-6_ea742a15beb08c9e7c82d29ec6508cfe">
 <div class="sourceCode" id="cb15"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>R) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">18</span>,<span class="at">color=</span>regimen,<span class="at">y=</span>p.value,<span class="at">shape=</span>gender), <span class="at">size=</span><span class="dv">4</span>) <span class="sc">+</span> </span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"regimen"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"p-value"</span>) <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="cn">NULL</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="lectures-multiple_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="960"></p>
+<p><img src="map566-lecture-multiple_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="960"></p>
 </div>
 </div>
 <p>If we then decide to only report the largest observed differences, associated to the smallest <span class="math inline">p</span>-values, how can we conclude that these differences are statistically significant?</p>
 <p><br></p>
 </section>
-<section id="permutation-test" class="level2">
-<h2 class="anchored" data-anchor-id="permutation-test">Permutation test</h2>
+<section id="permutation-test" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="permutation-test"><span class="header-section-number">2.4</span> Permutation test</h2>
 <p>A permutation test (also called a randomization test) is a type of statistical significance test in which the distribution of the test statistic under the null hypothesis is obtained by calculating all possible values of the test statistic under rearrangements of the labels on the observed data points. If the labels are exchangeable under the null hypothesis, then the resulting tests yield exact significance levels. Prediction intervals can also be derived.</p>
 <p>In our example, imagine that the null hypothesis is true. We can then randomly exchange the labels (i.e.&nbsp;the regimen) and perform the 18 comparisons between the experimental groups and the control groups.</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-7_2954080a31fa39f17ed1225633abb6af">
 <div class="sourceCode" id="cb16"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">100</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>dperm.m <span class="ot">&lt;-</span> <span class="fu">subset</span>(data,  gender<span class="sc">==</span><span class="st">"male"</span>)</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>n.m <span class="ot">&lt;-</span> <span class="fu">dim</span>(dperm.m)[<span class="dv">1</span>]</span>
@@ -481,15 +509,15 @@ alternative hypothesis: true location shift is less than 0</code></pre>
 <span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>Ro.p <span class="ot">&lt;-</span>  R.p[<span class="fu">order</span>(R.p<span class="sc">$</span>p.value),]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The test statistics and the <span class="math inline">p</span>-values now really behave how they are supposed to behave under the null hypothesis</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-8_c1eceffd92d332eedad574b3d07bf0be">
 <div class="sourceCode" id="cb17"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>Ro.p) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">18</span>,<span class="at">color=</span>regimen,<span class="at">y=</span>p.value,<span class="at">shape=</span>gender), <span class="at">size=</span><span class="dv">4</span>) <span class="sc">+</span> </span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"regimen"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"p-value"</span>) <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="cn">NULL</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="lectures-multiple_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="960"></p>
+<p><img src="map566-lecture-multiple_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="960"></p>
 </div>
 </div>
 <p>If we now repeat the same experiment using many different permutations, we will be able to estimate the <span class="math inline">m</span> distributions of the <span class="math inline">m</span> test statistics as well as the <span class="math inline">m</span> distributions of the <span class="math inline">m</span> <span class="math inline">p</span>-values under the null hypothesis.</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-9_7d3df9f31f81cb65fa1c3e1b352eccc6">
 <div class="sourceCode" id="cb18"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>dperm.m <span class="ot">&lt;-</span> <span class="fu">subset</span>(data,  gender<span class="sc">==</span><span class="st">"male"</span>)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>n.m <span class="ot">&lt;-</span> <span class="fu">dim</span>(dperm.m)[<span class="dv">1</span>]</span>
@@ -518,38 +546,38 @@ alternative hypothesis: true location shift is less than 0</code></pre>
 <span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can estimate, for instance, prediction intervals of level 90% for the <span class="math inline">m=18</span> ordered <span class="math inline">p</span>-values</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-10_2fe778d96dccd130ebeca804a016ecfb">
 <div class="sourceCode" id="cb19"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>q <span class="ot">&lt;-</span> <span class="fu">apply</span>(PV, <span class="at">MARGIN =</span> <span class="dv">2</span>, quantile, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.5</span>, <span class="fl">0.95</span>))</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>q <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(q))</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(q) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"low"</span>,<span class="st">"median"</span>,<span class="st">"up"</span>)</span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>q<span class="sc">$</span>rank <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">dim</span>(q)[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>and plot them… ::: {.cell}</p>
+<p>and plot them… ::: {.cell hash=“map566-lecture-multiple_cache/html/unnamed-chunk-11_6a0aaba56c1eed11824498b4c7906c11”}</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>pl <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>q) <span class="sc">+</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">x=</span>rank, <span class="at">ymin=</span>low, <span class="at">ymax=</span>up), <span class="at">width=</span><span class="fl">0.2</span>,<span class="at">size=</span><span class="fl">1.5</span>,<span class="at">colour=</span><span class="st">"grey50"</span>) <span class="sc">+</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"regimen"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"p-value"</span>) <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="cn">NULL</span>) </span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>pl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="lectures-multiple_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="960"></p>
+<p><img src="map566-lecture-multiple_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="960"></p>
 </div>
 <p>::: … with the original <span class="math inline">p</span>-values</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-12_15603ed8a70c03bb256c17e270042bbc">
 <div class="sourceCode" id="cb21"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>pl <span class="sc">+</span>  <span class="fu">geom_point</span>(<span class="at">data=</span>R, <span class="fu">aes</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">18</span>,<span class="at">color=</span>regimen,<span class="at">y=</span>p.value,<span class="at">shape=</span>gender), <span class="at">size=</span><span class="dv">4</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="lectures-multiple_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="960"></p>
+<p><img src="map566-lecture-multiple_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="960"></p>
 </div>
 </div>
 <p>Here, all the <span class="math inline">p</span>-values, including the smallest ones, belong to the 90% prediction intervals: all the observed <span class="math inline">p</span>-values behave individually how they are expected to behave under the null hypothesis.</p>
 <p>In particular, when 18 comparisons are performed, it’s not unlikely under the null hypothesis to obtain a smallest p-value less than or equal to the observed one (0.011).</p>
 <p>The probability of such event can easily be estimated by Monte Carlo simulation. Let <span class="math inline">p_{(1),\ell}</span> be the smallest p-value obtained from the <span class="math inline">\ell</span>-th replicate of the Monte Carlo. Then,</p>
-<p><span class="math display"> \prob{p_{(1)} \leq p_{(1)}^{\rm obs}}  \simeq  \frac{1}{L} \sum_{\ell=1}^{L} \one\left\{p_{(1),\ell} \leq p_{(1)}^{\rm obs}\right\} </span> ::: {.cell}</p>
+<p><span class="math display"> \prob{p_{(1)} \leq p_{(1)}^{\rm obs}}  \simeq  \frac{1}{L} \sum_{\ell=1}^{L} \one\left\{p_{(1),\ell} \leq p_{(1)}^{\rm obs}\right\} </span> ::: {.cell hash=“map566-lecture-multiple_cache/html/unnamed-chunk-13_0e357bab1737608da6dd856062c2c410”}</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(ST[,<span class="dv">1</span>]<span class="sc">&lt;</span>R<span class="sc">$</span>stat[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>[1] 0.152</code></pre>
 </div>
 <p>:::</p>
 <!---
-::: {.cell}
+::: {.cell hash="map566-lecture-multiple_cache/html/unnamed-chunk-14_0f2d3f1963e2cfd97dc704e800d0b875"}
 
 ```{.r .cell-code}
 ref <- R$stat
@@ -584,10 +612,10 @@ print(mean(E))
 <p><br></p>
 </section>
 </section>
-<section id="controlling-the-family-wase-error-rate" class="level1">
-<h1>Controlling the Family Wase Error Rate</h1>
-<section id="the-bonferroni-correction" class="level2">
-<h2 class="anchored" data-anchor-id="the-bonferroni-correction">The Bonferroni correction</h2>
+<section id="controlling-the-family-wase-error-rate" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Controlling the Family Wase Error Rate</h1>
+<section id="the-bonferroni-correction" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="the-bonferroni-correction"><span class="header-section-number">3.1</span> The Bonferroni correction</h2>
 <p>Imagine that we perform <span class="math inline">m</span> comparisons and that all the <span class="math inline">m</span> null hypotheses are true, i.e.&nbsp;<span class="math inline">m=m_{0\cdot}</span>.. If we use the same significance level <span class="math inline">\alpha_m</span> for the <span class="math inline">m</span> tests, how should we choose <span class="math inline">\alpha_m</span> in order to control the family-wise error rate (FWER)?</p>
 <p><span class="math display"> \begin{aligned}
 {\rm FWER} &amp;= \prob{m_{01}\geq 1} \\
@@ -599,7 +627,7 @@ print(mean(E))
 &amp; \simeq  \frac{\alpha}{m} \quad \quad (\text{Bonferroni correction})
 \end{aligned}</span></p>
 <p>Let <span class="math inline">p_k</span> be the <span class="math inline">p</span>-value of the <span class="math inline">k</span>-th test. Using the Bonferroni correction, the <span class="math inline">k</span>-th test is significant if <span class="math display">  p_k \leq \alpha_m \quad  \Longleftrightarrow \quad   m \, p_k \leq \alpha </span> We can then either compare the original <span class="math inline">p</span>-value <span class="math inline">p_k</span> to the corrected significance level <span class="math inline">\alpha/m</span>, or compare the <em>adjusted</em> <span class="math inline">p</span>-value <span class="math inline">p_k^{\rm (bonferroni)} =\min(1, m \, p_k)</span> to the critical value <span class="math inline">\alpha</span>.</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-15_bcbd6228d00e5492e00ca340406bf28d">
 <div class="sourceCode" id="cb24"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">nrow</span>(R)</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>R<span class="sc">$</span>pv.bonf <span class="ot">&lt;-</span> <span class="fu">pmin</span>(<span class="dv">1</span>, R<span class="sc">$</span>p.value<span class="sc">*</span>m)</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>R</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -627,7 +655,7 @@ print(mean(E))
 </div>
 <p>Using the Bonferroni correction, none of the 18 comparisons is significant.</p>
 <p><strong>Remark:</strong> the function <code>p.adjust</code> proposes several adjustements of the <span class="math inline">p</span>-values for multiple comparisons, including the Bonferroni adjustment:</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-16_053c61d4530e084556f90d7dfcdfe17b">
 <div class="sourceCode" id="cb26"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">p.adjust</span>(R<span class="sc">$</span>p.value, <span class="at">method =</span> <span class="st">"bonferroni"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code> [1] 0.2058803 0.3837141 0.5121818 1.0000000 1.0000000 1.0000000 1.0000000
@@ -637,7 +665,7 @@ print(mean(E))
 </div>
 <p>The Bonferroni correction is appropriate when a single false positive in a set of tests would be a problem. It is mainly useful when there are a fairly small number of multiple comparisons and very few of them might be significant. The main drawback of the Bonferroni correction is its lack of power: it may lead to a very high rate of false negatives.</p>
 <p>Assume, for instance that all the female rats of all the experimental groups die before the end of the experiment. Each of the <span class="math inline">m=18</span> original tests is significant, but the Bonferroni correction would lead to considering none of these tests as significant:</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-17_1eaefead2681f6b1b15e7c4ad52ddbdb">
 <div class="sourceCode" id="cb28"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">subset</span>(data, regimen<span class="sc">==</span><span class="st">"control"</span> <span class="sc">&amp;</span> gender<span class="sc">==</span><span class="st">"female"</span>)<span class="sc">$</span>time</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">610</span>,<span class="dv">700</span>,<span class="at">length=</span><span class="dv">10</span>)</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">wilcox.test</span>(x,y,<span class="st">"greater"</span>)<span class="sc">$</span>p.value, <span class="fu">wilcox.test</span>(x,y,<span class="st">"greater"</span>)<span class="sc">$</span>p.value<span class="sc">*</span><span class="dv">18</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -648,14 +676,14 @@ print(mean(E))
 <p><br></p>
 </section>
 </section>
-<section id="controlling-the-false-discovery-rate" class="level1">
-<h1>Controlling the False Discovery Rate</h1>
-<section id="detecting-associations" class="level2">
-<h2 class="anchored" data-anchor-id="detecting-associations">Detecting associations</h2>
+<section id="controlling-the-false-discovery-rate" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Controlling the False Discovery Rate</h1>
+<section id="detecting-associations" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="detecting-associations"><span class="header-section-number">4.1</span> Detecting associations</h2>
 <p>(Example from <a href="http://www.biostathandbook.com/multiplecomparisons.html">Handbook of Biological Statistics</a>)</p>
-<p>Garc?a-Arenzana et al.&nbsp;(2014) tested associations of 25 dietary variables with <a href="https://breast-cancer-research.biomedcentral.com/articles/10.1186/bcr2102">mammographic density</a>, an important risk factor for breast cancer, in Spanish women. They found the following results</p>
-<div class="cell">
-<div class="sourceCode" id="cb30"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"dietary.csv"</span>, <span class="at">stringsAsFactors =</span> T)</span>
+<p>Garcia-Arenzana et al.&nbsp;(2014) tested associations of 25 dietary variables with <a href="https://breast-cancer-research.biomedcentral.com/articles/10.1186/bcr2102">mammographic density</a>, an important risk factor for breast cancer, in Spanish women. They found the following results</p>
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-18_90f4ffc20b8aae71d25f3f61b17a8693">
+<div class="sourceCode" id="cb30"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"../../data/dietary.csv"</span>, <span class="at">stringsAsFactors =</span> T)</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>             dietary p.value
@@ -686,19 +714,18 @@ print(mean(E))
 25    Processed meat   0.986</code></pre>
 </div>
 </div>
-<!-- ![](ijc0134-1916-f1.jpg) -->
 <p>We can see that five of the variables show a significant <span class="math inline">p</span>-value (&lt;0.05). However, because Garc?a-Arenzana et al.&nbsp;(2014) tested 25 dietary variables, we would expect one or two variables to show a significant result purely by chance, even if diet had no real effect on mammographic density.</p>
 <p>Applying the Bonferroni correction, we divide <span class="math inline">\alpha=0.05</span> by the number of tests (<span class="math inline">m=25</span>) to get the Bonferroni critical value, so a test would have to have <span class="math inline">p&lt;0.002</span> to be significant. Under that criterion, only the test for total calories is significant.</p>
 <p>An alternative approach is to control the false discovery rate, i.e the expected proportion of ``discoveries” (significant results) that are actually false positives. FDR control offers a way to increase power while maintaining some principled bound on error.</p>
 <p>Imagine for instance that we compare expression levels for 20,000 genes between liver tumors and normal liver cells. We are going to do additional experiments on any genes that show a significant difference between the normal and tumor cells. Then, because we don’t want to miss genes of interest, we are willing to accept up to 25% of the genes with significant results being false positives. We’ll find out they’re false positives when we do the followup experiments. In this case, we would set the false discovery rate to 25%.</p>
 <p><br></p>
 </section>
-<section id="the-benjamini-hochberg-procedure" class="level2">
-<h2 class="anchored" data-anchor-id="the-benjamini-hochberg-procedure">The Benjamini-Hochberg procedure</h2>
+<section id="the-benjamini-hochberg-procedure" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="the-benjamini-hochberg-procedure"><span class="header-section-number">4.2</span> The Benjamini-Hochberg procedure</h2>
 <p>The Benjamini-Hochberg (BH) procedure controls the FDR… and it is simple to use!</p>
 <p>Indeed, for a given <span class="math inline">\alpha</span> and a given sequence of <strong>ordered</strong> <span class="math inline">p</span>-values <span class="math inline">P_{(1)}</span>, <span class="math inline">P_{(2)}</span>, , <span class="math inline">P_{(m)}</span>, it consists in computing the <span class="math inline">m</span> <em>adjusted</em> <span class="math inline">p</span>-values defined as</p>
 <p><span class="math display"> P_{(i)}^{\rm BH} = \min\left( P_{(i)}\frac{m}{i} \ , \ P_{(i+1)}^{\rm BH} \right)</span></p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-19_edf4a69fef54335544576b1a84a586f8">
 <div class="sourceCode" id="cb32"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>p.bh <span class="ot">&lt;-</span> data<span class="sc">$</span>p.value</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">length</span>(p.bh)</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> ((m<span class="dv">-1</span>)<span class="sc">:</span><span class="dv">1</span>)) </span>
@@ -734,7 +761,7 @@ print(mean(E))
 25    Processed meat   0.986 0.9860000</code></pre>
 </div>
 </div>
-<p>Notice that we could equivalently use the function <code>p.adjust</code>: ::: {.cell}</p>
+<p>Notice that we could equivalently use the function <code>p.adjust</code>: ::: {.cell hash=“map566-lecture-multiple_cache/html/unnamed-chunk-20_0f271a97705b79a0ebf188396c3cd74c”}</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">p.adjust</span>(data<span class="sc">$</span>p.value, <span class="at">method =</span> <span class="st">"BH"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code> [1] 0.0250000 0.1000000 0.2100000 0.2100000 0.2100000 0.2541667 0.2642857
@@ -753,7 +780,7 @@ print(mean(E))
 <p>In our example, the first five tests would be significant with <span class="math inline">\alpha=0.25</span>, which means that we expect no more than 25% of these 5 tests to be false discoveries.</p>
 <p><strong>Remark 1:</strong> The BH procedure is equivalent to consider as significant the non adjusted <span class="math inline">p</span>-values smaller than a threshold <span class="math inline">P_{\rm BH}</span> defined as</p>
 <p><span class="math display"> P_{\rm BH} = \max_i \left\{ P_{(i)}: \ \ P_{(i)} \leq \alpha \frac{i}{m}  \right\} </span> In other words, the largest <span class="math inline">p</span>-value that has <span class="math inline">P_{(i)}&lt;(i/m)\alpha</span> is significant, and all of the <span class="math inline">P</span>-values smaller than it are also significant, even the ones that aren’t less than their Benjamini-Hochberg critical value <span class="math inline">\alpha \times i/m</span></p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-21_2f2106f288a78af40b865af50532c050">
 <div class="sourceCode" id="cb36"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.25</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">dim</span>(data)[<span class="dv">1</span>]</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>critical.value <span class="ot">&lt;-</span> (<span class="dv">1</span><span class="sc">:</span>m)<span class="sc">/</span>m<span class="sc">*</span>alpha</span>
@@ -787,19 +814,19 @@ print(mean(E))
 25    Processed meat   0.986 0.9860000           0.25</code></pre>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-22_5fec9175033fd1c83097dbb4fb1bc745">
 <div class="sourceCode" id="cb38"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>pl1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>m,<span class="at">y=</span>p.value), <span class="at">colour=</span><span class="st">"blue"</span>) <span class="sc">+</span></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>m,<span class="at">y=</span>critical.value), <span class="at">colour=</span><span class="st">"red"</span>) <span class="sc">+</span><span class="fu">xlab</span>(<span class="st">"(i)"</span>)</span>
 <span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(pl1,pl1 <span class="sc">+</span> <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">8</span>)) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.21</span>)) <span class="sc">+</span> <span class="fu">geom_vline</span>(<span class="at">xintercept=</span><span class="fl">5.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="lectures-multiple_files/figure-html/unnamed-chunk-44-1.png" class="img-fluid" width="768"></p>
+<p><img src="map566-lecture-multiple_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="768"></p>
 </div>
 </div>
 <p>The largest <span class="math inline">p</span>-value with <span class="math inline">P_{(i)}&lt;(i/m)\alpha</span> is <em>proteins</em>, where the individual <span class="math inline">p</span>-value (0.042) is less than the <span class="math inline">(i/m)\alpha</span> value of 0.050. Thus the first five tests would be significant.</p>
 <p><strong>Remark 2:</strong> The FDR is not bounded by <span class="math inline">\alpha</span>, but by <span class="math inline">(m_{0\cdot}/m) \alpha</span>. We could increase the global power of the tests and get a FDR equal to the desired level <span class="math inline">\alpha</span>, either by defining the critical values as <span class="math inline">(i/m_{0\cdot})\alpha</span>, or by multiplying the adjusted <span class="math inline">p</span>-values by <span class="math inline">m_{0\cdot}/m</span>.</p>
 <p>Unfortunately, <span class="math inline">m_{0\cdot}</span> is unknown… but it can be estimated, as the number of non significant tests for instance.</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-23_69343fbff6bf18d24fd26aceb029f0d4">
 <div class="sourceCode" id="cb39"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>m0.est <span class="ot">&lt;-</span> <span class="fu">sum</span>(data<span class="sc">$</span>p.bh<span class="sc">&gt;</span>alpha)</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>crit.valc <span class="ot">&lt;-</span> <span class="fu">round</span>(data<span class="sc">$</span>critical.value<span class="sc">*</span>m<span class="sc">/</span>m0.est,<span class="dv">4</span>)</span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>p.bhc <span class="ot">&lt;-</span> <span class="fu">round</span>(data<span class="sc">$</span>p.bh<span class="sc">*</span>m0.est<span class="sc">/</span>m,<span class="dv">4</span>)</span>
@@ -821,8 +848,8 @@ print(mean(E))
 <p>We would consider the 7 first <span class="math inline">p</span>-values as significant using this new correction.</p>
 <p><br></p>
 </section>
-<section id="a-monte-carlo-simulation" class="level2">
-<h2 class="anchored" data-anchor-id="a-monte-carlo-simulation">A Monte Carlo simulation</h2>
+<section id="a-monte-carlo-simulation" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="a-monte-carlo-simulation"><span class="header-section-number">4.3</span> A Monte Carlo simulation</h2>
 <p>Let us perform a Monte Carlo simulation to better understand the impact of these corrections.</p>
 <p>Let us assume that we observe <span class="math inline">(x_{ij}, 1\leq i \leq n_x, 1 \leq j \leq m)</span> and <span class="math inline">(y_{ij}, 1\leq i \leq n_y, 1 \leq j \leq m)</span> where ,</p>
 <p><span class="math display">\begin{aligned}
@@ -832,7 +859,7 @@ y_{ij} &amp; \iid {\cal N}(\mu_{y,j} \ , \ \sigma_y^2)
 <p>For <span class="math inline">j=1,2,\ldots, m</span>, we want to test <span class="math inline">H_{0,j}: \mu_{x,j}=\mu_{y,j}</span> versus <span class="math inline">H_{1,j}: \mu_{x,j} \neq \mu_{y,j}</span>.</p>
 <p>For the simulation, we will use <span class="math inline">m=140</span>, <span class="math inline">n_x=n_y=50</span>, <span class="math inline">\sigma_x^2=\sigma_y^2=1</span> and <span class="math inline">\mu_{x,j}=0</span> for <span class="math inline">1\leq j \leq m</span>.</p>
 <p>Furthermore, the null hypothesis is true for the first <span class="math inline">m_{0,\cdot}=120</span> variables, assuming that <span class="math inline">\mu_{y,j}=0</span> for <span class="math inline">1\leq j \leq m_{0,\cdot}</span>. Then, for <span class="math inline">m_{0,\cdot}+1\leq j \leq m</span>, <span class="math inline">\mu_{y,j}</span> varies from 0.3 to 0.6, which means that the alternative hypothesis is true for these <span class="math inline">m_{1,\cdot}=20</span> variables.</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-24_9567c77788c3c65a63ffbf455ae7f7c8">
 <div class="sourceCode" id="cb41"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>nx <span class="ot">&lt;-</span> <span class="dv">50</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>ny <span class="ot">&lt;-</span> <span class="dv">50</span></span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>m0 <span class="ot">&lt;-</span> <span class="dv">120</span></span>
@@ -841,7 +868,7 @@ y_{ij} &amp; \iid {\cal N}(\mu_{y,j} \ , \ \sigma_y^2)
 <span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>mu.y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>,m0),<span class="fu">seq</span>(<span class="fl">0.3</span>,<span class="fl">0.6</span>,<span class="at">length=</span>m1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>For each of the <span class="math inline">L=1000</span> simulated replicate of the same experiment, we will randomly sample observation <span class="math inline">x</span> and <span class="math inline">y</span> from the model and perform a <span class="math inline">t</span>-test for each of the <span class="math inline">m=140</span> variables. We therefore get <span class="math inline">m=140</span> <span class="math inline">p</span>-values for each of these <span class="math inline">L=1000</span> replicates.</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-25_859a27114d5e7474a19dfd87bf3b4b40">
 <div class="sourceCode" id="cb42"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> m0<span class="sc">+</span>m1</span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
@@ -856,7 +883,7 @@ y_{ij} &amp; \iid {\cal N}(\mu_{y,j} \ , \ \sigma_y^2)
 </div>
 <p>Setting the significance level <span class="math inline">\alpha</span> to 0.2, we can compute for each replicate the numbers of true and false discoveries <span class="math inline">m_{11}</span> and <span class="math inline">m_{01}</span>, as well as the numbers of true and false nondiscoveries <span class="math inline">m_{00}</span> and <span class="math inline">m_{10}</span>.</p>
 <p>We can then compute the proportion of wrongly rejected null hypotheses</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-26_8c4650d78c676b65f3cc847ceec3d6cb">
 <div class="sourceCode" id="cb43"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>alpha<span class="ot">=</span><span class="fl">0.2</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>m01 <span class="ot">&lt;-</span> <span class="fu">colSums</span>(pval[<span class="dv">1</span><span class="sc">:</span>m0,] <span class="sc">&lt;</span> alpha)</span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(m01<span class="sc">/</span>m0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -866,7 +893,7 @@ y_{ij} &amp; \iid {\cal N}(\mu_{y,j} \ , \ \sigma_y^2)
 </div>
 <p>As expected, this proportion is close to <span class="math inline">\alpha</span> which is precisely the probability to wrongly reject the null hypothesis.</p>
 <p>The proportion of correctly rejected null hypotheses is an estimate of the power of the test</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-27_5c861c2a62120b640c4d4ed03ed12ce2">
 <div class="sourceCode" id="cb45"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>m11 <span class="ot">&lt;-</span> <span class="fu">colSums</span>(pval[(m0<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>m,] <span class="sc">&lt;</span> alpha)</span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(m11<span class="sc">/</span>m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
@@ -874,7 +901,7 @@ y_{ij} &amp; \iid {\cal N}(\mu_{y,j} \ , \ \sigma_y^2)
 </div>
 </div>
 <p>The False Discovery Rate is estimated as the proportion of false discoveries</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-28_ada807256cd28bc6144b429d2dfae368">
 <div class="sourceCode" id="cb47"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(m01<span class="sc">/</span>(m01<span class="sc">+</span>m11))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>[1] 0.5934879</code></pre>
@@ -882,7 +909,7 @@ y_{ij} &amp; \iid {\cal N}(\mu_{y,j} \ , \ \sigma_y^2)
 </div>
 <p>This means that among the significant results, about 60% of them are false discoveries.</p>
 <p>Let us now apply the Bonferroni correction, and compute the proportion of wrongly and correctly rejected null hypotheses and the proportion of false discoveries</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-29_426a078c5a36a3eacdf8984b01307ba7">
 <div class="sourceCode" id="cb49"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>pval.b <span class="ot">&lt;-</span> <span class="fu">apply</span>(pval,<span class="dv">2</span>, <span class="cf">function</span>(pval) {<span class="fu">p.adjust</span>(pval,<span class="at">method=</span><span class="st">"bonferroni"</span>)})</span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>m01.b <span class="ot">&lt;-</span> <span class="fu">colSums</span>(pval.b[<span class="dv">1</span><span class="sc">:</span>m0,] <span class="sc">&lt;</span> alpha)</span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>m11.b <span class="ot">&lt;-</span> <span class="fu">colSums</span>(pval.b[(m0<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>m,] <span class="sc">&lt;</span> alpha)</span>
@@ -893,14 +920,14 @@ y_{ij} &amp; \iid {\cal N}(\mu_{y,j} \ , \ \sigma_y^2)
 </div>
 <p>Very few of the true null hypotheses are rejected, which may be a good point, but the price to pay is a very low power (less that 20%).</p>
 <p>The familywise error rate (FWER) is the probability <span class="math inline">\prob{m_{01}\geq 1}</span> to reject <em>at least</em> one of the true null hypothesis. This probability remains quite small when the Bonferroni correction is used.</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-30_2ff93288e0eeed74c9c2243898186d77">
 <div class="sourceCode" id="cb51"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(m01.b<span class="sc">&gt;=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>[1] 0.165</code></pre>
 </div>
 </div>
 <p>The Benjamini-Hochberg correction increases the power and controls the FDR as expected since the proportion of false discoveries remains below the level <span class="math inline">\alpha</span>.</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-31_2035503aedf3a502f2e90623f2df8d32">
 <div class="sourceCode" id="cb53"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>pval.bh <span class="ot">&lt;-</span> <span class="fu">apply</span>(pval,<span class="dv">2</span>, <span class="cf">function</span>(pval) {<span class="fu">p.adjust</span>(pval,<span class="at">method=</span><span class="st">"BH"</span>)})</span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>m01.bh <span class="ot">&lt;-</span> <span class="fu">colSums</span>(pval.bh[<span class="dv">1</span><span class="sc">:</span>m0,] <span class="sc">&lt;</span> alpha)</span>
 <span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>m11.bh <span class="ot">&lt;-</span> <span class="fu">colSums</span>(pval.bh[(m0<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>m,] <span class="sc">&lt;</span> alpha)</span>
@@ -910,7 +937,7 @@ y_{ij} &amp; \iid {\cal N}(\mu_{y,j} \ , \ \sigma_y^2)
 </div>
 </div>
 <p>Lastly, we can slightly improve the BH procedure by multiplying the <span class="math inline">p</span>-values by the ratio <span class="math inline">\hat{m}_{0\cdot}/m</span></p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-32_0a0e4841fbd7653dbede6d9a09f6e837">
 <div class="sourceCode" id="cb55"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>pval.bhc <span class="ot">&lt;-</span> pval.bh</span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (l <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span>L)) {</span>
 <span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  m0e <span class="ot">&lt;-</span> <span class="fu">sum</span>(pval.bh[,l]<span class="sc">&gt;</span>alpha)</span>
@@ -931,7 +958,7 @@ y_{ij} &amp; \iid {\cal N}(\mu_{y,j} \ , \ \sigma_y^2)
 <p>Garcia-Arenzana, N., E.M. Navarrete-Munoz, V. Lope, P. Moreo, S. Laso-Pablos, N. Ascunce, F. Casanova-Gomez, C. Sanchez-Contador, C. Santamariña, N. Aragonès, B.P. Gomez, J. Vioque, and M. Pollan. 2014. Calorie intake, olive oil consumption and mammographic density among Spanish women. International Journal of Cancer 134: 1916-1925.</p>
 </blockquote>
 
-<!-- -->
+
 </section>
 </section>
 <script type="application/javascript">
@@ -962,22 +989,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     e.clearSelection();
   });
   function tippyHover(el, contentFn) {
-    window.tippy(el, {
+    const config = {
       allowHTML: true,
       content: contentFn,
       maxWidth: 500,
       delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
       placement: 'bottom-start'
-    }); 
+    };
+    window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      const id = new URL(ref.getAttribute('href')).hash.replace(/^#/, "");
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
     });
@@ -1003,24 +1037,25 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-</main>
-<div class="page-navigation page-navigation-docked">
+</main> <!-- /main -->
+<nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../docs/tests/lectures-single.html">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Statistical tests</span>
+      <a href="../../docs/tests/map566-lecture-single.html">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Statistical Tests</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../../docs/tests/map566-lab-tests.html">
+        <span class="nav-page-text">Statistical tests: exercices</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
-</div>
-</div> <!-- /main column -->
-</div> <!-- /row -->
-<div class="row">
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
   <div class="nav-footer">
-    <div class="nav-footer-left me-auto">Last update: september 2021</div>   
+    <div class="nav-footer-left">Last update: November 2021</div>   
   </div>
-</div>
-</div> <!-- /container fluid -->
+</footer>
 
 
 </body></html>

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.2.144">
+  <meta name="generator" content="quarto-0.2.243">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>MAP566 - Stats in Action – Welcome</title>
+  <title>MAP566 - Stats in Action - Welcome</title>
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -18,31 +18,43 @@
   <![endif]-->
   <script src="site_libs/quarto-nav/quarto-nav.js"></script>
   <script src="site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="site_libs/clipboard/clipboard.min.js"></script>
+  <meta name="quarto:offset" content="./">
+  <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+  <script src="site_libs/quarto-search/fuse.min.js"></script>
+  <script src="site_libs/quarto-search/quarto-search.js"></script>
   <script src="site_libs/quarto-html/quarto.js"></script>
   <script src="site_libs/quarto-html/popper.min.js"></script>
   <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-  <script src="site_libs/quarto-html/clipboard.min.js"></script>
   <script src="site_libs/quarto-html/anchor.min.js"></script>
   <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
   <link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
   <script src="site_libs/bootstrap/bootstrap.min.js"></script>
   <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
   <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <script id="quarto-search-options" type="application/json">{
+    "location": "navbar",
+    "copy-button": false,
+    "collapse-after": 2,
+    "panel-placement": "end",
+    "type": "overlay",
+    "limit": 20
+  }</script>
 </head>
 <body>
 <div id="quarto-search-results"></div>
-<header id="quarto-header" class="headroom fixed-top">
-<nav class="navbar navbar-expand-lg navbar-light ">
-    <div class="container-fluid">
-  <a class="navbar-brand" href="./index.html">
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="./index.html">
     <img src="./logo_X.jpg" alt="">
     <span class="navbar-title">MAP566 - Stats in Action</span>
   </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
-      <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav navbar-nav-scroll me-auto">
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
     <a class="nav-link" href="./getting-started.html">Getting Started</a>
   </li>  
@@ -52,19 +64,22 @@
  </a>
   </li>  
 </ul>
-        <ul class="navbar-nav navbar-nav-scroll ms-auto">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hypothesis-testing" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hypothesis Testing</a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-hypothesis-testing">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="./docs/tests/lectures-single.html">Statistical tests</a>
+    <a class="dropdown-item" href="./docs/tests/map566-lecture-single.html">Statistical Tests</a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./docs/tests/lectures-multiple.html">Statistical tests</a>
+    <a class="dropdown-item" href="./docs/tests/map566-lecture-multiple.html">Multiple Testing</a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">PC/Labs</li>
+        <li class="dropdown-header">Labs</li>
+        <li>
+    <a class="dropdown-item" href="./docs/tests/map566-lab-tests.html">Statistical tests: exercices</a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Documents</li>
     </ul>
@@ -73,8 +88,20 @@
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-regression-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Regression models</a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-regression-models">    
         <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="./docs/regression/map566-lecture-regression-background.html">Linear regression: quick recap</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./docs/regression/map566-lecture-polynomial-regression.html">Polynomial regression models</a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">PC/Labs</li>
+        <li>
+    <a class="dropdown-item" href="./docs/regression/map566-lab-polynomial-regression.html">Polynomial regression model: exercices</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./docs/regression/map566-lab-nonlinear-regression.html">Nonlinear regression: exercices</a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -107,28 +134,30 @@
     </ul>
   </li>
 </ul>
-      </div> <!-- /navcollapse -->
-  </div> <!-- /container-fluid -->
-</nav>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
 </header>
- <!-- /navbar/sidebar -->
-<div class="container-fluid quarto-container d-flex flex-column page-layout-article" id="quarto-content">
-<div class="row flex-fill">
-  <div id="quarto-toc-sidebar" class=" pt-0 col col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-toc order-last"><nav id="TOC" role="doc-toc">
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- toc -->
+    <nav id="TOC" role="doc-toc" class="sidebar sidebar-toc">
 <h2 id="toc-title">On this page</h2>
 <ul>
 <li><a href="#course-description" class="nav-link active" data-scroll-target="#course-description">Course description</a></li>
 <li><a href="#schedule-tentative" class="nav-link" data-scroll-target="#schedule-tentative">Schedule (tentative)</a></li>
 </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav></div>
-  <div class="col mx-auto col-sm-12 col-md-9 col-lg-8 col-xl-7 px-lg-4 pe-xxl-4 ps-xxl-0">
-<main>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<!-- main -->
+<main class="content">
 <header id="title-block-header">
 <h1 class="title display-7">Welcome</h1>
 </header>
 
-<section id="course-description" class="level2">
-<h2 class="anchored" data-anchor-id="course-description">Course description</h2>
+<section id="course-description" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="course-description">Course description</h2>
 <p>The objective of this course is to show students how statistics is used in practice to answer a specific question, by introducing a series of important model-based approaches.</p>
 <p>The students will learn to select and use appropriate statistical methodologies and acquire solid and practical skills by working-out examples on real-world data sets from various areas including medicine, genomics, ecology, and others.</p>
 <p>All analyses will be conducted with the R software, possibly with interfacing to Python. No strong knwoledge neither of R or Python programming is required (only basic scripting).</p>
@@ -146,8 +175,8 @@ Important remark
 </div>
 </div>
 </section>
-<section id="schedule-tentative" class="level2">
-<h2 class="anchored" data-anchor-id="schedule-tentative">Schedule (tentative)</h2>
+<section id="schedule-tentative" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="schedule-tentative">Schedule (tentative)</h2>
 <p><strong>Teachers</strong> : Julien Chiquet (lecture + 1 PC), Geneviève Robin (2 PC)</p>
 <p><strong>Course Evaluation</strong>: 2 individual homework assignements + a final exam/project</p>
 <p><strong>Course Language</strong>: French with all material in English</p>
@@ -185,7 +214,7 @@ Important remark
 </ul></li>
 </ol>
 
-<!-- -->
+
 </section>
 <script type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -215,22 +244,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     e.clearSelection();
   });
   function tippyHover(el, contentFn) {
-    window.tippy(el, {
+    const config = {
       allowHTML: true,
       content: contentFn,
       maxWidth: 500,
       delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
       placement: 'bottom-start'
-    }); 
+    };
+    window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      const id = new URL(ref.getAttribute('href')).hash.replace(/^#/, "");
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
     });
@@ -256,21 +292,19 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-</main>
-<div class="page-navigation ">
+</main> <!-- /main -->
+<nav class="page-navigation">
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
   </div>
-</div>
-</div> <!-- /main column -->
-</div> <!-- /row -->
-<div class="row">
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
   <div class="nav-footer">
-    <div class="nav-footer-left me-auto">Last update: september 2021</div>   
+    <div class="nav-footer-left">Last update: November 2021</div>   
   </div>
-</div>
-</div> <!-- /container fluid -->
+</footer>
 
 
 </body></html>

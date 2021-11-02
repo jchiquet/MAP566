@@ -3,7 +3,7 @@
   <meta charset="utf-8">
   <meta name="generator" content="quarto-0.2.243">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>MAP566 - Stats in Action - Setup instructions</title>
+  <title>MAP566 - Stats in Action - Nonlinear regression: exercices</title>
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -76,25 +76,42 @@
     code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+   var mathElements = document.getElementsByClassName("math");
+   var macros = [];
+   for (var i = 0; i < mathElements.length; i++) {
+    var texText = mathElements[i].firstChild;
+    if (mathElements[i].tagName == "SPAN") {
+     katex.render(texText.data, mathElements[i], {
+      displayMode: mathElements[i].classList.contains('display'),
+      throwOnError: false,
+      macros: macros,
+      fleqn: false
+     });
+  }}});
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
-  <script src="site_libs/quarto-nav/quarto-nav.js"></script>
-  <script src="site_libs/quarto-nav/headroom.min.js"></script>
-  <script src="site_libs/clipboard/clipboard.min.js"></script>
-  <meta name="quarto:offset" content="./">
-  <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-  <script src="site_libs/quarto-search/fuse.min.js"></script>
-  <script src="site_libs/quarto-search/quarto-search.js"></script>
-  <script src="site_libs/quarto-html/quarto.js"></script>
-  <script src="site_libs/quarto-html/popper.min.js"></script>
-  <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-  <script src="site_libs/quarto-html/anchor.min.js"></script>
-  <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-  <link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
-  <script src="site_libs/bootstrap/bootstrap.min.js"></script>
-  <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-  <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="../../site_libs/clipboard/clipboard.min.js"></script>
+  <meta name="quarto:offset" content="../../">
+  <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+  <script src="../../site_libs/quarto-search/fuse.min.js"></script>
+  <script src="../../site_libs/quarto-search/quarto-search.js"></script>
+  <link href="../../docs/regression/map566-lab-polynomial-regression.html" rel="prev">
+  <script src="../../site_libs/quarto-html/quarto.js"></script>
+  <script src="../../site_libs/quarto-html/popper.min.js"></script>
+  <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="../../site_libs/quarto-html/anchor.min.js"></script>
+  <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
   <script id="quarto-search-options" type="application/json">{
     "location": "navbar",
     "copy-button": false,
@@ -104,13 +121,13 @@
     "limit": 20
   }</script>
 </head>
-<body>
+<body class="docked">
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-light ">
       <div class="navbar-container container-fluid">
-      <a class="navbar-brand" href="./index.html">
-    <img src="./logo_X.jpg" alt="">
+      <a class="navbar-brand" href="../../index.html">
+    <img src="../../logo_X.jpg" alt="">
     <span class="navbar-title">MAP566 - Stats in Action</span>
   </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -119,7 +136,7 @@
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./getting-started.html" aria-current="page">Getting Started</a>
+    <a class="nav-link" href="../../getting-started.html">Getting Started</a>
   </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/jchiquet/MAP566"><i class="bi-github" role="img">
@@ -133,15 +150,15 @@
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-hypothesis-testing">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="./docs/tests/map566-lecture-single.html">Statistical Tests</a>
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-single.html">Statistical Tests</a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./docs/tests/map566-lecture-multiple.html">Multiple Testing</a>
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-multiple.html">Multiple Testing</a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Labs</li>
         <li>
-    <a class="dropdown-item" href="./docs/tests/map566-lab-tests.html">Statistical tests: exercices</a>
+    <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html">Statistical tests: exercices</a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Documents</li>
@@ -152,18 +169,18 @@
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-regression-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="./docs/regression/map566-lecture-regression-background.html">Linear regression: quick recap</a>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html">Linear regression: quick recap</a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./docs/regression/map566-lecture-polynomial-regression.html">Polynomial regression models</a>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html">Polynomial regression models</a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">PC/Labs</li>
         <li>
-    <a class="dropdown-item" href="./docs/regression/map566-lab-polynomial-regression.html">Polynomial regression model: exercices</a>
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-polynomial-regression.html">Polynomial regression model: exercices</a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./docs/regression/map566-lab-nonlinear-regression.html">Nonlinear regression: exercices</a>
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-nonlinear-regression.html">Nonlinear regression: exercices</a>
   </li>  
     </ul>
   </li>
@@ -201,59 +218,125 @@
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Nonlinear regression: exercices</h1>
+      <button type="button" class="quarto-btn-toggle btn">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+  <div class="sidebar-menu-container"> 
+  <ul class="list-unstyled mt-1">
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#lectures-collapse" aria-expanded="true">
+              <div class="me-auto sidebar-section-item">Lectures</div>
+            <div><i class="bi bi-chevron-right ms-2"></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="lectures-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../../docs/regression/map566-lecture-regression-background.html" class="">Linear regression: quick recap</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../../docs/regression/map566-lecture-polynomial-regression.html" class="">Polynomial regression models</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#pc/labs-collapse" aria-expanded="true">
+              <div class="me-auto sidebar-section-item">PC/Labs</div>
+            <div><i class="bi bi-chevron-right ms-2"></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="pc/labs-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../../docs/regression/map566-lab-polynomial-regression.html" class="">Polynomial regression model: exercices</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../../docs/regression/map566-lab-nonlinear-regression.html" class="active">Nonlinear regression: exercices</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+  </ul>
+  </div>
+</nav>
 <!-- toc -->
     <nav id="TOC" role="doc-toc" class="sidebar sidebar-toc">
 <h2 id="toc-title">On this page</h2>
 <ul>
-<li><a href="#installing-r" class="nav-link active" data-scroll-target="#installing-r"> <span class="header-section-number">0.1</span> Installing R</a></li>
-<li><a href="#installing-rstudio-desktop" class="nav-link" data-scroll-target="#installing-rstudio-desktop"> <span class="header-section-number">0.2</span> Installing RStudio Desktop</a></li>
-<li><a href="#installing-r-packages" class="nav-link" data-scroll-target="#installing-r-packages"> <span class="header-section-number">0.3</span> Installing R packages</a></li>
+<li><a href="#preliminary" class="nav-link active" data-scroll-target="#preliminary"> <span class="header-section-number">1</span> Preliminary</a></li>
+<li><a href="#introduction" class="nav-link" data-scroll-target="#introduction"> <span class="header-section-number">2</span> Introduction</a></li>
+<li><a href="#questions" class="nav-link" data-scroll-target="#questions"> <span class="header-section-number">3</span> Questions</a></li>
 </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
 <!-- main -->
 <main class="content">
 <header id="title-block-header">
-<h1 class="title display-7">Setup instructions</h1>
+<h1 class="title d-none d-lg-block display-7">Nonlinear regression: exercices</h1>
 </header>
 
-<p><strong>R</strong> and <strong>RStudio</strong> are separate downloads and installations</p>
-<ul>
-<li><p>R is the underlying statistical computing environment</p></li>
-<li><p>RStudio is a graphical integrated development environment (IDE)</p></li>
-</ul>
-<section id="installing-r" class="level3" data-number="0.1">
-<h3 data-number="0.1" class="anchored" data-anchor-id="installing-r"><span class="header-section-number">0.1</span> Installing R</h3>
-<p><a href="https://cran.r-project.org/">Go to the CRAN webpage</a>, select your OS and follow the instructions.</p>
-</section>
-<section id="installing-rstudio-desktop" class="level3" data-number="0.2">
-<h3 data-number="0.2" class="anchored" data-anchor-id="installing-rstudio-desktop"><span class="header-section-number">0.2</span> Installing RStudio Desktop</h3>
-<p><a href="https://rstudio.com/products/rstudio/download/#download">Go to the download page</a>. Select, download and install the file corresponding to your OS.</p>
-</section>
-<section id="installing-r-packages" class="level3" data-number="0.3">
-<h3 data-number="0.3" class="anchored" data-anchor-id="installing-r-packages"><span class="header-section-number">0.3</span> Installing R packages</h3>
-<p>Launch Rstudio and execute the following commands in the console (at least these R packages will be needed during MAP566)</p>
-<div class="cell" data-hash="getting-started_cache/html/unnamed-chunk-1_453784298cccd15ee3f23f6f8b42746e">
-<div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="preliminary" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="preliminary"><span class="header-section-number">1</span> Preliminary</h2>
+<p>The usual libraries:</p>
+<div class="cell" data-hash="map566-lab-nonlinear-regression_cache/html/linear-regression-config_4358ff1163f798bdf96fa0aee3597c48">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify) <span class="co"># extend some ggplot2 features</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="introduction" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="introduction"><span class="header-section-number">2</span> Introduction</h2>
+<p>We consider the same data file <code>ratWeight.csv</code> with rat weights measured over 14 weeks during a subchronic toxicity study related to the question of genetically modified (GM) corn.</p>
+</section>
+<section id="questions" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="questions"><span class="header-section-number">3</span> Questions</h2>
+<ol type="1">
+<li><p>Load the <code>ratWeight.csv</code> data file and plot the weight of the females of the control group</p></li>
+<li><p>Select the ID <code>B38837</code> and fit a polynomial model to the growth curve of this female rat.</p></li>
+<li><p>Fit a Gompertz model <span class="math inline">f_1(t) = A e^{-b e^{-k\, t}}</span> to this data.</p></li>
+</ol>
+<p><em>Hint:</em> use for initial values: <span class="math inline">A = 200, b = 1, k = 0.1</span>.</p>
+<ol start="4" type="1">
+<li>Fit the two following growth models:</li>
+</ol>
 <ul>
-<li><strong>On Windows</strong></li>
+<li>Asymptotic regression model:</li>
 </ul>
-<p>You may need Rtools (<a href="https://cran.r-project.org/bin/windows/Rtools/">dedicated page</a>) and git (<a href="https://git-scm.com/download/win">dedicated page</a>)</p>
+<p><span class="math display">f_2(t)  = A \left( 1 - b\, e^{-k\, t} \right)</span></p>
 <ul>
-<li><strong>On MacOS</strong></li>
+<li>Logistic curve: <span class="math display">f_3(t)  = \frac{A}{1 + e^{-\gamma( t-\tau)}}</span></li>
 </ul>
-<p>You may need XCode: <a href="https://mac.r-project.org/tools/">visit the dedicated page</a>, download the Mandatory tools and install them on your computer</p>
-<ul>
-<li><strong>On Linux</strong></li>
-</ul>
-<p>If installation of a package fails in Rstudio, just <em>READ THE MESSAGES</em>: you may be asked to install some missing system libraries with, e.g.,</p>
-<div class="cell" data-hash="getting-started_cache/html/unnamed-chunk-2_552cac17f497f7aa5213db124a4a0bc7">
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash cell-code code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get install lib-missing</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<ol start="5" type="1">
+<li>Propose two other parameterizations of the asymptotic regression model which involves</li>
+</ol>
+<ol type="a">
+<li>the weight at birth <span class="math inline">w_0</span> (when <span class="math inline">t=0</span>), the limit weight <span class="math inline">w_\infty</span> (when <span class="math inline">t\to \infty</span>) and <span class="math inline">k</span></li>
+<li>the weight at birth, the weight at the end of the study <span class="math inline">w_{14}</span> and the ratio <span class="math inline">r=(w_{14}-w_{7})/(w_7 - w_0)</span></li>
+</ol>
+<p>Can we compare these models?</p>
+<ol start="6" type="1">
+<li><p>We will now use model <span class="math inline">f_{2a}</span>. Check that the estimate of <span class="math inline">\beta=(w_0, w_\infty, k)</span> obtained with the <code>nls</code> function is the least squares estimate.</p></li>
+<li><p>Check that this estimate is also the least squares estimate of the linearized model. Then, how are computed the standard errors of <span class="math inline">\hat\beta</span>?</p></li>
+<li><p>Compute 90% confidence intervals for the model parameters using several approaches (profile likelihood, linearization, parametric bootstrap)</p></li>
+<li><p>Compute a 90% confidence interval for the predicted weight and a 90% prediction interval for the measured weight using the delta method.</p></li>
+</ol>
 
 
 </section>
@@ -336,6 +419,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </main> <!-- /main -->
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../../docs/regression/map566-lab-polynomial-regression.html">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Polynomial regression model: exercices</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
   </div>

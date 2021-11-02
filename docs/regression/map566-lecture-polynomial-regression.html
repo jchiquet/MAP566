@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.2.243">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>MAP566 - Stats in Action - Polynomial regression models</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+   var mathElements = document.getElementsByClassName("math");
+   var macros = [];
+   for (var i = 0; i < mathElements.length; i++) {
+    var texText = mathElements[i].firstChild;
+    if (mathElements[i].tagName == "SPAN") {
+     katex.render(texText.data, mathElements[i], {
+      displayMode: mathElements[i].classList.contains('display'),
+      throwOnError: false,
+      macros: macros,
+      fleqn: false
+     });
+  }}});
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="../../site_libs/clipboard/clipboard.min.js"></script>
+  <meta name="quarto:offset" content="../../">
+  <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+  <script src="../../site_libs/quarto-search/fuse.min.js"></script>
+  <script src="../../site_libs/quarto-search/quarto-search.js"></script>
+  <link href="../../docs/regression/map566-lab-polynomial-regression.html" rel="next">
+  <link href="../../docs/regression/map566-lecture-regression-background.html" rel="prev">
+  <script src="../../site_libs/quarto-html/quarto.js"></script>
+  <script src="../../site_libs/quarto-html/popper.min.js"></script>
+  <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="../../site_libs/quarto-html/anchor.min.js"></script>
+  <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <script id="quarto-search-options" type="application/json">{
+    "location": "navbar",
+    "copy-button": false,
+    "collapse-after": 2,
+    "panel-placement": "end",
+    "type": "overlay",
+    "limit": 20
+  }</script>
+  <script src="../../site_libs/kePrint-0.0.1/kePrint.js"></script>
+  <link href="../../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+</head>
+<body class="docked">
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <img src="../../logo_X.jpg" alt="">
+    <span class="navbar-title">MAP566 - Stats in Action</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../getting-started.html">Getting Started</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/jchiquet/MAP566"><i class="bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hypothesis-testing" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hypothesis Testing</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-hypothesis-testing">    
+        <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-single.html">Statistical Tests</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-multiple.html">Multiple Testing</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Labs</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html">Statistical tests: exercices</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Documents</li>
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-regression-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Regression models</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-regression-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html">Linear regression: quick recap</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html">Polynomial regression models</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">PC/Labs</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-polynomial-regression.html">Polynomial regression model: exercices</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-nonlinear-regression.html">Nonlinear regression: exercices</a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixed-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mixed models</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixed-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">PC/Labs</li>
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mixture models</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixture-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">PC/Labs</li>
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-multivariate-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Multivariate models</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-multivariate-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">PC/Labs</li>
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-homework" role="button" data-bs-toggle="dropdown" aria-expanded="false">Homework</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-homework">    
+    </ul>
+  </li>
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Polynomial regression models</h1>
+      <button type="button" class="quarto-btn-toggle btn">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+  <div class="sidebar-menu-container"> 
+  <ul class="list-unstyled mt-1">
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#lectures-collapse" aria-expanded="true">
+              <div class="me-auto sidebar-section-item">Lectures</div>
+            <div><i class="bi bi-chevron-right ms-2"></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="lectures-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../../docs/regression/map566-lecture-regression-background.html" class="">Linear regression: quick recap</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../../docs/regression/map566-lecture-polynomial-regression.html" class="active">Polynomial regression models</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#pc/labs-collapse" aria-expanded="true">
+              <div class="me-auto sidebar-section-item">PC/Labs</div>
+            <div><i class="bi bi-chevron-right ms-2"></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="pc/labs-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../../docs/regression/map566-lab-polynomial-regression.html" class="">Polynomial regression model: exercices</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../../docs/regression/map566-lab-nonlinear-regression.html" class="">Nonlinear regression: exercices</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+  </ul>
+  </div>
+</nav>
+<!-- toc -->
+    <nav id="TOC" role="doc-toc" class="sidebar sidebar-toc">
+<h2 id="toc-title">On this page</h2>
+<ul>
+<li><a href="#preliminary" class="nav-link active" data-scroll-target="#preliminary">Preliminary</a></li>
+<li><a href="#the-cars-data-example" class="nav-link" data-scroll-target="#the-cars-data-example"> <span class="header-section-number">1</span> The ‘cars’ data example</a></li>
+<li><a href="#fitting-polynomial-models" class="nav-link" data-scroll-target="#fitting-polynomial-models"> <span class="header-section-number">2</span> Fitting polynomial models</a>
+<ul class="collapse">
+<li><a href="#fitting-a-polynomial-model-as-a-linear-model" class="nav-link" data-scroll-target="#fitting-a-polynomial-model-as-a-linear-model"> <span class="header-section-number">2.1</span> Fitting a polynomial model as a linear model</a></li>
+<li><a href="#fitting-a-polynomial-of-degree-0" class="nav-link" data-scroll-target="#fitting-a-polynomial-of-degree-0"> <span class="header-section-number">2.2</span> Fitting a polynomial of degree 0</a></li>
+<li><a href="#fitting-a-polynomial-of-degree-1" class="nav-link" data-scroll-target="#fitting-a-polynomial-of-degree-1"> <span class="header-section-number">2.3</span> Fitting a polynomial of degree 1</a></li>
+<li><a href="#fitting-a-polynomial-of-degree-2" class="nav-link" data-scroll-target="#fitting-a-polynomial-of-degree-2"> <span class="header-section-number">2.4</span> Fitting a polynomial of degree 2</a></li>
+<li><a href="#fitting-a-polynomial-without-intercept" class="nav-link" data-scroll-target="#fitting-a-polynomial-without-intercept"> <span class="header-section-number">2.5</span> Fitting a polynomial without intercept</a></li>
+<li><a href="#using-orthogonal-polynomials" class="nav-link" data-scroll-target="#using-orthogonal-polynomials"> <span class="header-section-number">2.6</span> Using orthogonal polynomials</a></li>
+</ul></li>
+<li><a href="#model-comparison" class="nav-link" data-scroll-target="#model-comparison"> <span class="header-section-number">3</span> Model comparison</a>
+<ul class="collapse">
+<li><a href="#t-test" class="nav-link" data-scroll-target="#t-test"> <span class="header-section-number">3.1</span> t-test</a></li>
+<li><a href="#analysis-of-variance-anova" class="nav-link" data-scroll-target="#analysis-of-variance-anova"> <span class="header-section-number">3.2</span> Analysis-of-variance (anova)</a></li>
+<li><a href="#likelihood-ratio-test-lrt" class="nav-link" data-scroll-target="#likelihood-ratio-test-lrt"> <span class="header-section-number">3.3</span> Likelihood ratio test (LRT)</a></li>
+<li><a href="#information-criteria" class="nav-link" data-scroll-target="#information-criteria"> <span class="header-section-number">3.4</span> Information criteria</a></li>
+</ul></li>
+<li><a href="#data-transformation" class="nav-link" data-scroll-target="#data-transformation"> <span class="header-section-number">4</span> Data transformation</a></li>
+<li><a href="#log-based-tranformations" class="nav-link" data-scroll-target="#log-based-tranformations"> <span class="header-section-number">5</span> Log based tranformations</a>
+<ul class="collapse">
+<li><a href="#diagnostic-plots" class="nav-link" data-scroll-target="#diagnostic-plots"> <span class="header-section-number">5.1</span> Diagnostic plots</a></li>
+<li><a href="#confidence-interval-and-prediction-interval-1" class="nav-link" data-scroll-target="#confidence-interval-and-prediction-interval-1"> <span class="header-section-number">5.2</span> Confidence interval and prediction interval</a></li>
+<li><a href="#model-comparison-1" class="nav-link" data-scroll-target="#model-comparison-1"> <span class="header-section-number">5.3</span> Model comparison</a></li>
+</ul></li>
+</ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<!-- main -->
+<main class="content">
+<header id="title-block-header">
+<h1 class="title d-none d-lg-block display-7">Polynomial regression models</h1>
+</header>
+
+<section id="preliminary" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="preliminary">Preliminary</h2>
+<p>Only functions from <code>R</code>-base and stats (preloaded) are required plus packages from the <strong>tidyverse</strong> for data representation and manipulation. You could also try the package <strong>broom</strong> that standardizes the output of built-in R functions for statistical modelling</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/linear-regression-config_1c5394b83330e6b46a5b11fade343256">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify)  <span class="co"># extend some ggplot2 features</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rsample)    <span class="co"># create training/test sets </span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra) <span class="co"># fancy table display</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="the-cars-data-example" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="the-cars-data-example"><span class="header-section-number">1</span> The ‘cars’ data example</h2>
+<p>The data set <code>cars</code> gives the speed of cars and the distances taken to stop (Note that the data were recorded in the 1920s). The data frame consists of 50 observations (rows) and 2 variables (columns): speed (mph), stopping distance (ft)</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-1_b3dad98a91553c49dbce7f66bda4346a">
+<div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(cars)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cars) <span class="sc">%&gt;%</span> <span class="fu">kable</span>() <span class="sc">%&gt;%</span> kableExtra<span class="sc">::</span><span class="fu">kable_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class=" lightable-classic" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:right;"> speed </th>
+   <th style="text-align:right;"> dist </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 10 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 7 </td>
+   <td style="text-align:right;"> 4 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 7 </td>
+   <td style="text-align:right;"> 22 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 16 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:right;"> 10 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<p>Scatter plots can help visualize any relationship between the explanatory variable <em>speed</em> (also called regression variable, or predictor) and the response variable <em>dist</em>.</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-2_2c93a18725745f8c2e8b4e162f50bd62">
+<p></p><details>
+<summary>Show the code</summary><p></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>cars_plot <span class="ot">&lt;-</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  cars <span class="sc">%&gt;%</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span>  <span class="fu">aes</span>(<span class="at">x =</span> speed, <span class="at">y =</span> dist) <span class="sc">+</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">colour=</span><span class="st">"#993399"</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Speed (mph)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Stopping distance (ft)"</span>)  </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>cars_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Based on this data, our objective is to build a regression model of the form</p>
+<p><span class="math display">y_j = f(x_j) + \varepsilon_j \quad ; \quad 1 \leq j \leq n</span></p>
+<p>where <span class="math inline">(x_j, 1 \leq j \leq n)</span> and <span class="math inline">(y_j, 1 \leq j \leq n)</span> represent, respectively, the <span class="math inline">n</span> measured speeds and distances and where <span class="math inline">(\varepsilon_j, 1 \leq j \leq n)</span> is a sequence of <em>residual errors</em>. In other words, <span class="math inline">\varepsilon_j</span> represents the difference between the distance predicted by the model <span class="math inline">f(x_j)</span> and the observed distance <span class="math inline">y_j</span>.</p>
+<p>We will restrict ourselves to polynomial regression, by considering functions of the form <span class="math display">
+\begin{aligned}
+f(x) &amp;= f(x ; c_0, c_1, c_2, \ldots, c_d) \\
+&amp;= c_0 + c_1 x + c_2 x^2 + \ldots + c_d x^d
+\end{aligned}
+</span></p>
+<p>Building a polynomial regression model requires to perform the following tasks:</p>
+<ul>
+<li>For a given degree <span class="math inline">d</span>,
+<ul>
+<li>estimate the parameters of the model,</li>
+<li>assess the validity of the model,</li>
+<li>evaluate the predictive performance of the model</li>
+</ul></li>
+<li>Compare the different possible models and select the best one(s).</li>
+</ul>
+</section>
+<section id="fitting-polynomial-models" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="fitting-polynomial-models"><span class="header-section-number">2</span> Fitting polynomial models</h2>
+<section id="fitting-a-polynomial-model-as-a-linear-model" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="fitting-a-polynomial-model-as-a-linear-model"><span class="header-section-number">2.1</span> Fitting a polynomial model as a linear model</h3>
+<p>Remark that the polynomial regression model <span class="math display">
+y_j = c_0 + c_1 x_j + c_2 x^2_j + \ldots + c_{d} x^{d}_j + \varepsilon_j
+</span> can be written in a matrix form <span class="math display">y = X\beta + varepsilon </span> where <span class="math display">
+y = \left( \begin{array}{c}
+y_1 \\ y_2 \\ \vdots \\ y_n 
+\end{array}\right), \quad 
+X = \left( \begin{array}{cccc} 
+1 &amp; x_1 &amp; \cdots &amp; x_1^{d} \\ 
+1 &amp; x_2 &amp; \cdots &amp; x_2^{d} \\ 
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+1 &amp; x_n &amp; \cdots &amp; x_n^{d} 
+\end{array}\right), \quad 
+\beta = \left( \begin{array}{c}
+c_0 \\ c_1 \\ \vdots \\ c_{d} 
+\end{array}\right), \quad 
+\varepsilon = \left( \begin{array}{c}
+\varepsilon_1 \\ \varepsilon_2 \\ \vdots \\ \varepsilon_n 
+\end{array}\right)
+</span></p>
+<p>Then, <span class="math inline">X\beta</span> is the vector of <em>predicted values</em> and <span class="math inline">varepsilon</span> the vector of <em>residual errors</em>. Then, all what is said in the lecture about linear regression model can be applied.</p>
+</section>
+<section id="fitting-a-polynomial-of-degree-0" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="fitting-a-polynomial-of-degree-0"><span class="header-section-number">2.2</span> Fitting a polynomial of degree 0</h3>
+<p>A very basic model considers that the observations <span class="math inline">(y_j)</span> fluctuates around a constant value <span class="math inline">c_0</span>:</p>
+<p><span class="math display">y_j = c_0 + \varepsilon_j</span></p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-3_3ea42873aa60e36d2824f58f0176e511">
+<div class="sourceCode" id="cb4"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>lm0 <span class="ot">&lt;-</span> <span class="fu">lm</span>(dist <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> cars)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>lm0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = dist ~ 1, data = cars)
+
+Coefficients:
+(Intercept)  
+      42.98  </code></pre>
+</div>
+</div>
+<p>The coefficient <span class="math inline">c_0</span> is the empirical mean</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-4_10cd1086ed7cd7956372825f7e1f57c2">
+<div class="sourceCode" id="cb6"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(cars<span class="sc">$</span>dist)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 42.98</code></pre>
+</div>
+</div>
+<p>Looking how the model fits the data is more than enough for concluding that this model is miss-specified.</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-5_a925d11184c73fa95831225d2b54af7e">
+<p></p><details>
+<summary>Show the code</summary><p></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>cars_plot <span class="ot">&lt;-</span> cars_plot <span class="sc">+</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="dv">1</span>, <span class="at">se =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>cars_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Indeed, a clear increasing trend is visible in the data while the model assumes that there is no trend. We therefore reject this first model.</p>
+</section>
+<section id="fitting-a-polynomial-of-degree-1" class="level3" data-number="2.3">
+<h3 data-number="2.3" class="anchored" data-anchor-id="fitting-a-polynomial-of-degree-1"><span class="header-section-number">2.3</span> Fitting a polynomial of degree 1</h3>
+<section id="numerical-results" class="level4" data-number="2.3.1">
+<h4 data-number="2.3.1" class="anchored" data-anchor-id="numerical-results"><span class="header-section-number">2.3.1</span> Numerical results</h4>
+<p>The scatter plot above rather suggests a linearly increasing relationship between the explanatory and response variables. Let us therefore assume now a linear trend which is mathematically represented by a polynomial of degree 1:</p>
+<p><span class="math display">y_j = c_0 + c_1 x_j + \varepsilon_j \quad ; \quad 1 \leq j \leq n</span></p>
+<p>We can then fit this model to our data using the function <code>lm</code>:</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-6_349c8f544774413630bf2fce256c9fe3">
+<div class="sourceCode" id="cb9"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>lm1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(dist <span class="sc">~</span> speed, <span class="at">data =</span> cars)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(lm1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>(Intercept)       speed 
+ -17.579095    3.932409 </code></pre>
+</div>
+</div>
+<p>These coefficients are the intercept and the slope of the regression line, but more informative results about this model are available:</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-7_3a777847f12dac610e549d83c596b7e7">
+<div class="sourceCode" id="cb11"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = dist ~ speed, data = cars)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-29.069  -9.525  -2.272   9.215  43.201 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -17.5791     6.7584  -2.601   0.0123 *  
+speed         3.9324     0.4155   9.464 1.49e-12 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 15.38 on 48 degrees of freedom
+Multiple R-squared:  0.6511,    Adjusted R-squared:  0.6438 
+F-statistic: 89.57 on 1 and 48 DF,  p-value: 1.49e-12</code></pre>
+</div>
+</div>
+<p>The slope <span class="math inline">c_1</span> is clearly statistically significant while the model explains about <span class="math inline">65\%</span> of the variability of the data. The confidence interval for <span class="math inline">c_1</span> confirms that an increase of the speed leads to a significant increase of the stopping distance.</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-8_a2cc7c771c303edf05fb5aae9a397b86">
+<div class="sourceCode" id="cb13"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(lm1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>                 2.5 %    97.5 %
+(Intercept) -31.167850 -3.990340
+speed         3.096964  4.767853</code></pre>
+</div>
+</div>
+<p><a href="polynomialRegression2.html#poly1">See how these quantities are computed.</a></p>
+</section>
+<section id="some-diagnostic-plots" class="level4" data-number="2.3.2">
+<h4 data-number="2.3.2" class="anchored" data-anchor-id="some-diagnostic-plots"><span class="header-section-number">2.3.2</span> Some diagnostic plots</h4>
+<p>The fact that the slope is significantly different from zero does not imply that this polynomial model of degree 1 correctly describes the data: at this stage, we can only conclude that a polynomial of degree 1 better explains the variability of the data than a constant model.</p>
+<p>Diagnostic plots are visual tools that allows one to ``see’’ if something is not right between a chosen model and the data it is hypothesized to describe.</p>
+<p>First, we can add the regression line to the plot of the data.</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-9_d0e80b3312d2382a6f4346555b8b26ba">
+<div class="sourceCode" id="cb15"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>cars_plot <span class="ot">&lt;-</span> cars_plot <span class="sc">+</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">colour=</span><span class="st">"#339900"</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>cars_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The regression line describes pretty well the global trend in the data: based on this graphic, there is no reason to reject the model.</p>
+<p>Several diagnostic plots are available for a <code>lm</code> object. The first two are a plot of residuals against fitted values and a normal QQ plot.</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-10_ccd5dbff34450b6d3828431d331d9177">
+<div class="sourceCode" id="cb16"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(lm0, <span class="at">which =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>) <span class="do">## autoplot comes from ggfortify</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The residual plot shows a slight (decreasing and increasing) trend which suggests that the residuals are not identically distributed around 0. Furthermore, the QQ plot shows that the extreme residual values are not the extreme values of a normal distribution. It may be therefore necessary to improve the regression model.</p>
+</section>
+<section id="the-predictive-performance-of-the-model" class="level4" data-number="2.3.3">
+<h4 data-number="2.3.3" class="anchored" data-anchor-id="the-predictive-performance-of-the-model"><span class="header-section-number">2.3.3</span> The predictive performance of the model</h4>
+<p>Even if the model it somewhat miss-specified, it may have good predictive properties.</p>
+<p>A common practice is to split the dataset into a 80:20 sample (training:test), then, build the model on the 80% sample and then use the model thus built to predict the reponse variable on test data.</p>
+<p>Doing it this way, we will have the model predicted values for the 20% data (test). We can then see how the model will perform with this ``new’’ data, by comparing these predicted values with the original ones. We can alo check the stability of the prediction given by the model, by comparing these predicted values with those obtained previouly, when the complete data were used for building the model.</p>
+<p>Let us first randomly define the training and test samples: ::: {.cell hash=“map566-lecture-polynomial-regression_cache/html/unnamed-chunk-11_3176fee90730f120174f51b2dcf4dd5f”}</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>cars_split    <span class="ot">&lt;-</span> rsample<span class="sc">::</span><span class="fu">initial_split</span>(cars, <span class="at">prop =</span> <span class="fl">0.8</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>cars_training <span class="ot">&lt;-</span> rsample<span class="sc">::</span><span class="fu">training</span>(cars_split)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>cars_test     <span class="ot">&lt;-</span> rsample<span class="sc">::</span><span class="fu">testing</span>(cars_split)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>:::</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-12_3eb36c376b3888c9ae1994db009aa5e3">
+<div class="sourceCode" id="cb18"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>pred_testing_set  <span class="ot">&lt;-</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm</span>(dist <span class="sc">~</span> speed, <span class="at">data =</span> cars_training) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(cars_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-13_4747d68020a8ad063283941de4cd1223">
+<p></p><details>
+<summary>Show the code</summary><p></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>cars_pred_plot <span class="ot">&lt;-</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  cars_training <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span>  <span class="fu">aes</span>(<span class="at">x =</span> speed, <span class="at">y =</span> dist) <span class="sc">+</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">colour=</span><span class="st">"#993399"</span>) <span class="sc">+</span>  <span class="fu">xlab</span>(<span class="st">"Speed mph)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Stopping distance (ft)"</span>) <span class="sc">+</span> </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> x) <span class="sc">+</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> <span class="fu">data.frame</span>(cars_test, <span class="at">testing =</span> pred_testing_set),</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> speed, <span class="at">y =</span> dist), <span class="at">size =</span> <span class="dv">2</span>, <span class="at">shape =</span> <span class="dv">3</span>, <span class="at">colour=</span><span class="st">"red"</span>)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>cars_pred_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>On one hand, it is reassuring to see that removing part of the data has a very little impact on the predictions. On the other hand, the predictive performance of the model remains limited because of the natural variability of the data. Indeed, this model built with the training sample only explains 71 % of the variabilility of the new test sample.</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-14_d488fd799ce6f341f5f79d77f51ab0cb">
+<div class="sourceCode" id="cb20"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>R2_test <span class="ot">&lt;-</span> <span class="fu">cor</span>(pred_testing_set, cars_test<span class="sc">$</span>dist)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>R2_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 0.7095633</code></pre>
+</div>
+</div>
+<p>Let us see now how the model behaves with extreme values by defining as test sample the data points with the 5 smallest and the 5 largest speeds.</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-15_79f3699290709cec659a2065e62347b0">
+<div class="sourceCode" id="cb22"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>cars_training <span class="ot">&lt;-</span> cars[<span class="fu">c</span>(<span class="dv">6</span><span class="sc">:</span><span class="dv">45</span>) ,]</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>cars_test     <span class="ot">&lt;-</span> cars[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">6</span><span class="sc">:</span><span class="dv">45</span>),]</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>pred_testing_set  <span class="ot">&lt;-</span> </span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm</span>(dist <span class="sc">~</span> speed, <span class="at">data =</span> cars_training) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(cars_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-16_e5482e2b1e8f9718034a0bff416a997e">
+<p></p><details>
+<summary>Show the code</summary><p></p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>cars_pred_plot <span class="ot">&lt;-</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  cars_training <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span>  <span class="fu">aes</span>(<span class="at">x =</span> speed, <span class="at">y =</span> dist) <span class="sc">+</span> </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">colour=</span><span class="st">"#993399"</span>) <span class="sc">+</span>  <span class="fu">xlab</span>(<span class="st">"Speed mph)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Stopping distance (ft)"</span>) <span class="sc">+</span> </span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> x) <span class="sc">+</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> <span class="fu">data.frame</span>(cars_test, <span class="at">testing =</span> pred_testing_set),</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> speed, <span class="at">y =</span> dist), <span class="at">size =</span> <span class="dv">2</span>, <span class="at">shape =</span> <span class="dv">3</span>, <span class="at">colour=</span><span class="st">"red"</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>cars_pred_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We see that the model now underestimate the stopping distance for the largest speeds. In conclusion, the model may be used with confidence for predicting the stopping distance for given speeds which are central values. Another model should probably be developed for predicting stopping distances for extreme speed values.</p>
+</section>
+<section id="confidence-interval-and-prediction-interval" class="level4" data-number="2.3.4">
+<h4 data-number="2.3.4" class="anchored" data-anchor-id="confidence-interval-and-prediction-interval"><span class="header-section-number">2.3.4</span> Confidence interval and prediction interval</h4>
+<p>Imagine we aim to predict the stopping distance for a speed <span class="math inline">x</span>. Using the estimated coefficients of our polynomial model, the prediction will be</p>
+<p><span class="math display">\hat{f}(x) = \hat{c}_0 + \hat{c}_1x </span></p>
+<p>This prediction is an estimation since it is based on estimated coefficients <span class="math inline">\hat{c}_0</span> and <span class="math inline">\hat{c}_1</span>. Then, the uncertainty on the prediction should be quantified by providing a confidence interval for <span class="math inline">f(x)</span>.</p>
+<p>Since the model can be used for predicting the stopping distance for non extreme speeds, we will restrict ourselves to speeds between 6 and 23 mph.</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-17_aa7bb37edd3a50b5c4e6a9e9319fa9b9">
+<div class="sourceCode" id="cb24"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>new_x <span class="ot">&lt;-</span> <span class="fu">data.frame</span>( <span class="at">speed =</span> (<span class="dv">6</span><span class="sc">:</span><span class="dv">23</span>))</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>conf_inter <span class="ot">&lt;-</span> </span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setNames</span>(<span class="fu">cbind</span>(new_x,</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(lm1, <span class="at">newdata =</span> new_x, <span class="at">interval =</span> <span class="st">"confidence"</span>, <span class="at">level =</span> <span class="dv">1</span> <span class="sc">-</span> alpha)),</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">"speed"</span>, <span class="st">"dist"</span>, <span class="st">"lwr"</span>, <span class="st">"upr"</span>))</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(conf_inter) <span class="sc">%&gt;%</span> <span class="fu">kable</span>() <span class="sc">%&gt;%</span> <span class="fu">kable_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class=" lightable-classic" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:right;"> speed </th>
+   <th style="text-align:right;"> dist </th>
+   <th style="text-align:right;"> lwr </th>
+   <th style="text-align:right;"> upr </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 6.015358 </td>
+   <td style="text-align:right;"> -2.973341 </td>
+   <td style="text-align:right;"> 15.00406 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 7 </td>
+   <td style="text-align:right;"> 9.947766 </td>
+   <td style="text-align:right;"> 1.678977 </td>
+   <td style="text-align:right;"> 18.21656 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 13.880175 </td>
+   <td style="text-align:right;"> 6.307527 </td>
+   <td style="text-align:right;"> 21.45282 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:right;"> 17.812584 </td>
+   <td style="text-align:right;"> 10.905121 </td>
+   <td style="text-align:right;"> 24.72005 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 10 </td>
+   <td style="text-align:right;"> 21.744993 </td>
+   <td style="text-align:right;"> 15.461917 </td>
+   <td style="text-align:right;"> 28.02807 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 11 </td>
+   <td style="text-align:right;"> 25.677401 </td>
+   <td style="text-align:right;"> 19.964525 </td>
+   <td style="text-align:right;"> 31.39028 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<p>A prediction interval for a new measured distance <span class="math inline">y=f(x)+e</span> can also be computed. This prediction interval takes into account both the uncertainty on the predicted distance <span class="math inline">f(x)</span> and the variability of the measure, represented in the model by the residual error <span class="math inline">e</span>.</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-18_b3c311154fb80170760c82350f7aa98e">
+<div class="sourceCode" id="cb25"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>pred_inter <span class="ot">&lt;-</span>    <span class="fu">setNames</span>(<span class="fu">cbind</span>(new_x,</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(lm1, <span class="at">newdata =</span> new_x, <span class="at">interval =</span> <span class="st">"prediction"</span>, <span class="at">level =</span> <span class="dv">1</span> <span class="sc">-</span> alpha)),</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">"speed"</span>, <span class="st">"dist"</span>, <span class="st">"lwr"</span>, <span class="st">"upr"</span>))</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pred_inter) <span class="sc">%&gt;%</span> <span class="fu">kable</span>() <span class="sc">%&gt;%</span> <span class="fu">kable_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class=" lightable-classic" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:right;"> speed </th>
+   <th style="text-align:right;"> dist </th>
+   <th style="text-align:right;"> lwr </th>
+   <th style="text-align:right;"> upr </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 6.015358 </td>
+   <td style="text-align:right;"> -26.187314 </td>
+   <td style="text-align:right;"> 38.21803 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 7 </td>
+   <td style="text-align:right;"> 9.947766 </td>
+   <td style="text-align:right;"> -22.061423 </td>
+   <td style="text-align:right;"> 41.95696 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 13.880175 </td>
+   <td style="text-align:right;"> -17.956287 </td>
+   <td style="text-align:right;"> 45.71664 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:right;"> 17.812584 </td>
+   <td style="text-align:right;"> -13.872245 </td>
+   <td style="text-align:right;"> 49.49741 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 10 </td>
+   <td style="text-align:right;"> 21.744993 </td>
+   <td style="text-align:right;"> -9.809601 </td>
+   <td style="text-align:right;"> 53.29959 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 11 </td>
+   <td style="text-align:right;"> 25.677401 </td>
+   <td style="text-align:right;"> -5.768620 </td>
+   <td style="text-align:right;"> 57.12342 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<p>Let us plot these two intervals.</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-19_7df47a012e31659362ba8a3e955d1df7">
+<p></p><details>
+<summary>Show the code</summary><p></p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>cars_training <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span>  <span class="fu">aes</span>(<span class="at">x =</span> speed, <span class="at">y =</span> dist) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> conf_inter, <span class="fu">aes</span>(<span class="at">ymin =</span> lwr, <span class="at">ymax =</span> upr), <span class="at">fill =</span> <span class="st">"red"</span> , <span class="at">alpha =</span> <span class="fl">0.75</span>) <span class="sc">+</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> pred_inter, <span class="fu">aes</span>(<span class="at">ymin =</span> lwr, <span class="at">ymax =</span> upr), <span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">alpha =</span> <span class="fl">0.25</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>These intervals are of very little interest and should not be used in practice. Indeed, we can see that both the confidence interval and the prediction interval contain negative values for small or moderate speeds, which is obviously unrealistic… We’ll see later how to transform the model and/or the data in order to take into account some constraints about the data.</p>
+<p><a href="polynomialRegression2.html#poly4">See how these intervals are computed.</a></p>
+</section>
+</section>
+<section id="fitting-a-polynomial-of-degree-2" class="level3" data-number="2.4">
+<h3 data-number="2.4" class="anchored" data-anchor-id="fitting-a-polynomial-of-degree-2"><span class="header-section-number">2.4</span> Fitting a polynomial of degree 2</h3>
+<p>We can expect to better describe the extreme values by using a polynomial of higher degree. Let us therefore fit a polynomial of degree 2 to the data.</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-20_fba230af06c1f3580810bb3c6f85a1b1">
+<div class="sourceCode" id="cb27"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>lm2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(dist <span class="sc">~</span>  speed <span class="sc">+</span> <span class="fu">I</span>(speed<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> cars)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = dist ~ speed + I(speed^2), data = cars)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-28.720  -9.184  -3.188   4.628  45.152 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)  2.47014   14.81716   0.167    0.868
+speed        0.91329    2.03422   0.449    0.656
+I(speed^2)   0.09996    0.06597   1.515    0.136
+
+Residual standard error: 15.18 on 47 degrees of freedom
+Multiple R-squared:  0.6673,    Adjusted R-squared:  0.6532 
+F-statistic: 47.14 on 2 and 47 DF,  p-value: 5.852e-12</code></pre>
+</div>
+</div>
+<p>Surprisingly, the 3 <span class="math inline">t</span>-tests seem to indicate that none of the coefficients is statistically significant. This result should be considered with caution.Indeed, it does not mean that the three coefficients can be replaced by 0 (i.e.&nbsp;removed) in the model.</p>
+<p>The difficulty of interpretating these p-values is due to the strong correlations that exist between the estimates <span class="math inline">\hat{c}_0</span>, <span class="math inline">\hat{c}_1</span> and <span class="math inline">\hat{c}_2</span>. It is recalled that the variance covariance matrix of the vector of estimates is <span class="math inline">\sigma^2(X^\prime X)^{-1}</span>. We can then easily derive the correlation matrix from covariance matrix.</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-21_b4a4819927c69861e9864e6f4f19869a">
+<div class="sourceCode" id="cb29"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(lm2)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>S <span class="ot">&lt;-</span> <span class="fu">solve</span>(<span class="fu">crossprod</span>(X))</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="fu">cov2cor</span>(S)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>R</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>            (Intercept)      speed I(speed^2)
+(Intercept)   1.0000000 -0.9605503  0.8929849
+speed        -0.9605503  1.0000000 -0.9794765
+I(speed^2)    0.8929849 -0.9794765  1.0000000</code></pre>
+</div>
+</div>
+<p>We will see below how to use a sequence of orthogonal polynomials in order to get uncorrelated estimates.</p>
+<p>The R-squared indicate that 66.7% of the variability of the data is explained by a polynomial of degree 2, instead of 65.1% with a polynomial of degree 1. On the other hand, the standard deviation of the residual error is 15.18 ft with this model instead of 15.38 ft with the previous one. These improvements are really too small to justify the use of a quadratic polynomial.</p>
+<p>Nevertheless, plotting the data together with the fitted polynomial suggests that the extreme values are better predicted with a polynomial of degree 2 than with a straight line.</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-22_30ecf965bb020f2a6f0e6c7c4261d173">
+<p></p><details>
+<summary>Show the code</summary><p></p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>cars_plot <span class="sc">+</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">2</span>, <span class="at">raw =</span> <span class="cn">TRUE</span>), <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">colour=</span><span class="st">"#339900"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+</div>
+<p></p><details>
+<summary>Show the code</summary><p></p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>cars_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-22-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The predictive performance of the model need to be assesed in order to confirm this property of the model. We can again use the 80% most central data points to build the model and test it on the 20% remaining data points.</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-23_66fb40a0730c22f42e8b390c41f8950c">
+<p></p><details>
+<summary>Show the code</summary><p></p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>cars_plot <span class="sc">+</span> </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data =</span> cars_training, <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">2</span>, <span class="at">raw =</span> <span class="cn">TRUE</span>), <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">colour=</span><span class="st">"#339900"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The shape of the polynomial is totally different when it is built using the training data only. That means that the model is quite unstable, depending strongly on some data values. Then, repeating the same experiment (under the same experimental conditions) would probably lead to significantly different results.</p>
+<p>Such lack of reproducibility of the predictions reinforces our idea that this model should be rejected.</p>
+</section>
+<section id="fitting-a-polynomial-without-intercept" class="level3" data-number="2.5">
+<h3 data-number="2.5" class="anchored" data-anchor-id="fitting-a-polynomial-without-intercept"><span class="header-section-number">2.5</span> Fitting a polynomial without intercept</h3>
+<p>The stopping distance predicted by the model should be null when the speed is null. This constraint can easily be achieved by removing the intercept from the regression model: <span class="math display">
+f(x) =  c_1 x + c_2 x^2 + \ldots + c_d x^d
+</span> Let us fit a regression model of degree 2 without intercept to our data.</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-24_2952746f7dc7777eec413b25a1e96621">
+<div class="sourceCode" id="cb34"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>lm2_no_inter <span class="ot">&lt;-</span> <span class="fu">lm</span>(dist <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> speed <span class="sc">+</span> <span class="fu">I</span>(speed<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> cars)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(lm2_no_inter)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>     speed I(speed^2) 
+1.23902996 0.09013877 </code></pre>
+</div>
+</div>
+<p>We can check that the design matrix consists of the 2 columns <span class="math inline">(x_j)</span> and <span class="math inline">(x_j^2)</span>.</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-25_da839739a1e6d6f652e53f6d7c242bb2">
+<div class="sourceCode" id="cb36"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(lm2_no_inter)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>  speed I(speed^2)
+1     4         16
+2     4         16
+3     7         49
+4     7         49
+5     8         64
+6     9         81</code></pre>
+</div>
+</div>
+<p>We can plot the data with the predicted response <span class="math inline">f(x)</span>, confidence interval for <span class="math inline">f(x)</span> and prediction intervals for new observations <span class="math inline">y</span>.</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-26_f5371e91fd8e4d472758a534d2fb78fe">
+<p></p><details>
+<summary>Show the code</summary><p></p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>new_x <span class="ot">&lt;-</span> <span class="fu">data.frame</span>( <span class="at">speed =</span> (<span class="dv">6</span><span class="sc">:</span><span class="dv">23</span>))</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(new_x, <span class="at">dist =</span> <span class="fu">predict</span>(lm2_no_inter, <span class="at">newdata =</span> new_x))</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>conf_inter <span class="ot">&lt;-</span> </span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setNames</span>(<span class="fu">cbind</span>(new_x,</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(lm2_no_inter, <span class="at">newdata =</span> new_x, <span class="at">interval =</span> <span class="st">"confidence"</span>, <span class="at">level =</span> <span class="dv">1</span> <span class="sc">-</span> alpha)),</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">"speed"</span>, <span class="st">"dist"</span>, <span class="st">"lwr"</span>, <span class="st">"upr"</span>))</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>pred_inter <span class="ot">&lt;-</span> </span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setNames</span>(<span class="fu">cbind</span>(new_x,</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(lm2_no_inter, <span class="at">newdata =</span> new_x, <span class="at">interval =</span> <span class="st">"prediction"</span>, <span class="at">level =</span> <span class="dv">1</span> <span class="sc">-</span> alpha)),</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">"speed"</span>, <span class="st">"dist"</span>, <span class="st">"lwr"</span>, <span class="st">"upr"</span>))</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>cars_training <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span>  <span class="fu">aes</span>(<span class="at">x =</span> speed, <span class="at">y =</span> dist) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> conf_inter, <span class="fu">aes</span>(<span class="at">ymin =</span> lwr, <span class="at">ymax =</span> upr), <span class="at">fill =</span> <span class="st">"red"</span> , <span class="at">alpha =</span> <span class="fl">0.75</span>) <span class="sc">+</span></span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> pred_inter, <span class="fu">aes</span>(<span class="at">ymin =</span> lwr, <span class="at">ymax =</span> upr), <span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">alpha =</span> <span class="fl">0.25</span>) <span class="sc">+</span>  </span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> fit, <span class="fu">aes</span>(<span class="at">x =</span> speed, <span class="at">y =</span> dist), <span class="at">colour=</span><span class="st">"#339900"</span>, <span class="at">size =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Confidence interval for <span class="math inline">f(x)</span> now only contain positive values for any <span class="math inline">x&gt;0</span> and is reduce to 0 when <span class="math inline">x=0</span>.</p>
+<p>On the other hand, prediction intervals for new observations still contain negative values. This is due to the fact that the residual error model is a <em>constant error model</em> <span class="math inline">y=f(x)+e</span>, assuming that the variance of the error <span class="math inline">e</span> does not depend on the predicted value <span class="math inline">f(x)</span>. This hypothesis doe not reflect the true phenomena and should be rejected. We will see that an appropriate alternative may consist in <a href="#transform">transforming the data</a>.</p>
+</section>
+<section id="using-orthogonal-polynomials" class="level3" data-number="2.6">
+<h3 data-number="2.6" class="anchored" data-anchor-id="using-orthogonal-polynomials"><span class="header-section-number">2.6</span> Using orthogonal polynomials</h3>
+<p>Instead of defining each component of the regression model <code>lm(dist ~ speed + I(speed^2) )</code>, it is equivalent to define explicitly the regression model as a polynomial of degree 2</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-27_d4f84cefda7994a64425337cdddf6352">
+<div class="sourceCode" id="cb39"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>lm2_poly <span class="ot">&lt;-</span> <span class="fu">lm</span>(dist <span class="sc">~</span> <span class="fu">poly</span>(speed, <span class="at">degree =</span> <span class="dv">2</span>, <span class="at">raw =</span> <span class="cn">TRUE</span>), <span class="at">data =</span> cars)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>design_raw <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(lm2_poly)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(design_raw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>  (Intercept) poly(speed, degree = 2, raw = TRUE)1
+1           1                                    4
+2           1                                    4
+3           1                                    7
+4           1                                    7
+5           1                                    8
+6           1                                    9
+  poly(speed, degree = 2, raw = TRUE)2
+1                                   16
+2                                   16
+3                                   49
+4                                   49
+5                                   64
+6                                   81</code></pre>
+</div>
+</div>
+<p>Results obtained with both methods are absolutely identical ::: {.cell hash=“map566-lecture-polynomial-regression_cache/html/unnamed-chunk-28_5b6f0c072339c2f7f20dcc4b6f7e4d66”}</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(lm2_poly)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>                         (Intercept) poly(speed, degree = 2, raw = TRUE)1 
+                           2.4701378                            0.9132876 
+poly(speed, degree = 2, raw = TRUE)2 
+                           0.0999593 </code></pre>
+</div>
+<p>:::</p>
+<p>We have seen that this model leads to highly correlated estimators of the coefficients of the model which make it difficult the interpretation of the results. Indeed, let <span class="math inline">X</span> be the design matrix for a polynomial model of degree <span class="math inline">d</span>, <span class="math display">
+X = \left( \begin{array}{cccc}
+1 &amp; x_1 &amp; \cdots &amp; x_1^{d} \\
+1 &amp; x_2 &amp; \cdots &amp; x_2^{d} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+1 &amp; x_n &amp; \cdots &amp; x_n^{d}
+\end{array}\right)
+</span> Then, the columns of <span class="math inline">X</span> are highly correlated since <span class="math display">
+(X^\prime X)_{kl} = \sum_{j=1}^n x_j^{k+l-2}
+</span></p>
+<p>The option <code>raw = FALSE</code> (which is the default) allows to use an orthogonal basis of polynomial.</p>
+<section id="the-gram-schmidt-procedure" class="level4" data-number="2.6.1">
+<h4 data-number="2.6.1" class="anchored" data-anchor-id="the-gram-schmidt-procedure"><span class="header-section-number">2.6.1</span> The Gram-Schmidt procedure</h4>
+<p>Orthogonal polynomials can be obtained by applying the Gram-Schmidt orthogonalization process to the basis 1, <span class="math inline">x</span>, <span class="math inline">x^2</span>, , <span class="math inline">x^{d}</span>:</p>
+<p><span class="math display">
+\begin{aligned}
+p_0(x) &amp;= 1 \\
+p_1(x) &amp;= x - \frac{\langle x, p_0 \rangle}{\langle p_0, p_0 \rangle} p_0(x) \\
+p_2(x) &amp;= x^2
+- \frac{\langle x^2 , p_1 \rangle}{\langle p_1, p_1 \rangle} p_1(x)
+- \frac{\langle x^2 , p_0 \rangle}{\langle p_0, p_0 \rangle} p_0(x)  \\
+&amp;\vdots \\
+p_{d}(x) &amp;= x^{d}
+- \frac{\langle x^{d} , p_{d-1} \rangle}{\langle p_{d-1}, p_{d-1} \rangle} p_{d-1}(x)
+- \cdots
+ - \frac{\langle x^{d} , p_0 \rangle}{\langle p_0, p_0 \rangle} p_0(x)
+\end{aligned}
+</span></p>
+<p>Let <span class="math inline">\tilde{X} = (p_0(x) , p_1(x), \cdots , p_{d}(x))</span> be the new design matrix. Then, <span class="math display">
+\tilde{X}^\prime \tilde{X} = \left( \begin{array}{cccc}
+n &amp; 0 &amp; \cdots &amp; 0 \\
+0 &amp; 1 &amp; \cdots &amp; 0 \\
+\vdots &amp; \vdots&amp; \ddots &amp; \vdots \\
+0 &amp; 0 &amp; \cdots &amp; 1
+\end{array} \right)
+</span></p>
+</section>
+<section id="orthogonal-polynomial-basis-with-degree-1" class="level4" data-number="2.6.2">
+<h4 data-number="2.6.2" class="anchored" data-anchor-id="orthogonal-polynomial-basis-with-degree-1"><span class="header-section-number">2.6.2</span> Orthogonal polynomial basis with degree 1</h4>
+<p>Let us see the results obtained with a polynomial of degree 1</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-29_97b508a442cd3cc7f27811a55288baca">
+<div class="sourceCode" id="cb43"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>lm1_ortho <span class="ot">&lt;-</span> <span class="fu">lm</span>(dist <span class="sc">~</span> <span class="fu">poly</span>(speed, <span class="at">degree =</span> <span class="dv">1</span>), <span class="at">data =</span> cars)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>design_ortho <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(lm1_ortho)</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(design_ortho)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>  (Intercept) poly(speed, degree = 1)
+1           1              -0.3079956
+2           1              -0.3079956
+3           1              -0.2269442
+4           1              -0.2269442
+5           1              -0.1999270
+6           1              -0.1729098</code></pre>
+</div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">crossprod</span>(design_ortho)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>                         (Intercept) poly(speed, degree = 1)
+(Intercept)             5.000000e+01            1.665335e-16
+poly(speed, degree = 1) 1.665335e-16            1.000000e+00</code></pre>
+</div>
+</div>
+<p>Here, the estimated intercept <span class="math inline">\hat{c}_0</span> is the empirical mean <span class="math inline">\bar{y}=</span> NA</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-30_ef62a613ecb014af6b14757a2e725b1c">
+<div class="sourceCode" id="cb47"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(lm1_ortho)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>            (Intercept) poly(speed, degree = 1) 
+                42.9800                145.5523 </code></pre>
+</div>
+</div>
+<p>Adding a term of degree 2 keeps the first two column of the design matrix unchanged</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-31_5e3caf6fa3ccedfe0ecca3e99173dc62">
+<div class="sourceCode" id="cb49"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>lm2_ortho <span class="ot">&lt;-</span> <span class="fu">lm</span>(dist <span class="sc">~</span> <span class="fu">poly</span>(speed, <span class="at">degree =</span> <span class="dv">2</span>), <span class="at">data =</span> cars)</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>design_ortho <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(lm2_ortho)</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(design_ortho)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>  (Intercept) poly(speed, degree = 2)1 poly(speed, degree = 2)2
+1           1               -0.3079956               0.41625480
+2           1               -0.3079956               0.41625480
+3           1               -0.2269442               0.16583013
+4           1               -0.2269442               0.16583013
+5           1               -0.1999270               0.09974267
+6           1               -0.1729098               0.04234892</code></pre>
+</div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">crossprod</span>(design_ortho)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>                          (Intercept) poly(speed, degree = 2)1
+(Intercept)              5.000000e+01             1.665335e-16
+poly(speed, degree = 2)1 1.665335e-16             1.000000e+00
+poly(speed, degree = 2)2 1.665335e-16             1.301786e-16
+                         poly(speed, degree = 2)2
+(Intercept)                          1.665335e-16
+poly(speed, degree = 2)1             1.301786e-16
+poly(speed, degree = 2)2             1.000000e+00</code></pre>
+</div>
+</div>
+<p>Let us look at the results obtained with this model:</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-32_f51de75de320b469753a5259a67efff5">
+<div class="sourceCode" id="cb53"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm2_ortho)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = dist ~ poly(speed, degree = 2), data = cars)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-28.720  -9.184  -3.188   4.628  45.152 
+
+Coefficients:
+                         Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)                42.980      2.146  20.026  &lt; 2e-16 ***
+poly(speed, degree = 2)1  145.552     15.176   9.591 1.21e-12 ***
+poly(speed, degree = 2)2   22.996     15.176   1.515    0.136    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 15.18 on 47 degrees of freedom
+Multiple R-squared:  0.6673,    Adjusted R-squared:  0.6532 
+F-statistic: 47.14 on 2 and 47 DF,  p-value: 5.852e-12</code></pre>
+</div>
+</div>
+<p>These results give rise to several comments:</p>
+<ul>
+<li>the first two estimated coefficients <span class="math inline">\hat{c}_0</span> and <span class="math inline">\hat{c}_1</span> are those obtained previously with a polynomial of degree 1</li>
+<li>the p-values of the <span class="math inline">t</span>-test can now properly be interpreted and confirm our previous analyis: the first two coefficients are statistically significant. The need of a quadratic term is much less obvious (<span class="math inline">p=0.136</span>). Furthermore, confidence intervals can be derived for each coefficient</li>
+</ul>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-33_8a7de0c27f7ce4a5fee403b869975b20">
+<div class="sourceCode" id="cb55"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(lm2_ortho)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>                              2.5 %    97.5 %
+(Intercept)               38.662361  47.29764
+poly(speed, degree = 2)1 115.021940 176.08257
+poly(speed, degree = 2)2  -7.534552  53.52608</code></pre>
+</div>
+</div>
+<ul>
+<li>The estimated variance of the residuals <span class="math inline">\hat{\sigma}^2</span>, the R-squared value and the adjusted R-squared value are identical when orthogonal or non orthogonal polynomial are used. Indeed, even if the parameterization is different, the two models are the same polynomials of degree 2 and therefore lead to the same predictions.</li>
+</ul>
+<p><a href="polynomialRegression2.html#poly5">See how these quantities are computed.</a></p>
+</section>
+</section>
+</section>
+<section id="model-comparison" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="model-comparison"><span class="header-section-number">3</span> Model comparison</h2>
+<section id="t-test" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="t-test"><span class="header-section-number">3.1</span> t-test</h3>
+<p>Several quantitative criteria and several statistical tests are available for comparing models.</p>
+<p>First, we have seen that <span class="math inline">t</span>-test are performed for each coefficient of the model</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-34_12b4db589781e892b04b4d4273341459">
+<div class="sourceCode" id="cb57"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lm1_ortho)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code># A tibble: 2 × 5
+  term                    estimate std.error statistic  p.value
+  &lt;chr&gt;                      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 (Intercept)                 43.0      2.18     19.8  1.06e-24
+2 poly(speed, degree = 1)    146.      15.4       9.46 1.49e-12</code></pre>
+</div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lm2_ortho)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code># A tibble: 3 × 5
+  term                     estimate std.error statistic  p.value
+  &lt;chr&gt;                       &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 (Intercept)                  43.0      2.15     20.0  1.19e-24
+2 poly(speed, degree = 2)1    146.      15.2       9.59 1.21e-12
+3 poly(speed, degree = 2)2     23.0     15.2       1.52 1.36e- 1</code></pre>
+</div>
+</div>
+<p>Based on these results, we can conclude that <span class="math inline">c_0 \neq 0</span> and <span class="math inline">c_1 \neq 0</span>. On the other hand, the data does not allow us to conclude that <span class="math inline">c_2 \neq 0</span>.</p>
+</section>
+<section id="analysis-of-variance-anova" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="analysis-of-variance-anova"><span class="header-section-number">3.2</span> Analysis-of-variance (anova)</h3>
+<p>By construction, the F-statistics provided with the summary of a fitted model is the F-statistics of an anova for testing this fitted model against the model without explanatory variable <code>lm0</code>. This test is known as the overall F-test for regression.</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-35_00564bc4c7552e0a7a55bd3fd53c787e">
+<div class="sourceCode" id="cb61"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(lm0, lm1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Model 1: dist ~ 1
+Model 2: dist ~ speed
+  Res.Df   RSS Df Sum of Sq      F   Pr(&gt;F)    
+1     49 32539                                 
+2     48 11354  1     21186 89.567 1.49e-12 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(lm0, lm2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Model 1: dist ~ 1
+Model 2: dist ~ speed + I(speed^2)
+  Res.Df   RSS Df Sum of Sq      F    Pr(&gt;F)    
+1     49 32539                                  
+2     47 10825  2     21714 47.141 5.852e-12 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>Not surprisingly, both <code>lm1</code> and <code>lm2</code> are clearly preferred to <code>lm0</code>. As already stated above the <span class="math inline">t</span>-test and the <span class="math inline">F</span>-test for testing <code>lm0</code> against <code>lm1</code> are equivalent.</p>
+<p>We can also perform an ANOVA to test <code>lm1</code> against <code>lm2</code>:</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-36_33e72bf03b5784fbfcde132cb5c3f2d0">
+<div class="sourceCode" id="cb65"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(lm1, lm2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Model 1: dist ~ speed
+Model 2: dist ~ speed + I(speed^2)
+  Res.Df   RSS Df Sum of Sq     F Pr(&gt;F)
+1     48 11354                          
+2     47 10825  1    528.81 2.296 0.1364</code></pre>
+</div>
+</div>
+<p><code>lm1</code> is slightly preferred to <code>lm2</code> for this criterion.</p>
+</section>
+<section id="likelihood-ratio-test-lrt" class="level3" data-number="3.3">
+<h3 data-number="3.3" class="anchored" data-anchor-id="likelihood-ratio-test-lrt"><span class="header-section-number">3.3</span> Likelihood ratio test (LRT)</h3>
+<p>The likelihood ratio test can be used for testing 2 nested models. Since our 3 polynomial models are nested, we can use the LRT fo testing one of these model against another one.</p>
+<p>Log-likelihoods <span class="math inline">\log\ell_0(\hat\theta_0)</span>, <span class="math inline">\log\ell_1(\hat\theta_1)</span> and <span class="math inline">\log\ell_2(\hat\theta_2)</span> are available, where <span class="math inline">\hat\theta_k</span> is the maximum likelihood estimate of the parameter of model <code>lmk</code> for <span class="math inline">k=0, 1, 2</span>.</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-37_272c3159f055a30ecfeb4a0fad182cd3">
+<div class="sourceCode" id="cb67"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">logLik</span>(lm0)</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="fu">logLik</span>(lm1)</span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a><span class="fu">logLik</span>(lm2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-38_764d0a1d73021ecfdefda9893ed7eb32">
+<div class="cell-output-stdout">
+<pre><code>'log Lik.' -232.9012 (df=2)</code></pre>
+</div>
+<div class="cell-output-stdout">
+<pre><code>'log Lik.' -206.5784 (df=3)</code></pre>
+</div>
+<div class="cell-output-stdout">
+<pre><code>'log Lik.' -205.386 (df=4)</code></pre>
+</div>
+</div>
+<p>For testing <code>lm0</code> against <code>lm1</code>, we compute the test statistic <span class="math inline">2(\log\ell_1(\hat\theta_1) - \log\ell_0(\hat\theta_0)</span> which has a <span class="math inline">\chi^2</span> distribution with 1 degree of freedom under <code>lm0</code>. Then, the <span class="math inline">p</span>-value of this test can easily be computed:</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-39_a28c0617d1a0988d2c9f151463224127">
+<div class="sourceCode" id="cb71"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>dl <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span><span class="fu">as.numeric</span>(<span class="fu">logLik</span>(lm1) <span class="sc">-</span> <span class="fu">logLik</span>(lm0))</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">-</span><span class="fu">pchisq</span>(dl,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 3.995693e-13</code></pre>
+</div>
+</div>
+<p>The test statistic <span class="math inline">2(\log\ell_2(\hat\theta_2) - \log\ell_1(\hat\theta_1)</span> is used for testing <code>lm1</code> against <code>lm2</code>:</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-40_61f35421edabe719e706a0d02701ff50">
+<div class="sourceCode" id="cb73"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>dl <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">as.numeric</span>(<span class="fu">logLik</span>(lm2) <span class="sc">-</span> <span class="fu">logLik</span>(lm1))</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pchisq</span>(dl,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 0.122521</code></pre>
+</div>
+</div>
+<p>We can see with this example that the ANOVA and the LRT give very similar results and lead to the same conclusion: the constant model can be rejected with high confidence (i.e.&nbsp;the stopping distance depends on the speed), while a model with both a linear and a quadratic component is not preferred to a model with a linear component only (i.e.&nbsp;we don’t reject the hypothesis that the stopping distance increase linearly with the speed).</p>
+</section>
+<section id="information-criteria" class="level3" data-number="3.4">
+<h3 data-number="3.4" class="anchored" data-anchor-id="information-criteria"><span class="header-section-number">3.4</span> Information criteria</h3>
+<p>Information criteria such as the Akaike information criterion (AIC) and the Bayesian information criaterion (BIC) can also be used for comparing models which are not necessarily nested.</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-41_3e3ad94708d6f54a7d6afc84dadbd7f3">
+<div class="sourceCode" id="cb75"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(lm0, lm1, lm2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>    df      AIC
+lm0  2 469.8024
+lm1  3 419.1569
+lm2  4 418.7721</code></pre>
+</div>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">BIC</span>(lm0, lm1, lm2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>    df      BIC
+lm0  2 473.6265
+lm1  3 424.8929
+lm2  4 426.4202</code></pre>
+</div>
+</div>
+<p>Models with lowest AIC and/or BIC will be preferred. Here, both criteria agree for rejecting <code>lm0</code> with high confidence. AIC has a very slight preference for <code>lm2</code> while BIC penalizes a little bit more polynomial with higher degree and prefers <code>lm1</code>. Nevertheless, these differences are not large enough for selecting definitely any of these 2 models.</p>
+<p><a href="polynomialRegression2.html#poly3">See how these quantities are computed.</a></p>
+<p><a name="transform"></a></p>
+</section>
+</section>
+<section id="data-transformation" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="data-transformation"><span class="header-section-number">4</span> Data transformation</h2>
+<p>When fitting a linear regression model one assumes that there is a linear relationship between the response variable and each of the explanatory variables. However, in many situations there may instead be a non-linear relationship between the variables. This can sometimes be remedied by applying a suitable transformation to some (or all) of the variables, such as power transformations or logarithms.</p>
+<p>In addition, transformations can be used to correct violations of model assumptions such as constant error variance and normality.</p>
+<p>Applying suitable transformations to the original data prior to performing regression may be sufficient to make linear regression models appropriate for the transformed data.</p>
+</section>
+<section id="log-based-tranformations" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="log-based-tranformations"><span class="header-section-number">5</span> Log based tranformations</h2>
+<p>Let’s plot the data using semi-log scales: we use a logarithmic scale for the x-axis and a linear scale for the y-axis in the first plot, a linear scale for the x-axis and a logarithmic scale for the y-axis in the second plot.</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-42_dbb476a3bdfb88c9b481158fafc07624">
+<div class="sourceCode" id="cb79"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(</span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>  cars_plot <span class="sc">+</span> <span class="fu">scale_x_log10</span>(),</span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>  cars_plot <span class="sc">+</span> <span class="fu">scale_y_log10</span>(), <span class="at">nrow =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-42-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>None of thee two plots show any linear trend. Then, let us try with a log-log transformation.</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-43_4f9028eb479ad897cfa29624c9809930">
+<div class="sourceCode" id="cb80"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>cars_plot <span class="sc">+</span> <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-43-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Looks much better!</p>
+<p>We can then try to fit the following model to the data: <span class="math display"> \log(y_j) = c_0 + c_1\log(x_j) + \varepsilon_j </span> Another representation of this model exhibits a power relationship between the explanatory and response variables <span class="math display"> y_j = A \, x_j^{c_1} \, e^{\varepsilon_j} </span> where <span class="math inline">A=e^{c_0}</span>. This model ensures that the response <span class="math inline">y</span> can only take positive values. Furthermore, the variability of the response increases with the explanatory variable. Indeed, for small <span class="math inline">\varepsilon_j</span>, <span class="math display"> y_j \approx A \, x_j^{c_1}(1 + \varepsilon_j)</span></p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-44_a1ff67f11ee5bd1cc9601b729edd00d6">
+<div class="sourceCode" id="cb81"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>lm1_log <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(dist) <span class="sc">~</span> <span class="fu">log</span>(speed), <span class="at">data =</span> cars)</span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm1_log)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = log(dist) ~ log(speed), data = cars)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.00215 -0.24578 -0.02898  0.20717  0.88289 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  -0.7297     0.3758  -1.941   0.0581 .  
+log(speed)    1.6024     0.1395  11.484 2.26e-15 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.4053 on 48 degrees of freedom
+Multiple R-squared:  0.7331,    Adjusted R-squared:  0.7276 
+F-statistic: 131.9 on 1 and 48 DF,  p-value: 2.259e-15</code></pre>
+</div>
+</div>
+<p>This model now explains 73% of the (transformed) data.</p>
+<section id="diagnostic-plots" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="diagnostic-plots"><span class="header-section-number">5.1</span> Diagnostic plots</h3>
+<p>Let us plot the data with the regression line:</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-45_de351e52841f618b0bdffed983df1324">
+<div class="sourceCode" id="cb83"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>cars_plot_log <span class="ot">&lt;-</span></span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(cars) <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(speed), <span class="at">y =</span> <span class="fu">log</span>(dist)) <span class="sc">+</span> </span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">colour=</span><span class="st">"#993399"</span>) </span>
+<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>cars_plot_log <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-45-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This plot, plus the two following diagnostic plots, show that the model fits quite well the data.</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-46_2c0c2cbe5791b7e109e33e2b64bd2e18">
+<div class="sourceCode" id="cb84"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(lm1_log, <span class="at">which =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-46-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>In the next plot, we compare the fits obtained when the model is built using the complete data (green) and when only the training sample is used (red).</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-47_29943a6bca856c6bcf8edd67fecdf42b">
+<p></p><details>
+<summary>Show the code</summary><p></p>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>training <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">6</span><span class="sc">:</span><span class="dv">45</span>)</span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>cars_test     <span class="ot">&lt;-</span> cars[<span class="sc">-</span>training, ]</span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>cars_training <span class="ot">&lt;-</span> cars[ training , ]</span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a>cars_plot_log <span class="sc">+</span></span>
+<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data =</span> cars_training, </span>
+<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(speed), <span class="at">y =</span> <span class="fu">log</span>(dist)),</span>
+<span id="cb85-7"><a href="#cb85-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb85-8"><a href="#cb85-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data =</span> cars,</span>
+<span id="cb85-9"><a href="#cb85-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(speed), <span class="at">y =</span> <span class="fu">log</span>(dist)),</span>
+<span id="cb85-10"><a href="#cb85-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">se =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-47-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>These two models are very similar: the estimation is relatively insensible to extreme values.</p>
+</section>
+<section id="confidence-interval-and-prediction-interval-1" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="confidence-interval-and-prediction-interval-1"><span class="header-section-number">5.2</span> Confidence interval and prediction interval</h3>
+<p>Based on the previous analysis, the model can be used for predicting stopping distances for a wide range of speeds. Let us compute and display the confidence interval for the regression line (of the model <code>lm(log(dist) ~ log(speed)))</code> and the prediction interval for new observed log-distances.</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-48_c0cd57652ca89873cf924a99ace5c6d7">
+<p></p><details>
+<summary>Show the code</summary><p></p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>new_x <span class="ot">&lt;-</span> <span class="fu">data.frame</span>( <span class="at">speed =</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">30</span>)</span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(new_x, <span class="at">log_dist =</span> <span class="fu">predict</span>(lm1_log, <span class="at">newdata =</span> new_x))</span>
+<span id="cb86-4"><a href="#cb86-4" aria-hidden="true" tabindex="-1"></a>conf_inter <span class="ot">&lt;-</span> </span>
+<span id="cb86-5"><a href="#cb86-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setNames</span>(<span class="fu">cbind</span>(new_x,</span>
+<span id="cb86-6"><a href="#cb86-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(lm1_log, <span class="at">newdata =</span> new_x, <span class="at">interval =</span> <span class="st">"confidence"</span>, <span class="at">level =</span> <span class="dv">1</span> <span class="sc">-</span> alpha)),</span>
+<span id="cb86-7"><a href="#cb86-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">"speed"</span>, <span class="st">"dist"</span>, <span class="st">"lwr"</span>, <span class="st">"upr"</span>))</span>
+<span id="cb86-8"><a href="#cb86-8" aria-hidden="true" tabindex="-1"></a>pred_inter <span class="ot">&lt;-</span> </span>
+<span id="cb86-9"><a href="#cb86-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setNames</span>(<span class="fu">cbind</span>(new_x,</span>
+<span id="cb86-10"><a href="#cb86-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(lm1_log, <span class="at">newdata =</span> new_x, <span class="at">interval =</span> <span class="st">"prediction"</span>, <span class="at">level =</span> <span class="dv">1</span> <span class="sc">-</span> alpha)),</span>
+<span id="cb86-11"><a href="#cb86-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">"speed"</span>, <span class="st">"dist"</span>, <span class="st">"lwr"</span>, <span class="st">"upr"</span>))</span>
+<span id="cb86-12"><a href="#cb86-12" aria-hidden="true" tabindex="-1"></a>cars_training <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span>  <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(speed), <span class="at">y =</span> <span class="fu">log</span>(dist)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb86-13"><a href="#cb86-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> conf_inter, <span class="fu">aes</span>(<span class="at">ymin =</span> lwr, <span class="at">ymax =</span> upr), <span class="at">fill =</span> <span class="st">"red"</span> , <span class="at">alpha =</span> <span class="fl">0.75</span>) <span class="sc">+</span></span>
+<span id="cb86-14"><a href="#cb86-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> pred_inter, <span class="fu">aes</span>(<span class="at">ymin =</span> lwr, <span class="at">ymax =</span> upr), <span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">alpha =</span> <span class="fl">0.25</span>) <span class="sc">+</span></span>
+<span id="cb86-15"><a href="#cb86-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> fit, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(speed), <span class="at">y =</span> log_dist), <span class="at">colour=</span><span class="st">"#339900"</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb86-16"><a href="#cb86-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">xlab</span>(<span class="st">"speed (mph)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"stopping distance (ft)"</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-48-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We can derive from these intervals a confidence interval and a prediction interval for the non transformed data (i.e.&nbsp;using the original scale).</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-49_6a129534e3ec8a6cc7f171a70b364e5e">
+<p></p><details>
+<summary>Show the code</summary><p></p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>cars_training <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span>  <span class="fu">aes</span>(<span class="at">x =</span> speed, <span class="at">y =</span> dist) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> conf_inter, <span class="fu">aes</span>(<span class="at">ymin =</span> <span class="fu">exp</span>(lwr), <span class="at">ymax =</span> <span class="fu">exp</span>(upr)), <span class="at">fill =</span> <span class="st">"red"</span> , <span class="at">alpha =</span> <span class="fl">0.75</span>) <span class="sc">+</span></span>
+<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> pred_inter, <span class="fu">aes</span>(<span class="at">ymin =</span> <span class="fu">exp</span>(lwr), <span class="at">ymax =</span> <span class="fu">exp</span>(upr)), <span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">alpha =</span> <span class="fl">0.25</span>) <span class="sc">+</span></span>
+<span id="cb87-4"><a href="#cb87-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> fit, <span class="fu">aes</span>(<span class="at">x =</span> speed, <span class="at">y =</span> <span class="fu">exp</span>(log_dist)), <span class="at">colour=</span><span class="st">"#339900"</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb87-5"><a href="#cb87-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">xlab</span>(<span class="st">"speed (mph)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"stopping distance (ft)"</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-49-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The general trend describes quite well how the stopping distance increases with the speed. Nevertheless, the residual error model seems to over-estimate the variability of the data for the greatest speeds.</p>
+</section>
+<section id="model-comparison-1" class="level3" data-number="5.3">
+<h3 data-number="5.3" class="anchored" data-anchor-id="model-comparison-1"><span class="header-section-number">5.3</span> Model comparison</h3>
+<p>We will investigate now if the numerical criteria for model comparison confirm that this model based on a log-log transformation should be preferred to the polynomial models.</p>
+<p>Let us compute first the log-likelihood for this model.</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-50_3f5dc0673b70cb20f7d551e7564ca4b7">
+<div class="sourceCode" id="cb88"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">logLik</span>(lm1_log)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>'log Lik.' -24.76592 (df=3)</code></pre>
+</div>
+</div>
+<p><strong>WARNING:</strong> This value of the log-likelihood cannot be compared as it is to the log-likelihoods computed previously. Indeed, by definition, the log-likelihood for model <code>lm1.log</code> is the probability density function (pdf) of <span class="math inline">log(y)</span>.</p>
+<p><span class="math display">
+\begin{aligned}
+\log\ell_{\rm lm1.log} &amp;= \log\ell(\hat{\theta}_{\rm lm1.log}) \\
+&amp;= \mathbb{P} (\log(y) ; \hat{\theta}_{\rm lm1.log})
+\end{aligned}
+</span> where <span class="math inline">\hat{\theta}_{\rm lm1.log}</span> is the ML estimator of <span class="math inline">\theta</span> for model <code>lm1.log</code>.</p>
+<p>Then, the pdf of <span class="math inline">\log(y)</span> under this model cannot be directly compared to the pdf of <span class="math inline">y</span> under another model. We need instead to compute the pdf of <span class="math inline">y</span> under this model. For any <span class="math inline">\theta</span> and any <span class="math inline">1 \leq j \leq n</span>,</p>
+<p><span class="math display">
+\begin{aligned}
+\mathbb{P}(y_j ; \theta) &amp;= \mathbb{P}(\log(y_j) ; \theta)\times \frac{1}{y_j}
+\end{aligned}
+</span> and <span class="math display"> \log (\mathbb{P}(y ; \theta)) = \log (\mathbb{P} (\log(y) ; \theta)) - \sum_{j=1}^n \log(y_j) </span></p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-51_b7a6bbf6f0028b0aea203f156b8ee2aa">
+<div class="sourceCode" id="cb90"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">logLik</span>(lm1_log) <span class="sc">-</span> <span class="fu">sum</span>(<span class="fu">log</span>(cars<span class="sc">$</span>dist))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>'log Lik.' -201.5613 (df=3)</code></pre>
+</div>
+</div>
+<p>The information criteria should also take into account this transformation</p>
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-52_7f89f79bdf3e3def49e7db3fce80ee72">
+<div class="sourceCode" id="cb92"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(lm1_log) <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sum</span>(<span class="fu">log</span>(cars<span class="sc">$</span>dist))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 409.1226</code></pre>
+</div>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="fu">BIC</span>(lm1_log) <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sum</span>(<span class="fu">log</span>(cars<span class="sc">$</span>dist))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 414.8587</code></pre>
+</div>
+</div>
+<p>Both criteria prefer this model based on a log-log transformation than any polynomial model without any transformation.</p>
+<p><strong>Remark:</strong> Since models <code>lm1</code> and <code>lm1_log</code> have the same number of parameters, log-likelihoods without penalisation can be used for comparing these 2 models.</p>
+
+
+</section>
+</section>
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</main> <!-- /main -->
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../docs/regression/map566-lecture-regression-background.html">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Linear regression: quick recap</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../docs/regression/map566-lab-polynomial-regression.html">
+        <span class="nav-page-text">Polynomial regression model: exercices</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Last update: November 2021</div>   
+  </div>
+</footer>
+
+
+</body></html>
