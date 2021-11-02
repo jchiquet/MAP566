@@ -20,6 +20,12 @@ jobs:
           environment-file: environment.yml
           activate-environment: MAP566      
 
+      - name: Installing additional R packages
+        shell: bash -l {0}
+        run: | 
+          export LANG=en_US.UTF-8
+          conda run -n MAP566 Rscript cran_dependencies.R
+          
       - name: Installing quarto
         uses: quarto-dev/quarto-actions/install-quarto@v1
 

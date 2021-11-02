@@ -16,7 +16,7 @@ theme_set(theme_bw())
 The dataset `geHT.csv` consists of gene expression measurements for ten genes under control and treatment conditions, with four replicates each.
 
 ```{r test-gene-read, message = FALSE}
-gene_data  <- readr::read_csv("data/geHT.csv")
+gene_data  <- readr::read_csv("../../data/geHT.csv")
 controls   <- gene_data %>% dplyr::select(starts_with("c")) %>% unlist()
 treatments <- gene_data %>% dplyr::select(starts_with("t")) %>% unlist()
 ```
@@ -93,7 +93,7 @@ Prognostic markers are needed to identify patients who are at the highest risk f
 The datafile `geneMFS.csv` contains the expression level of 11 genes and the metastasis-free survival (the period until metastasis is detected) for 527 patients.
 
 ```{r test-cancer-read, message = FALSE}
-cancer <- read_csv("data/geneMFS.csv") 
+cancer <- read_csv("../../data/geneMFS.csv") 
 ```
 
 The objective of this study is to identify which genes may be good or poor prognosis for the development of metastasis.

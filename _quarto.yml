@@ -50,10 +50,10 @@ site:
         - section: "Lectures"
           contents:
             - docs/tests/map566-lecture-single.Rmd
-            - docs/tests/map566-lecture-multiple.qmd
+            - docs/tests/map566-lecture-multiple.Rmd
         - section: "Labs"
           contents:
-            - docs/tests/map566-lab-tests.qmd
+            - docs/tests/map566-lab-tests.Rmd
         - section: "Documents"
           contents:
             - text: "article"
@@ -63,52 +63,51 @@ site:
       contents:
         - section: "Lectures"
           contents:
-            - docs/regression/map566-lecture-regression-background.qmd
-            - docs/regression/map566-lecture-polynomial-regression.qmd
+            - docs/regression/map566-lecture-regression-background.Rmd
+            - docs/regression/map566-lecture-polynomial-regression.Rmd
         - section: "PC/Labs"
           contents:
-            - docs/regression/map566-lab-polynomial-regression.qmd
-            - docs/regression/map566-lab-nonlinear-regression.qmd
+            - docs/regression/map566-lab-polynomial-regression.Rmd
+            - docs/regression/map566-lab-nonlinear-regression.Rmd
     - id: mixed-models
       title: "Mixed models"
       contents:
         - section: "Lectures"
           contents:
-            - docs/mixed-models/lectures-lmm.qmd
-            - docs/mixed-models/lectures-nlmm.qmd
+            - docs/mixed-models/map566-lecture-linear-mixed-model.Rmd
+            - docs/mixed-models/map566-lecture-nonlinear-mixed-model.Rmd
         - section: "PC/Labs"
           contents:
-            - docs/mixed-models/exercices-lmm.qmd
-            - docs/mixed-models/exercices-nlmm.qmd
+            - docs/mixed-models/map566-lab-linear-mixed-model.Rmd
+            - docs/mixed-models/map566-lab-nonlinear-mixed-model.Rmd
 
     - id: mixture-models
       title: "Mixture models"
       contents:
         - section: "Lectures"
           contents:
-            - docs/mixture-models/lectures-gmm.qmd
-            - docs/mixture-models/lectures-sbm.qmd
+            - docs/mixed-models/map566-lecture-gaussian-mixture-models.Rmd
+            - docs/mixed-models/map566-lecture-stochastic-block-models.Rmd
         - section: "PC/Labs"
           contents:
-            - docs/mixture-models/exercices-gmm.qmd
-            - docs/mixture-models/exercices-sbm.qmd
-
+            - docs/mixed-models/map566-lab-gaussian-mixture-models.Rmd
+            - docs/mixed-models/map566-lab-stochastic-block-models.Rmd
     - id: multivariate-models
       title: "Multivariate models"
       contents:
         - section: "Lectures"
           contents:
-            - docs/multivar-models/lectures-ppca.qmd
-            - docs/multivar-models/lectures-glmm.qmd
+            - docs/mixed-models/map566-lecture-probabilitic-PCA.Rmd
+            - docs/mixed-models/map566-lecture-generalized-linear-mixed-models.Rmd
         - section: "PC/Labs"
           contents:
-            - docs/multivar-models/exercices-ppca.qmd
-            - docs/multivar-models/exercices-glmm.qmd
+            - docs/mixed-models/map566-lab-probabilitic-PCA.Rmd
+            - docs/mixed-models/map566-lab-generalized-linear-mixed-models.Rmd
 
     - id: homework
       title: "Homework"
         
   footer:
-    left: "Last update: October 2021"
+    left: "Last update: November 2021"
 
 bibliography: biblio_MAP566.bib

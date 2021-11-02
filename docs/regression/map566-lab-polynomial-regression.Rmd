@@ -22,7 +22,7 @@ The file `ratWeight.csv` consists of rat weights measured over 14 weeks during a
 We will only consider the weight of rat B38625. 
 
 ```{r linear-regression-read, message = FALSE}
-rat_weight <- read_csv("ratWeight.csv") %>% filter(id == 'B38625')
+rat_weight <- read_csv("../../data/ratWeight.csv") %>% filter(id == 'B38625')
 rat_weight %>% kableExtra::kbl() %>% kableExtra::kable_styling()
 ```
 
