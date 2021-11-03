@@ -2,7 +2,14 @@
 title: 'Multiple Testing'
 ---
 
-# Introduction
+## Introduction {.unnumbered}
+
+```{r, message = FALSE, warnings = FALSE}
+library(tidyverse)
+library(gridExtra)
+library(kableExtra)
+theme_set(theme_bw())
+```
 
 When we perform a large number of statistical tests, some will have $p$-values less than 0.05 purely by chance, even if all the null hypotheses are really true. 
 
@@ -19,24 +26,18 @@ If important conclusions and decisions are based on these false positives, it is
 
    * the family-wise error rate is the probability of making one or more false discoveries, or type I errors when performing multiple hypotheses tests
    
-   $$ FWER = \prob{m_{01}\geq 1} $$
-
+$$ FWER = \mathbb{P}(m_{01}\geq 1) $$
 
 When true positives are expected, it is possible to miss some of them. We then necessarily need to accept false positives if we want to limit the number of these false negatives. It is important in such situation to control the false discovery rate (FDR)
 
    * The false discovery rate (FDR) is the expected proportion of false discoveries among the discoveries
    
-   $$FDR = \esp{\frac{m_{01}}{m_{01} + m_{11}}} = \esp{\frac{m_{01}}{m_{\cdot1} }}$$
-   
-
-
+$$FDR = \mathbb{E}\left(\frac{m_{01}}{m_{01} + m_{11}}\right) = \mathbb{E}\left(\frac{m_{01}}{m_{\cdot1} }\right)$$
 Several procedures exist for controlling either the FWER or the FDR.
 
-</br>
+## Distribution of the p-values
 
-# Distribution of the p-values
-
-## Introduction
+### Introduction
 
 The health effects of a Roundup-tolerant genetically modified maize, cultivated with or without Roundup, and Roundup alone, were studied during a 2 years study in rats.
 
@@ -50,187 +51,139 @@ See the opinion of the [Haut Conseil des Biotechnologies](http://www.hautconseil
 
 Here is a summary of the data,
 
-```{r}
-data <- read.csv("data/ratSurvival.csv", stringsAsFactors = T)
-head(data)
-summary(data)
-levels(data$regimen)
+```{r, message = FALSE}
+survival <- read_csv("../../data/ratSurvival.csv") %>% mutate_if(is.character, factor) 
+survival %>% head() %>% kable() %>% kable_classic()
+levels(survival$regimen)
 ``` 
 
-</br>
-
-## Single comparison between 2 groups
+### Single comparison between 2 groups
 
 One objective of this study is the comparison of the survival between the control group and the experimental groups.
 
 Consider for instance the control group of females 
 
 ```{r}
-data.control <- subset(data, regimen=="control" & gender=="female")
-data.control$time
+time_control <- survival %>% 
+  filter(regimen == "control", gender == "female") %>% pull(time)
 ``` 
 
 Only 2 rats of this group died before the end of the experiment. On the other hand, 7 females of the group fed with 22% of maize NK693 died during the experiment.
 
 ```{r}
-data.test <- subset(data, regimen=="NK603-22%" & gender=="female")
-data.test$time
+time_test <- survival %>% 
+  filter(regimen == "NK603-22%", gender == "female") %>% pull(time)
 ``` 
 
 A negative effect of the diet on the survival means that the rats of the experimental group tend to die before those of the control group. Then, we would like to test 
+
 $$\begin{aligned}
-& H_0: \ ``\text{the NK603 22% diet has no effect on the survival of female rats }" \\
-\text{versus } & H_1: \ ``\text{the NK603 22% diet leads to decreased survival time for female rats}" \end{aligned}$$
+& H_0: \ "\text{the NK603 22\% diet has no effect on the survival of female rats }"\\
+\text{versus } & H_1: \ "\text{the NK603 22\% diet leads to decreased survival time for female rats}"\\ \end{aligned}$$
 
 In terms of survival functions, that means that, under $H_1$, the probability to be alive at a given time $t$ is lower for a rat of the experimental group than for a rat of the control group. We then would like to test
+
 $$\begin{aligned}
-& H_0: \ ``\prob{T_{\rm test}>t} = \prob{T_{\rm control}>t}, \text{ for any } t>0" \\
-\text{versus } & H_1: \ ``\prob{T_{\rm test}>t} < \prob{T_{\rm control}>t}, \text{ for any } t>0" 
-\end{aligned}$$
+& H_0: \ ``\mathbb{P}(T_{\rm test}>t) = \mathbb{P}(T_{\rm control}>t), \text{ for any } t>0" \\
+\text{versus } & H_1: \ ``\mathbb{P}(T_{\rm test}>t) < \mathbb{P}(T_{\rm control}>t), \text{ for any } t>0" \end{aligned}$$
  
 Because of the (right) censoring process, we cannot just compare the mean survival times using  a $t$-test.
 On the other hand, we can use the Wilcoxon-Mann-Whitney test which precisely aims to compare the ranks of the survival times in both groups.
 
 ```{r, message=FALSE, warning=FALSE}
-wilcox.test(data.test$time, data.control$time, alternative="less")
+wilcox.test(time_test, time_control, alternative="less")
 ```
 
 Here, the $p$-value should lead us to reject the null hypothesis and conclude that 22% of the GM maize in the diet has a negative effect on the survival.
-
-</br>
 
 ## A single comparison... among many others
 
 Should we really accept this conclusion as it stands? No, because we don't know the whole story...
 Remember that there are 9 experimental groups for each sex. Then, 18 comparisons with the control groups are performed.
 
-
-```{r, message=FALSE, warning=FALSE, fig.height=4, fig.width=10}
-library(ggplot2) ; theme_set(theme_bw())
-pval <- stat <- gender <- regimen <- NULL
-for (g in levels(data$gender)) {
-  data.control <- subset(data, regimen=="control" & gender==g)
-  for (r in levels(data$regimen)) {
-    if (r != "control") {
-      data.test <- subset(data, gender==g & regimen==r)
-      wt <- wilcox.test(data.test$time, data.control$time, alternative="less")
-      pval <- c(pval,wt$p.value)
-      stat <- c(stat,wt$statistic)
-      gender <- c(gender, g)
-      regimen <- c(regimen, r)
-    }
-  }
+```{r, warning = FALSE}
+do_all_comparisons <- function(data) {
+  map(levels(data$gender), 
+    function(g) {
+    control <- filter(data, regimen == "control" & gender==g) %>% pull(time)
+    regimes <- setdiff(levels(data$regimen), "control")
+    map(regimes, function(regime) {
+      test <- filter(data, gender == g & regimen == regime) %>% pull(time)
+      wt  <- wilcox.test(test, control, alternative = "less")
+      data.frame(
+        gender    = g,
+        regime    = regime,
+        statistic = unname(wt$statistic),
+        p.value   = wt$p.value
+      )
+    }) %>% bind_rows()
+  }) %>% bind_rows() %>% arrange(p.value)
 }
-R <- data.frame(gender=gender, regimen=regimen,  stat=stat, p.value=pval)
-R <-  R[order(R$p.value),]
-R
+all_comparisons <- do_all_comparisons(survival)
+all_comparisons %>% kable() %>% kable_classic()
 ```
 
 Let us plot the ordered p-values:
 
 ```{r, message=FALSE, warning=FALSE, fig.height=4, fig.width=10}
-ggplot(data=R) + geom_point(aes(x=1:18,color=regimen,y=p.value,shape=gender), size=4) + 
-  scale_y_log10() + xlab("regimen") + ylab("p-value") + scale_x_continuous(breaks=NULL)
+#| code-fold:true
+all_comparisons %>% 
+  ggplot() + geom_point(aes(x = 1:18, color = regime, y = p.value, shape = gender), size=4) + 
+  scale_y_log10() + xlab("regime") + ylab("p-value") + scale_color_viridis_d() + theme_bw()
 ``` 
-
 
 If we then decide to only report the largest observed differences, associated to the smallest $p$-values, 
 how can we conclude that these differences are statistically significant?
 
-</br>
-
-## Permutation test
+### Permutation test
 
 A permutation test (also called a randomization test) is a type of statistical significance test in which the distribution of the test statistic under the null hypothesis is obtained by calculating all possible values of the test statistic under rearrangements of the labels on the observed data points. If the labels are exchangeable under the null hypothesis, then the resulting tests yield exact significance levels. Prediction intervals can also be derived.
 
 In our example, imagine that the null hypothesis is true. We  can then randomly exchange the labels (i.e. the regimen) and perform the 18 comparisons between the experimental groups and the control groups. 
 
 ```{r, message=FALSE, warning=FALSE, fig.height=4, fig.width=10}
-set.seed(100)
-dperm.m <- subset(data,  gender=="male")
-n.m <- dim(dperm.m)[1]
-dperm.m$regimen <- dperm.m$regimen[sample(n.m)]
-dperm.f <- subset(data,  gender=="female")
-n.f <- dim(dperm.f)[1]
-dperm.f$regimen <- dperm.f$regimen[sample(n.f)]
-dperm <- rbind(dperm.m,dperm.f)
-
-pval <- gender <- regimen <- NULL
-for (g in levels(dperm$gender)) {
-  dperm.control <- subset(dperm, regimen=="control" & gender==g)
-  for (r in levels(dperm$regimen)) {
-    if (r != "control") {
-      dperm.test <- subset(dperm, gender==g & regimen==r)
-      wt <- wilcox.test(dperm.test$time, dperm.control$time, alternative="less")
-      pval <- c(pval,wt$p.value)
-      gender <- c(gender, g)
-      regimen <- c(regimen, r)
-    }
-  }
-}
-R.p <- data.frame(gender=gender, regimen=regimen, p.value=pval)
-Ro.p <-  R.p[order(R.p$p.value),]
+permuted_data <- survival %>% 
+  split(.$gender) %>% 
+  map(mutate, regimen = sample(regimen)) %>% 
+  bind_rows()
+do_all_comparisons(permuted_data) %>% kable() %>% kable_classic()
 ```
 
-The test statistics and the $p$-values now really behave how they are supposed to behave under the null hypothesis
-
-
-```{r, message=FALSE, warning=FALSE, fig.height=4, fig.width=10}
-ggplot(data=Ro.p) + geom_point(aes(x=1:18,color=regimen,y=p.value,shape=gender), size=4) + 
-  scale_y_log10() + xlab("regimen") + ylab("p-value") + scale_x_continuous(breaks=NULL)
-``` 
-
-If we now repeat the same experiment using many different permutations, we will be able to estimate the $m$ distributions of the $m$ test statistics as well as the $m$ distributions of the $m$ $p$-values under the null hypothesis.
+The test statistics and the $p$-values now really behave how they are supposed to behave under the null hypothesis. If we now repeat the same experiment using many different permutations, we will be able to estimate the $m$ distributions of the $m$ test statistics as well as the $m$ distributions of the $m$ $p$-values under the null hypothesis.
 
 ```{r, message=FALSE, warning=FALSE}
-L <- 1000
-dperm.m <- subset(data,  gender=="male")
-n.m <- dim(dperm.m)[1]
-dperm.f <- subset(data,  gender=="female")
-n.f <- dim(dperm.f)[1]
-PV <- ST <- NULL
+n_replicates <- 1000
+res <- parallel::mclapply(1:n_replicates, function(i) {
+  
+  permuted_data <- survival %>% 
+    split(.$gender) %>% 
+    map(mutate, regimen = sample(regimen)) %>% 
+    bind_rows()
 
-for (l in (1:L)) {
-  dperm.m$regimen <- dperm.m$regimen[sample(n.m)]
-  dperm.f$regimen <- dperm.f$regimen[sample(n.f)]
-  dperm <- rbind(dperm.m,dperm.f)
-  pval <- stat <- NULL
-  for (g in levels(dperm$gender)) {
-    dperm.control <- subset(dperm, regimen=="control" & gender==g)
-    for (r in levels(dperm$regimen)) {
-      if (r != "control") {
-        dperm.test <- subset(dperm, gender==g & regimen==r)
-        wt <- wilcox.test(dperm.test$time, dperm.control$time, alternative="less")
-        pval <- c(pval,wt$p.value)
-        stat <- c(stat,wt$statistic)
-      }
-    }
-  }
-  PV <- rbind(PV,sort(pval))
-  ST <- rbind(ST,sort(stat))
-}
+  do_all_comparisons(permuted_data) %>% 
+    select(statistic, p.value) %>% mutate(simu = i)
+}, mc.cores = parallel::detectCores()) %>% bind_rows()
 ``` 
 
 We can estimate, for instance, prediction intervals of level 90% for the $m=18$ ordered $p$-values
 
 ```{r}
-q <- apply(PV, MARGIN = 2, quantile, probs = c(0.05, 0.5, 0.95))
-q <- as.data.frame(t(q))
-names(q) <- c("low","median","up")
-q$rank <- 1:dim(q)[1]
+quantiles_pvalues <- 
+  split(res, res$simu) %>% 
+  map(pull, p.value) %>% 
+  map(sort) %>% bind_rows() %>% 
+  apply(1, quantile, c(0.05, 0.5, 0.95)) %>% t() %>% as_tibble() %>%
+  setNames(c("low","median","up")) %>% mutate(rank = 1:n())
 ``` 
 
-and plot them...
-```{r, fig.height=4, fig.width=10}
-pl <- ggplot(data=q) +
-  geom_errorbar(aes(x=rank, ymin=low, ymax=up), width=0.2,size=1.5,colour="grey50") +
-  scale_y_log10() + xlab("regimen") + ylab("p-value") + scale_x_continuous(breaks=NULL) 
-pl
-```
-... with the original $p$-values
+and plot them, with the original $p$-values
+
 
 ```{r, fig.height=4, fig.width=10}
-pl +  geom_point(data=R, aes(x=1:18,color=regimen,y=p.value,shape=gender), size=4) 
+quantiles_pvalues %>% ggplot() +
+  geom_errorbar(aes(x = rank, ymin = low, ymax = up), width=0.2, size=1.5, colour="grey50") +
+  scale_y_log10() + xlab("regimen") + ylab("p-value") + scale_x_continuous(breaks=NULL)  +  
+  geom_point(data = all_comparisons, aes(x = 1:18, color = regime, y = p.value, shape=gender), size=4) 
 ```
 
 Here, all the $p$-values, including the smallest ones, belong to the 90% prediction intervals: all the observed $p$-values behave individually how they are expected to behave under the null hypothesis. 
@@ -239,35 +192,26 @@ In particular, when 18 comparisons are performed, it's not unlikely under the nu
 
 The probability of such event can easily be estimated by Monte Carlo simulation. Let $p_{(1),\ell}$ be the smallest p-value obtained from the $\ell$-th replicate of the Monte Carlo. Then,
 
-$$ \prob{p_{(1)} \leq p_{(1)}^{\rm obs}}  \simeq  \frac{1}{L} \sum_{\ell=1}^{L} \one\left\{p_{(1),\ell} \leq p_{(1)}^{\rm obs}\right\} $$
+$$
+\mathbb{P}\left(p_{(1)} \leq p_{(1)}^{\mathrm{obs}}\right) \approx \frac{1}{L} \sum_{\ell=1}^{L} \mathbf{1}_{\left\{p_{(1),\ell} \leq p_{(1)}^{\mathrm{obs}}\right\}}
+$$
+
 ```{r}
-mean(ST[,1]<R$stat[1])
+stat_rank1 <- split(res, res$simu) %>% map_dbl(function(x) sort(x$statistic)[1])
+mean(stat_rank1 < all_comparisons$statistic[1])
 ```
 
-<!---
-```{r}
-ref <- R$stat
-E <- (ST[,1]<ref[1])
-for (j in 1:15) {
-E <- E & (ST[,j]<ref[j])
-print(mean(E))
-}
-```
---->
+## Controlling the Family Wise Error Rate
 
-</br>
-
-# Controlling the Family Wase Error Rate
-
-## The Bonferroni correction
+### The Bonferroni correction
 
 Imagine that we perform $m$ comparisons  and that all the $m$ null hypotheses are true, i.e. $m=m_{0\cdot}$..
 If we use the same significance level $\alpha_m$ for the $m$ tests, how should we choose $\alpha_m$ in order to control the family-wise error rate (FWER)?
 
 
 $$ \begin{aligned}
-{\rm FWER} &= \prob{m_{01}\geq 1} \\
-&= 1 - \prob{m_{01}= 0}  \\
+{\rm FWER} &= \mathbb{P}(m_{01}\geq 1) \\
+&= 1 - \mathbb{P}(m_{01}= 0)  \\
 &= 1 - (1-\alpha_m)^m
 \end{aligned} $$
 
@@ -284,43 +228,39 @@ We can then either compare the original $p$-value $p_k$ to the corrected signifi
 
 
 ```{r}
-m <- nrow(R)
-R$pv.bonf <- pmin(1, R$p.value*m)
-R
+m <- nrow(all_comparisons)
+all_comparisons$p.value_bonferonni <- pmin(1, all_comparisons$p.value * m)
+all_comparisons %>% kable() %>% kable_classic()
 ```
-Using the Bonferroni correction, none of the 18 comparisons is significant.
 
+Using the Bonferroni correction, none of the 18 comparisons is significant.
 
 **Remark:** the function `p.adjust` proposes several adjustements of the $p$-values for multiple comparisons, including the Bonferroni adjustment:
 
 ```{r}
-p.adjust(R$p.value, method = "bonferroni")
+p.adjust(all_comparisons$p.value, method = "bonferroni")
 ```
 
 The Bonferroni correction is appropriate when a single false positive in a set of tests would be a problem. It is mainly useful when there are a fairly small number of multiple comparisons and very few of them might be significant. The main drawback of the Bonferroni correction is its lack of power: it may lead to a very high rate of false negatives.
 
-Assume, for instance that all the female rats of all the experimental groups die before the end of the experiment. Each of the $m=18$ original tests is significant, but the Bonferroni correction would lead to considering none of these tests as significant:
+<!-- Assume, for instance that all the female rats of all the experimental groups die before the end of the experiment. Each of the $m=18$ original tests is significant, but the Bonferroni correction would lead to considering none of these tests as significant: -->
 
-```{r, message=FALSE, warning=FALSE}
-x <- subset(data, regimen=="control" & gender=="female")$time
-y <- seq(610,700,length=10)
-c(wilcox.test(x,y,"greater")$p.value, wilcox.test(x,y,"greater")$p.value*18)
-``` 
+<!-- ```{r, message=FALSE, warning=FALSE} -->
+<!-- x <- subset(data, regimen=="control" & gender=="female")$time -->
+<!-- y <- seq(610,700,length=10) -->
+<!-- c(wilcox.test(x,y,"greater")$p.value, wilcox.test(x,y,"greater")$p.value*18) -->
+<!-- ```  -->
 
-</br> 
+## Controlling the False Discovery Rate
 
-
-
-# Controlling the False Discovery Rate
-
-## Detecting associations
+### Detecting associations
 
 (Example from [Handbook of Biological Statistics](http://www.biostathandbook.com/multiplecomparisons.html))
 
 Garcia-Arenzana et al. (2014) tested associations of 25 dietary variables with [mammographic density](https://breast-cancer-research.biomedcentral.com/articles/10.1186/bcr2102), an important risk factor for breast cancer, in Spanish women. They found the following results
 
-```{r}
-data <- read.csv("data/dietary.csv", stringsAsFactors = T)
+```{r, message = FALSE}
+data <- read_csv("../../data/dietary.csv") %>% mutate_if(is.character, factor) 
 data
 ```
 
@@ -332,9 +272,7 @@ Applying the Bonferroni correction, we divide $\alpha=0.05$ by the number of tes
  
  Imagine for instance that we compare expression levels for 20,000 genes between liver tumors and normal liver cells. We are going to do additional experiments on any genes that show a significant difference between the normal and tumor cells. Then, because we don't want to miss genes of interest, we are willing to accept up to 25% of the genes with significant results being false positives. We'll find out they're false positives when we do the followup experiments. In this case, we would set the false discovery rate to 25%.
  
-</br>
-
-## The Benjamini-Hochberg procedure
+### The Benjamini-Hochberg procedure
  
  The Benjamini-Hochberg (BH) procedure controls the FDR... and it is simple to use!
  
@@ -344,17 +282,7 @@ defined as
  $$ P_{(i)}^{\rm BH} = \min\left( P_{(i)}\frac{m}{i} \ , \ P_{(i+1)}^{\rm BH} \right)$$
 
 ```{r}
-p.bh <- data$p.value
-m <- length(p.bh)
-for (i in ((m-1):1)) 
-  p.bh[i] <- min(data$p.value[i]*m/i , p.bh[i+1])
-data$p.bh <- p.bh
-data
-```
-
-Notice that we could equivalently use the function `p.adjust`:
-```{r}
-p.adjust(data$p.value, method = "BH")
+data$p.bh <- p.adjust(data$`p-value`, method = "BH")
 ```   
 
 Then, the discoveries, i.e. the significant tests, are those with an ajusted p-value less than $\alpha$.
@@ -362,7 +290,7 @@ Then, the discoveries, i.e. the significant tests, are those with an ajusted p-v
 It can be shown that this procedure guarantees that for *independent tests*, and for *any alternative hypothesis*,
    
 $$\begin{aligned}
-{\rm FDR} &= \esp{\frac{m_{01}}{m_{01} + m_{11}}} \\
+{\rm FDR} &= \mathbb{E}{\frac{m_{01}}{m_{01} + m_{11}}} \\
 &\leq \frac{m_{0\cdot}}{m} \alpha \\
 &\leq \alpha 
 \end{aligned}$$
@@ -382,20 +310,18 @@ In other words, the largest $p$-value that has $P_{(i)}<(i/m)\alpha$ is signific
  
 ```{r}
 alpha <- 0.25
-m <- dim(data)[1]
+m <- nrow(data)
 data$critical.value <- (1:m)/m*alpha
 data
 ```
 
 ```{r, fig.height=6, fig.width=8, message=FALSE, warning=FALSE}
-library(gridExtra)
-pl1 <- ggplot(data) + geom_line(aes(x=1:m,y=p.value), colour="blue") +
+pl1 <- ggplot(data) + geom_line(aes(x=1:m,y=`p-value`), colour="blue") +
 geom_line(aes(x=1:m,y=critical.value), colour="red") +xlab("(i)")
 grid.arrange(pl1,pl1 + xlim(c(1,8)) + ylim(c(0,0.21)) + geom_vline(xintercept=5.5))
 ```
 
 The largest $p$-value with $P_{(i)}<(i/m)\alpha$ is *proteins*, where the individual $p$-value (0.042) is less than the $(i/m)\alpha$ value of 0.050. Thus the first five tests would be significant.
-
 
 **Remark 2:** The FDR is not bounded by $\alpha$, but by $(m_{0\cdot}/m) \alpha$. We could increase the global power of the tests and get a FDR equal to the desired level $\alpha$, either by defining the critical values as $(i/m_{0\cdot})\alpha$, or by multiplying the adjusted $p$-values by $m_{0\cdot}/m$.
 
@@ -410,120 +336,115 @@ head(data,10)
 ```
 We would consider the 7 first $p$-values as significant using this new correction.
 
+<!-- ## A Monte Carlo simulation -->
 
-</br>
+<!-- Let us perform a Monte Carlo simulation to better understand the impact of these corrections. -->
 
+<!-- Let us assume that we observe $(x_{ij}, 1\leq i \leq n_x, 1 \leq j \leq m)$ and $(y_{ij}, 1\leq i \leq n_y, 1 \leq j \leq m)$ where ,  -->
 
-## A Monte Carlo simulation
+<!-- $$\begin{aligned} -->
+<!-- x_{ij} & \iid {\cal N}(\mu_{x,j} \ , \ \sigma_x^2) \\ -->
+<!-- y_{ij} & \iid {\cal N}(\mu_{y,j} \ , \ \sigma_y^2)  -->
+<!-- \end{aligned} $$ -->
 
+<!-- For $j=1,2,\ldots, m$, we want to test $H_{0,j}: \mu_{x,j}=\mu_{y,j}$ versus $H_{1,j}: \mu_{x,j} \neq \mu_{y,j}$. -->
 
-Let us perform a Monte Carlo simulation to better understand the impact of these corrections.
+<!-- For the simulation, we will use $m=140$, $n_x=n_y=50$, $\sigma_x^2=\sigma_y^2=1$ and $\mu_{x,j}=0$ for $1\leq j \leq m$. -->
 
-Let us assume that we observe $(x_{ij}, 1\leq i \leq n_x, 1 \leq j \leq m)$ and $(y_{ij}, 1\leq i \leq n_y, 1 \leq j \leq m)$ where , 
-
-$$\begin{aligned}
-x_{ij} & \iid {\cal N}(\mu_{x,j} \ , \ \sigma_x^2) \\
-y_{ij} & \iid {\cal N}(\mu_{y,j} \ , \ \sigma_y^2) 
-\end{aligned} $$
-
-For $j=1,2,\ldots, m$, we want to test $H_{0,j}: \mu_{x,j}=\mu_{y,j}$ versus $H_{1,j}: \mu_{x,j} \neq \mu_{y,j}$.
-
-For the simulation, we will use $m=140$, $n_x=n_y=50$, $\sigma_x^2=\sigma_y^2=1$ and $\mu_{x,j}=0$ for $1\leq j \leq m$.
-
-Furthermore, the null hypothesis is true for the first $m_{0,\cdot}=120$ variables, assuming that $\mu_{y,j}=0$ for $1\leq j \leq m_{0,\cdot}$. Then, for $m_{0,\cdot}+1\leq j \leq m$, $\mu_{y,j}$ varies from 0.3 to 0.6, which means that the alternative hypothesis is true for these $m_{1,\cdot}=20$ variables.
+<!-- Furthermore, the null hypothesis is true for the first $m_{0,\cdot}=120$ variables, assuming that $\mu_{y,j}=0$ for $1\leq j \leq m_{0,\cdot}$. Then, for $m_{0,\cdot}+1\leq j \leq m$, $\mu_{y,j}$ varies from 0.3 to 0.6, which means that the alternative hypothesis is true for these $m_{1,\cdot}=20$ variables. -->
 
 
-```{r}
-nx <- 50
-ny <- 50
-m0 <- 120
-m1 <- 20
-mu.x <- rep(0, m0+m1)
-mu.y <- c(rep(0,m0),seq(0.3,0.6,length=m1))
-```
+<!-- ```{r} -->
+<!-- nx <- 50 -->
+<!-- ny <- 50 -->
+<!-- m0 <- 120 -->
+<!-- m1 <- 20 -->
+<!-- mu.x <- rep(0, m0+m1) -->
+<!-- mu.y <- c(rep(0,m0),seq(0.3,0.6,length=m1)) -->
+<!-- ``` -->
 
 
-For each of the $L=1000$ simulated replicate of the same experiment, we will randomly sample observation $x$ and $y$ from the model and perform a $t$-test for each of the $m=140$ variables. We therefore get $m=140$ $p$-values for each of these $L=1000$ replicates.
+<!-- For each of the $L=1000$ simulated replicate of the same experiment, we will randomly sample observation $x$ and $y$ from the model and perform a $t$-test for each of the $m=140$ variables. We therefore get $m=140$ $p$-values for each of these $L=1000$ replicates. -->
 
-```{r}
-L <- 1000
-m <- m0+m1
-set.seed(1234)
-pval <- matrix(ncol=L,nrow=m)
-for (l in (1:L)) {
-  x.sim <- matrix(rnorm(nx*m, mu.x), ncol=nx)
-  y.sim <- matrix(rnorm(ny*m, mu.y), ncol=ny)
-  dat <- cbind(x.sim, y.sim)
-  pval[,l] <- apply(dat, 1, function(dat) {
-    t.test(x = dat[1:nx], y = dat[(nx + 1):(nx + ny)])$p.value})
-}
+<!-- ```{r} -->
+<!-- L <- 1000 -->
+<!-- m <- m0+m1 -->
+<!-- set.seed(1234) -->
+<!-- pval <- matrix(ncol=L,nrow=m) -->
+<!-- for (l in (1:L)) { -->
+<!--   x.sim <- matrix(rnorm(nx*m, mu.x), ncol=nx) -->
+<!--   y.sim <- matrix(rnorm(ny*m, mu.y), ncol=ny) -->
+<!--   dat <- cbind(x.sim, y.sim) -->
+<!--   pval[,l] <- apply(dat, 1, function(dat) { -->
+<!--     t.test(x = dat[1:nx], y = dat[(nx + 1):(nx + ny)])$p.value}) -->
+<!-- } -->
 
-```
+<!-- ``` -->
 
-Setting the significance level $\alpha$ to 0.2, we can compute for each replicate the numbers of true and false discoveries $m_{11}$ and $m_{01}$, as well as the numbers of true and false nondiscoveries  $m_{00}$ and $m_{10}$.
+<!-- Setting the significance level $\alpha$ to 0.2, we can compute for each replicate the numbers of true and false discoveries $m_{11}$ and $m_{01}$, as well as the numbers of true and false nondiscoveries  $m_{00}$ and $m_{10}$. -->
 
-We can then compute the proportion of wrongly rejected null hypotheses
-
-
-```{r}
-alpha=0.2
-m01 <- colSums(pval[1:m0,] < alpha)
-mean(m01/m0)
-```
-As expected, this proportion is close to $\alpha$ which is precisely the probability to wrongly reject the null hypothesis.
-
-The proportion of correctly rejected null hypotheses is an estimate of the power of the test
-
-```{r}
-m11 <- colSums(pval[(m0+1):m,] < alpha)
-mean(m11/m1)
-```
-The False Discovery Rate is estimated as the proportion of false discoveries
-
-```{r}
-mean(m01/(m01+m11))
-```
-This means that among the significant results, about 60% of them are false discoveries.
-
-Let us now apply the Bonferroni correction, and compute the proportion of wrongly and correctly rejected null hypotheses and the proportion of false discoveries
-
-```{r}
-pval.b <- apply(pval,2, function(pval) {p.adjust(pval,method="bonferroni")})
-m01.b <- colSums(pval.b[1:m0,] < alpha)
-m11.b <- colSums(pval.b[(m0+1):m,] < alpha)
-c(mean(m01.b/m0), mean(m11.b/m1),mean(m01.b/(m01.b+m11.b),na.rm=TRUE))
-```
-Very few of the true null hypotheses are rejected, which may be a good point, but the price to pay is a very low power (less that 20%). 
-
-The familywise error rate (FWER) is the probability $\prob{m_{01}\geq 1}$ to reject *at least* one of the true null hypothesis. This probability remains quite small when the Bonferroni correction is used.
-
-```{r}
-mean(m01.b>=1)
-```
-
-The Benjamini-Hochberg correction increases the power and controls the FDR as expected since the proportion of false discoveries remains below the level $\alpha$.
+<!-- We can then compute the proportion of wrongly rejected null hypotheses -->
 
 
-```{r}
-pval.bh <- apply(pval,2, function(pval) {p.adjust(pval,method="BH")})
-m01.bh <- colSums(pval.bh[1:m0,] < alpha)
-m11.bh <- colSums(pval.bh[(m0+1):m,] < alpha)
-c(mean(m01.bh/m0), mean(m11.bh/m1),mean(m01.bh/(m01.bh+m11.bh),na.rm=TRUE))
-```
+<!-- ```{r} -->
+<!-- alpha=0.2 -->
+<!-- m01 <- colSums(pval[1:m0,] < alpha) -->
+<!-- mean(m01/m0) -->
+<!-- ``` -->
+<!-- As expected, this proportion is close to $\alpha$ which is precisely the probability to wrongly reject the null hypothesis. -->
 
-Lastly, we can slightly improve the BH procedure by multiplying the $p$-values by the ratio $\hat{m}_{0\cdot}/m$
+<!-- The proportion of correctly rejected null hypotheses is an estimate of the power of the test -->
 
-```{r}
-pval.bhc <- pval.bh
-for (l in (1:L)) {
-  m0e <- sum(pval.bh[,l]>alpha)
-  pval.bhc[,l] <- pval.bh[,l]*m0e/m
-}
+<!-- ```{r} -->
+<!-- m11 <- colSums(pval[(m0+1):m,] < alpha) -->
+<!-- mean(m11/m1) -->
+<!-- ``` -->
+<!-- The False Discovery Rate is estimated as the proportion of false discoveries -->
 
-m01.bhc <- colSums(pval.bhc[1:m0,] < alpha)
-m11.bhc <- colSums(pval.bhc[(m0+1):m,] < alpha)
-c(mean(m01.bhc/m0), mean(m11.bhc/m1),mean(m01.bhc/(m01.bhc+m11.bhc),na.rm=TRUE))
-```
+<!-- ```{r} -->
+<!-- mean(m01/(m01+m11)) -->
+<!-- ``` -->
+<!-- This means that among the significant results, about 60% of them are false discoveries. -->
+
+<!-- Let us now apply the Bonferroni correction, and compute the proportion of wrongly and correctly rejected null hypotheses and the proportion of false discoveries -->
+
+<!-- ```{r} -->
+<!-- pval.b <- apply(pval,2, function(pval) {p.adjust(pval,method="bonferroni")}) -->
+<!-- m01.b <- colSums(pval.b[1:m0,] < alpha) -->
+<!-- m11.b <- colSums(pval.b[(m0+1):m,] < alpha) -->
+<!-- c(mean(m01.b/m0), mean(m11.b/m1),mean(m01.b/(m01.b+m11.b),na.rm=TRUE)) -->
+<!-- ``` -->
+<!-- Very few of the true null hypotheses are rejected, which may be a good point, but the price to pay is a very low power (less that 20%).  -->
+
+<!-- The familywise error rate (FWER) is the probability $\mathbb{P}{m_{01}\geq 1}$ to reject *at least* one of the true null hypothesis. This probability remains quite small when the Bonferroni correction is used. -->
+
+<!-- ```{r} -->
+<!-- mean(m01.b>=1) -->
+<!-- ``` -->
+
+<!-- The Benjamini-Hochberg correction increases the power and controls the FDR as expected since the proportion of false discoveries remains below the level $\alpha$. -->
+
+
+<!-- ```{r} -->
+<!-- pval.bh <- apply(pval,2, function(pval) {p.adjust(pval,method="BH")}) -->
+<!-- m01.bh <- colSums(pval.bh[1:m0,] < alpha) -->
+<!-- m11.bh <- colSums(pval.bh[(m0+1):m,] < alpha) -->
+<!-- c(mean(m01.bh/m0), mean(m11.bh/m1),mean(m01.bh/(m01.bh+m11.bh),na.rm=TRUE)) -->
+<!-- ``` -->
+
+<!-- Lastly, we can slightly improve the BH procedure by multiplying the $p$-values by the ratio $\hat{m}_{0\cdot}/m$ -->
+
+<!-- ```{r} -->
+<!-- pval.bhc <- pval.bh -->
+<!-- for (l in (1:L)) { -->
+<!--   m0e <- sum(pval.bh[,l]>alpha) -->
+<!--   pval.bhc[,l] <- pval.bh[,l]*m0e/m -->
+<!-- } -->
+
+<!-- m01.bhc <- colSums(pval.bhc[1:m0,] < alpha) -->
+<!-- m11.bhc <- colSums(pval.bhc[(m0+1):m,] < alpha) -->
+<!-- c(mean(m01.bhc/m0), mean(m11.bhc/m1),mean(m01.bhc/(m01.bhc+m11.bhc),na.rm=TRUE)) -->
+<!-- ``` -->
 
 
 
