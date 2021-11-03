@@ -261,7 +261,6 @@ Garcia-Arenzana et al. (2014) tested associations of 25 dietary variables with [
 
 ```{r, message = FALSE}
 data <- read_csv("../../data/dietary.csv") %>% mutate_if(is.character, factor) 
-data
 ```
 
 We can see that five of the variables show a significant  $p$-value (<0.05). However, because Garc?a-Arenzana et al. (2014) tested 25 dietary variables, we would expect one or two variables to show a significant result purely by chance, even if diet had no real effect on mammographic density. 
