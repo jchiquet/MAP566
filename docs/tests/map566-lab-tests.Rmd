@@ -1,5 +1,5 @@
 ---
-title: 'Statistical tests: exercices'
+title: 'Exercices'
 ---
 
 ## Preliminary {.unnumbered}

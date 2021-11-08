@@ -9,3 +9,7 @@ dependencies:
   - r-tidyverse
   - r-broom
   - r-viridis
+  - r-lattice
+  - r-lme4
+  
+  
