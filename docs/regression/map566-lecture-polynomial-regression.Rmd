@@ -9,14 +9,12 @@ format:
 
 Only functions from `R`-base and stats (preloaded) are required plus packages from the **tidyverse** for data representation and manipulation. You could also try the package **broom** that standardizes the output of built-in R functions for statistical modelling
 
-
 ```{r linear-regression-config, message = FALSE}
 #| code-fold: false
 library(tidyverse)
 library(gridExtra)
 library(ggfortify)  # extend some ggplot2 features
 library(rsample)    # create training/test sets 
-library(kableExtra) # fancy table display
 library(broom)
 theme_set(theme_bw())
 ```
@@ -28,7 +26,7 @@ The data set `cars` gives the speed of cars and the distances taken to stop (Not
 
 ```{r}
 data(cars)
-head(cars) %>% kable() %>% kableExtra::kable_classic()
+cars %>% rmarkdown::paged_table()
 ```
 
 Scatter plots can help visualize any relationship between the explanatory  variable *speed* (also called regression variable, or predictor) and the  response variable *dist*.
@@ -258,7 +256,7 @@ conf_inter <-
   setNames(cbind(new_x,
     predict(lm1, newdata = new_x, interval = "confidence", level = 1 - alpha)),
     c("speed", "dist", "lwr", "upr"))
-head(conf_inter) %>% kable() %>% kable_classic()
+conf_inter %>% rmarkdown::paged_table()
 ```
 
 A prediction interval for a new measured distance $y=f(x)+e$ can also be computed. This prediction interval takes into account both the uncertainty on the predicted distance $f(x)$ and the variability of the measure, represented in the model by the residual error $e$.
@@ -267,7 +265,7 @@ A prediction interval for a new measured distance $y=f(x)+e$ can also be compute
 pred_inter <-    setNames(cbind(new_x,
     predict(lm1, newdata = new_x, interval = "prediction", level = 1 - alpha)),
     c("speed", "dist", "lwr", "upr"))
-head(pred_inter) %>% kable() %>% kable_classic()
+pred_inter %>% rmarkdown::paged_table()
 ```
 
 Let us plot these two intervals.

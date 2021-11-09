@@ -2,7 +2,7 @@
 title: 'Nonlinear regression: exercices'
 ---
 
-## Preliminary
+## Preliminary {.unnumbered}
 
 The usual libraries: 
 
