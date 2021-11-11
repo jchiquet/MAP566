@@ -2,14 +2,13 @@
 title: "Nonlinear regression"
 ---
 
-
 ## Preliminary {.unnumbered}
 
 Only functions from `R`-base and stats (preloaded) are required plus packages from the **tidyverse** for data representation and manipulation. You could also try the package **broom** that standardizes the output of built-in R functions for statistical modelling
 
 ```{r linear-regression-config, message = FALSE}
-#| code-fold: false
 library(tidyverse)
+library(parallel)
 theme_set(theme_bw())
 ```
 
@@ -61,13 +60,10 @@ $$
 
 Here, $A$ is the limiting value (when $x \to \infty$),  $\gamma$ measure the steepness of the curve and $\tau$ is the $x$-value of the sigmoid's midpoint.
 
-
-This model is a nonlinear model in the sense that the regression function $f_1$ is a nonlinear function of the parameters.
-
-Let us fit this model to our data using the `nls` function.
+This model is a nonlinear model in the sense that the regression function $f_1$ is a nonlinear function of the parameters.We can fit this model to our data using the `nls` function.
 
 ```{r}
-nlm1 <- nls(waiting ~  A/(1+exp(-gamma*(eruptions-tau))), faithful, start=c(A=70, gamma=2, tau=1))
+nlm1 <- nls(waiting ~  A / ( 1 + exp(- gamma * (eruptions -tau))), faithful, start = c(A=70, gamma=2, tau=1))
 summary(nlm1)
 ```
 
@@ -76,15 +72,15 @@ We will see in the next sections what these results are and how they are compute
 An extension of the logistic function assumes a minimum waiting time $S$ between eruptions:
 
 $$
-f_2(x) =  S+ \frac{A-S}{1+{\rm exp}(-\gamma(x-\tau))}
+f_2(x) =  S + \frac{A-S}{1+{\rm exp}(-\gamma(x-\tau))}
 $$
 
 <iframe src="http://shiny.webpopix.org/sia/nlm2/" style="border: none; width: 800px; height: 400px"></iframe>
 
-We can again use `nls` to fit this nonlinear model to the data,
+We can again use `nls` to fit this nonlinear model to the data:
 
 ```{r}
-nlm2 <- nls(y ~  (A-S)/(1+exp(-gamma*(x-tau))) + S, start=c(A=90, gamma=2, tau=2, S=50))
+nlm2 <- nls(waiting ~ (A-S) / ( 1 + exp(-gamma * (eruptions - tau)) ) + S, faithful, start = c(A=90, gamma=2, tau=2, S=50))
 summary(nlm2)
 ```
 
@@ -94,11 +90,11 @@ We can now compute and plot the waiting times predicted with these two fitted mo
 faithful_plot <- faithful_plot + 
   geom_smooth(
     method  = "nls",  se = FALSE, color = "#E69F00",
-    formula = y ~  A/(1+exp(-gamma*(x-tau))), 
+    formula = y ~ A / ( 1 + exp(- gamma * (x-tau))), 
     method.args = list(start = c(A=70, gamma=2, tau=1))) +
   geom_smooth(
     method  = "nls",  se = FALSE, color = "#56B4E9", 
-    formula = y ~  (A-S)/(1+exp(-gamma*(x-tau))) + S, 
+    formula = y ~ (A-S) / ( 1 + exp(-gamma * (x-tau)) ) + S, 
     method.args = list(start=c(A=90, gamma=2, tau=2, S=50))) 
 faithful_plot
 ```
@@ -119,7 +115,7 @@ We will see in the next sections
 
 In the model
 
-$$y_j = f(x_j,\beta) + e_j \quad ; \quad 1\leq j \leq n$$
+$$y_j = f(x_j,\beta) + \varepsilon_j \quad ; \quad 1\leq j \leq n$$
 The least squares (LS) estimator of $\beta$ minimizes the residual sum of squares (RSS)
 
 $$
@@ -127,43 +123,41 @@ $$
 $$
 Here, there is no closed-form expression for $\hat{\beta}$. An optimization procedure is then used for computing $\hat{\beta}$.
 
-Let us define a first model ${\cal M}_1$ as
-$$y_j = f_1(x_j,\beta) + e_j \quad ; \quad 1\leq j \leq n$$
-where $f_1$ is the logistic function defined above and where $\beta = (A,\gamma,\tau)$.
+We define the first model ${\cal M}_1$ as
 
-Let us check that function `nls` computes the nonlinear least-squares estimates of the parameters of the (nonlinear) model.
+$$y_j = f_1(x_j,\beta) + \varepsilon_j \quad ; \quad 1\leq j \leq n$$
 
-Let us create first a function that computes the residual sum of squares for a given vector of parameters $\beta$:
+where $f_1$ is the logistic function defined above and where $\beta = (A,\gamma,\tau)$. In `R`,
+
 ```{r}
-pred1 <- function(beta, x) { 
-  f <-  beta[1]/(1+exp(-beta[2]*(x-beta[3]))) 
-  f
-}
-rss1 <- function(beta, x, y) { 
-  rss <- sum(((y-pred1(beta, x)))^2) 
-  rss
+f_1  <- function(beta, x) {
+  A <- beta[1]; gamma <- beta[2]; tau <- beta[3]
+  A / ( 1 + exp(- gamma * (x-tau)))
 }
 ```
 
-We can then compute the LS estimate of $\beta$ using `nlm` (nonlinear minimization).
-Indeed, function `nlm`  carries out a minimization of function `rss1` using a Newton-type algorithm.
+Let us check that function `nls` computes the nonlinear least-squares estimates of the parameters of the (nonlinear) model, that is, solve the above optimization problem in $\beta$. We first create a function that computes the residual sum of squares for a given vector of parameters $\beta$, which will be the objective (or cost) function from the optimization point of view:
 
 ```{r}
-r.nlm1 <- nlm(rss1, c(90, 2, 2), x, y)
-beta.est <- r.nlm1$estimate
-beta.names <- names(coef(nlm1))
-names(beta.est) <- beta.names 
-beta.est
+rss_1 <- function(beta, x, y) sum( (y - f_1(beta, x) )^2 ) 
+```
+
+Then the LS estimate of $\beta$ can be computed using `nlm` (nonlinear minimization) which minimizes the residuals sum of squares using a Newton-type algorithm. 
+
+```{r}
+optim_nlm1 <- nlm(rss_1, c(A = 90, gamma = 2, tau = 2), faithful$eruptions, faithful$waiting)
+beta_hat <- setNames(optim_nlm1$estimate, names(coef(nlm1)))
+beta_hat
 ```
 
 Assume now that the residual errors are random variables with mean 0 and variance $\sigma^2$
 
-$$ \esp{e_j}=0 \quad ; \quad \esp{e_j^2}=\sigma^2 \quad ; \quad 1 \leq j \leq n $$
+$$\mathbb{E}[\varepsilon_j] = 0 \quad, \quad \mathbb{E}[\varepsilon_j^2] = \sigma^2 \quad, \quad 1 \leq j \leq n$$
 
-Then, following the approach for linear model, if $\beta$ is a vector of length $d$, there are $n-d$ degrees of freedom,the residual error variance is defined as
+Then, following the approach for linear models, if $\beta$ is a vector of length $p$, there are $n-p$ degrees of freedom,the residual error variance is defined as
 
 $$
-\hat{\sigma}^2 = \frac{1}{n-d} \sum_{j=1}^n(y_j - f(x_j,\hat{\beta}))^2
+\hat{\sigma}^2 = \frac{1}{n-p} \sum_{j=1}^n \left( y_j - f(x_j,\hat{\beta})\right)^2
 $$
 
 and the so-called *residual standard error* is
@@ -173,19 +167,19 @@ $$
 $$
 
 ```{r}
-n <- length(x)
-d <- length(beta.est)
-df <- n-d
-sigma.est <- sqrt(rss1(beta.est, x, y)/df)
-sigma.est
+n  <- nrow(faithful)
+p  <- length(beta_hat)
+df <- (n - p)
+sigma_hat <- sqrt(rss_1(beta_hat, faithful$eruptions, faithful$waiting)/df)
+sigma_hat
 ```
 
 #### Maximum likelihood estimation
 
-Let $e_j=\sigma \varepsilon_j$ where $(\varepsilon_j)$ is a sequence of independent and normally distributed random variables with mean 0 and variance $1$
+Let $\varepsilon_j=\sigma \varepsilon_j$ where $(\varepsilon_j)$ is a sequence of independent and normally distributed random variables with mean 0 and variance $1$
 
 $$ 
-\varepsilon_j \iid {\cal N}(0, 1).
+\varepsilon_j \sim^{\mathrm{iid}}  \mathcal{N}(0, 1).
 $$
 
 We can then rewrite the model as follows:
@@ -195,31 +189,25 @@ $$y_j = f(x_j,\beta) + \sigma \varepsilon_j \quad ; \quad 1\leq j \leq n$$
 The maximum likelihood (ML) estimator of $\beta$ coincides with the least squares estimator 
 
 $$\begin{aligned}
-\hat{\beta} &=  \arg\min_{\beta}\sum_{j=1}^n(y_j - f(x_j,\beta))^2
+\hat{\beta} &=  \arg\min_{\beta}\sum_{j=1}^n \left(y_j - f(x_j,\beta)\right)^2
 \end{aligned}$$
 
 and the ML estimators of $\sigma^2$ and $\sigma$ are
 
 $$
-\begin{aligned}
-\hat{\sigma}^2_{\rm ml} & = \frac{1}{n} \sum_{j=1}^n (y_j - f(x_j,\hat{\beta}))^2 \\
-\hat{\sigma}_{\rm ml} &= \sqrt{\hat{\sigma}^2_{\rm ml}}
-\end{aligned}
+\hat{\sigma}^2_{\rm ml} = \frac{1}{n} \sum_{j=1}^n \left(y_j - f(x_j,\hat{\beta})\right)^2, \qquad \hat{\sigma}_{\rm ml} = \sqrt{\hat{\sigma}^2_{\rm ml}}
 $$
 
 ```{r}
-sigma.ml <- sqrt(rss1(beta.est, x, y)/n)
-sigma.ml
+sigma_hat_ML <- sqrt(rss_1(beta_hat, faithful$eruptions, faithful$waiting) / n)
+sigma_hat_ML
 ```
 
 ### Standard errors of the parameter estimates
 
-Several methods exist for estimating the standard errors of the parameter estimates.
-In particular, the `nls` function uses a linear approximation of the model, but a likelihood approach or a parametric bootstrap may also provide estimates of these s.e.
-
+Several methods exist for estimating the standard errors of the parameter estimates. In particular, the `nls` function uses a linear approximation of the model, but a likelihood approach or a parametric bootstrap may also provide estimates of these s.e.
 
 #### Linearization approach
-
 
 An `nls` object has methods for several generic functions, including `vcov` which computes the variance-covariance matrix of the estimated parameters $\hat{\beta}$.
 
@@ -233,61 +221,80 @@ The standard errors of the estimates are then the square roots of the diagonal e
 sqrt(diag(vcov(nlm1)))
 ```
 
+The `nls` function linearizes the model for computing this variance-covariance matrix. Indeed, for any $\beta$ ``close'' to $\hat{\beta}$,
 
-The `nls` function linearizes the model for computing this variance-covariance matrix.
-Indeed, for any $\beta$ ``close'' to $\hat{\beta}$,
 $$
 f(x_j , \beta) \simeq f(x_j , \hat{\beta}) + \nabla f(x_j , \hat{\beta})(\beta - \hat{\beta}) 
 $$
+
 where  $\nabla f(x_j , {\beta})$ is the gradient of $f(x_j , {\beta})$, i.e.  the row vector of the first derivatives of $f(x_j ,{\beta})$ with respect to the $d$ components of $\beta$. Setting $z_j=y_j-f(x_j , \hat{\beta}) + \nabla f(x_j , \hat{\beta}) \hat{\beta}$ and $g_j=\nabla f(x_j , \hat{\beta}))$, the original model can be approximated by the linear model
+
 $$
-z_j = g_j \ \beta + e_j.
+z_j = g_j \ \beta + \varepsilon_j.
 $$
-Writing this model in a matricial form $z=G\, \beta + e$ where $g_j$ is the $j$th row of matrix $G$, we can check that the LS estimator of $\beta$ for this model is the LS estimator of the original model $\hat{\beta}$
+
+Writing this model in the matrix form $z=G\, \beta + \varepsilon$ where $g_j$ is the $j$th row of matrix $G$, we can check that the LS estimator of $\beta$ for this model is the LS estimator of the original model $\hat{\beta}$
+
+::: {#prp-linearization}
+
+## Equivalence of the two LS estimate
 
 $$\begin{aligned}
 \hat{\beta} &=  \arg\min{\beta}\sum_{j=1}^n(y_j - f(x_j,\beta))^2 \\
 &=  \arg\min{\beta}\sum_{j=1}^n(z_j - g_j\beta)^2 
 \end{aligned}$$
 
-**Proof:**
+:::
+
+::: {.Proof}
+
 Let $\tilde{\beta}$ be the LS estimator of the linearized model. Then,
 
 $$\begin{aligned}
-\tilde{\beta} &=  \arg\min{\beta}\|z - G\beta \|^2 \\
+\tilde{\beta} &=  \arg\min{\beta} \, \left\|z - G\beta \right\|^2 \\
 &= (G^\prime G)^{-1}G^\prime z \\
 &= (G^\prime G)^{-1}G^\prime (y - f(x,\hat\beta) + G\hat\beta) \\
 &= \hat\beta + (G^\prime G)^{-1}\nabla f(x,\hat\beta) (y - f(x,\hat\beta) ) \\
 \end{aligned}$$
 
 By definition, $\hat\beta$ minimizes $U(\beta) = \| y -f(x,\beta) \|^2$. Then, 
-$$\begin{aligned}
-\nabla U(\hat\beta) &= -2\nabla f(x,\hat\beta) (y - f(x,\hat\beta) ) \\
-&= 0
-\end{aligned}$$
-Thus, $\tilde\beta=\hat\beta$. $\Box$
 
-Let us check this property:
+$$
+\nabla U(\hat\beta) = -2\nabla f(x,\hat\beta) (y - f(x,\hat\beta) )= 0
+$$
+
+Thus, $\tilde\beta=\hat\beta$ $\Box$.
+
+:::
+
+Let us check this property numerically:
+
 ```{r}
-hx <- deriv(y ~ A/(1+exp(-k*(x-tau))), c("A", "k", "tau"), function(A, k, tau, x){} ) 
-fr <- hx(beta.est[1], beta.est[2], beta.est[3], x)
-G <- attr(fr,"gradient")
-z <- y - pred1(beta.est, x) + G%*%beta.est
-solve(t(G)%*%G)%*%t(G)%*%z
+hx <- deriv(
+  expr    = y ~ A / ( 1 + exp(- gamma * (x - tau))), 
+  namevec = c("A", "gamma", "tau"), 
+  function.arg = function(A, gamma, tau, x) { }
+) 
+fr <- hx(beta_hat[1], beta_hat[2], beta_hat[3], faithful$eruptions)
+G  <- attr(fr, "gradient")
+z  <- faithful$waiting - f_1(beta_hat, faithful$eruptions) + G %*% beta_hat
+solve(crossprod(G)) %*% crossprod(G,z)
 ```
-
 
 Since $\hat{\beta} =(G^\prime G)^{-1}G^\prime z$, the variance-covariance of $\hat\beta$ can  be approximated by 
-$${\rm Var}_{\rm lin}(\hat\beta) = \hat\sigma^2 (G^\prime G)^{-1} $$
+
+$$\mathbb{V}_{\rm lin}(\hat\beta) = \hat\sigma^2 (G^\prime G)^{-1} $$
+
 ```{r}
-V.lin <- sigma.est^2*solve(t(G)%*%G)
-V.lin
+V_lin <- sigma_hat^2*solve(t(G)%*%G)
+V_lin
 ```
 
-and we can derive standard errors $({\rm se}_{\rm lin}(\hat{\beta}_k), 1 \leq k \leq \nbeta)$ for the parameter estimates,
+and we can derive standard errors $({\rm se}_{\rm lin}(\hat{\beta}_k), 1 \leq k \leq p)$ for the parameter estimates,
+
 ```{r}
-se.lin <- sqrt(diag(V.lin))
-se.lin
+se_lin <- sqrt(diag(V_lin))
+se_lin
 ```
 
 #### Maximum likelihood approach
@@ -297,60 +304,64 @@ Let $I_y(\hat{\beta})$ be  the observed Fisher information matrix at $\hat{\beta
 
 $$
 \begin{aligned}
- I_y({\hat\beta}) &= - \frac{\partial^2}{\partial \beta \partial \beta^\prime} \llike(\hat{\beta},\hat{\sigma}^2) \\
+ I_y({\hat\beta}) &= - \frac{\partial^2}{\partial \beta \partial \beta^\prime} \log \ell(\hat{\beta},\hat{\sigma}^2) \\
 &= \frac{1}{2\hat\sigma^2}\frac{\partial^2}{\partial \beta \partial \beta^\prime} \left(\sum_{j=1}^n(y_j - f(x_j,\hat\beta))^2 \right).
 \end{aligned}
 $$
 
 Then, the Central Limit Theorem states that the variance of $\hat{\beta}$ can be approximated by the inverse of $I_y(\hat{\beta})$:
 
-$${\rm Var}_{\rm ml}(\hat{\beta}) = I_y(\hat{\beta})^{-1}.$$
+$$\mathbb{V}_{\rm ml}(\hat{\beta}) = I_y(\hat{\beta})^{-1}. $$
 
-Function `nlm` can return the Hessian of the function `rss1` to minimize, i.e. the matrix of the second derivatives $\partial^2/\partial \beta \partial \beta^\prime \sum_{j=1}^n(y_j - f(x_j,\hat\beta))^2$ 
+Function `nlm` can return the Hessian of the function `rss_1` to minimize, i.e. the matrix of the second derivatives $\partial^2/\partial \beta \partial \beta^\prime \sum_{j=1}^n(y_j - f(x_j,\hat\beta))^2$ 
 
 ```{r}
-r.nlm1 <- nlm(rss1, c(90, 2, 2), x, y, hessian="true")
-r.nlm1$hessian
-```
-
-We then derive the FIM and the variance ${\rm Var}_{\rm ml}(\hat{\beta})$:
-```{r}
-I1 <- r.nlm1$hessian/(2*sigma.ml^2)
-V.ml <- solve(I1)
-V.ml
-```
-and
-```{r}
-se.ml <- sqrt(diag(V.ml))
-se.ml
-```
-
-**Remark:** The Hessian of $\sum_{j=1}^n(y_j - f(x_j,\hat\beta))^2$ can be computed as a function of the first and second derivatives of $f$: 
-
-$$
- \frac{\partial^2}{\partial \beta \partial \beta^\prime} \left(\sum_{j=1}^n(y_j - f(x_j,\hat\beta))^2 \right) = 2 \sum_{j=1}^n \left( 
-\left(\frac{\partial}{\partial \beta}f(x_j,\hat\beta)\right)\left(\frac{\partial}{\partial \beta}f(x_j,\hat\beta)\right)^\prime - \frac{\partial^2}{\partial \beta \partial \beta^\prime}f(x_j,\hat\beta)y_j
-\right)
-$$
-```{r}
-hx <- deriv3(y ~ amax/(1+exp(-k*(x-tau))), c("amax", "k", "tau"),
-             function(amax, k, tau, x){} ) 
-
-fr <- hx(beta.est[1],beta.est[2],beta.est[3], faithful$waiting)
-gr <- attr(fr,"gradient")
-hr <- attr(fr,"hessian")
-H <- matrix(nrow=d, ncol=d)
-for (k in (1:d))
-  H[k,] <- -2*colSums(hr[,,k]*(faithful$eruptions-fr)) + 2*gr[,k]%*%gr
+optim_nlm1 <- nlm(rss_1, c(90, 2, 2), faithful$eruptions, faithful$waiting, hessian = "true")
+H <- optim_nlm1$hessian
 H
 ```
 
-Using the fact that ${\rm Var}(\chi^2(k))=2k$, we can show that ${\rm Var}(\hat{\sigma}^2) \approx 2\sigma^4/n$. Then the standard error of $\hat{\sigma}$ is approximately $\hat{\sigma}/\sqrt{2n}$.
+We then derive the FIM and the variance $\mathbb{V}_{\rm ml}(\hat{\beta})$:
+```{r}
+V_ml <- solve(H/(2*sigma_hat_ML^2))
+V_ml
+```
+and
 
 ```{r}
-sigma.est/sqrt(2*n)
+se_ml <- sqrt(diag(V_ml))
+se_ml
 ```
 
+<!-- ::: {.remark} -->
+
+<!-- The Hessian of $\sum_{j=1}^n (y_j - f(x_j,\hat\beta))^2$ can be computed as a function of the first and second derivatives of $f$:  -->
+
+<!-- $$ -->
+<!--  \frac{\partial^2}{\partial \beta \partial \beta^\prime} \left(\sum_{j=1}^n(y_j - f(x_j,\hat\beta))^2 \right) = 2 \sum_{j=1}^n \left(  -->
+<!-- \left(\frac{\partial}{\partial \beta}f(x_j,\hat\beta)\right)\left(\frac{\partial}{\partial \beta}f(x_j,\hat\beta)\right)^\prime - \frac{\partial^2}{\partial \beta \partial \beta^\prime}f(x_j,\hat\beta)y_j -->
+<!-- \right) -->
+<!-- $$ -->
+
+<!-- ```{r} -->
+<!-- hx <- deriv3(y ~ A / (1 + exp(-gamma*(x-tau))), c("A", "gamma", "tau"), -->
+<!--              function(A, gamma, tau, x){} )  -->
+<!-- fr <- hx(beta_hat[1], beta_hat[2] ,beta_hat[3], faithful$waiting) -->
+<!-- gr <- attr(fr, "gradient") -->
+<!-- hr <- attr(fr, "hessian") -->
+<!-- H2 <- matrix(nrow = p, ncol = p) -->
+<!-- for (k in (1:p)) -->
+<!--   H2[k,] <- -2 * colSums(hr[,,k]*(faithful$eruptions - fr)) + 2 * gr[,k] %*% gr -->
+<!-- H2 -->
+<!-- ``` -->
+
+<!-- ::: -->
+
+Beside, using the fact that $\mathbb{V}(\chi^2(k))=2k$, we can show that $\mathbb{V}(\hat{\sigma}^2) \approx 2\sigma^4/n$. Then the standard error of $\hat{\sigma}$ is approximately $\hat{\sigma}/\sqrt{2n}$.
+
+```{r}
+sigma_hat/sqrt(2*n)
+```
 
 #### Parametric bootstrap
 
@@ -365,40 +376,44 @@ $$
 y^{(\ell)}_j = f(x_j,\hat{\beta}) + \hat{\sigma} \varepsilon^{(\ell)}_j \quad ; \quad 1\leq j \leq n
 $$
 
-where $\varepsilon^{(\ell)}_j \iid {\cal N}(0,1)$. We also compute the LS /ML estimate of $\beta$:
+where $\varepsilon^{(\ell)}_j \sim^{\mathrm{iid}} \mathcal{N}(0,1)$. We also compute the LS /ML estimate of $\beta$:
 
 $$\hat\beta^{(\ell)} = \arg\min{\beta}\sum_{j=1}^n(y^{(\ell)}_j - f(x_j,\beta))^2$$
 
 The variance-covariance matrix of $\hat\beta$ is then estimated by the empirical variance-covariance matrix of $(\hat\beta^{(\ell)})$:
 
-$$ {\rm Var}_{\rm mc}(\hat{\beta}) = \frac{1}{L-1}\sum_{\ell=1}^L ( \hat\beta^{(\ell)} - \bar{\beta} )( \hat\beta^{(\ell)} - \bar{ \beta} )^\prime
+$$ \mathbb{V}_{\rm mc}(\hat{\beta}) = \frac{1}{L-1}\sum_{\ell=1}^L ( \hat\beta^{(\ell)} - \bar{\beta} )( \hat\beta^{(\ell)} - \bar{ \beta} )^\prime
 $$
 
 where $\bar{ \beta} = 1/L \sum_{\ell=1}^L  \hat\beta^{(\ell)}$.
 
 ```{r}
 L <- 1000
-pred.nlm1 <- predict(nlm1)
-B <- matrix(nrow=L, ncol=d)
-for (l in (1:L)) {
-  yl <- pred.nlm1 + sigma.est*rnorm(n) 
-  rl.nlm1 <- nls(yl ~  pred1(beta,x), start=list(beta=beta.est))
-  B[l,] <- coef(rl.nlm1)
-}
-V.mc <- cov(B)
-V.mc
+y_hat_ref <- predict(nlm1)
+beta_hat <- coef(nlm1)
+x <- faithful$eruptions
+betas_boot <- mclapply(1:L, function(b) {
+  y_b <- y_hat_ref + sigma_hat * rnorm(length(y_hat_ref))
+  coef(suppressWarnings(nls(y_b ~  f_1(beta, x), start = list(beta = beta_hat))))
+}) %>% unlist() %>% matrix(ncol = L) %>% t()
+V_mc <- cov(betas_boot)
+V_mc
 ```
 
 ```{r}
-se.mc <- sqrt(diag(V.mc))
-se.mc
+se_mc <- sqrt(diag(V_mc))
+se_mc
 ```
 
-**Remark:** it would be equivalent to directly compute the empirical standard deviation of each component of the sequence $(\hat\beta^{(\ell)})$: 
+::: {.remark}
+
+It would be equivalent to directly compute the empirical standard deviation of each component of the sequence $(\hat\beta^{(\ell)})$: 
+
 ```{r}
-apply(B,MARGIN=2,FUN=sd)
+apply(betas_boot, 2, sd)
 ```
 
+:::
 
 One of the main advantages of this method is that it doesn't make any assumption on $\hat\beta$, contrary to the maximum likelihood estimator which asymptotic distribution is known to be normal, with a known asymptotic variance. Then, this asymptotic distribution is used with a finite set of observations for approximating the distribution of the ML estimator, but without knowing how good this approximation is.
 On its part, the linearization approach makes use of an approximation of the structural model, without knowing how good this approximation is.
@@ -414,53 +429,54 @@ The summary of model `nlm1` includes several informations about the model parame
 summary(nlm1)$coefficient
 ```
 
-Let $\beta = (\beta_k, 1\leq k \leq d)$ be the $d$-vector of parameters of the model. In the linearized model $z=G\beta+e$, 
+Let $\beta = (\beta_k, 1\leq k \leq p)$ be the $p$-vector of parameters of the model. In the linearized model $z=G\beta+e$, 
 
-$t_k = (\hat{\beta}_k - \beta_k)/{\rm se}(\hat{\beta}_k)$ 
-follows a $t$-distribution with $n-d$ degrees of freedom.  We can then perform a $t$-test to test if $\beta_k=0$.
+$t_k = (\hat{\beta}_k - \beta_k)/{\rm se}(\hat{\beta}_k)$ follows a $t$-distribution with $n-p$ degrees of freedom.  We can then perform a $t$-test to test if $\beta_k=0$.
 
-The test statistics is $t_{{\rm stat}, k} = {\hat{\beta}_k}/{{\rm se}(\hat{\beta}_k)}$ 
-and the $p$-value for this test is 
-$$p_k = 2(1 - \prob{T_{n-d} \leq |t_{{\rm stat}, k}| } $$
+The test statistics is $t_{{\rm stat}, k} = {\hat{\beta}_k}/{{\rm se}(\hat{\beta}_k)}$ and the $p$-value for this test is 
+
+$$p_k = 2(1 - \mathbb{P}(T_{n-d} \leq |t_{{\rm stat}, k}| ) $$
 
 ```{r}
-t.stat <- beta.est/se.lin
-p.value <- 2*(1 - pt(abs(t.stat),n-d))
-res.beta <- cbind(beta.est, se.lin, t.stat, p.value)
-res.beta
+t_stat  <- beta_hat/se_lin
+p_value <- 2*(1 - pt(abs(t_stat), n-p))
+cbind(beta_hat, se_lin, t_stat, p_value) %>% round(4)
 ```
 
 ### Confidence intervals for the model parameters
 
-
 #### Linearization approach
 
-Using  the linearized model $z=G\beta+e$,
-we can  compute a confidence interval for each component of $\beta$ as we do with any linear model:
+Using  the linearized model $z = G\beta + \varepsilon$, we can  compute a confidence interval for each component of $\beta$ as we do with any linear model:
 
-$${\rm CI}_{{\rm lin}, 1-\alpha}(\beta_k) = [\hat{\beta}_k + qt_{\alpha/2, n-d}\ {\rm se}_{\rm lin}(\hat{\beta}_k) \ , \ \hat{\beta}_k + qt_{1-\alpha/2, n-d}\ {\rm se}_{\rm lin}(\hat{\beta}_k)]$$
+$${\rm CI}_{{\rm lin}, 1-\alpha}(\beta_k) = [\hat{\beta}_k + qt_{\alpha/2, n-p}\ {\rm se}_{\rm lin}(\hat{\beta}_k) \ , \ \hat{\beta}_k + qt_{1-\alpha/2, n-p}\ {\rm se}_{\rm lin}(\hat{\beta}_k)]$$
 
 where $qt_{p,\nu}$ is the quantile of order $p$ for a $t$-distribution with $\nu$ degree of freedom.
 
 ```{r}
 level <- 0.95
 alpha <- 1 - level
-ci.lin <- cbind(beta.est + qt(alpha/2,n-d)*se.lin , beta.est + qt(1-alpha/2,n-d)*se.lin)
-row.names(ci.lin) <- beta.names
-colnames(ci.lin) <- c(paste0((1-level)/2*100,"%"),paste0((1+level)/2*100,"%"))
-ci.lin
+CI_linearized <- 
+  cbind(
+  beta_hat + qt(alpha/2, n-p) * se_lin,
+  beta_hat + qt(1-alpha/2,n-p) * se_lin) %>% as.data.frame() %>%  
+  setNames(c(paste0((1-level)/2*100,"%"),paste0((1+level)/2*100,"%")))
+CI_linearized
 ```
 
 #### Maximum likelihood approach
 
-We can adopt the same approach  with the ML estimate. Here, the standard errors $({\rm se}_{\rm ml}(\hat{\beta}_k), 1 \leq k \leq \nbeta)$ are derived from the asymptotic variance-covariance matrix of the parameter estimates $V_{\rm ml}(\hat{\beta})$ .
+We can adopt the same approach  with the ML estimate. Here, the standard errors $({\rm se}_{\rm ml}(\hat{\beta}_k), 1 \leq k \leq p)$ are derived from the asymptotic variance-covariance matrix of the parameter estimates $V_{\rm ml}(\hat{\beta})$ .
 
-$${\rm CI}_{{\rm ml},1-\alpha}(\beta_k) = [\hat{\beta}_k + qt_{\alpha/2, n-d}\ {\rm se}_{\rm ml}(\hat{\beta}_k) \ , \ \hat{\beta}_k + qt_{1-\alpha/2, n-d}\ {\rm se}_{\rm ml}(\hat{\beta}_k)]$$
+$${\rm CI}_{{\rm ml},1-\alpha}(\beta_k) = [\hat{\beta}_k + qt_{\alpha/2, n-p}\ {\rm se}_{\rm ml}(\hat{\beta}_k) \ , \ \hat{\beta}_k + qt_{1-\alpha/2, n-p}\ {\rm se}_{\rm ml}(\hat{\beta}_k)]$$
+
 ```{r}
-ci.ml <- cbind(beta.est + qt(alpha/2,n-d)*se.ml , beta.est + qt(1-alpha/2,n-d)*se.ml)
-row.names(ci.ml) <- beta.names
-colnames(ci.ml) <- c(paste0((1-level)/2*100,"%"),paste0((1+level)/2*100,"%"))
-ci.ml
+CI_ML <- 
+  cbind(
+    beta_hat + qt(alpha/2,n-p) * se_ml,
+    beta_hat + qt(1-alpha/2,n-p) * se_ml) %>% as.data.frame() %>%  
+  setNames(c(paste0((1-level)/2*100,"%"),paste0((1+level)/2*100,"%")))
+CI_ML
 ```
 
 #### Parametric bootstrap
@@ -471,15 +487,15 @@ $${\rm CI}_{{\rm mc},1-\alpha}(\beta_k) = [\hat{\beta}_{k,\alpha/2} \ , \ \hat{\
 where, for any $0 < p < 1$, $\hat{\beta}_{k,p}$ is the empirical quantile of order $p$ of $(\hat{\beta}^{(\ell)}_k, 1 \leq  \ell \leq L)$:
 
 ```{r}
-b <- c(apply(B,MARGIN=2,function(x) quantile(x,alpha/2)),
-       apply(B,MARGIN=2,function(x) quantile(x,1-alpha/2)))
-ci.mc=matrix(b,ncol=2)
-row.names(ci.mc) <- beta.names
-colnames(ci.mc) <- c(paste0((1-level)/2*100,"%"),paste0((1+level)/2*100,"%"))
-ci.mc
+CI_bootstrap <- 
+  apply(as.matrix(betas_boot), 2, quantile, probs = c(alpha/2, 1-alpha/2)) %>%
+  t() %>% as.data.frame() %>% 
+  setNames(c(paste0((1-level)/2*100,"%"),paste0((1+level)/2*100,"%")))
+CI_bootstrap
 ```
 
-**Remark:**
+::: {.remark}
+
 These confidence intervals are slightly biased. We will use a linear model  to explain where this bias comes from and show how to remove it.
 
 Consider the linear model $y = X\beta + \sigma\varepsilon$. A confidence interval of level $1-\alpha$  for $\beta_k$ is
@@ -489,70 +505,74 @@ $${\rm CI}_{ 1-\alpha}(\beta_k) = [\hat{\beta}_k + qt_{\alpha/2, n-d}\ {\rm se}_
 where ${\rm se}(\hat{\beta}_k) = \hat\sigma^2 (X^\prime X)^{-1}_{kk}$.
 
 On the other hand, for $\ell=1,2,\ldots,L$,
+
 $$y^{(\ell)} = X\hat{\beta} + \hat{\sigma} \varepsilon^{(\ell)} $$
+
 and
+
 $$\hat{\beta}^{(\ell)} = \hat\beta + \hat{\sigma}(X^\prime X)^{-1}X^\prime\varepsilon^{(\ell)}$$
 
 
-Thus, conditionnally to the observations $y$, i.e. conditionnally to $\hat\beta$, 
-$\hat{\beta}_k^{(\ell)} \sim {\cal N}(\hat\beta_k \ , \ {\rm se}^2(\hat{\beta}_k))$. 
-Then, the empirical quantile $\hat{\beta}_{k,p}$ is an estimator of the  quantile of order $p$ of a normal distribution with mean $\hat\beta_k$ and variance ${\rm se}^2(\hat{\beta}_k)$. 
+Thus, conditionnally to the observations $y$, i.e. conditionnally to $\hat\beta$,  $\hat{\beta}_k^{(\ell)} \sim \mathcal{N}(\hat\beta_k \ , \ {\rm se}^2(\hat{\beta}_k))$.  Then, the empirical quantile $\hat{\beta}_{k,p}$ is an estimator of the  quantile of order $p$ of a normal distribution with mean $\hat\beta_k$ and variance ${\rm se}^2(\hat{\beta}_k)$. 
 In other words, the confidence interval ${\rm CI}_{{\rm mc},1-\alpha}(\beta_k)$ is an estimator of the interval
-$[\hat{\beta}_k + q{\cal N}_{\alpha/2}\ {\rm se}_(\hat{\beta}_k) \ , \ \hat{\beta}_k + q{\cal N}_{1-\alpha/2}\ {\rm se}(\hat{\beta}_k)]$.
-where $q{\cal N}_p$ is the quantile of order $p$ for a ${\cal N}(0,1)$ distribution.
+$[\hat{\beta}_k + q\mathcal{N}_{\alpha/2}\ {\rm se}_(\hat{\beta}_k) \ , \ \hat{\beta}_k + q\mathcal{N}_{1-\alpha/2}\ {\rm se}(\hat{\beta}_k)]$, where $q\mathcal{N}_p$ is the quantile of order $p$ for a $\mathcal{N}(0,1)$ distribution.
 
-We see that these quantiles for a normal ditribution should be tranformed into quantiles for a $t$-ditribution with $n-d$ df.
+We see that these quantiles for a normal distribution should be tranformed into quantiles for a $t$-ditribution with $n-d$ df.
 
 An unbiased confidence interval for $\beta_k$ is therefore
 
-$${\rm CI}^\star_{{\rm mc},1-\alpha}(\beta_k) = [\hat{\beta}_k + \frac{qt_{\alpha/2, n-d}}{q{\cal N}_{\alpha/2}}(\hat{\beta}_{k,\alpha/2} - \hat{\beta}_k)\ , \  \hat{\beta}_k + \frac{qt_{1-\alpha/2, n-d}}{q{\cal N}_{1-\alpha/2}}(\hat{\beta}_{k,1-\alpha/2} - \hat{\beta}_k)]  $$
+$${\rm CI}^\star_{{\rm mc},1-\alpha}(\beta_k) = [\hat{\beta}_k + \frac{qt_{\alpha/2, n-d}}{q\mathcal{N}_{\alpha/2}}(\hat{\beta}_{k,\alpha/2} - \hat{\beta}_k)\ , \  \hat{\beta}_k + \frac{qt_{1-\alpha/2, n-d}}{q\mathcal{N}_{1-\alpha/2}}(\hat{\beta}_{k,1-\alpha/2} - \hat{\beta}_k)]  $$
 
-The same correction can be used for nonlinear models.
+The same correction can be used for nonlinear models:
 
 ```{r}
 rq <- qt(1-alpha/2,df)/qnorm(1-alpha/2)
-beta.est + rq*(ci.mc-beta.est)
+beta_hat + rq*(CI_bootstrap - beta_hat)
 ```
+
+:::
 
 #### Profile likelihood
 
 Function `confint` uses the profile likelihood method for computing confidence intervals for parameters in a fitted model.
 
 ```{r, message=FALSE, warning=FALSE}
-confint(nlm1)
+CI_profiled <- confint(nlm1, level = level)
+CI_profiled
 ```
 
 Profile likelihood confidence intervals are based on the log-likelihood function.
 
-Imagine that we want to compute a confidence interval for $\beta_1$.
-The profile likelihood of $\beta_1$ is defined by
+Imagine that we want to compute a confidence interval for $\beta_1$. The profile likelihood of $\beta_1$ is defined by
 
-$$\like_p(\beta_1) = \max_{\beta_2, \ldots, \beta_d}\like(\beta_1, \beta_2, \ldots, \beta_d )$$
+$$\ell_p(\beta_1) = \max_{\beta_2, \ldots, \beta_d}\ell(\beta_1, \beta_2, \ldots, \beta_d )$$
 
-$\like_p(\beta_1)$ does no longer depend on $\beta_2, \ldots, \beta_d$ since it has been profiled out.
+$\ell_p(\beta_1)$ does no longer depend on $\beta_2, \ldots, \beta_d$ since it has been profiled out.
 
-A an example, let us compute and display the profile log-likelihood of $A$ for model `nlm1`
+As an example, let us compute and display the profile log-likelihood of $A$ for model `nlm1`
 
 ```{r}
-pred1.A=function(gamma,tau,x,A){ f <-  A/(1+exp(-gamma*(x-tau))) ; return(f)}
+f_1A <- function(gamma,tau,x,A){ f <-  A/(1+exp(-gamma*(x-tau))) ; return(f)}
+values_A <- seq(86, 110, by = 0.1)
+start    <- list(gamma = beta_hat[2], tau = beta_hat[3])
+logLik_A <- map(values_A, ~
+  nls(waiting ~  .x / ( 1 + exp(- gamma * (eruptions - tau))), faithful, start = start)
+) %>% map(logLik) %>% map_dbl(as.numeric)
+```
 
-v.A <- seq(86,110,by=0.1)
-ll.A <- NULL
-for (A in v.A) {
-  nlm1.A <- nls(y ~  pred1.A(gamma,tau,x,A), start=list(gamma=beta.est[2],tau=beta.est[3]))
-  ll.A <- c(ll.A,as.numeric(logLik(nlm1.A)))
-}
-
-df.A <- data.frame(A=v.A, ll=ll.A)
-ggplot(data=df.A) + geom_line(aes(A,ll), color="blue", size=1) + 
-  geom_vline(xintercept=beta.est[1], color="red", linetype = "longdash") + 
-  scale_x_continuous(breaks = c(seq(85,110,by=5),round(beta.est[[1]],2)),"A")
+```{r}
+#| code-fold: true
+data.frame(A = values_A, logLik = logLik_A) %>% 
+ggplot() + aes(x = A, y = logLik) + geom_line(color="blue", size=1) + 
+  geom_vline(xintercept = beta_hat[1], color="red", linetype = "longdash") + 
+  scale_x_continuous(breaks = c(seq(85,110, by = 5), round(beta_hat[[1]],2)),"A")
 ```
 
 Consider the test of $H_0: \beta_1 = \beta_1^\star$ against $H_1: \beta_1 \neq \beta_1^\star$. The likelihood ratio statistics is
 
-$$LR_{\rm stat} = 2\left(\log(\like(\hat\beta)) - \log(\like_p(\beta_1^\star))\right)$$
-where $\hat\beta$ is the value of $\beta$ that maximises the likelihood $\like(\beta)$ under $H_1$.
+$$LR_{\rm stat} = 2\left(\log(\ell(\hat\beta)) - \log(\ell_p(\beta_1^\star))\right)$$
+
+where $\hat\beta$ is the value of $\beta$ that maximises the likelihood $\ell(\beta)$ under $H_1$.
 
 Under $H_0$, $LR_{\rm stat}$ follows a $\chi^2$ distribution with 1 df.
 Then, the test is significant (i.e. we reject $H_0$), if $LR_{\rm stat}> q\chi^2_{1,1-\alpha}$ where $q\chi^2_{1,1-\alpha}$ is the quantile of order $1-\alpha$ for a $\chi^2$ distribution with 1 df.
@@ -561,97 +581,112 @@ A "profile likelihood confidence interval" of level $1-\alpha$ for $\beta_1$ con
 
 <!--
 $$\begin{aligned}
-1-\alpha &= {\mathbb P}_{H_0}\left(2\left(\log(\like(\hat\beta)) - \log(\like_p(\beta_1^\star))\right) < q\chi^2_{1,1-\alpha}\right) \\
+1-\alpha &= {\mathbb P}_{H_0}\left(2\left(\log(\ell(\hat\beta)) - \log(\ell_p(\beta_1^\star))\right) < q\chi^2_{1,1-\alpha}\right) \\
  &= {\mathbb P}(\beta_{\alpha,1} \leq \beta \leq \beta_{\alpha,2})
 \end{aligned}$$
 -->
 
 ```{r}
-dll.A <- 2*(as.numeric(logLik(nlm1)) - ll.A)
-df.A <- data.frame(A=v.A, dll=dll.A)
-
 qlevel <- qchisq(level,1)
-lpA <- function(A, qlevel) {
-nlm1.A <- nls(y ~  A/(1+exp(-gamma*(x-tau))), start=list(gamma=beta.est[2],tau=beta.est[3]))
-as.numeric(2*(logLik(nlm1) -logLik(nlm1.A) ) - qlevel) }
-c1.A <- uniroot(lpA, c(80,beta.est[1]), qlevel)$root
-c2.A <- uniroot(lpA, c(beta.est[1], 110), qlevel)$root
 
-ggplot(data=df.A) + geom_line(aes(A,dll), size=1, color="blue") + geom_hline(yintercept=qlevel, color="red", linetype = "longdash") +
-  geom_segment(aes(x=c1.A, xend=c1.A, y=-Inf, yend=qlevel),  color="red", linetype = "longdash")  +
-  geom_segment(aes(x=c2.A, xend=c2.A, y=-Inf, yend=qlevel),  color="red", linetype = "longdash")  +
-  scale_y_continuous(breaks = c(0,2,3,6,round(qlevel,2)),1) +
-  scale_x_continuous(breaks = c(seq(85,100,by=5),round(c1.A,1),round(c2.A,1), 110),"A") 
+lp_A <- function(A, qlevel) {
+  nlm1_A <- nls(waiting ~  A / ( 1 + exp(- gamma * (eruptions - tau))), faithful, 
+      start = list(gamma = beta_hat[2], tau = beta_hat[3]))
+  res <- as.numeric(2*(logLik(nlm1) - logLik(nlm1_A) ) - qlevel) 
+  res
+}
+
+c1_A <- uniroot(lp_A, c(80,  beta_hat[1]), qlevel)$root
+c2_A <- uniroot(lp_A, c(beta_hat[1], 110), qlevel)$root
 ```
 
+```{r}
+#| code-fold: true
+dlogLik_A <- 2*(as.numeric(logLik(nlm1)) - logLik_A)
+data.frame(A = values_A, dlogLik = dlogLik_A) %>% 
+  ggplot() + geom_line(aes(values_A,dlogLik), size=1, color="blue") + 
+  geom_hline(yintercept=qlevel, color="red", linetype = "longdash") +
+  geom_segment(aes(x = c1_A, xend = c1_A, y=-Inf, yend=qlevel),  color="red", linetype = "longdash")  +
+  geom_segment(aes(x = c2_A, xend = c2_A, y=-Inf, yend=qlevel),  color="red", linetype = "longdash")  +
+  scale_y_continuous(breaks = c(0,2,3,6,round(qlevel,2)),1) +
+  scale_x_continuous(breaks = c(seq(85,100,by=5),round(c1_A,1),round(c2_A,1), 110),"A") 
+```
 
 Let us now compute the profile likelihood confidence intervals for $\gamma$ and $\tau$
 
 ```{r}
-lpgamma <- function(gamma) {
-  nlm1.gamma <- nls(y ~  A/(1+exp(-gamma*(x-tau))), start=list(A=beta.est[1],tau=beta.est[3]))
-  as.numeric(2*(logLik(nlm1) -logLik(nlm1.gamma) ) - qlevel) }
-c1.gamma <- uniroot(lpgamma, lower=0.40, upper=beta.est[2])$root
-c2.gamma <- uniroot(lpgamma, lower=beta.est[2], upper=1)$root
 
-lptau <- function(tau) {
-  nlm1.tau <- nls(y ~ A/(1+exp(-gamma*(x-tau))), start=list(A=beta.est[1],gamma=beta.est[2]))
-  as.numeric(2*(logLik(nlm1) -logLik(nlm1.tau) ) - qlevel) }
-c1.tau <- uniroot(lptau, lower=1.25, upper=beta.est[3])$root
-c2.tau <- uniroot(lptau, lower=beta.est[3], upper=2.25)$root
+lp_gamma <- function(gamma) {
+  nlm1_gamma <- nls(waiting ~  A/(1 + exp(-gamma*(eruptions-tau))), faithful,
+                    start = list(A=beta_hat[1],tau=beta_hat[3]))
+  as.numeric(2*(logLik(nlm1) - logLik(nlm1_gamma) ) - qlevel)
+}
+c1_gamma <- uniroot(lp_gamma, lower = 0.40, upper = beta_hat[2])$root
+c2_gamma <- uniroot(lp_gamma, lower = beta_hat[2], upper=1)$root
 
-ci.pl <- rbind(rbind(c(c1.A , c2.A),c(c1.gamma , c2.gamma)),c(c1.tau , c2.tau))
-row.names(ci.pl) <- beta.names
-colnames(ci.pl) <- c(paste0((1-level)/2*100,"%"),paste0((1+level)/2*100,"%"))
-ci.pl
+lp_tau <- function(tau) {
+  nlm1_tau <- nls(waiting ~ A/(1+exp(-gamma*(eruptions - tau))), faithful,
+                  start=list(A=beta_hat[1],gamma=beta_hat[2]))
+  as.numeric(2*(logLik(nlm1) - logLik(nlm1_tau) ) - qlevel)
+}
+c1_tau <- uniroot(lp_tau, lower=1.25, upper=beta_hat[3])$root
+c2_tau <- uniroot(lp_tau, lower=beta_hat[3], upper=2.25)$root
+
+CI_profiled_custom <- 
+  rbind(A = c(c1_A , c2_A), gamma = c(c1_gamma, c2_gamma), tau = c(c1_tau, c2_tau)) %>% 
+  as.data.frame() %>% 
+  setNames(c(paste0((1-level)/2*100,"%"),paste0((1+level)/2*100,"%")))
+CI_profiled_custom
 ```
 
-**Remark:**
+::: {.remark} 
 
 The `confint` R function doesn't use a $\chi^2$ distribution with 1 df for the LRT statistics $LR_{\rm stat}$ (which is theoretically the right asymptotic distribution).
 
-On the contrary, the square root of  $LR_{\rm stat}$ is assumed to follow a half $t$-distribution with $n-\nbeta$ df.
-Then, the null hypothesis $H_0$ is rejected when $LR_{\rm stat}> qt_{1-\alpha/2,n-\nbeta}^2$.
+On the contrary, the square root of  $LR_{\rm stat}$ is assumed to follow a half $t$-distribution with $n-p$ df.
+Then, the null hypothesis $H_0$ is rejected when $LR_{\rm stat}> qt_{1-\alpha/2,n-p}^2$.
 
 
 ```{r}
 qlevel <- qt(1-alpha/2,df)^2
-c1R.A <- uniroot(lpA, c(80,beta.est[1]), qlevel)$root
-c2R.A <- uniroot(lpA, c(beta.est[1], 110), qlevel)$root
-c(c1R.A, c2R.A)
+c1R_A <- uniroot(lp_A, c(80,  beta_hat[1]), qlevel)$root
+c2R_A <- uniroot(lp_A, c(beta_hat[1], 110), qlevel)$root
+c(c1R_A, c2R_A)
 ```
 
-The two tests - and then the two confidence intervals - are equivalent for large $n$ since a $t$-distribution with $n$ df converges to a ${\cal N}(0,1)$ when $n$ goes to infinity. Then, for any $0 < p < 1$,
+The two tests - and then the two confidence intervals - are equivalent for large $n$ since a $t$-distribution with $n$ df converges to a $\mathcal{N}(0,1)$ when $n$ goes to infinity. Then, for any $0 < p < 1$,
 
-$$ (qt_{p,n})^2 \limite{n\to \infty} q\chi^2_{p,1}$$
+$$ (qt_{p,n})^2 \xrightarrow{n\to \infty} q\chi^2_{p,1}$$
+
+:::
 
 ## Diagnostic plots
 
 Let us plot 
 
- *i)* the observed waiting times versus predicted waiting times,
- *ii)* the residuals versus eruption times, 
- *iii)* the residuals versus predicted waiting times,
- *iv)* the distribution of the residuals
+1. the observed waiting times versus predicted waiting times,
+2. the residuals versus eruption times, 
+3. the residuals versus predicted waiting times,
+4. the distribution of the residuals
 
 ```{r, fig.height=6, fig.width=9}
-residual.nlm1 <- resid(nlm1)/sd(resid(nlm1))
+#| code-fold: true
+## unfortunately, no plotting function is defined for 'nls' object
+residual_nlm1 <- resid(nlm1)/sd(resid(nlm1))
 par(mfrow=c(2,2))
-plot(predict(nlm1), y)
+plot(predict(nlm1), faithful$waiting)
 abline(a=0, b=1, lty=1, col="magenta")
-plot(x, residual.nlm1)
+plot(x, residual_nlm1)
 abline(a=0, b=0, lty=1, col="magenta")
-plot(predict(nlm1), residual.nlm1)
+plot(predict(nlm1), residual_nlm1)
 abline(a=0, b=0, lty=1, col="magenta")
-boxplot(residual.nlm1)
+boxplot(residual_nlm1)
 abline(a=0, b=0, lty=2, col="magenta")
 abline(a=qnorm(0.25), b=0, lty=2, col="magenta")
 abline(a=qnorm(0.75), b=0, lty=2, col="magenta")
 ```
 
-On one hand, observations and predictions look well randomly distributed around the line $y=x$.
-On the other hand, residual look well distributed around 0, with a constant variance. 
-Furthermore, the distribution of the residuals appears to be symmetrical with quantiles close to those of a normal distribution 
+On one hand, observations and predictions look well randomly distributed around the line $y=x$. On the other hand, residual look well distributed around 0, with a constant variance.  Furthermore, the distribution of the residuals appears to be symmetrical with quantiles close to those of a normal distribution 
 
 Then, based on these graphs, we don't have any good reason for rejecting  model `nlm1`... which doesn't mean we should stay with this model as our final model!
 
@@ -660,15 +695,16 @@ Then, based on these graphs, we don't have any good reason for rejecting  model 
 We can produce the same the diagnostic plots  with  model `nlm2` and arrive at the same conclusion concerning this model. 
 
 ```{r, fig.height=6, fig.width=9}
-residual.nlm2 <- resid(nlm2)/sd(resid(nlm2))
+#| code-fold: true
+residual_nlm2 <- resid(nlm2)/sd(resid(nlm2))
 par(mfrow=c(2,2))
-plot(predict(nlm2), y)
+plot(predict(nlm2), faithful$waiting)
 abline(a=0, b=1, lty=1, col="magenta")
-plot(x, residual.nlm2)
+plot(x, residual_nlm2)
 abline(a=0, b=0, lty=1, col="magenta")
-plot(predict(nlm2), residual.nlm2)
+plot(predict(nlm2), residual_nlm2)
 abline(a=0, b=0, lty=1, col="magenta")
-boxplot(residual.nlm2)
+boxplot(residual_nlm2)
 abline(a=0, b=0, lty=2, col="magenta")
 abline(a=qnorm(0.25), b=0, lty=2, col="magenta")
 abline(a=qnorm(0.75), b=0, lty=2, col="magenta")
@@ -690,12 +726,12 @@ F_{\rm stat} = \frac{(RSS_1 - RSS_2)/(d_2-d_1)}{(RSS_2)/(n-d_2}
 $$
 
 ```{r}
-RSS1 <-sum(resid(nlm1)^2)
-RSS2 <-sum(resid(nlm2)^2)
-d1   <- length(coef(nlm1))
-d2   <- length(coef(nlm2))
-F.stat <- ((RSS1-RSS2)/(d2-d1))/(RSS2/(n-d2))
-c(RSS2, RSS1-RSS2, F.stat, 1-pf(F.stat,d2-d1,n-d2))
+RSS1 <- sum(resid(nlm1)^2)
+RSS2 <- sum(resid(nlm2)^2)
+p1   <- length(coef(nlm1))
+p2   <- length(coef(nlm2))
+F.stat <- ( (RSS1-RSS2)/(p2-p1) ) / ( RSS2/(n-p2) )
+c(RSS2, RSS1 - RSS2, F.stat, 1-pf(F.stat, p2-p1, n-p2))
 ```
 *Remark:*  since the model is nonlinear, we cannot decompose the residual sum of squares $RSS_1$ as we did with linear models. Indeed, here,
 
@@ -728,31 +764,30 @@ There is no ready-made functions to calculate confidence intervals for predicted
 
 For a given value $x_0$ of the explanatory variable $x$, we can use the model $f$ with the estimated parameter $\hat{\beta}$ and predict the response as $f(x_0,\hat{\beta})$.
 
-Since $\hat{\beta}$ is a random vector with variance-covariance matrix ${\rm Var}(\hat{\beta})$, $f(x_0,\hat{\beta})$ is also a random variable that can be approximated by a linear function of $\hat{\beta}$
+Since $\hat{\beta}$ is a random vector with variance-covariance matrix $\mathbb{V}(\hat{\beta})$, $f(x_0,\hat{\beta})$ is also a random variable that can be approximated by a linear function of $\hat{\beta}$
 
 $$
 f(x_0 , \beta) \simeq f(x_0 , \hat{\beta}) + \nabla f(x_0 , \hat{\beta})(\beta - \hat{\beta}) 
 $$
 
-Then, the so-called *delta-method* consists in using this approximation for approximating the variance of 
-$f(x_0,\hat{\beta})$ by
+Then, the so-called *delta-method* consists in using this approximation for approximating the variance of $f(x_0,\hat{\beta})$ by
 
 $$
-{\rm Var}(f(x_0,\hat{\beta})) \simeq \nabla f(x_0 , \hat{\beta}) {\rm Var}(\hat{\beta}) \nabla f(x_0 , \hat{\beta})^\prime,
+\mathbb{V}(f(x_0,\hat{\beta})) \simeq \nabla f(x_0 , \hat{\beta}) \mathbb{V}(\hat{\beta}) \nabla f(x_0 , \hat{\beta})^\prime,
 $$
 
 and we can now use this approximation for computing a $(1-\alpha)100\%$ confidence interval for each prediction $f(x_0,\beta)$:
 
-$${\rm CI}_{{\rm lin}, 1-\alpha}(f(x_0,\beta)) = [f(x_0,\hat{\beta}) + qt_{\alpha/2, n-d}\ {\rm s.e.}(f(x_0,\hat{\beta})) \ , \ f(x_0,\hat{\beta}) + qt_{1-\alpha/2, n-d}\ {\rm s.e.}(f(x_0,\hat{\beta}))]$$
+$${\rm CI}_{{\rm lin}, 1-\alpha}= [f(x_0,\hat{\beta}) + qt_{\alpha/2, n-p}\ {\rm s.e.}(f(x_0,\hat{\beta})) \ , \ f(x_0,\hat{\beta}) + qt_{1-\alpha/2, n-p}\ {\rm s.e.}(f(x_0,\hat{\beta}))]$$
 
 where  ${\rm s.e.}(f(x_0,\hat{\beta}))$ is the standard error of $f(x_0,\hat{\beta})$ defined as
 
 $$
-{\rm s.e.}(f(x_0,\hat{\beta})) = \sqrt{\nabla f(x_0 , \hat{\beta}) {\rm Var}(\hat{\beta}) \nabla f(x_0 , \hat{\beta})^\prime}
+{\rm s.e.}(f(x_0,\hat{\beta})) = \sqrt{\nabla f(x_0 , \hat{\beta}) \mathbb{V}(\hat{\beta}) \nabla f(x_0 , \hat{\beta})^\prime}
 $$
 
 We can also compute a prediction interval for a future observation 
-$$y_0 = f(x_0,\beta) + e_0$$
+$$y_0 = f(x_0,\beta) + \varepsilon_0$$
 
 
 The prediction for $y_0$ is 
@@ -762,53 +797,52 @@ $$\hat{y}_0 = f(x_0 , \hat{\beta}).$$
 Then, the standard error for this prediction should take into account the uncertainty on $f(x_0,\beta)$ and the variability of the residual error $e_0$:
 
 $$
-{\rm s.e.}(\hat{y}_0) = \sqrt{\nabla f(x_0 , \hat{\beta}) {\rm Var}(\hat{\beta}) \nabla f(x_0 , \hat{\beta})^\prime + \sigma^2}
+{\rm s.e.}(\hat{y}_0) = \sqrt{\nabla f(x_0 , \hat{\beta}) \mathbb{V}(\hat{\beta}) \nabla f(x_0 , \hat{\beta})^\prime + \sigma^2}
 $$
 
 Then,
 
-$${\rm CI}_{{\rm lin}, 1-\alpha}(y_0) = [f(x_0,\hat{\beta}) + qt_{\alpha/2, n-d}\ {\rm s.e.}(\hat{y}_0) \ , \ f(x_0,\hat{\beta}) + qt_{1-\alpha/2, n-d}\ {\rm s.e.}(\hat{y}_0)]$$
+$${\rm CI}_{{\rm lin}, 1-\alpha}(y_0) = [f(x_0,\hat{\beta}) + qt_{\alpha/2, n-p}\ {\rm s.e.}(\hat{y}_0) \ , \ f(x_0,\hat{\beta}) + qt_{1-\alpha/2, n-p}\ {\rm s.e.}(\hat{y}_0)]$$
 
-As an example, let us compute the variance of $f_2(x_0,\hat{\beta}_2)$ for $x_0 = 1, 1.1, 1.2, \ldots, 5.9, 6$,
+As an example, let us compute the variance of $f_2(x_0, \hat{\beta}_2)$ for $x_0 = 1, 1.1, 1.2, \ldots, 5.9, 6$,
 
 ```{r}
-fgh2 <- deriv(y ~ (A-S)/(1+exp(-gamma*(x-tau))) + S, c("A", "gamma", "tau", "S"), function(A, gamma, tau, S, x){} ) 
-
-x.new <- seq(1, 6, by=0.1)
-beta2.est <- coef(nlm2)
-f.new <- fgh2(beta2.est[1],beta2.est[2],beta2.est[3],beta2.est[4], x.new)
-
-g.new <- attr(f.new,"gradient")
-V.beta2 <- vcov(nlm2)
-GS=rowSums((g.new%*%V.beta2)*g.new)
-head(GS)
+f_prime <- deriv(y ~ (A-S)/(1+exp(-gamma*(x-tau))) + S, c("A", "gamma", "tau", "S"), function(A, gamma, tau, S, x){} ) 
+x_new <- seq(1, 6, by=0.1)
+beta_hat <- coef(nlm2)
+f_new    <- f_prime(beta_hat[1], beta_hat[2], beta_hat[3], beta_hat[4], x_new)
+grad_new <- attr(f_new, "gradient")
+GS <- rowSums((grad_new %*% vcov(nlm2)) * grad_new)
 ```
 
 We can then derive a $95\%$ confidence interval for each $f_2(x_0,\beta)$
 
 ```{r}
 alpha <- 0.05
-deltaf <- sqrt(GS)*qt(1-alpha/2,df)
-df.delta <- data.frame(x=x.new, f=f.new, lwr.conf=f.new-deltaf, upr.conf=f.new+deltaf)
-head(df.delta)
+delta_f <- sqrt(GS) * qt(1-alpha/2,  n - length(beta_hat))
+df_delta <- data.frame(
+  x = x_new, 
+  f = f_new, 
+  lwr_conf = f_new - delta_f, 
+  upr_conf = f_new + delta_f
+  )
 ```
 
 and for each $y_0$
 
 ```{r}
-sigma2.est <- summary(nlm2)$sigma
-deltay <- sqrt(GS + sigma2.est^2)*qt(1-alpha/2,df)
-df.delta[c("lwr.pred","upr.pred")] <- cbind(f.new - deltay,f.new + deltay)
+delta_y    <- sqrt(GS + sigma(nlm2)^2)*qt(1-alpha/2,df)
+df_delta[c("lwr_pred","upr_pred")] <- cbind(f_new - delta_y,f_new + delta_y)
 ```
 
 We can now plot these two intervals together with the data:
 
 ```{r}
-pl + geom_ribbon(data=df.delta, aes(x=x.new, ymin=lwr.pred, ymax=upr.pred), alpha=0.1, fill="blue") + 
-  geom_ribbon(data=df.delta, aes(x=x.new, ymin=lwr.conf, ymax=upr.conf), alpha=0.2, fill="#339900") +  
-  geom_line(data=df.delta, aes(x=x.new, y=f.new), colour="#339900", size=1)
+#| code-fold: true
+ggplot(faithful)  + geom_point(aes(x = eruptions, y = waiting)) +
+   geom_ribbon(data=df_delta, aes(x=x_new, ymin=lwr_pred, ymax=upr_pred), alpha=0.1, fill="blue") + 
+  geom_ribbon(data=df_delta, aes(x=x_new, ymin=lwr_conf, ymax=upr_conf), alpha=0.2, fill="#339900") +   geom_line(data=df_delta, aes(x=x_new, y=f_new), colour="#339900", size=1)
 ```
-
 
 ### Parametric bootstrap
 
@@ -822,42 +856,52 @@ We can then use the empirical quantiles of  $f(x_0,\hat{\beta}^{(\ell)}, 1 \leq 
 $(y_0^{(\ell)}, 1 \leq \ell \leq L)$ to compute a confidence interval for $f_0=f(x_0,\beta)$ and a prediction interval for $y_0$.
 
 Let $f_{0,p}$ and $y_{0,p}$ be the empirical quantiles of order $p$ of $f(x_0,\hat{\beta}^{(\ell)}, 1 \leq \ell \leq L)$ and $(y_0^{(\ell)}, 1 \leq \ell \leq L)$, respectively. Instead of using the empirical intervals
+
 $$\begin{aligned}
 {\rm CI}_{{\rm mc},1-\alpha}(f_0) &= [f_{0,\alpha/2} \ , \ f_{0,1-\alpha/2} ]  \\
 {\rm CI}_{{\rm mc},1-\alpha}(y_0) &= [y_{0,\alpha/2} \ , \ y_{0,1-\alpha/2} ]  
 \end{aligned}$$
+
 we can  define the confidence and prediction intervals using the correction previously introduced for obtaining unbiased intervals in the case of a linear model: 
 
 $$\begin{aligned}
-{\rm CI}^\star_{{\rm mc},1-\alpha}(f_0) &= [f(x_0,\hat{\beta}) + \frac{qt_{\alpha/2, n-d}}{q{\cal N}_{\alpha/2}}(f_{0,\alpha/2} - f(x_0,\hat{\beta}))\ , \  f(x_0,\hat{\beta}) + \frac{qt_{1-\alpha/2, n-d}}{q{\cal N}_{1-\alpha/2}}(f_{0,1-\alpha/2} - f(x_0,\hat{\beta}))]  \\
-{\rm CI}^\star_{{\rm mc},1-\alpha}(y_0) &= [f(x_0,\hat{\beta}) + \frac{qt_{\alpha/2, n-d}}{q{\cal N}_{\alpha/2}}(y_{0,\alpha/2} - f(x_0,\hat{\beta}))\ , \  f(x_0,\hat{\beta}) + \frac{qt_{1-\alpha/2, n-d}}{q{\cal N}_{1-\alpha/2}}(y_{0,1-\alpha/2} - f(x_0,\hat{\beta}))]  
+& {\rm CI}^\star_{{\rm mc},1-\alpha}(f_0) = \\
+& [f(x_0,\hat{\beta}) + \frac{qt_{\alpha/2, n-d}}{q\mathcal{N}_{\alpha/2}}(f_{0,\alpha/2} - f(x_0,\hat{\beta}))\ , \  f(x_0,\hat{\beta}) + \frac{qt_{1-\alpha/2, n-d}}{q\mathcal{N}_{1-\alpha/2}}(f_{0,1-\alpha/2} - f(x_0,\hat{\beta}))]  \\
+& {\rm CI}^\star_{{\rm mc},1-\alpha}(y_0) = \\
+& [f(x_0,\hat{\beta}) + \frac{qt_{\alpha/2, n-d}}{q\mathcal{N}_{\alpha/2}}(y_{0,\alpha/2} - f(x_0,\hat{\beta}))\ , \  f(x_0,\hat{\beta}) + \frac{qt_{1-\alpha/2, n-d}}{q\mathcal{N}_{1-\alpha/2}}(y_{0,1-\alpha/2} - f(x_0,\hat{\beta}))]  
 \end{aligned}$$
 
+Let us compute these confidence and prediction interval bu boostraping for the $f_2$:
 
 ```{r}
-pred2 <- function(beta, x){ f <-  beta[4] + (beta[1]-beta[4])/(1+exp(-beta[2]*(x-beta[3]))) }
-pred.nlm2 <- pred2(beta2.est,x)
-L <- 1000
-n.new <- length(x.new)
-df.mc <- data.frame(x=x.new, f=f.new)
-F <- matrix(nrow=L,ncol=n.new)
-Y <- matrix(nrow=L,ncol=n.new)
-for (l in (1:L)) {
-  yl    <- pred.nlm2 + rnorm(n,0,sigma2.est)
-  rl.nlm2 <- nls(yl ~ pred2(beta,x), start=list(beta=beta2.est))
-  fl <- predict(rl.nlm2, newdata=df.mc)
-  F[l,] <- fl
-  Y[l,] <- fl + rnorm(1,0,sigma2.est)
-}
+f_hat <- function(beta, x){ beta[4] + (beta[1]-beta[4])/(1+exp(-beta[2]*(x-beta[3]))) }
+beta_hat  <- coef(nlm2)
+y_hat_ref <- f_hat(beta_hat, x)
+df_mc <- data.frame( x =x_new, f = f_new)
 
-df.mc[c("lwr.conf","upr.conf")] <- t(apply(F,MARGIN=2,function(x) quantile(x,c(alpha/2,1-alpha/2))))
-df.mc[c("lwr.pred","upr.pred")] <- t(apply(Y,MARGIN=2,function(x) quantile(x,c(alpha/2,1-alpha/2))))
+res <- mclapply(1:1000, function(b) {
+  y_b <- y_hat_ref + sigma(nlm2) * rnorm(n)
+  nlm2_b <- nls(y_b ~ f_hat(beta, x), start = list(beta = beta_hat))
+  f_b <- predict(nlm2_b, newdata = df_mc)
+  list(f_hat = f_b, y_hat = f_b + rnorm(1, 0, sigma(nlm2)))
+})
 
-df.mc[,(3:6)] <- f.new + rq*(df.mc[,(3:6)] - f.new)
+df_mc[c("lwr_conf","upr_conf")] <- 
+  map(res, "f_hat") %>% reduce(rbind) %>% 
+  apply(2, quantile, c(alpha/2,1-alpha/2)) %>% t()
+df_mc[c("lwr_pred","upr_pred")] <-
+  map(res, "y_hat") %>% reduce(rbind) %>% 
+  apply(2, quantile, c(alpha/2,1-alpha/2)) %>% t()
+## removing bias
+df_mc[,(3:6)] <- f_new + rq*(df_mc[,(3:6)] - f_new)
+```
 
-pl + geom_ribbon(data=df.mc, aes(x=x.new, ymin=lwr.pred, ymax=upr.pred), alpha=0.1, fill="blue") + 
-  geom_ribbon(data=df.mc, aes(x=x.new, ymin=lwr.conf, ymax=upr.conf), alpha=0.2, fill="#339900") +  
-  geom_line(data=df.mc, aes(x=x.new, y=f.new), colour="#339900", size=1)
+```{r}
+#| code-fold: true
+ggplot(faithful)  + geom_point(aes(x = eruptions, y = waiting)) +
+   geom_ribbon(data=df_mc, aes(x=x_new, ymin=lwr_pred, ymax=upr_pred), alpha=0.1, fill="blue") + 
+  geom_ribbon(data=df_mc, aes(x=x_new, ymin=lwr_conf, ymax=upr_conf), alpha=0.2, fill="#339900") +   
+  geom_line(data=df_mc, aes(x=x_new, y=f_new), colour="#339900", size=1)
 ```
 
 

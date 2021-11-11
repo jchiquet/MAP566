@@ -65,6 +65,7 @@ site:
           contents:
             - docs/regression/map566-lecture-regression-background.Rmd
             - docs/regression/map566-lecture-polynomial-regression.Rmd
+            - docs/regression/map566-lecture-nonlinear-regression.Rmd
         - section: "PC/Labs"
           contents:
             - docs/regression/map566-lab-polynomial-regression.Rmd
