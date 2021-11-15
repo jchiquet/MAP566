@@ -1,0 +1,375 @@
+---
+title: "An EM Algorithm for Linear Mixed Effects Models"
+---
+
+## The model
+
+Consider the following model:
+
+$$
+y_i = X_i \, \beta + A_i \, \eta_i + \varepsilon_i   \quad ;  \quad 1 \leq i \leq N
+$$
+where
+
+* $y_i$ is a $n_i$-vector of observations for individual $i$
+* $X_i$ is a $n_i \times p$ design matrix
+* $\beta$ is a  $p$-vector of fixed effects
+* $\eta_i$ is a $q$-vector of random effects
+* $\varepsilon_i$ is a $n_i$-vector of residual errors
+
+The random effects are normally distributed:
+$$ 
+\eta_i \sim^{\mathrm{iid}} \mathcal{N}(0_p \ , \ \Omega)
+$$
+
+The vector of residual errors $\varepsilon_i$ is also normally distributed. Furthermore the components $\varepsilon_{ij}$ are supposed to be independent and identically distributed:
+
+$$ 
+\varepsilon_i \sim \mathcal{N}(0_{n_i} \ , \ \sigma^2 I_{n_i})
+$$
+
+Then, $y_i$ is also normally distributed:
+
+$$y_i \sim \mathcal{N}(X_i  \beta \ , \ A_i \Omega A_i^\prime + \sigma^2 I_{n_i}) $$
+
+We can rewrite the model in matrix form for the whole data as follows:
+
+$$y  = X\beta + A\eta + \varepsilon$$
+
+where
+
+$$
+y = \left( \begin{array}{c}
+y_{1} \\ y_{2} \\ \vdots \\ y_{N} 
+\end{array}\right)
+\quad ,\quad
+X = \left( \begin{array}{c}
+X_{1} \\ X_{2} \\ \vdots \\ X_{N} 
+\end{array}\right)
+\quad , \quad
+A = \left( \begin{array}{cccc}
+A_{1} & 0 & \ldots & 0 \\ 0 & A_{2} & \ldots & 0 \\ \vdots &\vdots &\ddots &\vdots   \\ 0&0&\ldots & A_{N} 
+\end{array}\right)
+\quad ,\quad
+\eta = \left( \begin{array}{c}
+\eta_{1} \\ \eta_{2} \\ \vdots \\ \eta_{N} 
+\end{array}\right)
+\quad ,\quad
+\varepsilon = \left( \begin{array}{c}
+\varepsilon_{1} \\ \varepsilon_{2} \\ \vdots \\ \varepsilon_{N} 
+\end{array}\right)
+$$
+
+## Maximum likelihood estimation of the model parameters
+
+
+### Maximization of the complete likelihood
+
+Let $\theta = (\beta,\Omega,\sigma^2)$ be the set of model parameters.
+
+If $\eta$ is known, the ML estimator of $\theta$  maximizes the complete log-likelihood 
+
+$$\begin{aligned}
+\log\ell_c(\theta) & = \log(\mathbb{P}(y, \eta \ ; \ \theta))\\
+& = \log(\mathbb{P}(y | \eta \ ; \ \theta)) + \log(\mathbb{P}(\eta \ ; \ \theta)) \\
+& = \log(\mathbb{P}(y | \eta \ ; \ \beta, \sigma^2)) + \log(\mathbb{P}(\eta \ ; \ \Omega)) 
+\end{aligned}
+$$
+
+Then, $(\hat{\beta}_c, \hat{\sigma}_c^2)$ minimizes
+
+$$ -2\log(\mathbb{P}(y | \eta \ ; \ \beta, \sigma^2)) =
+n\log(2\pi\sigma^2) + \frac{\| y - X\beta - A\eta \|^2 }{\sigma^2}
+$$
+
+where $n = \sum_{i=1}^N n_i$ is the total number of observations, while $\hat{\Omega}_c$ minimizes
+
+$$ -2\log(\mathbb{P}( \eta \ ; \ \Omega)) =
+N\log(2\pi) + N\log(|\Omega|) + \sum_{i=1}^N \eta_i^\prime \Omega^{-1} \eta_i
+$$
+
+Then,
+
+$$ \begin{aligned}
+\hat{\beta}_c &= (X^\prime X)X^\prime (y - A\eta) \\
+\hat{\Omega}_c &= \frac{1}{N} \sum_{i=1}^N \eta_i  \eta_i^\prime \\
+\hat{\sigma}_c^2 &= \frac{1}{n}\| y - X\hat{\beta}_c - A\eta \|^2 = 
+\frac{1}{n} \left( \| y - X\hat{\beta}_c \|^2  + \|A\eta \|^2 - 2 <y - X\hat{\beta}_c, A\eta>  \right)
+\end{aligned} $$
+
+Remark that
+
+$$ \begin{aligned}
+\|A\eta \|^2 & = \sum_{i=1}^N \|A_i\eta_i \|^2 \\
+&= \sum_{i=1}^N \eta_i^\prime A_i^\prime A_i \eta_i \\
+&= \sum_{i=1}^N {\rm Tr}\left(\eta_i^\prime A_i^\prime A_i \eta_i \right) \\
+&= \sum_{i=1}^N {\rm Tr}\left(A_i^\prime A_i \eta_i \eta_i^\prime  \right) 
+\end{aligned} $$
+
+The set of individual statistics used for estimating  $\theta$ is therefore 
+
+$$S(y,\eta) = (\eta_1, \eta_2, \ldots, \eta_N, 
+\eta_1 \eta_1^\prime,  \eta_2 \eta_2^\prime, \ldots, , \eta_N \eta_N^\prime) $$
+
+Indeed, the definition of $(\hat{\beta}_c, \hat{\Omega}_c, \hat{\sigma}_c^2 )$ above defines a function $\hat{\Theta}$ such that
+
+$$ \hat{\theta}_c = \hat{\Theta}(S(y,\eta))$$
+
+### The EM algorithm
+
+The maximum likelihood (ML) estimator of $\theta$ maximizes the log-likelihood function defined as
+
+$$\begin{aligned}
+\log\ell(\theta) & = \log(\mathbb{P}(y_1, y_2, \ldots , y_N \ ; \ \theta))\\
+& = \sum_{i=1}^{N}\log(\mathbb{P}(y_i \ ; \ \theta))\\
+&= \sum_{i=1}^{N} \left\{ -\frac{n_i}{2}\log(2\pi) - \frac{1}{2}\log(|A_i \Omega A_i^\prime + \sigma^2 I_{n_i}|) - \frac{1}{2}(y_i - X_i  \beta)^\prime (A_i \Omega A_i^\prime + \sigma^2 I_{n_i})^{-1} (y_i - X_i  \beta) \right\}
+\end{aligned}$$
+
+When the random effects $(\eta_i, 1\leq i \leq N)$ are unknown, the  statistics $S(y \eta)$ cannot be computed. Then, the idea of EM is to replace  $S(y,\eta)$ by its conditional expectation $\mathbb{E}[S(y,\eta)|y ;\theta]$.
+
+The problem is that this conditional expectation depends on the unknown parameter $\theta$.
+EM is therefore an iterative procedure, where, at iteration $k$:
+
+- the *E-step* computes $S_k(y) = \mathbb{E}[S(y,\eta)|y ;\theta_{k-1}]$
+- the *M-step*  updates the parameter estimate:
+$$ \theta_k = \hat\Theta(S_k(y)) $$
+
+Here, computing $\mathbb{E}[S(y,\eta)|y ;\theta]$ reduces to computing
+$\mathbb{E}[\eta_i|y_i ;\theta]$ and $\mathbb{E}[\eta_i \eta_i^\prime|y_i ;\theta]$ for $i=1, 2, \ldots, N$.
+
+
+Since the marginal distributions of $y_i$ and $\eta_i$ are both Gaussian, the conditional distribution of $\eta_i$ is also Gaussian with a mean and a variance that can be computed.
+Indeed, from  Bayes Theorem,
+
+$$\begin{aligned}
+\mathbb{P}(\eta_i \, | \, y_i \, ; \, \theta) &= \frac{\mathbb{P}(y_i \, | \, \eta_i \, ; \, \theta)\mathbb{P}(\eta_i \, ; \, \theta)}{\mathbb{P}( y_i \, ; \, \theta)} \\
+&= C_1 \times 
+\exp\left\{-\frac{1}{2\sigma^2}\| y_i-X_i\beta-A_i\eta_i \|^2
+-\frac{1}{2}\eta_i^\prime\Omega^{-1} \eta_i \right\} \\
+& = C_2 \times \exp\left\{-\frac{1}{2}(\eta_i-\mu_i)^\prime\Gamma_i^{-1} (\eta_i-\mu_i) \right\}
+\end{aligned}$$
+
+where
+
+$$
+\Gamma_i =  \left(\frac{A_i^\prime A_i}{\sigma^2} + \Omega^{-1}\right)^{-1} 
+\quad ; \quad
+\mu_i =  \frac{\Gamma_i A_i^\prime(y_i - X_i\beta)}{\sigma^2}  
+$$
+
+Then,
+
+$$\begin{aligned}
+\mathbb{E}[\eta_i|y_i ;\theta] &= \mu_i \\
+\mathbb{E}[\eta_i \eta_i^\prime|y_i ;\theta] &= \mathbb{V}[\eta_i|y_i ;\theta] + \mathbb{E}[\eta_i|y_i ;\theta] \mathbb{E}[\eta_i|y_i ;\theta]^\prime \\
+&= \Gamma_i + \mu_i \mu_i^\prime
+\end{aligned}$$
+
+Then, the $k$-th iteration of the EM algorithm for a linear mixed effects model  consists in 
+
+- computing $\mathbb{E}[\eta_i|y_i ;\theta_{k-1}]$ and $\mathbb{E}[\eta_i\eta_i^\prime|y_i ;\theta_{k-1}]$ for $i=1,2,\ldots,N$ ,
+- computing $\theta_{k}= (\beta_k, \Omega_k,\sigma_{k}^2)$ where
+
+$$ \begin{aligned}
+{\beta}_k &= (X^\prime X)X^\prime (y - A\mathbb{E}[\eta|y ;\theta_{k-1}]) \\
+{\Omega}_k &= \frac{1}{N} \sum_{i=1}^N \mathbb{E}[\eta_i \eta_i^\prime|y ;\theta_{k-1}] \\
+{\sigma}_k^2 &= \frac{1}{n} \left( \| y - X{\beta}_k \|^2  
++  \sum_{i=1}^N {\rm Tr}\left(A_i^\prime A_i \mathbb{E}[\eta_i \eta_i^\prime|y ;\theta_{k-1}] \right) 
+- 2 \sum_{i=1}^N  (y_i - X_i{\beta}_k)^\prime A_i \mathbb{E}[\eta|y ;\theta_{k-1}]  \right)
+\end{aligned} $$
+
+Of course, some arbitrary initial estimates $\theta_0$ should also be provided.
+
+The following function returns the EM estimate $\theta_K$ and the log-likelihood $(\log(\mathbb{P}(y\ ; \ \theta_K), 1 \leq k \leq K)$:
+
+```{r}
+em.lmem <- function(y,id,X,A=X,niter=50) {
+  uid <- unique(id)
+  y <- as.matrix(y)
+  X <- as.matrix(X)
+  A <- as.matrix(A)
+  N <- length(uid)
+  n <- length(y)
+  nb.eta <- ncol(A)
+  
+  beta <- as.vector(solve(t(X)%*%X)%*%t(X)%*%y)
+  Omega <- diag(rep(1,nb.eta))
+  sigma2 <- 1
+  z <- as.vector(y - X%*%beta)
+  for (k in 1:niter) {
+    iO <- solve(Omega)
+    T <- R <- C <- 0
+    mu <- u <- NULL
+    for (i in uid ) {
+      row.i <- which(id==i)
+      Xi <- X[row.i,]
+      Ai <- A[row.i,]
+      AAi <- t(Ai)%*%Ai
+      zi <- z[row.i]
+      Gammai <- solve(AAi/sigma2 + iO)
+      mui <- (Gammai%*%t(Ai)%*%zi)/sigma2
+      mu <- c(mu, mui)
+      u <- c(u, Ai%*%mui)
+      Si <- Gammai + mui%*%t(mui)
+      R <- R + Si
+      T <- T + sum(diag(Si%*%AAi))
+      C <- C + t(mui)%*%t(Ai)%*%zi
+    }
+    beta <- as.vector(solve(t(X)%*%X)%*%t(X)%*%(y-u))
+    z <- as.vector(y - X%*%beta)
+    sigma2 <- (sum(z^2) -2*C[1] + T)/n
+    Omega <- as.matrix(R/N)
+  }
+  z <- as.vector(y - X%*%beta)
+  LL <- -0.5*n*log(2*pi)
+  for (i in uid ) {
+    row.i <- which(id==i)
+    Ai <- A[row.i,]
+    zi <- z[row.i]
+    Gi <- Ai%*%Omega%*%t(Ai) + diag(sigma2, nrow=length(row.i))
+    LL <- LL -0.5*log(det(Gi)) -0.5*t(zi)%*%solve(Gi)%*%zi
+  }
+  nb.param <- length(beta) + nb.eta*(nb.eta+1)/2 + 1
+  AIC <- -2*LL + 2*nb.param
+  BIC <- -2*LL + log(n)*nb.param
+  names(beta) <- colnames(X)
+  return(list(beta=beta, Omega=Omega, sigma2=sigma2, LL=c(logLik=LL, AIC=AIC, BIC=BIC)))
+}
+```
+
+### A slightly simplified version of EM
+
+By construction,
+
+$$ \begin{aligned}
+\mathbb{E}[ <y - X\hat{\beta} - A \eta, X \hat\beta > | y , \hat{\theta} ] &= 
+<y - A \mathbb{E}[\eta | y , \hat{\theta}] - X\hat{\beta}, X \hat\beta > = 0
+\end{aligned} $$
+
+On the other hand, 
+
+$$\mathbb{E}[ <y - X\hat{\beta} - A \eta, A \eta > | y , \hat{\theta} ] = 0 $$
+
+Then, $\mathbb{E}[\| A\eta \|^2 | y , \hat{\theta}] = <y - X\hat{\beta},  A \mathbb{E}[\eta | y , \hat{\theta}] >$
+and 
+
+$$ \begin{aligned}
+\hat{\sigma}^2 &= \frac{1}{n} \left( \| y - X\hat{\beta} \|^2  
+-   <y - X\hat{\beta}, A \mathbb{E}[\eta|y ;\hat\theta]>  \right) \\
+&= \frac{1}{n} <y, y -  X\hat{\beta} - A \mathbb{E}[\eta|y ;\hat\theta]>
+\end{aligned} $$
+
+Implementation of EM is then simplified:
+
+```{r}
+em2.lmem <- function(y,id,X,A=X,niter=50,C=NULL) {
+  uid <- unique(id)
+  y <- as.matrix(y)
+  X <- as.matrix(X)
+  A <- as.matrix(A)
+  N <- length(uid)
+  n <- length(y)
+  if (is.null(C)) 
+    C <- matrix(1,ncol=ncol(A),nrow=ncol(A))
+  
+  beta <- as.vector(solve(t(X)%*%X)%*%t(X)%*%y)
+  Omega <- diag(rep(1,ncol(A)))
+  sigma2 <- 1
+  LL <- NULL
+  for (k in 1:niter) {
+    iO <- solve(Omega)
+  z <- as.vector(y - X%*%beta)
+    R <- 0
+    u <- NULL
+    for (i in uid ) {
+      row.i <- which(id==i)
+      Ai <- A[row.i,]
+      zi <- z[row.i]
+      Gammai <- solve(t(Ai)%*%Ai/sigma2 + iO)
+      mui <- (Gammai%*%t(Ai)%*%zi)/sigma2
+      u <- c(u, Ai%*%mui)
+      R <- R + Gammai + mui%*%t(mui)
+    }
+    beta <- as.vector(solve(t(X)%*%X)%*%t(X)%*%(y-u))
+    Omega <- as.matrix(R/N)*C
+    sigma2 <- mean(y*(y - X%*%beta - u))
+  }
+  names(beta) <- row.names(Omega)
+  return(list(beta=beta, Omega=Omega, sigma2=sigma2))
+}
+```
+
+## Application to rat weight data
+
+### Fitting a polynomial model
+
+Let us use our EM algorithm with the rat weight data, by fitting a polynomial of degree 2  with individual coefficients to each individual series of weights.
+
+```{r}
+d <- read.csv(file="../../data/ratWeight.csv")
+d['week2'] <- d["week"]^2
+X <- cbind(1,d["week"],d["week2"])
+res.em1 <- em.lmem(y=d["weight"],id=d[["id"]],X=X,A=X)
+print(res.em1)
+```
+
+Les us check that the two versions of EM give the same results:
+
+```{r}
+res.em1b <- em2.lmem(y=d["weight"],id=d[["id"]],X=X,A=X)
+print(res.em1b)
+```
+
+We can compare these results with those provided by the `lmer` function
+
+```{r, message=FALSE, warning=FALSE}
+library(lme4)
+r1 <- lmer(weight ~ week + week2 + (week +  week2 |id), data=d, REML=FALSE)
+res.lmer1 <- list(beta=fixef(r1), Omega=VarCorr(r1)$id[,], sigma2=attr(VarCorr(r1), "sc")^2)
+print(res.lmer1)
+print(c(logLik=logLik(r1), AIC=AIC(r1), BIC=BIC(r1)))
+```
+
+
+Let us now fit a model assuming different coefficients for males and females:
+```{r}
+X <- cbind(1,d["week"],d["week2"],(d["gender"]=="Male"),d["week"]*(d["gender"]=="Male"),d["week2"]*(d["gender"]=="Male"))
+colnames(X) <- c("Intercept","week", "week2", "gender", "Male:week", "Male:week2")
+res.em2 <- em.lmem(y=d["weight"],id=d[["id"]],X=X,A=X[,1:3])
+print(res.em2)
+
+r2 <- lmer(weight ~ gender*week + gender*week2  + (week +  week2 |id), data=d, REML=FALSE)
+res.lmer2 <- list(beta=fixef(r2), Omega=VarCorr(r2)$id[,], sigma2=attr(VarCorr(r2), "sc")^2)
+print(res.lmer2)
+print(c(logLik=logLik(r2), AIC=AIC(r2), BIC=BIC(r2)))
+
+anova(r1,r2)
+```
+
+### Testing differences between control and GMO groups
+
+Let us test if coefficients for the control and GMO male groups are different (intercepts are assumed to be the same).
+
+Using the EM algorithm,
+
+```{r}
+dm <- subset(d, gender=="Male")
+X <- cbind(1,dm["week"],dm["week2"],dm["week"]*(dm["regime"]=="GMO"),dm["week2"]*(dm["regime"]=="GMO"))
+em.H0 <- em.lmem(y=dm["weight"],id=dm[["id"]],X=X[,1:3],A=X[,1:3]) #H0:  no difference
+print(em.H0)
+em.H1 <- em.lmem(y=dm["weight"],id=dm[["id"]],X=X,A=X[,1:3]) #H1: different coefficients c1 and c2
+print(em.H1)
+```
+
+Or using the `lmer` function
+
+```{r}
+lmer.H0 <- lmer(weight ~ week  + week2  + (week +  week2 |id), data=dm, REML=FALSE)
+lmer.H1 <- lmer(weight ~ week + week:regime + week2 + week2:regime  + (week +  week2 |id), data=dm, REML=FALSE)
+summary(lmer.H1)
+anova(lmer.H0, lmer.H1)
+```
+
+We see that, according to AIC, BIC or LRT, $H_0$ cannot be rejected: based on this experiment, there is no good reason for concluding that the growth curves are different for the two groups.
+
+

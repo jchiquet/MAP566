@@ -80,6 +80,7 @@ site:
         - section: "PC/Labs"
           contents:
             - docs/mixed-models/map566-lab-linear-mixed-model.Rmd
+            - docs/mixed-models/map566-lab-EM-linear-mixed-model.Rmd
             - docs/mixed-models/map566-lab-nonlinear-mixed-model.Rmd
 
     - id: mixture-models
