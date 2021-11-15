@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.2.255">
+  <meta name="generator" content="quarto-0.2.277">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Nonlinear regression: exercices</title>
   <style>
@@ -124,9 +124,8 @@
       "search-matching-documents-text": "matching documents",
       "search-copy-link-title": "Copy link to search",
       "search-hide-matches-text": "Hide additional matches",
-      "search-more-match-text": "more match",
-      "search-more-matches-text": "more matches",
-      "search-in-this-document-text": "in this document",
+      "search-more-match-text": "more match in this document",
+      "search-more-matches-text": "more matches in this document",
       "search-clear-button-title": "Clear",
       "search-detached-cancel-button-title": "Cancel",
       "search-submit-button-title": "Submit"
@@ -186,6 +185,9 @@
         <li>
     <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html">Polynomial regression models</a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-nonlinear-regression.html">Nonlinear regression</a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">PC/Labs</li>
         <li>
@@ -200,6 +202,9 @@
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixed-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mixed models</a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixed-models">    
         <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html">Linear Mixed Effects Models</a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">PC/Labs</li>
         <li>
@@ -264,6 +269,9 @@
           <li class="sidebar-item">
   <a href="../../docs/regression/map566-lecture-polynomial-regression.html" class="">Polynomial regression models</a>
 </li>
+          <li class="sidebar-item">
+  <a href="../../docs/regression/map566-lecture-nonlinear-regression.html" class="">Nonlinear regression</a>
+</li>
         </ul>
       </div>
     </li>
@@ -295,9 +303,9 @@
     <nav id="TOC" role="doc-toc" class="sidebar sidebar-toc">
 <h2 id="toc-title">On this page</h2>
 <ul>
-<li><a href="#preliminary" class="nav-link active" data-scroll-target="#preliminary"> <span class="header-section-number">1</span> Preliminary</a></li>
-<li><a href="#introduction" class="nav-link" data-scroll-target="#introduction"> <span class="header-section-number">2</span> Introduction</a></li>
-<li><a href="#questions" class="nav-link" data-scroll-target="#questions"> <span class="header-section-number">3</span> Questions</a></li>
+<li><a href="#preliminary" class="nav-link active" data-scroll-target="#preliminary">Preliminary</a></li>
+<li><a href="#introduction" class="nav-link" data-scroll-target="#introduction"> <span class="header-section-number">1</span> Introduction</a></li>
+<li><a href="#questions" class="nav-link" data-scroll-target="#questions"> <span class="header-section-number">2</span> Questions</a></li>
 </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
 <!-- main -->
@@ -306,8 +314,8 @@
 <h1 class="title d-none d-lg-block display-7">Nonlinear regression: exercices</h1>
 </header>
 
-<section id="preliminary" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="preliminary"><span class="header-section-number">1</span> Preliminary</h2>
+<section id="preliminary" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="preliminary">Preliminary</h2>
 <p>The usual libraries:</p>
 <div class="cell" data-hash="map566-lab-nonlinear-regression_cache/html/linear-regression-config_4358ff1163f798bdf96fa0aee3597c48">
 <div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -316,12 +324,12 @@
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="introduction" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="introduction"><span class="header-section-number">2</span> Introduction</h2>
+<section id="introduction" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1</span> Introduction</h2>
 <p>We consider the same data file <code>ratWeight.csv</code> with rat weights measured over 14 weeks during a subchronic toxicity study related to the question of genetically modified (GM) corn.</p>
 </section>
-<section id="questions" class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="questions"><span class="header-section-number">3</span> Questions</h2>
+<section id="questions" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="questions"><span class="header-section-number">2</span> Questions</h2>
 <ol type="1">
 <li><p>Load the <code>ratWeight.csv</code> data file and plot the weight of the females of the control group</p></li>
 <li><p>Select the ID <code>B38837</code> and fit a polynomial model to the growth curve of this female rat.</p></li>

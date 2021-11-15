@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.2.255">
+  <meta name="generator" content="quarto-0.2.277">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Polynomial regression models</title>
   <style>
@@ -102,7 +102,7 @@
   <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
   <script src="../../site_libs/quarto-search/fuse.min.js"></script>
   <script src="../../site_libs/quarto-search/quarto-search.js"></script>
-  <link href="../../docs/regression/map566-lab-polynomial-regression.html" rel="next">
+  <link href="../../docs/regression/map566-lecture-nonlinear-regression.html" rel="next">
   <link href="../../docs/regression/map566-lecture-regression-background.html" rel="prev">
   <script src="../../site_libs/quarto-html/quarto.js"></script>
   <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -125,16 +125,15 @@
       "search-matching-documents-text": "matching documents",
       "search-copy-link-title": "Copy link to search",
       "search-hide-matches-text": "Hide additional matches",
-      "search-more-match-text": "more match",
-      "search-more-matches-text": "more matches",
-      "search-in-this-document-text": "in this document",
+      "search-more-match-text": "more match in this document",
+      "search-more-matches-text": "more matches in this document",
       "search-clear-button-title": "Clear",
       "search-detached-cancel-button-title": "Cancel",
       "search-submit-button-title": "Submit"
     }
   }</script>
-  <script src="../../site_libs/kePrint-0.0.1/kePrint.js"></script>
-  <link href="../../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+  <link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+  <script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 </head>
 <body class="docked">
 <div id="quarto-search-results"></div>
@@ -189,6 +188,9 @@
         <li>
     <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html">Polynomial regression models</a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-nonlinear-regression.html">Nonlinear regression</a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">PC/Labs</li>
         <li>
@@ -203,6 +205,9 @@
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixed-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mixed models</a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixed-models">    
         <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html">Linear Mixed Effects Models</a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">PC/Labs</li>
         <li>
@@ -266,6 +271,9 @@
 </li>
           <li class="sidebar-item">
   <a href="../../docs/regression/map566-lecture-polynomial-regression.html" class="active">Polynomial regression models</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../../docs/regression/map566-lecture-nonlinear-regression.html" class="">Nonlinear regression</a>
 </li>
         </ul>
       </div>
@@ -334,58 +342,27 @@
 <section id="preliminary" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="preliminary">Preliminary</h2>
 <p>Only functions from <code>R</code>-base and stats (preloaded) are required plus packages from the <strong>tidyverse</strong> for data representation and manipulation. You could also try the package <strong>broom</strong> that standardizes the output of built-in R functions for statistical modelling</p>
-<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/linear-regression-config_1c5394b83330e6b46a5b11fade343256">
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/linear-regression-config_af2a34fce9b40627fd26548cdaa32fa3">
 <div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify)  <span class="co"># extend some ggplot2 features</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rsample)    <span class="co"># create training/test sets </span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra) <span class="co"># fancy table display</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="the-cars-data-example" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="the-cars-data-example"><span class="header-section-number">1</span> The ‘cars’ data example</h2>
 <p>The data set <code>cars</code> gives the speed of cars and the distances taken to stop (Note that the data were recorded in the 1920s). The data frame consists of 50 observations (rows) and 2 variables (columns): speed (mph), stopping distance (ft)</p>
-<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-1_b3dad98a91553c49dbce7f66bda4346a">
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-1_7791a6ccd7203565c41eebce2498ada1">
 <div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(cars)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cars) <span class="sc">%&gt;%</span> <span class="fu">kable</span>() <span class="sc">%&gt;%</span> kableExtra<span class="sc">::</span><span class="fu">kable_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>cars <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<table class=" lightable-classic" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; margin-left: auto; margin-right: auto;">
- <thead>
-  <tr>
-   <th style="text-align:right;"> speed </th>
-   <th style="text-align:right;"> dist </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:right;"> 4 </td>
-   <td style="text-align:right;"> 2 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 4 </td>
-   <td style="text-align:right;"> 10 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 7 </td>
-   <td style="text-align:right;"> 4 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 7 </td>
-   <td style="text-align:right;"> 22 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 8 </td>
-   <td style="text-align:right;"> 16 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 9 </td>
-   <td style="text-align:right;"> 10 </td>
-  </tr>
-</tbody>
-</table>
-
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["speed"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["dist"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"4","2":"2"},{"1":"4","2":"10"},{"1":"7","2":"4"},{"1":"7","2":"22"},{"1":"8","2":"16"},{"1":"9","2":"10"},{"1":"10","2":"18"},{"1":"10","2":"26"},{"1":"10","2":"34"},{"1":"11","2":"17"},{"1":"11","2":"28"},{"1":"12","2":"14"},{"1":"12","2":"20"},{"1":"12","2":"24"},{"1":"12","2":"28"},{"1":"13","2":"26"},{"1":"13","2":"34"},{"1":"13","2":"34"},{"1":"13","2":"46"},{"1":"14","2":"26"},{"1":"14","2":"36"},{"1":"14","2":"60"},{"1":"14","2":"80"},{"1":"15","2":"20"},{"1":"15","2":"26"},{"1":"15","2":"54"},{"1":"16","2":"32"},{"1":"16","2":"40"},{"1":"17","2":"32"},{"1":"17","2":"40"},{"1":"17","2":"50"},{"1":"18","2":"42"},{"1":"18","2":"56"},{"1":"18","2":"76"},{"1":"18","2":"84"},{"1":"19","2":"36"},{"1":"19","2":"46"},{"1":"19","2":"68"},{"1":"20","2":"32"},{"1":"20","2":"48"},{"1":"20","2":"52"},{"1":"20","2":"56"},{"1":"20","2":"64"},{"1":"22","2":"66"},{"1":"23","2":"54"},{"1":"24","2":"70"},{"1":"24","2":"92"},{"1":"24","2":"93"},{"1":"24","2":"120"},{"1":"25","2":"85"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 </div>
 </div>
 <p>Scatter plots can help visualize any relationship between the explanatory variable <em>speed</em> (also called regression variable, or predictor) and the response variable <em>dist</em>.</p>
@@ -588,12 +565,12 @@ speed         3.096964  4.767853</code></pre>
 <p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>On one hand, it is reassuring to see that removing part of the data has a very little impact on the predictions. On the other hand, the predictive performance of the model remains limited because of the natural variability of the data. Indeed, this model built with the training sample only explains 86 % of the variabilility of the new test sample.</p>
+<p>On one hand, it is reassuring to see that removing part of the data has a very little impact on the predictions. On the other hand, the predictive performance of the model remains limited because of the natural variability of the data. Indeed, this model built with the training sample only explains 45 % of the variabilility of the new test sample.</p>
 <div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-14_d488fd799ce6f341f5f79d77f51ab0cb">
 <div class="sourceCode" id="cb20"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>R2_test <span class="ot">&lt;-</span> <span class="fu">cor</span>(pred_testing_set, cars_test<span class="sc">$</span>dist)<span class="sc">^</span><span class="dv">2</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>R2_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 0.8558337</code></pre>
+<pre><code>[1] 0.4531387</code></pre>
 </div>
 </div>
 <p>Let us see now how the model behaves with extreme values by defining as test sample the data points with the 5 smallest and the 5 largest speeds.</p>
@@ -627,122 +604,34 @@ speed         3.096964  4.767853</code></pre>
 <p><span class="math display">\hat{f}(x) = \hat{c}_0 + \hat{c}_1x </span></p>
 <p>This prediction is an estimation since it is based on estimated coefficients <span class="math inline">\hat{c}_0</span> and <span class="math inline">\hat{c}_1</span>. Then, the uncertainty on the prediction should be quantified by providing a confidence interval for <span class="math inline">f(x)</span>.</p>
 <p>Since the model can be used for predicting the stopping distance for non extreme speeds, we will restrict ourselves to speeds between 6 and 23 mph.</p>
-<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-17_aa7bb37edd3a50b5c4e6a9e9319fa9b9">
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-17_85756d7a1e728c1436c753be149e9e73">
 <div class="sourceCode" id="cb24"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>new_x <span class="ot">&lt;-</span> <span class="fu">data.frame</span>( <span class="at">speed =</span> (<span class="dv">6</span><span class="sc">:</span><span class="dv">23</span>))</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>conf_inter <span class="ot">&lt;-</span> </span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setNames</span>(<span class="fu">cbind</span>(new_x,</span>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(lm1, <span class="at">newdata =</span> new_x, <span class="at">interval =</span> <span class="st">"confidence"</span>, <span class="at">level =</span> <span class="dv">1</span> <span class="sc">-</span> alpha)),</span>
 <span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">"speed"</span>, <span class="st">"dist"</span>, <span class="st">"lwr"</span>, <span class="st">"upr"</span>))</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(conf_inter) <span class="sc">%&gt;%</span> <span class="fu">kable</span>() <span class="sc">%&gt;%</span> <span class="fu">kable_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>conf_inter <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<table class=" lightable-classic" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; margin-left: auto; margin-right: auto;">
- <thead>
-  <tr>
-   <th style="text-align:right;"> speed </th>
-   <th style="text-align:right;"> dist </th>
-   <th style="text-align:right;"> lwr </th>
-   <th style="text-align:right;"> upr </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:right;"> 6 </td>
-   <td style="text-align:right;"> 6.015358 </td>
-   <td style="text-align:right;"> -2.973341 </td>
-   <td style="text-align:right;"> 15.00406 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 7 </td>
-   <td style="text-align:right;"> 9.947766 </td>
-   <td style="text-align:right;"> 1.678977 </td>
-   <td style="text-align:right;"> 18.21656 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 8 </td>
-   <td style="text-align:right;"> 13.880175 </td>
-   <td style="text-align:right;"> 6.307527 </td>
-   <td style="text-align:right;"> 21.45282 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 9 </td>
-   <td style="text-align:right;"> 17.812584 </td>
-   <td style="text-align:right;"> 10.905121 </td>
-   <td style="text-align:right;"> 24.72005 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 10 </td>
-   <td style="text-align:right;"> 21.744993 </td>
-   <td style="text-align:right;"> 15.461917 </td>
-   <td style="text-align:right;"> 28.02807 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 11 </td>
-   <td style="text-align:right;"> 25.677401 </td>
-   <td style="text-align:right;"> 19.964525 </td>
-   <td style="text-align:right;"> 31.39028 </td>
-  </tr>
-</tbody>
-</table>
-
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["speed"],"name":[1],"type":["int"],"align":["right"]},{"label":["dist"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["lwr"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["upr"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"6","2":"6.015358","3":"-2.973341","4":"15.00406","_rn_":"1"},{"1":"7","2":"9.947766","3":"1.678977","4":"18.21656","_rn_":"2"},{"1":"8","2":"13.880175","3":"6.307527","4":"21.45282","_rn_":"3"},{"1":"9","2":"17.812584","3":"10.905120","4":"24.72005","_rn_":"4"},{"1":"10","2":"21.744993","3":"15.461917","4":"28.02807","_rn_":"5"},{"1":"11","2":"25.677401","3":"19.964525","4":"31.39028","_rn_":"6"},{"1":"12","2":"29.609810","3":"24.395138","4":"34.82448","_rn_":"7"},{"1":"13","2":"33.542219","3":"28.731336","4":"38.35310","_rn_":"8"},{"1":"14","2":"37.474628","3":"32.947783","4":"42.00147","_rn_":"9"},{"1":"15","2":"41.407036","3":"37.021152","4":"45.79292","_rn_":"10"},{"1":"16","2":"45.339445","3":"40.937676","4":"49.74121","_rn_":"11"},{"1":"17","2":"49.271854","3":"44.698988","4":"53.84472","_rn_":"12"},{"1":"18","2":"53.204263","3":"48.321378","4":"58.08715","_rn_":"13"},{"1":"19","2":"57.136672","3":"51.829133","4":"62.44421","_rn_":"14"},{"1":"20","2":"61.069080","3":"55.247285","4":"66.89088","_rn_":"15"},{"1":"21","2":"65.001489","3":"58.597384","4":"71.40559","_rn_":"16"},{"1":"22","2":"68.933898","3":"61.896301","4":"75.97149","_rn_":"17"},{"1":"23","2":"72.866307","3":"65.156644","4":"80.57597","_rn_":"18"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 </div>
 </div>
 <p>A prediction interval for a new measured distance <span class="math inline">y=f(x)+e</span> can also be computed. This prediction interval takes into account both the uncertainty on the predicted distance <span class="math inline">f(x)</span> and the variability of the measure, represented in the model by the residual error <span class="math inline">e</span>.</p>
-<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-18_b3c311154fb80170760c82350f7aa98e">
+<div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-18_935d6c7cdeb552303741d87288a96158">
 <div class="sourceCode" id="cb25"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>pred_inter <span class="ot">&lt;-</span>    <span class="fu">setNames</span>(<span class="fu">cbind</span>(new_x,</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(lm1, <span class="at">newdata =</span> new_x, <span class="at">interval =</span> <span class="st">"prediction"</span>, <span class="at">level =</span> <span class="dv">1</span> <span class="sc">-</span> alpha)),</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">"speed"</span>, <span class="st">"dist"</span>, <span class="st">"lwr"</span>, <span class="st">"upr"</span>))</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pred_inter) <span class="sc">%&gt;%</span> <span class="fu">kable</span>() <span class="sc">%&gt;%</span> <span class="fu">kable_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>pred_inter <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<table class=" lightable-classic" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; margin-left: auto; margin-right: auto;">
- <thead>
-  <tr>
-   <th style="text-align:right;"> speed </th>
-   <th style="text-align:right;"> dist </th>
-   <th style="text-align:right;"> lwr </th>
-   <th style="text-align:right;"> upr </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:right;"> 6 </td>
-   <td style="text-align:right;"> 6.015358 </td>
-   <td style="text-align:right;"> -26.187314 </td>
-   <td style="text-align:right;"> 38.21803 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 7 </td>
-   <td style="text-align:right;"> 9.947766 </td>
-   <td style="text-align:right;"> -22.061423 </td>
-   <td style="text-align:right;"> 41.95696 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 8 </td>
-   <td style="text-align:right;"> 13.880175 </td>
-   <td style="text-align:right;"> -17.956287 </td>
-   <td style="text-align:right;"> 45.71664 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 9 </td>
-   <td style="text-align:right;"> 17.812584 </td>
-   <td style="text-align:right;"> -13.872245 </td>
-   <td style="text-align:right;"> 49.49741 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 10 </td>
-   <td style="text-align:right;"> 21.744993 </td>
-   <td style="text-align:right;"> -9.809601 </td>
-   <td style="text-align:right;"> 53.29959 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 11 </td>
-   <td style="text-align:right;"> 25.677401 </td>
-   <td style="text-align:right;"> -5.768620 </td>
-   <td style="text-align:right;"> 57.12342 </td>
-  </tr>
-</tbody>
-</table>
-
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["speed"],"name":[1],"type":["int"],"align":["right"]},{"label":["dist"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["lwr"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["upr"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"6","2":"6.015358","3":"-26.187314","4":"38.21803","_rn_":"1"},{"1":"7","2":"9.947766","3":"-22.061423","4":"41.95696","_rn_":"2"},{"1":"8","2":"13.880175","3":"-17.956287","4":"45.71664","_rn_":"3"},{"1":"9","2":"17.812584","3":"-13.872245","4":"49.49741","_rn_":"4"},{"1":"10","2":"21.744993","3":"-9.809601","4":"53.29959","_rn_":"5"},{"1":"11","2":"25.677401","3":"-5.768620","4":"57.12342","_rn_":"6"},{"1":"12","2":"29.609810","3":"-1.749529","4":"60.96915","_rn_":"7"},{"1":"13","2":"33.542219","3":"2.247492","4":"64.83695","_rn_":"8"},{"1":"14","2":"37.474628","3":"6.222305","4":"68.72695","_rn_":"9"},{"1":"15","2":"41.407036","3":"10.174821","4":"72.63925","_rn_":"10"},{"1":"16","2":"45.339445","3":"14.104995","4":"76.57390","_rn_":"11"},{"1":"17","2":"49.271854","3":"18.012832","4":"80.53088","_rn_":"12"},{"1":"18","2":"53.204263","3":"21.898386","4":"84.51014","_rn_":"13"},{"1":"19","2":"57.136672","3":"25.761756","4":"88.51159","_rn_":"14"},{"1":"20","2":"61.069080","3":"29.603089","4":"92.53507","_rn_":"15"},{"1":"21","2":"65.001489","3":"33.422574","4":"96.58040","_rn_":"16"},{"1":"22","2":"68.933898","3":"37.220445","4":"100.64735","_rn_":"17"},{"1":"23","2":"72.866307","3":"40.996976","4":"104.73564","_rn_":"18"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 </div>
 </div>
 <p>Let us plot these two intervals.</p>
@@ -978,8 +867,8 @@ n &amp; 0 &amp; \cdots &amp; 0 \\
 <div class="sourceCode" id="cb45"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">crossprod</span>(design_ortho)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>                         (Intercept) poly(speed, degree = 1)
-(Intercept)             5.000000e+01            1.276756e-15
-poly(speed, degree = 1) 1.276756e-15            1.000000e+00</code></pre>
+(Intercept)             5.000000e+01            1.665335e-16
+poly(speed, degree = 1) 1.665335e-16            1.000000e+00</code></pre>
 </div>
 </div>
 <p>Here, the estimated intercept <span class="math inline">\hat{c}_0</span> is the empirical mean <span class="math inline">\bar{y}=</span> NA</p>
@@ -1007,12 +896,12 @@ poly(speed, degree = 1) 1.276756e-15            1.000000e+00</code></pre>
 <div class="sourceCode" id="cb51"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">crossprod</span>(design_ortho)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>                          (Intercept) poly(speed, degree = 2)1
-(Intercept)              5.000000e+01             1.276756e-15
-poly(speed, degree = 2)1 1.276756e-15             1.000000e+00
-poly(speed, degree = 2)2 5.551115e-17             1.019032e-16
+(Intercept)              5.000000e+01             1.665335e-16
+poly(speed, degree = 2)1 1.665335e-16             1.000000e+00
+poly(speed, degree = 2)2 1.665335e-16             1.301786e-16
                          poly(speed, degree = 2)2
-(Intercept)                          5.551115e-17
-poly(speed, degree = 2)1             1.019032e-16
+(Intercept)                          1.665335e-16
+poly(speed, degree = 2)1             1.301786e-16
 poly(speed, degree = 2)2             1.000000e+00</code></pre>
 </div>
 </div>
@@ -1460,8 +1349,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../docs/regression/map566-lab-polynomial-regression.html">
-        <span class="nav-page-text">Polynomial regression model: exercices</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../docs/regression/map566-lecture-nonlinear-regression.html">
+        <span class="nav-page-text">Nonlinear regression</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
