@@ -121,6 +121,7 @@ The least squares (LS) estimator of $\beta$ minimizes the residual sum of square
 $$
 \hat{\beta} = \arg\min_{\beta}\sum_{j=1}^n (y_j - f(x_j,\beta))^2
 $$
+
 Here, there is no closed-form expression for $\hat{\beta}$. An optimization procedure is then used for computing $\hat{\beta}$.
 
 We define the first model ${\cal M}_1$ as
@@ -236,14 +237,16 @@ $$
 Writing this model in the matrix form $z=G\, \beta + \varepsilon$ where $g_j$ is the $j$th row of matrix $G$, we can check that the LS estimator of $\beta$ for this model is the LS estimator of the original model $\hat{\beta}$
 
 ::: {#prp-linearization}
-
 ## Equivalence of the two LS estimate
 
-$$\begin{aligned}
-\hat{\beta} &=  \arg\min{\beta}\sum_{j=1}^n(y_j - f(x_j,\beta))^2 \\
-&=  \arg\min{\beta}\sum_{j=1}^n(z_j - g_j\beta)^2 
-\end{aligned}$$
+The LS estimator of the linearized model is equivalent to the LS estimator of the original model:
 
+$$
+\begin{aligned}
+\hat{\beta} &=  \arg\min{\beta}\sum_{j=1}^n(y_j - f(x_j,\beta))^2 \\
+& =  \arg\min{\beta}\sum_{j=1}^n(z_j - g_j\beta)^2 \\
+\end{aligned}
+$$
 :::
 
 ::: {.Proof}
