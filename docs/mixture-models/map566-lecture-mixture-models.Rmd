@@ -1,13 +1,8 @@
 ---
 title: "Mixture Models"
-author: "Marc Lavielle </br> February 23rd, 2019 </br> &nbsp; <hr>"
 ---
 
 ---
-
-
-</br>
-
 
 # The faithful data
 

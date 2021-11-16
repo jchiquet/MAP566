@@ -109,7 +109,7 @@ subject1_plot + geom_line(data = dplot, aes(x = time, y=pred_1), colour="#339900
 
 Instead of fitting this model to a single patient, we may want to fit the same model to all the patients:
 
-$$y_{ij} = f(t_{ij} ,\psi) + e_{ij} \quad , \quad 1\leq i \leq N \ , \ 1\leq j \leq n_i$$
+$$y_{ij} = f(t_{ij} ,\psi) + \varepsilon_{ij} \quad , \quad 1\leq i \leq N \ , \ 1\leq j \leq n_i$$
 
 where  $(y_{ij}, 1\leq j \leq n_i)$ are the $n_i$ measurements for  subject $i$. Here, $\psi$ is the vector of parameters shared by the $N$ subjects.
 
@@ -142,95 +142,106 @@ theo_plot +
 ### Fitting several nonlinear models to several subjects
 
 We can instead fit the same PK model with different parameters to each subject, exactly a we did above with the first patient:
-$$y_{ij} = f(t_{ij} ,\psi_i) + e_{ij} \quad , \quad 1\leq i \leq N \ , \ 1\leq j \leq n_i$$
-where  $\psi_i$ is the vector of PK parameters for patient $i$.
+
+$$y_{ij} = f(t_{ij} ,\psi_i) + \varepsilon_{ij} \quad , \quad 1\leq i \leq N \ , \ 1\leq j \leq n_i$$
+
+where  $\psi_i$ is the vector of parameters for patient $i$.
 
 In this model, the least squares estimate of $\psi_i$ is defined as
-$$\hat\psi_i = \arg\min_{\psi}  \sum_{j=1}^{n_i} (y_{ij} - f(t_{ij} ,\psi))^2 \quad , \quad 1\leq i \leq N$$
 
-```{r}
-psi.est <- data.frame()
-fpred <- NULL
-N <- 12
-for (i in (1:N)) {
-  pkmi <- nls(concentration ~ pk.model1(psi, time), 
-              start=list(psi=c(ka=1, V=40,k=0.08)), 
-              data=subset(theo.data, id==i))
-  psi.est <- rbind(psi.est,coef(pkmi))
-  fpred <- c(fpred, predict(pkmi, newdata=new.df))
-}
-names(psi.est) <- c("ka","V","ke")
-psi.est
-```
+$$\hat\psi_i = \arg\min_{\psi}  \sum_{j=1}^{n_i} \Big(y_{ij} - f(t_{ij} ,\psi)\Big)^2 \quad , \quad 1\leq i \leq N$$
+
 
 Each individual predicted concentration $f(t,\hat\psi_i)$ seems to predict quite well the observed concentrations for the 12 subjects:
+
 ```{r}
-nc <- length(new.df$time)
-theo.pred <- data.frame(id=rep((1:12),each=nc),time=rep(new.df$time,12), fpred=fpred)
-pl + geom_line(data=theo.pred, aes(x=time,y=fpred), colour="#339900", size=0.75) + facet_wrap(~id)
+#| code-fold: true
+res <- split(theophylline, theophylline$id) %>% 
+  map(~{
+  model_i <- nls(concentration ~ f1(psi, time), 
+              start = list(psi=c(ka=1, V=40,k=0.08)), 
+              data = .x)
+    list(psi = coef(model_i),
+       y_hat = predict(model_i, newdata = dplot),
+       id = unique(.x$id))
+    })
+psi_hat <- map_df(res, "psi") %>% 
+  setNames(c("ka","V","ke")) %>% 
+  add_column(id = factor(map_dbl(res, "id"))) 
+theo_pred <-
+  map_df(res, "y_hat") %>% 
+  pivot_longer(everything(), names_to = "id", values_to = "concentration") %>% 
+  add_column(time = rep(dplot$time, each = length(res)))
+
+theo_plot + geom_line(data = theo_pred, aes(x=time,y=concentration), colour="#339900", size=0.75) + facet_wrap(~id)
 ```
 
-</br>
+## Nonlinear mixed effects (NLME) model
 
-# Nonlinear mixed effects (NLME) model
+### A first basic  model
 
-## A first basic  model
-
-Until now, the individual parameters $(\psi_i)$ were considered a fixed effects: we didn't make any assumption about there possible values.
+Until now, the individual parameters $(\psi_i)$ were considered as fixed effects: we didn't make any assumption about there possible values.
 
 In a population approach, the $N$ subjects are assumed to be randomly sampled from a same population of individuals. Then, each individual parameter $\psi_i$ is treated as a random variable.
 
 We will start assuming that the $\psi_i$'s are independent and normally distributed:
 
-$$\psi_i \iid {\cal N}(\psi_{\rm pop} , \Omega)$$
-where $\psi_{\rm pop}$ is a $d$-vector of **population parameters** and $\Omega$ a $d\times d$ variance-covariance matrix.
+$$\psi_i \sim^{\mathrm{iid}} \mathcal{N}(\psi_{\rm pop} , \Omega)$$
 
-**Remark:** this normality assumption allows us to decompose each individual parameter $\psi_i$ into a fixed effect $\psi_{\rm pop}$ and a random effect $\eta_i$:
+where $\psi_{\rm pop}$ is a $p$-vector of **population parameters** and $\Omega$ a $p\times p$ variance-covariance matrix.
+
+::: {.remark}
+
+This normality assumption allows us to decompose each individual parameter $\psi_i$ into a fixed effect $\psi_{\rm pop}$ and a random effect $\eta_i$:
 
 $$\psi_i = \psi_{\rm pop} + \eta_i$$
-where $\eta_i \iid {\cal N}(0 , \Omega)$.
 
-We will also start asuming that the residual errors $(e_{ij})$ are independent and normally distributed: 
-$e_{ij} \iid {\cal N}(0 , \asigma^2)$.
+where $\eta_i \sim^{\mathrm{iid}} \mathcal{N}(0 , \Omega)$.
+
+:::
+
+We will also start asuming that the residual errors $(\varepsilon_{ij})$ are independent and normally distributed: 
+$\varepsilon_{ij} \sim^{\mathrm{iid}} \mathcal{N}(0 , a^2)$.
 
 In summary, we can equivalently represent a (nonlinear) mixed effects model
 
   *i)* using equations:
 
 $$\begin{aligned}
-y_{ij} & = f(t_{ij} ,\psi_i) + e_{ij}  \\
+y_{ij} & = f(t_{ij} ,\psi_i) + \varepsilon_{ij}  \\
 \psi_i & = \psi_{\rm pop} + \eta_i 
 \end{aligned}$$
-where $e_{ij} \iid {\cal N}(0 , \asigma^2)$ and $\eta_i \iid {\cal N}(0 , \Omega)$, 
+where $\varepsilon_{ij} \sim^{\mathrm{iid}} \mathcal{N}(0 , a^2)$ and $\eta_i \sim^{\mathrm{iid}} \mathcal{N}(0 , \Omega)$, 
 
   *ii)* or using probability distributions:
 
 $$\begin{aligned}
-y_{ij} &\sim {\cal N}(f(t_{ij} ,\psi_i) \ , \ \asigma^2)  \\
-\psi_i & \sim {\cal N}(\psi_{\rm pop} , \Omega) 
+y_{ij} &\sim \mathcal{N}(f(t_{ij} ,\psi_i) \ , \ a^2)  \\
+\psi_i & \sim \mathcal{N}(\psi_{\rm pop} , \Omega) 
 \end{aligned}$$
+
 The model is the joint probability distribution of $(y,\psi)$, where $y=(y_{ij}, 1\leq i \leq N, 1 \leq j \leq n_i)$ is the complete set of observations and $\psi = (\psi_i, 1\leq i \leq N)$ the $N$ vectors of individual parameters,
+
 $$\begin{aligned}
-\pmacro(y,\psi;\theta) &= \prod_{i=1}^N \pmacro(y_i,\psi_i;\theta) \\
-&= \prod_{i=1}^N \pmacro(y_i|\psi_i;\theta)\pmacro(\psi_i;\theta) 
+\mathbb{P}(y,\psi;\theta) &= \prod_{i=1}^N \mathbb{P}(y_i,\psi_i;\theta) \\
+&= \prod_{i=1}^N \mathbb{P}(y_i|\psi_i;\theta)\mathbb{P}(\psi_i;\theta) 
 \end{aligned}$$
 
 
-</br>
+### Tasks, methods and algorithms
 
-## Tasks, methods and algorithms
-
-A detailed presentation of all the existing methods and algorithms for nonlinear mixed effect models goes far beyond the scope of this course. We will restrict ourselves to the methods and algorithms implemented in the `saemix` package.
+A detailed presentation of all the existing methods and algorithms for nonlinear mixed effect models goes far beyond the scope of this course. We will restrict ourselves to the methods and algorithms implemented in the **saemix** package.
 
 
-### Estimation of the population parameters
+#### Estimation of the population parameters
 
-The parameters of the model are $\theta=(\psi_{\rm pop}, \Omega, \asigma^2)$.
+The parameters of the model are $\theta=(\psi_{\rm pop}, \Omega, a^2)$.
 Maximum likelihood estimation of $\theta$  consists of maximizing with respect to $\theta$ the *observed likelihood function*  defined by
+
 $$\begin{aligned}
-\like(\theta,y) &\eqdef \pmacro(y ; \theta) \\
-&= \int \pmacro(y,\psi ;\theta) \, d \psi \\
-&= \prod_{i=1}^N\int \pmacro(y_i|\psi_i ;\theta)\pmacro(\psi_i ;\theta) \, d \psi_i .
+\like(\theta,y) &\triangleq \mathbb{P}(y ; \theta) \\
+&= \int \mathbb{P}(y,\psi ;\theta) \, d \psi \\
+&= \prod_{i=1}^N\int \mathbb{P}(y_i|\psi_i ;\theta)\mathbb{P}(\psi_i ;\theta) \, d \psi_i .
 \end{aligned}$$
 
 If $f$ is a nonlinear function of $\psi_i$, then $y_i$ is not a Gaussian vector and the likelihood function 
@@ -238,414 +249,437 @@ $\like(\theta,y)$ cannot be computed in a closed form.
 
 Several algorithms exists for maximum likelihood estimation in nonlinear mixed effects models. In particular, the stochastic approximation EM algorithm (SAEM) is an iterative algorithm that converges to a maximum of the likelihood function under general conditions.
 
-</br>
 
-### Estimation of the individual parameters
-Once $\theta$ has been estimated, the conditional distribution $\pmacro(\psi_i | y_i ; \hat{\theta})$  can be used for each individual $i$ for estimating the vector of individual parameters $\psi_i$.
+#### Estimation of the individual parameters
+
+Once $\theta$ has been estimated, the conditional distribution $\mathbb{P}(\psi_i | y_i ; \hat{\theta})$  can be used for each individual $i$ for estimating the vector of individual parameters $\psi_i$.
 
 The mode of this conditional distribution is defined as
+
 $$\begin{aligned}
-\hat{\psi}_i &= \argmax{\psi_i}\pmacro(\psi_i | y_i ; \hat{\theta}) \\
-&= \argmin{\psi_i} \left\{ -2\log(\pmacro(\psi_i | y_i ; \hat{\theta})) \right\}\\
-&= \argmin{\psi_i} \left\{-2\log\pmacro( y_i | \psi_i ; \hat{\theta}) -2 \log\pmacro(\psi_i  ; \hat{\theta}) \right\}\\
-&= \argmin{\psi_i} \left\{ \frac{1}{\hat\asigma^2}\|y_i - f(t_i,\psi_i)\|^2 + (\psi_i-\hat\psi_{\rm pop})^\prime\Omega^{-1}(\psi_i-\hat\psi_{\rm pop}) \right\}
+\hat{\psi}_i &= \arg\max_{\psi_i}\mathbb{P}(\psi_i | y_i ; \hat{\theta}) \\
+&= \arg\min_{\psi_i} \left\{ -2\log(\mathbb{P}(\psi_i | y_i ; \hat{\theta})) \right\}\\
+&= \arg\min_{\psi_i} \left\{-2\log\mathbb{P}( y_i | \psi_i ; \hat{\theta}) -2 \log\mathbb{P}(\psi_i  ; \hat{\theta}) \right\}\\
+&= \arg\min_{\psi_i} \left\{ \frac{1}{\hat{a}^2}\|y_i - f(t_i,\psi_i)\|^2 + (\psi_i-\hat\psi_{\rm pop})^\top\Omega^{-1}(\psi_i-\hat\psi_{\rm pop}) \right\}
 \end{aligned}$$
 
 
 This estimate is called the maximum a posteriori (MAP) estimate, or the empirical Bayes estimate (EBE) of $\psi_i$. 
 
-**Remark:** since $f$ is a nonlinear function of $\psi_i$, there is no analytical expression of $\hat\psi_i$. 
+::: {.remark}
+
+Since $f$ is a nonlinear function of $\psi_i$, there is no analytical expression of $\hat\psi_i$. 
 A Newton-type algorithm should then be used to carry out this minimization problem. 
 
+:::
 
 We can then use the conditional mode for computing predictions, taking the philosophy that the *most likely*  values of the individual parameters are the most suited for computing the *most likely* predictions:
 
 $$\widehat{f(t_{ij} , \psi_i)} = f(t_{ij} , \hat\psi_i).$$
 
-</br>
+#### Estimation of the likelihood function
 
-### Estimation of the likelihood function
-
-Performing likelihood ratio tests and  computing information criteria for a given model requires computation of the log-likelihood $\llike(\hat{\theta};y)  \eqdef \log(\pmacro(y;\hat{\theta}))$.
+Performing likelihood ratio tests and  computing information criteria for a given model requires computation of the log-likelihood $\log\ell(\hat{\theta};y)  \triangleq \log(\mathbb{P}(y;\hat{\theta}))$.
 
 The  log-likelihood cannot be computed in closed-form for nonlinear mixed effects models.
 In the case of continuous data, approximation of the model by a Gaussian linear one allows us to approximate the log-likelihood.
 
 Indeed, we can linearize the model for the observations $(y_{ij},\, 1\leq j \leq n_i)$ of individual $i$ around the vector of predicted individual parameters $\hat\psi_i$.
 
-Let $\Dphi{f(t , \psi)}$ be the row vector of derivatives of  $f(t , \psi)$ with respect to $\psi$. Then,
+Let $\partial_{\psi}{f(t , \psi)}$ be the row vector of derivatives of  $f(t , \psi)$ with respect to $\psi$. Then,
+
 $$\begin{aligned}
-y_{ij} &\simeq f(t_{ij} , \hat\psi_i) + \Dphi{f(t_{ij} , \hat\psi_i)} \, (\psi_i - \hat\psi_i)  + e_{ij} \\
-&\simeq f(t_{ij} , \hat\psi_i) +  \Dphi{f(t_{ij} , \hat\psi_i)} \, (\hat\psi_{\rm pop} - \hat\psi_i)
-+  \Dphi{f(t_{ij} , \hat\psi_i)} \, \eta_i  + e_{ij} .
+y_{ij} &\simeq f(t_{ij} , \hat\psi_i) + \partial_{\psi}{f(t_{ij} , \hat\psi_i)} \, (\psi_i - \hat\psi_i)  + \varepsilon_{ij} \\
+&\simeq f(t_{ij} , \hat\psi_i) +  \partial_{\psi}{f(t_{ij} , \hat\psi_i)} \, (\hat\psi_{\rm pop} - \hat\psi_i)
++  \partial_{\psi}{f(t_{ij} , \hat\psi_i)} \, \eta_i  + \varepsilon_{ij} .
 \end{aligned}$$
+
 Following this, we can approximate the marginal distribution of the vector $y_i$ by a normal one:
+
 $$
-y_{i} \approx {\cal N}\left(\mu_i\, , \, \Gamma_i \right),
+y_{i} \approx \mathcal{N}\left(\mu_i\, , \, \Gamma_i \right),
 $$
+
 where
+
 $$\begin{aligned}
-\mu_i & = f(t_{i} , \hat\psi_i) +  \Dphi{f(t_{i} , \hat\psi_i)}(\hat\psi_{\rm pop} - \hat\psi_i) \\
+\mu_i & = f(t_{i} , \hat\psi_i) +  \partial_{\psi}{f(t_{i} , \hat\psi_i)}(\hat\psi_{\rm pop} - \hat\psi_i) \\
 \Gamma_i &=
-\Dphi{f(t_{i} , \hat\psi_i)} \, \hat\Omega \, \Dphi{f(t_{i} , \hat\psi_i)}^{\prime}  + \hat\asigma^2\, I_{n_i}
+\partial_{\psi}{f(t_{i} , \hat\psi_i)} \, \hat\Omega \, \partial_{\psi}{f(t_{i} , \hat\psi_i)}^{\top}  + \hat{a}^2\, I_{n_i}
 \end{aligned}$$
 
 The log-likelihood function is then approximated by
+
 $$\begin{aligned}
-\llike(\hat{\theta};y) & = \sum_{i=1}^N \llike(\hat{\theta};y_i)\\
+\log\ell(\hat{\theta};y) & = \sum_{i=1}^N \log\ell(\hat{\theta};y_i)\\
 & \simeq \sum_{i=1}^N \left\{ -\frac{n_i}{2}\log(2 \pi) -\frac{1}{2}\log(|\Gamma_i|)
--\frac{1}{2} (y_i - \mu_i)^\prime \Gamma_i^{-1} (y_i - \mu_i) \right\}
+-\frac{1}{2} (y_i - \mu_i)^\top \Gamma_i^{-1} (y_i - \mu_i) \right\}
 \end{aligned}$$
 
-
-</br>
-
-### Estimation of the Fisher information matrix
+#### Estimation of the Fisher information matrix
 
 Using the linearized model, the variance of the maximum likelihood estimate (MLE) $\hat{\theta}$, and thus confidence intervals, can be derived  from the observed Fisher information matrix (FIM),  itself derived from the observed likelihood:
+
 $$\begin{aligned}
-I({\hat\theta}) &  \eqdef \  - \frac{\partial^2}{\partial \theta \partial \theta^\prime} \llike(\hat{\theta};y) \\
-& \simeq \frac{1}{2}\sum_{i=1}^N \frac{\partial^2}{\partial \theta \partial \theta^\prime}\left\{ \log(|\Gamma_i|)
-+ (y_i - \mu_i)^\prime \Gamma_i^{-1} (y_i - \mu_i) \right\}
+I({\hat\theta}) &  \triangleq \  - \frac{\partial^2}{\partial \theta \partial \theta^\top} \log\ell(\hat{\theta};y) \\
+& \simeq \frac{1}{2}\sum_{i=1}^N \frac{\partial^2}{\partial \theta \partial \theta^\top}\left\{ \log(|\Gamma_i|)
++ (y_i - \mu_i)^\top \Gamma_i^{-1} (y_i - \mu_i) \right\}
 \end{aligned}$$
 
 The variance-covariance matrix of  $\hat\theta$ can then be estimated by the inverse of the observed FIM. Standard errors (s.e.) for each component of $\hat\theta$ are the standard deviations, i.e., the square root of the diagonal elements of the variance-covariance matrix.
 
+<!-- ## Fitting a NLME model to the theophylline data -->
 
+<!-- Let us see how to use the **saemix** package for fitting our model to the theophylline data. -->
 
+<!-- We first need to create a `SaemixData` object, defining which column of the data file should be used and their role. In our example, `concentration` is the response variable $y$, `time` is the explanatory variable (or predictor) $t$ and `id` is the grouping variable. -->
 
+<!-- ```{r, message=FALSE, warning=FALSE, results='hide'} -->
+<!-- saemix_data <- saemixData(name.data       = theophylline, -->
+<!--                           name.group      = "id", -->
+<!--                           name.predictors = "time", -->
+<!--                           name.response   = "concentration") -->
+<!-- ``` -->
 
-</br>
+<!-- The structural model is the one compartment model with first order absorption and linear elimination previously used, -->
 
-## Fitting a NLME model to the theophylline data
+<!-- ```{r, results='hide'} -->
+<!-- model1_nlme <- function(psi,id,x) {  -->
+<!--   D   <- 320 -->
+<!--   t   <- x[,1]  -->
+<!--   ka  <- psi[id,1] -->
+<!--   V   <- psi[id,2] -->
+<!--   ke  <- psi[id,3] -->
+<!--   fpred <- D*ka/(V*(ka-ke))*(exp(-ke*t)-exp(-ka*t)) -->
+<!--   fpred -->
+<!-- } -->
+<!-- ``` -->
 
-Let us see how to use the `saemix` package for fitting our model to the theophylline data.
+<!-- The model is defined in a saemixModel object. The structural model and some -->
+<!-- initial values for the vector of population parameters $\psi_{\rm pop}$ are required -->
 
-We first need to create a `SaemixData` object, defining which column of the data file should be used and their role. In our example, `concentration` is the response variable $y$, `time` is the explanatory variable (or predictor) $t$ and `id` is the grouping variable.
+<!-- ```{r, results='hide'} -->
+<!-- saemix_model <- saemixModel(model = model1_nlme,  -->
+<!--                             psi0  = c(ka=1,V=20,ke=0.5)) -->
+<!-- ``` -->
 
-```{r, message=FALSE, warning=FALSE, results='hide'}
-library(saemix)
-saemix.data <- saemixData(name.data       = theo.data,
-                          name.group      = "id",
-                          name.predictors = "time",
-                          name.response   = "concentration")
-```
+<!-- Several options for selecting and running the algorithms can be defined, including the estimation of the individual parameters (`map=TRUE`), the estimation of the Fisher information matrix and the log-likelihood by linearization (`fim=TRUE`), or the estimation of the log-likelihood by importance sampling (`ll.is=TRUE`, ignored for this course). -->
 
-The structural model is the one compartment model with first order absorption and linear elimination previously used,
+<!-- `seed` is a integer used for the random number generator: running the algorithms several times with the same seed ensures that the results will be the same. -->
 
-```{r, results='hide'}
-model1cpt <- function(psi,id,x) { 
-  D   <- 320
-  t   <-x[,1] 
-  ka  <-psi[id,1]
-  V   <-psi[id,2]
-  ke  <-psi[id,3]
-  fpred <-D*ka/(V*(ka-ke))*(exp(-ke*t)-exp(-ka*t))
-  return(fpred)
-}
-```
+<!-- ```{r, results='hide'} -->
+<!-- saemix_options <- list(map=TRUE, fim=TRUE, ll.is=FALSE, displayProgress=FALSE, save=FALSE, seed=632545) -->
+<!-- saemix_fit1    <- saemix(saemix_model, saemix_data, saemix_options) -->
+<!-- ``` -->
 
-The model is defined in a saemixModel object. The structural model and some
-initial values for the vector of population parameters $\psi_{\rm pop}$ are required
-```{r, results='hide'}
-saemix.model <- saemixModel(model = model1cpt, 
-                            psi0  = c(ka=1,V=20,ke=0.5))
-```
+<!-- A summary of the results of the etimation algorithm can be displayed -->
 
-Several options for selecting and running the algorithms can be defined, including the estimation of the individual parameters (`map=TRUE`), the estimation of the Fisher information matrix and the log-likelihood by linearization (`fim=TRUE`), or the estimation of the log-likelihood by importance sampling (`ll.is=TRUE`, ignored for this course).
-    
-`seed` is a integer used for the random number generator: running the algorithms several times with the same seed ensures that the results will be the same.
+<!-- ```{r} -->
+<!-- saemix_fit1@results -->
+<!-- ``` -->
 
-```{r, results='hide'}
-saemix.options <- list(map=TRUE, fim=TRUE, ll.is=FALSE, displayProgress=FALSE, seed=632545)
-saemix.fit1    <- saemix(saemix.model, saemix.data, saemix.options)
-```
+<!-- The individual parameters estimates are also available -->
 
-A summary of the results of the etimation algorithm can be displayed
-```{r}
-saemix.fit1@results
-```
+<!-- ```{r} -->
+<!-- psi <- psi(saemix_fit1) -->
+<!-- psi -->
+<!-- ``` -->
 
-The individual parameters estimates are also available
-```{r}
-psi <- psi(saemix.fit1)
-psi
-```
+<!-- These individual parameter estimates can be used for computing and plotting individual predictions -->
 
-These individual parameter estimates can be used for computing and plotting individual predictions
-```{r, fig.height=6, fig.width=10}
-saemix.fit <- saemix.predict(saemix.fit1)
-saemix.plot.fits(saemix.fit1)
-```
+<!-- ```{r, fig.height=6, fig.width=10} -->
+<!-- saemix_fit <- saemix.predict(saemix_fit1) -->
+<!-- saemix.plot.fits(saemix_fit1) -->
+<!-- ``` -->
 
-Several diagnostic fit plots can be displayed, including the plot of the observations versus individual predictions
-```{r, fig.height=6, fig.width=8}
-saemix.plot.obsvspred(saemix.fit1,level=1)
+<!-- Several diagnostic fit plots can be displayed, including the plot of the observations versus individual predictions -->
 
-```
+<!-- ```{r, fig.height=6, fig.width=8} -->
+<!-- saemix.plot.obsvspred(saemix_fit1,level=1) -->
+<!-- ``` -->
 
-and the plot of the residuals versus time, and versus  individual predictions,
-```{r, fig.height=6, fig.width=10}
-saemix.plot.scatterresiduals(saemix.fit1, level=1)
-```
+<!-- and the plot of the residuals versus time, and versus  individual predictions, -->
 
-</br>
+<!-- ```{r, fig.height=6, fig.width=10} -->
+<!-- saemix.plot.scatterresiduals(saemix_fit1, level=1) -->
+<!-- ``` -->
 
-## Some extensions of the model
+<!-- ### Some extensions of the model -->
 
-### The residual error model
+<!-- #### The residual error model -->
 
-In the model $y_{ij}  = f(t_{ij} ,\psi_i) + e_{ij}$, the residual errors $(e_{ij})$ are assumed to be Gaussian random variables with mean 0. Different models can be used for the variance of the $(e_{ij})$ in a nonlinear mixed effects model. The following are some of them 
-(more details about residual error models <a href="http://sia.webpopix.org/residualError.html" target="_blank">here</a>).
+<!-- In the model $y_{ij}  = f(t_{ij} ,\psi_i) + \varepsilon_{ij}$, the residual errors $(\varepsilon_{ij})$ are assumed to be Gaussian random variables with mean 0. Different models can be used for the variance of the $(\varepsilon_{ij})$ in a nonlinear mixed effects model. The following are some of them  -->
+<!-- (more details about residual error models <a href="http://sia.webpopix.org/residualError.html" target="_blank">here</a>). -->
 
-**Constant error model:**
+<!-- **Constant error model:** -->
 
-The residual errors $(e_{ij})$ are independent and identically distributed: 
-$$e_{ij}  \iid {\cal N}(0 \ , \ \asigma^2)$$
-The variance of $y_{ij}$ is therefore constant over time:
-$$y_{ij}  = f(t_{ij} ,\psi_i) + \asigma \varepsilon_{ij}$$
-where $\varepsilon_{ij} \iid {\cal N}(0, 1)$.  
+<!-- The residual errors $(\varepsilon_{ij})$ are independent and identically distributed:  -->
 
-The error model can be defined as an argument of `saemixModel` (default is the constant error model)
+<!-- $$\varepsilon_{ij}  \sim^{\mathrm{iid}} \mathcal{N}(0 \ , \ a^2)$$ -->
 
-```{r, results='hide'}
-saemix.model <- saemixModel(model=model1cpt, psi0=c(ka=1,V=20,ke=0.5), error.model="constant")
-fit.constant <- saemix(saemix.model, saemix.data, saemix.options)
-```
-```{r}
-fit.constant@results
-```
+<!-- The variance of $y_{ij}$ is therefore constant over time: -->
 
+<!-- $$y_{ij}  = f(t_{ij} ,\psi_i) + a \varepsilon_{ij}$$ -->
 
-**Proportional error model:**
+<!-- where $\varepsilon_{ij} \sim^{\mathrm{iid}} \mathcal{N}(0, 1)$.   -->
 
-Proportional error models assume that the standard deviation of $e_{ij}$ is proportional to the predicted response:
-$e_{ij} = \ b\, f(t_{ij} ,\psi_i) \, \varepsilon_{ij}$ where $\varepsilon_{ij} \iid {\cal N}(0, 1)$. Then,
+<!-- The error model can be defined as an argument of `saemixModel` (default is the constant error model) -->
 
-$$y_{ij}  = f(t_{ij} ,\psi_i) + b f(t_{ij} ,\psi_i) \, \varepsilon_{ij}$$
+<!-- ```{r, results='hide'} -->
+<!-- saemix_model <- saemixModel(model=model1_nlme, psi0=c(ka=1,V=20,ke=0.5), error.model="constant") -->
+<!-- fit.constant <- saemix(saemix_model, saemix_data, saemix_options) -->
+<!-- ``` -->
 
+<!-- ```{r} -->
+<!-- fit.constant@results -->
+<!-- ``` -->
 
-```{r, results='hide'}
-saemix.model <- saemixModel(model=model1cpt, psi0=c(ka=1,V=20,ke=0.5), error.model="proportional")
-fit.proportional <- saemix(saemix.model, saemix.data, saemix.options)
-```
+<!-- **Proportional error model:** -->
 
-```{r}
-fit.proportional@results
-```
+<!-- Proportional error models assume that the standard deviation of $\varepsilon_{ij}$ is proportional to the predicted response: -->
+<!-- $\varepsilon_{ij} = \ b\, f(t_{ij} ,\psi_i) \, \varepsilon_{ij}$ where $\varepsilon_{ij} \sim^{\mathrm{iid}} \mathcal{N}(0, 1)$. Then, -->
 
-**Combined error model:**
+<!-- $$y_{ij}  = f(t_{ij} ,\psi_i) + b f(t_{ij} ,\psi_i) \, \varepsilon_{ij}$$ -->
 
-A combined error model additively combines a constant and a proportional error model: $e_{ij} = (\asigma +\ b\, f(t_{ij} ,\psi_i)) \, \varepsilon_{ij}$ where $\varepsilon_{ij} \iid {\cal N}(0, 1)$. Then,
 
-$$y_{ij}  = f(t_{ij} ,\psi_i) +  (a + b f(t_{ij} ,\psi_i)) \, \varepsilon_{ij}$$
+<!-- ```{r, results='hide'} -->
+<!-- saemix_model <- saemixModel(model=model1_nlme, psi0=c(ka=1,V=20,ke=0.5), error.model="proportional") -->
+<!-- fit.proportional <- saemix(saemix_model, saemix_data, saemix_options) -->
+<!-- ``` -->
 
-```{r, results='hide'}
-saemix.model <- saemixModel(model=model1cpt, psi0=c(ka=1,V=20,ke=0.5), error.model="combined")
-fit.combined <- saemix(saemix.model, saemix.data, saemix.options)
-```
+<!-- ```{r} -->
+<!-- fit.proportional@results -->
+<!-- ``` -->
 
-```{r}
-fit.combined@results
-```
-**Exponential error model:**
+<!-- **Combined error model:** -->
 
-If $y$ is known to take non negative values, a log transformation can be used.
-We can then write the model with one of two equivalent representations:
-$$\begin{aligned}
-\log(y_{ij})  & = \log(f(t_{ij} ,\psi_i)) + \asigma \varepsilon_{ij} \\
-y_{ij}  & = f(t_{ij} ,\psi_i) \ e^{\asigma \varepsilon_{ij}}
-\end{aligned}$$
+<!-- A combined error model additively combines a constant and a proportional error model: $\varepsilon_{ij} = (a +\ b\, f(t_{ij} ,\psi_i)) \, \varepsilon_{ij}$ where $\varepsilon_{ij} \sim^{\mathrm{iid}} \mathcal{N}(0, 1)$. Then, -->
 
-```{r, results='hide'}
-saemix.model <- saemixModel(model=model1cpt, psi0=c(ka=1,V=20,ke=0.5), error.model="exponential")
-fit.exponential <- saemix(saemix.model, saemix.data, saemix.options)
-```
+<!-- $$y_{ij}  = f(t_{ij} ,\psi_i) +  (a + b f(t_{ij} ,\psi_i)) \, \varepsilon_{ij}$$ -->
 
-```{r}
-fit.exponential@results
-```
-</br>
+<!-- ```{r, results='hide'} -->
+<!-- saemix_model <- saemixModel(model=model1_nlme, psi0=c(ka=1,V=20,ke=0.5), error.model="combined") -->
+<!-- fit.combined <- saemix(saemix_model, saemix_data, saemix_options) -->
+<!-- ``` -->
 
-### Transformation of the individual parameters
+<!-- ```{r} -->
+<!-- fit.combined@results -->
+<!-- ``` -->
+<!-- **Exponential error model:** -->
 
-Clearly, not all distributions are Gaussian. To begin with, the normal distribution has  support $\Rset$, unlike many parameters that take values in precise  intervals. For instance, some variables take only positive values (e.g., volumes and transfer rate constants) and others are restricted to bounded intervals.
+<!-- If $y$ is known to take non negative values, a log transformation can be used. -->
+<!-- We can then write the model with one of two equivalent representations: -->
+<!-- $$\begin{aligned} -->
+<!-- \log(y_{ij})  & = \log(f(t_{ij} ,\psi_i)) + a \varepsilon_{ij} \\ -->
+<!-- y_{ij}  & = f(t_{ij} ,\psi_i) \ e^{a \varepsilon_{ij}} -->
+<!-- \end{aligned}$$ -->
 
-Furthermore, the Gaussian distribution is symmetric, which is not a property shared by all distributions. One way to extend the use of Gaussian distributions is to consider that some transformation of the parameters in which we are interested is Gaussian. 
+<!-- ```{r, results='hide'} -->
+<!-- saemix_model <- saemixModel(model=model1_nlme, psi0=c(ka=1,V=20,ke=0.5), error.model="exponential") -->
+<!-- fit.exponential <- saemix(saemix_model, saemix_data, saemix_options) -->
+<!-- ``` -->
 
-i.e., assume the existence of a monotonic function $h$ such that $h(\psi_i)$ is normally distributed.
-For a sake of simplicity, we will consider here a scalar parameter $\psi_i$. We then assume that
+<!-- ```{r} -->
+<!-- fit.exponential@results -->
+<!-- ``` -->
 
-$$ h(\psi_i) \sim  {\cal N}(h(\psi_{\rm pop}) \ , \ \omega^2).$$
+<!-- #### Transformation of the individual parameters -->
 
-Or, equivalently,
-$$h(\psi_i) = h(\psi_{\rm pop}) + \eta_i$$
-where $\eta_i \sim {\cal N}(0,\omega^2)$.
+<!-- Clearly, not all distributions are Gaussian. To begin with, the normal distribution has  support $\Rset$, unlike many parameters that take values in precise  intervals. For instance, some variables take only positive values (e.g., volumes and transfer rate constants) and others are restricted to bounded intervals. -->
 
+<!-- Furthermore, the Gaussian distribution is symmetric, which is not a property shared by all distributions. One way to extend the use of Gaussian distributions is to consider that some transformation of the parameters in which we are interested is Gaussian.  -->
 
-Let us now see some examples of transformed normal pdfs.
+<!-- i.e., assume the existence of a monotonic function $h$ such that $h(\psi_i)$ is normally distributed. -->
+<!-- For a sake of simplicity, we will consider here a scalar parameter $\psi_i$. We then assume that -->
 
-**Log-normal distribution:**
+<!-- $$ h(\psi_i) \sim  \mathcal{N}(h(\psi_{\rm pop}) \ , \ \omega^2).$$ -->
 
-A log-normal distributions ensures nonnegative values and is widely used for describing distributions of physiological parameters. 
+<!-- Or, equivalently, -->
 
+<!-- $$h(\psi_i) = h(\psi_{\rm pop}) + \eta_i$$ -->
 
-If $\psi_i$ is log-normally distributed, the 3 following representations are equivalent:
+<!-- where $\eta_i \sim \mathcal{N}(0,\omega^2)$. -->
 
-$$\begin{aligned}
-\log(\psi_i) & \sim {\cal N}( \log(\psi_{\rm pop}) \ , \omega^2)  \\
-\log(\psi_i) &= \log(\psi_{\rm pop}) + \eta_i \\
-\psi_i &= \psi_{\rm pop} e^{\eta_i}
-\end{aligned}$$
 
+<!-- Let us now see some examples of transformed normal pdfs. -->
 
-**Logit-normal distribution:**
+<!-- **Log-normal distribution:** -->
 
-The logit function is defined on $(0,1)$ and take its value in $\Rset$:
-For any $x$ in $(0,1)$,
-$$ \logit(x) = \log \left(\frac{x}{1-x}\right) \Longleftrightarrow
-x = \frac{1}{1+e^{-\logit(x)}}
-$$
+<!-- A log-normal distributions ensures nonnegative values and is widely used for describing distributions of physiological parameters.  -->
 
-An individual parameter $\psi_i$ with a logit-normal distribution takes its values in $(0,1)$. The logit of $\psi$ is normally distributed, i.e.,
-$$\logit(\psi_i) = \log \left(\frac{\psi_i}{1-\psi_i}\right)  \ \sim \ \ {\cal N}( \logit(\psi_{\rm pop}) \ , \ \omega^2),$$
-**Probit-normal distribution:**
 
-The probit function is the inverse cumulative distribution function (quantile function) $\psi^{-1}$  associated with the standard normal distribution ${\cal N}(0,1)$. For any $x$ in $(0,1)$,
-$$
-\probit(x) = \psi^{-1}(x) \ \Longleftrightarrow
-\prob{{\cal N}(0,1) \leq \probit(x)} = x
-$$
+<!-- If $\psi_i$ is log-normally distributed, the 3 following representations are equivalent: -->
 
-An individual parameter $\psi_i$ with a probit-normal distribution takes its values in $(0,1)$. The probit of $\psi_i$ is normally distributed:
-$$\probit(\psi_i) = \psi^{-1}(\psi_i) \ \sim \  {\cal N}( \probit(\psi_{\rm pop}) \ , \ \omega^2) . $$
+<!-- $$\begin{aligned} -->
+<!-- \log(\psi_i) & \sim \mathcal{N}( \log(\psi_{\rm pop}) \ , \omega^2)  \\ -->
+<!-- \log(\psi_i) &= \log(\psi_{\rm pop}) + \eta_i \\ -->
+<!-- \psi_i &= \psi_{\rm pop} e^{\eta_i} -->
+<!-- \end{aligned}$$ -->
 
-The distribution of each individual parameter can be defined using the argument `transform.par`
-(0=normal, 1=log-normal, 2=probit, 3=logit). Default are normal distributions, i.e. a vector of 0.
 
-If we want to use, for example, a normal distribution for $V$ and log-normal distributions for $k_a$ and $k_e$, then,  `transform.par` should be the vector c(1,0,1):
+<!-- **Logit-normal distribution:** -->
 
-```{r, results='hide'}
-saemix.model<-saemixModel(model         = model1cpt,
-                          psi0          = c(ka=1,V=20,ke=0.5),
-                          transform.par = c(1,0,1))
+<!-- The logit function is defined on $(0,1)$ and take its value in $\Rset$: -->
+<!-- For any $x$ in $(0,1)$, -->
 
-saemix.fit2 <-saemix(saemix.model, saemix.data, saemix.options)
-```
+<!-- $$ \logit(x) = \log \left(\frac{x}{1-x}\right) \Longleftrightarrow -->
+<!-- x = \frac{1}{1+e^{-\logit(x)}} -->
+<!-- $$ -->
 
-```{r}
-saemix.fit2@results
-```
+<!-- An individual parameter $\psi_i$ with a logit-normal distribution takes its values in $(0,1)$. The logit of $\psi$ is normally distributed, i.e., -->
 
+<!-- $$\logit(\psi_i) = \log \left(\frac{\psi_i}{1-\psi_i}\right)  \ \sim \ \ \mathcal{N}( \logit(\psi_{\rm pop}) \ , \ \omega^2),$$ -->
 
-**Remark:** here, $\omega^2_{ka}$ and $\omega^2_{ke}$ are the variances of $\log(k_a_i)$ and $\log(k_e_i)$ while $\omega^2_{V}$ is the  variance of $V_i$.
+<!-- **Probit-normal distribution:** -->
 
-</br>
+<!-- The probit function is the inverse cumulative distribution function (quantile function) $\psi^{-1}$  associated with the standard normal distribution $\mathcal{N}(0,1)$. For any $x$ in $(0,1)$, -->
+<!-- $$ -->
+<!-- \probit(x) = \psi^{-1}(x) \ \Longleftrightarrow -->
+<!-- \prob{\mathcal{N}(0,1) \leq \probit(x)} = x -->
+<!-- $$ -->
 
-### Models with covariates
+<!-- An individual parameter $\psi_i$ with a probit-normal distribution takes its values in $(0,1)$. The probit of $\psi_i$ is normally distributed: -->
 
-Let $c_i = (c_{i1},c_{i2}, \ldots , c_{iL})$ be a vector of individual covariates, i.e. a vector of individual parameters available with the data. We may want to explain part of the variability of the non observed individual parameters $(\psi_i)$ using these covariates.
+<!-- $$\probit(\psi_i) = \psi^{-1}(\psi_i) \ \sim \  \mathcal{N}( \probit(\psi_{\rm pop}) \ , \ \omega^2) . $$ -->
 
-We will only consider linear models of the covariates. More precisely, assuming that $h(\psi_i)$ is normally distributed, we will decompose $h(\psi_i)$ into fixed and random effects:
-$$h(\psi_i) = h(\psi_{\rm pop})  + \sum_{\ell=1}^L c_{i\ell}\beta_{\ell} + \eta_i$$
-**Remark:** $\psi_{\rm pop}$ is the ``typical`` value of $\psi_i$ if the covariates $c_{i1}$, ..., $c_{iL}$ are zero for a ``typical`` individual of the population.
+<!-- The distribution of each individual parameter can be defined using the argument `transform.par` -->
+<!-- (0=normal, 1=log-normal, 2=probit, 3=logit). Default are normal distributions, i.e. a vector of 0. -->
 
+<!-- If we want to use, for example, a normal distribution for $V$ and log-normal distributions for $k_a$ and $k_e$, then,  `transform.par` should be the vector c(1,0,1): -->
 
-Let us consider a model where the volume $V_i$ is normally distributed and is a linear function of the weight $w_i$:
+<!-- ```{r, results='hide'} -->
+<!-- saemix_model<-saemixModel(model         = model1_nlme, -->
+<!--                           psi0          = c(ka=1,V=20,ke=0.5), -->
+<!--                           transform.par = c(1,0,1)) -->
 
-$$V_i = \beta_0 + \beta \, w_i + \eta_{V,i}$$
-Assuming that the weight of a typical individual of the population is $w_{\rm pop}$, the predicted volume for this individual is not $\beta_0$ but $\beta_0 + \beta w_{\rm pop}$. 
+<!-- saemix_fit2 <-saemix(saemix_model, saemix_data, saemix_options) -->
+<!-- ``` -->
 
-If we use instead the centered weight $w_i-w_{\rm pop}$, we can now write the model as 
-$$V_i = V_{\rm pop} + \beta \, (w_i-w_{\rm pop}) + \eta_{V,i} \ .$$
-Indeed, the predicted volume for a typical individual is now $V_{\rm pop}$.
+<!-- ```{r} -->
+<!-- saemix_fit2@results -->
+<!-- ``` -->
 
-Assume that we decide to use 70kg as typical weight in the theophylline study.
-The saemixData object now needs to include $w_i-70$: 
-```{r, message=FALSE, warning=FALSE, results='hide'}
-theo.data$w70 <- theo.data$weight - 70
-saemix.data<-saemixData(name.data=theo.data,
-                        name.group=c("id"),
-                        name.predictors=c("time"),
-                        name.response=c("concentration"),
-                        name.covariates=c("w70"))
-```
+<!-- ::: {.remark} -->
 
-Here, only the volume $V$ is function of the weight. The covariate model is thererefore encoded as vector (0,1,0). 
+<!-- Here, $\omega^2_{ka}$ and $\omega^2_{ke}$ are the variances of $\log(k_a_i)$ and $\log(k_e_i)$ while $\omega^2_{V}$ is the  variance of $V_i$. -->
 
-```{r, message=FALSE, warning=FALSE, results='hide'}
-saemix.model <- saemixModel(model           = model1cpt,
-                            psi0            = c(ka=1,V=20,ke=0.5),
-                            transform.par   = c(1,0,1),
-                            covariate.model = c(0,1,0))
+<!-- ::: -->
 
-saemix.fit3 <- saemix(saemix.model, saemix.data, saemix.options)
-```
-```{r, message=FALSE, warning=FALSE}
-saemix.fit3@results
-```
+<!-- #### Models with covariates -->
 
-Here, $\hat\beta_{w70} = 0.33$ means that an increase of the weight of 1kg leads to an increase of the predicted volume of 0.33l.
+<!-- Let $c_i = (c_{i1},c_{i2}, \ldots , c_{iL})$ be a vector of individual covariates, i.e. a vector of individual parameters available with the data. We may want to explain part of the variability of the non observed individual parameters $(\psi_i)$ using these covariates. -->
 
-The p-value of the test $H_0: \ \beta_{w70}=0$ versus $H_1: \ \beta_{w70}\neq 0$ is 0.01
-We can then reject the null and conclude that the predicted volume significantly increases with the weight.
+<!-- We will only consider linear models of the covariates. More precisely, assuming that $h(\psi_i)$ is normally distributed, we will decompose $h(\psi_i)$ into fixed and random effects: -->
 
-Imagine that we now use a log-normal distribution for the volume $V_i$.
-It is now the log-volume which is a linear function of the transformed weight.
+<!-- $$h(\psi_i) = h(\psi_{\rm pop})  + \sum_{\ell=1}^L c_{i\ell}\beta_{\ell} + \eta_i$$ -->
 
-We can assume, for instance, that the log-volume is a linear function of the centered log-weight:
-$$\log(V_i) = \log(V_{\rm pop}) + \beta \, \log(w_i/w_{\rm pop}) + \eta_{V,i} \ .$$
-Or, equivalently,
-$$V_i = V_{\rm pop}  \left(\frac{w_i}{w_{\rm pop}}\right)^{\beta} e^{\eta_{V,i}} \ .$$
-We see that, using this model, the predicted volume for a typical individual is $V_{\rm pop}$.
+<!-- ::: {.remark} -->
 
-The saemixData object now needs to include $\log(w_i/70)$ a covariate,
-```{r, results='hide'}
-theo.data$lw70 <- log(theo.data$weight/70)
-saemix.data<-saemixData(name.data=theo.data,
-                        name.group=c("id"),
-                        name.predictors=c("time"),
-                        name.response=c("concentration"),
-                        name.covariates=c("lw70"))
-```
+<!-- $\psi_{\rm pop}$ is the ``typical`` value of $\psi_i$ if the covariates $c_{i1}$, ..., $c_{iL}$ are zero for a ``typical`` individual of the population. -->
 
-The covariate model is again encoded as the (row) vector (0,1,0) but the transformation is now encoded as 1 for the three parameters
+<!-- ::: -->
 
-```{r, message=FALSE, warning=FALSE, results='hide'}
-saemix.model<-saemixModel(model           = model1cpt,
-                          psi0            = c(ka=1,V=20,ke=0.5),
-                          transform.par   = c(1,1,1),
-                          covariate.model = c(0,1,0))
+<!-- Let us consider a model where the volume $V_i$ is normally distributed and is a linear function of the weight $w_i$: -->
 
-saemix.fit4 <- saemix(saemix.model, saemix.data, saemix.options)
-```
+<!-- $$V_i = \beta_0 + \beta \, w_i + \eta_{V,i}$$ -->
 
-```{r, message=FALSE, warning=FALSE}
-saemix.fit4@results
-```
+<!-- Assuming that the weight of a typical individual of the population is $w_{\rm pop}$, the predicted volume for this individual is not $\beta_0$ but $\beta_0 + \beta w_{\rm pop}$.  -->
 
-</br>
+<!-- If we use instead the centered weight $w_i-w_{\rm pop}$, we can now write the model as  -->
 
-### Correlations between random effects
+<!-- $$V_i = V_{\rm pop} + \beta \, (w_i-w_{\rm pop}) + \eta_{V,i} \ .$$ -->
 
-Until now, the random effects were assumed to be uncorrelated, i.e. the veariance-covariance matrix $\Omega$ was a diagonal matrix (default covariance model for `saemix`).
+<!-- Indeed, the predicted volume for a typical individual is now $V_{\rm pop}$. -->
 
-Correlations between random effects can be introduced with the input argument `covariance.model`, a square matrix of size equal to the number of parameters in the model, giving the variance-covariance structure of the model: 1s correspond to estimated variances (in the diagonal) or covariances (off-diagonal elements). The structure of the matrix $\Omega$ should be block.
+<!-- Assume that we decide to use 70kg as typical weight in the theophylline study. The saemixData object now needs to include $w_i-70$:  -->
 
-Consider, for instance a model where $k_a$ is fixed in the population, i.e. $\omega_{k_a}=0$ (and thus $k_a_i=0$ for all $i$), and where $\log(V)$ and $\log(k_e)$ are correlated, i.e $\eta_V$ and $\eta_{k_e})$ are correlated:
+<!-- ```{r, message=FALSE, warning=FALSE, results='hide'} -->
+<!-- theophylline$w70 <- theophylline$weight - 70 -->
+<!-- saemix_data <- saemixData(name.data       = "theophylline", -->
+<!--                           name.group      = c("id"), -->
+<!--                           name.predictors = c("time"), -->
+<!--                           name.response   = c("concentration"), -->
+<!--                           name.covariates = c("w70")) -->
+<!-- ``` -->
 
-```{r, message=FALSE, warning=FALSE, results='hide'}
-saemix.model<-saemixModel(model           = model1cpt,
-                          psi0            = c(ka=1,V=20,ke=0.5),
-                          transform.par   = c(1,1,1),
-                          covariate.model = t(c(0,1,0)),
-                          covariance.model = matrix(c(0,0,0,0,1,1,0,1,1),nrow=3))
+<!-- Here, only the volume $V$ is function of the weight. The covariate model is therefore encoded as vector (0,1,0).  -->
 
-saemix.fit5 <- saemix(saemix.model, saemix.data, saemix.options)
-```
+<!-- ```{r, message=FALSE, warning=FALSE, results='hide'} -->
+<!-- saemix_model <- saemixModel(model           = model1_nlme, -->
+<!--                             psi0            = c(ka=1,V=20,ke=0.5), -->
+<!--                             transform.par   = c(1,0,1), -->
+<!--                             covariate.model = c(0,1,0)) -->
 
-```{r, message=FALSE, warning=FALSE}
-saemix.fit5@results
-```
+<!-- saemix_fit3 <- saemix(saemix_model, saemix_data, saemix_options) -->
+<!-- ``` -->
+<!-- ```{r, message=FALSE, warning=FALSE} -->
+<!-- saemix_fit3@results -->
+<!-- ``` -->
+
+<!-- Here, $\hat\beta_{w70} = 0.33$ means that an increase of the weight of 1kg leads to an increase of the predicted volume of 0.33l. -->
+
+<!-- The p-value of the test $H_0: \ \beta_{w70}=0$ versus $H_1: \ \beta_{w70}\neq 0$ is 0.01 -->
+<!-- We can then reject the null and conclude that the predicted volume significantly increases with the weight. -->
+
+<!-- Imagine that we now use a log-normal distribution for the volume $V_i$. -->
+<!-- It is now the log-volume which is a linear function of the transformed weight. -->
+
+<!-- We can assume, for instance, that the log-volume is a linear function of the centered log-weight: -->
+
+<!-- $$\log(V_i) = \log(V_{\rm pop}) + \beta \, \log(w_i/w_{\rm pop}) + \eta_{V,i} \ .$$ -->
+
+<!-- Or, equivalently, -->
+
+<!-- $$V_i = V_{\rm pop}  \left(\frac{w_i}{w_{\rm pop}}\right)^{\beta} e^{\eta_{V,i}} \ .$$ -->
+
+<!-- We see that, using this model, the predicted volume for a typical individual is $V_{\rm pop}$. -->
+
+<!-- The saemixData object now needs to include $\log(w_i/70)$ a covariate, -->
+
+<!-- ```{r, results='hide'} -->
+<!-- theophylline$lw70 <- log(theophylline$weight/70) -->
+<!-- saemix_data <- saemixData(name.data       = theophylline, -->
+<!--                           name.group      = c("id"), -->
+<!--                           name.predictors = c("time"), -->
+<!--                           name.response   = c("concentration"), -->
+<!--                           name.covariates = c("lw70")) -->
+<!-- ``` -->
+
+<!-- The covariate model is again encoded as the (row) vector (0,1,0) but the transformation is now encoded as 1 for the three parameters -->
+
+<!-- ```{r, message=FALSE, warning=FALSE, results='hide'} -->
+<!-- saemix_model <- saemixModel(model           = model1_nlme, -->
+<!--                             psi0            = c(ka=1,V=20,ke=0.5), -->
+<!--                             transform.par   = c(1,1,1), -->
+<!--                             covariate.model = c(0,1,0)) -->
+
+<!-- saemix_fit4 <- saemix(saemix_model, saemix_data, saemix_options) -->
+<!-- ``` -->
+
+<!-- ```{r, message=FALSE, warning=FALSE} -->
+<!-- saemix_fit4@results -->
+<!-- ``` -->
+
+<!-- #### Correlations between random effects -->
+
+<!-- Until now, the random effects were assumed to be uncorrelated, i.e. the veariance-covariance matrix $\Omega$ was a diagonal matrix (default covariance model for **saemix**). -->
+
+<!-- Correlations between random effects can be introduced with the input argument `covariance.model`, a square matrix of size equal to the number of parameters in the model, giving the variance-covariance structure of the model: 1s correspond to estimated variances (in the diagonal) or covariances (off-diagonal elements). The structure of the matrix $\Omega$ should be block. -->
+
+<!-- Consider, for instance a model where $k_a$ is fixed in the population, i.e. $\omega_{k_a}=0$ (and thus $k_a_i=0$ for all $i$), and where $\log(V)$ and $\log(k_e)$ are correlated, i.e $\eta_V$ and $\eta_{k_e})$ are correlated: -->
+
+<!-- ```{r, message=FALSE, warning=FALSE, results='hide'} -->
+<!-- saemix_model<-saemixModel(model           = model1_nlme, -->
+<!--                           psi0            = c(ka=1,V=20,ke=0.5), -->
+<!--                           transform.par   = c(1,1,1), -->
+<!--                           covariate.model = t(c(0,1,0)), -->
+<!--                           covariance.model = matrix(c(0,0,0,0,1,1,0,1,1),nrow=3)) -->
+
+<!-- saemix_fit5 <- saemix(saemix_model, saemix_data, saemix_options) -->
+<!-- ``` -->
+
+<!-- ```{r, message=FALSE, warning=FALSE} -->
+<!-- saemix_fit5@results -->
+<!-- ``` -->
 
 

@@ -8,3 +8,4 @@ local({
 install.packages("ggfortify")   # extend ggplot2
 install.packages("kableExtra")  # table rendering
 install.packages("rsample")
+install.packages("mixtools")
