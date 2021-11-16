@@ -328,358 +328,358 @@ I({\hat\theta}) &  \triangleq \  - \frac{\partial^2}{\partial \theta \partial \t
 
 The variance-covariance matrix of  $\hat\theta$ can then be estimated by the inverse of the observed FIM. Standard errors (s.e.) for each component of $\hat\theta$ are the standard deviations, i.e., the square root of the diagonal elements of the variance-covariance matrix.
 
-<!-- ## Fitting a NLME model to the theophylline data -->
+## Fitting a NLME model to the theophylline data
 
-<!-- Let us see how to use the **saemix** package for fitting our model to the theophylline data. -->
+Let us see how to use the **saemix** package for fitting our model to the theophylline data.
 
-<!-- We first need to create a `SaemixData` object, defining which column of the data file should be used and their role. In our example, `concentration` is the response variable $y$, `time` is the explanatory variable (or predictor) $t$ and `id` is the grouping variable. -->
+We first need to create a `SaemixData` object, defining which column of the data file should be used and their role. In our example, `concentration` is the response variable $y$, `time` is the explanatory variable (or predictor) $t$ and `id` is the grouping variable.
 
-<!-- ```{r, message=FALSE, warning=FALSE, results='hide'} -->
-<!-- saemix_data <- saemixData(name.data       = theophylline, -->
-<!--                           name.group      = "id", -->
-<!--                           name.predictors = "time", -->
-<!--                           name.response   = "concentration") -->
-<!-- ``` -->
+```{r, message=FALSE, warning=FALSE, results='hide'}
+saemix_data <- saemixData(name.data       = theophylline,
+                          name.group      = "id",
+                          name.predictors = "time",
+                          name.response   = "concentration")
+```
 
-<!-- The structural model is the one compartment model with first order absorption and linear elimination previously used, -->
+The structural model is the one compartment model with first order absorption and linear elimination previously used,
 
-<!-- ```{r, results='hide'} -->
-<!-- model1_nlme <- function(psi,id,x) {  -->
-<!--   D   <- 320 -->
-<!--   t   <- x[,1]  -->
-<!--   ka  <- psi[id,1] -->
-<!--   V   <- psi[id,2] -->
-<!--   ke  <- psi[id,3] -->
-<!--   fpred <- D*ka/(V*(ka-ke))*(exp(-ke*t)-exp(-ka*t)) -->
-<!--   fpred -->
-<!-- } -->
-<!-- ``` -->
+```{r, results='hide'}
+model1_nlme <- function(psi,id,x) {
+  D   <- 320
+  t   <- x[,1]
+  ka  <- psi[id,1]
+  V   <- psi[id,2]
+  ke  <- psi[id,3]
+  fpred <- D*ka/(V*(ka-ke))*(exp(-ke*t)-exp(-ka*t))
+  fpred
+}
+```
 
-<!-- The model is defined in a saemixModel object. The structural model and some -->
-<!-- initial values for the vector of population parameters $\psi_{\rm pop}$ are required -->
+The model is defined in a saemixModel object. The structural model and some
+initial values for the vector of population parameters $\psi_{\rm pop}$ are required
 
-<!-- ```{r, results='hide'} -->
-<!-- saemix_model <- saemixModel(model = model1_nlme,  -->
-<!--                             psi0  = c(ka=1,V=20,ke=0.5)) -->
-<!-- ``` -->
+```{r, results='hide'}
+saemix_model <- saemixModel(model = model1_nlme,
+                            psi0  = c(ka=1,V=20,ke=0.5))
+```
 
-<!-- Several options for selecting and running the algorithms can be defined, including the estimation of the individual parameters (`map=TRUE`), the estimation of the Fisher information matrix and the log-likelihood by linearization (`fim=TRUE`), or the estimation of the log-likelihood by importance sampling (`ll.is=TRUE`, ignored for this course). -->
+Several options for selecting and running the algorithms can be defined, including the estimation of the individual parameters (`map=TRUE`), the estimation of the Fisher information matrix and the log-likelihood by linearization (`fim=TRUE`), or the estimation of the log-likelihood by importance sampling (`ll.is=TRUE`, ignored for this course).
 
-<!-- `seed` is a integer used for the random number generator: running the algorithms several times with the same seed ensures that the results will be the same. -->
+`seed` is a integer used for the random number generator: running the algorithms several times with the same seed ensures that the results will be the same.
 
-<!-- ```{r, results='hide'} -->
-<!-- saemix_options <- list(map=TRUE, fim=TRUE, ll.is=FALSE, displayProgress=FALSE, save=FALSE, seed=632545) -->
-<!-- saemix_fit1    <- saemix(saemix_model, saemix_data, saemix_options) -->
-<!-- ``` -->
+```{r, results='hide'}
+saemix_options <- list(map=TRUE, fim=TRUE, ll.is=FALSE, displayProgress=FALSE, save=FALSE, seed=632545)
+saemix_fit1    <- saemix(saemix_model, saemix_data, saemix_options)
+```
 
-<!-- A summary of the results of the etimation algorithm can be displayed -->
+A summary of the results of the etimation algorithm can be displayed
 
-<!-- ```{r} -->
-<!-- saemix_fit1@results -->
-<!-- ``` -->
+```{r}
+saemix_fit1@results
+```
 
-<!-- The individual parameters estimates are also available -->
+The individual parameters estimates are also available
 
-<!-- ```{r} -->
-<!-- psi <- psi(saemix_fit1) -->
-<!-- psi -->
-<!-- ``` -->
+```{r}
+psi <- psi(saemix_fit1)
+psi
+```
 
-<!-- These individual parameter estimates can be used for computing and plotting individual predictions -->
+These individual parameter estimates can be used for computing and plotting individual predictions
 
-<!-- ```{r, fig.height=6, fig.width=10} -->
-<!-- saemix_fit <- saemix.predict(saemix_fit1) -->
-<!-- saemix.plot.fits(saemix_fit1) -->
-<!-- ``` -->
+```{r, fig.height=6, fig.width=10}
+saemix_fit <- saemix.predict(saemix_fit1)
+saemix.plot.fits(saemix_fit1)
+```
 
-<!-- Several diagnostic fit plots can be displayed, including the plot of the observations versus individual predictions -->
+Several diagnostic fit plots can be displayed, including the plot of the observations versus individual predictions
 
-<!-- ```{r, fig.height=6, fig.width=8} -->
-<!-- saemix.plot.obsvspred(saemix_fit1,level=1) -->
-<!-- ``` -->
+```{r, fig.height=6, fig.width=8}
+saemix.plot.obsvspred(saemix_fit1,level=1)
+```
 
-<!-- and the plot of the residuals versus time, and versus  individual predictions, -->
+and the plot of the residuals versus time, and versus  individual predictions,
 
-<!-- ```{r, fig.height=6, fig.width=10} -->
-<!-- saemix.plot.scatterresiduals(saemix_fit1, level=1) -->
-<!-- ``` -->
+```{r, fig.height=6, fig.width=10}
+saemix.plot.scatterresiduals(saemix_fit1, level=1)
+```
 
-<!-- ### Some extensions of the model -->
+### Some extensions of the model
 
-<!-- #### The residual error model -->
+#### The residual error model
 
-<!-- In the model $y_{ij}  = f(t_{ij} ,\psi_i) + \varepsilon_{ij}$, the residual errors $(\varepsilon_{ij})$ are assumed to be Gaussian random variables with mean 0. Different models can be used for the variance of the $(\varepsilon_{ij})$ in a nonlinear mixed effects model. The following are some of them  -->
-<!-- (more details about residual error models <a href="http://sia.webpopix.org/residualError.html" target="_blank">here</a>). -->
+In the model $y_{ij}  = f(t_{ij} ,\psi_i) + \varepsilon_{ij}$, the residual errors $(\varepsilon_{ij})$ are assumed to be Gaussian random variables with mean 0. Different models can be used for the variance of the $(\varepsilon_{ij})$ in a nonlinear mixed effects model. The following are some of them
+(more details about residual error models <a href="http://sia.webpopix.org/residualError.html" target="_blank">here</a>).
 
-<!-- **Constant error model:** -->
+**Constant error model:**
 
-<!-- The residual errors $(\varepsilon_{ij})$ are independent and identically distributed:  -->
+The residual errors $(\varepsilon_{ij})$ are independent and identically distributed:
 
-<!-- $$\varepsilon_{ij}  \sim^{\mathrm{iid}} \mathcal{N}(0 \ , \ a^2)$$ -->
+$$\varepsilon_{ij}  \sim^{\mathrm{iid}} \mathcal{N}(0 \ , \ a^2)$$
 
-<!-- The variance of $y_{ij}$ is therefore constant over time: -->
+The variance of $y_{ij}$ is therefore constant over time:
 
-<!-- $$y_{ij}  = f(t_{ij} ,\psi_i) + a \varepsilon_{ij}$$ -->
+$$y_{ij}  = f(t_{ij} ,\psi_i) + a \varepsilon_{ij}$$
 
-<!-- where $\varepsilon_{ij} \sim^{\mathrm{iid}} \mathcal{N}(0, 1)$.   -->
+where $\varepsilon_{ij} \sim^{\mathrm{iid}} \mathcal{N}(0, 1)$.
 
-<!-- The error model can be defined as an argument of `saemixModel` (default is the constant error model) -->
+The error model can be defined as an argument of `saemixModel` (default is the constant error model)
 
-<!-- ```{r, results='hide'} -->
-<!-- saemix_model <- saemixModel(model=model1_nlme, psi0=c(ka=1,V=20,ke=0.5), error.model="constant") -->
-<!-- fit.constant <- saemix(saemix_model, saemix_data, saemix_options) -->
-<!-- ``` -->
+```{r, results='hide'}
+saemix_model <- saemixModel(model=model1_nlme, psi0=c(ka=1,V=20,ke=0.5), error.model="constant")
+fit.constant <- saemix(saemix_model, saemix_data, saemix_options)
+```
 
-<!-- ```{r} -->
-<!-- fit.constant@results -->
-<!-- ``` -->
+```{r}
+fit.constant@results
+```
 
-<!-- **Proportional error model:** -->
+**Proportional error model:**
 
-<!-- Proportional error models assume that the standard deviation of $\varepsilon_{ij}$ is proportional to the predicted response: -->
-<!-- $\varepsilon_{ij} = \ b\, f(t_{ij} ,\psi_i) \, \varepsilon_{ij}$ where $\varepsilon_{ij} \sim^{\mathrm{iid}} \mathcal{N}(0, 1)$. Then, -->
+Proportional error models assume that the standard deviation of $\varepsilon_{ij}$ is proportional to the predicted response:
+$\varepsilon_{ij} = \ b\, f(t_{ij} ,\psi_i) \, \varepsilon_{ij}$ where $\varepsilon_{ij} \sim^{\mathrm{iid}} \mathcal{N}(0, 1)$. Then,
 
-<!-- $$y_{ij}  = f(t_{ij} ,\psi_i) + b f(t_{ij} ,\psi_i) \, \varepsilon_{ij}$$ -->
+$$y_{ij}  = f(t_{ij} ,\psi_i) + b f(t_{ij} ,\psi_i) \, \varepsilon_{ij}$$
 
 
-<!-- ```{r, results='hide'} -->
-<!-- saemix_model <- saemixModel(model=model1_nlme, psi0=c(ka=1,V=20,ke=0.5), error.model="proportional") -->
-<!-- fit.proportional <- saemix(saemix_model, saemix_data, saemix_options) -->
-<!-- ``` -->
+```{r, results='hide'}
+saemix_model <- saemixModel(model=model1_nlme, psi0=c(ka=1,V=20,ke=0.5), error.model="proportional")
+fit.proportional <- saemix(saemix_model, saemix_data, saemix_options)
+```
 
-<!-- ```{r} -->
-<!-- fit.proportional@results -->
-<!-- ``` -->
+```{r}
+fit.proportional@results
+```
 
-<!-- **Combined error model:** -->
+**Combined error model:**
 
-<!-- A combined error model additively combines a constant and a proportional error model: $\varepsilon_{ij} = (a +\ b\, f(t_{ij} ,\psi_i)) \, \varepsilon_{ij}$ where $\varepsilon_{ij} \sim^{\mathrm{iid}} \mathcal{N}(0, 1)$. Then, -->
+A combined error model additively combines a constant and a proportional error model: $\varepsilon_{ij} = (a +\ b\, f(t_{ij} ,\psi_i)) \, \varepsilon_{ij}$ where $\varepsilon_{ij} \sim^{\mathrm{iid}} \mathcal{N}(0, 1)$. Then,
 
-<!-- $$y_{ij}  = f(t_{ij} ,\psi_i) +  (a + b f(t_{ij} ,\psi_i)) \, \varepsilon_{ij}$$ -->
+$$y_{ij}  = f(t_{ij} ,\psi_i) +  (a + b f(t_{ij} ,\psi_i)) \, \varepsilon_{ij}$$
 
-<!-- ```{r, results='hide'} -->
-<!-- saemix_model <- saemixModel(model=model1_nlme, psi0=c(ka=1,V=20,ke=0.5), error.model="combined") -->
-<!-- fit.combined <- saemix(saemix_model, saemix_data, saemix_options) -->
-<!-- ``` -->
+```{r, results='hide'}
+saemix_model <- saemixModel(model=model1_nlme, psi0=c(ka=1,V=20,ke=0.5), error.model="combined")
+fit.combined <- saemix(saemix_model, saemix_data, saemix_options)
+```
 
-<!-- ```{r} -->
-<!-- fit.combined@results -->
-<!-- ``` -->
-<!-- **Exponential error model:** -->
+```{r}
+fit.combined@results
+```
+**Exponential error model:**
 
-<!-- If $y$ is known to take non negative values, a log transformation can be used. -->
-<!-- We can then write the model with one of two equivalent representations: -->
-<!-- $$\begin{aligned} -->
-<!-- \log(y_{ij})  & = \log(f(t_{ij} ,\psi_i)) + a \varepsilon_{ij} \\ -->
-<!-- y_{ij}  & = f(t_{ij} ,\psi_i) \ e^{a \varepsilon_{ij}} -->
-<!-- \end{aligned}$$ -->
+If $y$ is known to take non negative values, a log transformation can be used.
+We can then write the model with one of two equivalent representations:
+$$\begin{aligned}
+\log(y_{ij})  & = \log(f(t_{ij} ,\psi_i)) + a \varepsilon_{ij} \\
+y_{ij}  & = f(t_{ij} ,\psi_i) \ e^{a \varepsilon_{ij}}
+\end{aligned}$$
 
-<!-- ```{r, results='hide'} -->
-<!-- saemix_model <- saemixModel(model=model1_nlme, psi0=c(ka=1,V=20,ke=0.5), error.model="exponential") -->
-<!-- fit.exponential <- saemix(saemix_model, saemix_data, saemix_options) -->
-<!-- ``` -->
+```{r, results='hide'}
+saemix_model <- saemixModel(model=model1_nlme, psi0=c(ka=1,V=20,ke=0.5), error.model="exponential")
+fit.exponential <- saemix(saemix_model, saemix_data, saemix_options)
+```
 
-<!-- ```{r} -->
-<!-- fit.exponential@results -->
-<!-- ``` -->
+```{r}
+fit.exponential@results
+```
 
-<!-- #### Transformation of the individual parameters -->
+#### Transformation of the individual parameters
 
-<!-- Clearly, not all distributions are Gaussian. To begin with, the normal distribution has  support $\Rset$, unlike many parameters that take values in precise  intervals. For instance, some variables take only positive values (e.g., volumes and transfer rate constants) and others are restricted to bounded intervals. -->
+Clearly, not all distributions are Gaussian. To begin with, the normal distribution has  support $\Rset$, unlike many parameters that take values in precise  intervals. For instance, some variables take only positive values (e.g., volumes and transfer rate constants) and others are restricted to bounded intervals.
 
-<!-- Furthermore, the Gaussian distribution is symmetric, which is not a property shared by all distributions. One way to extend the use of Gaussian distributions is to consider that some transformation of the parameters in which we are interested is Gaussian.  -->
+Furthermore, the Gaussian distribution is symmetric, which is not a property shared by all distributions. One way to extend the use of Gaussian distributions is to consider that some transformation of the parameters in which we are interested is Gaussian.
 
-<!-- i.e., assume the existence of a monotonic function $h$ such that $h(\psi_i)$ is normally distributed. -->
-<!-- For a sake of simplicity, we will consider here a scalar parameter $\psi_i$. We then assume that -->
+i.e., assume the existence of a monotonic function $h$ such that $h(\psi_i)$ is normally distributed.
+For a sake of simplicity, we will consider here a scalar parameter $\psi_i$. We then assume that
 
-<!-- $$ h(\psi_i) \sim  \mathcal{N}(h(\psi_{\rm pop}) \ , \ \omega^2).$$ -->
+$$ h(\psi_i) \sim  \mathcal{N}(h(\psi_{\rm pop}) \ , \ \omega^2).$$
 
-<!-- Or, equivalently, -->
+Or, equivalently,
 
-<!-- $$h(\psi_i) = h(\psi_{\rm pop}) + \eta_i$$ -->
+$$h(\psi_i) = h(\psi_{\rm pop}) + \eta_i$$
 
-<!-- where $\eta_i \sim \mathcal{N}(0,\omega^2)$. -->
+where $\eta_i \sim \mathcal{N}(0,\omega^2)$.
 
 
-<!-- Let us now see some examples of transformed normal pdfs. -->
+Let us now see some examples of transformed normal pdfs.
 
-<!-- **Log-normal distribution:** -->
+**Log-normal distribution:**
 
-<!-- A log-normal distributions ensures nonnegative values and is widely used for describing distributions of physiological parameters.  -->
+A log-normal distributions ensures nonnegative values and is widely used for describing distributions of physiological parameters.
 
 
-<!-- If $\psi_i$ is log-normally distributed, the 3 following representations are equivalent: -->
+If $\psi_i$ is log-normally distributed, the 3 following representations are equivalent:
 
-<!-- $$\begin{aligned} -->
-<!-- \log(\psi_i) & \sim \mathcal{N}( \log(\psi_{\rm pop}) \ , \omega^2)  \\ -->
-<!-- \log(\psi_i) &= \log(\psi_{\rm pop}) + \eta_i \\ -->
-<!-- \psi_i &= \psi_{\rm pop} e^{\eta_i} -->
-<!-- \end{aligned}$$ -->
+$$\begin{aligned}
+\log(\psi_i) & \sim \mathcal{N}( \log(\psi_{\rm pop}) \ , \omega^2)  \\
+\log(\psi_i) &= \log(\psi_{\rm pop}) + \eta_i \\
+\psi_i &= \psi_{\rm pop} e^{\eta_i}
+\end{aligned}$$
 
 
-<!-- **Logit-normal distribution:** -->
+**Logit-normal distribution:**
 
-<!-- The logit function is defined on $(0,1)$ and take its value in $\Rset$: -->
-<!-- For any $x$ in $(0,1)$, -->
+The logit function is defined on $(0,1)$ and take its value in $\Rset$:
+For any $x$ in $(0,1)$,
 
-<!-- $$ \logit(x) = \log \left(\frac{x}{1-x}\right) \Longleftrightarrow -->
-<!-- x = \frac{1}{1+e^{-\logit(x)}} -->
-<!-- $$ -->
+$$ \logit(x) = \log \left(\frac{x}{1-x}\right) \Longleftrightarrow
+x = \frac{1}{1+e^{-\logit(x)}}
+$$
 
-<!-- An individual parameter $\psi_i$ with a logit-normal distribution takes its values in $(0,1)$. The logit of $\psi$ is normally distributed, i.e., -->
+An individual parameter $\psi_i$ with a logit-normal distribution takes its values in $(0,1)$. The logit of $\psi$ is normally distributed, i.e.,
 
-<!-- $$\logit(\psi_i) = \log \left(\frac{\psi_i}{1-\psi_i}\right)  \ \sim \ \ \mathcal{N}( \logit(\psi_{\rm pop}) \ , \ \omega^2),$$ -->
+$$\logit(\psi_i) = \log \left(\frac{\psi_i}{1-\psi_i}\right)  \ \sim \ \ \mathcal{N}( \logit(\psi_{\rm pop}) \ , \ \omega^2),$$
 
-<!-- **Probit-normal distribution:** -->
+**Probit-normal distribution:**
 
-<!-- The probit function is the inverse cumulative distribution function (quantile function) $\psi^{-1}$  associated with the standard normal distribution $\mathcal{N}(0,1)$. For any $x$ in $(0,1)$, -->
-<!-- $$ -->
-<!-- \probit(x) = \psi^{-1}(x) \ \Longleftrightarrow -->
-<!-- \prob{\mathcal{N}(0,1) \leq \probit(x)} = x -->
-<!-- $$ -->
+The probit function is the inverse cumulative distribution function (quantile function) $\psi^{-1}$  associated with the standard normal distribution $\mathcal{N}(0,1)$. For any $x$ in $(0,1)$,
+$$
+\probit(x) = \psi^{-1}(x) \ \Longleftrightarrow
+\prob{\mathcal{N}(0,1) \leq \probit(x)} = x
+$$
 
-<!-- An individual parameter $\psi_i$ with a probit-normal distribution takes its values in $(0,1)$. The probit of $\psi_i$ is normally distributed: -->
+An individual parameter $\psi_i$ with a probit-normal distribution takes its values in $(0,1)$. The probit of $\psi_i$ is normally distributed:
 
-<!-- $$\probit(\psi_i) = \psi^{-1}(\psi_i) \ \sim \  \mathcal{N}( \probit(\psi_{\rm pop}) \ , \ \omega^2) . $$ -->
+$$\probit(\psi_i) = \psi^{-1}(\psi_i) \ \sim \  \mathcal{N}( \probit(\psi_{\rm pop}) \ , \ \omega^2) . $$
 
-<!-- The distribution of each individual parameter can be defined using the argument `transform.par` -->
-<!-- (0=normal, 1=log-normal, 2=probit, 3=logit). Default are normal distributions, i.e. a vector of 0. -->
+The distribution of each individual parameter can be defined using the argument `transform.par`
+(0=normal, 1=log-normal, 2=probit, 3=logit). Default are normal distributions, i.e. a vector of 0.
 
-<!-- If we want to use, for example, a normal distribution for $V$ and log-normal distributions for $k_a$ and $k_e$, then,  `transform.par` should be the vector c(1,0,1): -->
+If we want to use, for example, a normal distribution for $V$ and log-normal distributions for $k_a$ and $k_e$, then,  `transform.par` should be the vector c(1,0,1):
 
-<!-- ```{r, results='hide'} -->
-<!-- saemix_model<-saemixModel(model         = model1_nlme, -->
-<!--                           psi0          = c(ka=1,V=20,ke=0.5), -->
-<!--                           transform.par = c(1,0,1)) -->
+```{r, results='hide'}
+saemix_model<-saemixModel(model         = model1_nlme,
+                          psi0          = c(ka=1,V=20,ke=0.5),
+                          transform.par = c(1,0,1))
 
-<!-- saemix_fit2 <-saemix(saemix_model, saemix_data, saemix_options) -->
-<!-- ``` -->
+saemix_fit2 <-saemix(saemix_model, saemix_data, saemix_options)
+```
 
-<!-- ```{r} -->
-<!-- saemix_fit2@results -->
-<!-- ``` -->
+```{r}
+saemix_fit2@results
+```
 
-<!-- ::: {.remark} -->
+::: {.remark}
 
-<!-- Here, $\omega^2_{ka}$ and $\omega^2_{ke}$ are the variances of $\log(k_a_i)$ and $\log(k_e_i)$ while $\omega^2_{V}$ is the  variance of $V_i$. -->
+Here, $\omega^2_{ka}$ and $\omega^2_{ke}$ are the variances of $\log(k_a_i)$ and $\log(k_e_i)$ while $\omega^2_{V}$ is the  variance of $V_i$.
 
-<!-- ::: -->
+:::
 
-<!-- #### Models with covariates -->
+#### Models with covariates
 
-<!-- Let $c_i = (c_{i1},c_{i2}, \ldots , c_{iL})$ be a vector of individual covariates, i.e. a vector of individual parameters available with the data. We may want to explain part of the variability of the non observed individual parameters $(\psi_i)$ using these covariates. -->
+Let $c_i = (c_{i1},c_{i2}, \ldots , c_{iL})$ be a vector of individual covariates, i.e. a vector of individual parameters available with the data. We may want to explain part of the variability of the non observed individual parameters $(\psi_i)$ using these covariates.
 
-<!-- We will only consider linear models of the covariates. More precisely, assuming that $h(\psi_i)$ is normally distributed, we will decompose $h(\psi_i)$ into fixed and random effects: -->
+We will only consider linear models of the covariates. More precisely, assuming that $h(\psi_i)$ is normally distributed, we will decompose $h(\psi_i)$ into fixed and random effects:
 
-<!-- $$h(\psi_i) = h(\psi_{\rm pop})  + \sum_{\ell=1}^L c_{i\ell}\beta_{\ell} + \eta_i$$ -->
+$$h(\psi_i) = h(\psi_{\rm pop})  + \sum_{\ell=1}^L c_{i\ell}\beta_{\ell} + \eta_i$$
 
-<!-- ::: {.remark} -->
+::: {.remark}
 
-<!-- $\psi_{\rm pop}$ is the ``typical`` value of $\psi_i$ if the covariates $c_{i1}$, ..., $c_{iL}$ are zero for a ``typical`` individual of the population. -->
+$\psi_{\rm pop}$ is the ``typical`` value of $\psi_i$ if the covariates $c_{i1}$, ..., $c_{iL}$ are zero for a ``typical`` individual of the population.
 
-<!-- ::: -->
+:::
 
-<!-- Let us consider a model where the volume $V_i$ is normally distributed and is a linear function of the weight $w_i$: -->
+Let us consider a model where the volume $V_i$ is normally distributed and is a linear function of the weight $w_i$:
 
-<!-- $$V_i = \beta_0 + \beta \, w_i + \eta_{V,i}$$ -->
+$$V_i = \beta_0 + \beta \, w_i + \eta_{V,i}$$
 
-<!-- Assuming that the weight of a typical individual of the population is $w_{\rm pop}$, the predicted volume for this individual is not $\beta_0$ but $\beta_0 + \beta w_{\rm pop}$.  -->
+Assuming that the weight of a typical individual of the population is $w_{\rm pop}$, the predicted volume for this individual is not $\beta_0$ but $\beta_0 + \beta w_{\rm pop}$.
 
-<!-- If we use instead the centered weight $w_i-w_{\rm pop}$, we can now write the model as  -->
+If we use instead the centered weight $w_i-w_{\rm pop}$, we can now write the model as
 
-<!-- $$V_i = V_{\rm pop} + \beta \, (w_i-w_{\rm pop}) + \eta_{V,i} \ .$$ -->
+$$V_i = V_{\rm pop} + \beta \, (w_i-w_{\rm pop}) + \eta_{V,i} \ .$$
 
-<!-- Indeed, the predicted volume for a typical individual is now $V_{\rm pop}$. -->
+Indeed, the predicted volume for a typical individual is now $V_{\rm pop}$.
 
-<!-- Assume that we decide to use 70kg as typical weight in the theophylline study. The saemixData object now needs to include $w_i-70$:  -->
+Assume that we decide to use 70kg as typical weight in the theophylline study. The saemixData object now needs to include $w_i-70$:
 
-<!-- ```{r, message=FALSE, warning=FALSE, results='hide'} -->
-<!-- theophylline$w70 <- theophylline$weight - 70 -->
-<!-- saemix_data <- saemixData(name.data       = "theophylline", -->
-<!--                           name.group      = c("id"), -->
-<!--                           name.predictors = c("time"), -->
-<!--                           name.response   = c("concentration"), -->
-<!--                           name.covariates = c("w70")) -->
-<!-- ``` -->
+```{r, message=FALSE, warning=FALSE, results='hide'}
+theophylline$w70 <- theophylline$weight - 70
+saemix_data <- saemixData(name.data       = "theophylline",
+                          name.group      = c("id"),
+                          name.predictors = c("time"),
+                          name.response   = c("concentration"),
+                          name.covariates = c("w70"))
+```
 
-<!-- Here, only the volume $V$ is function of the weight. The covariate model is therefore encoded as vector (0,1,0).  -->
+Here, only the volume $V$ is function of the weight. The covariate model is therefore encoded as vector (0,1,0).
 
-<!-- ```{r, message=FALSE, warning=FALSE, results='hide'} -->
-<!-- saemix_model <- saemixModel(model           = model1_nlme, -->
-<!--                             psi0            = c(ka=1,V=20,ke=0.5), -->
-<!--                             transform.par   = c(1,0,1), -->
-<!--                             covariate.model = c(0,1,0)) -->
+```{r, message=FALSE, warning=FALSE, results='hide'}
+saemix_model <- saemixModel(model           = model1_nlme,
+                            psi0            = c(ka=1,V=20,ke=0.5),
+                            transform.par   = c(1,0,1),
+                            covariate.model = c(0,1,0))
 
-<!-- saemix_fit3 <- saemix(saemix_model, saemix_data, saemix_options) -->
-<!-- ``` -->
-<!-- ```{r, message=FALSE, warning=FALSE} -->
-<!-- saemix_fit3@results -->
-<!-- ``` -->
+saemix_fit3 <- saemix(saemix_model, saemix_data, saemix_options)
+```
+```{r, message=FALSE, warning=FALSE}
+saemix_fit3@results
+```
 
-<!-- Here, $\hat\beta_{w70} = 0.33$ means that an increase of the weight of 1kg leads to an increase of the predicted volume of 0.33l. -->
+Here, $\hat\beta_{w70} = 0.33$ means that an increase of the weight of 1kg leads to an increase of the predicted volume of 0.33l.
 
-<!-- The p-value of the test $H_0: \ \beta_{w70}=0$ versus $H_1: \ \beta_{w70}\neq 0$ is 0.01 -->
-<!-- We can then reject the null and conclude that the predicted volume significantly increases with the weight. -->
+The p-value of the test $H_0: \ \beta_{w70}=0$ versus $H_1: \ \beta_{w70}\neq 0$ is 0.01
+We can then reject the null and conclude that the predicted volume significantly increases with the weight.
 
-<!-- Imagine that we now use a log-normal distribution for the volume $V_i$. -->
-<!-- It is now the log-volume which is a linear function of the transformed weight. -->
+Imagine that we now use a log-normal distribution for the volume $V_i$.
+It is now the log-volume which is a linear function of the transformed weight.
 
-<!-- We can assume, for instance, that the log-volume is a linear function of the centered log-weight: -->
+We can assume, for instance, that the log-volume is a linear function of the centered log-weight:
 
-<!-- $$\log(V_i) = \log(V_{\rm pop}) + \beta \, \log(w_i/w_{\rm pop}) + \eta_{V,i} \ .$$ -->
+$$\log(V_i) = \log(V_{\rm pop}) + \beta \, \log(w_i/w_{\rm pop}) + \eta_{V,i} \ .$$
 
-<!-- Or, equivalently, -->
+Or, equivalently,
 
-<!-- $$V_i = V_{\rm pop}  \left(\frac{w_i}{w_{\rm pop}}\right)^{\beta} e^{\eta_{V,i}} \ .$$ -->
+$$V_i = V_{\rm pop}  \left(\frac{w_i}{w_{\rm pop}}\right)^{\beta} e^{\eta_{V,i}} \ .$$
 
-<!-- We see that, using this model, the predicted volume for a typical individual is $V_{\rm pop}$. -->
+We see that, using this model, the predicted volume for a typical individual is $V_{\rm pop}$.
 
-<!-- The saemixData object now needs to include $\log(w_i/70)$ a covariate, -->
+The saemixData object now needs to include $\log(w_i/70)$ a covariate,
 
-<!-- ```{r, results='hide'} -->
-<!-- theophylline$lw70 <- log(theophylline$weight/70) -->
-<!-- saemix_data <- saemixData(name.data       = theophylline, -->
-<!--                           name.group      = c("id"), -->
-<!--                           name.predictors = c("time"), -->
-<!--                           name.response   = c("concentration"), -->
-<!--                           name.covariates = c("lw70")) -->
-<!-- ``` -->
+```{r, results='hide'}
+theophylline$lw70 <- log(theophylline$weight/70)
+saemix_data <- saemixData(name.data       = theophylline,
+                          name.group      = c("id"),
+                          name.predictors = c("time"),
+                          name.response   = c("concentration"),
+                          name.covariates = c("lw70"))
+```
 
-<!-- The covariate model is again encoded as the (row) vector (0,1,0) but the transformation is now encoded as 1 for the three parameters -->
+The covariate model is again encoded as the (row) vector (0,1,0) but the transformation is now encoded as 1 for the three parameters
 
-<!-- ```{r, message=FALSE, warning=FALSE, results='hide'} -->
-<!-- saemix_model <- saemixModel(model           = model1_nlme, -->
-<!--                             psi0            = c(ka=1,V=20,ke=0.5), -->
-<!--                             transform.par   = c(1,1,1), -->
-<!--                             covariate.model = c(0,1,0)) -->
+```{r, message=FALSE, warning=FALSE, results='hide'}
+saemix_model <- saemixModel(model           = model1_nlme,
+                            psi0            = c(ka=1,V=20,ke=0.5),
+                            transform.par   = c(1,1,1),
+                            covariate.model = c(0,1,0))
 
-<!-- saemix_fit4 <- saemix(saemix_model, saemix_data, saemix_options) -->
-<!-- ``` -->
+saemix_fit4 <- saemix(saemix_model, saemix_data, saemix_options)
+```
 
-<!-- ```{r, message=FALSE, warning=FALSE} -->
-<!-- saemix_fit4@results -->
-<!-- ``` -->
+```{r, message=FALSE, warning=FALSE}
+saemix_fit4@results
+```
 
-<!-- #### Correlations between random effects -->
+#### Correlations between random effects
 
-<!-- Until now, the random effects were assumed to be uncorrelated, i.e. the veariance-covariance matrix $\Omega$ was a diagonal matrix (default covariance model for **saemix**). -->
+Until now, the random effects were assumed to be uncorrelated, i.e. the veariance-covariance matrix $\Omega$ was a diagonal matrix (default covariance model for **saemix**).
 
-<!-- Correlations between random effects can be introduced with the input argument `covariance.model`, a square matrix of size equal to the number of parameters in the model, giving the variance-covariance structure of the model: 1s correspond to estimated variances (in the diagonal) or covariances (off-diagonal elements). The structure of the matrix $\Omega$ should be block. -->
+Correlations between random effects can be introduced with the input argument `covariance.model`, a square matrix of size equal to the number of parameters in the model, giving the variance-covariance structure of the model: 1s correspond to estimated variances (in the diagonal) or covariances (off-diagonal elements). The structure of the matrix $\Omega$ should be block.
 
-<!-- Consider, for instance a model where $k_a$ is fixed in the population, i.e. $\omega_{k_a}=0$ (and thus $k_a_i=0$ for all $i$), and where $\log(V)$ and $\log(k_e)$ are correlated, i.e $\eta_V$ and $\eta_{k_e})$ are correlated: -->
+Consider, for instance a model where $k_a$ is fixed in the population, i.e. $\omega_{k_a}=0$ (and thus $k_a_i=0$ for all $i$), and where $\log(V)$ and $\log(k_e)$ are correlated, i.e $\eta_V$ and $\eta_{k_e})$ are correlated:
 
-<!-- ```{r, message=FALSE, warning=FALSE, results='hide'} -->
-<!-- saemix_model<-saemixModel(model           = model1_nlme, -->
-<!--                           psi0            = c(ka=1,V=20,ke=0.5), -->
-<!--                           transform.par   = c(1,1,1), -->
-<!--                           covariate.model = t(c(0,1,0)), -->
-<!--                           covariance.model = matrix(c(0,0,0,0,1,1,0,1,1),nrow=3)) -->
+```{r, message=FALSE, warning=FALSE, results='hide'}
+saemix_model<-saemixModel(model           = model1_nlme,
+                          psi0            = c(ka=1,V=20,ke=0.5),
+                          transform.par   = c(1,1,1),
+                          covariate.model = t(c(0,1,0)),
+                          covariance.model = matrix(c(0,0,0,0,1,1,0,1,1),nrow=3))
 
-<!-- saemix_fit5 <- saemix(saemix_model, saemix_data, saemix_options) -->
-<!-- ``` -->
+saemix_fit5 <- saemix(saemix_model, saemix_data, saemix_options)
+```
 
-<!-- ```{r, message=FALSE, warning=FALSE} -->
-<!-- saemix_fit5@results -->
-<!-- ``` -->
+```{r, message=FALSE, warning=FALSE}
+saemix_fit5@results
+```
 
 

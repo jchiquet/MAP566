@@ -76,11 +76,11 @@ site:
         - section: "Lectures"
           contents:
             - docs/mixed-models/map566-lecture-linear-mixed-model.Rmd
+            - docs/mixed-models/map566-lecture-EM-linear-mixed-model.Rmd
             - docs/mixed-models/map566-lecture-nonlinear-mixed-model.Rmd
         - section: "PC/Labs"
           contents:
             - docs/mixed-models/map566-lab-linear-mixed-model.Rmd
-            - docs/mixed-models/map566-lab-EM-linear-mixed-model.Rmd
             - docs/mixed-models/map566-lab-nonlinear-mixed-model.Rmd
 
     - id: mixture-models
