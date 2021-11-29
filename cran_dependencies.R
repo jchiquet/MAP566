@@ -7,5 +7,4 @@ local({
 ## R packages not available on conda
 install_package('ggfortify')
 install_package('mixtools')
-install_package('nlme')
 

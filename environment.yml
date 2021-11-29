@@ -3,13 +3,14 @@ channels:
   - conda-forge
   - r
 dependencies:
-  - r-base=4.1.1
+  - r-base>=3.6.2
   - r-tidyverse
 #  - r-ggfortify
+  - r-knitr
   - r-lattice
   - r-gridextra
-  - r-knitr
-  - r-pwr
-  - r-lme4
-  - r-saemix
-  - r-vgam
+  # - r-pwr
+  # - r-nlme
+  # - r-lme4
+  # - r-saemix
+  # - r-vgam
