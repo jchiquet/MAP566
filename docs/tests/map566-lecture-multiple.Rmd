@@ -52,7 +52,7 @@ Here is a summary of the data,
 
 ```{r, message = FALSE}
 survival <- read_csv("../../data/ratSurvival.csv") %>% mutate_if(is.character, factor) 
-survival %>% head() %>% kable() %>% kable_classic()
+survival %>% rmarkdown::paged_table()
 levels(survival$regimen)
 ``` 
 
@@ -119,7 +119,7 @@ do_all_comparisons <- function(data) {
   }) %>% bind_rows() %>% arrange(p.value)
 }
 all_comparisons <- do_all_comparisons(survival)
-all_comparisons %>% kable() %>% kable_classic()
+all_comparisons %>% rmarkdown::paged_table()
 ```
 
 Let us plot the ordered p-values:
@@ -145,7 +145,7 @@ permuted_data <- survival %>%
   split(.$gender) %>% 
   map(mutate, regimen = sample(regimen)) %>% 
   bind_rows()
-do_all_comparisons(permuted_data) %>% kable() %>% kable_classic()
+do_all_comparisons(permuted_data) %>% rmarkdown::paged_table()
 ```
 
 The test statistics and the $p$-values now really behave how they are supposed to behave under the null hypothesis. If we now repeat the same experiment using many different permutations, we will be able to estimate the $m$ distributions of the $m$ test statistics as well as the $m$ distributions of the $m$ $p$-values under the null hypothesis.
@@ -229,7 +229,7 @@ We can then either compare the original $p$-value $p_k$ to the corrected signifi
 ```{r}
 m <- nrow(all_comparisons)
 all_comparisons$p.value_bonferonni <- pmin(1, all_comparisons$p.value * m)
-all_comparisons %>% kable() %>% kable_classic()
+all_comparisons %>% rmarkdown::paged_table()
 ```
 
 Using the Bonferroni correction, none of the 18 comparisons is significant.

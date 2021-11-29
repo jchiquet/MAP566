@@ -43,7 +43,7 @@ The following table provides the mean weight in each group
 #| code-fold: true
 rat_weight %>% group_by(regime, gender) %>% 
   summarise('average weight' = mean(weight), count = n()) %>% 
-  kable() %>% kable_classic()
+  rmarkdown::paged_table()
 ```
 
 Our main objective is to detect some possible effect of the diet on the weight. More precisely, we would like to know  if the differences observed in the data are due to random fluctuations in sampling or to differences in diet.
@@ -335,7 +335,7 @@ Looking at the data is more than enough for concluding that the mean weight of t
 
 ```{r}
 rat_weight %>% group_by(gender) %>% summarize(average_weight = mean(weight)) %>% 
-  kable() %>% kable_classic()
+  rmarkdown::paged_table()
 x <- rat_weight %>% filter(gender == "Male") %>% pull("weight")
 y <- rat_weight %>% filter(gender == "Female") %>% pull("weight")
 t.test(x, y)
