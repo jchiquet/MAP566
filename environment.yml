@@ -1,6 +1,7 @@
 name: MAP566
 channels:
   - conda-forge
+  - r
 dependencies:
   - r-base=4.1.1
   - r-tidyverse
