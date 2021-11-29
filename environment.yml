@@ -5,6 +5,7 @@ dependencies:
   - r-base=4.1.1
   - r-gridextra
   - r-knitr
+  - r-kableextra
   - r-pwr
   - r-tidyverse
   - r-broom
@@ -12,6 +13,9 @@ dependencies:
   - r-lattice
   - r-lme4
   - r-saemix
+  - r-ggfortify
+  - r-mixtools
+  - r-rsample
   - r-vgam
   
   
