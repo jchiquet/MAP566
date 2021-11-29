@@ -8,9 +8,9 @@ dependencies:
   - r-knitr
   - r-lattice
   - r-gridextra
-   - r-nlme
-   - r-lme4
-   - r-pwr
+  - r-nlme
+  - r-lme4
+  - r-pwr
   # - r-ggfortify
   # - r-saemix
   # - r-vgam
