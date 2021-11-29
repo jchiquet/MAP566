@@ -14,5 +14,6 @@ dependencies:
   - r-saemix
   - r-vgam
   - r-mixtools
+  - r-ellipse
   - r-codetools
   - r-ggfortify
