@@ -13,7 +13,6 @@ Only functions from `R`-base and stats (preloaded) are required plus packages fr
 #| code-fold: false
 library(tidyverse)
 library(ggfortify)  # extend some ggplot2 features
-library(kableExtra) # fancy table display
 library(pwr)        # power study in R
 theme_set(theme_bw())
 ```
@@ -26,7 +25,7 @@ We are interested in the weight of thttps://ggplot2.tidyverse.org/reference/geom
 
 ```{r}
 rat_weight <- read_csv("../../data/ratWeight.csv") %>% filter(week == 14) %>% select(-week)
-head(rat_weight) %>% kable() %>% kableExtra::kable_classic()
+rat_weight %>% rmarkdown::paged_table()
 ```
 
 The data per gender and regime is displayed  below  

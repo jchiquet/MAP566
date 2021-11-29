@@ -2,16 +2,15 @@ name: MAP566
 channels:
   - conda-forge
 dependencies:
-  - r-base=4.1.1
+  - r-base=4.1.2
+  - r-tidyverse
+  - r-ggfortify
+  - r-lattice
   - r-gridextra
   - r-knitr
-  - r-kableextra
   - r-pwr
-  - r-tidyverse
-  - r-lattice
   - r-nlme
   - r-lme4
   - r-saemix
-  - r-ggfortify
   - r-mixtools
   - r-vgam

@@ -22,7 +22,7 @@ We will only consider the weight of rat B38625.
 
 ```{r linear-regression-read, message = FALSE}
 rat_weight <- read_csv("../../data/ratWeight.csv") %>% filter(id == 'B38625')
-rat_weight %>% kableExtra::kbl() %>% kableExtra::kable_styling()
+rat_weight %>% rmarkdown::paged_table()
 ```
 
 Based on this data, our objective is to build a regression model of the form

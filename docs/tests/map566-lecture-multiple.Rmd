@@ -7,7 +7,6 @@ title: 'Multiple Testing'
 ```{r, message = FALSE, warnings = FALSE}
 library(tidyverse)
 library(gridExtra)
-library(kableExtra)
 theme_set(theme_bw())
 ```
 
