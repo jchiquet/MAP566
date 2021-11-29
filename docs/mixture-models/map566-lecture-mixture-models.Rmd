@@ -2,195 +2,212 @@
 title: "Mixture Models"
 ---
 
----
+## Preliminary {.unnumbered}
 
-# The faithful data
+Functions from `R`-base and stats (preloaded) are required plus packages from the **tidyverse** for data representation and manipulation. We will also use the package **mixtools**, which implements EM for simple mixture models to check our own implementation.
 
-## The data
+```{r tests-config, message = FALSE}
+#| code-fold: false
+library(tidyverse)
+library(gridExtra)
+library(mixtools)
+theme_set(theme_bw())
+```
+
+## The faithful data
+
+### The data
 
 The `faithful` data consist of the waiting time between eruptions and the duration of the eruption for the Old Faithful geyser in Yellowstone National Park, Wyoming, USA.
 
-```{r}
+```{r mixture-faitful-load}
 data("faithful")
-head(faithful)
+faithful %>% rmarkdown::paged_table()
 ```
 
-We will consider the waiting time in the following. Let us display the empirical distribution of this variable,
+For convenience, in the following, the data vector will be denoted by $y$, with $n$ entries:
 
 ```{r}
-y = faithful$waiting
-hist(y, xlab="waiting time (mn)")
+y <- faithful$waiting
+n <- length(y)
+```
+
+
+We will consider the waiting time in the following. Let us display the empirical distribution of this variable (an histogram).
+
+```{r}
+faithful %>% ggplot() + 
+  geom_histogram(aes(x = waiting), bins = 15) + xlab("waiting (mm)")
 ```
 
 We clearly see 2 *modes*: the waiting times seem to be distributed either around 50mn or around 80mn.
 
-</br>
+### k-means clustering
 
-## k-means clustering
+Imagine that we want to partition the data $(y_i , 1 \leq i \leq n)$ into $K$ clusters. Let $\mu_1$, $\mu_2$, \ldots $\mu_K$ be the $K$ centers of these $K$ clusters. A way to decide to which cluster belongs an observation $y_i$ consists in minimizing the distance between $y_i$ and the centers $(\mu_k)$. 
 
-Imagine that we want to partition the data $(y_i , 1 \leq i \leq n)$ into $L$ clusters.
-Let $\mu_1$, $\mu_2$, \ldots $\mu_L$ be the $L$ centers of these $L$ clusters. A way to decide to which cluster belongs an observation $y_i$ consists in minimizing the distance between $y_i$ and the centers $(\mu_\ell)$. 
+Let $Z_i$ be a label variable such that $Z_i=k$ if observation $i$ belongs to cluster $k$. Then,
 
-Let $z_i$ be a label variable such that $z_i=\ell$ if observation $i$ belongs to cluster $\ell$. Then,
+$$Z_i = {\rm arg}\min_{ k \in \{1,2, \ldots,K\}} (y_i-\mu_k)^2$$
 
-$$z_i = {\rm arg}\min_{ \ell \in \{1,2, \ldots,L\}} (y_i-\mu_\ell)^2$$
-The centers $(\mu_\ell)$  can be estimated by minimizing the within-cluster sum of squares
+The centers $(\mu_k)$  can be estimated by minimizing the within-cluster sum of squares
 
 $$\begin{aligned}
-U(\mu_1,\mu_2,\ldots,\mu_L) & =\sum_{i=1}^n \min_{\ell \in \{1, \ldots, L\}} (y_i - \mu_\ell)^2  \\
- &= \sum_{i=1}^n (y_i - \mu_{z_i})^2 \\
- &= \sum_{i=1}^n \sum_{\ell=1}^L (y_i - \mu_\ell)^2 \one_{{z}_i=\ell} 
+U(\mu_1,\mu_2,\ldots,\mu_L) & =\sum_{i=1}^n \min_{k \in \{1, \ldots, K\}} (y_i - \mu_k)^2  \\
+ &= \sum_{i=1}^n (y_i - \mu_{Z_i})^2 \\
+ &= \sum_{i=1}^n \sum_{k=1}^K (y_i - \mu_k)^2 \mathbf{1}_{{z}_i=k} 
 \end{aligned}$$
 
-For $\ell=1,2,\ldots, L$, the solution $\hat\mu_\ell$ is  the empirical mean computed in  cluster $\ell$. 
-Let $n_\ell = \sum_{i=1}^n \one_{{z}_i=\ell}$ be the number of observation belonging to cluster $\ell$. Then
-$$ \hat\mu_\ell =  \frac{1}{n_\ell} \sum_{i=1}^n y_i\one_{{z}_i=\ell} $$
+For $k=1,2,\ldots, K$, the solution $\hat\mu_k$ is  the empirical mean computed in  cluster $k$.  Let $n_k = \sum_{i=1}^n \mathbf{1}_{{z}_i=k}$ be the number of observation belonging to cluster $k$. Then
 
-Let us compute the centers of the two cluster for our faithful data:
+$$ \hat{\mu}_k =  \frac{1}{n_k} \sum_{i=1}^n y_i \mathbf{1}_{\{Z_i=k\}} $$
+
+Let us compute the centers of the two clusters for our faithful data:
 
 ```{r, warning=FALSE}
-U <- function(mu,y) {
-  e1 <- (y-mu[1])^2
-  e2 <- (y-mu[2])^2
-  e.min <- pmin(e1,e2)
-  e <- sum(e.min)
-  return(e)
+U <- function(mu, y) {
+  sum(pmin((y-mu[1])^2, (y-mu[2])^2))
 }
 
-r.cluster <- nlm(U,c(50,80),y)
-mu.est <- r.cluster$estimate
-print(mu.est)
+mu_hat <- nlm(U, c(50,80), y)$estimate
+mu_hat
 ```
 
 We can then classify the $n$ observations into these 2 clusters
-```{r, fig.height=3, fig.width=11}
-e1 <- (y-mu.est[1])^2
-e2 <- (y-mu.est[2])^2
-group.est <- rep(1,length(y))
-group.est[which(e2<e1)] <- 2
-group.est <- as.factor(group.est)
 
-library(ggplot2)
-theme_set(theme_bw())
-
-ggplot() + geom_point(data=data.frame(y,group.est), aes(x=y,y=0,colour=group.est),size=3) + geom_point(data=data.frame(y=mu.est,group=factor(c(1,2))), aes(y,0,colour=group),size=10, shape="x")+ geom_vline(xintercept=mean(mu.est))
-```
-and compute the sizes, the empirical means and standard deviations for each cluster:
 ```{r}
-print(c(length(y[group.est==1]),length(y[group.est==2])))
-print(c(mean(y[group.est==1]),mean(y[group.est==2])))
-print(c(sd(y[group.est==1]),sd(y[group.est==2])))
+cl_hat <- rep(1, n)
+in_cl2 <- which ((y-mu_hat[1])^2 > (y-mu_hat[2])^2 )
+cl_hat[in_cl2] <- 2
+clustered_data <- data.frame(y, cl_hat = factor(cl_hat))
 ```
 
+and plot them on the original data
 
-**Remark:** we could equivalently the function `kmeans`: 
+```{r, fig.height=3, fig.width=11}
+#| code-fold: true
+ggplot() + 
+  geom_point(data = clustered_data, aes(x = y, y = 0, colour = cl_hat), size=3) + 
+  geom_point(data = data.frame(y = mu_hat, group = factor(c(1,2))), aes(y, 0, colour = group), size=10, shape="x") + 
+  geom_vline(xintercept = mean(mu_hat), linetype = "dashed", color = "gray")
+```
+
+and compute the sizes, the empirical means and standard deviations for each cluster:
+
+```{r}
+clustered_data %>% group_by(cl_hat) %>% summarise(count = n(), means = mean(y), stdev = sd(y))
+```
+
+::: {.remark}
+
+The base-`R` function `kmeans` generalizes that problem to more than $2$clusters:
 
 ```{r, warning=FALSE}
-r.km <- kmeans(y, centers=2)
-r.km$cluster
+kmeans_out <- kmeans(y, centers = 2)
+kmeans_out$size
+as.vector(kmeans_out$centers)
+sqrt(kmeans_out$withinss/(kmeans_out$size-1))
+head(kmeans_out$cl)
 ```
 
-```{r}
-r.km$size
-as.vector(r.km$centers)
-sqrt(r.km$withinss/(r.km$size-1))
-```
+:::
 
-</br>
-
-## Mixture of probability distributions
+### Mixture of probability distributions
 
 In a probability framework,
 
-  - the labels $z_1$, \ldots, $z_n$ are a sequence of random variables that take their values in $\{1, 2, \cdots, L \}$ and such that, for $\ell=1,2,\ldots L$,
-$$\prob{z_i = \ell} = \pi_\ell$$
-where $\sum_{\ell=1}^L \pi_\ell = 1$.
+  - the labels $Z_1, \ldots, Z_n$ are a sequence of random variables that take their values in $\{1, 2, \cdots, K \}$ and such that, for $k=1,2,\ldots K$,
+  
+$$\mathbb{P}(Z_i = k) = \pi_k, \qquad \text{s.t } \sum_{k=1}^K \pi_k = 1$$
 
-  - the observations in group $\ell$, i.e. such  $z_i=\ell$, are independent and follow a same probability distribution $f_\ell$,
-$$ y_i | z_i=\ell \iid f_\ell$$
+  - the observations in group $k$, i.e. such  $Z_i=k$, are independent and follow a same probability distribution $f_k$,
+  
+$$ Y_i | Z_i=k \sim^{\text{iid}} f_k $$
 
-The probability distribution of $y_i$ is therefore a mixture of $L$ distributions:
-$$\begin{aligned}
-\pmacro(y_i) &= \sum_{\ell=1}^L \pmacro(y_i , z_i=\ell) \\
-&= \sum_{\ell=1}^L \prob{ z_i=\ell}\pmacro(y_i | z_i=\ell) \\
-&= \sum_{\ell=1}^L \pi_\ell \, f_\ell(y_i) 
-\end{aligned}$$
-If, for each $\ell$,  $f_\ell$ is a normal distribution with mean $\mu_\ell$ and variance $\sigma^2_\ell$, the model is a **Gaussian mixture model**:
-
-$$ y_i \iid \sum_{\ell=1}^L \pi_\ell \, \cal{N}(\mu_\ell \ , \ \sigma^2_\ell) $$ 
-The vector of parameter of the model is $\theta = (\pi_1,\mu_1,\sigma^2_1,\cdots,\pi_L,\mu_L,\sigma^2_L )$ and the likelihood function writes
+The probability distribution of $Y_i = y_i$ is therefore a mixture of $K$ distributions:
 
 $$\begin{aligned}
-\like(\theta , y) &= \pmacro(y ; \theta) \\
-&= \prod_{i=1}^n \pmacro(y_i ; \theta) \\
-&= \prod_{i=1}^n \left( \sum_{\ell=1}^L \prob{ z_i=\ell ; \theta}\pmacro(y_i | z_i=\ell ;\theta) \right) \\
-&= \prod_{i=1}^n \left( \sum_{\ell=1}^L \frac{\pi_\ell}{\sqrt{2\pi \sigma^2_\ell}} \ \exp \left\{-\frac{1}{2\sigma_\ell^2}(y_i - \mu_\ell)^2 \right\}  \right)
+\mathbb{P}(Y_i = y_i) &= \sum_{k=1}^K \mathbb{P}(Y_i , Z_i = k) \\
+& = \sum_{k=1}^K \mathbb{P}(Z_i = k) \, \mathbb{P}(Y_i | Z_i = k) \\
+& = \sum_{k=1}^K \pi_k \, f_k(y_i)
 \end{aligned}$$
+
+If, for each $k$,  $f_k$ is a normal distribution with mean $\mu_k$ and variance $\sigma^2_k$, the model is a **Gaussian mixture model**:
+
+$$ Y_i \sim^{\text{iid}} \sum_{k=1}^K \pi_k \, \mathcal{N}(\mu_k \ , \ \sigma^2_k) $$ 
+The vector of parameters of the model regroups the paramateers of each component of the mixture, that is, 
+
+$$\theta = (\boldsymbol{\pi} = (\pi_1, \ldots, \pi_K), \boldsymbol\mu = (\mu_1,\ldots, \mu_K), \boldsymbol\sigma^2 = (\sigma^2_1,\ldots,\sigma^2_K) )$$ 
+
+and the likelihood function is
+
+$$\begin{aligned}
+\ell(\theta, \boldsymbol y) &= \prod_{i=1}^n \mathbb{P}(y_i ; \theta) \\
+&= \prod_{i=1}^n \left( \sum_{k=1}^K \mathbb{P}(_i=k ; \theta)\mathbb{P}(y_i | Z_i=k ;\theta) \right) \\
+&= \prod_{i=1}^n \left( \sum_{k=1}^K \frac{\pi_k}{\sqrt{2\pi \sigma^2_k}} \ \exp \left\{-\frac{1}{2\sigma_k^2}(y_i - \mu_k)^2 \right\}  \right)
+\end{aligned}$$
+
+We can define functions to compute the density and probability distribution for our mixture as a function of the vector of parameters $\theta$:
+
+```{r}
+dmixture <- function(x, theta) {
+    mapply(
+      function(pik, muk, sigmak) pik * dnorm(x, muk, sigmak),
+      theta$pi, theta$mu, theta$sigma,
+      SIMPLIFY = TRUE
+    ) %>% rowSums()
+}
+
+pmixture <- function(x, theta) {
+    mapply(
+      function(pik, muk, sigmak) pik * pnorm(x, muk, sigmak),
+      theta$pi, theta$mu, theta$sigma,
+      SIMPLIFY = TRUE
+    ) %>% rowSums()
+}
+
+theta <- list(pi = c(.25,.75), mu = c(52,82), sigma = c(10,10))
+head(dmixture(y, theta))
+head(pmixture(y, theta))
+```
 
 The maximum likelihood (ML) estimate of $\theta$ cannot be computed in a closed form but several methods can be used for maximizing this likelihood function.
 
-For intance, a Newton-type algorithm can be used for minimizing the deviance $-2\log(\like(\theta , y))$
+For instance, a Newton-type algorithm can be used for minimizing the deviance $-2\log(\ell(\theta , y))$. 
 
 ```{r, warning=FALSE}
-mixt.deviance <- function(theta,y) {
-  pi1    <- theta[1]
-  pi2    <- 1 - pi1
-  mu1    <- theta[2]
-  mu2    <- theta[3]
-  sigma1 <- theta[4]
-  sigma2 <- theta[5]
-  pdf <- pi1*dnorm(y,mu1,sigma1) + pi2*dnorm(y,mu2,sigma2)
-  deviance <- -2*sum(log(pdf))
- return(deviance)
-  }
+## trick: nlm diverge if two parameters are used for pi, so for ce the summation to 1
+objective <- function(theta, y) {
+  theta_l <- list(pi = c(theta[1], 1 - theta[1]), mu = theta[2:3], sigma = theta[4:5])
+  deviance <- -2*sum(log(dmixture(y, theta_l)))
+  deviance
+}
 
-r.nlm <- nlm(mixt.deviance,c(.25,52,82,10,10),y)
-theta.est <- c(r.nlm$estimate[1], 1-r.nlm$estimate[1], r.nlm$estimate[2:5])
-print(matrix(theta.est,nrow=3,byrow = T))
-print(mixt.deviance(r.nlm$estimate,y))
+theta0 <- c(.25,52,82,10,10)
+param  <- nlm(objective, theta0, y)$estimate
+theta_hat <- list(pi = c(param[1], 1-param[1]), mu = param[2:3], sigma = param[4:5])
+theta_hat
 ```
 
 We can then plot the empirical distribution of the data together with the probability density function of the mixture:
 
 ```{r}
-dmixt <- function(x,theta) {
-  pi1 <- theta[1]
-  pi2 <- theta[2]
-  mu1 <- theta[3]
-  mu2 <- theta[4]
-  sigma1 <- theta[5]
-  sigma2 <- theta[6]
-  f1 <- dnorm(x,mu1,sigma1)
-  f2 <- dnorm(x,mu2,sigma2)
-  f <- pi1*f1 + pi2*f2
-}
-
-x <- (35:100)
-pdf.mixt <- dmixt(x,theta.est)
-ggplot(data=faithful) + geom_histogram(aes(x=waiting, y=..density..), bins=30) +
-  geom_line(data=data.frame(x,pdf.mixt), aes(x,pdf.mixt),colour="red",size=1.5)
+#| code-fold: true
+plot_mixture <- data.frame(x = 35:100)
+plot_mixture$pdf <- dmixture(plot_mixture$x, theta_hat)
+faithful %>% ggplot() + 
+  geom_histogram(aes(x = waiting, y=..density..), bins = 15) + xlab("waiting (mm)") + 
+  geom_line(data = plot_mixture, aes(x, pdf),colour="red",size=1.5)
 ```
 
 Comparing the empirical and theoretical cumulative distribution functions (cdf) shows how well the mixture model fits the data
-```{r}
-pmixt <- function(x,theta) {
-  pi1 <- theta[1]
-  pi2 <- theta[2]
-  mu1 <- theta[3]
-  mu2 <- theta[4]
-  sigma1 <- theta[5]
-  sigma2 <- theta[6]
-  F1 <- pnorm(x,mu1,sigma1)
-  F2 <- pnorm(x,mu2,sigma2)
-  F  <- pi1*F1 + pi2*F2
-  return(F)
-}
-cdf.mixt <- pmixt(x,theta.est)
 
-ggplot(data=faithful) + stat_ecdf(aes(waiting), geom = "step", size=1) +
-  geom_line(data=data.frame(x,cdf.mixt), aes(x,cdf.mixt),colour="red",size=1) +
-  ylab("cdf")
-  
+```{r}
+#| code-fold: true
+plot_mixture$cdf <- pmixture(plot_mixture$x, theta_hat)
+faithful %>% ggplot() + 
+  stat_ecdf(aes(waiting), geom = "step") + xlab("waiting (mm)") + 
+  geom_line(data = plot_mixture, aes(x, cdf),colour="red",size=1.5) +  ylab("cdf")
 ```
 
 The estimated mixture distribution $F_{\hat{\theta}}$  (obtained with the maximum likelihood estimate  $\hat\theta$) seems to perfectly fit the empirical distribution of the faithful data. 
@@ -198,79 +215,88 @@ The estimated mixture distribution $F_{\hat{\theta}}$  (obtained with the maximu
 We can perform a Kolmogorov-Smirnov test for testing $H_0: y_i \sim \ F_{\hat{\theta}}$ versus $H_1: y_i \sim \!\!\!\!\!/  \ F_{\hat{\theta}}$:
 
 ```{r, message=FALSE, warning=FALSE}
-ks.test(y,pmixt,theta.est)
+ks.test(y, pmixture, theta_hat)
 ```
 
 We can compute the *posterior distribution* of the label variables:
+
 $$\begin{aligned} 
-\prob{z_i=\ell \ | \ y_i \ ; \ \hat{\theta}} &= \frac{\prob{z_i=\ell \ ; \ \hat{\theta}}\pmacro(y_i \ | \ z_i=\ell \ ; \ \hat{\theta})}{\pmacro(y_i \ ; \ \hat{\theta})} \\
-&= \frac{\prob{z_i=\ell \ ; \ \hat{\theta}}\pmacro(y_i \ | \ z_i=\ell \ ; \ \hat{\theta})}
-{\sum_{j=1}^L\prob{z_i=j \ ; \ \hat{\theta}}\pmacro(y_i \ | \ z_i=j \ ; \ \hat{\theta})} \\
-&= \frac{\frac{\hat\pi_\ell}{\sqrt{2\pi \hat\sigma_\ell^2}} \exp \left\{-\frac{1}{2\hat\sigma_\ell^2}(y_i - \hat\mu_\ell)^2 \right\}}
-{\sum_{j=1}^L\frac{\hat\pi_j}{\sqrt{2\pi \hat\sigma_j^2}} \exp \left\{-\frac{1}{2\hat\sigma_j^2}(y_i - \hat\mu_j)^2 \right\}} 
+\mathbb{P}(Z_i=k \ | \ y_i \ ; \ \hat{\theta}) &= \frac{\mathbb{P}(Z_i=k \ ; \ \hat{\theta})\mathbb{P}(y_i \ | \ Z_i=k \ ; \ \hat{\theta})}{\mathbb{P}(y_i \ ; \ \hat{\theta})} \\
+&= \frac{\mathbb{P}(Z_i=k \ ; \ \hat{\theta})\mathbb{P}(y_i \ | \ Z_i=k \ ; \ \hat{\theta})}
+{\sum_{j=1}^K\mathbb{P}(Z_i=j \ ; \ \hat{\theta})\mathbb{P}(y_i \ | \ Z_i=j \ ; \ \hat{\theta})} \\
+&= \frac{\frac{\hat\pi_k}{\sqrt{2\pi \hat\sigma_k^2}} \exp \left\{-\frac{1}{2\hat\sigma_k^2}(y_i - \hat\mu_k)^2 \right\}}
+{\sum_{j=1}^K\frac{\hat\pi_j}{\sqrt{2\pi \hat\sigma_j^2}} \exp \left\{-\frac{1}{2\hat\sigma_j^2}(y_i - \hat\mu_j)^2 \right\}} 
 \end{aligned}$$
 
 ```{r}
-pi1 <- theta.est[1]
-pi2 <- theta.est[2]
-mu1 <- theta.est[3]
-mu2 <- theta.est[4]
-sigma1 <- theta.est[5]
-sigma2 <- theta.est[6]
-p1.post <- pi1*dnorm(y,mu1,sigma1)/(pi1*dnorm(y,mu1,sigma1) + pi2*dnorm(y,mu2,sigma2))
-p2.post <- 1-p1.post
-head(data.frame(y, p1.post, p2.post))
+dcomponents <- function(theta, x) {
+    mapply(
+      function(pik, muk, sigmak) pik * dnorm(x, muk, sigmak),
+      theta$pi, theta$mu, theta$sigma,
+      SIMPLIFY = TRUE
+    )
+}
+tau <- dcomponents(theta_hat, y)
+tau %>% as_tibble() %>% setNames(c("comp.1", "comp.2")) %>% 
+  add_column(y = y) %>% rmarkdown::paged_table()
 ```
 
+::: {.remark}
 
-The Expectation - Maximization (EM) algorithm implemented in the `mixtools` library
-could also be used for computing the ML estimate of $\theta$. Both algorithms provide the same results.
+The Expectation - Maximization (EM) algorithm (implemented in the `mixtools` library for instance) could also be used for computing the ML estimate of $\theta$. Both algorithms provide the same results.
 
 ```{r, message=FALSE, warning=FALSE}
-library(mixtools)
-r.mixEM = normalmixEM(y)
-list(p=r.mixEM$lambda,mu=r.mixEM$mu,sigma=r.mixEM$sigma)
--2*r.mixEM$loglik
+mixture_EM <- normalmixEM(y)
+list(pi = mixture_EM$lambda, mu=mixture_EM$mu,sigma=mixture_EM$sigma)
 ```
 
 ```{r}
-plot(r.mixEM,which=2)
+plot(mixture_EM, which=2)
 ```
+
 ```{r}
-head(r.mixEM$posterior)
+mixture_EM$posterior %>% as_tibble() %>% rmarkdown::paged_table()
 ```
 
-</br>
+:::
 
-## Mixture model versus clustering
+### Mixture model versus clustering
 
 Let us sample some data from a Gaussian mixture model. Of course, the labels of the simulated data are known.
 
 ```{r}
-set.seed(12345)
-y1 <- rnorm(120, 0, 1)
-y2 <- rnorm(80, 3, 1)
-y=c(y1, y2)
-z=c(rep(1,120),rep(2,80))
-d <- data.frame(y,z)
+n1 <- 120; n2 <- 80
+d <- data.frame(
+  y = c(rnorm(n1, 0, 1), rnorm(n2, 3, 1)),
+  z = rep(1:2, c(n1,n2))
+)
 ```
 
 We can use the $k$-means method to create two clusters and compute the proportion, center and standard deviation for each cluster, 
+
 ```{r}
-r.km <- kmeans(y, centers=c(-1,1))
-list(p=r.km$size/sum(r.km$size), mu=as.vector(r.km$centers), sigma=sqrt(r.km$withinss/r.km$size))
+kmeans_out <- kmeans(y, centers = 2)
+list(pi    = kmeans_out$size/sum(kmeans_out$size),
+     mu    = as.vector(kmeans_out$centers),
+     sigma = sqrt(kmeans_out$withinss/kmeans_out$size))
 ```
 
 We can instead consider a Gaussian mixture model, use the EM algorithm with the same data and display the estimated parameters
+
 ```{r}
-r.mixEM = normalmixEM(y)
-list(p=r.mixEM$lambda,mu=r.mixEM$mu,sigma=r.mixEM$sigma)
+gmm_out = normalmixEM(y)
+list(pi    = gmm_out$lambda,
+     mu    = gmm_out$mu,
+     sigma = gmm_out$sigma)
 ```
-Since the ``true'' labels are known, we can compute the *classification error rate* for each method (in % here):
+
+Since the "true" labels are known, we can compute the *classification error rate* for each method (in % here):
+
 ```{r}
-d$km <- r.km$cluster
-d$EM <- (r.mixEM$posterior[,1]<0.5)+1
-print(c(mean(d$z != d$km)*100, mean(d$z != d$EM)*100))
+cl_kmeans <- kmeans_out$cluster
+cl_gmm    <- apply(gmm_out$posterior, 1, which.max)
+accuracy <-c(mean(d$z != cl_kmeans)*100, mean(d$z != cl_gmm)*100)
+accuracy
 ```
 
 Of course, these results depend strongly on the model, i.e. on the parameters of the mixture. 
@@ -278,213 +304,194 @@ This Shiny app allows one to modify the parameters of the second distribution (t
 
 <iframe src="http://shiny.webpopix.org/sia/mm2/" style="border: none; width: 800px; height: 600px"></iframe>
 
+## Some EM-type algorithms
 
+### Maximisation of the complete likelihood
 
-
-</br>
-
-# Some EM-type algorithms
-
-## Maximisation of the complete likelihood
-
-Assume first that the label $(z_i)$ are known. Estimation of the parameters of the model is straightforward: for $\ell =1,2, \ldots, L$,
+Assume first that the label $(Z_i)$ are known. Estimation of the parameters of the model is straightforward: for $k =1,2, \ldots, K$,
 
 $$\begin{aligned}
-\hat{\pi}_\ell &= \frac{\sum_{i=1}^n \one_{z_i=\ell}}{n} \\
-\hat{\mu}_\ell &= \frac{\sum_{i=1}^n y_i\one_{z_i=\ell}}{\sum_{i=1}^n \one_{z_i=\ell}} \\
-\hat{\sigma}_\ell^2 &= \frac{\sum_{i=1}^n y_i^2\one_{z_i=\ell}}{\sum_{i=1}^n \one_{z_i=\ell}} - \hat{\mu}_\ell^2\\
+\hat{\pi}_k &= \frac{\sum_{i=1}^n \mathbf{1}_{Z_i=k}}{n} \\
+\hat{\mu}_k &= \frac{\sum_{i=1}^n y_i\mathbf{1}_{Z_i=k}}{\sum_{i=1}^n \mathbf{1}_{Z_i=k}} \\
+\hat{\sigma}_k^2 &= \frac{\sum_{i=1}^n y_i^2\mathbf{1}_{Z_i=k}}{\sum_{i=1}^n \mathbf{1}_{Z_i=k}} - \hat{\mu}_k^2\\
 \end{aligned}$$
 
-Then, we see that $S(z,y) = (\sum_{i=1}^n \one_{z_i=\ell} \ , \ \sum_{i=1}^n y_i\one_{z_i=\ell}\ , \ \sum_{i=1}^n y_i^2\one_{z_i=\ell} \ ; \ 1 \leq \ell \leq L)$ is the *sufficient statistics* of the complete model. Indeed, the maximum likelihood estimate of $\theta$ is a function of $S(z,y)$:
+Then, we see that $S(z,y) = (\sum_{i=1}^n \mathbf{1}_{Z_i=k} \ , \ \sum_{i=1}^n y_i\mathbf{1}_{Z_i=k}\ , \ \sum_{i=1}^n y_i^2\mathbf{1}_{Z_i=k} \ ; \ 1 \leq k \leq K)$ is the *sufficient statistics* of the complete model. Indeed, the maximum likelihood estimate of $\theta$ is a function of $S(z,y)$:
 
-$$\begin{aligned}
-\hat{\theta} &= (\hat{\pi}_1,\hat{\mu}_1,\hat{\sigma}_1^2, \ldots , \hat{\pi}_L,\hat{\mu}_L,\hat{\sigma}_L^2 ) \\
-&= \hat\Theta(S(z,y))
-\end{aligned}$$
-Where $\hat\Theta$ is the function defining the maximum likelihood estimator of $\theta$.
+$$
+\hat{\theta} = ( \hat{\boldsymbol\pi} = (\hat{\pi}_1,\ldots,\hat{\pi}_K), \hat{\boldsymbol\mu}=(\hat{\mu}_1,\ldots,\hat{\mu}_K), \hat{\boldsymbol\sigma} = (\hat{\sigma}_1, \ldots,\hat{\sigma}_K) ) = \hat\Theta(S(Z,Y))
+$$
 
-</br>
+where $\hat\Theta$ is the function defining the maximum likelihood estimator of $\theta$.
 
-## The EM algorithm
+### The EM algorithm
 
-When the labels $(z_i)$ are unknown, the sufficient statistics $S(z,y)$ cannot be computed. Then, the idea of EM is to replace  $S(z,y)$ by its conditional expectation $\esp{S(z,y)|y ;\theta}$.
+When the labels $(Z_i)$ are unknown, the sufficient statistics $S(Z,Y)$ cannot be computed. Then, the idea of EM is to replace  $S(Z,Y)$ by its conditional expectation $\mathbb{E}[S(Z,Y)| Y ;\theta]$, wrt the posterior distribution of $Z|Y; \theta$.
 
-The problem is that this conditional expectation depends on the unknown parameter $\theta$.
-EM is therefore an iterative procedure, where, at iteration $k$:
+The problem is that this conditional expectation depends on the unknown parameter $\theta$. EM is therefore an iterative procedure, where, at iteration $t$:
 
-  - the *E-step* computes $S_k(y) = \esp{S(z,y)|y ;\theta_{k-1}}$
+  - the *E-step* computes $S^{(t)}(Y) = \mathbb{E}\left(S(Z,Y)|Y ;\theta^{(t-1)}\right)$
   - the *M-step*  updates the parameter estimate:
-  $$ \theta_k = \hat\Theta(S_k(y)) $$
+  
+  $$ \theta^{(t)} = \hat\Theta(S^{(t)}(Y)) $$
 
-Let us see now how to compute $\esp{S(z,y)|y ;\theta_{k-1}}$. 
+Let us see now how to compute $\mathbb{E}\left(S(Z,Y) | Y ;\theta^{(t-1)}\right)$.
 
-First, for any $1\leq i \leq n$, and any $1 \leq \ell \leq L$, let 
-$$\tau_{i\ell,k} = \esp{\one_{z_i=\ell} \ | \ y_i \ ; \ \theta_{k-1}}$$
+First, for any $1\leq i \leq n$, and any $1 \leq k \leq K$, let 
+
+$$\tau^{(t)}_{ik} = \mathbb{E}\left(\mathbf{1}_{\{Z_i=k\}} \ | \ y_i \ ; \ \theta^{(t-1)}\right) $$
 
 By definition, 
+
 $$\begin{aligned}
-\tau_{i\ell,k} &= \esp{\one_{z_i=\ell} \ | \ y_i \ ; \ \theta_{k-1}} \\
-&= \prob{z_i=\ell \ | \ y_i \ ; \ \theta_{k-1}} \\
-&= \frac{\prob{z_i=\ell\ ; \ \theta_{k-1}}\pmacro(y_i \ | \ z_i=\ell   \ ; \ \theta_{k-1})}{\pmacro(y_i \ ; \ \theta_{k-1})} \\
-&= \frac{\prob{z_i=\ell\ ; \ \theta_{k-1}}f_\ell(y_i \ ; \ \theta_{k-1})}
-{\sum_{j=1}^L \prob{z_i=j\ ; \ \theta_{k-1}}f_j(y_i  \ ; \ \theta_{k-1})} \\
-&= \frac{\pi_{\ell,k-1}f_\ell(y_i \ ; \ \theta_{k-1})}
-{\sum_{j=1}^L \pi_{j,k-1}f_j(y_i  \ ; \ \theta_{k-1})} 
+\tau^{(t)}_{ik} &= \mathbb{E}\left(\mathbf{1}_{\{Z_i=k\}} \ | \ Y_i \ ; \ \theta^{(t-1)}\right) \\
+&= \mathbb{P}(Z_i=k \ | \ Y_i \ ; \ \theta^{(t-1)}) \\
+&= \frac{\mathbb{P}(Z_i=k\ ; \ \theta^{(t-1)})\mathbb{P}(Y_i \ | \ Z_i=k   \ ; \ \theta^{(t-1)})}{\mathbb{P}(Y_i \ ; \ \theta^{(t-1)})} \\
+&= \frac{\mathbb{P}(Z_i=k\ ; \ \theta^{(t-1)}) f_k(Y_i \ ; \ \theta^{(t-1)})}
+{\sum_{\ell=1}^K \mathbb{P}(Z_i=\ell\ ; \ \theta^{(t-1)}) f_\ell(y_i  \ ; \ \theta^{(t-1)})} \\
+&= \frac{\pi^{(t-1)}_k f_k(y_i \ ; \ \theta^{(t-1)})}
+{\sum_{\ell=1}^K \pi_\ell^{(t-1)} f_\ell(y_i  \ ; \ \theta^{(t-1)})} 
 \end{aligned}$$
-where  $\pi_{\ell,k-1}=\prob{z_i=\ell\ ; \ \theta_{k-1}}$
-is the estimate of $\pi_\ell$ obtained at iteration $k-1$ and where
-$$f_\ell(y_i \ ; \ \theta_{k-1}) = \frac{1}{\sqrt{2\pi\sigma_{\ell,k-1}^2}}
-\exp\left\{ -\frac{1}{2\sigma_{\ell,k-1}^2}(y_i - \mu_{\ell,k-1})^2 \right\}
+
+where  $\pi^{(t-1)}_{k}=\mathbb{P}\left(Z_i=k\ ; \ \theta^{(t-1)}\right)$ is the estimate of $\pi_k$ obtained at iteration $(t-1)$ and where
+
 $$
-is the probability density function of $y_i$ when $z_i=\ell$, computed at iteration $k-1$ using $\theta_{k-1}$.
+f_k(y_i \ ; \ \theta^{(t-1)}) = \frac{1}{\sigma^{(t-1)}_{k}\sqrt{2\pi}} \exp\left\{ -\frac{1}{2\left(\sigma_k^2\right)^{(t-1)}}\left(y_i - \mu^{(t-1)}_{k}\right)^2 \right\}
+$$
 
-The expected values of the other sufficient statistics can now easily be computed. Indeed,
-for $i=1,2,\ldots,n$ and $\ell = 1,2,\ldots,L$,
+is the probability density function of $Y_i$ when $Z_i=k$, computed at iteration $k-1$ using $\theta^{(t-1)}$. The expected values of the other sufficient statistics can now easily be computed. Indeed, for $i=1,2,\ldots,n$ and $k = 1,2,\ldots,K$,
+
 $$\begin{aligned}
-\esp{y_i\one_{z_i=\ell} \ | \ y_i \ ; \ \theta_{k-1}} & = y_i\tau_{i\ell,k} \\
-\esp{y_i^2\one_{z_i=\ell} \ | \ y_i \ ; \ \theta_{k-1}} & = y_i^2\tau_{i\ell,k} 
+\mathbb{E}[Y_i\mathbf{1}_{Z_i=k} \ | \ Y_i = y_i \ ; \ \theta^{(t-1)}] & = y_i\tau^{(t)}_{ik} \\
+\mathbb{E}[Y_i^2\mathbf{1}_{Z_i=k} \ | \ Y_i = y_i \ ; \ \theta^{(t-1)}] & = y_i^2\tau^{(t)}_{ik} 
 \end{aligned}$$
 
-Then, the $k$-th iteration of the EM algorithm for a Gaussian mixture  consists in 
+Then, the $t$-th iteration of the EM algorithm for a Gaussian mixture  consists in
 
-  - computing $\tau_{i\ell,k}$ for $i=1,2,\ldots,n$ and $\ell = 1,2,\ldots,L$, using $\theta_{k-1}$,
-  - computing $\theta_{k}= (\pi_{\ell,k},\mu_{\ell,k},\sigma_{\ell,k}^2 ; 1 \leq \ell \leq L)$ where
+  - computing $\tau^{(t)}_{ik}$ for $i=1,2,\ldots,n$ and $k = 1,2,\ldots,L$, using $\theta^{(t-1)}$,
+  - computing $\theta_{k}= \left(\pi^{(t)}_k,\mu^{(t)}_k,\sigma^{(t)}_k ; 1 \leq k \leq K\right)$ where
   
 $$\begin{aligned}
-\pi_{\ell,k} &= \frac{\sum_{i=1}^n \tau_{i\ell,k}}{n} \\
-\mu_{\ell,k} &= \frac{\sum_{i=1}^n y_i\tau_{i\ell,k}}{\sum_{i=1}^n \tau_{i\ell,k}} \\
-\sigma_{\ell,k}^2 &= \frac{\sum_{i=1}^n y_i^2\tau_{i\ell,k}}{\sum_{i=1}^n \tau_{i\ell,k}} - \mu_{\ell,k}^2\\
+\pi^{(t)}_k &= \frac1n \sum_{i=1}^n \tau^{(t)}_{ik} \\
+\mu^{(t)}_k &= \frac{\sum_{i=1}^n y_i\tau^{(t)}_{ik}}{\sum_{i=1}^n \tau^{(t)}_{ik}} \\
+\sigma^{(t)}_k & = \frac{\sum_{i=1}^n y_i^2 \tau^{(t)}_{ik}}{\sum_{i=1}^n \tau^{(t)}_{ik}} - \left(\mu^{(t)}_k\right)^2 \\
 \end{aligned}$$
+
+For a given set of initial values $\theta^{(0)} = (\boldsymbol\pi^{(0)},\boldsymbol\mu^{(0)},\boldsymbol\sigma^{(0)})$, the following function returns the EM estimate $\theta_K$, the sequence of estimates $(\theta^{(t)} \ , \ 0\leq t \leq T)$ and the deviance computed with the final estimate $-2\log \ell(\boldsymbol y \ ; \ \theta^T)$. The algorithm stops when the change in the deviance between two iteration is less than a given threshold.
+
+```{r general EM}
+mixture_gaussian1D <- function(x, theta0, max_iter = 100, threshold = 1e-6) {
   
+  ## initialization
+  n <- length(x)
+  deviance     <- numeric(max_iter)        # we save the results
+  theta        <- vector("list", max_iter) # for monitoring
+  likelihoods  <- dcomponents(theta0, x)
+  deviance[1] <- -2 * sum(log(rowSums(likelihoods)))
+  theta[[1]]  <- theta0
+  
+  for (t in 1:max_iter) {
 
-For a given set of initial values $\theta_0 = (\pi_{\ell,0},\mu_{\ell,0},\sigma_{\ell,0}^2 \ ; \ 1 \leq \ell \leq L)$ and a given number of iterations $K$, the following function returns the EM estimate $\theta_K$, the sequence of estimates $(\theta_k \ , \ 0\leq k \leq K)$ and the deviance computed with the final estimate $-2\log(\pmacro(y\ ; \ \theta_K))$.
-
-```{r}
-mixt2.em <- function(y, p, mu, sigma, K)
-{
-  # initialization
-  like <- p[1]*dnorm(y,mu[1],sigma[1]) + p[2]*dnorm(y,mu[2],sigma[2])
-  deviance <- -2*sum(log(like))
-  res <- matrix(NA,K+1,8)
-  res[1,] <- c(0, p, mu, sigma, deviance)
-  for (k in 1:K) {
     # E step
-    d1<-p[1]*dnorm(y,mu[1],sigma[1])
-    d2<-p[2]*dnorm(y,mu[2],sigma[2])
-    tau1 <-d1/(d1+d2)
-    tau2 <- 1-tau1
-    
+    tau <- likelihoods / rowSums(likelihoods)
+
     # M step
-    p[1] <- mean(tau1)
-    mu[1] <- sum(tau1*y)/sum(tau1)
-    sigma[1] <-sqrt(sum(tau1*(y^2))/sum(tau1)-(mu[1])^2)
-    p[2] <- 1-p[1]
-    mu[2] <- sum((tau2)*y)/sum((tau2))
-    sigma[2] <-sqrt(sum(tau2*(y^2))/sum(tau2)-(mu[2])^2)
+    pi    <- colMeans(tau)
+    mu    <- colSums(tau * x) / colSums(tau)
+    sigma <- sqrt(colSums(tau * x^2) / colSums(tau) - mu^2)
+    theta[[t + 1]] <- list(pi = pi, mu = mu, sigma = sigma)
     
-    # -2 x LL
-    like <- p[1]*dnorm(y,mu[1],sigma[1]) + p[2]*dnorm(y,mu[2],sigma[2])
-    deviance <- -2*sum(log(like))
-    
-    # add results to output
-    res[k+1,] <- c(k, p, mu, sigma, deviance)
+    ## Assessing convergence
+    likelihoods   <- dcomponents(theta[[t + 1]], x)
+    deviance[t+1] <- - 2 * sum(log(rowSums(likelihoods)))
+
+    ## prepare next iterations
+    if (abs(deviance[t + 1] - deviance[t]) < threshold)
+      break
+
   }
-  res <- data.frame(res)
-  names(res) <- c("iteration","p1","p2","mu1","mu2","sigma1","sigma2","deviance")
-  out <- list(parameters=c(p, mu, sigma), deviance=deviance, res=res)
-  return(out)
+
+  res <- cbind(
+      data.frame(iteration = 2:(t+1) - 1, deviance = deviance[2:(t+1)]),
+      theta[2:(t+1)] %>% purrr::map(unlist) %>% do.call('rbind', .)
+    )
+  
+  list(theta = theta[[t+1]], deviance = deviance[(t+1)], convergence = res)
 }
 ```
 
+
 Let us use this function with our faithful data
-```{r}
-r.mixt2 <- mixt2.em(faithful$waiting, p=c(.5,.5), mu=c(60,70), sigma=c(2,2), K=20)
-r.mixt2$parameters
-```
 
 ```{r}
-r.mixt2$deviance
+theta0 <- list(pi = c(.5,.5), mu = c(60,70), sigma = c(2,2))
+myEM_mixture <- mixture_gaussian1D(y, theta0)
+myEM_mixture$theta
+myEM_mixture$deviance
 ```
 
 and let us plot the convergence of the algorithm:
 
-```{r, message=FALSE, warning=FALSE}
-library(reshape2)
-library(gridExtra)
+```{r}
+#| code-fold: true
+plot_singleEM <- function(convergence, title = "Convergence of the EM algorithm") {
+  p <- ggplot(convergence)
+  gridExtra::grid.arrange(
+    p + geom_line(aes(x = iteration, y = deviance)),
+    p + geom_line(aes(x = iteration, y = pi1)   , color = 'blue') + 
+        geom_line(aes(x = iteration, y = pi2)   , color = 'red'),
+    p + geom_line(aes(x = iteration, y = mu1)   , color = 'blue') + 
+        geom_line(aes(x = iteration, y = mu2)   , color = 'red'),
+    p + geom_line(aes(x = iteration, y = sigma1), color = 'blue') + 
+        geom_line(aes(x = iteration, y = sigma2), color = 'red'),
+    nrow = 2, top = title
+  )
+}
+plot_singleEM(myEM_mixture$convergence)
+```
 
-plotConvergence <- function(df, title=NULL, ylim=NULL)
-{
-  G <- (dim(df)[2]-1)/3
-  df1<-melt(df[,c(1,2,3)],id.vars="iteration",value.name="proportion",variable.name="group")
-  graf1 <- ggplot(df1)+geom_line(aes(iteration,proportion,color=group)) + theme(legend.position="none")  
-  if (!is.null(ylim))  graf1 <- graf1 + ylim(ylim[1]*c(-1,1))
-  df2<-melt(df[,c(1,4,5)],id.vars="iteration",value.name="mean",variable.name="group")
-  graf2 <- ggplot(df2)+geom_line(aes(iteration,mean,color=group)) + theme(legend.position="none") 
-  if (!is.null(ylim))  graf2 <- graf2 + ylim(ylim[2]*c(-1,1))
-  df3<-melt(df[,c(1,6,7)],id.vars="iteration",value.name="standard.deviation",variable.name="group")
-  graf3 <- ggplot(df3) + geom_line(aes(iteration,standard.deviation,color=group)) + theme(legend.position="none") 
-  if (!is.null(ylim))  graf3 <- graf3 + ylim(ylim[3]*c(-1,1))
-  graf4 <- ggplot(df)+geom_line(aes(iteration,deviance))  
-  grid.arrange(graf1,graf2,graf3,graf4,nrow=2, top=title)
+### Running EM with different initial values
+
+The sequence of EM estimates $(\theta_k)$ depends on the initial guess $\theta_0$. Let us plot the convergence of the algorithm obtained with several initial values. To do this, we write a small function to automatize the plot in the same vein as in the above output. 
+
+```{r}
+plot_convergence <- function(convergence, title = "Convergence of EM for random initialization") {
+  if (is.null(convergence$simu)) convergence$simu <- 1
+  p <- ggplot(convergence)
+  plot_list <- lapply(c("pi1", "pi2", "mu1", "mu2", "sigma1", "sigma2"), function(var) {
+    p + geom_line(aes_string(x = "iteration", var, group = "simu",  color = "simu")) + 
+      theme(legend.position = "none")
+  })
+  do.call("grid.arrange", c(plot_list, ncol = 3, top = title))
 }
 ```
 
 ```{r}
-plotConvergence(r.mixt2$res, title="EM")
+set.seed(12345)
+convergences <- lapply(1:10, function(i) {
+  pi1 <- runif(1, 0.1, 0.9)
+  theta0 <- list(
+    pi =  c(pi1, 1-pi1),
+    mu = rnorm(2, 70, 15),
+    sigma = rlnorm(2,2,0.7)
+  )
+  res <- mixture_gaussian1D(y, theta0)$convergence
+  res$simu <- i
+  res
+}) %>% do.call(rbind, .) %>% mutate(simu = factor(simu))
+plot_convergence(convergences)
 ```
 
+We see that, up to some permutation (the labels are interchangeable), all the runs converge to the same solution with this example. Nevertheless, a very poor initial guess may lead to a very poor convergence of EM, which can get stuck into a local minimum.
 
-</br>
+### A stochastic version of EM 
 
-## Running EM with different initial values
+A stochastic version of EM consists, at iteration $k$, in replacing the unknown labels $(Z_i)$ by a sequence $(Z_i^{(k)})$, where $Z_i^{(k)}$ is sampled from the conditional distribution of $Z_i$:
 
-The sequence of EM estimates $(\theta_k)$ depends on the intial guess $\theta_0$. Let us plot the convergence of the algorithm obtained with several inital values:
-```{r}
-plotConvMC <- function(df, title=NULL)
-{
-  G <- (ncol(df)-2)/3
-  df$rep <- as.factor(df$rep)
-  graf <- vector("list", ncol(df)-2)
-  for (j in (2:(ncol(df)-1))) {
-    grafj <- ggplot(df)+geom_line(aes_string(df[,1],df[,j],color=df[,ncol(df)])) +
-      xlab("iteration") + ylab(names(df[j])) + theme(legend.position = "none")
-     graf[[j-1]] <- grafj
-  }
-  do.call("grid.arrange", c(graf, ncol=3, top=title))
-}
-```
-
-```{r}
-D.em <- NULL
-set.seed(1234)
-for (m in (1:10)) {
-  p1 <- runif(1,0.1,0.9)
-  df.em <- mixt2.em(faithful$waiting, p=c(p1, 1-p1),mu=rnorm(2,70,15),sigma=rlnorm(2,2,0.7), K=50)$res
-  df.em$rep <- m
-  D.em <- rbind(D.em,df.em)
-}
-plotConvMC(D.em)
-```
-
-We see that, up to some permutation (the labels are interchangeable), all the runs converge to the same solution with this example.
-
-
-Nevertheless, a very poor initial guess may lead to a very poor convergence of EM. In this example, one of the proportion converges to 0:
-
-```{r, warning=FALSE}
-df.em <- mixt2.em(faithful$waiting, p=c(0.5, 0.5), mu=c(30, 40), sigma=c(2,10), K=5)
-plotConvergence(df.em$res)
-```
-
-</br>
-
-## A stochastic version of EM 
-
-A stochastic version of EM consists, at iteration $k$, in replacing the unknown labels $(z_i)$ by a sequence $(z_i^{(k)})$, where $z_i^{(k)}$ is sampled from the conditional distribution of $z_i$:
 $$\begin{aligned}
-\prob{z_i^{(k)}=\ell} &= \prob{z_i=\ell \ | \ y_i \ ; \ \theta_{k-1} } \\
-&=  \frac{\pi_{\ell,k-1}f_\ell(y_i \ ; \ \theta_{k-1})}
-{\sum_{j=1}^L \pi_{j,k-1}f_j(y_i  \ ; \ \theta_{k-1})} 
+\mathbb{P}(Z_i^{(k)}=k) &= \mathbb{P}(Z_i=k \ | \ y_i \ ; \ \theta^{(t-1)}) \\
+&=  \frac{\pi^{(t-1)}_{k}f_k(y_i \ ; \ \theta^{(t-1)})}
+{\sum_{j=1}^K \pi_{j,k-1}f_j(y_i  \ ; \ \theta^{(t-1)})} 
 \end{aligned}$$
 
 We can then use these sampled labels for computing the sufficient statistics $S(z^{(k)},y)$
@@ -492,265 +499,58 @@ and updating the estimation of $\theta$ as $\theta_k = \hat\Theta(S(z^{(k)},y))$
  
 
 ```{r}
-mixt2.sem <- function(y, p, mu, sigma, K)
-{
-  # initialization
-  like <- p[1]*dnorm(y,mu[1],sigma[1]) + p[2]*dnorm(y,mu[2],sigma[2])
-  deviance <- -2*sum(log(like))
-  res <- matrix(NA,K+1,8)
-  res[1,] <- c(0, p, mu, sigma, deviance)
-  n <- length(y)
-  for (k in 1:K) {
-    # S step
-    d1<-p[1]*dnorm(y,mu[1],sigma[1])
-    d2<-p[2]*dnorm(y,mu[2],sigma[2])
-    ind1 <- (runif(n) < d1/(d1+d2))
-    ind2 <- 1-ind1
-    
+mixture_gaussian1D_SEM <- function(x, theta0, max_iter = 100, threshold = 1e-6) {
+  
+  ## initialization
+  n <- length(x)
+  deviance     <- numeric(max_iter)        # we save the results
+  theta        <- vector("list", max_iter) # for monitoring
+  likelihoods  <- dcomponents(theta0, x)
+  deviance[1] <- -2 * sum(log(rowSums(likelihoods)))
+  theta[[1]]  <- theta0
+  
+  for (t in 1:max_iter) {
+
+    # SE step
+    tau1 <- 1 * (runif(n) < likelihoods[, 1] / rowSums(likelihoods))
+    tau2 <- 1 - tau1
+    tau <- cbind(tau1, tau2); colnames(tau) <- NULL
+
     # M step
-    p[1] <- mean(ind1)
-    mu[1] <- sum(ind1*y)/sum(ind1)
-    sigma[1] <-sqrt(sum(ind1*(y^2))/sum(ind1)-(mu[1])^2)
-    p[2] <- 1-p[1]
-    mu[2] <- sum((ind2)*y)/sum((ind2))
-    sigma[2] <-sqrt(sum(ind2*(y^2))/sum(ind2)-(mu[2])^2)
+    pi    <- colMeans(tau)
+    mu    <- colSums(tau * x) / colSums(tau)
+    sigma <- sqrt(colSums(tau * x^2) / colSums(tau) - mu^2)
+    theta[[t + 1]] <- list(pi = pi, mu = mu, sigma = sigma)
     
-    # -2 x LL
-    like <- p[1]*dnorm(y,mu[1],sigma[1]) + p[2]*dnorm(y,mu[2],sigma[2])
-    deviance <- -2*sum(log(like))
-    
-    # add results to output
-    res[k+1,] <- c(k, p, mu, sigma, deviance)
+    ## Assessing convergence
+    likelihoods   <- dcomponents(theta[[t + 1]], x)
+    deviance[t+1] <- - 2 * sum(log(rowSums(likelihoods)))
+
+    ## prepare next iterations
+    if (abs(deviance[t + 1] - deviance[t]) < threshold)
+      break
+
   }
-  res <- data.frame(res)
-  names(res) <- c("iteration","p1","p2","mu1","mu2","sigma1","sigma2","deviance")
-  out <- list(parameters=c(p, mu, sigma), deviance=deviance, res=res)
-  return(out)
+
+  res <- cbind(
+      data.frame(iteration = 2:(t+1) - 1, deviance = deviance[2:(t+1)]),
+      theta[2:(t+1)] %>% purrr::map(unlist) %>% do.call('rbind', .)
+    )
+  
+  list(theta = theta[[t+1]], deviance = deviance[(t+1)], convergence = res)
 }
 ```
 
 ```{r}
-r.mixt2 <- mixt2.sem(faithful$waiting, p=c(.2,.8), mu=c(75,75), sigma=c(10,4), K=30)
-r.mixt2$parameters
+theta0 <- list(pi=c(.2,.8), mu=c(75,75), sigma=c(10,4))
+mySEM_mixture <- mixture_gaussian1D_SEM(y, theta0)
+mySEM_mixture$theta
+mySEM_mixture$deviance
 ```
 
 ```{r}
-r.mixt2$deviance
+plot_singleEM(mySEM_mixture$convergence, title="Convergence of S-EM")
 ```
-
-```{r}
-plotConvergence(r.mixt2$res, title="EM")
-```
-
-</br>
-
-
 
 <iframe src="http://shiny.webpopix.org/sia/mm4/" style="border: none; width: 900px; height: 600px"></iframe>
 
-
-
-</br>
-
-# The Iris data
-
-The famous (Fisher's or Anderson's) iris data set gives the measurements in centimeters of the variables <a href="http://en.wikipedia.org/wiki/Sepal" target="_blank" >sepal</a> length and width and petal length and width, respectively, for 50 flowers from each of 3 species of iris. The species are Iris setosa, versicolor, and virginica. (from `?iris`).
-
-The Iris flower data set is a nice example for learning supervised classification algorithms, and is known as a difficult case for unsupervised learning.
-
-```{r, fig.height=5,fig.width=9}
-iris <- datasets::iris
-head(iris)
-
-species_labels <- iris[,5]
-species_col <- c("#7DB0DD","#86B875","#E495A5")
-
-pairs(iris[,-5], col = species_col[species_labels],
-     lower.panel = NULL, cex.labels=2, pch=19, cex = 1)
-
-par(xpd = TRUE)
-legend(x = 0.1, y = 0.4, cex = 1.2,
-       legend = as.character(levels(species_labels)), fill = species_col)
-```
-
-We can see that the Setosa species are distinctly different from Versicolor and Virginica (they have lower petal length and width). But Versicolor and Virginica cannot easily be separated based on measurements of their sepal and petal width/length.
-
-The same conclusion can be made by looking at the parallel coordinates plot of the data:
-
-```{r}
-# https://cran.r-project.org/web/packages/dendextend/vignettes/Cluster_Analysis.html
-MASS::parcoord(iris[,-5], col = species_col[species_labels], var.label = TRUE, lwd = 2)
-
-# Add a legend
-par(xpd = TRUE)
-legend(x = 1.75, y = -.25, cex = 1,
-   legend = as.character(levels(species_labels)),
-    fill = species_col, horiz = TRUE)
-```
-
-## Supervised classification 
-
-### Logistic regression for a binary variable
-
-Let $y_i$ be a binary response that take its values in $\{0,1\}$ and let $c_{i1}, \ldots, c_{iM}$ be $M$ explanatory variables (or predictors).
-
-Formally, the logistic regression model is that
-
-$$\begin{aligned}
- \log\left(\frac{\prob{y_i=1}}{\prob{y_i=0}}\right) 
-&= \log\left(\frac{\prob{y_i=1}}{1 - \prob{y_i=1}}\right) \\
-&= \beta_0 + \sum_{m=1}^M \beta_m c_{im}
-\end{aligned}$$
-Then,
-$$\prob{y_i=1} = \frac{1}{1+ e^{-\beta_0 -  \sum_{m=1}^M \beta_m c_{im}}}$$
-
-```{r, warning=FALSE}
-myiris <- cbind(iris,virginica=ifelse(iris$Species=="virginica",1,0))
-myiris$virginica
-iris.glm <- glm(virginica ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width, family=binomial, data=myiris)
-summary(iris.glm)
-as.vector(round(fitted(iris.glm)))
-```
-
-```{r}
-iris.glm$linear.predictors[71]
-sum(cbind(1,iris[71,1:4])*iris.glm$coefficients)
-```
-
-```{r}
-iris.glm$fitted.values[71]
-1/(1+exp(-iris.glm$linear.predictors[71]))
-```
-
-
-</br>
-
-### Logistic regression with more than two classes
-
-Assume now that $y_i$ takes its values in $\{1,2\ldots,L\}$.
-The logistic regression model now writes
-
-
-$$\begin{aligned}
- \log\left(\frac{\prob{y_i=\ell}}{\prob{y_i=L}}\right) 
-&= \beta_{\ell0} +  \sum_{m=1}^M \beta_{\ell m} c_{im} \quad , \quad \ell=1,2,\ldots,L
-\end{aligned}$$
-where we set, for instance, $\beta_{L0}=\beta_{L1}=\ldots=\beta_{LM}=0$ for identifiabilty reason. Then,
-
-$$
- \prob{y_i=\ell} = \frac{e^{\beta_{\ell0} +  \sum_{m=1}^M \beta_{\ell m} c_{im}}}
- {\sum_{j=1}^L e^{\beta_{j0} +  \sum_{m=1}^M \beta_{j m} c_{im}}}
- \quad , \quad \ell=1,2,\ldots,L
-$$
-
-```{r, message=FALSE, warning=FALSE}
-library(VGAM)
-myiris <- cbind(myiris,versicolor=ifelse(iris$Species=="versicolor",1,0))
-myiris <- cbind(myiris,setosa=ifelse(iris$Species=="setosa",1,0))
-
-head(myiris)
-
-iris.vglm <- vglm(cbind(virginica,versicolor,setosa) ~ Sepal.Length +
-Sepal.Width + Petal.Length + Petal.Width, family=multinomial,
-data=myiris)
-
-summary(iris.vglm)
-```
-
-```{r}
-iris.vglm@predictors[71,]
-c(sum(cbind(1,iris[71,1:4])*iris.vglm@coefficients[c(1,3,5,7,9)]), 
-  sum(cbind(1,iris[71,1:4])*iris.vglm@coefficients[c(2,4,6,8,10)]))
-```
-
-```{r}
-iris.vglm@fitted.values[71,]
-lp71 <- as.vector(c(iris.vglm@predictors[71,],0))
-exp(lp71)/sum(exp(lp71))
-```
-
-
-```{r}
-head(fitted(iris.vglm))
-```
-
-Percentage of missclassified flowers:
-```{r}
-# Now we use 'fitted.iris' as the model-based classifications
-# of which flower is of each type.  How does this compare
-# to the real types?
-
-
-rclass.iris <- ifelse(apply(abs(round(fitted(iris.vglm)) - myiris[,6:8]),1,sum)==0,1,0)
-(1-mean(rclass.iris))*100
-```
-
-## Non supervised classification
-
-Ignoring the known labels (species) of theFisher Iris data, let us identify three clusters with the $k$-means method and compute the missclassification rate:
-```{r, warning=FALSE}
-set.seed(1234) # labels are the original ones with this seed (avoid permutation)
-r.km <- kmeans(iris[,1:4], centers=3)
-mean(r.km$cluster!=as.numeric(iris$Species))*100
-```
-
-Let us know fit a mixture of three multidimensional Gaussian distributions.
-The model assumes the same variance covariance matrix for the three distributions (<ttt>arbvar=FALSE).
-Initial centers are those given by the kmeans procedure.
-```{r}
-library(mixtools)
-c0 <- list(r.km$centers[1,], r.km$centers[2,], r.km$centers[3,])
-r.em <- mvnormalmixEM(iris[,1:4], mu=c0, arbvar=FALSE)
-```
-Let us display the estimated parameters of the mixture:
-```{r}
-r.em$lambda
-r.em$mu
-r.em$sigma
-```
-
-For each flower, the estimated label maximizes the posterior distribution. We can then compute the missclassification rate:
-```{r}
-post <- r.em$posterior
-r.em$class <- sapply(seq(nrow(post)), function(i) { j <- which.max(as.vector(post[i,])) })
-mean(r.em$class!=as.numeric(iris$Species))*100
-```
-
-Let us plot the original data with the three distributions estimated with EM
-```{r, message=FALSE, warning=FALSE}
-detach(package:mixtools)
-library(ellipse)
-library(gridExtra)
-
-Species <- levels(iris$Species)
-j1=1;  j2=2
-df_ell <- data.frame()
-for(g in (1:3)){
-#  M=r.em$sigma[[g]][c(j1,j2),c(j1,j2)]
-  M=r.em$sigma[c(j1,j2),c(j1,j2)]
-  c=r.em$mu[[g]][c(j1,j2)]
-  df_ell <- rbind(df_ell, cbind(as.data.frame(ellipse(M,centre=c, level=0.68)), group=Species[g]))
-}
-pl1 <- ggplot(data=iris) + geom_point(aes_string(x=iris[,j1],y=iris[,j2], colour=iris[,5])) + 
-  theme(legend.position="none") +xlab(names(iris)[j1])+ylab(names(iris)[j2]) +
-geom_path(data=df_ell, aes(x=x, y=y,color=group), size=1, linetype=1) 
-
-j1=3;  j2=4
-df_ell <- data.frame()
-for(g in (1:3)){
-#  M=r.em$sigma[[g]][c(j1,j2),c(j1,j2)]
-  M=r.em$sigma[c(j1,j2),c(j1,j2)]
-  c=r.em$mu[[g]][c(j1,j2)]
-  df_ell <- rbind(df_ell, cbind(as.data.frame(ellipse(M,centre=c, level=0.68)), group=Species[g]))
-}
-pl2 <- ggplot(data=iris) + geom_point(aes_string(x=iris[,j1],y=iris[,j2], colour=iris[,5])) + 
-  theme(legend.position="none") +xlab(names(iris)[j1])+ylab(names(iris)[j2]) +
-geom_path(data=df_ell, aes(x=x, y=y,color=group), size=1, linetype=1) 
-
-grid.arrange(pl1, pl2)
-```
-
-
-This Shiny app allows one to select the two variables to plot.
-
-<iframe src="http://shiny.webpopix.org/sia/mm3/" style="border: none; width: 800px; height: 550px"></iframe>

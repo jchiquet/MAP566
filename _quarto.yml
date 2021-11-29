@@ -37,7 +37,7 @@ site:
       - sidebar:regression
       - sidebar:mixed-models
       - sidebar:mixture-models
-      - sidebar:multivariate-models
+      # - sidebar:multivariate-models
       - sidebar:homework
 
   sidebar:
@@ -54,57 +54,61 @@ site:
         - section: "Labs"
           contents:
             - docs/tests/map566-lab-tests.Rmd
-        - section: "Documents"
-          contents:
-            - text: "article"
 
     - id: regression
       title: "Regression models"
       contents:
         - section: "Lectures"
           contents:
-            - docs/regression/map566-lecture-regression-background.Rmd
             - docs/regression/map566-lecture-polynomial-regression.Rmd
             - docs/regression/map566-lecture-nonlinear-regression.Rmd
-        - section: "PC/Labs"
+        - section: "Exercices"
           contents:
             - docs/regression/map566-lab-polynomial-regression.Rmd
             - docs/regression/map566-lab-nonlinear-regression.Rmd
+        - section: "Supplementary material"
+          contents:
+            - docs/regression/map566-lecture-regression-background.Rmd
+            
     - id: mixed-models
       title: "Mixed models"
       contents:
         - section: "Lectures"
           contents:
             - docs/mixed-models/map566-lecture-linear-mixed-model.Rmd
-            - docs/mixed-models/map566-lecture-EM-linear-mixed-model.Rmd
             - docs/mixed-models/map566-lecture-nonlinear-mixed-model.Rmd
-        - section: "PC/Labs"
+        - section: "Exercices"
           contents:
             - docs/mixed-models/map566-lab-linear-mixed-model.Rmd
             - docs/mixed-models/map566-lab-nonlinear-mixed-model.Rmd
-
+        - section: "Supplementary material"
+          contents:
+            - docs/mixed-models/map566-lecture-EM-linear-mixed-model.Rmd
     - id: mixture-models
       title: "Mixture models"
       contents:
         - section: "Lectures"
           contents:
-            - docs/mixed-models/map566-lecture-gaussian-mixture-models.Rmd
-            - docs/mixed-models/map566-lecture-stochastic-block-models.Rmd
-        - section: "PC/Labs"
+            - docs/mixture-models/map566-lecture-mixture-models.Rmd
+            - docs/mixture-models/map566-lecture-stochastic-block-models.Rmd
+        - section: "Exercices"
           contents:
-            - docs/mixed-models/map566-lab-gaussian-mixture-models.Rmd
-            - docs/mixed-models/map566-lab-stochastic-block-models.Rmd
-    - id: multivariate-models
-      title: "Multivariate models"
-      contents:
-        - section: "Lectures"
+            - docs/mixture-models/map566-lab-mixture-models.Rmd
+            - docs/mixture-models/map566-lab-stochastic-block-models.Rmd
+        - section: "Supplementary material"
           contents:
-            - docs/mixed-models/map566-lecture-probabilitic-PCA.Rmd
-            - docs/mixed-models/map566-lecture-generalized-linear-mixed-models.Rmd
-        - section: "PC/Labs"
-          contents:
-            - docs/mixed-models/map566-lab-probabilitic-PCA.Rmd
-            - docs/mixed-models/map566-lab-generalized-linear-mixed-models.Rmd
+            - docs/mixture-models/map566-doc-mixture-models-example.Rmd
+    # - id: multivariate-models
+    #   title: "Multivariate models"
+    #   contents:
+    #     - section: "Lectures"
+    #       contents:
+    #         - docs/mixed-models/map566-lecture-probabilitic-PCA.Rmd
+    #         - docs/mixed-models/map566-lecture-generalized-linear-mixed-models.Rmd
+    #     - section: "PC/Labs"
+    #       contents:
+    #         - docs/mixed-models/map566-lab-probabilitic-PCA.Rmd
+    #         - docs/mixed-models/map566-lab-generalized-linear-mixed-models.Rmd
 
     - id: homework
       title: "Homework"

@@ -1,0 +1,50 @@
+---
+title: "Mixture models: exercices"
+---
+
+## Preliminary
+
+Only functions from `R`-base and stats (preloaded) are required plus packages from the **tidyverse** for data representation and manipulation.
+
+```{r mixture-model-lab-config, message = FALSE}
+library(tidyverse)
+theme_set(theme_bw())
+```
+
+## Faithful data
+
+The `faithful` data consist of the waiting time between eruptions and the duration of the eruption for the Old Faithful geyser in Yellowstone National Park, Wyoming, USA.
+
+
+```{r mixture-faitful-load}
+data("faithful")
+faithful %>% 
+  ggplot() + aes(x=waiting) + geom_histogram() + xlab("waiting (mm)")
+```
+
+Fit variants of a mixture of two Gaussian distributions to the faithful data.
+
+ 1. assuming different proportions, means and variances for the 2 distributions
+
+ 2. assuming same variances 
+ 
+ 3. assuming same means
+ 
+ 4. assuming same proportions
+ 
+## Epilepsy data
+
+The data `seizures.csv` consists of  daily counts of epileptic seizures for 6 patients.
+
+```{r mixture-seizures-load, message = FALSE}
+seizures <- readr::read_csv('../../data/seizures.csv')
+seizures %>% 
+  ggplot() + aes(x = time, y = nsz) + geom_point() + facet_wrap( ~ id)
+```
+ 
+  1. Select the id 12 and fit a Poisson distribution to the number of seizures for this patient.
+
+  2. Implement and use a EM algorithm for fitting a mixture of 2 Poisson distributions to this data
+  
+  3. Compare the two models
+  
