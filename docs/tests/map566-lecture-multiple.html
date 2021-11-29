@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.2.277">
+  <meta name="generator" content="quarto-0.2.318">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Multiple Testing</title>
   <style>
@@ -102,8 +102,6 @@
   <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
   <script src="../../site_libs/quarto-search/fuse.min.js"></script>
   <script src="../../site_libs/quarto-search/quarto-search.js"></script>
-  <link href="../../docs/tests/map566-lab-tests.html" rel="next">
-  <link href="../../docs/tests/map566-lecture-single.html" rel="prev">
   <script src="../../site_libs/quarto-html/quarto.js"></script>
   <script src="../../site_libs/quarto-html/popper.min.js"></script>
   <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -132,8 +130,8 @@
       "search-submit-button-title": "Submit"
     }
   }</script>
-  <script src="../../site_libs/kePrint-0.0.1/kePrint.js"></script>
-  <link href="../../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+  <link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+  <script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 </head>
 <body class="docked">
 <div id="quarto-search-results"></div>
@@ -174,8 +172,6 @@
         <li>
     <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html">Exercices</a>
   </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">Documents</li>
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -183,21 +179,23 @@
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-regression-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html">Linear regression: quick recap</a>
-  </li>  
-        <li>
     <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html">Polynomial regression models</a>
   </li>  
         <li>
     <a class="dropdown-item" href="../../docs/regression/map566-lecture-nonlinear-regression.html">Nonlinear regression</a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">PC/Labs</li>
+        <li class="dropdown-header">Exercices</li>
         <li>
     <a class="dropdown-item" href="../../docs/regression/map566-lab-polynomial-regression.html">Polynomial regression model: exercices</a>
   </li>  
         <li>
     <a class="dropdown-item" href="../../docs/regression/map566-lab-nonlinear-regression.html">Nonlinear regression: exercices</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html">Linear regression: quick recap</a>
   </li>  
     </ul>
   </li>
@@ -208,10 +206,18 @@
         <li>
     <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html">Linear Mixed Effects Models</a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html">Nonlinear Mixed Effects Models</a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">PC/Labs</li>
+        <li class="dropdown-header">Exercices</li>
         <li>
     <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-linear-mixed-model.html">Linear Mixed Models: exercices</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html">An EM Algorithm for Linear Mixed Effects Models</a>
   </li>  
     </ul>
   </li>
@@ -219,16 +225,19 @@
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mixture models</a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixture-models">    
         <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html">Mixture Models</a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">PC/Labs</li>
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-multivariate-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Multivariate models</a>
-    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-multivariate-models">    
-        <li class="dropdown-header">Lectures</li>
+        <li class="dropdown-header">Exercices</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">Mixture models: exercices</a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">PC/Labs</li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-doc-mixture-models-example.html">Mixture Models: an example</a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -293,25 +302,12 @@
       </div>
     </li>
   </ul>
-      <ul class="list-unstyled sidebar-section depth1">
-    <li class="">
-        <div class="me-auto">
-            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#documents-collapse" aria-expanded="true">
-              <div class="me-auto sidebar-section-item">Documents</div>
-            <div><i class="bi bi-chevron-right ms-2"></i></div>
-            </a>
-        </div>
-      <div class="collapse  show" id="documents-collapse">
-        <ul class="list-unstyled sidebar-item-contents">
-        </ul>
-      </div>
-    </li>
-  </ul>
   </ul>
   </div>
 </nav>
-<!-- toc -->
-    <nav id="TOC" role="doc-toc" class="sidebar sidebar-toc">
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+      <nav id="TOC" role="doc-toc">
 <h2 id="toc-title">On this page</h2>
 <ul>
 <li><a href="#introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
@@ -335,6 +331,7 @@
 </ul></li>
 </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
 <!-- main -->
 <main class="content">
 <header id="title-block-header">
@@ -343,11 +340,10 @@
 
 <section id="introduction" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="introduction">Introduction</h2>
-<div class="cell" data-warnings="false" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-1_37374d896ac5eada63a57cca83b22fdc">
+<div class="cell" data-warnings="false" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-2_39da76a89f5bacc9523dbba5e1128cc2">
 <div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>When we perform a large number of statistical tests, some will have <span class="math inline">p</span>-values less than 0.05 purely by chance, even if all the null hypotheses are really true.</p>
 <p>More precisely, if we do a large number <span class="math inline">m</span> of statistical tests, and for <span class="math inline">m_{0\cdot}</span> of them the null hypothesis is actually true, we would expect about 5% of the <span class="math inline">m_{0\cdot}</span> tests to be significant at the 0.05 level, just due to chance: these significant results are false discoveries (or false positives). On the other hand, if some alternative hypothesis are true, we can miss some of them: these non significant results are false negatives.</p>
@@ -378,52 +374,15 @@
 <p>The file <ttt>ratSurvival.csv</ttt> reports the lifespan (in days) for each animal. Here, the experiment stopped after 720 days. Then, the reported survival time is 720 for those animals who were still alive at the end of the experiment.</p>
 <p>See the opinion of the <a href="http://www.hautconseildesbiotechnologies.fr/sites/www.hautconseildesbiotechnologies.fr/files/file_fields/2015/06/30/121019etudeseraliniaviscshcb.pdf">Haut Conseil des Biotechnologies</a> for more information about this study.</p>
 <p>Here is a summary of the data,</p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-2_5b228fe4359b0050ff2a74947e6e0e09">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-4_813ec30e4b1882fd78f85b814d0bfd56">
 <div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>survival <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../data/ratSurvival.csv"</span>) <span class="sc">%&gt;%</span> <span class="fu">mutate_if</span>(is.character, factor) </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>survival <span class="sc">%&gt;%</span> <span class="fu">head</span>() <span class="sc">%&gt;%</span> <span class="fu">kable</span>() <span class="sc">%&gt;%</span> <span class="fu">kable_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>survival <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<table class=" lightable-classic" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; margin-left: auto; margin-right: auto;">
- <thead>
-  <tr>
-   <th style="text-align:right;"> time </th>
-   <th style="text-align:left;"> regimen </th>
-   <th style="text-align:left;"> gender </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:right;"> 490 </td>
-   <td style="text-align:left;"> control </td>
-   <td style="text-align:left;"> male </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 575 </td>
-   <td style="text-align:left;"> control </td>
-   <td style="text-align:left;"> male </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 590 </td>
-   <td style="text-align:left;"> control </td>
-   <td style="text-align:left;"> male </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 605 </td>
-   <td style="text-align:left;"> control </td>
-   <td style="text-align:left;"> male </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 610 </td>
-   <td style="text-align:left;"> control </td>
-   <td style="text-align:left;"> male </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 635 </td>
-   <td style="text-align:left;"> control </td>
-   <td style="text-align:left;"> male </td>
-  </tr>
-</tbody>
-</table>
-
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["time"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["regimen"],"name":[2],"type":["fct"],"align":["left"]},{"label":["gender"],"name":[3],"type":["fct"],"align":["left"]}],"data":[{"1":"490","2":"control","3":"male"},{"1":"575","2":"control","3":"male"},{"1":"590","2":"control","3":"male"},{"1":"605","2":"control","3":"male"},{"1":"610","2":"control","3":"male"},{"1":"635","2":"control","3":"male"},{"1":"645","2":"control","3":"male"},{"1":"675","2":"control","3":"male"},{"1":"680","2":"control","3":"male"},{"1":"720","2":"control","3":"male"},{"1":"540","2":"control","3":"female"},{"1":"645","2":"control","3":"female"},{"1":"720","2":"control","3":"female"},{"1":"720","2":"control","3":"female"},{"1":"720","2":"control","3":"female"},{"1":"720","2":"control","3":"female"},{"1":"720","2":"control","3":"female"},{"1":"720","2":"control","3":"female"},{"1":"720","2":"control","3":"female"},{"1":"720","2":"control","3":"female"},{"1":"550","2":"NK603-11%","3":"male"},{"1":"600","2":"NK603-11%","3":"male"},{"1":"650","2":"NK603-11%","3":"male"},{"1":"675","2":"NK603-11%","3":"male"},{"1":"700","2":"NK603-11%","3":"male"},{"1":"710","2":"NK603-11%","3":"male"},{"1":"720","2":"NK603-11%","3":"male"},{"1":"720","2":"NK603-11%","3":"male"},{"1":"720","2":"NK603-11%","3":"male"},{"1":"720","2":"NK603-11%","3":"male"},{"1":"550","2":"NK603-22%","3":"male"},{"1":"600","2":"NK603-22%","3":"male"},{"1":"605","2":"NK603-22%","3":"male"},{"1":"610","2":"NK603-22%","3":"male"},{"1":"650","2":"NK603-22%","3":"male"},{"1":"675","2":"NK603-22%","3":"male"},{"1":"700","2":"NK603-22%","3":"male"},{"1":"720","2":"NK603-22%","3":"male"},{"1":"720","2":"NK603-22%","3":"male"},{"1":"720","2":"NK603-22%","3":"male"},{"1":"100","2":"NK603-33%","3":"male"},{"1":"425","2":"NK603-33%","3":"male"},{"1":"450","2":"NK603-33%","3":"male"},{"1":"500","2":"NK603-33%","3":"male"},{"1":"505","2":"NK603-33%","3":"male"},{"1":"600","2":"NK603-33%","3":"male"},{"1":"650","2":"NK603-33%","3":"male"},{"1":"720","2":"NK603-33%","3":"male"},{"1":"720","2":"NK603-33%","3":"male"},{"1":"720","2":"NK603-33%","3":"male"},{"1":"430","2":"NK603-11%+R","3":"male"},{"1":"590","2":"NK603-11%+R","3":"male"},{"1":"600","2":"NK603-11%+R","3":"male"},{"1":"625","2":"NK603-11%+R","3":"male"},{"1":"630","2":"NK603-11%+R","3":"male"},{"1":"635","2":"NK603-11%+R","3":"male"},{"1":"640","2":"NK603-11%+R","3":"male"},{"1":"650","2":"NK603-11%+R","3":"male"},{"1":"660","2":"NK603-11%+R","3":"male"},{"1":"700","2":"NK603-11%+R","3":"male"},{"1":"120","2":"NK603-22%+R","3":"male"},{"1":"350","2":"NK603-22%+R","3":"male"},{"1":"355","2":"NK603-22%+R","3":"male"},{"1":"550","2":"NK603-22%+R","3":"male"},{"1":"600","2":"NK603-22%+R","3":"male"},{"1":"625","2":"NK603-22%+R","3":"male"},{"1":"635","2":"NK603-22%+R","3":"male"},{"1":"680","2":"NK603-22%+R","3":"male"},{"1":"720","2":"NK603-22%+R","3":"male"},{"1":"720","2":"NK603-22%+R","3":"male"},{"1":"300","2":"NK603-33%+R","3":"male"},{"1":"450","2":"NK603-33%+R","3":"male"},{"1":"490","2":"NK603-33%+R","3":"male"},{"1":"500","2":"NK603-33%+R","3":"male"},{"1":"625","2":"NK603-33%+R","3":"male"},{"1":"650","2":"NK603-33%+R","3":"male"},{"1":"690","2":"NK603-33%+R","3":"male"},{"1":"720","2":"NK603-33%+R","3":"male"},{"1":"720","2":"NK603-33%+R","3":"male"},{"1":"720","2":"NK603-33%+R","3":"male"},{"1":"575","2":"RoundUp A","3":"male"},{"1":"625","2":"RoundUp A","3":"male"},{"1":"635","2":"RoundUp A","3":"male"},{"1":"650","2":"RoundUp A","3":"male"},{"1":"700","2":"RoundUp A","3":"male"},{"1":"720","2":"RoundUp A","3":"male"},{"1":"720","2":"RoundUp A","3":"male"},{"1":"720","2":"RoundUp A","3":"male"},{"1":"720","2":"RoundUp A","3":"male"},{"1":"720","2":"RoundUp A","3":"male"},{"1":"500","2":"RoundUp B","3":"male"},{"1":"540","2":"RoundUp B","3":"male"},{"1":"545","2":"RoundUp B","3":"male"},{"1":"575","2":"RoundUp B","3":"male"},{"1":"675","2":"RoundUp B","3":"male"},{"1":"685","2":"RoundUp B","3":"male"},{"1":"690","2":"RoundUp B","3":"male"},{"1":"720","2":"RoundUp B","3":"male"},{"1":"720","2":"RoundUp B","3":"male"},{"1":"720","2":"RoundUp B","3":"male"},{"1":"540","2":"RoundUp C","3":"male"},{"1":"585","2":"RoundUp C","3":"male"},{"1":"590","2":"RoundUp C","3":"male"},{"1":"605","2":"RoundUp C","3":"male"},{"1":"625","2":"RoundUp C","3":"male"},{"1":"635","2":"RoundUp C","3":"male"},{"1":"660","2":"RoundUp C","3":"male"},{"1":"700","2":"RoundUp C","3":"male"},{"1":"720","2":"RoundUp C","3":"male"},{"1":"720","2":"RoundUp C","3":"male"},{"1":"380","2":"NK603-11%","3":"female"},{"1":"420","2":"NK603-11%","3":"female"},{"1":"470","2":"NK603-11%","3":"female"},{"1":"640","2":"NK603-11%","3":"female"},{"1":"675","2":"NK603-11%","3":"female"},{"1":"720","2":"NK603-11%","3":"female"},{"1":"720","2":"NK603-11%","3":"female"},{"1":"720","2":"NK603-11%","3":"female"},{"1":"720","2":"NK603-11%","3":"female"},{"1":"720","2":"NK603-11%","3":"female"},{"1":"290","2":"NK603-22%","3":"female"},{"1":"475","2":"NK603-22%","3":"female"},{"1":"480","2":"NK603-22%","3":"female"},{"1":"510","2":"NK603-22%","3":"female"},{"1":"550","2":"NK603-22%","3":"female"},{"1":"555","2":"NK603-22%","3":"female"},{"1":"650","2":"NK603-22%","3":"female"},{"1":"720","2":"NK603-22%","3":"female"},{"1":"720","2":"NK603-22%","3":"female"},{"1":"720","2":"NK603-22%","3":"female"},{"1":"640","2":"NK603-33%","3":"female"},{"1":"650","2":"NK603-33%","3":"female"},{"1":"655","2":"NK603-33%","3":"female"},{"1":"690","2":"NK603-33%","3":"female"},{"1":"695","2":"NK603-33%","3":"female"},{"1":"720","2":"NK603-33%","3":"female"},{"1":"720","2":"NK603-33%","3":"female"},{"1":"720","2":"NK603-33%","3":"female"},{"1":"720","2":"NK603-33%","3":"female"},{"1":"720","2":"NK603-33%","3":"female"},{"1":"550","2":"NK603-11%+R","3":"female"},{"1":"600","2":"NK603-11%+R","3":"female"},{"1":"605","2":"NK603-11%+R","3":"female"},{"1":"625","2":"NK603-11%+R","3":"female"},{"1":"720","2":"NK603-11%+R","3":"female"},{"1":"720","2":"NK603-11%+R","3":"female"},{"1":"720","2":"NK603-11%+R","3":"female"},{"1":"720","2":"NK603-11%+R","3":"female"},{"1":"720","2":"NK603-11%+R","3":"female"},{"1":"720","2":"NK603-11%+R","3":"female"},{"1":"495","2":"NK603-22%+R","3":"female"},{"1":"550","2":"NK603-22%+R","3":"female"},{"1":"600","2":"NK603-22%+R","3":"female"},{"1":"610","2":"NK603-22%+R","3":"female"},{"1":"615","2":"NK603-22%+R","3":"female"},{"1":"630","2":"NK603-22%+R","3":"female"},{"1":"675","2":"NK603-22%+R","3":"female"},{"1":"720","2":"NK603-22%+R","3":"female"},{"1":"720","2":"NK603-22%+R","3":"female"},{"1":"720","2":"NK603-22%+R","3":"female"},{"1":"505","2":"NK603-33%+R","3":"female"},{"1":"510","2":"NK603-33%+R","3":"female"},{"1":"655","2":"NK603-33%+R","3":"female"},{"1":"660","2":"NK603-33%+R","3":"female"},{"1":"680","2":"NK603-33%+R","3":"female"},{"1":"720","2":"NK603-33%+R","3":"female"},{"1":"720","2":"NK603-33%+R","3":"female"},{"1":"720","2":"NK603-33%+R","3":"female"},{"1":"720","2":"NK603-33%+R","3":"female"},{"1":"720","2":"NK603-33%+R","3":"female"},{"1":"455","2":"RoundUp A","3":"female"},{"1":"465","2":"RoundUp A","3":"female"},{"1":"540","2":"RoundUp A","3":"female"},{"1":"650","2":"RoundUp A","3":"female"},{"1":"700","2":"RoundUp A","3":"female"},{"1":"720","2":"RoundUp A","3":"female"},{"1":"720","2":"RoundUp A","3":"female"},{"1":"720","2":"RoundUp A","3":"female"},{"1":"720","2":"RoundUp A","3":"female"},{"1":"720","2":"RoundUp A","3":"female"},{"1":"310","2":"RoundUp B","3":"female"},{"1":"575","2":"RoundUp B","3":"female"},{"1":"625","2":"RoundUp B","3":"female"},{"1":"630","2":"RoundUp B","3":"female"},{"1":"640","2":"RoundUp B","3":"female"},{"1":"720","2":"RoundUp B","3":"female"},{"1":"720","2":"RoundUp B","3":"female"},{"1":"720","2":"RoundUp B","3":"female"},{"1":"720","2":"RoundUp B","3":"female"},{"1":"720","2":"RoundUp B","3":"female"},{"1":"340","2":"RoundUp C","3":"female"},{"1":"500","2":"RoundUp C","3":"female"},{"1":"540","2":"RoundUp C","3":"female"},{"1":"675","2":"RoundUp C","3":"female"},{"1":"680","2":"RoundUp C","3":"female"},{"1":"700","2":"RoundUp C","3":"female"},{"1":"715","2":"RoundUp C","3":"female"},{"1":"720","2":"RoundUp C","3":"female"},{"1":"720","2":"RoundUp C","3":"female"},{"1":"720","2":"RoundUp C","3":"female"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 </div>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(survival<span class="sc">$</span>regimen)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
@@ -436,12 +395,12 @@
 <h3 data-number="1.2" class="anchored" data-anchor-id="single-comparison-between-2-groups"><span class="header-section-number">1.2</span> Single comparison between 2 groups</h3>
 <p>One objective of this study is the comparison of the survival between the control group and the experimental groups.</p>
 <p>Consider for instance the control group of females</p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-3_1268a87c81564fa74dd448d0bef1bb39">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-6_cd8fea2ec771785c39c5069017db8bf9">
 <div class="sourceCode" id="cb5"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>time_control <span class="ot">&lt;-</span> survival <span class="sc">%&gt;%</span> </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(regimen <span class="sc">==</span> <span class="st">"control"</span>, gender <span class="sc">==</span> <span class="st">"female"</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(time)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Only 2 rats of this group died before the end of the experiment. On the other hand, 7 females of the group fed with 22% of maize NK693 died during the experiment.</p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-4_dd0207f8b32d922b269139c750b36f93">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-8_5c27fb3b2a9344917039606ddd0cba74">
 <div class="sourceCode" id="cb6"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>time_test <span class="ot">&lt;-</span> survival <span class="sc">%&gt;%</span> </span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(regimen <span class="sc">==</span> <span class="st">"NK603-22%"</span>, gender <span class="sc">==</span> <span class="st">"female"</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(time)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -454,7 +413,7 @@
 &amp; H_0: \ ``\mathbb{P}(T_{\rm test}&gt;t) = \mathbb{P}(T_{\rm control}&gt;t), \text{ for any } t&gt;0" \\
 \text{versus } &amp; H_1: \ ``\mathbb{P}(T_{\rm test}&gt;t) &lt; \mathbb{P}(T_{\rm control}&gt;t), \text{ for any } t&gt;0" \end{aligned}</span></p>
 <p>Because of the (right) censoring process, we cannot just compare the mean survival times using a <span class="math inline">t</span>-test. On the other hand, we can use the Wilcoxon-Mann-Whitney test which precisely aims to compare the ranks of the survival times in both groups.</p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-5_be4a156e128224eec84a0c104f58f563">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-10_abdd3db337b4fef47aa75f061e8ef003">
 <div class="sourceCode" id="cb7"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wilcox.test</span>(time_test, time_control, <span class="at">alternative=</span><span class="st">"less"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>
@@ -471,7 +430,7 @@ alternative hypothesis: true location shift is less than 0</code></pre>
 <section id="a-single-comparison-among-many-others" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="a-single-comparison-among-many-others"><span class="header-section-number">2</span> A single comparison… among many others</h2>
 <p>Should we really accept this conclusion as it stands? No, because we don’t know the whole story… Remember that there are 9 experimental groups for each sex. Then, 18 comparisons with the control groups are performed.</p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-6_7d891624b73e55ad49c54af411c18e6a">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-12_8dd5c917f5a0135fbbe0d2df12e37954">
 <div class="sourceCode" id="cb9"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>do_all_comparisons <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="fu">levels</span>(data<span class="sc">$</span>gender), </span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">function</span>(g) {</span>
@@ -490,138 +449,22 @@ alternative hypothesis: true location shift is less than 0</code></pre>
 <span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  }) <span class="sc">%&gt;%</span> <span class="fu">bind_rows</span>() <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(p.value)</span>
 <span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>all_comparisons <span class="ot">&lt;-</span> <span class="fu">do_all_comparisons</span>(survival)</span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>all_comparisons <span class="sc">%&gt;%</span> <span class="fu">kable</span>() <span class="sc">%&gt;%</span> <span class="fu">kable_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>all_comparisons <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<table class=" lightable-classic" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; margin-left: auto; margin-right: auto;">
- <thead>
-  <tr>
-   <th style="text-align:left;"> gender </th>
-   <th style="text-align:left;"> regime </th>
-   <th style="text-align:right;"> statistic </th>
-   <th style="text-align:right;"> p.value </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> NK603-22% </td>
-   <td style="text-align:right;"> 22.0 </td>
-   <td style="text-align:right;"> 0.0114378 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> NK603-22%+R </td>
-   <td style="text-align:right;"> 25.0 </td>
-   <td style="text-align:right;"> 0.0213175 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> RoundUp C </td>
-   <td style="text-align:right;"> 26.5 </td>
-   <td style="text-align:right;"> 0.0284545 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> NK603-11% </td>
-   <td style="text-align:right;"> 33.0 </td>
-   <td style="text-align:right;"> 0.0716610 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> RoundUp B </td>
-   <td style="text-align:right;"> 34.0 </td>
-   <td style="text-align:right;"> 0.0845916 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> RoundUp A </td>
-   <td style="text-align:right;"> 34.5 </td>
-   <td style="text-align:right;"> 0.0915661 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> NK603-33%+R </td>
-   <td style="text-align:right;"> 36.0 </td>
-   <td style="text-align:right;"> 0.1155685 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> NK603-33% </td>
-   <td style="text-align:right;"> 39.0 </td>
-   <td style="text-align:right;"> 0.1758393 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> NK603-11%+R </td>
-   <td style="text-align:right;"> 40.0 </td>
-   <td style="text-align:right;"> 0.1879777 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> NK603-33% </td>
-   <td style="text-align:right;"> 40.5 </td>
-   <td style="text-align:right;"> 0.2473324 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> NK603-22%+R </td>
-   <td style="text-align:right;"> 42.0 </td>
-   <td style="text-align:right;"> 0.2849394 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> NK603-11%+R </td>
-   <td style="text-align:right;"> 50.0 </td>
-   <td style="text-align:right;"> 0.5150864 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> NK603-33%+R </td>
-   <td style="text-align:right;"> 51.0 </td>
-   <td style="text-align:right;"> 0.5453261 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> RoundUp C </td>
-   <td style="text-align:right;"> 54.5 </td>
-   <td style="text-align:right;"> 0.6476424 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> RoundUp B </td>
-   <td style="text-align:right;"> 58.5 </td>
-   <td style="text-align:right;"> 0.7528312 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> NK603-22% </td>
-   <td style="text-align:right;"> 64.0 </td>
-   <td style="text-align:right;"> 0.8646590 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> NK603-11% </td>
-   <td style="text-align:right;"> 74.5 </td>
-   <td style="text-align:right;"> 0.9716048 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> RoundUp A </td>
-   <td style="text-align:right;"> 75.5 </td>
-   <td style="text-align:right;"> 0.9768878 </td>
-  </tr>
-</tbody>
-</table>
-
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["gender"],"name":[1],"type":["fct"],"align":["left"]},{"label":["regime"],"name":[2],"type":["fct"],"align":["left"]},{"label":["statistic"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"female","2":"NK603-22%","3":"22.0","4":"0.01143779"},{"1":"female","2":"NK603-22%+R","3":"25.0","4":"0.02131745"},{"1":"female","2":"RoundUp C","3":"26.5","4":"0.02845455"},{"1":"female","2":"NK603-11%","3":"33.0","4":"0.07166095"},{"1":"female","2":"RoundUp B","3":"34.0","4":"0.08459162"},{"1":"female","2":"RoundUp A","3":"34.5","4":"0.09156610"},{"1":"female","2":"NK603-33%+R","3":"36.0","4":"0.11556850"},{"1":"female","2":"NK603-33%","3":"39.0","4":"0.17583926"},{"1":"female","2":"NK603-11%+R","3":"40.0","4":"0.18797769"},{"1":"male","2":"NK603-33%","3":"40.5","4":"0.24733242"},{"1":"male","2":"NK603-22%+R","3":"42.0","4":"0.28493944"},{"1":"male","2":"NK603-11%+R","3":"50.0","4":"0.51508635"},{"1":"male","2":"NK603-33%+R","3":"51.0","4":"0.54532608"},{"1":"male","2":"RoundUp C","3":"54.5","4":"0.64764235"},{"1":"male","2":"RoundUp B","3":"58.5","4":"0.75283120"},{"1":"male","2":"NK603-22%","3":"64.0","4":"0.86465902"},{"1":"male","2":"NK603-11%","3":"74.5","4":"0.97160483"},{"1":"male","2":"RoundUp A","3":"75.5","4":"0.97688776"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 </div>
 </div>
 <p>Let us plot the ordered p-values:</p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/code-fold-true_cf99a1bd00cf26c75d523e05a568ba38">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-14_5d0d10289ee744e14bfdc1d1de4cf19e">
 <div class="sourceCode" id="cb10"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>all_comparisons <span class="sc">%&gt;%</span> </span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">18</span>, <span class="at">color =</span> regime, <span class="at">y =</span> p.value, <span class="at">shape =</span> gender), <span class="at">size=</span><span class="dv">4</span>) <span class="sc">+</span> </span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"regime"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"p-value"</span>) <span class="sc">+</span> <span class="fu">scale_color_viridis_d</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-multiple_files/figure-html/code-fold-true-1.png" class="img-fluid" width="960"></p>
+<p><img src="map566-lecture-multiple_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="960"></p>
 </div>
 </div>
 <p>If we then decide to only report the largest observed differences, associated to the smallest <span class="math inline">p</span>-values, how can we conclude that these differences are statistically significant?</p>
@@ -629,138 +472,22 @@ alternative hypothesis: true location shift is less than 0</code></pre>
 <h3 data-number="2.1" class="anchored" data-anchor-id="permutation-test"><span class="header-section-number">2.1</span> Permutation test</h3>
 <p>A permutation test (also called a randomization test) is a type of statistical significance test in which the distribution of the test statistic under the null hypothesis is obtained by calculating all possible values of the test statistic under rearrangements of the labels on the observed data points. If the labels are exchangeable under the null hypothesis, then the resulting tests yield exact significance levels. Prediction intervals can also be derived.</p>
 <p>In our example, imagine that the null hypothesis is true. We can then randomly exchange the labels (i.e.&nbsp;the regimen) and perform the 18 comparisons between the experimental groups and the control groups.</p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-8_e784a656f364b2eab7338809b3991652">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-16_c6d06e4387e00e018435d88cfed0b28c">
 <div class="sourceCode" id="cb11"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>permuted_data <span class="ot">&lt;-</span> survival <span class="sc">%&gt;%</span> </span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">split</span>(.<span class="sc">$</span>gender) <span class="sc">%&gt;%</span> </span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(mutate, <span class="at">regimen =</span> <span class="fu">sample</span>(regimen)) <span class="sc">%&gt;%</span> </span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>()</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">do_all_comparisons</span>(permuted_data) <span class="sc">%&gt;%</span> <span class="fu">kable</span>() <span class="sc">%&gt;%</span> <span class="fu">kable_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">do_all_comparisons</span>(permuted_data) <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<table class=" lightable-classic" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; margin-left: auto; margin-right: auto;">
- <thead>
-  <tr>
-   <th style="text-align:left;"> gender </th>
-   <th style="text-align:left;"> regime </th>
-   <th style="text-align:right;"> statistic </th>
-   <th style="text-align:right;"> p.value </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> NK603-11%+R </td>
-   <td style="text-align:right;"> 28.5 </td>
-   <td style="text-align:right;"> 0.0504251 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> NK603-22%+R </td>
-   <td style="text-align:right;"> 29.0 </td>
-   <td style="text-align:right;"> 0.0521153 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> NK603-33% </td>
-   <td style="text-align:right;"> 36.0 </td>
-   <td style="text-align:right;"> 0.1376700 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> NK603-22% </td>
-   <td style="text-align:right;"> 37.5 </td>
-   <td style="text-align:right;"> 0.1661124 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> RoundUp C </td>
-   <td style="text-align:right;"> 39.0 </td>
-   <td style="text-align:right;"> 0.1923631 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> RoundUp B </td>
-   <td style="text-align:right;"> 43.0 </td>
-   <td style="text-align:right;"> 0.2953414 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> NK603-11% </td>
-   <td style="text-align:right;"> 44.0 </td>
-   <td style="text-align:right;"> 0.3245182 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> NK603-33%+R </td>
-   <td style="text-align:right;"> 44.5 </td>
-   <td style="text-align:right;"> 0.3523576 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> NK603-33%+R </td>
-   <td style="text-align:right;"> 49.0 </td>
-   <td style="text-align:right;"> 0.4823129 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> RoundUp B </td>
-   <td style="text-align:right;"> 49.5 </td>
-   <td style="text-align:right;"> 0.5000000 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> RoundUp A </td>
-   <td style="text-align:right;"> 52.0 </td>
-   <td style="text-align:right;"> 0.5877447 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> NK603-22%+R </td>
-   <td style="text-align:right;"> 57.5 </td>
-   <td style="text-align:right;"> 0.7277798 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> NK603-33% </td>
-   <td style="text-align:right;"> 65.0 </td>
-   <td style="text-align:right;"> 0.8845620 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> NK603-22% </td>
-   <td style="text-align:right;"> 66.5 </td>
-   <td style="text-align:right;"> 0.9016336 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> NK603-11% </td>
-   <td style="text-align:right;"> 66.5 </td>
-   <td style="text-align:right;"> 0.9028267 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> NK603-11%+R </td>
-   <td style="text-align:right;"> 68.0 </td>
-   <td style="text-align:right;"> 0.9208364 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> RoundUp A </td>
-   <td style="text-align:right;"> 68.5 </td>
-   <td style="text-align:right;"> 0.9273962 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> RoundUp C </td>
-   <td style="text-align:right;"> 71.0 </td>
-   <td style="text-align:right;"> 0.9488569 </td>
-  </tr>
-</tbody>
-</table>
-
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["gender"],"name":[1],"type":["fct"],"align":["left"]},{"label":["regime"],"name":[2],"type":["fct"],"align":["left"]},{"label":["statistic"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"male","2":"RoundUp B","3":"35.0","4":"0.1343368"},{"1":"male","2":"NK603-22%","3":"37.0","4":"0.1701548"},{"1":"male","2":"RoundUp A","3":"39.5","4":"0.2194996"},{"1":"female","2":"NK603-33%+R","3":"40.0","4":"0.2332043"},{"1":"male","2":"RoundUp C","3":"40.0","4":"0.2332043"},{"1":"male","2":"NK603-33%+R","3":"43.0","4":"0.3092598"},{"1":"female","2":"NK603-11%","3":"45.0","4":"0.3626264"},{"1":"female","2":"RoundUp C","3":"46.0","4":"0.3934542"},{"1":"male","2":"NK603-11%","3":"47.0","4":"0.4233249"},{"1":"male","2":"NK603-11%+R","3":"47.5","4":"0.4390909"},{"1":"female","2":"NK603-11%+R","3":"51.5","4":"0.5620866"},{"1":"male","2":"NK603-22%+R","3":"52.5","4":"0.5916534"},{"1":"female","2":"RoundUp A","3":"56.0","4":"0.6967733"},{"1":"female","2":"NK603-22%","3":"56.0","4":"0.6968477"},{"1":"female","2":"NK603-22%+R","3":"56.5","4":"0.7141755"},{"1":"male","2":"NK603-33%","3":"58.5","4":"0.7623445"},{"1":"female","2":"RoundUp B","3":"64.0","4":"0.8848939"},{"1":"female","2":"NK603-33%","3":"66.0","4":"0.9204046"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 </div>
 </div>
 <p>The test statistics and the <span class="math inline">p</span>-values now really behave how they are supposed to behave under the null hypothesis. If we now repeat the same experiment using many different permutations, we will be able to estimate the <span class="math inline">m</span> distributions of the <span class="math inline">m</span> test statistics as well as the <span class="math inline">m</span> distributions of the <span class="math inline">m</span> <span class="math inline">p</span>-values under the null hypothesis.</p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-9_32f3244eea9e6657d81439650ec904c3">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-18_5984fc8492abbbedaf9ced47a3526833">
 <div class="sourceCode" id="cb12"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>n_replicates <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">mclapply</span>(<span class="dv">1</span><span class="sc">:</span>n_replicates, <span class="cf">function</span>(i) {</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  </span>
@@ -774,7 +501,7 @@ alternative hypothesis: true location shift is less than 0</code></pre>
 <span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>}, <span class="at">mc.cores =</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>()) <span class="sc">%&gt;%</span> <span class="fu">bind_rows</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can estimate, for instance, prediction intervals of level 90% for the <span class="math inline">m=18</span> ordered <span class="math inline">p</span>-values</p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-10_e299ac256ad3ee5f39574397cb837520">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-20_21666b7671e64647cb7809a12c8bda45">
 <div class="sourceCode" id="cb13"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>quantiles_pvalues <span class="ot">&lt;-</span> </span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">split</span>(res, res<span class="sc">$</span>simu) <span class="sc">%&gt;%</span> </span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(pull, p.value) <span class="sc">%&gt;%</span> </span>
@@ -783,13 +510,13 @@ alternative hypothesis: true location shift is less than 0</code></pre>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setNames</span>(<span class="fu">c</span>(<span class="st">"low"</span>,<span class="st">"median"</span>,<span class="st">"up"</span>)) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">rank =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>and plot them, with the original <span class="math inline">p</span>-values</p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-11_2e925424ba9a74d38c4af9f42305eb17">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-22_9dfaaf04be3958939304a1c92bd5b25a">
 <div class="sourceCode" id="cb14"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>quantiles_pvalues <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">x =</span> rank, <span class="at">ymin =</span> low, <span class="at">ymax =</span> up), <span class="at">width=</span><span class="fl">0.2</span>, <span class="at">size=</span><span class="fl">1.5</span>, <span class="at">colour=</span><span class="st">"grey50"</span>) <span class="sc">+</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"regimen"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"p-value"</span>) <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="cn">NULL</span>)  <span class="sc">+</span>  </span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> all_comparisons, <span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">18</span>, <span class="at">color =</span> regime, <span class="at">y =</span> p.value, <span class="at">shape=</span>gender), <span class="at">size=</span><span class="dv">4</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-multiple_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="960"></p>
+<p><img src="map566-lecture-multiple_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="960"></p>
 </div>
 </div>
 <p>Here, all the <span class="math inline">p</span>-values, including the smallest ones, belong to the 90% prediction intervals: all the observed <span class="math inline">p</span>-values behave individually how they are expected to behave under the null hypothesis.</p>
@@ -798,11 +525,11 @@ alternative hypothesis: true location shift is less than 0</code></pre>
 <p><span class="math display">
 \mathbb{P}\left(p_{(1)} \leq p_{(1)}^{\mathrm{obs}}\right) \approx \frac{1}{L} \sum_{\ell=1}^{L} \mathbf{1}_{\left\{p_{(1),\ell} \leq p_{(1)}^{\mathrm{obs}}\right\}}
 </span></p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-12_9dfbc482b739bb9ce91d232c96f55fd3">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-24_c730f251e7211c618d7bbecd1363ca5c">
 <div class="sourceCode" id="cb15"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>stat_rank1 <span class="ot">&lt;-</span> <span class="fu">split</span>(res, res<span class="sc">$</span>simu) <span class="sc">%&gt;%</span> <span class="fu">map_dbl</span>(<span class="cf">function</span>(x) <span class="fu">sort</span>(x<span class="sc">$</span>statistic)[<span class="dv">1</span>])</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(stat_rank1 <span class="sc">&lt;</span> all_comparisons<span class="sc">$</span>statistic[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 0.148</code></pre>
+<pre><code>[1] 0.144</code></pre>
 </div>
 </div>
 </section>
@@ -822,156 +549,21 @@ alternative hypothesis: true location shift is less than 0</code></pre>
 &amp; \simeq  \frac{\alpha}{m} \quad \quad (\text{Bonferroni correction})
 \end{aligned}</span></p>
 <p>Let <span class="math inline">p_k</span> be the <span class="math inline">p</span>-value of the <span class="math inline">k</span>-th test. Using the Bonferroni correction, the <span class="math inline">k</span>-th test is significant if <span class="math display">  p_k \leq \alpha_m \quad  \Longleftrightarrow \quad   m \, p_k \leq \alpha </span> We can then either compare the original <span class="math inline">p</span>-value <span class="math inline">p_k</span> to the corrected significance level <span class="math inline">\alpha/m</span>, or compare the <em>adjusted</em> <span class="math inline">p</span>-value <span class="math inline">p_k^{\rm (bonferroni)} =\min(1, m \, p_k)</span> to the critical value <span class="math inline">\alpha</span>.</p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-13_3e516a172cca3b31fe3443c637b47d9c">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-26_f963fb1f5ef2002b263fbc58ea454a61">
 <div class="sourceCode" id="cb17"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">nrow</span>(all_comparisons)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>all_comparisons<span class="sc">$</span>p.value_bonferonni <span class="ot">&lt;-</span> <span class="fu">pmin</span>(<span class="dv">1</span>, all_comparisons<span class="sc">$</span>p.value <span class="sc">*</span> m)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>all_comparisons <span class="sc">%&gt;%</span> <span class="fu">kable</span>() <span class="sc">%&gt;%</span> <span class="fu">kable_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>all_comparisons <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<table class=" lightable-classic" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; margin-left: auto; margin-right: auto;">
- <thead>
-  <tr>
-   <th style="text-align:left;"> gender </th>
-   <th style="text-align:left;"> regime </th>
-   <th style="text-align:right;"> statistic </th>
-   <th style="text-align:right;"> p.value </th>
-   <th style="text-align:right;"> p.value_bonferonni </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> NK603-22% </td>
-   <td style="text-align:right;"> 22.0 </td>
-   <td style="text-align:right;"> 0.0114378 </td>
-   <td style="text-align:right;"> 0.2058803 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> NK603-22%+R </td>
-   <td style="text-align:right;"> 25.0 </td>
-   <td style="text-align:right;"> 0.0213175 </td>
-   <td style="text-align:right;"> 0.3837141 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> RoundUp C </td>
-   <td style="text-align:right;"> 26.5 </td>
-   <td style="text-align:right;"> 0.0284545 </td>
-   <td style="text-align:right;"> 0.5121818 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> NK603-11% </td>
-   <td style="text-align:right;"> 33.0 </td>
-   <td style="text-align:right;"> 0.0716610 </td>
-   <td style="text-align:right;"> 1.0000000 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> RoundUp B </td>
-   <td style="text-align:right;"> 34.0 </td>
-   <td style="text-align:right;"> 0.0845916 </td>
-   <td style="text-align:right;"> 1.0000000 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> RoundUp A </td>
-   <td style="text-align:right;"> 34.5 </td>
-   <td style="text-align:right;"> 0.0915661 </td>
-   <td style="text-align:right;"> 1.0000000 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> NK603-33%+R </td>
-   <td style="text-align:right;"> 36.0 </td>
-   <td style="text-align:right;"> 0.1155685 </td>
-   <td style="text-align:right;"> 1.0000000 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> NK603-33% </td>
-   <td style="text-align:right;"> 39.0 </td>
-   <td style="text-align:right;"> 0.1758393 </td>
-   <td style="text-align:right;"> 1.0000000 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> NK603-11%+R </td>
-   <td style="text-align:right;"> 40.0 </td>
-   <td style="text-align:right;"> 0.1879777 </td>
-   <td style="text-align:right;"> 1.0000000 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> NK603-33% </td>
-   <td style="text-align:right;"> 40.5 </td>
-   <td style="text-align:right;"> 0.2473324 </td>
-   <td style="text-align:right;"> 1.0000000 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> NK603-22%+R </td>
-   <td style="text-align:right;"> 42.0 </td>
-   <td style="text-align:right;"> 0.2849394 </td>
-   <td style="text-align:right;"> 1.0000000 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> NK603-11%+R </td>
-   <td style="text-align:right;"> 50.0 </td>
-   <td style="text-align:right;"> 0.5150864 </td>
-   <td style="text-align:right;"> 1.0000000 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> NK603-33%+R </td>
-   <td style="text-align:right;"> 51.0 </td>
-   <td style="text-align:right;"> 0.5453261 </td>
-   <td style="text-align:right;"> 1.0000000 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> RoundUp C </td>
-   <td style="text-align:right;"> 54.5 </td>
-   <td style="text-align:right;"> 0.6476424 </td>
-   <td style="text-align:right;"> 1.0000000 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> RoundUp B </td>
-   <td style="text-align:right;"> 58.5 </td>
-   <td style="text-align:right;"> 0.7528312 </td>
-   <td style="text-align:right;"> 1.0000000 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> NK603-22% </td>
-   <td style="text-align:right;"> 64.0 </td>
-   <td style="text-align:right;"> 0.8646590 </td>
-   <td style="text-align:right;"> 1.0000000 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> NK603-11% </td>
-   <td style="text-align:right;"> 74.5 </td>
-   <td style="text-align:right;"> 0.9716048 </td>
-   <td style="text-align:right;"> 1.0000000 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> RoundUp A </td>
-   <td style="text-align:right;"> 75.5 </td>
-   <td style="text-align:right;"> 0.9768878 </td>
-   <td style="text-align:right;"> 1.0000000 </td>
-  </tr>
-</tbody>
-</table>
-
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["gender"],"name":[1],"type":["fct"],"align":["left"]},{"label":["regime"],"name":[2],"type":["fct"],"align":["left"]},{"label":["statistic"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.value_bonferonni"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"female","2":"NK603-22%","3":"22.0","4":"0.01143779","5":"0.2058803"},{"1":"female","2":"NK603-22%+R","3":"25.0","4":"0.02131745","5":"0.3837141"},{"1":"female","2":"RoundUp C","3":"26.5","4":"0.02845455","5":"0.5121818"},{"1":"female","2":"NK603-11%","3":"33.0","4":"0.07166095","5":"1.0000000"},{"1":"female","2":"RoundUp B","3":"34.0","4":"0.08459162","5":"1.0000000"},{"1":"female","2":"RoundUp A","3":"34.5","4":"0.09156610","5":"1.0000000"},{"1":"female","2":"NK603-33%+R","3":"36.0","4":"0.11556850","5":"1.0000000"},{"1":"female","2":"NK603-33%","3":"39.0","4":"0.17583926","5":"1.0000000"},{"1":"female","2":"NK603-11%+R","3":"40.0","4":"0.18797769","5":"1.0000000"},{"1":"male","2":"NK603-33%","3":"40.5","4":"0.24733242","5":"1.0000000"},{"1":"male","2":"NK603-22%+R","3":"42.0","4":"0.28493944","5":"1.0000000"},{"1":"male","2":"NK603-11%+R","3":"50.0","4":"0.51508635","5":"1.0000000"},{"1":"male","2":"NK603-33%+R","3":"51.0","4":"0.54532608","5":"1.0000000"},{"1":"male","2":"RoundUp C","3":"54.5","4":"0.64764235","5":"1.0000000"},{"1":"male","2":"RoundUp B","3":"58.5","4":"0.75283120","5":"1.0000000"},{"1":"male","2":"NK603-22%","3":"64.0","4":"0.86465902","5":"1.0000000"},{"1":"male","2":"NK603-11%","3":"74.5","4":"0.97160483","5":"1.0000000"},{"1":"male","2":"RoundUp A","3":"75.5","4":"0.97688776","5":"1.0000000"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 </div>
 </div>
 <p>Using the Bonferroni correction, none of the 18 comparisons is significant.</p>
 <p><strong>Remark:</strong> the function <code>p.adjust</code> proposes several adjustements of the <span class="math inline">p</span>-values for multiple comparisons, including the Bonferroni adjustment:</p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-14_08640bf73c9a42122a2c1021cd6313f1">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-28_3dc5d75521f75091a792cf5fc550c31a">
 <div class="sourceCode" id="cb18"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">p.adjust</span>(all_comparisons<span class="sc">$</span>p.value, <span class="at">method =</span> <span class="st">"bonferroni"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code> [1] 0.2058803 0.3837141 0.5121818 1.0000000 1.0000000 1.0000000 1.0000000
@@ -994,7 +586,7 @@ alternative hypothesis: true location shift is less than 0</code></pre>
 <h3 data-number="4.1" class="anchored" data-anchor-id="detecting-associations"><span class="header-section-number">4.1</span> Detecting associations</h3>
 <p>(Example from <a href="http://www.biostathandbook.com/multiplecomparisons.html">Handbook of Biological Statistics</a>)</p>
 <p>Garcia-Arenzana et al.&nbsp;(2014) tested associations of 25 dietary variables with <a href="https://breast-cancer-research.biomedcentral.com/articles/10.1186/bcr2102">mammographic density</a>, an important risk factor for breast cancer, in Spanish women. They found the following results</p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-15_cc2b54b9528804f0019229f864bd5eed">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-30_d90469186164f266896b047998fa2ee9">
 <div class="sourceCode" id="cb20"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../data/dietary.csv"</span>) <span class="sc">%&gt;%</span> <span class="fu">mutate_if</span>(is.character, factor) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can see that five of the variables show a significant <span class="math inline">p</span>-value (&lt;0.05). However, because Garc?a-Arenzana et al.&nbsp;(2014) tested 25 dietary variables, we would expect one or two variables to show a significant result purely by chance, even if diet had no real effect on mammographic density.</p>
@@ -1007,7 +599,7 @@ alternative hypothesis: true location shift is less than 0</code></pre>
 <p>The Benjamini-Hochberg (BH) procedure controls the FDR… and it is simple to use!</p>
 <p>Indeed, for a given <span class="math inline">\alpha</span> and a given sequence of <strong>ordered</strong> <span class="math inline">p</span>-values <span class="math inline">P_{(1)}</span>, <span class="math inline">P_{(2)}</span>, , <span class="math inline">P_{(m)}</span>, it consists in computing the <span class="math inline">m</span> <em>adjusted</em> <span class="math inline">p</span>-values defined as</p>
 <p><span class="math display"> P_{(i)}^{\rm BH} = \min\left( P_{(i)}\frac{m}{i} \ , \ P_{(i+1)}^{\rm BH} \right)</span></p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-16_4493fd0a7decf40c601361e01d700f80">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-32_e7da9313348a2b7ff5d84f1bd0f515b3">
 <div class="sourceCode" id="cb21"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>p.bh <span class="ot">&lt;-</span> <span class="fu">p.adjust</span>(data<span class="sc">$</span><span class="st">`</span><span class="at">p-value</span><span class="st">`</span>, <span class="at">method =</span> <span class="st">"BH"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then, the discoveries, i.e.&nbsp;the significant tests, are those with an ajusted p-value less than <span class="math inline">\alpha</span>.</p>
@@ -1020,13 +612,13 @@ alternative hypothesis: true location shift is less than 0</code></pre>
 <p>In our example, the first five tests would be significant with <span class="math inline">\alpha=0.25</span>, which means that we expect no more than 25% of these 5 tests to be false discoveries.</p>
 <p><strong>Remark 1:</strong> The BH procedure is equivalent to consider as significant the non adjusted <span class="math inline">p</span>-values smaller than a threshold <span class="math inline">P_{\rm BH}</span> defined as</p>
 <p><span class="math display"> P_{\rm BH} = \max_i \left\{ P_{(i)}: \ \ P_{(i)} \leq \alpha \frac{i}{m}  \right\} </span> In other words, the largest <span class="math inline">p</span>-value that has <span class="math inline">P_{(i)}&lt;(i/m)\alpha</span> is significant, and all of the <span class="math inline">P</span>-values smaller than it are also significant, even the ones that aren’t less than their Benjamini-Hochberg critical value <span class="math inline">\alpha \times i/m</span></p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-17_375e7473971626423df5d17a79d9763d">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-34_0ddb3676038b535002339d7f746231d8">
 <div class="sourceCode" id="cb22"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.25</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">nrow</span>(data)</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>critical.value <span class="ot">&lt;-</span> (<span class="dv">1</span><span class="sc">:</span>m)<span class="sc">/</span>m<span class="sc">*</span>alpha</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code># A tibble: 25 × 4
+<pre><code># A tibble: 25 x 4
    dietary           `p-value`  p.bh critical.value
    &lt;fct&gt;                 &lt;dbl&gt; &lt;dbl&gt;          &lt;dbl&gt;
  1 Total calories        0.001 0.025           0.01
@@ -1042,24 +634,24 @@ alternative hypothesis: true location shift is less than 0</code></pre>
 # … with 15 more rows</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-18_67ea4d53f4ec0c2ecd63063b1a1731f9">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-36_741dfb936a5338eef25414e9c46057b0">
 <div class="sourceCode" id="cb24"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>pl1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>m,<span class="at">y=</span><span class="st">`</span><span class="at">p-value</span><span class="st">`</span>), <span class="at">colour=</span><span class="st">"blue"</span>) <span class="sc">+</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>m,<span class="at">y=</span>critical.value), <span class="at">colour=</span><span class="st">"red"</span>) <span class="sc">+</span><span class="fu">xlab</span>(<span class="st">"(i)"</span>)</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(pl1,pl1 <span class="sc">+</span> <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">8</span>)) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.21</span>)) <span class="sc">+</span> <span class="fu">geom_vline</span>(<span class="at">xintercept=</span><span class="fl">5.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-multiple_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="768"></p>
+<p><img src="map566-lecture-multiple_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid" width="768"></p>
 </div>
 </div>
 <p>The largest <span class="math inline">p</span>-value with <span class="math inline">P_{(i)}&lt;(i/m)\alpha</span> is <em>proteins</em>, where the individual <span class="math inline">p</span>-value (0.042) is less than the <span class="math inline">(i/m)\alpha</span> value of 0.050. Thus the first five tests would be significant.</p>
 <p><strong>Remark 2:</strong> The FDR is not bounded by <span class="math inline">\alpha</span>, but by <span class="math inline">(m_{0\cdot}/m) \alpha</span>. We could increase the global power of the tests and get a FDR equal to the desired level <span class="math inline">\alpha</span>, either by defining the critical values as <span class="math inline">(i/m_{0\cdot})\alpha</span>, or by multiplying the adjusted <span class="math inline">p</span>-values by <span class="math inline">m_{0\cdot}/m</span>.</p>
 <p>Unfortunately, <span class="math inline">m_{0\cdot}</span> is unknown… but it can be estimated, as the number of non significant tests for instance.</p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-19_3a0af12a8ee64fd02b61e774831be433">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-38_76ace6cdcced02fa59e5684e4a466d84">
 <div class="sourceCode" id="cb25"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>m0.est <span class="ot">&lt;-</span> <span class="fu">sum</span>(data<span class="sc">$</span>p.bh<span class="sc">&gt;</span>alpha)</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>crit.valc <span class="ot">&lt;-</span> <span class="fu">round</span>(data<span class="sc">$</span>critical.value<span class="sc">*</span>m<span class="sc">/</span>m0.est,<span class="dv">4</span>)</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>p.bhc <span class="ot">&lt;-</span> <span class="fu">round</span>(data<span class="sc">$</span>p.bh<span class="sc">*</span>m0.est<span class="sc">/</span>m,<span class="dv">4</span>)</span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data,<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code># A tibble: 10 × 6
+<pre><code># A tibble: 10 x 6
    dietary           `p-value`  p.bh critical.value crit.valc p.bhc
    &lt;fct&gt;                 &lt;dbl&gt; &lt;dbl&gt;          &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;
  1 Total calories        0.001 0.025           0.01    0.0125 0.02 
@@ -1244,22 +836,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </main> <!-- /main -->
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../docs/tests/map566-lecture-single.html">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Statistical Tests</span>
-      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../docs/tests/map566-lab-tests.html">
-        <span class="nav-page-text">Exercices</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
-    <div class="nav-footer-left">Last update: November 2021</div>   
-  </div>
-</footer>
 
 
 </body></html>

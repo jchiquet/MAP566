@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.2.318">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>MAP566 - Stats in Action - Nonlinear Mixed Effects Models</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+   var mathElements = document.getElementsByClassName("math");
+   var macros = [];
+   for (var i = 0; i < mathElements.length; i++) {
+    var texText = mathElements[i].firstChild;
+    if (mathElements[i].tagName == "SPAN") {
+     katex.render(texText.data, mathElements[i], {
+      displayMode: mathElements[i].classList.contains('display'),
+      throwOnError: false,
+      macros: macros,
+      fleqn: false
+     });
+  }}});
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="../../site_libs/clipboard/clipboard.min.js"></script>
+  <meta name="quarto:offset" content="../../">
+  <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+  <script src="../../site_libs/quarto-search/fuse.min.js"></script>
+  <script src="../../site_libs/quarto-search/quarto-search.js"></script>
+  <script src="../../site_libs/quarto-html/quarto.js"></script>
+  <script src="../../site_libs/quarto-html/popper.min.js"></script>
+  <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="../../site_libs/quarto-html/anchor.min.js"></script>
+  <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <script id="quarto-search-options" type="application/json">{
+    "location": "navbar",
+    "copy-button": false,
+    "collapse-after": 2,
+    "panel-placement": "end",
+    "type": "overlay",
+    "limit": 20,
+    "language": {
+      "search-no-results-text": "No results",
+      "search-matching-documents-text": "matching documents",
+      "search-copy-link-title": "Copy link to search",
+      "search-hide-matches-text": "Hide additional matches",
+      "search-more-match-text": "more match in this document",
+      "search-more-matches-text": "more matches in this document",
+      "search-clear-button-title": "Clear",
+      "search-detached-cancel-button-title": "Cancel",
+      "search-submit-button-title": "Submit"
+    }
+  }</script>
+  <link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+  <script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+</head>
+<body class="docked">
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <img src="../../logo_X.jpg" alt="">
+    <span class="navbar-title">MAP566 - Stats in Action</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../getting-started.html">Getting Started</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/jchiquet/MAP566"><i class="bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hypothesis-testing" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hypothesis Testing</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-hypothesis-testing">    
+        <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-single.html">Statistical Tests</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-multiple.html">Multiple Testing</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Labs</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html">Exercices</a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-regression-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Regression models</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-regression-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html">Polynomial regression models</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-nonlinear-regression.html">Nonlinear regression</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Exercices</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-polynomial-regression.html">Polynomial regression model: exercices</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-nonlinear-regression.html">Nonlinear regression: exercices</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html">Linear regression: quick recap</a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixed-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mixed models</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixed-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html">Linear Mixed Effects Models</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html">Nonlinear Mixed Effects Models</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Exercices</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-linear-mixed-model.html">Linear Mixed Models: exercices</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html">An EM Algorithm for Linear Mixed Effects Models</a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mixture models</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixture-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html">Mixture Models</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Exercices</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">Mixture models: exercices</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-doc-mixture-models-example.html">Mixture Models: an example</a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-homework" role="button" data-bs-toggle="dropdown" aria-expanded="false">Homework</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-homework">    
+    </ul>
+  </li>
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Nonlinear Mixed Effects Models</h1>
+      <button type="button" class="quarto-btn-toggle btn">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+  <div class="sidebar-menu-container"> 
+  <ul class="list-unstyled mt-1">
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#lectures-collapse" aria-expanded="true">
+              <div class="me-auto sidebar-section-item">Lectures</div>
+            <div><i class="bi bi-chevron-right ms-2"></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="lectures-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html" class="">Linear Mixed Effects Models</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html" class="active">Nonlinear Mixed Effects Models</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#exercices-collapse" aria-expanded="true">
+              <div class="me-auto sidebar-section-item">Exercices</div>
+            <div><i class="bi bi-chevron-right ms-2"></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="exercices-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../../docs/mixed-models/map566-lab-linear-mixed-model.html" class="">Linear Mixed Models: exercices</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#supplementarymaterial-collapse" aria-expanded="true">
+              <div class="me-auto sidebar-section-item">Supplementary material</div>
+            <div><i class="bi bi-chevron-right ms-2"></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="supplementarymaterial-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html" class="">An EM Algorithm for Linear Mixed Effects Models</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+  </ul>
+  </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+      <nav id="TOC" role="doc-toc">
+<h2 id="toc-title">On this page</h2>
+<ul>
+<li><a href="#preliminary" class="nav-link active" data-scroll-target="#preliminary">Preliminary</a></li>
+<li><a href="#introduction-the-theophylline-data-set" class="nav-link" data-scroll-target="#introduction-the-theophylline-data-set"> <span class="header-section-number">1</span> Introduction: the <code>theophylline</code> data set</a></li>
+<li><a href="#fitting-nonlinear-models-to-the-data" class="nav-link" data-scroll-target="#fitting-nonlinear-models-to-the-data"> <span class="header-section-number">2</span> Fitting nonlinear models to the data</a>
+<ul class="collapse">
+<li><a href="#fitting-a-nonlinear-model-to-a-single-subject" class="nav-link" data-scroll-target="#fitting-a-nonlinear-model-to-a-single-subject"> <span class="header-section-number">2.1</span> Fitting a nonlinear model to a single subject</a></li>
+<li><a href="#fitting-a-unique-nonlinear-model-to-several-subjects" class="nav-link" data-scroll-target="#fitting-a-unique-nonlinear-model-to-several-subjects"> <span class="header-section-number">2.2</span> Fitting a unique nonlinear model to several subjects</a></li>
+<li><a href="#fitting-several-nonlinear-models-to-several-subjects" class="nav-link" data-scroll-target="#fitting-several-nonlinear-models-to-several-subjects"> <span class="header-section-number">2.3</span> Fitting several nonlinear models to several subjects</a></li>
+</ul></li>
+<li><a href="#nonlinear-mixed-effects-nlme-model" class="nav-link" data-scroll-target="#nonlinear-mixed-effects-nlme-model"> <span class="header-section-number">3</span> Nonlinear mixed effects (NLME) model</a>
+<ul class="collapse">
+<li><a href="#a-first-basic-model" class="nav-link" data-scroll-target="#a-first-basic-model"> <span class="header-section-number">3.1</span> A first basic model</a></li>
+<li><a href="#tasks-methods-and-algorithms" class="nav-link" data-scroll-target="#tasks-methods-and-algorithms"> <span class="header-section-number">3.2</span> Tasks, methods and algorithms</a></li>
+</ul></li>
+<li><a href="#fitting-a-nlme-model-to-the-theophylline-data" class="nav-link" data-scroll-target="#fitting-a-nlme-model-to-the-theophylline-data"> <span class="header-section-number">4</span> Fitting a NLME model to the theophylline data</a>
+<ul class="collapse">
+<li><a href="#some-extensions-of-the-model" class="nav-link" data-scroll-target="#some-extensions-of-the-model"> <span class="header-section-number">4.1</span> Some extensions of the model</a></li>
+</ul></li>
+</ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content">
+<header id="title-block-header">
+<h1 class="title d-none d-lg-block display-7">Nonlinear Mixed Effects Models</h1>
+</header>
+
+<section id="preliminary" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="preliminary">Preliminary</h2>
+<p>Functions from <code>R</code>-base and stats (preloaded) are required plus packages from the <strong>tidyverse</strong> for data representation and manipulation. We also need the <strong>lme4</strong> and <strong>saemix</strong> package for fitting (nonlinear) mixed-model. <strong>lattice</strong> is used for graphical representation of quantities such as random and fixed effects in the mixed models.</p>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/tests-config_c517ffea5cdd20e540e57399d13d3911">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(saemix)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lattice)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="introduction-the-theophylline-data-set" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="introduction-the-theophylline-data-set"><span class="header-section-number">1</span> Introduction: the <code>theophylline</code> data set</h2>
+<p>The <code>theophyllineData</code> file reports data from a study of the kinetics of the anti-asthmatic drug theophylline. Twelve subjects were given oral doses of theophylline then serum concentrations were measured at 11 time points over the next 25 hours.</p>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-2_e0469988cab91ee540bf0aaa0f1b1e29">
+<div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>theophylline <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../data/theophyllineData.csv"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>theophylline <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["id"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["time"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["concentration"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["weight"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"0.25","3":"2.84","4":"79.6"},{"1":"1","2":"0.57","3":"6.57","4":"79.6"},{"1":"1","2":"1.12","3":"10.50","4":"79.6"},{"1":"1","2":"2.02","3":"9.66","4":"79.6"},{"1":"1","2":"3.82","3":"8.58","4":"79.6"},{"1":"1","2":"5.10","3":"8.36","4":"79.6"},{"1":"1","2":"7.03","3":"7.47","4":"79.6"},{"1":"1","2":"9.05","3":"6.89","4":"79.6"},{"1":"1","2":"12.12","3":"5.94","4":"79.6"},{"1":"1","2":"24.37","3":"3.28","4":"79.6"},{"1":"2","2":"0.27","3":"1.72","4":"72.4"},{"1":"2","2":"0.52","3":"7.91","4":"72.4"},{"1":"2","2":"1.00","3":"8.31","4":"72.4"},{"1":"2","2":"1.92","3":"8.33","4":"72.4"},{"1":"2","2":"3.50","3":"6.85","4":"72.4"},{"1":"2","2":"5.02","3":"6.08","4":"72.4"},{"1":"2","2":"7.03","3":"5.40","4":"72.4"},{"1":"2","2":"9.00","3":"4.55","4":"72.4"},{"1":"2","2":"12.00","3":"3.01","4":"72.4"},{"1":"2","2":"24.30","3":"0.90","4":"72.4"},{"1":"3","2":"0.27","3":"4.40","4":"70.5"},{"1":"3","2":"0.58","3":"6.90","4":"70.5"},{"1":"3","2":"1.02","3":"8.20","4":"70.5"},{"1":"3","2":"2.02","3":"7.80","4":"70.5"},{"1":"3","2":"3.62","3":"7.50","4":"70.5"},{"1":"3","2":"5.08","3":"6.20","4":"70.5"},{"1":"3","2":"7.07","3":"5.30","4":"70.5"},{"1":"3","2":"9.00","3":"4.90","4":"70.5"},{"1":"3","2":"12.15","3":"3.70","4":"70.5"},{"1":"3","2":"24.17","3":"1.05","4":"70.5"},{"1":"4","2":"0.35","3":"1.89","4":"72.7"},{"1":"4","2":"0.60","3":"4.60","4":"72.7"},{"1":"4","2":"1.07","3":"8.60","4":"72.7"},{"1":"4","2":"2.13","3":"8.38","4":"72.7"},{"1":"4","2":"3.50","3":"7.54","4":"72.7"},{"1":"4","2":"5.02","3":"6.88","4":"72.7"},{"1":"4","2":"7.02","3":"5.78","4":"72.7"},{"1":"4","2":"9.02","3":"5.33","4":"72.7"},{"1":"4","2":"11.98","3":"4.19","4":"72.7"},{"1":"4","2":"24.65","3":"1.15","4":"72.7"},{"1":"5","2":"0.30","3":"2.02","4":"54.6"},{"1":"5","2":"0.52","3":"5.63","4":"54.6"},{"1":"5","2":"1.00","3":"11.40","4":"54.6"},{"1":"5","2":"2.02","3":"9.33","4":"54.6"},{"1":"5","2":"3.50","3":"8.74","4":"54.6"},{"1":"5","2":"5.02","3":"7.56","4":"54.6"},{"1":"5","2":"7.02","3":"7.09","4":"54.6"},{"1":"5","2":"9.10","3":"5.90","4":"54.6"},{"1":"5","2":"12.00","3":"4.37","4":"54.6"},{"1":"5","2":"24.35","3":"1.57","4":"54.6"},{"1":"6","2":"0.27","3":"1.29","4":"80.0"},{"1":"6","2":"0.58","3":"3.08","4":"80.0"},{"1":"6","2":"1.15","3":"6.44","4":"80.0"},{"1":"6","2":"2.03","3":"6.32","4":"80.0"},{"1":"6","2":"3.57","3":"5.53","4":"80.0"},{"1":"6","2":"5.00","3":"4.94","4":"80.0"},{"1":"6","2":"7.00","3":"4.02","4":"80.0"},{"1":"6","2":"9.22","3":"3.46","4":"80.0"},{"1":"6","2":"12.10","3":"2.78","4":"80.0"},{"1":"6","2":"23.85","3":"0.92","4":"80.0"},{"1":"7","2":"0.25","3":"0.85","4":"64.6"},{"1":"7","2":"0.50","3":"2.35","4":"64.6"},{"1":"7","2":"1.02","3":"5.02","4":"64.6"},{"1":"7","2":"2.02","3":"6.58","4":"64.6"},{"1":"7","2":"3.48","3":"7.09","4":"64.6"},{"1":"7","2":"5.00","3":"6.66","4":"64.6"},{"1":"7","2":"6.98","3":"5.25","4":"64.6"},{"1":"7","2":"9.00","3":"4.39","4":"64.6"},{"1":"7","2":"12.05","3":"3.53","4":"64.6"},{"1":"7","2":"24.22","3":"1.15","4":"64.6"},{"1":"8","2":"0.25","3":"3.05","4":"70.5"},{"1":"8","2":"0.52","3":"3.05","4":"70.5"},{"1":"8","2":"0.98","3":"7.31","4":"70.5"},{"1":"8","2":"2.02","3":"7.56","4":"70.5"},{"1":"8","2":"3.53","3":"6.59","4":"70.5"},{"1":"8","2":"5.05","3":"5.88","4":"70.5"},{"1":"8","2":"7.15","3":"4.73","4":"70.5"},{"1":"8","2":"9.07","3":"4.57","4":"70.5"},{"1":"8","2":"12.10","3":"3.00","4":"70.5"},{"1":"8","2":"24.12","3":"1.25","4":"70.5"},{"1":"9","2":"0.30","3":"7.37","4":"86.4"},{"1":"9","2":"0.63","3":"9.03","4":"86.4"},{"1":"9","2":"1.05","3":"7.14","4":"86.4"},{"1":"9","2":"2.02","3":"6.33","4":"86.4"},{"1":"9","2":"3.53","3":"5.66","4":"86.4"},{"1":"9","2":"5.02","3":"5.67","4":"86.4"},{"1":"9","2":"7.17","3":"4.24","4":"86.4"},{"1":"9","2":"8.80","3":"4.11","4":"86.4"},{"1":"9","2":"11.60","3":"3.16","4":"86.4"},{"1":"9","2":"24.43","3":"1.12","4":"86.4"},{"1":"10","2":"0.37","3":"2.89","4":"58.2"},{"1":"10","2":"0.77","3":"5.22","4":"58.2"},{"1":"10","2":"1.02","3":"6.41","4":"58.2"},{"1":"10","2":"2.05","3":"7.83","4":"58.2"},{"1":"10","2":"3.55","3":"10.21","4":"58.2"},{"1":"10","2":"5.05","3":"9.18","4":"58.2"},{"1":"10","2":"7.08","3":"8.02","4":"58.2"},{"1":"10","2":"9.38","3":"7.14","4":"58.2"},{"1":"10","2":"12.10","3":"5.68","4":"58.2"},{"1":"10","2":"23.70","3":"2.42","4":"58.2"},{"1":"11","2":"0.25","3":"4.86","4":"65.0"},{"1":"11","2":"0.50","3":"7.24","4":"65.0"},{"1":"11","2":"0.98","3":"8.00","4":"65.0"},{"1":"11","2":"1.98","3":"6.81","4":"65.0"},{"1":"11","2":"3.60","3":"5.87","4":"65.0"},{"1":"11","2":"5.02","3":"5.22","4":"65.0"},{"1":"11","2":"7.03","3":"4.45","4":"65.0"},{"1":"11","2":"9.03","3":"3.62","4":"65.0"},{"1":"11","2":"12.12","3":"2.69","4":"65.0"},{"1":"11","2":"24.08","3":"0.86","4":"65.0"},{"1":"12","2":"0.25","3":"1.25","4":"60.5"},{"1":"12","2":"0.50","3":"3.96","4":"60.5"},{"1":"12","2":"1.00","3":"7.82","4":"60.5"},{"1":"12","2":"2.00","3":"9.72","4":"60.5"},{"1":"12","2":"3.52","3":"9.75","4":"60.5"},{"1":"12","2":"5.07","3":"8.57","4":"60.5"},{"1":"12","2":"7.07","3":"6.59","4":"60.5"},{"1":"12","2":"9.03","3":"6.11","4":"60.5"},{"1":"12","2":"12.05","3":"4.57","4":"60.5"},{"1":"12","2":"24.15","3":"1.17","4":"60.5"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>Here, <code>time</code> is the time since drug administration when the sample was drawn (h), <code>concentration</code> is the measured theophylline concentration (mg/L) and <code>weight</code> is the weight of the subject (kg).</p>
+<p>The 12 subjects received 320 mg of theophylline at time 0.</p>
+<p>Let us plot the data, i.e.&nbsp;the concentration versus time:</p>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-4_3a8618cca645579981b2a63ca4149c7f">
+<p></p><details>
+<summary>Show the code</summary><p></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>theo_plot <span class="ot">&lt;-</span> theophylline <span class="sc">%&gt;%</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> concentration) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">color=</span><span class="st">"#993399"</span>, <span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"time (h)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"concentration (mg/l)"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>theo_plot <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">color=</span><span class="st">"#993399"</span>, <span class="fu">aes</span>(<span class="at">group =</span> id))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="864"></p>
+</div>
+</div>
+<p>We can also plot the 12 individual concentration profiles on 12 separated plots,</p>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-6_d14a3e339d47db2bdc9900d4d6174ca2">
+<p></p><details>
+<summary>Show the code</summary><p></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>theo_plot <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>( <span class="sc">~</span> id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The pattern is similar for the 12 individuals: the concentration first increases during the absorption phase and then decreases during the elimination phase. Nevertheless, we clearly see some differences between these profiles which are not only due to the residual errors. In particular, we see that the patients absorb and eliminate the drug more or less rapidly.</p>
+<p>A population approach and the use of mixed effects models will allow us to take into account this <em>inter individual variability</em>.</p>
+</section>
+<section id="fitting-nonlinear-models-to-the-data" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="fitting-nonlinear-models-to-the-data"><span class="header-section-number">2</span> Fitting nonlinear models to the data</h2>
+<section id="fitting-a-nonlinear-model-to-a-single-subject" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="fitting-a-nonlinear-model-to-a-single-subject"><span class="header-section-number">2.1</span> Fitting a nonlinear model to a single subject</h3>
+<p>Let us consider the first subject of this study (id=1)</p>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-8_04c67cd96e1ef095aa8c5da7c2f4c4ae">
+<div class="sourceCode" id="cb5"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>subject1 <span class="ot">&lt;-</span> theophylline <span class="sc">%&gt;%</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(id <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="st">"time"</span>,<span class="st">"concentration"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>subject1_plot <span class="ot">&lt;-</span> subject1 <span class="sc">%&gt;%</span> </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> concentration) <span class="sc">+</span> <span class="fu">geom_point</span>( <span class="at">color=</span><span class="st">"#993399"</span>, <span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span> </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"time (h)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"concentration (mg/l)"</span>) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">11</span>))</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>subject1_plot <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">color=</span><span class="st">"#993399"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="960"></p>
+</div>
+</div>
+<p>We may want to fit a nonlinear model to this data of the form</p>
+<p><span class="math display">y_j = f(t_j ,\psi) + \varepsilons_j \quad , \quad 1\leq j \leq n</span></p>
+<p>where <span class="math inline">(y_j, 1\leq j \leq n)</span> are the <span class="math inline">n</span> measurements for this subject, <span class="math inline">f</span> is the model (e.g.&nbsp;from pharmacokinetics), <span class="math inline">\psi</span> is the vector of parameters for this subject and <span class="math inline">(\varepsilons_j, 1\leq j \leq n)</span> are residual errors.</p>
+<p>A one compartment model with first order absorption and linear elimination to this data writes</p>
+<p><span class="math display">f(t_j ,\psi) = \frac{ D \, k_a}{V(k_a-k_e)}\, \left( e^{- k_e \, t} - e^{- k_a \, t} \right)</span></p>
+<p>where <span class="math inline">\psi=(k_a,V,k_e)</span> are the PK parameters of the model and <span class="math inline">D</span> is the amount of drug given to the patient (here, <span class="math inline">D=320mg</span>).</p>
+<p>Let us compute the least squares estimate of <span class="math inline">\psi</span> defined as</p>
+<p><span class="math display">\hat\psi = \arg\min_{\psi}  \sum_{j=1}^{n} (y_{j} - f(t_{j} ,\psi))^2</span></p>
+<p>We first need to implement the pharmakokinetics (PK) model:</p>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-10_83366cb9a3b5abba91614bdd3f939f47">
+<div class="sourceCode" id="cb6"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>f1 <span class="ot">&lt;-</span> <span class="cf">function</span>(psi, t){</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  D  <span class="ot">&lt;-</span> <span class="dv">320</span>; ka <span class="ot">&lt;-</span> psi[<span class="dv">1</span>]; V  <span class="ot">&lt;-</span> psi[<span class="dv">2</span>]; ke <span class="ot">&lt;-</span> psi[<span class="dv">3</span>]</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  f  <span class="ot">&lt;-</span> D<span class="sc">*</span>ka<span class="sc">/</span>V<span class="sc">/</span>(ka<span class="sc">-</span>ke)<span class="sc">*</span>(<span class="fu">exp</span>(<span class="sc">-</span>ke<span class="sc">*</span>t)<span class="sc">-</span><span class="fu">exp</span>(<span class="sc">-</span>ka<span class="sc">*</span>t)) </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  f</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can then use the <code>nls</code> function for fitting this (nonlinear) model to the data ::: {.cell hash=“map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-12_9af5155d2f94380c1ecbca3b54214b8d”}</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>model_1 <span class="ot">&lt;-</span> <span class="fu">nls</span>(concentration <span class="sc">~</span> <span class="fu">f1</span>(psi, time), <span class="at">start =</span> <span class="fu">list</span>(<span class="at">psi=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>, <span class="at">V=</span><span class="dv">40</span>, <span class="at">ke=</span><span class="fl">0.1</span>)), <span class="at">data=</span>subject1)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(model_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>       psi1        psi2        psi3 
+ 1.77741125 29.39415966  0.05395458 </code></pre>
+</div>
+<p>::: and plot the predicted concentration <span class="math inline">f(t,\hat\psi)</span></p>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-14_1571a0f7885110bbcc55039367a6380a">
+<p></p><details>
+<summary>Show the code</summary><p></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dplot <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">time =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">40</span>, <span class="at">by=</span><span class="fl">0.2</span>))</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>dplot<span class="sc">$</span>pred_1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_1, <span class="at">newdata =</span> dplot)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>subject1_plot <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">data =</span> dplot, <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y=</span>pred_1), <span class="at">colour=</span><span class="st">"#339900"</span>, <span class="at">size=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="960"></p>
+</div>
+</div>
+</section>
+<section id="fitting-a-unique-nonlinear-model-to-several-subjects" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="fitting-a-unique-nonlinear-model-to-several-subjects"><span class="header-section-number">2.2</span> Fitting a unique nonlinear model to several subjects</h3>
+<p>Instead of fitting this model to a single patient, we may want to fit the same model to all the patients:</p>
+<p><span class="math display">y_{ij} = f(t_{ij} ,\psi) + \varepsilon_{ij} \quad , \quad 1\leq i \leq N \ , \ 1\leq j \leq n_i</span></p>
+<p>where <span class="math inline">(y_{ij}, 1\leq j \leq n_i)</span> are the <span class="math inline">n_i</span> measurements for subject <span class="math inline">i</span>. Here, <span class="math inline">\psi</span> is the vector of parameters shared by the <span class="math inline">N</span> subjects.</p>
+<p>In this model, the least squares estimate of <span class="math inline">\psi</span> is defined as</p>
+<p><span class="math display">\hat\psi = \arg\min_{\psi} \sum_{i=1}^N \sum_{j=1}^{n_i} (y_{ij} - f(t_{ij} ,\psi))^2</span></p>
+<p>Let use the <code>nls</code> function with the pooled data from the 12 subjects.</p>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-16_2fcbbfa3980d83bc0b538fe279564e64">
+<div class="sourceCode" id="cb10"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>model_all <span class="ot">&lt;-</span> <span class="fu">nls</span>(concentration <span class="sc">~</span> <span class="fu">f1</span>(psi, time), <span class="at">start =</span> <span class="fu">list</span>(<span class="at">psi=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>, <span class="at">V=</span><span class="dv">40</span>, <span class="at">ke=</span><span class="fl">0.1</span>)), <span class="at">data=</span>theophylline)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(model_all)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>       psi1        psi2        psi3 
+ 1.57975379 33.42183643  0.07931028 </code></pre>
+</div>
+</div>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-18_acf4005ef06f193f9b3d90e7be0550e5">
+<p></p><details>
+<summary>Show the code</summary><p></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dplot<span class="sc">$</span>pred_all <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_all, <span class="at">newdata =</span> dplot)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>theo_plot <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">data =</span> dplot, <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> pred_all), <span class="at">colour=</span><span class="st">"#339900"</span>, <span class="at">size=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="960"></p>
+</div>
+</div>
+<p>These estimated parameters are typical parameters and this profile is a typical profile for this sample of patients: by definition, they do not take into account the variability between the patients and therefore do not provide good individual predictions.</p>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-20_7f125694eda85dac4c9fdcad6517bd76">
+<p></p><details>
+<summary>Show the code</summary><p></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>theo_plot <span class="sc">+</span>  </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> dplot, <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y=</span>pred_all), <span class="at">colour=</span><span class="st">"#339900"</span>, <span class="at">size=</span><span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="960"></p>
+</div>
+</div>
+</section>
+<section id="fitting-several-nonlinear-models-to-several-subjects" class="level3" data-number="2.3">
+<h3 data-number="2.3" class="anchored" data-anchor-id="fitting-several-nonlinear-models-to-several-subjects"><span class="header-section-number">2.3</span> Fitting several nonlinear models to several subjects</h3>
+<p>We can instead fit the same PK model with different parameters to each subject, exactly a we did above with the first patient:</p>
+<p><span class="math display">y_{ij} = f(t_{ij} ,\psi_i) + \varepsilon_{ij} \quad , \quad 1\leq i \leq N \ , \ 1\leq j \leq n_i</span></p>
+<p>where <span class="math inline">\psi_i</span> is the vector of parameters for patient <span class="math inline">i</span>.</p>
+<p>In this model, the least squares estimate of <span class="math inline">\psi_i</span> is defined as</p>
+<p><span class="math display">\hat\psi_i = \arg\min_{\psi}  \sum_{j=1}^{n_i} \Big(y_{ij} - f(t_{ij} ,\psi)\Big)^2 \quad , \quad 1\leq i \leq N</span></p>
+<p>Each individual predicted concentration <span class="math inline">f(t,\hat\psi_i)</span> seems to predict quite well the observed concentrations for the 12 subjects:</p>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-22_188be9b7304a7623a130c043c5a76491">
+<p></p><details>
+<summary>Show the code</summary><p></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">split</span>(theophylline, theophylline<span class="sc">$</span>id) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="sc">~</span>{</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  model_i <span class="ot">&lt;-</span> <span class="fu">nls</span>(concentration <span class="sc">~</span> <span class="fu">f1</span>(psi, time), </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">start =</span> <span class="fu">list</span>(<span class="at">psi=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>, <span class="at">V=</span><span class="dv">40</span>,<span class="at">k=</span><span class="fl">0.08</span>)), </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> .x)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">psi =</span> <span class="fu">coef</span>(model_i),</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y_hat =</span> <span class="fu">predict</span>(model_i, <span class="at">newdata =</span> dplot),</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">id =</span> <span class="fu">unique</span>(.x<span class="sc">$</span>id))</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>psi_hat <span class="ot">&lt;-</span> <span class="fu">map_df</span>(res, <span class="st">"psi"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setNames</span>(<span class="fu">c</span>(<span class="st">"ka"</span>,<span class="st">"V"</span>,<span class="st">"ke"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_column</span>(<span class="at">id =</span> <span class="fu">factor</span>(<span class="fu">map_dbl</span>(res, <span class="st">"id"</span>))) </span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>theo_pred <span class="ot">&lt;-</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_df</span>(res, <span class="st">"y_hat"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">everything</span>(), <span class="at">names_to =</span> <span class="st">"id"</span>, <span class="at">values_to =</span> <span class="st">"concentration"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_column</span>(<span class="at">time =</span> <span class="fu">rep</span>(dplot<span class="sc">$</span>time, <span class="at">each =</span> <span class="fu">length</span>(res)))</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>theo_plot <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">data =</span> theo_pred, <span class="fu">aes</span>(<span class="at">x=</span>time,<span class="at">y=</span>concentration), <span class="at">colour=</span><span class="st">"#339900"</span>, <span class="at">size=</span><span class="fl">0.75</span>) <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="nonlinear-mixed-effects-nlme-model" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="nonlinear-mixed-effects-nlme-model"><span class="header-section-number">3</span> Nonlinear mixed effects (NLME) model</h2>
+<section id="a-first-basic-model" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="a-first-basic-model"><span class="header-section-number">3.1</span> A first basic model</h3>
+<p>Until now, the individual parameters <span class="math inline">(\psi_i)</span> were considered as fixed effects: we didn’t make any assumption about there possible values.</p>
+<p>In a population approach, the <span class="math inline">N</span> subjects are assumed to be randomly sampled from a same population of individuals. Then, each individual parameter <span class="math inline">\psi_i</span> is treated as a random variable.</p>
+<p>We will start assuming that the <span class="math inline">\psi_i</span>’s are independent and normally distributed:</p>
+<p><span class="math display">\psi_i \sim^{\mathrm{iid}} \mathcal{N}(\psi_{\rm pop} , \Omega)</span></p>
+<p>where <span class="math inline">\psi_{\rm pop}</span> is a <span class="math inline">p</span>-vector of <strong>population parameters</strong> and <span class="math inline">\Omega</span> a <span class="math inline">p\times p</span> variance-covariance matrix.</p>
+<div class="remark proof">
+<p><span class="proof-title"><em>Remark</em>.</span>This normality assumption allows us to decompose each individual parameter <span class="math inline">\psi_i</span> into a fixed effect <span class="math inline">\psi_{\rm pop}</span> and a random effect <span class="math inline">\eta_i</span>:</p>
+<p><span class="math display">\psi_i = \psi_{\rm pop} + \eta_i</span></p>
+<p>where <span class="math inline">\eta_i \sim^{\mathrm{iid}} \mathcal{N}(0 , \Omega)</span>.</p>
+</div>
+<p>We will also start asuming that the residual errors <span class="math inline">(\varepsilon_{ij})</span> are independent and normally distributed: <span class="math inline">\varepsilon_{ij} \sim^{\mathrm{iid}} \mathcal{N}(0 , a^2)</span>.</p>
+<p>In summary, we can equivalently represent a (nonlinear) mixed effects model</p>
+<p><em>i)</em> using equations:</p>
+<p><span class="math display">\begin{aligned}
+y_{ij} &amp; = f(t_{ij} ,\psi_i) + \varepsilon_{ij}  \\
+\psi_i &amp; = \psi_{\rm pop} + \eta_i 
+\end{aligned}</span> where <span class="math inline">\varepsilon_{ij} \sim^{\mathrm{iid}} \mathcal{N}(0 , a^2)</span> and <span class="math inline">\eta_i \sim^{\mathrm{iid}} \mathcal{N}(0 , \Omega)</span>,</p>
+<p><em>ii)</em> or using probability distributions:</p>
+<p><span class="math display">\begin{aligned}
+y_{ij} &amp;\sim \mathcal{N}(f(t_{ij} ,\psi_i) \ , \ a^2)  \\
+\psi_i &amp; \sim \mathcal{N}(\psi_{\rm pop} , \Omega) 
+\end{aligned}</span></p>
+<p>The model is the joint probability distribution of <span class="math inline">(y,\psi)</span>, where <span class="math inline">y=(y_{ij}, 1\leq i \leq N, 1 \leq j \leq n_i)</span> is the complete set of observations and <span class="math inline">\psi = (\psi_i, 1\leq i \leq N)</span> the <span class="math inline">N</span> vectors of individual parameters,</p>
+<p><span class="math display">\begin{aligned}
+\mathbb{P}(y,\psi;\theta) &amp;= \prod_{i=1}^N \mathbb{P}(y_i,\psi_i;\theta) \\
+&amp;= \prod_{i=1}^N \mathbb{P}(y_i|\psi_i;\theta)\mathbb{P}(\psi_i;\theta) 
+\end{aligned}</span></p>
+</section>
+<section id="tasks-methods-and-algorithms" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="tasks-methods-and-algorithms"><span class="header-section-number">3.2</span> Tasks, methods and algorithms</h3>
+<p>A detailed presentation of all the existing methods and algorithms for nonlinear mixed effect models goes far beyond the scope of this course. We will restrict ourselves to the methods and algorithms implemented in the <strong>saemix</strong> package.</p>
+<section id="estimation-of-the-population-parameters" class="level4" data-number="3.2.1">
+<h4 data-number="3.2.1" class="anchored" data-anchor-id="estimation-of-the-population-parameters"><span class="header-section-number">3.2.1</span> Estimation of the population parameters</h4>
+<p>The parameters of the model are <span class="math inline">\theta=(\psi_{\rm pop}, \Omega, a^2)</span>. Maximum likelihood estimation of <span class="math inline">\theta</span> consists of maximizing with respect to <span class="math inline">\theta</span> the <em>observed likelihood function</em> defined by</p>
+<p><span class="math display">\begin{aligned}
+\like(\theta,y) &amp;\triangleq \mathbb{P}(y ; \theta) \\
+&amp;= \int \mathbb{P}(y,\psi ;\theta) \, d \psi \\
+&amp;= \prod_{i=1}^N\int \mathbb{P}(y_i|\psi_i ;\theta)\mathbb{P}(\psi_i ;\theta) \, d \psi_i .
+\end{aligned}</span></p>
+<p>If <span class="math inline">f</span> is a nonlinear function of <span class="math inline">\psi_i</span>, then <span class="math inline">y_i</span> is not a Gaussian vector and the likelihood function <span class="math inline">\like(\theta,y)</span> cannot be computed in a closed form.</p>
+<p>Several algorithms exists for maximum likelihood estimation in nonlinear mixed effects models. In particular, the stochastic approximation EM algorithm (SAEM) is an iterative algorithm that converges to a maximum of the likelihood function under general conditions.</p>
+</section>
+<section id="estimation-of-the-individual-parameters" class="level4" data-number="3.2.2">
+<h4 data-number="3.2.2" class="anchored" data-anchor-id="estimation-of-the-individual-parameters"><span class="header-section-number">3.2.2</span> Estimation of the individual parameters</h4>
+<p>Once <span class="math inline">\theta</span> has been estimated, the conditional distribution <span class="math inline">\mathbb{P}(\psi_i | y_i ; \hat{\theta})</span> can be used for each individual <span class="math inline">i</span> for estimating the vector of individual parameters <span class="math inline">\psi_i</span>.</p>
+<p>The mode of this conditional distribution is defined as</p>
+<p><span class="math display">\begin{aligned}
+\hat{\psi}_i &amp;= \arg\max_{\psi_i}\mathbb{P}(\psi_i | y_i ; \hat{\theta}) \\
+&amp;= \arg\min_{\psi_i} \left\{ -2\log(\mathbb{P}(\psi_i | y_i ; \hat{\theta})) \right\}\\
+&amp;= \arg\min_{\psi_i} \left\{-2\log\mathbb{P}( y_i | \psi_i ; \hat{\theta}) -2 \log\mathbb{P}(\psi_i  ; \hat{\theta}) \right\}\\
+&amp;= \arg\min_{\psi_i} \left\{ \frac{1}{\hat{a}^2}\|y_i - f(t_i,\psi_i)\|^2 + (\psi_i-\hat\psi_{\rm pop})^\top\Omega^{-1}(\psi_i-\hat\psi_{\rm pop}) \right\}
+\end{aligned}</span></p>
+<p>This estimate is called the maximum a posteriori (MAP) estimate, or the empirical Bayes estimate (EBE) of <span class="math inline">\psi_i</span>.</p>
+<div class="remark proof">
+<p><span class="proof-title"><em>Remark</em>.</span>Since <span class="math inline">f</span> is a nonlinear function of <span class="math inline">\psi_i</span>, there is no analytical expression of <span class="math inline">\hat\psi_i</span>. A Newton-type algorithm should then be used to carry out this minimization problem.</p>
+</div>
+<p>We can then use the conditional mode for computing predictions, taking the philosophy that the <em>most likely</em> values of the individual parameters are the most suited for computing the <em>most likely</em> predictions:</p>
+<p><span class="math display">\widehat{f(t_{ij} , \psi_i)} = f(t_{ij} , \hat\psi_i).</span></p>
+</section>
+<section id="estimation-of-the-likelihood-function" class="level4" data-number="3.2.3">
+<h4 data-number="3.2.3" class="anchored" data-anchor-id="estimation-of-the-likelihood-function"><span class="header-section-number">3.2.3</span> Estimation of the likelihood function</h4>
+<p>Performing likelihood ratio tests and computing information criteria for a given model requires computation of the log-likelihood <span class="math inline">\log\ell(\hat{\theta};y) \triangleq \log(\mathbb{P}(y;\hat{\theta}))</span>.</p>
+<p>The log-likelihood cannot be computed in closed-form for nonlinear mixed effects models. In the case of continuous data, approximation of the model by a Gaussian linear one allows us to approximate the log-likelihood.</p>
+<p>Indeed, we can linearize the model for the observations <span class="math inline">(y_{ij},\, 1\leq j \leq n_i)</span> of individual <span class="math inline">i</span> around the vector of predicted individual parameters <span class="math inline">\hat\psi_i</span>.</p>
+<p>Let <span class="math inline">\partial_{\psi}{f(t , \psi)}</span> be the row vector of derivatives of <span class="math inline">f(t , \psi)</span> with respect to <span class="math inline">\psi</span>. Then,</p>
+<p><span class="math display">\begin{aligned}
+y_{ij} &amp;\simeq f(t_{ij} , \hat\psi_i) + \partial_{\psi}{f(t_{ij} , \hat\psi_i)} \, (\psi_i - \hat\psi_i)  + \varepsilon_{ij} \\
+&amp;\simeq f(t_{ij} , \hat\psi_i) +  \partial_{\psi}{f(t_{ij} , \hat\psi_i)} \, (\hat\psi_{\rm pop} - \hat\psi_i)
++  \partial_{\psi}{f(t_{ij} , \hat\psi_i)} \, \eta_i  + \varepsilon_{ij} .
+\end{aligned}</span></p>
+<p>Following this, we can approximate the marginal distribution of the vector <span class="math inline">y_i</span> by a normal one:</p>
+<p><span class="math display">
+y_{i} \approx \mathcal{N}\left(\mu_i\, , \, \Gamma_i \right),
+</span></p>
+<p>where</p>
+<p><span class="math display">\begin{aligned}
+\mu_i &amp; = f(t_{i} , \hat\psi_i) +  \partial_{\psi}{f(t_{i} , \hat\psi_i)}(\hat\psi_{\rm pop} - \hat\psi_i) \\
+\Gamma_i &amp;=
+\partial_{\psi}{f(t_{i} , \hat\psi_i)} \, \hat\Omega \, \partial_{\psi}{f(t_{i} , \hat\psi_i)}^{\top}  + \hat{a}^2\, I_{n_i}
+\end{aligned}</span></p>
+<p>The log-likelihood function is then approximated by</p>
+<p><span class="math display">\begin{aligned}
+\log\ell(\hat{\theta};y) &amp; = \sum_{i=1}^N \log\ell(\hat{\theta};y_i)\\
+&amp; \simeq \sum_{i=1}^N \left\{ -\frac{n_i}{2}\log(2 \pi) -\frac{1}{2}\log(|\Gamma_i|)
+-\frac{1}{2} (y_i - \mu_i)^\top \Gamma_i^{-1} (y_i - \mu_i) \right\}
+\end{aligned}</span></p>
+</section>
+<section id="estimation-of-the-fisher-information-matrix" class="level4" data-number="3.2.4">
+<h4 data-number="3.2.4" class="anchored" data-anchor-id="estimation-of-the-fisher-information-matrix"><span class="header-section-number">3.2.4</span> Estimation of the Fisher information matrix</h4>
+<p>Using the linearized model, the variance of the maximum likelihood estimate (MLE) <span class="math inline">\hat{\theta}</span>, and thus confidence intervals, can be derived from the observed Fisher information matrix (FIM), itself derived from the observed likelihood:</p>
+<p><span class="math display">\begin{aligned}
+I({\hat\theta}) &amp;  \triangleq \  - \frac{\partial^2}{\partial \theta \partial \theta^\top} \log\ell(\hat{\theta};y) \\
+&amp; \simeq \frac{1}{2}\sum_{i=1}^N \frac{\partial^2}{\partial \theta \partial \theta^\top}\left\{ \log(|\Gamma_i|)
++ (y_i - \mu_i)^\top \Gamma_i^{-1} (y_i - \mu_i) \right\}
+\end{aligned}</span></p>
+<p>The variance-covariance matrix of <span class="math inline">\hat\theta</span> can then be estimated by the inverse of the observed FIM. Standard errors (s.e.) for each component of <span class="math inline">\hat\theta</span> are the standard deviations, i.e., the square root of the diagonal elements of the variance-covariance matrix.</p>
+</section>
+</section>
+</section>
+<section id="fitting-a-nlme-model-to-the-theophylline-data" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="fitting-a-nlme-model-to-the-theophylline-data"><span class="header-section-number">4</span> Fitting a NLME model to the theophylline data</h2>
+<p>Let us see how to use the <strong>saemix</strong> package for fitting our model to the theophylline data.</p>
+<p>We first need to create a <code>SaemixData</code> object, defining which column of the data file should be used and their role. In our example, <code>concentration</code> is the response variable <span class="math inline">y</span>, <code>time</code> is the explanatory variable (or predictor) <span class="math inline">t</span> and <code>id</code> is the grouping variable.</p>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-24_d2fc012ed2a1e90c8963c26a772c03d1">
+<div class="sourceCode" id="cb15"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>saemix_data <span class="ot">&lt;-</span> <span class="fu">saemixData</span>(<span class="at">name.data       =</span> theophylline,</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.group      =</span> <span class="st">"id"</span>,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.predictors =</span> <span class="st">"time"</span>,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.response   =</span> <span class="st">"concentration"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The structural model is the one compartment model with first order absorption and linear elimination previously used,</p>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-26_fdbf2629b52fcc2bfac2ba4f6fd3297a">
+<div class="sourceCode" id="cb16"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>model1_nlme <span class="ot">&lt;-</span> <span class="cf">function</span>(psi,id,x) {</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  D   <span class="ot">&lt;-</span> <span class="dv">320</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  t   <span class="ot">&lt;-</span> x[,<span class="dv">1</span>]</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  ka  <span class="ot">&lt;-</span> psi[id,<span class="dv">1</span>]</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  V   <span class="ot">&lt;-</span> psi[id,<span class="dv">2</span>]</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  ke  <span class="ot">&lt;-</span> psi[id,<span class="dv">3</span>]</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  fpred <span class="ot">&lt;-</span> D<span class="sc">*</span>ka<span class="sc">/</span>(V<span class="sc">*</span>(ka<span class="sc">-</span>ke))<span class="sc">*</span>(<span class="fu">exp</span>(<span class="sc">-</span>ke<span class="sc">*</span>t)<span class="sc">-</span><span class="fu">exp</span>(<span class="sc">-</span>ka<span class="sc">*</span>t))</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  fpred</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The model is defined in a saemixModel object. The structural model and some initial values for the vector of population parameters <span class="math inline">\psi_{\rm pop}</span> are required</p>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-28_40c920f1ea396a83fc06a228186e3fe6">
+<div class="sourceCode" id="cb17"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model =</span> model1_nlme,</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">psi0  =</span> <span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Several options for selecting and running the algorithms can be defined, including the estimation of the individual parameters (<code>map=TRUE</code>), the estimation of the Fisher information matrix and the log-likelihood by linearization (<code>fim=TRUE</code>), or the estimation of the log-likelihood by importance sampling (<code>ll.is=TRUE</code>, ignored for this course).</p>
+<p><code>seed</code> is a integer used for the random number generator: running the algorithms several times with the same seed ensures that the results will be the same.</p>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-30_72ba621237af8d4191e65f016a0abef2">
+<div class="sourceCode" id="cb18"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>saemix_options <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">map=</span><span class="cn">TRUE</span>, <span class="at">fim=</span><span class="cn">TRUE</span>, <span class="at">ll.is=</span><span class="cn">FALSE</span>, <span class="at">displayProgress=</span><span class="cn">FALSE</span>, <span class="at">save=</span><span class="cn">FALSE</span>, <span class="at">seed=</span><span class="dv">632545</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>saemix_fit1    <span class="ot">&lt;-</span> <span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A summary of the results of the etimation algorithm can be displayed</p>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-32_0967c315f530f28a87bd6d89503f89f5">
+<div class="sourceCode" id="cb19"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>saemix_fit1<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>Fixed effects
+ Parameter Estimate   SE     CV(%)
+ ka         1.8214  0.34262 18.81 
+ V         32.4677  1.58635  4.89 
+ ke         0.0888  0.00638  7.19 
+ a.         0.7473  0.05658  7.57 
+
+Variance of random effects
+ Parameter Estimate   SE      CV(%)
+ omega2.ka 1.22e+00 5.54e-01 45.4  
+ omega2.V  2.23e+01 1.10e+01 49.7  
+ omega2.ke 2.14e-04 1.77e-04 83.0  
+
+Statistical criteria
+Likelihood computed by linearisation
+      -2LL= 345.2624 
+       AIC= 359.2624 
+       BIC= 362.6567 </code></pre>
+</div>
+</div>
+<p>The individual parameters estimates are also available</p>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-34_c10c8c0e1ef5ada984e061a050958244">
+<div class="sourceCode" id="cb21"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>psi <span class="ot">&lt;-</span> <span class="fu">psi</span>(saemix_fit1)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>psi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>          ka        V         ke
+1  1.6668651 28.28289 0.06332123
+2  2.0102983 32.79537 0.09486541
+3  2.2742589 33.39745 0.08651181
+4  1.1962182 31.34693 0.08683357
+5  1.5237417 27.49594 0.08581835
+6  1.1129174 39.42106 0.09912336
+7  0.7322574 33.98073 0.09299638
+8  1.3679036 35.30709 0.09206904
+9  4.3241733 36.34144 0.09574774
+10 0.7043168 25.61639 0.07601221
+11 3.2113234 36.65196 0.09863764
+12 0.9488625 26.06094 0.09102658</code></pre>
+</div>
+</div>
+<p>These individual parameter estimates can be used for computing and plotting individual predictions</p>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-36_eb4d244c2ea52bf350d7c403b333ff6f">
+<div class="sourceCode" id="cb23"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>saemix_fit <span class="ot">&lt;-</span> <span class="fu">saemix.predict</span>(saemix_fit1)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">saemix.plot.fits</span>(saemix_fit1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid" width="960"></p>
+</div>
+</div>
+<p>Several diagnostic fit plots can be displayed, including the plot of the observations versus individual predictions</p>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-38_d622fbe558f3d119b31b5e5876cab834">
+<div class="sourceCode" id="cb24"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saemix.plot.obsvspred</span>(saemix_fit1,<span class="at">level=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-38-1.png" class="img-fluid" width="768"></p>
+</div>
+</div>
+<p>and the plot of the residuals versus time, and versus individual predictions,</p>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-40_4df2d0f16ed0598037a78928987609e7">
+<div class="sourceCode" id="cb25"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saemix.plot.scatterresiduals</span>(saemix_fit1, <span class="at">level=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid" width="960"></p>
+</div>
+</div>
+<section id="some-extensions-of-the-model" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="some-extensions-of-the-model"><span class="header-section-number">4.1</span> Some extensions of the model</h3>
+<section id="the-residual-error-model" class="level4" data-number="4.1.1">
+<h4 data-number="4.1.1" class="anchored" data-anchor-id="the-residual-error-model"><span class="header-section-number">4.1.1</span> The residual error model</h4>
+<p>In the model <span class="math inline">y_{ij} = f(t_{ij} ,\psi_i) + \varepsilon_{ij}</span>, the residual errors <span class="math inline">(\varepsilon_{ij})</span> are assumed to be Gaussian random variables with mean 0. Different models can be used for the variance of the <span class="math inline">(\varepsilon_{ij})</span> in a nonlinear mixed effects model. The following are some of them (more details about residual error models <a href="http://sia.webpopix.org/residualError.html" target="_blank">here</a>).</p>
+<p><strong>Constant error model:</strong></p>
+<p>The residual errors <span class="math inline">(\varepsilon_{ij})</span> are independent and identically distributed:</p>
+<p><span class="math display">\varepsilon_{ij}  \sim^{\mathrm{iid}} \mathcal{N}(0 \ , \ a^2)</span></p>
+<p>The variance of <span class="math inline">y_{ij}</span> is therefore constant over time:</p>
+<p><span class="math display">y_{ij}  = f(t_{ij} ,\psi_i) + a \varepsilon_{ij}</span></p>
+<p>where <span class="math inline">\varepsilon_{ij} \sim^{\mathrm{iid}} \mathcal{N}(0, 1)</span>.</p>
+<p>The error model can be defined as an argument of <code>saemixModel</code> (default is the constant error model)</p>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-42_58a4404e430d280bd9772e898196a7b6">
+<div class="sourceCode" id="cb26"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model=</span>model1_nlme, <span class="at">psi0=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>), <span class="at">error.model=</span><span class="st">"constant"</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>fit.constant <span class="ot">&lt;-</span> <span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-44_f55aa1754fd2f32136bbbb2a48af04ab">
+<div class="sourceCode" id="cb27"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>fit.constant<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>Fixed effects
+ Parameter Estimate   SE     CV(%)
+ ka         1.8214  0.34262 18.81 
+ V         32.4677  1.58635  4.89 
+ ke         0.0888  0.00638  7.19 
+ a.         0.7473  0.05658  7.57 
+
+Variance of random effects
+ Parameter Estimate   SE      CV(%)
+ omega2.ka 1.22e+00 5.54e-01 45.4  
+ omega2.V  2.23e+01 1.10e+01 49.7  
+ omega2.ke 2.14e-04 1.77e-04 83.0  
+
+Statistical criteria
+Likelihood computed by linearisation
+      -2LL= 345.2624 
+       AIC= 359.2624 
+       BIC= 362.6567 </code></pre>
+</div>
+</div>
+<p><strong>Proportional error model:</strong></p>
+<p>Proportional error models assume that the standard deviation of <span class="math inline">\varepsilon_{ij}</span> is proportional to the predicted response: <span class="math inline">\varepsilon_{ij} = \ b\, f(t_{ij} ,\psi_i) \, \varepsilon_{ij}</span> where <span class="math inline">\varepsilon_{ij} \sim^{\mathrm{iid}} \mathcal{N}(0, 1)</span>. Then,</p>
+<p><span class="math display">y_{ij}  = f(t_{ij} ,\psi_i) + b f(t_{ij} ,\psi_i) \, \varepsilon_{ij}</span></p>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-46_30daab2fb469d595ff8ddb502ac5e6c9">
+<div class="sourceCode" id="cb29"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model=</span>model1_nlme, <span class="at">psi0=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>), <span class="at">error.model=</span><span class="st">"proportional"</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>fit.proportional <span class="ot">&lt;-</span> <span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-48_f69e7dd7e4abdb1b982d3f084a2228e4">
+<div class="sourceCode" id="cb30"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>fit.proportional<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>Fixed effects
+ Parameter Estimate   SE     CV(%)
+ ka         1.7315  0.31518 18.20 
+ V         32.9307  1.58820  4.82 
+ ke         0.0873  0.00471  5.40 
+ b.         0.1619  0.01233  7.62 
+
+Variance of random effects
+ Parameter Estimate   SE      CV(%)
+ omega2.ka  1.01082 4.69e-01 46.4  
+ omega2.V  20.81666 1.15e+01 55.3  
+ omega2.ke  0.00018 1.02e-04 56.5  
+
+Statistical criteria
+Likelihood computed by linearisation
+      -2LL= 339.6016 
+       AIC= 353.6016 
+       BIC= 356.996 </code></pre>
+</div>
+</div>
+<p><strong>Combined error model:</strong></p>
+<p>A combined error model additively combines a constant and a proportional error model: <span class="math inline">\varepsilon_{ij} = (a +\ b\, f(t_{ij} ,\psi_i)) \, \varepsilon_{ij}</span> where <span class="math inline">\varepsilon_{ij} \sim^{\mathrm{iid}} \mathcal{N}(0, 1)</span>. Then,</p>
+<p><span class="math display">y_{ij}  = f(t_{ij} ,\psi_i) +  (a + b f(t_{ij} ,\psi_i)) \, \varepsilon_{ij}</span></p>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-50_e2c228712a4392e248a7b71ddaf889c9">
+<div class="sourceCode" id="cb32"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model=</span>model1_nlme, <span class="at">psi0=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>), <span class="at">error.model=</span><span class="st">"combined"</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>fit.combined <span class="ot">&lt;-</span> <span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-52_9ee8b4a537e4c79aed52e8f1c45e758e">
+<div class="sourceCode" id="cb33"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>fit.combined<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>Fixed effects
+ Parameter Estimate   SE     CV(%)
+ ka         1.7563  0.32470 18.49 
+ V         32.4770  1.58184  4.87 
+ ke         0.0891  0.00599  6.73 
+ a.         0.4100  0.11978 29.21 
+ b.         0.0632  0.02335 36.96 
+
+Variance of random effects
+ Parameter Estimate   SE      CV(%)
+ omega2.ka 1.09e+00  0.49750 45.6  
+ omega2.V  2.14e+01 11.04619 51.7  
+ omega2.ke 2.17e-04  0.00016 73.5  
+
+Statistical criteria
+Likelihood computed by linearisation
+      -2LL= 338.7119 
+       AIC= 354.7119 
+       BIC= 358.5912 </code></pre>
+</div>
+</div>
+<p><strong>Exponential error model:</strong></p>
+<p>If <span class="math inline">y</span> is known to take non negative values, a log transformation can be used. We can then write the model with one of two equivalent representations: <span class="math display">\begin{aligned}
+\log(y_{ij})  &amp; = \log(f(t_{ij} ,\psi_i)) + a \varepsilon_{ij} \\
+y_{ij}  &amp; = f(t_{ij} ,\psi_i) \ e^{a \varepsilon_{ij}}
+\end{aligned}</span></p>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-54_4e610ad401d79dcf69c42559aa30594e">
+<div class="sourceCode" id="cb35"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model=</span>model1_nlme, <span class="at">psi0=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>), <span class="at">error.model=</span><span class="st">"exponential"</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>fit.exponential <span class="ot">&lt;-</span> <span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-56_43faf694f9e9e36e52a081400ae76dbb">
+<div class="sourceCode" id="cb36"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>fit.exponential<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>Fixed effects
+ Parameter Estimate   SE     CV(%)
+ ka         1.4688  0.26865 18.29 
+ V         32.2163  1.55149  4.82 
+ ke         0.0889  0.00498  5.60 
+ a.         0.1769  0.01343  7.59 
+
+Variance of random effects
+ Parameter Estimate   SE      CV(%)
+ omega2.ka 7.31e-01  0.33904 46.4  
+ omega2.V  1.76e+01 10.65453 60.6  
+ omega2.ke 1.89e-04  0.00011 58.5  
+
+Statistical criteria
+Likelihood computed by linearisation
+      -2LL= 364.4892 
+       AIC= 378.4892 
+       BIC= 381.8836 </code></pre>
+</div>
+</div>
+</section>
+<section id="transformation-of-the-individual-parameters" class="level4" data-number="4.1.2">
+<h4 data-number="4.1.2" class="anchored" data-anchor-id="transformation-of-the-individual-parameters"><span class="header-section-number">4.1.2</span> Transformation of the individual parameters</h4>
+<p>Clearly, not all distributions are Gaussian. To begin with, the normal distribution has support <span class="math inline">\Rset</span>, unlike many parameters that take values in precise intervals. For instance, some variables take only positive values (e.g., volumes and transfer rate constants) and others are restricted to bounded intervals.</p>
+<p>Furthermore, the Gaussian distribution is symmetric, which is not a property shared by all distributions. One way to extend the use of Gaussian distributions is to consider that some transformation of the parameters in which we are interested is Gaussian.</p>
+<p>i.e., assume the existence of a monotonic function <span class="math inline">h</span> such that <span class="math inline">h(\psi_i)</span> is normally distributed. For a sake of simplicity, we will consider here a scalar parameter <span class="math inline">\psi_i</span>. We then assume that</p>
+<p><span class="math display"> h(\psi_i) \sim  \mathcal{N}(h(\psi_{\rm pop}) \ , \ \omega^2).</span></p>
+<p>Or, equivalently,</p>
+<p><span class="math display">h(\psi_i) = h(\psi_{\rm pop}) + \eta_i</span></p>
+<p>where <span class="math inline">\eta_i \sim \mathcal{N}(0,\omega^2)</span>.</p>
+<p>Let us now see some examples of transformed normal pdfs.</p>
+<p><strong>Log-normal distribution:</strong></p>
+<p>A log-normal distributions ensures nonnegative values and is widely used for describing distributions of physiological parameters.</p>
+<p>If <span class="math inline">\psi_i</span> is log-normally distributed, the 3 following representations are equivalent:</p>
+<p><span class="math display">\begin{aligned}
+\log(\psi_i) &amp; \sim \mathcal{N}( \log(\psi_{\rm pop}) \ , \omega^2)  \\
+\log(\psi_i) &amp;= \log(\psi_{\rm pop}) + \eta_i \\
+\psi_i &amp;= \psi_{\rm pop} e^{\eta_i}
+\end{aligned}</span></p>
+<p><strong>Logit-normal distribution:</strong></p>
+<p>The logit function is defined on <span class="math inline">(0,1)</span> and take its value in <span class="math inline">\Rset</span>: For any <span class="math inline">x</span> in <span class="math inline">(0,1)</span>,</p>
+<p><span class="math display"> \logit(x) = \log \left(\frac{x}{1-x}\right) \Longleftrightarrow
+x = \frac{1}{1+e^{-\logit(x)}}
+</span></p>
+<p>An individual parameter <span class="math inline">\psi_i</span> with a logit-normal distribution takes its values in <span class="math inline">(0,1)</span>. The logit of <span class="math inline">\psi</span> is normally distributed, i.e.,</p>
+<p><span class="math display">\logit(\psi_i) = \log \left(\frac{\psi_i}{1-\psi_i}\right)  \ \sim \ \ \mathcal{N}( \logit(\psi_{\rm pop}) \ , \ \omega^2),</span></p>
+<p><strong>Probit-normal distribution:</strong></p>
+<p>The probit function is the inverse cumulative distribution function (quantile function) <span class="math inline">\psi^{-1}</span> associated with the standard normal distribution <span class="math inline">\mathcal{N}(0,1)</span>. For any <span class="math inline">x</span> in <span class="math inline">(0,1)</span>, <span class="math display">
+\probit(x) = \psi^{-1}(x) \ \Longleftrightarrow
+\prob{\mathcal{N}(0,1) \leq \probit(x)} = x
+</span></p>
+<p>An individual parameter <span class="math inline">\psi_i</span> with a probit-normal distribution takes its values in <span class="math inline">(0,1)</span>. The probit of <span class="math inline">\psi_i</span> is normally distributed:</p>
+<p><span class="math display">\probit(\psi_i) = \psi^{-1}(\psi_i) \ \sim \  \mathcal{N}( \probit(\psi_{\rm pop}) \ , \ \omega^2) . </span></p>
+<p>The distribution of each individual parameter can be defined using the argument <code>transform.par</code> (0=normal, 1=log-normal, 2=probit, 3=logit). Default are normal distributions, i.e.&nbsp;a vector of 0.</p>
+<p>If we want to use, for example, a normal distribution for <span class="math inline">V</span> and log-normal distributions for <span class="math inline">k_a</span> and <span class="math inline">k_e</span>, then, <code>transform.par</code> should be the vector c(1,0,1):</p>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-58_3ba076e1357ff4826a594a70e6c684d9">
+<div class="sourceCode" id="cb38"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>saemix_model<span class="ot">&lt;-</span><span class="fu">saemixModel</span>(<span class="at">model         =</span> model1_nlme,</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">psi0          =</span> <span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>),</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">transform.par =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>))</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>saemix_fit2 <span class="ot">&lt;-</span><span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-60_1cb94778aaf9b343f278df027a7ae3d8">
+<div class="sourceCode" id="cb39"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>saemix_fit2<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>Fixed effects
+ Parameter Estimate   SE     CV(%)
+ ka         1.5866  0.30502 19.22 
+ V         32.5432  1.68413  5.18 
+ ke         0.0877  0.00589  6.72 
+ a.         0.7316  0.05551  7.59 
+
+Variance of random effects
+ Parameter Estimate   SE     CV(%)
+ omega2.ka  0.3937   0.1753  44.5 
+ omega2.V  26.0922  12.4489  47.7 
+ omega2.ke  0.0196   0.0198 101.0 
+
+Statistical criteria
+Likelihood computed by linearisation
+      -2LL= 338.1239 
+       AIC= 352.1239 
+       BIC= 355.5183 </code></pre>
+</div>
+</div>
+<div class="remark proof">
+<p><span class="proof-title"><em>Remark</em>.</span>Here, <span class="math inline">\omega^2_{ka}</span> and <span class="math inline">\omega^2_{ke}</span> are the variances of <span class="math inline">\log(k_a_i)</span> and <span class="math inline">\log(k_e_i)</span> while <span class="math inline">\omega^2_{V}</span> is the variance of <span class="math inline">V_i</span>.</p>
+</div>
+</section>
+<section id="models-with-covariates" class="level4" data-number="4.1.3">
+<h4 data-number="4.1.3" class="anchored" data-anchor-id="models-with-covariates"><span class="header-section-number">4.1.3</span> Models with covariates</h4>
+<p>Let <span class="math inline">c_i = (c_{i1},c_{i2}, \ldots , c_{iL})</span> be a vector of individual covariates, i.e.&nbsp;a vector of individual parameters available with the data. We may want to explain part of the variability of the non observed individual parameters <span class="math inline">(\psi_i)</span> using these covariates.</p>
+<p>We will only consider linear models of the covariates. More precisely, assuming that <span class="math inline">h(\psi_i)</span> is normally distributed, we will decompose <span class="math inline">h(\psi_i)</span> into fixed and random effects:</p>
+<p><span class="math display">h(\psi_i) = h(\psi_{\rm pop})  + \sum_{\ell=1}^L c_{i\ell}\beta_{\ell} + \eta_i</span></p>
+<div class="remark proof">
+<p><span class="proof-title"><em>Remark</em>.</span><span class="math inline">\psi_{\rm pop}</span> is the <code>typical</code> value of <span class="math inline">\psi_i</span> if the covariates <span class="math inline">c_{i1}</span>, …, <span class="math inline">c_{iL}</span> are zero for a <code>typical</code> individual of the population.</p>
+</div>
+<p>Let us consider a model where the volume <span class="math inline">V_i</span> is normally distributed and is a linear function of the weight <span class="math inline">w_i</span>:</p>
+<p><span class="math display">V_i = \beta_0 + \beta \, w_i + \eta_{V,i}</span></p>
+<p>Assuming that the weight of a typical individual of the population is <span class="math inline">w_{\rm pop}</span>, the predicted volume for this individual is not <span class="math inline">\beta_0</span> but <span class="math inline">\beta_0 + \beta w_{\rm pop}</span>.</p>
+<p>If we use instead the centered weight <span class="math inline">w_i-w_{\rm pop}</span>, we can now write the model as</p>
+<p><span class="math display">V_i = V_{\rm pop} + \beta \, (w_i-w_{\rm pop}) + \eta_{V,i} \ .</span></p>
+<p>Indeed, the predicted volume for a typical individual is now <span class="math inline">V_{\rm pop}</span>.</p>
+<p>Assume that we decide to use 70kg as typical weight in the theophylline study. The saemixData object now needs to include <span class="math inline">w_i-70</span>:</p>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-62_1230739cd99430ebb19d79d9ec584ae4">
+<div class="sourceCode" id="cb41"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>theophylline<span class="sc">$</span>w70 <span class="ot">&lt;-</span> theophylline<span class="sc">$</span>weight <span class="sc">-</span> <span class="dv">70</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>saemix_data <span class="ot">&lt;-</span> <span class="fu">saemixData</span>(<span class="at">name.data       =</span> <span class="st">"theophylline"</span>,</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.group      =</span> <span class="fu">c</span>(<span class="st">"id"</span>),</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.predictors =</span> <span class="fu">c</span>(<span class="st">"time"</span>),</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.response   =</span> <span class="fu">c</span>(<span class="st">"concentration"</span>),</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.covariates =</span> <span class="fu">c</span>(<span class="st">"w70"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here, only the volume <span class="math inline">V</span> is function of the weight. The covariate model is therefore encoded as vector (0,1,0).</p>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-64_ffa3e02c09616809c4b482b1cedab173">
+<div class="sourceCode" id="cb42"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model           =</span> model1_nlme,</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">psi0            =</span> <span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>),</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">transform.par   =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>                            <span class="at">covariate.model =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>))</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>saemix_fit3 <span class="ot">&lt;-</span> <span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-66_d1b3e4c552fb872fdd1bd24fc3b48c2b">
+<div class="sourceCode" id="cb43"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>saemix_fit3<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>Fixed effects
+ Parameter   Estimate   SE     CV(%) p-value
+ ka           1.5927  0.31047 19.49  -      
+ V           32.7203  1.38033  4.22  -      
+ beta_w70(V)  0.3370  0.13798 40.94  0.00729
+ ke           0.0871  0.00623  7.15  -      
+ a.           0.7247  0.05485  7.57  -      
+
+Variance of random effects
+ Parameter Estimate   SE    CV(%)
+ omega2.ka  0.4063  0.1804 44.4  
+ omega2.V  15.0473  8.0341 53.4  
+ omega2.ke  0.0272  0.0218 80.3  
+
+Statistical criteria
+Likelihood computed by linearisation
+      -2LL= 333.2907 
+       AIC= 349.2907 
+       BIC= 353.1699 </code></pre>
+</div>
+</div>
+<p>Here, <span class="math inline">\hat\beta_{w70} = 0.33</span> means that an increase of the weight of 1kg leads to an increase of the predicted volume of 0.33l.</p>
+<p>The p-value of the test <span class="math inline">H_0: \ \beta_{w70}=0</span> versus <span class="math inline">H_1: \ \beta_{w70}\neq 0</span> is 0.01 We can then reject the null and conclude that the predicted volume significantly increases with the weight.</p>
+<p>Imagine that we now use a log-normal distribution for the volume <span class="math inline">V_i</span>. It is now the log-volume which is a linear function of the transformed weight.</p>
+<p>We can assume, for instance, that the log-volume is a linear function of the centered log-weight:</p>
+<p><span class="math display">\log(V_i) = \log(V_{\rm pop}) + \beta \, \log(w_i/w_{\rm pop}) + \eta_{V,i} \ .</span></p>
+<p>Or, equivalently,</p>
+<p><span class="math display">V_i = V_{\rm pop}  \left(\frac{w_i}{w_{\rm pop}}\right)^{\beta} e^{\eta_{V,i}} \ .</span></p>
+<p>We see that, using this model, the predicted volume for a typical individual is <span class="math inline">V_{\rm pop}</span>.</p>
+<p>The saemixData object now needs to include <span class="math inline">\log(w_i/70)</span> a covariate,</p>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-68_06bf1eb18a4e91a2131cb1ddb99f82c3">
+<div class="sourceCode" id="cb45"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>theophylline<span class="sc">$</span>lw70 <span class="ot">&lt;-</span> <span class="fu">log</span>(theophylline<span class="sc">$</span>weight<span class="sc">/</span><span class="dv">70</span>)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>saemix_data <span class="ot">&lt;-</span> <span class="fu">saemixData</span>(<span class="at">name.data       =</span> theophylline,</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.group      =</span> <span class="fu">c</span>(<span class="st">"id"</span>),</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.predictors =</span> <span class="fu">c</span>(<span class="st">"time"</span>),</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.response   =</span> <span class="fu">c</span>(<span class="st">"concentration"</span>),</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.covariates =</span> <span class="fu">c</span>(<span class="st">"lw70"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The covariate model is again encoded as the (row) vector (0,1,0) but the transformation is now encoded as 1 for the three parameters</p>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-70_f0335090487a0b26cf8fad178f2ddd1b">
+<div class="sourceCode" id="cb46"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model           =</span> model1_nlme,</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">psi0            =</span> <span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>),</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">transform.par   =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>),</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>                            <span class="at">covariate.model =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>))</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>saemix_fit4 <span class="ot">&lt;-</span> <span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-72_98fc93972df8c01a183a1b6314b958c0">
+<div class="sourceCode" id="cb47"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>saemix_fit4<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>Fixed effects
+ Parameter    Estimate   SE    CV(%) p-value
+ ka            1.5760  0.3071 19.49  -      
+ V            32.3729  1.4005  4.33  -      
+ beta_lw70(V)  0.7597  0.2994 39.42  0.00559
+ ke            0.0881  0.0062  7.04  -      
+ a.            0.7269  0.0550  7.57  -      
+
+Variance of random effects
+ Parameter Estimate   SE     CV(%)
+ omega2.ka 0.4056   0.18007 44.4  
+ omega2.V  0.0149   0.00787 52.7  
+ omega2.ke 0.0251   0.02099 83.6  
+
+Statistical criteria
+Likelihood computed by linearisation
+      -2LL= 333.2833 
+       AIC= 349.2833 
+       BIC= 353.1626 </code></pre>
+</div>
+</div>
+</section>
+<section id="correlations-between-random-effects" class="level4" data-number="4.1.4">
+<h4 data-number="4.1.4" class="anchored" data-anchor-id="correlations-between-random-effects"><span class="header-section-number">4.1.4</span> Correlations between random effects</h4>
+<p>Until now, the random effects were assumed to be uncorrelated, i.e.&nbsp;the veariance-covariance matrix <span class="math inline">\Omega</span> was a diagonal matrix (default covariance model for <strong>saemix</strong>).</p>
+<p>Correlations between random effects can be introduced with the input argument <code>covariance.model</code>, a square matrix of size equal to the number of parameters in the model, giving the variance-covariance structure of the model: 1s correspond to estimated variances (in the diagonal) or covariances (off-diagonal elements). The structure of the matrix <span class="math inline">\Omega</span> should be block.</p>
+<p>Consider, for instance a model where <span class="math inline">k_a</span> is fixed in the population, i.e.&nbsp;<span class="math inline">\omega_{k_a}=0</span> (and thus <span class="math inline">k_a_i=0</span> for all <span class="math inline">i</span>), and where <span class="math inline">\log(V)</span> and <span class="math inline">\log(k_e)</span> are correlated, i.e <span class="math inline">\eta_V</span> and <span class="math inline">\eta_{k_e})</span> are correlated:</p>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-74_d1fe70de0fe0d67349d7d520aed6bc31">
+<div class="sourceCode" id="cb49"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>saemix_model<span class="ot">&lt;-</span><span class="fu">saemixModel</span>(<span class="at">model           =</span> model1_nlme,</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">psi0            =</span> <span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>),</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">transform.par   =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>),</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">covariate.model =</span> <span class="fu">t</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>)),</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">covariance.model =</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>),<span class="at">nrow=</span><span class="dv">3</span>))</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>saemix_fit5 <span class="ot">&lt;-</span> <span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-76_90db196820b3a706f5b2230cebf2e655">
+<div class="sourceCode" id="cb50"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>saemix_fit5<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>Fixed effects
+ Parameter    Estimate   SE    CV(%) p-value
+ ka            1.5385  0.1327  8.63  -      
+ V            33.2076  1.7624  5.31  -      
+ beta_lw70(V)  0.3536  0.3090 87.38  0.126  
+ ke            0.0823  0.0098 11.91  -      
+ a.            1.0804  0.0779  7.21  -      
+
+Variance of random effects
+ Parameter Estimate   SE    CV(%)
+ omega2.V  0.0179   0.0102 57.1  
+ omega2.ke 0.0913   0.0569 62.4  
+
+Statistical criteria
+
+Correlation matrix of random effects
+          omega2.V omega2.ke
+omega2.V   1.000   -0.319   
+omega2.ke -0.319    1.000   
+Likelihood computed by linearisation
+      -2LL= 392.5674 
+       AIC= 408.5674 
+       BIC= 412.4467 </code></pre>
+</div>
+</div>
+
+
+</section>
+</section>
+</section>
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</main> <!-- /main -->
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+</body></html>

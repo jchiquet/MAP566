@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.2.318">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>MAP566 - Stats in Action - Mixture Models: an example</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+   var mathElements = document.getElementsByClassName("math");
+   var macros = [];
+   for (var i = 0; i < mathElements.length; i++) {
+    var texText = mathElements[i].firstChild;
+    if (mathElements[i].tagName == "SPAN") {
+     katex.render(texText.data, mathElements[i], {
+      displayMode: mathElements[i].classList.contains('display'),
+      throwOnError: false,
+      macros: macros,
+      fleqn: false
+     });
+  }}});
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="../../site_libs/clipboard/clipboard.min.js"></script>
+  <meta name="quarto:offset" content="../../">
+  <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+  <script src="../../site_libs/quarto-search/fuse.min.js"></script>
+  <script src="../../site_libs/quarto-search/quarto-search.js"></script>
+  <script src="../../site_libs/quarto-html/quarto.js"></script>
+  <script src="../../site_libs/quarto-html/popper.min.js"></script>
+  <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="../../site_libs/quarto-html/anchor.min.js"></script>
+  <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <script id="quarto-search-options" type="application/json">{
+    "location": "navbar",
+    "copy-button": false,
+    "collapse-after": 2,
+    "panel-placement": "end",
+    "type": "overlay",
+    "limit": 20,
+    "language": {
+      "search-no-results-text": "No results",
+      "search-matching-documents-text": "matching documents",
+      "search-copy-link-title": "Copy link to search",
+      "search-hide-matches-text": "Hide additional matches",
+      "search-more-match-text": "more match in this document",
+      "search-more-matches-text": "more matches in this document",
+      "search-clear-button-title": "Clear",
+      "search-detached-cancel-button-title": "Cancel",
+      "search-submit-button-title": "Submit"
+    }
+  }</script>
+</head>
+<body class="docked">
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <img src="../../logo_X.jpg" alt="">
+    <span class="navbar-title">MAP566 - Stats in Action</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../getting-started.html">Getting Started</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/jchiquet/MAP566"><i class="bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hypothesis-testing" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hypothesis Testing</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-hypothesis-testing">    
+        <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-single.html">Statistical Tests</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-multiple.html">Multiple Testing</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Labs</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html">Exercices</a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-regression-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Regression models</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-regression-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html">Polynomial regression models</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-nonlinear-regression.html">Nonlinear regression</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Exercices</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-polynomial-regression.html">Polynomial regression model: exercices</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-nonlinear-regression.html">Nonlinear regression: exercices</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html">Linear regression: quick recap</a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixed-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mixed models</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixed-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html">Linear Mixed Effects Models</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html">Nonlinear Mixed Effects Models</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Exercices</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-linear-mixed-model.html">Linear Mixed Models: exercices</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html">An EM Algorithm for Linear Mixed Effects Models</a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mixture models</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixture-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html">Mixture Models</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Exercices</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">Mixture models: exercices</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-doc-mixture-models-example.html">Mixture Models: an example</a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-homework" role="button" data-bs-toggle="dropdown" aria-expanded="false">Homework</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-homework">    
+    </ul>
+  </li>
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Mixture Models: an example</h1>
+      <button type="button" class="quarto-btn-toggle btn">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+  <div class="sidebar-menu-container"> 
+  <ul class="list-unstyled mt-1">
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#lectures-collapse" aria-expanded="true">
+              <div class="me-auto sidebar-section-item">Lectures</div>
+            <div><i class="bi bi-chevron-right ms-2"></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="lectures-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../../docs/mixture-models/map566-lecture-mixture-models.html" class="">Mixture Models</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#exercices-collapse" aria-expanded="true">
+              <div class="me-auto sidebar-section-item">Exercices</div>
+            <div><i class="bi bi-chevron-right ms-2"></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="exercices-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../../docs/mixture-models/map566-lab-mixture-models.html" class="">Mixture models: exercices</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#supplementarymaterial-collapse" aria-expanded="true">
+              <div class="me-auto sidebar-section-item">Supplementary material</div>
+            <div><i class="bi bi-chevron-right ms-2"></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="supplementarymaterial-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../../docs/mixture-models/map566-doc-mixture-models-example.html" class="active">Mixture Models: an example</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+  </ul>
+  </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+      <nav id="TOC" role="doc-toc">
+<h2 id="toc-title">On this page</h2>
+<ul>
+<li><a href="#preliminary" class="nav-link active" data-scroll-target="#preliminary">Preliminary</a></li>
+<li><a href="#the-iris-data" class="nav-link" data-scroll-target="#the-iris-data"> <span class="header-section-number">1</span> The Iris data</a>
+<ul class="collapse">
+<li><a href="#supervised-classification" class="nav-link" data-scroll-target="#supervised-classification"> <span class="header-section-number">1.1</span> Supervised classification</a></li>
+<li><a href="#non-supervised-classification" class="nav-link" data-scroll-target="#non-supervised-classification"> <span class="header-section-number">1.2</span> Non supervised classification</a></li>
+</ul></li>
+</ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content">
+<header id="title-block-header">
+<h1 class="title d-none d-lg-block display-7">Mixture Models: an example</h1>
+</header>
+
+<section id="preliminary" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="preliminary">Preliminary</h2>
+<p>Functions from <code>R</code>-base and stats (preloaded) are required plus packages from the <strong>tidyverse</strong> for data representation and manipulation. We also need the packages <strong>mixtools</strong> and <strong>mclust</strong>, which are commonly used to fit mixture models in <code>R</code>.</p>
+<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/tests-config_dce41e30327c345953e80f8490a32745">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mixtools)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="the-iris-data" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="the-iris-data"><span class="header-section-number">1</span> The Iris data</h2>
+<p>The famous (Fisher’s or Anderson’s) iris data set gives the measurements in centimeters of the variables <a href="http://en.wikipedia.org/wiki/Sepal" target="_blank">sepal</a> length and width and petal length and width, respectively, for 50 flowers from each of 3 species of iris. The species are Iris setosa, versicolor, and virginica. (from <code>?iris</code>).</p>
+<p>The Iris flower data set is a nice example for learning supervised classification algorithms, and is known as a difficult case for unsupervised learning.</p>
+<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-2_d528669a419dd311e48f0b073f87600e">
+<div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>iris <span class="ot">&lt;-</span> datasets<span class="sc">::</span>iris</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(iris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>  Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+1          5.1         3.5          1.4         0.2  setosa
+2          4.9         3.0          1.4         0.2  setosa
+3          4.7         3.2          1.3         0.2  setosa
+4          4.6         3.1          1.5         0.2  setosa
+5          5.0         3.6          1.4         0.2  setosa
+6          5.4         3.9          1.7         0.4  setosa</code></pre>
+</div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>species_labels <span class="ot">&lt;-</span> iris[,<span class="dv">5</span>]</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>species_col <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"#7DB0DD"</span>,<span class="st">"#86B875"</span>,<span class="st">"#E495A5"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(iris[,<span class="sc">-</span><span class="dv">5</span>], <span class="at">col =</span> species_col[species_labels],</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">lower.panel =</span> <span class="cn">NULL</span>, <span class="at">cex.labels=</span><span class="dv">2</span>, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">cex =</span> <span class="dv">1</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">xpd =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="at">x =</span> <span class="fl">0.1</span>, <span class="at">y =</span> <span class="fl">0.4</span>, <span class="at">cex =</span> <span class="fl">1.2</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">as.character</span>(<span class="fu">levels</span>(species_labels)), <span class="at">fill =</span> species_col)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map566-doc-mixture-models-example_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="864"></p>
+</div>
+</div>
+<p>We can see that the Setosa species are distinctly different from Versicolor and Virginica (they have lower petal length and width). But Versicolor and Virginica cannot easily be separated based on measurements of their sepal and petal width/length.</p>
+<p>The same conclusion can be made by looking at the parallel coordinates plot of the data:</p>
+<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-4_980e10f1c4da2c7dce75c2c6ce939167">
+<div class="sourceCode" id="cb5"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># https://cran.r-project.org/web/packages/dendextend/vignettes/Cluster_Analysis.html</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>MASS<span class="sc">::</span><span class="fu">parcoord</span>(iris[,<span class="sc">-</span><span class="dv">5</span>], <span class="at">col =</span> species_col[species_labels], <span class="at">var.label =</span> <span class="cn">TRUE</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a legend</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">xpd =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="at">x =</span> <span class="fl">1.75</span>, <span class="at">y =</span> <span class="sc">-</span>.<span class="dv">25</span>, <span class="at">cex =</span> <span class="dv">1</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>   <span class="at">legend =</span> <span class="fu">as.character</span>(<span class="fu">levels</span>(species_labels)),</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> species_col, <span class="at">horiz =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map566-doc-mixture-models-example_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<section id="supervised-classification" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="supervised-classification"><span class="header-section-number">1.1</span> Supervised classification</h3>
+<section id="logistic-regression-for-a-binary-variable" class="level4" data-number="1.1.1">
+<h4 data-number="1.1.1" class="anchored" data-anchor-id="logistic-regression-for-a-binary-variable"><span class="header-section-number">1.1.1</span> Logistic regression for a binary variable</h4>
+<p>Let <span class="math inline">y_i</span> be a binary response that take its values in <span class="math inline">\{0,1\}</span> and let <span class="math inline">c_{i1}, \ldots, c_{iM}</span> be <span class="math inline">M</span> explanatory variables (or predictors).</p>
+<p>Formally, the logistic regression model is that</p>
+<p><span class="math display">\begin{aligned}
+ \log\left(\frac{\mathbb{P}(y_i=1)}{\mathbb{P}(y_i=0)}\right) 
+&amp;= \log\left(\frac{\mathbb{P}(y_i=1)}{1 - \mathbb{P}(y_i=1)}\right) \\
+&amp;= \beta_0 + \sum_{m=1}^M \beta_m c_{im}
+\end{aligned}</span> Then, <span class="math display">\mathbb{P}(y_i=1) = \frac{1}{1+ e^{-\beta_0 -  \sum_{m=1}^M \beta_m c_{im}}}</span></p>
+<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-6_5be774ba2cd2cdb4a04c3ff401df3687">
+<div class="sourceCode" id="cb6"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>myiris <span class="ot">&lt;-</span> <span class="fu">cbind</span>(iris,<span class="at">virginica=</span><span class="fu">ifelse</span>(iris<span class="sc">$</span>Species<span class="sc">==</span><span class="st">"virginica"</span>,<span class="dv">1</span>,<span class="dv">0</span>))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>myiris<span class="sc">$</span>virginica</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>  [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ [38] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ [75] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1
+[112] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[149] 1 1</code></pre>
+</div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>iris.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(virginica <span class="sc">~</span> Sepal.Length <span class="sc">+</span> Sepal.Width <span class="sc">+</span> Petal.Length <span class="sc">+</span> Petal.Width, <span class="at">family=</span>binomial, <span class="at">data=</span>myiris)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(iris.glm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = virginica ~ Sepal.Length + Sepal.Width + Petal.Length + 
+    Petal.Width, family = binomial, data = myiris)
+
+Deviance Residuals: 
+     Min        1Q    Median        3Q       Max  
+-2.01105  -0.00065   0.00000   0.00048   1.78065  
+
+Coefficients:
+             Estimate Std. Error z value Pr(&gt;|z|)  
+(Intercept)   -42.638     25.708  -1.659   0.0972 .
+Sepal.Length   -2.465      2.394  -1.030   0.3032  
+Sepal.Width    -6.681      4.480  -1.491   0.1359  
+Petal.Length    9.429      4.737   1.990   0.0465 *
+Petal.Width    18.286      9.743   1.877   0.0605 .
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 190.954  on 149  degrees of freedom
+Residual deviance:  11.899  on 145  degrees of freedom
+AIC: 21.899
+
+Number of Fisher Scoring iterations: 12</code></pre>
+</div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.vector</span>(<span class="fu">round</span>(<span class="fu">fitted</span>(iris.glm)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>  [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ [38] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ [75] 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1
+[112] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[149] 1 1</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-8_5c12e7457192c25ef8591fc1d01f083c">
+<div class="sourceCode" id="cb12"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>iris.glm<span class="sc">$</span>linear.predictors[<span class="dv">71</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>        71 
+-0.3853463 </code></pre>
+</div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">cbind</span>(<span class="dv">1</span>,iris[<span class="dv">71</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])<span class="sc">*</span>iris.glm<span class="sc">$</span>coefficients)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] -0.3853463</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-10_82ab391135ed1f55df1debdb7fc9c5b1">
+<div class="sourceCode" id="cb16"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>iris.glm<span class="sc">$</span>fitted.values[<span class="dv">71</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>       71 
+0.4048381 </code></pre>
+</div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>(<span class="sc">-</span>iris.glm<span class="sc">$</span>linear.predictors[<span class="dv">71</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>       71 
+0.4048381 </code></pre>
+</div>
+</div>
+</section>
+<section id="logistic-regression-with-more-than-two-classes" class="level4" data-number="1.1.2">
+<h4 data-number="1.1.2" class="anchored" data-anchor-id="logistic-regression-with-more-than-two-classes"><span class="header-section-number">1.1.2</span> Logistic regression with more than two classes</h4>
+<p>Assume now that <span class="math inline">y_i</span> takes its values in <span class="math inline">\{1,2\ldots,L\}</span>. The logistic regression model now writes</p>
+<p><span class="math display">\begin{aligned}
+ \log\left(\frac{\mathbb{P}(y_i=k)}{\mathbb{P}(y_i=L)}\right) 
+&amp;= \beta_{k0} +  \sum_{m=1}^M \beta_{k m} c_{im} \quad , \quad k=1,2,\ldots,L
+\end{aligned}</span> where we set, for instance, <span class="math inline">\beta_{L0}=\beta_{L1}=\ldots=\beta_{LM}=0</span> for identifiabilty reason. Then,</p>
+<p><span class="math display">
+ \mathbb{P}(y_i=k) = \frac{e^{\beta_{k0} +  \sum_{m=1}^M \beta_{k m} c_{im}}}
+ {\sum_{j=1}^K e^{\beta_{j0} +  \sum_{m=1}^M \beta_{j m} c_{im}}}
+ \quad , \quad k=1,2,\ldots,L
+</span></p>
+<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-12_251308de2702985638d3c170b383bc51">
+<div class="sourceCode" id="cb20"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(VGAM)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>myiris <span class="ot">&lt;-</span> <span class="fu">cbind</span>(myiris,<span class="at">versicolor=</span><span class="fu">ifelse</span>(iris<span class="sc">$</span>Species<span class="sc">==</span><span class="st">"versicolor"</span>,<span class="dv">1</span>,<span class="dv">0</span>))</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>myiris <span class="ot">&lt;-</span> <span class="fu">cbind</span>(myiris,<span class="at">setosa=</span><span class="fu">ifelse</span>(iris<span class="sc">$</span>Species<span class="sc">==</span><span class="st">"setosa"</span>,<span class="dv">1</span>,<span class="dv">0</span>))</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(myiris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>  Sepal.Length Sepal.Width Petal.Length Petal.Width Species virginica
+1          5.1         3.5          1.4         0.2  setosa         0
+2          4.9         3.0          1.4         0.2  setosa         0
+3          4.7         3.2          1.3         0.2  setosa         0
+4          4.6         3.1          1.5         0.2  setosa         0
+5          5.0         3.6          1.4         0.2  setosa         0
+6          5.4         3.9          1.7         0.4  setosa         0
+  versicolor setosa
+1          0      1
+2          0      1
+3          0      1
+4          0      1
+5          0      1
+6          0      1</code></pre>
+</div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>iris.vglm <span class="ot">&lt;-</span> <span class="fu">vglm</span>(<span class="fu">cbind</span>(virginica,versicolor,setosa) <span class="sc">~</span> Sepal.Length <span class="sc">+</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>Sepal.Width <span class="sc">+</span> Petal.Length <span class="sc">+</span> Petal.Width, <span class="at">family=</span>multinomial,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="at">data=</span>myiris)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(iris.vglm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>
+Call:
+vglm(formula = cbind(virginica, versicolor, setosa) ~ Sepal.Length + 
+    Sepal.Width + Petal.Length + Petal.Width, family = multinomial, 
+    data = myiris)
+
+Coefficients: 
+                Estimate Std. Error z value Pr(&gt;|z|)
+(Intercept):1    -35.365  19432.051  -0.002    0.999
+(Intercept):2      7.272  19432.034   0.000    1.000
+Sepal.Length:1    -9.242   5790.844  -0.002    0.999
+Sepal.Length:2    -6.777   5790.843      NA       NA
+Sepal.Width:1    -12.569   2888.841  -0.004    0.997
+Sepal.Width:2     -5.889   2888.838      NA       NA
+Petal.Length:1    22.630   4446.221      NA       NA
+Petal.Length:2    13.201   4446.219   0.003    0.998
+Petal.Width:1     33.919   7133.176   0.005    0.996
+Petal.Width:2     15.633   7133.169   0.002    0.998
+
+Names of linear predictors: log(mu[,1]/mu[,3]), log(mu[,2]/mu[,3])
+
+Residual deviance: 11.8985 on 290 degrees of freedom
+
+Log-likelihood: -5.9493 on 290 degrees of freedom
+
+Number of Fisher scoring iterations: 21 
+
+Warning: Hauck-Donner effect detected in the following estimate(s):
+'Sepal.Length:2', 'Sepal.Width:2', 'Petal.Length:1'
+
+
+Reference group is level  3  of the response</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-14_5079878916c956ac8d2ab7c76e206ead">
+<div class="sourceCode" id="cb24"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>iris.vglm<span class="sc">@</span>predictors[<span class="dv">71</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>log(mu[,1]/mu[,3]) log(mu[,2]/mu[,3]) 
+          39.56470           39.95004 </code></pre>
+</div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">sum</span>(<span class="fu">cbind</span>(<span class="dv">1</span>,iris[<span class="dv">71</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])<span class="sc">*</span>iris.vglm<span class="sc">@</span>coefficients[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">9</span>)]), </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(<span class="fu">cbind</span>(<span class="dv">1</span>,iris[<span class="dv">71</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])<span class="sc">*</span>iris.vglm<span class="sc">@</span>coefficients[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">6</span>,<span class="dv">8</span>,<span class="dv">10</span>)]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 39.56470 39.95004</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-16_628e055ff6f1e93cc1754c10b9f40cee">
+<div class="sourceCode" id="cb28"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>iris.vglm<span class="sc">@</span>fitted.values[<span class="dv">71</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>   virginica   versicolor       setosa 
+4.048381e-01 5.951619e-01 2.657985e-18 </code></pre>
+</div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>lp71 <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(<span class="fu">c</span>(iris.vglm<span class="sc">@</span>predictors[<span class="dv">71</span>,],<span class="dv">0</span>))</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(lp71)<span class="sc">/</span><span class="fu">sum</span>(<span class="fu">exp</span>(lp71))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 4.048381e-01 5.951619e-01 2.657985e-18</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-18_0b7d8c2b9a0e4162c7757e3742139bc0">
+<div class="sourceCode" id="cb32"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">fitted</span>(iris.vglm))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>     virginica   versicolor setosa
+1 5.895408e-39 3.817290e-12      1
+2 2.007661e-35 2.812349e-10      1
+3 1.073625e-36 8.972486e-11      1
+4 8.785319e-34 4.462530e-09      1
+5 4.226744e-39 4.171875e-12      1
+6 1.894589e-36 5.671292e-11      1</code></pre>
+</div>
+</div>
+<p>Percentage of missclassified flowers: ::: {.cell hash=“map566-doc-mixture-models-example_cache/html/unnamed-chunk-20_f635000c2b1f9764403891aafda71b91”}</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Now we use 'fitted.iris' as the model-based classifications</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="co"># of which flower is of each type.  How does this compare</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="co"># to the real types?</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>rclass.iris <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">apply</span>(<span class="fu">abs</span>(<span class="fu">round</span>(<span class="fu">fitted</span>(iris.vglm)) <span class="sc">-</span> myiris[,<span class="dv">6</span><span class="sc">:</span><span class="dv">8</span>]),<span class="dv">1</span>,sum)<span class="sc">==</span><span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>)</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>(<span class="dv">1</span><span class="sc">-</span><span class="fu">mean</span>(rclass.iris))<span class="sc">*</span><span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 1.333333</code></pre>
+</div>
+<p>:::</p>
+</section>
+</section>
+<section id="non-supervised-classification" class="level3" data-number="1.2">
+<h3 data-number="1.2" class="anchored" data-anchor-id="non-supervised-classification"><span class="header-section-number">1.2</span> Non supervised classification</h3>
+<p>Ignoring the known labels (species) of theFisher Iris data, let us identify three clusters with the <span class="math inline">k</span>-means method and compute the missclassification rate: ::: {.cell hash=“map566-doc-mixture-models-example_cache/html/unnamed-chunk-22_293720867d9995a675863230e75b155e”}</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>) <span class="co"># labels are the original ones with this seed (avoid permutation)</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>r.km <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(iris[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">centers=</span><span class="dv">3</span>)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(r.km<span class="sc">$</span>cluster<span class="sc">!=</span><span class="fu">as.numeric</span>(iris<span class="sc">$</span>Species))<span class="sc">*</span><span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 10.66667</code></pre>
+</div>
+<p>:::</p>
+<p>Let us know fit a mixture of three multidimensional Gaussian distributions. The model assumes the same variance covariance matrix for the three distributions (<ttt>arbvar=FALSE). Initial centers are those given by the kmeans procedure. ::: {.cell hash=“map566-doc-mixture-models-example_cache/html/unnamed-chunk-24_f472a7ae4e9cdf1376cef60a005510da”}</ttt></p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mixtools)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>c0 <span class="ot">&lt;-</span> <span class="fu">list</span>(r.km<span class="sc">$</span>centers[<span class="dv">1</span>,], r.km<span class="sc">$</span>centers[<span class="dv">2</span>,], r.km<span class="sc">$</span>centers[<span class="dv">3</span>,])</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>r.em <span class="ot">&lt;-</span> <span class="fu">mvnormalmixEM</span>(iris[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">mu=</span>c0, <span class="at">arbvar=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>number of iterations= 25 </code></pre>
+</div>
+<p>::: Let us display the estimated parameters of the mixture: ::: {.cell hash=“map566-doc-mixture-models-example_cache/html/unnamed-chunk-26_0c5f203aecb1065b9959c2ebeeebc57d”}</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>r.em<span class="sc">$</span>lambda</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 0.3333333 0.3296062 0.3370605</code></pre>
+</div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>r.em<span class="sc">$</span>mu</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[[1]]
+[1] 5.006 3.428 1.462 0.246
+
+[[2]]
+[1] 5.942320 2.760760 4.258683 1.319194
+
+[[3]]
+[1] 6.574610 2.980780 5.539001 2.024915</code></pre>
+</div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>r.em<span class="sc">$</span>sigma</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>           [,1]       [,2]       [,3]       [,4]
+[1,] 0.26393508 0.08985149 0.16965605 0.03933917
+[2,] 0.08985149 0.11194889 0.05112334 0.02998048
+[3,] 0.16965605 0.05112334 0.18652664 0.04197301
+[4,] 0.03933917 0.02998048 0.04197301 0.03971404</code></pre>
+</div>
+<p>:::</p>
+<p>For each flower, the estimated label maximizes the posterior distribution. We can then compute the missclassification rate: ::: {.cell hash=“map566-doc-mixture-models-example_cache/html/unnamed-chunk-28_dd588bfaef396ab9d93f5bb40a951260”}</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>post <span class="ot">&lt;-</span> r.em<span class="sc">$</span>posterior</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>r.em<span class="sc">$</span>class <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">seq</span>(<span class="fu">nrow</span>(post)), <span class="cf">function</span>(i) { j <span class="ot">&lt;-</span> <span class="fu">which.max</span>(<span class="fu">as.vector</span>(post[i,])) })</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(r.em<span class="sc">$</span>class<span class="sc">!=</span><span class="fu">as.numeric</span>(iris<span class="sc">$</span>Species))<span class="sc">*</span><span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+<p>:::</p>
+<p>Let us plot the original data with the three distributions estimated with EM ::: {.cell hash=“map566-doc-mixture-models-example_cache/html/unnamed-chunk-30_1d7f0dc5ae26c3356dab036d07c45143”}</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">detach</span>(package<span class="sc">:</span>mixtools)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ellipse)</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>Species <span class="ot">&lt;-</span> <span class="fu">levels</span>(iris<span class="sc">$</span>Species)</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>j1<span class="ot">=</span><span class="dv">1</span>;  j2<span class="ot">=</span><span class="dv">2</span></span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>df_ell <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(g <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)){</span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a><span class="co">#  M=r.em$sigma[[g]][c(j1,j2),c(j1,j2)]</span></span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>  M<span class="ot">=</span>r.em<span class="sc">$</span>sigma[<span class="fu">c</span>(j1,j2),<span class="fu">c</span>(j1,j2)]</span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>  c<span class="ot">=</span>r.em<span class="sc">$</span>mu[[g]][<span class="fu">c</span>(j1,j2)]</span>
+<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a>  df_ell <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_ell, <span class="fu">cbind</span>(<span class="fu">as.data.frame</span>(<span class="fu">ellipse</span>(M,<span class="at">centre=</span>c, <span class="at">level=</span><span class="fl">0.68</span>)), <span class="at">group=</span>Species[g]))</span>
+<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a>pl1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>iris) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes_string</span>(<span class="at">x=</span>iris[,j1],<span class="at">y=</span>iris[,j2], <span class="at">colour=</span>iris[,<span class="dv">5</span>])) <span class="sc">+</span> </span>
+<span id="cb48-15"><a href="#cb48-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>) <span class="sc">+</span><span class="fu">xlab</span>(<span class="fu">names</span>(iris)[j1])<span class="sc">+</span><span class="fu">ylab</span>(<span class="fu">names</span>(iris)[j2]) <span class="sc">+</span></span>
+<span id="cb48-16"><a href="#cb48-16" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_path</span>(<span class="at">data=</span>df_ell, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y,<span class="at">color=</span>group), <span class="at">size=</span><span class="dv">1</span>, <span class="at">linetype=</span><span class="dv">1</span>) </span>
+<span id="cb48-17"><a href="#cb48-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-18"><a href="#cb48-18" aria-hidden="true" tabindex="-1"></a>j1<span class="ot">=</span><span class="dv">3</span>;  j2<span class="ot">=</span><span class="dv">4</span></span>
+<span id="cb48-19"><a href="#cb48-19" aria-hidden="true" tabindex="-1"></a>df_ell <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb48-20"><a href="#cb48-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(g <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)){</span>
+<span id="cb48-21"><a href="#cb48-21" aria-hidden="true" tabindex="-1"></a><span class="co">#  M=r.em$sigma[[g]][c(j1,j2),c(j1,j2)]</span></span>
+<span id="cb48-22"><a href="#cb48-22" aria-hidden="true" tabindex="-1"></a>  M<span class="ot">=</span>r.em<span class="sc">$</span>sigma[<span class="fu">c</span>(j1,j2),<span class="fu">c</span>(j1,j2)]</span>
+<span id="cb48-23"><a href="#cb48-23" aria-hidden="true" tabindex="-1"></a>  c<span class="ot">=</span>r.em<span class="sc">$</span>mu[[g]][<span class="fu">c</span>(j1,j2)]</span>
+<span id="cb48-24"><a href="#cb48-24" aria-hidden="true" tabindex="-1"></a>  df_ell <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_ell, <span class="fu">cbind</span>(<span class="fu">as.data.frame</span>(<span class="fu">ellipse</span>(M,<span class="at">centre=</span>c, <span class="at">level=</span><span class="fl">0.68</span>)), <span class="at">group=</span>Species[g]))</span>
+<span id="cb48-25"><a href="#cb48-25" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb48-26"><a href="#cb48-26" aria-hidden="true" tabindex="-1"></a>pl2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>iris) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes_string</span>(<span class="at">x=</span>iris[,j1],<span class="at">y=</span>iris[,j2], <span class="at">colour=</span>iris[,<span class="dv">5</span>])) <span class="sc">+</span> </span>
+<span id="cb48-27"><a href="#cb48-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>) <span class="sc">+</span><span class="fu">xlab</span>(<span class="fu">names</span>(iris)[j1])<span class="sc">+</span><span class="fu">ylab</span>(<span class="fu">names</span>(iris)[j2]) <span class="sc">+</span></span>
+<span id="cb48-28"><a href="#cb48-28" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_path</span>(<span class="at">data=</span>df_ell, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y,<span class="at">color=</span>group), <span class="at">size=</span><span class="dv">1</span>, <span class="at">linetype=</span><span class="dv">1</span>) </span>
+<span id="cb48-29"><a href="#cb48-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-30"><a href="#cb48-30" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(pl1, pl2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map566-doc-mixture-models-example_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="672"></p>
+</div>
+<p>:::</p>
+<p>This Shiny app allows one to select the two variables to plot.</p>
+<iframe src="http://shiny.webpopix.org/sia/mm3/" style="border: none; width: 800px; height: 550px">
+</iframe>
+
+
+</section>
+</section>
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</main> <!-- /main -->
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+</body></html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.2.277">
+  <meta name="generator" content="quarto-0.2.318">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Setup instructions</title>
   <style>
@@ -154,8 +154,6 @@
         <li>
     <a class="dropdown-item" href="./docs/tests/map566-lab-tests.html">Exercices</a>
   </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">Documents</li>
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -163,21 +161,23 @@
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-regression-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="./docs/regression/map566-lecture-regression-background.html">Linear regression: quick recap</a>
-  </li>  
-        <li>
     <a class="dropdown-item" href="./docs/regression/map566-lecture-polynomial-regression.html">Polynomial regression models</a>
   </li>  
         <li>
     <a class="dropdown-item" href="./docs/regression/map566-lecture-nonlinear-regression.html">Nonlinear regression</a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">PC/Labs</li>
+        <li class="dropdown-header">Exercices</li>
         <li>
     <a class="dropdown-item" href="./docs/regression/map566-lab-polynomial-regression.html">Polynomial regression model: exercices</a>
   </li>  
         <li>
     <a class="dropdown-item" href="./docs/regression/map566-lab-nonlinear-regression.html">Nonlinear regression: exercices</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="./docs/regression/map566-lecture-regression-background.html">Linear regression: quick recap</a>
   </li>  
     </ul>
   </li>
@@ -188,10 +188,18 @@
         <li>
     <a class="dropdown-item" href="./docs/mixed-models/map566-lecture-linear-mixed-model.html">Linear Mixed Effects Models</a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./docs/mixed-models/map566-lecture-nonlinear-mixed-model.html">Nonlinear Mixed Effects Models</a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">PC/Labs</li>
+        <li class="dropdown-header">Exercices</li>
         <li>
     <a class="dropdown-item" href="./docs/mixed-models/map566-lab-linear-mixed-model.html">Linear Mixed Models: exercices</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="./docs/mixed-models/map566-lecture-EM-linear-mixed-model.html">An EM Algorithm for Linear Mixed Effects Models</a>
   </li>  
     </ul>
   </li>
@@ -199,16 +207,19 @@
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mixture models</a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixture-models">    
         <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="./docs/mixture-models/map566-lecture-mixture-models.html">Mixture Models</a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">PC/Labs</li>
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-multivariate-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Multivariate models</a>
-    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-multivariate-models">    
-        <li class="dropdown-header">Lectures</li>
+        <li class="dropdown-header">Exercices</li>
+        <li>
+    <a class="dropdown-item" href="./docs/mixture-models/map566-lab-mixture-models.html">Mixture models: exercices</a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">PC/Labs</li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="./docs/mixture-models/map566-doc-mixture-models-example.html">Mixture Models: an example</a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -225,8 +236,9 @@
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-<!-- toc -->
-    <nav id="TOC" role="doc-toc" class="sidebar sidebar-toc">
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+      <nav id="TOC" role="doc-toc">
 <h2 id="toc-title">On this page</h2>
 <ul>
 <li><a href="#installing-r" class="nav-link active" data-scroll-target="#installing-r"> <span class="header-section-number">0.1</span> Installing R</a></li>
@@ -234,6 +246,7 @@
 <li><a href="#installing-r-packages" class="nav-link" data-scroll-target="#installing-r-packages"> <span class="header-section-number">0.3</span> Installing R packages</a></li>
 </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
 <!-- main -->
 <main class="content">
 <header id="title-block-header">
@@ -256,7 +269,7 @@
 <section id="installing-r-packages" class="level3" data-number="0.3">
 <h3 data-number="0.3" class="anchored" data-anchor-id="installing-r-packages"><span class="header-section-number">0.3</span> Installing R packages</h3>
 <p>Launch Rstudio and execute the following commands in the console (at least these R packages will be needed during MAP566)</p>
-<div class="cell" data-hash="getting-started_cache/html/unnamed-chunk-1_453784298cccd15ee3f23f6f8b42746e">
+<div class="cell" data-hash="getting-started_cache/html/unnamed-chunk-2_3287913a191eaa3db22474e8a7aa710e">
 <div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
@@ -271,7 +284,7 @@
 <li><strong>On Linux</strong></li>
 </ul>
 <p>If installation of a package fails in Rstudio, just <em>READ THE MESSAGES</em>: you may be asked to install some missing system libraries with, e.g.,</p>
-<div class="cell" data-hash="getting-started_cache/html/unnamed-chunk-2_552cac17f497f7aa5213db124a4a0bc7">
+<div class="cell" data-hash="getting-started_cache/html/unnamed-chunk-4_c0e1ae3cde0b09b9e68519cf24746d16">
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash cell-code code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get install lib-missing</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
@@ -361,11 +374,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
-    <div class="nav-footer-left">Last update: November 2021</div>   
-  </div>
-</footer>
 
 
 </body></html>

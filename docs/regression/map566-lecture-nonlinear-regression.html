@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.2.277">
+  <meta name="generator" content="quarto-0.2.318">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Nonlinear regression</title>
   <style>
@@ -102,8 +102,6 @@
   <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
   <script src="../../site_libs/quarto-search/fuse.min.js"></script>
   <script src="../../site_libs/quarto-search/quarto-search.js"></script>
-  <link href="../../docs/regression/map566-lab-polynomial-regression.html" rel="next">
-  <link href="../../docs/regression/map566-lecture-polynomial-regression.html" rel="prev">
   <script src="../../site_libs/quarto-html/quarto.js"></script>
   <script src="../../site_libs/quarto-html/popper.min.js"></script>
   <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -172,8 +170,6 @@
         <li>
     <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html">Exercices</a>
   </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">Documents</li>
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -181,21 +177,23 @@
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-regression-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html">Linear regression: quick recap</a>
-  </li>  
-        <li>
     <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html">Polynomial regression models</a>
   </li>  
         <li>
     <a class="dropdown-item" href="../../docs/regression/map566-lecture-nonlinear-regression.html">Nonlinear regression</a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">PC/Labs</li>
+        <li class="dropdown-header">Exercices</li>
         <li>
     <a class="dropdown-item" href="../../docs/regression/map566-lab-polynomial-regression.html">Polynomial regression model: exercices</a>
   </li>  
         <li>
     <a class="dropdown-item" href="../../docs/regression/map566-lab-nonlinear-regression.html">Nonlinear regression: exercices</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html">Linear regression: quick recap</a>
   </li>  
     </ul>
   </li>
@@ -206,10 +204,18 @@
         <li>
     <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html">Linear Mixed Effects Models</a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html">Nonlinear Mixed Effects Models</a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">PC/Labs</li>
+        <li class="dropdown-header">Exercices</li>
         <li>
     <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-linear-mixed-model.html">Linear Mixed Models: exercices</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html">An EM Algorithm for Linear Mixed Effects Models</a>
   </li>  
     </ul>
   </li>
@@ -217,16 +223,19 @@
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mixture models</a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixture-models">    
         <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html">Mixture Models</a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">PC/Labs</li>
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-multivariate-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Multivariate models</a>
-    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-multivariate-models">    
-        <li class="dropdown-header">Lectures</li>
+        <li class="dropdown-header">Exercices</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">Mixture models: exercices</a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">PC/Labs</li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-doc-mixture-models-example.html">Mixture Models: an example</a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -265,9 +274,6 @@
       <div class="collapse  show" id="lectures-collapse">
         <ul class="list-unstyled sidebar-item-contents">
           <li class="sidebar-item">
-  <a href="../../docs/regression/map566-lecture-regression-background.html" class="">Linear regression: quick recap</a>
-</li>
-          <li class="sidebar-item">
   <a href="../../docs/regression/map566-lecture-polynomial-regression.html" class="">Polynomial regression models</a>
 </li>
           <li class="sidebar-item">
@@ -280,12 +286,12 @@
       <ul class="list-unstyled sidebar-section depth1">
     <li class="">
         <div class="me-auto">
-            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#pc/labs-collapse" aria-expanded="true">
-              <div class="me-auto sidebar-section-item">PC/Labs</div>
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#exercices-collapse" aria-expanded="true">
+              <div class="me-auto sidebar-section-item">Exercices</div>
             <div><i class="bi bi-chevron-right ms-2"></i></div>
             </a>
         </div>
-      <div class="collapse  show" id="pc/labs-collapse">
+      <div class="collapse  show" id="exercices-collapse">
         <ul class="list-unstyled sidebar-item-contents">
           <li class="sidebar-item">
   <a href="../../docs/regression/map566-lab-polynomial-regression.html" class="">Polynomial regression model: exercices</a>
@@ -297,11 +303,29 @@
       </div>
     </li>
   </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#supplementarymaterial-collapse" aria-expanded="true">
+              <div class="me-auto sidebar-section-item">Supplementary material</div>
+            <div><i class="bi bi-chevron-right ms-2"></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="supplementarymaterial-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../../docs/regression/map566-lecture-regression-background.html" class="">Linear regression: quick recap</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
   </ul>
   </div>
 </nav>
-<!-- toc -->
-    <nav id="TOC" role="doc-toc" class="sidebar sidebar-toc">
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+      <nav id="TOC" role="doc-toc">
 <h2 id="toc-title">On this page</h2>
 <ul>
 <li><a href="#preliminary" class="nav-link active" data-scroll-target="#preliminary">Preliminary</a></li>
@@ -322,6 +346,7 @@
 </ul></li>
 </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
 <!-- main -->
 <main class="content">
 <header id="title-block-header">
@@ -331,7 +356,7 @@
 <section id="preliminary" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="preliminary">Preliminary</h2>
 <p>Only functions from <code>R</code>-base and stats (preloaded) are required plus packages from the <strong>tidyverse</strong> for data representation and manipulation. You could also try the package <strong>broom</strong> that standardizes the output of built-in R functions for statistical modelling</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/linear-regression-config_68385d3308f593877312e91f473a8c09">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/linear-regression-config_cc5488ab5cdf4ffbc9ed146720d3e30f">
 <div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -341,7 +366,7 @@
 <h2 data-number="1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1</span> Introduction</h2>
 <p>The <code>faithful</code> data (provided by the <code>R</code> base package <strong>datasets</strong>) consist of the waiting time between eruptions and the duration of the eruption for the Old Faithful geyser in Yellowstone National Park, Wyoming, USA.</p>
 <p>Let us see how these data look like.</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-1_6c05323900f4c259a152f013d72628cd">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-2_44950213454ce269b4a440a91862ca6b">
 <p></p><details>
 <summary>Show the code</summary><p></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>faithful_plot <span class="ot">&lt;-</span> </span>
@@ -352,15 +377,15 @@
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>faithful_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-nonlinear-regression_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+<p><img src="map566-lecture-nonlinear-regression_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>We aim to fit a model to this data that describes the relationship between duration and waiting time.</p>
 <p>If we try to fit a fit a polynomial model, we can check that a polynomial of degree 4 is considered as the ``best polynomial model’’.</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/faithful-poly4-fit_ae08407c312104515c8559ffdd06f6a5">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/faithful-poly4-fit_fc1482c4f0b66d835b682e1219867ccc">
 <div class="sourceCode" id="cb3"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>poly4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(waiting <span class="sc">~</span><span class="fu">poly</span>(eruptions, <span class="dv">4</span>), <span class="at">data =</span> faithful)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/faithful-poly4-plot_2fa8ecdfe563f1e323e786698a133e6e">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/faithful-poly4-plot_b2a83a25e3ceed73a4d85e2481718fe9">
 <p></p><details>
 <summary>Show the code</summary><p></p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>faithful_plot <span class="ot">&lt;-</span> </span>
@@ -379,7 +404,7 @@ f_1(x) = \frac{A}{1+{\rm exp}(-\gamma(x-\tau))}
 </iframe>
 <p>Here, <span class="math inline">A</span> is the limiting value (when <span class="math inline">x \to \infty</span>), <span class="math inline">\gamma</span> measure the steepness of the curve and <span class="math inline">\tau</span> is the <span class="math inline">x</span>-value of the sigmoid’s midpoint.</p>
 <p>This model is a nonlinear model in the sense that the regression function <span class="math inline">f_1</span> is a nonlinear function of the parameters.We can fit this model to our data using the <code>nls</code> function.</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-2_08708e34f62da5a1eb63d5740f958387">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-4_9277d593bd39f331e6a804fc357d82d4">
 <div class="sourceCode" id="cb5"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>nlm1 <span class="ot">&lt;-</span> <span class="fu">nls</span>(waiting <span class="sc">~</span>  A <span class="sc">/</span> ( <span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span> gamma <span class="sc">*</span> (eruptions <span class="sc">-</span>tau))), faithful, <span class="at">start =</span> <span class="fu">c</span>(<span class="at">A=</span><span class="dv">70</span>, <span class="at">gamma=</span><span class="dv">2</span>, <span class="at">tau=</span><span class="dv">1</span>))</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(nlm1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
@@ -408,7 +433,7 @@ f_2(x) =  S + \frac{A-S}{1+{\rm exp}(-\gamma(x-\tau))}
 <iframe src="http://shiny.webpopix.org/sia/nlm2/" style="border: none; width: 800px; height: 400px">
 </iframe>
 <p>We can again use <code>nls</code> to fit this nonlinear model to the data:</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-3_d934e589faa99cc7223ae492e600ed36">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-6_0faaec02ddc7109a7010fc2f22db0f2b">
 <div class="sourceCode" id="cb7"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>nlm2 <span class="ot">&lt;-</span> <span class="fu">nls</span>(waiting <span class="sc">~</span> (A<span class="sc">-</span>S) <span class="sc">/</span> ( <span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span>gamma <span class="sc">*</span> (eruptions <span class="sc">-</span> tau)) ) <span class="sc">+</span> S, faithful, <span class="at">start =</span> <span class="fu">c</span>(<span class="at">A=</span><span class="dv">90</span>, <span class="at">gamma=</span><span class="dv">2</span>, <span class="at">tau=</span><span class="dv">2</span>, <span class="at">S=</span><span class="dv">50</span>))</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(nlm2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
@@ -431,7 +456,7 @@ Achieved convergence tolerance: 6.287e-06</code></pre>
 </div>
 </div>
 <p>We can now compute and plot the waiting times predicted with these two fitted models</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-4_9f6cfa064b0ca3c805e9388c8ef78f89">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-8_34ce1d1c916e76e73118d77bfd2a8354">
 <div class="sourceCode" id="cb9"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>faithful_plot <span class="ot">&lt;-</span> faithful_plot <span class="sc">+</span> </span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">method  =</span> <span class="st">"nls"</span>,  <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"#E69F00"</span>,</span>
@@ -443,7 +468,7 @@ Achieved convergence tolerance: 6.287e-06</code></pre>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">method.args =</span> <span class="fu">list</span>(<span class="at">start=</span><span class="fu">c</span>(<span class="at">A=</span><span class="dv">90</span>, <span class="at">gamma=</span><span class="dv">2</span>, <span class="at">tau=</span><span class="dv">2</span>, <span class="at">S=</span><span class="dv">50</span>))) </span>
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>faithful_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-nonlinear-regression_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<p><img src="map566-lecture-nonlinear-regression_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>We will see in the next sections</p>
@@ -469,18 +494,18 @@ Achieved convergence tolerance: 6.287e-06</code></pre>
 <p>We define the first model <span class="math inline">{\cal M}_1</span> as</p>
 <p><span class="math display">y_j = f_1(x_j,\beta) + \varepsilon_j \quad ; \quad 1\leq j \leq n</span></p>
 <p>where <span class="math inline">f_1</span> is the logistic function defined above and where <span class="math inline">\beta = (A,\gamma,\tau)</span>. In <code>R</code>,</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-5_fff973eec5f950c29d17f7c2a49ca42f">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-10_d92060387c1460f7a5ca112e9a18c577">
 <div class="sourceCode" id="cb10"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>f_1  <span class="ot">&lt;-</span> <span class="cf">function</span>(beta, x) {</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  A <span class="ot">&lt;-</span> beta[<span class="dv">1</span>]; gamma <span class="ot">&lt;-</span> beta[<span class="dv">2</span>]; tau <span class="ot">&lt;-</span> beta[<span class="dv">3</span>]</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  A <span class="sc">/</span> ( <span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span> gamma <span class="sc">*</span> (x<span class="sc">-</span>tau)))</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let us check that function <code>nls</code> computes the nonlinear least-squares estimates of the parameters of the (nonlinear) model, that is, solve the above optimization problem in <span class="math inline">\beta</span>. We first create a function that computes the residual sum of squares for a given vector of parameters <span class="math inline">\beta</span>, which will be the objective (or cost) function from the optimization point of view:</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-6_110ffcdeca0967d5f2e44bb6d537a4e0">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-12_b2b885d2050ea7949edec42c38ef9fc1">
 <div class="sourceCode" id="cb11"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>rss_1 <span class="ot">&lt;-</span> <span class="cf">function</span>(beta, x, y) <span class="fu">sum</span>( (y <span class="sc">-</span> <span class="fu">f_1</span>(beta, x) )<span class="sc">^</span><span class="dv">2</span> ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then the LS estimate of <span class="math inline">\beta</span> can be computed using <code>nlm</code> (nonlinear minimization) which minimizes the residuals sum of squares using a Newton-type algorithm.</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-7_5fd052571622d9df0c801230b3048493">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-14_28f6b3be9f4c9311ce794b327d9d5730">
 <div class="sourceCode" id="cb12"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>optim_nlm1 <span class="ot">&lt;-</span> <span class="fu">nlm</span>(rss_1, <span class="fu">c</span>(<span class="at">A =</span> <span class="dv">90</span>, <span class="at">gamma =</span> <span class="dv">2</span>, <span class="at">tau =</span> <span class="dv">2</span>), faithful<span class="sc">$</span>eruptions, faithful<span class="sc">$</span>waiting)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>beta_hat <span class="ot">&lt;-</span> <span class="fu">setNames</span>(optim_nlm1<span class="sc">$</span>estimate, <span class="fu">names</span>(<span class="fu">coef</span>(nlm1)))</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>beta_hat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -499,7 +524,7 @@ Achieved convergence tolerance: 6.287e-06</code></pre>
 <p><span class="math display">
 \hat{\sigma} = \sqrt{\hat{\sigma}^2}
 </span></p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-8_782ba7a4b6023cbdd578fbce732d7550">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-16_1ab7690a73f3c71ccb9c9f0a53088b06">
 <div class="sourceCode" id="cb14"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>n  <span class="ot">&lt;-</span> <span class="fu">nrow</span>(faithful)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>p  <span class="ot">&lt;-</span> <span class="fu">length</span>(beta_hat)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> (n <span class="sc">-</span> p)</span>
@@ -526,7 +551,7 @@ Achieved convergence tolerance: 6.287e-06</code></pre>
 <p><span class="math display">
 \hat{\sigma}^2_{\rm ml} = \frac{1}{n} \sum_{j=1}^n \left(y_j - f(x_j,\hat{\beta})\right)^2, \qquad \hat{\sigma}_{\rm ml} = \sqrt{\hat{\sigma}^2_{\rm ml}}
 </span></p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-9_b6e5bf568b9a4e084d42de72e1e356de">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-18_332b5d47e612a834836e48aadc574b49">
 <div class="sourceCode" id="cb16"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>sigma_hat_ML <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">rss_1</span>(beta_hat, faithful<span class="sc">$</span>eruptions, faithful<span class="sc">$</span>waiting) <span class="sc">/</span> n)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>sigma_hat_ML</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
@@ -541,7 +566,7 @@ Achieved convergence tolerance: 6.287e-06</code></pre>
 <section id="linearization-approach" class="level4" data-number="2.2.1">
 <h4 data-number="2.2.1" class="anchored" data-anchor-id="linearization-approach"><span class="header-section-number">2.2.1</span> Linearization approach</h4>
 <p>An <code>nls</code> object has methods for several generic functions, including <code>vcov</code> which computes the variance-covariance matrix of the estimated parameters <span class="math inline">\hat{\beta}</span>.</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-10_7a63d0d57b3d428a064d86308e3515e8">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-20_0982e106264b66d72314f846c005a62e">
 <div class="sourceCode" id="cb18"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vcov</span>(nlm1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>               A        gamma          tau
@@ -551,7 +576,7 @@ tau    0.4320328 -0.008769223  0.011923452</code></pre>
 </div>
 </div>
 <p>The standard errors of the estimates are then the square roots of the diagonal elements of this matrix</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-11_b422113f1139dc98be0dbb35b13715e9">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-22_a99e21c01a3e6c3ad54fedf1b4bc1451">
 <div class="sourceCode" id="cb20"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">diag</span>(<span class="fu">vcov</span>(nlm1)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>        A     gamma       tau 
@@ -591,7 +616,7 @@ z_j = g_j \ \beta + \varepsilon_j.
 <p>Thus, <span class="math inline">\tilde\beta=\hat\beta</span> <span class="math inline">\Box</span>.</p>
 </div>
 <p>Let us check this property numerically:</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-12_41e91029f445cfb3c4427500b634758a">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-24_78c0ffdb7cf2ecf413908305ed571cd7">
 <div class="sourceCode" id="cb22"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>hx <span class="ot">&lt;-</span> <span class="fu">deriv</span>(</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">expr    =</span> y <span class="sc">~</span> A <span class="sc">/</span> ( <span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span> gamma <span class="sc">*</span> (x <span class="sc">-</span> tau))), </span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">namevec =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"gamma"</span>, <span class="st">"tau"</span>), </span>
@@ -610,7 +635,7 @@ tau    1.462268</code></pre>
 </div>
 <p>Since <span class="math inline">\hat{\beta} =(G^\prime G)^{-1}G^\prime z</span>, the variance-covariance of <span class="math inline">\hat\beta</span> can be approximated by</p>
 <p><span class="math display">\mathbb{V}_{\rm lin}(\hat\beta) = \hat\sigma^2 (G^\prime G)^{-1} </span></p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-13_7dc71ed51f54c72f171ec557e281360f">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-26_89e78e090600cbde251fe7b347610d52">
 <div class="sourceCode" id="cb24"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>V_lin <span class="ot">&lt;-</span> sigma_hat<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span><span class="fu">solve</span>(<span class="fu">t</span>(G)<span class="sc">%*%</span>G)</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>V_lin</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
@@ -621,7 +646,7 @@ tau    0.4320764 -0.008769862  0.011924743</code></pre>
 </div>
 </div>
 <p>and we can derive standard errors <span class="math inline">({\rm se}_{\rm lin}(\hat{\beta}_k), 1 \leq k \leq p)</span> for the parameter estimates,</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-14_fe60ccb5a64f0b4747ac4f674e41aea8">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-28_db007728bd1505ad074678d323edfa64">
 <div class="sourceCode" id="cb26"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>se_lin <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(V_lin))</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>se_lin</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
@@ -642,7 +667,7 @@ tau    0.4320764 -0.008769862  0.011924743</code></pre>
 <p>Then, the Central Limit Theorem states that the variance of <span class="math inline">\hat{\beta}</span> can be approximated by the inverse of <span class="math inline">I_y(\hat{\beta})</span>:</p>
 <p><span class="math display">\mathbb{V}_{\rm ml}(\hat{\beta}) = I_y(\hat{\beta})^{-1}. </span></p>
 <p>Function <code>nlm</code> can return the Hessian of the function <code>rss_1</code> to minimize, i.e.&nbsp;the matrix of the second derivatives <span class="math inline">\partial^2/\partial \beta \partial \beta^\prime \sum_{j=1}^n(y_j - f(x_j,\hat\beta))^2</span></p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-15_a86a3393dbc852de1aa63fb099398275">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-30_d4ed0e6234429fdd9c457e78b1726f96">
 <div class="sourceCode" id="cb28"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>optim_nlm1 <span class="ot">&lt;-</span> <span class="fu">nlm</span>(rss_1, <span class="fu">c</span>(<span class="dv">90</span>, <span class="dv">2</span>, <span class="dv">2</span>), faithful<span class="sc">$</span>eruptions, faithful<span class="sc">$</span>waiting, <span class="at">hessian =</span> <span class="st">"true"</span>)</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>H <span class="ot">&lt;-</span> optim_nlm1<span class="sc">$</span>hessian</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>H</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -653,7 +678,7 @@ tau    0.4320764 -0.008769862  0.011924743</code></pre>
 [3,] -3794.4768 -114782.3   58845.489</code></pre>
 </div>
 </div>
-<p>We then derive the FIM and the variance <span class="math inline">\mathbb{V}_{\rm ml}(\hat{\beta})</span>: ::: {.cell hash=“map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-16_e19e5c3e29ee1435709542c224a68d39”}</p>
+<p>We then derive the FIM and the variance <span class="math inline">\mathbb{V}_{\rm ml}(\hat{\beta})</span>: ::: {.cell hash=“map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-32_9960d090e32a447dba7855f3df6146f8”}</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>V_ml <span class="ot">&lt;-</span> <span class="fu">solve</span>(H<span class="sc">/</span>(<span class="dv">2</span><span class="sc">*</span>sigma_hat_ML<span class="sc">^</span><span class="dv">2</span>))</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>V_ml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
@@ -663,7 +688,7 @@ tau    0.4320764 -0.008769862  0.011924743</code></pre>
 [3,]  0.3699911 -0.007381367  0.010576191</code></pre>
 </div>
 <p>::: and</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-17_4e9a94fd888c29689763b8dca8a2de4d">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-34_a33bea2631d5542032ba219f67d594d1">
 <div class="sourceCode" id="cb32"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>se_ml <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(V_ml))</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>se_ml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
@@ -690,7 +715,7 @@ tau    0.4320764 -0.008769862  0.011924743</code></pre>
 <!-- ``` -->
 <!-- ::: -->
 <p>Beside, using the fact that <span class="math inline">\mathbb{V}(\chi^2(k))=2k</span>, we can show that <span class="math inline">\mathbb{V}(\hat{\sigma}^2) \approx 2\sigma^4/n</span>. Then the standard error of <span class="math inline">\hat{\sigma}</span> is approximately <span class="math inline">\hat{\sigma}/\sqrt{2n}</span>.</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-18_f1dee609fcef7c54bfb16d2aa7ba9784">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-36_86333b87e943527a83bf90e0bffd7cf3">
 <div class="sourceCode" id="cb34"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>sigma_hat<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">2</span><span class="sc">*</span>n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>[1] 0.2470817</code></pre>
@@ -711,7 +736,7 @@ y^{(\ell)}_j = f(x_j,\hat{\beta}) + \hat{\sigma} \varepsilon^{(\ell)}_j \quad ; 
 <p><span class="math display"> \mathbb{V}_{\rm mc}(\hat{\beta}) = \frac{1}{L-1}\sum_{\ell=1}^L ( \hat\beta^{(\ell)} - \bar{\beta} )( \hat\beta^{(\ell)} - \bar{ \beta} )^\prime
 </span></p>
 <p>where <span class="math inline">\bar{ \beta} = 1/L \sum_{\ell=1}^L \hat\beta^{(\ell)}</span>.</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-19_7687352f84b7ce5a17d413190bdb7e62">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-38_95d2b4c958b4093d3eaae57599eac7f5">
 <div class="sourceCode" id="cb36"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>y_hat_ref <span class="ot">&lt;-</span> <span class="fu">predict</span>(nlm1)</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>beta_hat <span class="ot">&lt;-</span> <span class="fu">coef</span>(nlm1)</span>
@@ -724,24 +749,24 @@ y^{(\ell)}_j = f(x_j,\hat{\beta}) + \hat{\sigma} \varepsilon^{(\ell)}_j \quad ; 
 <span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>V_mc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>           [,1]        [,2]        [,3]
-[1,] 25.8064027 -0.48465372  0.67548211
-[2,] -0.4846537  0.01051201 -0.01083771
-[3,]  0.6754821 -0.01083771  0.02149027</code></pre>
+[1,] 25.4238850 -0.48163716  0.66529653
+[2,] -0.4816372  0.01057053 -0.01072011
+[3,]  0.6652965 -0.01072011  0.02132531</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-20_5a79ad2df47803f4aa663de02e6b3253">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-40_249e272abe2b1aa8f8b993b6179d0167">
 <div class="sourceCode" id="cb38"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>se_mc <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(V_mc))</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>se_mc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 5.0800003 0.1025281 0.1465956</code></pre>
+<pre><code>[1] 5.0422103 0.1028131 0.1460319</code></pre>
 </div>
 </div>
 <div class="remark proof">
 <p><span class="proof-title"><em>Remark</em>.</span>It would be equivalent to directly compute the empirical standard deviation of each component of the sequence <span class="math inline">(\hat\beta^{(\ell)})</span>:</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-21_0302a41d3b32dc9eff56522cfa4fe854">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-42_14451409a8d4ed9f80c607d86cb32438">
 <div class="sourceCode" id="cb40"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(betas_boot, <span class="dv">2</span>, sd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 5.0800003 0.1025281 0.1465956</code></pre>
+<pre><code>[1] 5.0422103 0.1028131 0.1460319</code></pre>
 </div>
 </div>
 </div>
@@ -752,7 +777,7 @@ y^{(\ell)}_j = f(x_j,\hat{\beta}) + \hat{\sigma} \varepsilon^{(\ell)}_j \quad ; 
 <section id="statistical-tests-for-the-model-parameters" class="level3" data-number="2.3">
 <h3 data-number="2.3" class="anchored" data-anchor-id="statistical-tests-for-the-model-parameters"><span class="header-section-number">2.3</span> Statistical tests for the model parameters</h3>
 <p>The summary of model <code>nlm1</code> includes several informations about the model parameters:</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-22_18abf103513d37ab55c3692692cbfbc6">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-44_0bc1bdecc7f134c5739cff950b3bc070">
 <div class="sourceCode" id="cb42"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(nlm1)<span class="sc">$</span>coefficient</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>        Estimate Std. Error   t value     Pr(&gt;|t|)
@@ -765,7 +790,7 @@ tau    1.4622598  0.1091946 13.391324 1.110090e-31</code></pre>
 <p><span class="math inline">t_k = (\hat{\beta}_k - \beta_k)/{\rm se}(\hat{\beta}_k)</span> follows a <span class="math inline">t</span>-distribution with <span class="math inline">n-p</span> degrees of freedom. We can then perform a <span class="math inline">t</span>-test to test if <span class="math inline">\beta_k=0</span>.</p>
 <p>The test statistics is <span class="math inline">t_{{\rm stat}, k} = {\hat{\beta}_k}/{{\rm se}(\hat{\beta}_k)}</span> and the <span class="math inline">p</span>-value for this test is</p>
 <p><span class="math display">p_k = 2(1 - \mathbb{P}(T_{n-d} \leq |t_{{\rm stat}, k}| ) </span></p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-23_c6e00512016a7a5eafbc9f33ff68f801">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-46_61205886b0ad0a8976930270dd6dace0">
 <div class="sourceCode" id="cb44"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>t_stat  <span class="ot">&lt;-</span> beta_hat<span class="sc">/</span>se_lin</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>p_value <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(<span class="fu">abs</span>(t_stat), n<span class="sc">-</span>p))</span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(beta_hat, se_lin, t_stat, p_value) <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -784,7 +809,7 @@ tau     1.4623 0.1092 13.3906       0</code></pre>
 <p>Using the linearized model <span class="math inline">z = G\beta + \varepsilon</span>, we can compute a confidence interval for each component of <span class="math inline">\beta</span> as we do with any linear model:</p>
 <p><span class="math display">{\rm CI}_{{\rm lin}, 1-\alpha}(\beta_k) = [\hat{\beta}_k + qt_{\alpha/2, n-p}\ {\rm se}_{\rm lin}(\hat{\beta}_k) \ , \ \hat{\beta}_k + qt_{1-\alpha/2, n-p}\ {\rm se}_{\rm lin}(\hat{\beta}_k)]</span></p>
 <p>where <span class="math inline">qt_{p,\nu}</span> is the quantile of order <span class="math inline">p</span> for a <span class="math inline">t</span>-distribution with <span class="math inline">\nu</span> degree of freedom.</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-24_1eb8ea26de4d94bfff1d9ab03d89a39c">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-48_9f78c545990b405f89cb1cef801206cf">
 <div class="sourceCode" id="cb46"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>level <span class="ot">&lt;-</span> <span class="fl">0.95</span></span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> level</span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>CI_linearized <span class="ot">&lt;-</span> </span>
@@ -805,7 +830,7 @@ tau    1.247263   1.6772561</code></pre>
 <h4 data-number="2.4.2" class="anchored" data-anchor-id="maximum-likelihood-approach-1"><span class="header-section-number">2.4.2</span> Maximum likelihood approach</h4>
 <p>We can adopt the same approach with the ML estimate. Here, the standard errors <span class="math inline">({\rm se}_{\rm ml}(\hat{\beta}_k), 1 \leq k \leq p)</span> are derived from the asymptotic variance-covariance matrix of the parameter estimates <span class="math inline">V_{\rm ml}(\hat{\beta})</span> .</p>
 <p><span class="math display">{\rm CI}_{{\rm ml},1-\alpha}(\beta_k) = [\hat{\beta}_k + qt_{\alpha/2, n-p}\ {\rm se}_{\rm ml}(\hat{\beta}_k) \ , \ \hat{\beta}_k + qt_{1-\alpha/2, n-p}\ {\rm se}_{\rm ml}(\hat{\beta}_k)]</span></p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-25_26882a807026fb45dcdef71dc587d782">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-50_24ac73ee3ac1c34bcc544363331687ee">
 <div class="sourceCode" id="cb48"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>CI_ML <span class="ot">&lt;-</span> </span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(</span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>    beta_hat <span class="sc">+</span> <span class="fu">qt</span>(alpha<span class="sc">/</span><span class="dv">2</span>,n<span class="sc">-</span>p) <span class="sc">*</span> se_ml,</span>
@@ -824,17 +849,17 @@ tau    1.2597849   1.6647346</code></pre>
 <h4 data-number="2.4.3" class="anchored" data-anchor-id="parametric-bootstrap-1"><span class="header-section-number">2.4.3</span> Parametric bootstrap</h4>
 <p>The sequence <span class="math inline">(\hat{\beta}^{(\ell)}, 1 \leq \ell \leq L)</span> obtained by Monte Carlo simulation can be used for computing an empirical confidence interval:</p>
 <p><span class="math display">{\rm CI}_{{\rm mc},1-\alpha}(\beta_k) = [\hat{\beta}_{k,\alpha/2} \ , \ \hat{\beta}_{k,1-\alpha/2} ]  </span> where, for any <span class="math inline">0 &lt; p &lt; 1</span>, <span class="math inline">\hat{\beta}_{k,p}</span> is the empirical quantile of order <span class="math inline">p</span> of <span class="math inline">(\hat{\beta}^{(\ell)}_k, 1 \leq \ell \leq L)</span>:</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-26_81ae9c685ce9618a1a2629ccad1d055d">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-52_c9c25167207ac969fac10f9957ac8938">
 <div class="sourceCode" id="cb50"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>CI_bootstrap <span class="ot">&lt;-</span> </span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(<span class="fu">as.matrix</span>(betas_boot), <span class="dv">2</span>, quantile, <span class="at">probs =</span> <span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t</span>() <span class="sc">%&gt;%</span> <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setNames</span>(<span class="fu">c</span>(<span class="fu">paste0</span>((<span class="dv">1</span><span class="sc">-</span>level)<span class="sc">/</span><span class="dv">2</span><span class="sc">*</span><span class="dv">100</span>,<span class="st">"%"</span>),<span class="fu">paste0</span>((<span class="dv">1</span><span class="sc">+</span>level)<span class="sc">/</span><span class="dv">2</span><span class="sc">*</span><span class="dv">100</span>,<span class="st">"%"</span>)))</span>
 <span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>CI_bootstrap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>        2.5%      97.5%
-1 86.6683997 107.304106
-2  0.4490803   0.857953
-3  1.3241381   1.926903</code></pre>
+<pre><code>        2.5%       97.5%
+1 86.4831002 107.0656272
+2  0.4488664   0.8568265
+3  1.3175971   1.9187721</code></pre>
 </div>
 </div>
 <div class="remark proof">
@@ -851,14 +876,14 @@ tau    1.2597849   1.6647346</code></pre>
 <p>An unbiased confidence interval for <span class="math inline">\beta_k</span> is therefore</p>
 <p><span class="math display">{\rm CI}^\star_{{\rm mc},1-\alpha}(\beta_k) = [\hat{\beta}_k + \frac{qt_{\alpha/2, n-d}}{q\mathcal{N}_{\alpha/2}}(\hat{\beta}_{k,\alpha/2} - \hat{\beta}_k)\ , \  \hat{\beta}_k + \frac{qt_{1-\alpha/2, n-d}}{q\mathcal{N}_{1-\alpha/2}}(\hat{\beta}_{k,1-\alpha/2} - \hat{\beta}_k)]  </span></p>
 <p>The same correction can be used for nonlinear models:</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-27_566ec385a7df90b24b4a6490750f8487">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-54_ac764fb4e7dc15ba44500dc164188625">
 <div class="sourceCode" id="cb52"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>rq <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>,df)<span class="sc">/</span><span class="fu">qnorm</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>)</span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>beta_hat <span class="sc">+</span> rq<span class="sc">*</span>(CI_bootstrap <span class="sc">-</span> beta_hat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>        2.5%       97.5%
-1 86.6392883 107.3682565
-2  0.4482202   0.8589408
-3  1.3235139   1.9290028</code></pre>
+1 86.4531514 107.1287004
+2  0.4480054   0.8578092
+3  1.3169433   1.9208353</code></pre>
 </div>
 </div>
 </div>
@@ -866,7 +891,7 @@ tau    1.2597849   1.6647346</code></pre>
 <section id="profile-likelihood" class="level4" data-number="2.4.4">
 <h4 data-number="2.4.4" class="anchored" data-anchor-id="profile-likelihood"><span class="header-section-number">2.4.4</span> Profile likelihood</h4>
 <p>Function <code>confint</code> uses the profile likelihood method for computing confidence intervals for parameters in a fitted model.</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-28_ec77cbd6c311969151e9a3c3fe70881b">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-56_bde701bbbc11889bf55cbe365bf87c77">
 <div class="sourceCode" id="cb54"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>CI_profiled <span class="ot">&lt;-</span> <span class="fu">confint</span>(nlm1, <span class="at">level =</span> level)</span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>CI_profiled</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
@@ -881,7 +906,7 @@ tau    1.3109469   1.8569351</code></pre>
 <p><span class="math display">\ell_p(\beta_1) = \max_{\beta_2, \ldots, \beta_d}\ell(\beta_1, \beta_2, \ldots, \beta_d )</span></p>
 <p><span class="math inline">\ell_p(\beta_1)</span> does no longer depend on <span class="math inline">\beta_2, \ldots, \beta_d</span> since it has been profiled out.</p>
 <p>As an example, let us compute and display the profile log-likelihood of <span class="math inline">A</span> for model <code>nlm1</code></p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-29_9902037f0835a8c71ae0ed2516c80a22">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-58_8a0db95ba94bf7b480f6ff3652b870ca">
 <div class="sourceCode" id="cb56"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>f_1A <span class="ot">&lt;-</span> <span class="cf">function</span>(gamma,tau,x,A){ f <span class="ot">&lt;-</span>  A<span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>(<span class="sc">-</span>gamma<span class="sc">*</span>(x<span class="sc">-</span>tau))) ; <span class="fu">return</span>(f)}</span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>values_A <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">86</span>, <span class="dv">110</span>, <span class="at">by =</span> <span class="fl">0.1</span>)</span>
 <span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>start    <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">gamma =</span> beta_hat[<span class="dv">2</span>], <span class="at">tau =</span> beta_hat[<span class="dv">3</span>])</span>
@@ -889,7 +914,7 @@ tau    1.3109469   1.8569351</code></pre>
 <span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nls</span>(waiting <span class="sc">~</span>  .x <span class="sc">/</span> ( <span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span> gamma <span class="sc">*</span> (eruptions <span class="sc">-</span> tau))), faithful, <span class="at">start =</span> start)</span>
 <span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> <span class="fu">map</span>(logLik) <span class="sc">%&gt;%</span> <span class="fu">map_dbl</span>(as.numeric)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-30_acd0ffd4d272cb240928a74472771d7f">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-60_b3af73968c8998db0979177095095515">
 <p></p><details>
 <summary>Show the code</summary><p></p>
 <div class="sourceCode" id="cb57"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">A =</span> values_A, <span class="at">logLik =</span> logLik_A) <span class="sc">%&gt;%</span> </span>
@@ -898,7 +923,7 @@ tau    1.3109469   1.8569351</code></pre>
 <span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="fu">seq</span>(<span class="dv">85</span>,<span class="dv">110</span>, <span class="at">by =</span> <span class="dv">5</span>), <span class="fu">round</span>(beta_hat[[<span class="dv">1</span>]],<span class="dv">2</span>)),<span class="st">"A"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-nonlinear-regression_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="672"></p>
+<p><img src="map566-lecture-nonlinear-regression_files/figure-html/unnamed-chunk-60-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Consider the test of <span class="math inline">H_0: \beta_1 = \beta_1^\star</span> against <span class="math inline">H_1: \beta_1 \neq \beta_1^\star</span>. The likelihood ratio statistics is</p>
@@ -912,7 +937,7 @@ $$\begin{aligned}
  &= {\mathbb P}(\beta_{\alpha,1} \leq \beta \leq \beta_{\alpha,2})
 \end{aligned}$$
 -->
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-31_ee0290ca30501a6e91f800e019fb63e6">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-62_030f36c78885ac7f667635b44a05bf38">
 <div class="sourceCode" id="cb58"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>qlevel <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(level,<span class="dv">1</span>)</span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>lp_A <span class="ot">&lt;-</span> <span class="cf">function</span>(A, qlevel) {</span>
@@ -925,7 +950,7 @@ $$\begin{aligned}
 <span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>c1_A <span class="ot">&lt;-</span> <span class="fu">uniroot</span>(lp_A, <span class="fu">c</span>(<span class="dv">80</span>,  beta_hat[<span class="dv">1</span>]), qlevel)<span class="sc">$</span>root</span>
 <span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>c2_A <span class="ot">&lt;-</span> <span class="fu">uniroot</span>(lp_A, <span class="fu">c</span>(beta_hat[<span class="dv">1</span>], <span class="dv">110</span>), qlevel)<span class="sc">$</span>root</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-32_88e4729dd8787b76bb4cfdc576d87dde">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-64_b71c9673476ec862d9c2df65b11f3a26">
 <p></p><details>
 <summary>Show the code</summary><p></p>
 <div class="sourceCode" id="cb59"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>dlogLik_A <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span>(<span class="fu">as.numeric</span>(<span class="fu">logLik</span>(nlm1)) <span class="sc">-</span> logLik_A)</span>
@@ -938,11 +963,11 @@ $$\begin{aligned}
 <span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="fu">seq</span>(<span class="dv">85</span>,<span class="dv">100</span>,<span class="at">by=</span><span class="dv">5</span>),<span class="fu">round</span>(c1_A,<span class="dv">1</span>),<span class="fu">round</span>(c2_A,<span class="dv">1</span>), <span class="dv">110</span>),<span class="st">"A"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-nonlinear-regression_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid" width="672"></p>
+<p><img src="map566-lecture-nonlinear-regression_files/figure-html/unnamed-chunk-64-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Let us now compute the profile likelihood confidence intervals for <span class="math inline">\gamma</span> and <span class="math inline">\tau</span></p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-33_f59c66ec7eafb60ebe835c445cc2bb10">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-66_12873674b996beaa376327d44e965f36">
 <div class="sourceCode" id="cb60"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>lp_gamma <span class="ot">&lt;-</span> <span class="cf">function</span>(gamma) {</span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>  nlm1_gamma <span class="ot">&lt;-</span> <span class="fu">nls</span>(waiting <span class="sc">~</span>  A<span class="sc">/</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span>gamma<span class="sc">*</span>(eruptions<span class="sc">-</span>tau))), faithful,</span>
 <span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">start =</span> <span class="fu">list</span>(<span class="at">A=</span>beta_hat[<span class="dv">1</span>],<span class="at">tau=</span>beta_hat[<span class="dv">3</span>]))</span>
@@ -974,7 +999,7 @@ tau    1.3118040   1.8520538</code></pre>
 <div class="remark proof">
 <p><span class="proof-title"><em>Remark</em>.</span>The <code>confint</code> R function doesn’t use a <span class="math inline">\chi^2</span> distribution with 1 df for the LRT statistics <span class="math inline">LR_{\rm stat}</span> (which is theoretically the right asymptotic distribution).</p>
 <p>On the contrary, the square root of <span class="math inline">LR_{\rm stat}</span> is assumed to follow a half <span class="math inline">t</span>-distribution with <span class="math inline">n-p</span> df. Then, the null hypothesis <span class="math inline">H_0</span> is rejected when <span class="math inline">LR_{\rm stat}&gt; qt_{1-\alpha/2,n-p}^2</span>.</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-34_7891fd5a26f2b5640661e929b9ebf29d">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-68_499b4edc278d1840e47421e3fca3dd1d">
 <div class="sourceCode" id="cb62"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>qlevel <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>,df)<span class="sc">^</span><span class="dv">2</span></span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>c1R_A <span class="ot">&lt;-</span> <span class="fu">uniroot</span>(lp_A, <span class="fu">c</span>(<span class="dv">80</span>,  beta_hat[<span class="dv">1</span>]), qlevel)<span class="sc">$</span>root</span>
 <span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>c2R_A <span class="ot">&lt;-</span> <span class="fu">uniroot</span>(lp_A, <span class="fu">c</span>(beta_hat[<span class="dv">1</span>], <span class="dv">110</span>), qlevel)<span class="sc">$</span>root</span>
@@ -998,7 +1023,7 @@ tau    1.3118040   1.8520538</code></pre>
 <li>the residuals versus predicted waiting times,</li>
 <li>the distribution of the residuals</li>
 </ol>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-35_2c8084d6371419fa1fe599fbe305266e">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-70_e2275bbc9ec49e7a7595856b67d9ae57">
 <p></p><details>
 <summary>Show the code</summary><p></p>
 <div class="sourceCode" id="cb64"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="do">## unfortunately, no plotting function is defined for 'nls' object</span></span>
@@ -1016,7 +1041,7 @@ tau    1.3118040   1.8520538</code></pre>
 <span id="cb64-13"><a href="#cb64-13" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="fu">qnorm</span>(<span class="fl">0.75</span>), <span class="at">b=</span><span class="dv">0</span>, <span class="at">lty=</span><span class="dv">2</span>, <span class="at">col=</span><span class="st">"magenta"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-nonlinear-regression_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid" width="864"></p>
+<p><img src="map566-lecture-nonlinear-regression_files/figure-html/unnamed-chunk-70-1.png" class="img-fluid" width="864"></p>
 </div>
 </div>
 <p>On one hand, observations and predictions look well randomly distributed around the line <span class="math inline">y=x</span>. On the other hand, residual look well distributed around 0, with a constant variance. Furthermore, the distribution of the residuals appears to be symmetrical with quantiles close to those of a normal distribution</p>
@@ -1025,7 +1050,7 @@ tau    1.3118040   1.8520538</code></pre>
 <section id="model-comparison" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="model-comparison"><span class="header-section-number">4</span> Model comparison</h2>
 <p>We can produce the same the diagnostic plots with model <code>nlm2</code> and arrive at the same conclusion concerning this model.</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-36_33e56597580f71965085e5e51f34976d">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-72_1d941ff59616e4b33bed48bd0206a842">
 <p></p><details>
 <summary>Show the code</summary><p></p>
 <div class="sourceCode" id="cb65"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>residual_nlm2 <span class="ot">&lt;-</span> <span class="fu">resid</span>(nlm2)<span class="sc">/</span><span class="fu">sd</span>(<span class="fu">resid</span>(nlm2))</span>
@@ -1042,12 +1067,12 @@ tau    1.3118040   1.8520538</code></pre>
 <span id="cb65-12"><a href="#cb65-12" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="fu">qnorm</span>(<span class="fl">0.75</span>), <span class="at">b=</span><span class="dv">0</span>, <span class="at">lty=</span><span class="dv">2</span>, <span class="at">col=</span><span class="st">"magenta"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-nonlinear-regression_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid" width="864"></p>
+<p><img src="map566-lecture-nonlinear-regression_files/figure-html/unnamed-chunk-72-1.png" class="img-fluid" width="864"></p>
 </div>
 </div>
 <p>Since <code>nlm1</code> and <code>nlm2</code> are two possible model for fitting our data, we need some criteria for comparing them. The statistical tests and the information criteria used for comparing linear models can also be used for comparing nonlinear models.</p>
 <p>First, we can perform a ANOVA for testing model <code>nlm1</code> against model <code>nlm2</code> since these two models are nested (<code>nlm1</code> correponds to <code>nlm2</code> when <span class="math inline">S=0</span>)</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-37_7abdbcf22a10096bbad41a9855d4ac83">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-74_e58e5ac19de169f6ce17cbe9b853924b">
 <div class="sourceCode" id="cb66"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(nlm1, nlm2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>Analysis of Variance Table
@@ -1065,7 +1090,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p><span class="math display">
 F_{\rm stat} = \frac{(RSS_1 - RSS_2)/(d_2-d_1)}{(RSS_2)/(n-d_2}
 </span></p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-38_0a417044750c878093d5c720fbbff3e0">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-76_4db888f60141dd1248bf886d56f61732">
 <div class="sourceCode" id="cb68"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>RSS1 <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">resid</span>(nlm1)<span class="sc">^</span><span class="dv">2</span>)</span>
 <span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>RSS2 <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">resid</span>(nlm2)<span class="sc">^</span><span class="dv">2</span>)</span>
 <span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>p1   <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">coef</span>(nlm1))</span>
@@ -1078,14 +1103,14 @@ F_{\rm stat} = \frac{(RSS_1 - RSS_2)/(d_2-d_1)}{(RSS_2)/(n-d_2}
 </div>
 <p><em>Remark:</em> since the model is nonlinear, we cannot decompose the residual sum of squares <span class="math inline">RSS_1</span> as we did with linear models. Indeed, here,</p>
 <p><span class="math display">\|y- f_1(x,\hat\beta_1)\|^2 \neq \|f_1(x,\beta_1) - f_2(x,\hat\beta_2)\|^2 + \|y- f_2(x,\hat\beta_2)\|^2</span></p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-39_c8d93e432af4548a1e6c54272c23fcbe">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-78_e67bd9046639ac05461fc47768909f9b">
 <div class="sourceCode" id="cb70"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(RSS1<span class="sc">-</span>RSS2, <span class="fu">sum</span>((<span class="fu">predict</span>(nlm1)<span class="sc">-</span><span class="fu">predict</span>(nlm2))<span class="sc">^</span><span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>[1] 464.2987 520.3557</code></pre>
 </div>
 </div>
 <p>Another way to test <code>nlm1</code> against <code>nlm2</code> consists in testing if <span class="math inline">S=0</span> in model <code>nlm2</code>:</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-40_3d19df425eecd2d81f0334f8e11d1007">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-80_bd78af30a464908259c175a17f95a255">
 <div class="sourceCode" id="cb72"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(nlm2)<span class="sc">$</span>coefficients</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>       Estimate Std. Error   t value      Pr(&gt;|t|)
@@ -1097,7 +1122,7 @@ S     51.322076  1.8302946 28.040336  1.110849e-81</code></pre>
 </div>
 <p>Even if both tests clearly prefer model <code>nlm2</code>, we can remark that the <span class="math inline">t</span>-test and the <span class="math inline">F</span>-test are not equivalent since the models are nonlinear.</p>
 <p>Information criteria such as AIC and BIC also prefer model <code>nlm2</code>:</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-41_e8d415ef19b9123d9ae3a26428e922b9">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-82_5915f0c3f78d95a0c6ecd9bbc74cf2e2">
 <div class="sourceCode" id="cb74"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.matrix</span>(<span class="fu">AIC</span>(nlm1, nlm2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>     df      AIC
@@ -1142,7 +1167,7 @@ f(x_0 , \beta) \simeq f(x_0 , \hat{\beta}) + \nabla f(x_0 , \hat{\beta})(\beta -
 <p>Then,</p>
 <p><span class="math display">{\rm CI}_{{\rm lin}, 1-\alpha}(y_0) = [f(x_0,\hat{\beta}) + qt_{\alpha/2, n-p}\ {\rm s.e.}(\hat{y}_0) \ , \ f(x_0,\hat{\beta}) + qt_{1-\alpha/2, n-p}\ {\rm s.e.}(\hat{y}_0)]</span></p>
 <p>As an example, let us compute the variance of <span class="math inline">f_2(x_0, \hat{\beta}_2)</span> for <span class="math inline">x_0 = 1, 1.1, 1.2, \ldots, 5.9, 6</span>,</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-42_17a46169948d589c3b659baddceb805a">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-84_c99a1c106c6ed6a21dfe5cdeb018474c">
 <div class="sourceCode" id="cb78"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>f_prime <span class="ot">&lt;-</span> <span class="fu">deriv</span>(y <span class="sc">~</span> (A<span class="sc">-</span>S)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>(<span class="sc">-</span>gamma<span class="sc">*</span>(x<span class="sc">-</span>tau))) <span class="sc">+</span> S, <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"gamma"</span>, <span class="st">"tau"</span>, <span class="st">"S"</span>), <span class="cf">function</span>(A, gamma, tau, S, x){} ) </span>
 <span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>x_new <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">6</span>, <span class="at">by=</span><span class="fl">0.1</span>)</span>
 <span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>beta_hat <span class="ot">&lt;-</span> <span class="fu">coef</span>(nlm2)</span>
@@ -1151,7 +1176,7 @@ f(x_0 , \beta) \simeq f(x_0 , \hat{\beta}) + \nabla f(x_0 , \hat{\beta})(\beta -
 <span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>GS <span class="ot">&lt;-</span> <span class="fu">rowSums</span>((grad_new <span class="sc">%*%</span> <span class="fu">vcov</span>(nlm2)) <span class="sc">*</span> grad_new)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can then derive a <span class="math inline">95\%</span> confidence interval for each <span class="math inline">f_2(x_0,\beta)</span></p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-43_de6c7709c1d549e7c1ee512ad53b680b">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-86_b85498af9d36a3b5dfd05f4dbfc30ea0">
 <div class="sourceCode" id="cb79"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
 <span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>delta_f <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(GS) <span class="sc">*</span> <span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>,  n <span class="sc">-</span> <span class="fu">length</span>(beta_hat))</span>
 <span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>df_delta <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
@@ -1162,12 +1187,12 @@ f(x_0 , \beta) \simeq f(x_0 , \hat{\beta}) + \nabla f(x_0 , \hat{\beta})(\beta -
 <span id="cb79-8"><a href="#cb79-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>and for each <span class="math inline">y_0</span></p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-44_3d37d8695c8653e77679bf1856f6d5c6">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-88_f2f447d912b26a2053aa58a67897b2c9">
 <div class="sourceCode" id="cb80"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>delta_y    <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(GS <span class="sc">+</span> <span class="fu">sigma</span>(nlm2)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">*</span><span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>,df)</span>
 <span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>df_delta[<span class="fu">c</span>(<span class="st">"lwr_pred"</span>,<span class="st">"upr_pred"</span>)] <span class="ot">&lt;-</span> <span class="fu">cbind</span>(f_new <span class="sc">-</span> delta_y,f_new <span class="sc">+</span> delta_y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can now plot these two intervals together with the data:</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-45_994a6c10ebcd4ce18fca4071daa2d3eb">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-90_9a1352213235b2a5c9a49f1c14c4496e">
 <p></p><details>
 <summary>Show the code</summary><p></p>
 <div class="sourceCode" id="cb81"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(faithful)  <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> eruptions, <span class="at">y =</span> waiting)) <span class="sc">+</span></span>
@@ -1175,7 +1200,7 @@ f(x_0 , \beta) \simeq f(x_0 , \hat{\beta}) + \nabla f(x_0 , \hat{\beta})(\beta -
 <span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data=</span>df_delta, <span class="fu">aes</span>(<span class="at">x=</span>x_new, <span class="at">ymin=</span>lwr_conf, <span class="at">ymax=</span>upr_conf), <span class="at">alpha=</span><span class="fl">0.2</span>, <span class="at">fill=</span><span class="st">"#339900"</span>) <span class="sc">+</span>   <span class="fu">geom_line</span>(<span class="at">data=</span>df_delta, <span class="fu">aes</span>(<span class="at">x=</span>x_new, <span class="at">y=</span>f_new), <span class="at">colour=</span><span class="st">"#339900"</span>, <span class="at">size=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-nonlinear-regression_files/figure-html/unnamed-chunk-45-1.png" class="img-fluid" width="672"></p>
+<p><img src="map566-lecture-nonlinear-regression_files/figure-html/unnamed-chunk-90-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -1201,7 +1226,7 @@ f(x_0 , \beta) \simeq f(x_0 , \hat{\beta}) + \nabla f(x_0 , \hat{\beta})(\beta -
 &amp; [f(x_0,\hat{\beta}) + \frac{qt_{\alpha/2, n-d}}{q\mathcal{N}_{\alpha/2}}(y_{0,\alpha/2} - f(x_0,\hat{\beta}))\ , \  f(x_0,\hat{\beta}) + \frac{qt_{1-\alpha/2, n-d}}{q\mathcal{N}_{1-\alpha/2}}(y_{0,1-\alpha/2} - f(x_0,\hat{\beta}))]  
 \end{aligned}</span></p>
 <p>Let us compute these confidence and prediction interval bu boostraping for the <span class="math inline">f_2</span>:</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-46_58e678e1e35e6d65f261f8dfe57b8d19">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-92_5513e8885bcbb0b68ab6609bc62bb49e">
 <div class="sourceCode" id="cb82"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>f_hat <span class="ot">&lt;-</span> <span class="cf">function</span>(beta, x){ beta[<span class="dv">4</span>] <span class="sc">+</span> (beta[<span class="dv">1</span>]<span class="sc">-</span>beta[<span class="dv">4</span>])<span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>(<span class="sc">-</span>beta[<span class="dv">2</span>]<span class="sc">*</span>(x<span class="sc">-</span>beta[<span class="dv">3</span>]))) }</span>
 <span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>beta_hat  <span class="ot">&lt;-</span> <span class="fu">coef</span>(nlm2)</span>
 <span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>y_hat_ref <span class="ot">&lt;-</span> <span class="fu">f_hat</span>(beta_hat, x)</span>
@@ -1223,7 +1248,7 @@ f(x_0 , \beta) \simeq f(x_0 , \hat{\beta}) + \nabla f(x_0 , \hat{\beta})(\beta -
 <span id="cb82-19"><a href="#cb82-19" aria-hidden="true" tabindex="-1"></a><span class="do">## removing bias</span></span>
 <span id="cb82-20"><a href="#cb82-20" aria-hidden="true" tabindex="-1"></a>df_mc[,(<span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>)] <span class="ot">&lt;-</span> f_new <span class="sc">+</span> rq<span class="sc">*</span>(df_mc[,(<span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>)] <span class="sc">-</span> f_new)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-47_a1833f53936654be12eb3cbd8cd276d9">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-94_159d83206cb8c9e0c9867a07f7dfef7a">
 <p></p><details>
 <summary>Show the code</summary><p></p>
 <div class="sourceCode" id="cb83"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(faithful)  <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> eruptions, <span class="at">y =</span> waiting)) <span class="sc">+</span></span>
@@ -1232,7 +1257,7 @@ f(x_0 , \beta) \simeq f(x_0 , \hat{\beta}) + \nabla f(x_0 , \hat{\beta})(\beta -
 <span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>df_mc, <span class="fu">aes</span>(<span class="at">x=</span>x_new, <span class="at">y=</span>f_new), <span class="at">colour=</span><span class="st">"#339900"</span>, <span class="at">size=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-nonlinear-regression_files/figure-html/unnamed-chunk-47-1.png" class="img-fluid" width="672"></p>
+<p><img src="map566-lecture-nonlinear-regression_files/figure-html/unnamed-chunk-94-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 
@@ -1318,22 +1343,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </main> <!-- /main -->
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../docs/regression/map566-lecture-polynomial-regression.html">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Polynomial regression models</span>
-      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../docs/regression/map566-lab-polynomial-regression.html">
-        <span class="nav-page-text">Polynomial regression model: exercices</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
-    <div class="nav-footer-left">Last update: November 2021</div>   
-  </div>
-</footer>
 
 
 </body></html>

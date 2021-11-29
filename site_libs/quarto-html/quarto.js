@@ -6,10 +6,9 @@ const sectionChanged = new CustomEvent("quarto-sectionChanged", {
 });
 
 window.document.addEventListener("DOMContentLoaded", function (_event) {
-  // get table of contents and sidebar (bail if we don't have at least one)
   var tocEl = window.document.getElementById("TOC");
   var sidebarEl = window.document.getElementById("quarto-sidebar");
-  if (!tocEl && !sidebarEl) return;
+  var marginSidebarEl = window.document.getElementById("quarto-margin-sidebar");
 
   // function to determine whether the element has a previous sibling that is active
   const prevSiblingIsActiveLink = (el) => {
@@ -22,6 +21,7 @@ window.document.addEventListener("DOMContentLoaded", function (_event) {
   };
 
   // Track scrolling and mark TOC links as active
+  // get table of contents and sidebar (bail if we don't have at least one)
   const tocLinks = tocEl
     ? [...tocEl.querySelectorAll("a[data-scroll-target]")]
     : [];
@@ -59,6 +59,7 @@ window.document.addEventListener("DOMContentLoaded", function (_event) {
     const target = link.getAttribute("data-scroll-target");
     return window.document.querySelector(`${target}`);
   });
+
   const sectionMargin = 200;
   let currentActive = 0;
   // track whether we've initialized state the first time
@@ -136,6 +137,7 @@ window.document.addEventListener("DOMContentLoaded", function (_event) {
               placeholderEl.remove();
             }
 
+            el.classList.remove("rollup");
             isVisible = true;
           }
         } else {
@@ -143,8 +145,9 @@ window.document.addEventListener("DOMContentLoaded", function (_event) {
           // and insert a placeholder toggle
           if (inHiddenRegion(elTop, elBottom, hiddenRegions)) {
             const elBackground = window
-              .getComputedStyle(el, null)
+              .getComputedStyle(window.document.body, null)
               .getPropertyValue("background");
+            el.classList.add("rollup");
 
             for (const child of el.children) {
               child.style.opacity = 0;
@@ -207,13 +210,30 @@ window.document.addEventListener("DOMContentLoaded", function (_event) {
               }
             };
 
+            const positionToggle = () => {
+              // position the element (top left of parent, same width as parent)
+              const elRect = el.getBoundingClientRect();
+              toggleContainer.style.left = `${elRect.left}px`;
+              toggleContainer.style.top = `${elRect.top}px`;
+              toggleContainer.style.width = `${elRect.width}px`;
+            };
+
             // Get rid of any expanded toggle if the user scrolls
             window.document.addEventListener(
               "scroll",
               throttle(() => {
                 closeToggle();
-              }, 100)
+              }, 50)
             );
+
+            // Handle positioning of the toggle
+            window.addEventListener(
+              "resize",
+              throttle(() => {
+                positionToggle();
+              }, 50)
+            );
+            positionToggle();
 
             // Process the click
             clickEl.onclick = () => {
@@ -226,12 +246,6 @@ window.document.addEventListener("DOMContentLoaded", function (_event) {
               }
             };
 
-            // position the element (top left of parent, same width as parent)
-            const elRect = el.getBoundingClientRect();
-            toggleContainer.style.left = `${elRect.left}px`;
-            toggleContainer.style.top = `${elRect.top}px`;
-            toggleContainer.style.width = `${elRect.width}px`;
-
             isVisible = false;
           }
         }
@@ -240,7 +254,7 @@ window.document.addEventListener("DOMContentLoaded", function (_event) {
   };
 
   // Manage the visibility of the toc and the sidebar
-  const tocScrollVisibility = manageSidebarVisiblity(tocEl, {
+  const marginScrollVisibility = manageSidebarVisiblity(marginSidebarEl, {
     id: "quarto-toc-toggle",
     titleSelector: "#toc-title",
     dismissOnClick: true,
@@ -264,8 +278,10 @@ window.document.addEventListener("DOMContentLoaded", function (_event) {
     }
     return Array.from(el.classList).find((className) => {
       return (
+        className !== "column-body" &&
         className.startsWith("column-") &&
         !className.endsWith("right") &&
+        !className.endsWith("container") &&
         className !== "column-margin"
       );
     });
@@ -283,23 +299,31 @@ window.document.addEventListener("DOMContentLoaded", function (_event) {
     }
 
     return Array.from(el.classList).find((className) => {
-      return className.startsWith("column-") && !className.endsWith("left");
+      return (
+        className !== "column-body" &&
+        !className.endsWith("container") &&
+        className.startsWith("column-") &&
+        !className.endsWith("left")
+      );
     });
   });
 
+  const kOverlapPaddingSize = 10;
   function toRegions(els) {
     return els.map((el) => {
       const top =
-        el.getBoundingClientRect().top + document.documentElement.scrollTop;
+        el.getBoundingClientRect().top +
+        document.documentElement.scrollTop -
+        kOverlapPaddingSize;
       return {
         top,
-        bottom: top + el.offsetHeight,
+        bottom: top + el.scrollHeight + 2 * kOverlapPaddingSize,
       };
     });
   }
 
   const hideOverlappedSidebars = () => {
-    tocScrollVisibility(toRegions(rightSideConflictEls));
+    marginScrollVisibility(toRegions(rightSideConflictEls));
     sidebarScrollVisiblity(toRegions(leftSideConflictEls));
   };
 
@@ -356,7 +380,7 @@ window.document.addEventListener("DOMContentLoaded", function (_event) {
         walk(tocEl, 0);
       }
       hideOverlappedSidebars();
-    }, 10)
+    }, 5)
   );
   window.addEventListener(
     "resize",
@@ -367,23 +391,15 @@ window.document.addEventListener("DOMContentLoaded", function (_event) {
   hideOverlappedSidebars();
 });
 
-// TODO: Create shared throttle js function (see quarto-nav.js)
 function throttle(func, wait) {
-  var timeout;
+  var waiting = false;
   return function () {
-    const context = this;
-    const args = arguments;
-    const later = function () {
-      clearTimeout(timeout);
-      timeout = null;
-      func.apply(context, args);
-    };
-
-    if (!timeout) {
-      timeout = setTimeout(later, wait);
+    if (!waiting) {
+      func.apply(this, arguments);
+      waiting = true;
+      setTimeout(function () {
+        waiting = false;
+      }, wait);
     }
   };
 }
-
-// Find the side element or toc element with the highest Y position
-// Find the highest full width element in the document that is full width

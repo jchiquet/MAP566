@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.2.277">
+  <meta name="generator" content="quarto-0.2.318">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Linear Mixed Effects Models</title>
   <style>
@@ -102,7 +102,6 @@
   <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
   <script src="../../site_libs/quarto-search/fuse.min.js"></script>
   <script src="../../site_libs/quarto-search/quarto-search.js"></script>
-  <link href="../../docs/mixed-models/map566-lab-linear-mixed-model.html" rel="next">
   <script src="../../site_libs/quarto-html/quarto.js"></script>
   <script src="../../site_libs/quarto-html/popper.min.js"></script>
   <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -173,8 +172,6 @@
         <li>
     <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html">Exercices</a>
   </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">Documents</li>
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -182,21 +179,23 @@
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-regression-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html">Linear regression: quick recap</a>
-  </li>  
-        <li>
     <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html">Polynomial regression models</a>
   </li>  
         <li>
     <a class="dropdown-item" href="../../docs/regression/map566-lecture-nonlinear-regression.html">Nonlinear regression</a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">PC/Labs</li>
+        <li class="dropdown-header">Exercices</li>
         <li>
     <a class="dropdown-item" href="../../docs/regression/map566-lab-polynomial-regression.html">Polynomial regression model: exercices</a>
   </li>  
         <li>
     <a class="dropdown-item" href="../../docs/regression/map566-lab-nonlinear-regression.html">Nonlinear regression: exercices</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html">Linear regression: quick recap</a>
   </li>  
     </ul>
   </li>
@@ -207,10 +206,18 @@
         <li>
     <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html">Linear Mixed Effects Models</a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html">Nonlinear Mixed Effects Models</a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">PC/Labs</li>
+        <li class="dropdown-header">Exercices</li>
         <li>
     <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-linear-mixed-model.html">Linear Mixed Models: exercices</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html">An EM Algorithm for Linear Mixed Effects Models</a>
   </li>  
     </ul>
   </li>
@@ -218,16 +225,19 @@
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mixture models</a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixture-models">    
         <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html">Mixture Models</a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">PC/Labs</li>
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-multivariate-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Multivariate models</a>
-    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-multivariate-models">    
-        <li class="dropdown-header">Lectures</li>
+        <li class="dropdown-header">Exercices</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">Mixture models: exercices</a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">PC/Labs</li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-doc-mixture-models-example.html">Mixture Models: an example</a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -268,6 +278,9 @@
           <li class="sidebar-item">
   <a href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html" class="active">Linear Mixed Effects Models</a>
 </li>
+          <li class="sidebar-item">
+  <a href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html" class="">Nonlinear Mixed Effects Models</a>
+</li>
         </ul>
       </div>
     </li>
@@ -275,12 +288,12 @@
       <ul class="list-unstyled sidebar-section depth1">
     <li class="">
         <div class="me-auto">
-            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#pc/labs-collapse" aria-expanded="true">
-              <div class="me-auto sidebar-section-item">PC/Labs</div>
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#exercices-collapse" aria-expanded="true">
+              <div class="me-auto sidebar-section-item">Exercices</div>
             <div><i class="bi bi-chevron-right ms-2"></i></div>
             </a>
         </div>
-      <div class="collapse  show" id="pc/labs-collapse">
+      <div class="collapse  show" id="exercices-collapse">
         <ul class="list-unstyled sidebar-item-contents">
           <li class="sidebar-item">
   <a href="../../docs/mixed-models/map566-lab-linear-mixed-model.html" class="">Linear Mixed Models: exercices</a>
@@ -289,11 +302,29 @@
       </div>
     </li>
   </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#supplementarymaterial-collapse" aria-expanded="true">
+              <div class="me-auto sidebar-section-item">Supplementary material</div>
+            <div><i class="bi bi-chevron-right ms-2"></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="supplementarymaterial-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html" class="">An EM Algorithm for Linear Mixed Effects Models</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
   </ul>
   </div>
 </nav>
-<!-- toc -->
-    <nav id="TOC" role="doc-toc" class="sidebar sidebar-toc">
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+      <nav id="TOC" role="doc-toc">
 <h2 id="toc-title">On this page</h2>
 <ul>
 <li><a href="#preliminary" class="nav-link active" data-scroll-target="#preliminary">Preliminary</a></li>
@@ -318,6 +349,7 @@
 </ul></li>
 </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
 <!-- main -->
 <main class="content">
 <header id="title-block-header">
@@ -327,7 +359,7 @@
 <section id="preliminary" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="preliminary">Preliminary</h2>
 <p>Only functions from <code>R</code>-base and stats (preloaded) are required plus packages from the <strong>tidyverse</strong> for data representation and manipulation. The package <strong>lme4</strong> and <strong>nlme</strong> are used for adjusting mixed models. <strong>lattice</strong> gives additional tools for plotting output of linear mixed-effect models.</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/linear-regression-config_5de4fd38574bf2de7b88afb504e1d945">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/linear-regression-config_6feeab650c943efa0986c62d4ea7cd75">
 <div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lattice)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
@@ -338,7 +370,7 @@
 <section id="introduction-the-orthodont-data" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="introduction-the-orthodont-data"><span class="header-section-number">1</span> Introduction: the orthodont data</h2>
 <p>The <code>Orthodont</code> data has 108 rows and 4 columns of the change in an orthdontic measurement over time for 27 young subjects. Here, <code>distance</code> is a numeric vector of distances from the pituitary to the pterygomaxillary fissure (mm). These distances are measured on x-ray images of the skull.</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-1_0e29cd8aa0b8339586ad09a1252cc48b">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-2_90506a09b75375d5718a71c694417429">
 <div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"Orthodont"</span>, <span class="at">package =</span> <span class="st">"nlme"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>Orthodont <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -350,7 +382,7 @@
 </div>
 </div>
 <p>Let us plot the data, i.e.&nbsp;the distance versus age.</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-2_154f3cfc35190b7f7d6e4de8daa0ad05">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-4_d84406dbd658e18b0c343224e0a36143">
 <p></p><details>
 <summary>Show the code</summary><p></p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>orthodont_plot <span class="ot">&lt;-</span> Orthodont <span class="sc">%&gt;%</span> </span>
@@ -358,7 +390,7 @@
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>orthodont_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-linear-mixed-model_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="864"></p>
+<p><img src="map566-lecture-linear-mixed-model_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="864"></p>
 </div>
 </div>
 <p>A linear model by definition assumes there is a linear relationship between the observations <span class="math inline">(y_j, 1\leq j \leq n)</span> and <span class="math inline">m</span> series of variables <span class="math inline">(x_{j}^{(1)}, \ldots , x_{j}^{(p)} ,1\leq j \leq n)</span>:</p>
@@ -368,7 +400,7 @@
 <p>In our example, the observations <span class="math inline">(y_j, 1\leq j \leq n)</span> are the <span class="math inline">n=108</span> measured distances.</p>
 <p>We can start by fitting a linear model to these data using <code>age</code> as a regression variable:</p>
 <p><span class="math display">\text{linear model 1:} \quad \quad y_j = c_0 + c_1 \times{\rm age}_j + \varepsilon_j</span></p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-3_4d999d07c35c7156b63308714d3edef6">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-6_b80be971780d40e114581e51c9cd61ee">
 <div class="sourceCode" id="cb4"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>lm1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(distance<span class="sc">~</span>age, <span class="at">data=</span>Orthodont)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
@@ -393,29 +425,29 @@ F-statistic: 36.56 on 1 and 106 DF,  p-value: 2.248e-08</code></pre>
 </div>
 </div>
 <p>Let us plot the predicted distance <span class="math inline">\hat{a}_0 + \hat{a}_1 \times {\rm age}</span> together with the observed distances</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-4_1723fde0745a4635198e5f792c553335">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-8_b8b1ee5811f9ad1205f62575101b839d">
 <p></p><details>
 <summary>Show the code</summary><p></p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>orthodont_plot <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> <span class="fu">predict</span>(lm1)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-linear-mixed-model_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="864"></p>
+<p><img src="map566-lecture-linear-mixed-model_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="864"></p>
 </div>
 </div>
 <p>if we now display explicitely the boys and girls, we see that we are missing something: we underestimate the distance for the boys and overestimate it for the girls:</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-5_ed5d160f4974b0abd8ca46d2c39b0bfa">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-10_2bcf57d7ceaafca09e27a219c9d34bd2">
 <p></p><details>
 <summary>Show the code</summary><p></p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>orthodont_plot <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> <span class="fu">predict</span>(lm1))) <span class="sc">+</span> <span class="fu">facet_grid</span>( <span class="sc">~</span> Sex )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-linear-mixed-model_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="864"></p>
+<p><img src="map566-lecture-linear-mixed-model_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="864"></p>
 </div>
 </div>
 <p>We can then assume the same slope but different intercepts for boys and girls,</p>
 <p><span class="math display">\text{linear model 2:} \quad \quad y_j = c_0 +  \delta_{0F}\times \mathbf{1}_{{\rm Sex}_j={\rm F}} + c_1 \times{\rm age}_j  + \varepsilon_j</span></p>
 <p>Here, <span class="math inline">c_{0}=c_{0M}</span> is the intercept for the boys and <span class="math inline">c_0 + \delta_{0F}=c_{0F}</span> the intercept for the girls.</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-6_97d0c608c46782c6fc164527bc6dad3a">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-12_59b82b615af40fc7362716e650f400d6">
 <div class="sourceCode" id="cb8"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>lm2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(distance<span class="sc">~</span>age<span class="sc">+</span>Sex, <span class="at">data=</span>Orthodont)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
@@ -441,19 +473,19 @@ F-statistic: 36.41 on 2 and 105 DF,  p-value: 9.726e-13</code></pre>
 </div>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Orthodont<span class="sc">$</span>pred_lm2 <span class="ot">&lt;-</span> <span class="fu">predict</span>(lm2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-7_bfd4ce292ee5e7fd69757852e5a21d7b">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-14_79496ef970c1c012a088861368eb0af4">
 <p></p><details>
 <summary>Show the code</summary><p></p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>orthodont_plot <span class="sc">+</span>   </span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> <span class="fu">predict</span>(lm2)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-linear-mixed-model_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="864"></p>
+<p><img src="map566-lecture-linear-mixed-model_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="864"></p>
 </div>
 </div>
 <p>We could instead assume the same intercept but different slopes for boys and girls:</p>
 <p><span class="math display">\text{linear model 3:} \quad \quad y_j = c_0 + c_{1M} \times{\rm age}_j \times \mathbf{1}_{{\rm Sex}_j={\rm M}} + c_{1F}\times{\rm age}_j\times \mathbf{1}_{{\rm Sex}_j={\rm F}} + \varepsilon_j</span> Here, <span class="math inline">c_{1M}</span> is the slope for the boys and <span class="math inline">c_{1F}</span> the slope for the girls.</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-8_605764c6f40cbb1cbdfd25b70dfd99db">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-16_28bf436a03b2a5449467de5dd4ddc455">
 <div class="sourceCode" id="cb12"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>lm3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(distance<span class="sc">~</span>age<span class="sc">:</span>Sex , <span class="at">data=</span>Orthodont)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
@@ -479,17 +511,17 @@ F-statistic: 38.26 on 2 and 105 DF,  p-value: 3.31e-13</code></pre>
 </div>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>Orthodont<span class="sc">$</span>pred_lm3 <span class="ot">&lt;-</span> <span class="fu">predict</span>(lm3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-9_063065f5d8bfba3e96e6c87f85f4355b">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-18_a7bfce030ee38f73620a9916852e62d9">
 <p></p><details>
 <summary>Show the code</summary><p></p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>orthodont_plot <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> <span class="fu">predict</span>(lm3)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-linear-mixed-model_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="864"></p>
+<p><img src="map566-lecture-linear-mixed-model_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="864"></p>
 </div>
 </div>
 <p>We can also combine these two models by assuming different intercepts and different slopes: <span class="math display">\text{linear model 4:} \quad \quad y_j = c_0 +  \delta_{0F}\times \mathbf{1}_{{\rm Sex}_j={\rm F}} + c_{1M} \times{\rm age}_j \times \mathbf{1}_{{\rm Sex}_j={\rm M}} + c_{1F}\times{\rm age}_j\times \mathbf{1}_{{\rm Sex}_j={\rm F}}  + \varepsilon_j</span></p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-10_af0fcdba190ced05971d3a0d7b09647d">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-20_7c497b82a76a34058490c8255a7eaf8e">
 <div class="sourceCode" id="cb16"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>lm4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(distance <span class="sc">~</span> age<span class="sc">:</span>Sex <span class="sc">+</span> Sex, <span class="at">data =</span> Orthodont)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
@@ -516,13 +548,13 @@ F-statistic: 25.39 on 3 and 104 DF,  p-value: 2.108e-12</code></pre>
 </div>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>Orthodont<span class="sc">$</span>pred_lm4 <span class="ot">&lt;-</span> <span class="fu">predict</span>(lm4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-11_c0fb3f3f20ba2cac187beeed8c3dd61b">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-22_23d01c0f03a5d089ab48cbe35374b3c2">
 <p></p><details>
 <summary>Show the code</summary><p></p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>orthodont_plot <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> <span class="fu">predict</span>(lm4)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-linear-mixed-model_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="864"></p>
+<p><img src="map566-lecture-linear-mixed-model_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="864"></p>
 </div>
 </div>
 <p><strong>Remarks:</strong></p>
@@ -531,7 +563,7 @@ F-statistic: 25.39 on 3 and 104 DF,  p-value: 2.108e-12</code></pre>
 <li>The p-value cannot be used as such since the deign matrix is not orthogonal</li>
 </ol></li>
 </ul>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-12_af668d9e0b2feba5199b28c3c2f0bc8f">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-24_8aff7b0437abe1d10109a11cf5f5aa16">
 <div class="sourceCode" id="cb20"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>C <span class="ot">&lt;-</span> <span class="fu">crossprod</span>(<span class="fu">model.matrix</span>(lm4))</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>C <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">outer</span>(<span class="fu">diag</span>(C), <span class="fu">diag</span>(C)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
@@ -542,7 +574,7 @@ age:SexMale     0.7543719 0.0000000   1.0000000     0.0000000
 age:SexFemale   0.6254922 0.9799579   0.0000000     1.0000000</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-13_4ae7f42d1fd81b550d0090b12f466a87">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-26_a824af408fc0aa01259475c2dd037aee">
 <div class="sourceCode" id="cb22"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(distance <span class="sc">~</span> age , <span class="at">data =</span> <span class="fu">subset</span>(Orthodont, Sex <span class="sc">==</span> <span class="st">"Male"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>
@@ -573,7 +605,7 @@ F-statistic: 36.65 on 1 and 62 DF,  p-value: 9.024e-08</code></pre>
 </ul>
 <p><span class="math display">\text{linear model 4':} \quad \quad y_j = c_{0} +  \delta_{0F}\times \mathbf{1}_{{\rm Sex}_j={\rm F}} + (c_{1}  + 
 \delta_{1F}\times{\rm age}_j\times \mathbf{1}_{{\rm Sex}_j={\rm F}})\times{\rm age}_j  + \varepsilon_j</span> where <span class="math inline">c_{1}=c_{1M}</span> and <span class="math inline">c_{1} + \delta_{1F}=c_{1F}</span>. This model is implemented by defining the interaction between Sex and age as <ttt>age*Sex</ttt>:</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-14_c6db0211568faabbb157be780989d411">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-28_107e8c8b8181967ce72ae1ae175a00dc">
 <div class="sourceCode" id="cb24"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>lm4b <span class="ot">&lt;-</span> <span class="fu">lm</span>(distance<span class="sc">~</span>age<span class="sc">*</span>Sex, <span class="at">data=</span>Orthodont)</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm4b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
@@ -599,7 +631,7 @@ Multiple R-squared:  0.4227,    Adjusted R-squared:  0.4061
 F-statistic: 25.39 on 3 and 104 DF,  p-value: 2.108e-12</code></pre>
 </div>
 </div>
-<p>Both prametrizations give the same predictions ::: {.cell hash=“map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-15_ee7f500daef80088238565f2ab85f160”}</p>
+<p>Both prametrizations give the same predictions ::: {.cell hash=“map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-30_dae6dc9717b47540960fe5ae49f2ebf7”}</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(<span class="fu">head</span>(<span class="fu">predict</span>(lm4)), <span class="fu">head</span>(<span class="fu">predict</span>(lm4b)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>      [,1]     [,2]
@@ -612,7 +644,7 @@ F-statistic: 25.39 on 3 and 104 DF,  p-value: 2.108e-12</code></pre>
 </div>
 <p>:::</p>
 <p>Different criteria for model selection, including BIC, seem to prefer <code>lm3</code>.</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-16_9c140f6b7a1f11c035e4c430ec7d52ad">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-32_3413c09e0692ee72014d5cb81ac1990b">
 <div class="sourceCode" id="cb28"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">BIC</span>(lm1,lm2,lm3, lm4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>    df      BIC
@@ -623,7 +655,7 @@ lm4  5 501.6524</code></pre>
 </div>
 </div>
 <p>Should we then consider that <code>lm3</code>is our final model? Let us look at the <em>individual fits</em> for 8 subjects,</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-17_cc7b6837b755887448477568798f6242">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-34_b1ce1955293a8d8a914ea699b721267b">
 <p></p><details>
 <summary>Show the code</summary><p></p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>selected <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">"M0"</span>,<span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>),<span class="fu">paste0</span>(<span class="st">"F0"</span>,<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>))</span>
@@ -633,19 +665,19 @@ lm4  5 501.6524</code></pre>
 <span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> <span class="fu">predict</span>(lm3, <span class="at">newdata=</span>Orthodont_selected))) <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>Subject, <span class="at">nrow=</span><span class="dv">2</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-linear-mixed-model_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="864"></p>
+<p><img src="map566-lecture-linear-mixed-model_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid" width="864"></p>
 </div>
 </div>
 <p>We see that the model for the boys, respectively for the girls, seems to underestimate or overestimate the individual data of the four boys, respectively the four girls.</p>
 <p>Indeed, we didn’t take into account the fact that the data are <em>repeated measurements</em> made on the same subjects. A more convenient plot for this type of data consists in joining the data of a same individual:</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-18_0f8c4f4c51de44a3afe4912f3e046a83">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-36_408053417eb7609aa52bf4206e53fd54">
 <p></p><details>
 <summary>Show the code</summary><p></p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> Orthodont) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y=</span>distance), <span class="at">color=</span><span class="st">"red"</span>, <span class="at">size=</span><span class="dv">3</span>)  <span class="sc">+</span> </span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>age,<span class="at">y=</span>distance,<span class="at">group=</span>Subject)) <span class="co"># +  facet_grid(~Sex) </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-linear-mixed-model_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="864"></p>
+<p><img src="map566-lecture-linear-mixed-model_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid" width="864"></p>
 </div>
 </div>
 <p>We see on this plot, that even if the distance seems to increase linearly for each individual, the intercept and the slope may change from a subject to another one, including within the same Sex group.</p>
@@ -850,7 +882,7 @@ y_{i1} \\ y_{i2} \\ \vdots \\ y_{in_i}
 &amp;= \beta_0 + \beta_1 \times{\rm age}_{ij} + \eta_{i0}  + \eta_{i1} \times{\rm age}_{ij} + \varepsilon_{ij}
 \end{aligned}</span></p>
 <p>We can use the function <code>lmer</code> from the package <strong>lme4</strong> for fitting this model. By default, the restricted maximum likelihood (REML) method is used.</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-19_bca507c302b7946be710ba5992b23f13">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-38_2d7557661c652fc3bc6c76e4171a3ad0">
 <div class="sourceCode" id="cb32"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>lmem <span class="ot">&lt;-</span> <span class="fu">lmer</span>(distance <span class="sc">~</span> age <span class="sc">+</span> (age<span class="sc">|</span>Subject), <span class="at">data =</span> Orthodont) </span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lmem)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
@@ -893,17 +925,17 @@ age -0.848</code></pre>
 <p>Finally, the estimated variance of the residual errors is</p>
 <p><span class="math display">\hat\sigma^2 = 1.71620 </span></p>
 <p>Note that functions <code>fixef</code> and <code>VarCorr</code> return these estimated parameters:</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-20_6bd2706e4ab973d9591830aaf64ccf5b">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-40_2e139ae7780ab0a276e38e5c1a8d5466">
 <div class="sourceCode" id="cb34"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>psi.pop <span class="ot">&lt;-</span> <span class="fu">fixef</span>(lmem)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-21_bde6d961b19e4872617d2290db8e46ec">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-42_5f3d151a5d4e583cdd9b8536847abb06">
 <div class="sourceCode" id="cb35"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>Omega <span class="ot">&lt;-</span> <span class="fu">VarCorr</span>(lmem)<span class="sc">$</span>Subject[,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-22_422c1caabb832a6140faa64ff29d5dea">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-44_ba4e493e72e4feb11d78e1f9013ce5fb">
 <div class="sourceCode" id="cb36"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>sigma2 <span class="ot">&lt;-</span> <span class="fu">sigma</span>(lmem)<span class="sc">^</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The estimated individual parameters for our 8 selected individuals can be obtained using function <code>coef</code></p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-23_da661a9ee1a8893f9d38f00ff6c88248">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-46_d46bae0b630e92a40bdc997ec5a321d5">
 <div class="sourceCode" id="cb37"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(lmem)<span class="sc">$</span>Subject[selected, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>    (Intercept)       age
@@ -918,7 +950,7 @@ F05    17.27813 0.4922090</code></pre>
 </div>
 </div>
 <p>using the formula obtained in the previous section, we can check that these estimated parameters are the empirical Bayes estimates, i.e.&nbsp;the conditional means of the individual parameters,</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-24_dbe410782e5fb9f350d65aa96f5fad19">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-48_c2018971a26be2e639feb01a2bf371be">
 <div class="sourceCode" id="cb39"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>Orthodont_i <span class="ot">&lt;-</span> <span class="fu">filter</span>(Orthodont, Subject<span class="sc">==</span><span class="st">"M05"</span>)</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>y_i <span class="ot">&lt;-</span> Orthodont_i<span class="sc">$</span>distance</span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>A_i <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="dv">1</span>, Orthodont_i<span class="sc">$</span>age)</span>
@@ -933,7 +965,7 @@ age          0.6858038</code></pre>
 </div>
 </div>
 <p>Individual predicted distances can also be computed and plotted with the observed distances</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-25_d7ae72e770f2ea5a5e5f93f4e4440722">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-50_e23560fe4f80f22c799280e1663f4da1">
 <p></p><details>
 <summary>Show the code</summary><p></p>
 <div class="sourceCode" id="cb41"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>Orthodont<span class="sc">$</span>pred_lmem <span class="ot">&lt;-</span> <span class="fu">fitted</span>(lmem)</span>
@@ -942,11 +974,11 @@ age          0.6858038</code></pre>
 <span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> pred_lmem)) <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span> Subject, <span class="at">ncol=</span><span class="dv">4</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-linear-mixed-model_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
+<p><img src="map566-lecture-linear-mixed-model_files/figure-html/unnamed-chunk-50-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>We can check that the predicted distances for a given individual (“M05” for instance)</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-26_d19332ec6f796998f650ba420bea6c4b">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-52_2ef9315ebad8e29fe42d975687085829">
 <div class="sourceCode" id="cb42"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(Orthodont, Subject <span class="sc">==</span> <span class="st">"M05"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>Grouped Data: distance ~ age | Subject
@@ -959,7 +991,7 @@ age          0.6858038</code></pre>
 </div>
 <p>are given by the linear model <span class="math inline">c_0+c_1\, {\rm age}</span> using the individual estimated parameters</p>
 <p><span class="math display"> \widehat{\rm distance}_i = \hat{c}_{i0}^{\ } + \hat{c}_{i1}^{\ } \times  {\rm age} </span></p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-27_c8dbad5361cd321e83f1c977e6296a17">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-54_6635c5c4e5ea99ebfc7077c86076b0c0">
 <div class="sourceCode" id="cb44"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>mu_i[<span class="dv">1</span>] <span class="sc">+</span> mu_i[<span class="dv">2</span>]<span class="sc">*</span><span class="fu">c</span>(<span class="dv">8</span>,<span class="dv">10</span>,<span class="dv">12</span>,<span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>[1] 21.07066 22.44227 23.81388 25.18549</code></pre>
@@ -971,7 +1003,7 @@ age          0.6858038</code></pre>
 <ul>
 <li>We can fit the same model to the same data via maximum likelihood (ML) instead of REML</li>
 </ul>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-28_0acc8c413fdfb8277480ec9eda77b830">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-56_7d42def91ecd4fdefb00e45932c50512">
 <div class="sourceCode" id="cb46"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lmer</span>(distance <span class="sc">~</span> age <span class="sc">+</span> (age<span class="sc">|</span>Subject), <span class="at">data =</span> Orthodont, <span class="at">REML =</span> <span class="cn">FALSE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>Linear mixed model fit by maximum likelihood  ['lmerMod']
@@ -994,7 +1026,7 @@ Fixed Effects:
 <ul>
 <li>By default, the variance-covariance matrix <span class="math inline">\Omega</span> is estimated as a full matrix, assuming that the random effects are correlated. It is possible with <code>lmer</code> to constrain <span class="math inline">\Omega</span> to be a diagonal matrix by defining the random effects model using <code>||</code> instead of <code>|</code></li>
 </ul>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-29_cd06261d4b1772da9c7ed825d33f3767">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-58_b2f27663542a7d43bb327e3bf3343efd">
 <div class="sourceCode" id="cb48"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lmer</span>(distance <span class="sc">~</span> age <span class="sc">+</span> (age <span class="sc">||</span> Subject), <span class="at">data =</span> Orthodont) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>Linear mixed model fit by REML ['lmerMod']
@@ -1023,7 +1055,7 @@ Fixed Effects:
 y_{ij} &amp;= c_{i0} + \beta_1 \times{\rm age}_{ij} + \varepsilon_{ij} \\
 &amp;= \beta_0 + \beta_1 \times{\rm age}_{ij} + \eta_{i0}  + \varepsilon_{ij}
 \end{aligned}</span></p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-30_2f01336d41623c168080850a1455998b">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-60_83d336e758d5cb0aeae0e67d86290243">
 <div class="sourceCode" id="cb50"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lmer</span>(distance <span class="sc">~</span> age <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>  Subject), <span class="at">data =</span> Orthodont) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>Linear mixed model fit by REML ['lmerMod']
@@ -1046,7 +1078,7 @@ Fixed Effects:
 <p><span class="math display">\begin{aligned}
 y_{ij} &amp;= \beta_0 + \beta_{0M} \times \mathbf{1}_{{\rm Sex}_i={\rm M}} + \beta_{1M} \times{\rm age}_{ij}\times \mathbf{1}_{{\rm Sex}_i={\rm M}}  + \beta_{1F} \times{\rm age}_{ij}\times \mathbf{1}_{{\rm Sex}_i={\rm F}}  + \eta_{i0}  + \varepsilon_{ij}
 \end{aligned}</span></p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-31_05ed1cfa88ed287f36d4caa2cb7c1c14">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-62_2bfdb99459e83c55622e6471f5a9afaf">
 <div class="sourceCode" id="cb52"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lmer</span>(distance <span class="sc">~</span> Sex <span class="sc">+</span> age<span class="sc">:</span>Sex <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> Subject), <span class="at">data =</span> Orthodont) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>Linear mixed model fit by REML ['lmerMod']
@@ -1069,7 +1101,7 @@ Fixed Effects:
 <p><span class="math display">\begin{aligned}
 y_{ij} &amp;= \beta_0  + \beta_{1M} \times{\rm age}_{ij}\times \mathbf{1}_{{\rm Sex}_i={\rm M}}  + \beta_{1F} \times{\rm age}_{ij}\times \mathbf{1}_{{\rm Sex}_i={\rm F}}  + \eta_{i1} \times{\rm age}_{ij} + \varepsilon_{ij}
 \end{aligned}</span></p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-32_27f1338f1af4d5c39349b1c66682d1b9">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-64_49a7b07c1afeebb6591022ea569abb72">
 <div class="sourceCode" id="cb54"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lmer</span>(distance <span class="sc">~</span> age<span class="sc">:</span>Sex  <span class="sc">+</span> (<span class="dv">0</span> <span class="sc">+</span> age <span class="sc">|</span> Subject), <span class="at">data =</span> Orthodont) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>Linear mixed model fit by REML ['lmerMod']
@@ -1092,7 +1124,7 @@ Fixed Effects:
 y_{ij} = \beta_0 + \beta_1 \times{\rm age}_{ij} + \eta_{i0}^{\rm F}\mathbf{1}_{{\rm Sex}_i={\rm F}} + \eta_{i0}^{\rm M}\mathbf{1}_{{\rm Sex}_i={\rm M}}  + \varepsilon_{ij}
 </span></p>
 <p>where <span class="math inline">\eta_{i0}^{\rm F} \sim \mathcal{N}(0, \omega_{0F}^2)</span> and <span class="math inline">\eta_{i0}^{\rm M} \sim \mathcal{N}(0, \omega_{0M}^2)</span></p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-33_a566350f94d922364f4b87fe7560461a">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-66_a7ee567a31032811223ddb6d1f4fa575">
 <div class="sourceCode" id="cb56"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lmer</span>(distance <span class="sc">~</span> age <span class="sc">+</span> (<span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> Sex<span class="sc">|</span>Subject), <span class="at">data =</span> Orthodont)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stderr">
 <pre><code>Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control$checkConv, : Model is nearly unidentifiable: large eigenvalue ratio
@@ -1152,7 +1184,7 @@ optimizer (nloptwrap) convergence code: 0 (OK) ; 0 optimizer warnings; 1 lme4 wa
 \text{M15} \quad \quad  y_{ij} &amp;= \beta_0  + \beta_{1{\rm M}} s_i a_{ij} + \beta_{1{\rm F}}(1-s_i) a_{ij} + \eta_{i0} + \eta_{i1} a_{ij}  + \varepsilon_{ij} \\
 \text{M16} \quad \quad  y_{ij} &amp;= \beta_0  + \beta_{0{\rm M}}s_i  + \beta_{1{\rm M}} s_i a_{ij} + \beta_{1{\rm F}}(1-s_i) a_{ij} + \eta_{i0} + \eta_{i1} a_{ij}+ \varepsilon_{ij} 
 \end{aligned}</span></p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-34_0fafac01644e8c6d656ef79c5bab6c98">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-68_27f27763841f649ca5e2f7c3f5529e9a">
 <div class="sourceCode" id="cb59"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>m1  <span class="ot">&lt;-</span> <span class="fu">lm</span>(distance <span class="sc">~</span> age , <span class="at">data=</span>Orthodont) </span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>m2  <span class="ot">&lt;-</span> <span class="fu">lm</span>(distance <span class="sc">~</span> Sex <span class="sc">+</span> age , <span class="at">data=</span>Orthodont) </span>
 <span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>m3  <span class="ot">&lt;-</span> <span class="fu">lm</span>(distance <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> age<span class="sc">:</span>Sex , <span class="at">data=</span>Orthodont) </span>
@@ -1170,7 +1202,7 @@ optimizer (nloptwrap) convergence code: 0 (OK) ; 0 optimizer warnings; 1 lme4 wa
 <span id="cb59-15"><a href="#cb59-15" aria-hidden="true" tabindex="-1"></a>m15 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(distance <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> age<span class="sc">:</span>Sex <span class="sc">+</span> (age<span class="sc">|</span>Subject) , <span class="at">data=</span>Orthodont) </span>
 <span id="cb59-16"><a href="#cb59-16" aria-hidden="true" tabindex="-1"></a>m16 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(distance <span class="sc">~</span> Sex <span class="sc">+</span> age<span class="sc">:</span>Sex <span class="sc">+</span> (age<span class="sc">|</span>Subject) , <span class="at">data=</span>Orthodont) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-35_b959032397fea6ee393017f1371c999a">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-70_f7fd0bea997fb0397387a98fbb7201e7">
 <div class="sourceCode" id="cb60"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">BIC</span>(m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14,m15,m16)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>    df      BIC
@@ -1193,17 +1225,17 @@ m16  8 470.0387</code></pre>
 </div>
 </div>
 <p>The best model, according to BIC, is model <code>M7</code> that assumes different fixed slopes for males and females and a random intercept.</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-36_f191e2488872edcb9768a11808586040">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-72_b972b74caf7f1b41924480fbb7e9d6e0">
 <div class="sourceCode" id="cb62"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>Orthodont<span class="sc">$</span>pred_final <span class="ot">&lt;-</span> <span class="fu">fitted</span>(m7)</span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>Orthodont <span class="sc">%&gt;%</span> </span>
 <span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> distance), <span class="at">color=</span><span class="st">"red"</span>, <span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span> </span>
 <span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> pred_final)) <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>Subject, <span class="at">ncol=</span><span class="dv">5</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-linear-mixed-model_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid" width="960"></p>
+<p><img src="map566-lecture-linear-mixed-model_files/figure-html/unnamed-chunk-72-1.png" class="img-fluid" width="960"></p>
 </div>
 </div>
 <p>We can compute 95% profile-based confidence intervals for the parameters of the model:</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-37_72ab40716856674fde2101e2af48decc">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-74_fc58497a58f3181b85522c429a21fbf9">
 <div class="sourceCode" id="cb63"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(m7)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>                   2.5 %     97.5 %
@@ -1215,28 +1247,28 @@ age:SexFemale  0.3866637  0.6576257</code></pre>
 </div>
 </div>
 <p>Parametric bootstrap can also be used for computing confidence intervals:</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-38_12ceb339b58e8161f96ff5e9724ac331">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-76_13e600ca8b6ac6c70d48094823170295">
 <div class="sourceCode" id="cb65"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(m7, <span class="at">method=</span><span class="st">"boot"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stderr">
 <pre><code>Computing bootstrap confidence intervals ...</code></pre>
 </div>
 <div class="cell-output-stdout">
 <pre><code>                   2.5 %     97.5 %
-.sig01         1.2570252  2.3859503
-.sigma         1.1571669  1.5917368
-(Intercept)   15.1879160 18.3351182
-age:SexMale    0.6141316  0.8847917
-age:SexFemale  0.3943394  0.6556858</code></pre>
+.sig01         1.2348635  2.3584089
+.sigma         1.1751937  1.5818996
+(Intercept)   15.0827941 18.2422692
+age:SexMale    0.6333116  0.8989945
+age:SexFemale  0.3885974  0.6673257</code></pre>
 </div>
 </div>
 <p>There is only one random effect in the final model. We can plot 95% prediction intervals on the random effects <span class="math inline">(\eta_i)</span>:</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-39_f5adc3be7eff5c3978a780aa8ee5765c">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-78_6977f6af2ffc2446b773fb9aa1e72288">
 <div class="sourceCode" id="cb68"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dotplot</span>(<span class="fu">ranef</span>(m7, <span class="at">condVar=</span><span class="cn">TRUE</span>), <span class="at">strip=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>$Subject</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-linear-mixed-model_files/figure-html/unnamed-chunk-39-1.png" class="img-fluid" width="672"></p>
+<p><img src="map566-lecture-linear-mixed-model_files/figure-html/unnamed-chunk-78-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -1250,18 +1282,18 @@ age:SexFemale  0.3943394  0.6556858</code></pre>
 <h4 data-number="5.1.1" class="anchored" data-anchor-id="repeated-measures"><span class="header-section-number">5.1.1</span> Repeated measures</h4>
 <p><strong>dataset:</strong> Rail (package: <strong>nlme</strong>)</p>
 <p><strong>Experiment:</strong> Six rails chosen at random, three measurements of travel time of a ultrasonic wave through each rail.</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-40_78dab3b1453b1e080520f8201475d73e">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-80_23dce7fdad29b32d5e46e557d37104fc">
 <div class="sourceCode" id="cb70"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Rail, <span class="at">package =</span> <span class="st">"nlme"</span>)</span>
 <span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>Rail<span class="sc">$</span>Rail <span class="ot">&lt;-</span> <span class="fu">factor</span>(Rail<span class="sc">$</span>Rail, <span class="at">level =</span> <span class="fu">unique</span>(Rail<span class="sc">$</span>Rail), <span class="at">ordered =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Consider the following linear model:</p>
 <p><span class="math display">y_{ij} = \beta_i + \varepsilon_{ij} \quad , \quad i = 1, \ldots , 6 \ ,  \quad j = 1, 2, 3</span></p>
 <p>Remark the use of the notation <code>0 +</code> to avoid a global intercept:</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-41_4ddb03e84b92834c9eddbdea97ba8b11">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-82_43968ec29b93aab1ca05ea74c7bbc199">
 <div class="sourceCode" id="cb71"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>lm.rail <span class="ot">&lt;-</span> <span class="fu">lm</span>(travel <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> Rail, <span class="at">data =</span> Rail)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The estimated intercepts <span class="math inline">(\hat\mu_i =\hat\mu_1+\hat\beta_i)</span> for the 6 rails are</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-42_5d7524fd7c1f9418bfdd81a74e87747e">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-84_dfd0a04f77bbb1900200239525d25155">
 <div class="sourceCode" id="cb72"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(lm.rail)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>   Rail1    Rail2    Rail3    Rail4    Rail5    Rail6 
@@ -1269,10 +1301,10 @@ age:SexFemale  0.3943394  0.6556858</code></pre>
 </div>
 </div>
 <p>These intercepts are the 6 empirical means of the travel times for the 6 rails <span class="math inline">(\bar{y}_i,1 \leq i \leq 6)</span>:</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-43_c879173039d8f9ec30429bd16d01cdd4">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-86_a986560c9ac981276052a7456ff186da">
 <div class="sourceCode" id="cb74"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>Rail <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Rail) <span class="sc">%&gt;%</span>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(travel))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code># A tibble: 6 × 2
+<pre><code># A tibble: 6 x 2
   Rail   mean
   &lt;fct&gt; &lt;dbl&gt;
 1 1      54  
@@ -1286,16 +1318,16 @@ age:SexFemale  0.3943394  0.6556858</code></pre>
 <p>A linear mixed effects model considers that the 6 rails were randomly selected from a ``population’’ of rails. The rail effect is therefore treated as a <strong>random effect</strong>:</p>
 <p><span class="math display">y_{ij} = \mu + \eta_i + \varepsilon_{ij} \quad , \quad i = 1, \ldots , 6 \ ,  \quad j = 1, 2, 3</span></p>
 <p>where <span class="math inline">\eta_i</span> is the deviation from the population intercept <span class="math inline">\mu</span> for the <span class="math inline">i</span>-th rail: <span class="math inline">\eta_i \sim^{\mathrm{iid}} \mathcal{N}(0, \omega^2)</span>.</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-44_6ce32e75622522969546af3528a02d3b">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-88_48bd8f15ea441720f5d982d200d4fd07">
 <div class="sourceCode" id="cb76"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>lme.rail <span class="ot">&lt;-</span> <span class="fu">lmer</span>(travel <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> Rail), <span class="at">data =</span> Rail)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The population intercept <span class="math inline">\mu</span> is estimated by the empirical mean of the 18 travel times ::: {.cell hash=“map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-45_e74ba9c0ba9a59480feaa6e31bafe65f”}</p>
+<p>The population intercept <span class="math inline">\mu</span> is estimated by the empirical mean of the 18 travel times ::: {.cell hash=“map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-90_3d4fb65bfab4061acb41db8c4fe34202”}</p>
 <div class="sourceCode" id="cb77"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Rail<span class="sc">$</span>travel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>[1] 66.5</code></pre>
 </div>
 <p>:::</p>
-<p>The estimated individual predicted travel times <span class="math inline">(\hat{\mu}_i)</span> are ::: {.cell hash=“map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-46_493dbb37582426de36330b2b2e44b7bc”}</p>
+<p>The estimated individual predicted travel times <span class="math inline">(\hat{\mu}_i)</span> are ::: {.cell hash=“map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-92_6962e1a9a2b45a188560b5ef8169c9c4”}</p>
 <div class="sourceCode" id="cb79"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(lme.rail)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>$Rail
@@ -1314,7 +1346,7 @@ attr(,"class")
 <p><span class="math display">\hat\mu_i = \frac{n_i \hat\omega^2}{n_i \hat\omega^2 + \hat\sigma^2}\ \bar{y}_i + 
 \frac{\hat\sigma^2}{n_i \hat\omega^2 + \hat\sigma^2}\ \hat\mu</span></p>
 <p>where <span class="math inline">n_i</span> is the number of observations for rail <span class="math inline">i</span> (here, <span class="math inline">n_i=3</span>).</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-47_bf318395e58f2417184000afa29bfb93">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-94_0397c758ab0871650838bc69de965574">
 <div class="sourceCode" id="cb81"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">3</span></span>
 <span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>omega2_hat <span class="ot">&lt;-</span> <span class="fu">VarCorr</span>(lme.rail)<span class="sc">$</span>Rail[<span class="dv">1</span>]</span>
 <span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>sigma2_hat <span class="ot">&lt;-</span> <span class="fu">attr</span>(<span class="fu">VarCorr</span>(lme.rail)[],<span class="st">"sc"</span>)<span class="sc">^</span><span class="dv">2</span></span>
@@ -1328,7 +1360,7 @@ attr(,"class")
 <span id="cb81-11"><a href="#cb81-11" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb81-12"><a href="#cb81-12" aria-hidden="true" tabindex="-1"></a>yi_hat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code># A tibble: 6 × 4
+<pre><code># A tibble: 6 x 4
   Rail  mean_rail mean_pop   map
   &lt;fct&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
 1 1          54       66.5  54.1
@@ -1340,7 +1372,7 @@ attr(,"class")
 </div>
 </div>
 <p>We can also check that <span class="math inline">\hat{\mu}_i = \hat{\mu}+ \hat{\eta}_i</span>, where <span class="math inline">(\hat{\eta}_i)</span> are the estimated random effects</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-48_ac3448dcd3a1db8b410170ef227fb10f">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-96_3ad2897df98eeacf3a38cf7e3a165b4f">
 <div class="sourceCode" id="cb83"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ranef</span>(lme.rail)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>$Rail
@@ -1363,7 +1395,7 @@ with conditional variances for "Rail" </code></pre>
 <h4 data-number="5.2.1" class="anchored" data-anchor-id="design-with-no-replications"><span class="header-section-number">5.2.1</span> Design with no replications</h4>
 <p><strong>dataset:</strong> <code>ergoStool</code> (package: <strong>nlme</strong>)</p>
 <p><strong>Experiment:</strong> Nine testers had to sit in four different ergonomic stools and their effort to raise was measured once.</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-49_3acfaa684560f100eac9e07f42c4a177">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-98_45786982323d540f04b9e7b0b8a22048">
 <div class="sourceCode" id="cb85"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(ergoStool)</span>
 <span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="co"># define "Subject" as a factor with unorderedlevels</span></span>
 <span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>ergoStool<span class="sc">$</span>Subject <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">unclass</span>(ergoStool<span class="sc">$</span>Subject))</span>
@@ -1392,13 +1424,13 @@ Type 1 2 3 4 5 6 7 8 9
 <h5 data-number="5.2.1.1" class="anchored" data-anchor-id="model-with-one-fixed-and-one-random-factor"><span class="header-section-number">5.2.1.1</span> Model with one fixed and one random factor</h5>
 <p>In this model, the stool type is considered as a fixed effect (<span class="math inline">\beta_j</span>) while the testing subject is treated as a random effect (<span class="math inline">\eta_i</span>)</p>
 <p><span class="math display">y_{ij} = \mu + \beta_j + \eta_i + \varepsilon_{ij} \quad , \quad i = 1, \ldots , 9 \ ,  \quad j = 1, \ldots , 4</span> where <span class="math inline">\beta_1=0</span>.</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-50_c5a7db497f72e60d4ddb15f3bbcce30a">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-100_8286d072821de77728481eaba64e15f7">
 <div class="sourceCode" id="cb89"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>lme.ergo1 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(effort <span class="sc">~</span> Type <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> Subject), <span class="at">data =</span> ergoStool)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Even if it is of very little interest, we could instead consider the stool type as a random effect (<span class="math inline">\eta_j</span>) and the testing subject as a fixed effect (<span class="math inline">\beta_i</span>)</p>
 <p><span class="math display">y_{ij} = \mu + \beta_i + \eta_j + \varepsilon_{ij} \quad , \quad i = 1, \ldots , 9 \ ,  \quad j = 1, \ldots , 4</span></p>
 <p>where <span class="math inline">\beta_1=0</span>.</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-51_7536a6f78f98d3a3d6f33fac7697df15">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-102_e8a7eddfa06296734a25063163c30ace">
 <div class="sourceCode" id="cb90"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>lme.ergo2 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(effort <span class="sc">~</span> Subject <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> Type) , <span class="at">data =</span> ergoStool)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -1406,7 +1438,7 @@ Type 1 2 3 4 5 6 7 8 9
 <h5 data-number="5.2.1.2" class="anchored" data-anchor-id="model-with-two-random-factors"><span class="header-section-number">5.2.1.2</span> Model with two random factors</h5>
 <p>Both effects (stool type and testing subject) can be treated as random effects:</p>
 <p><span class="math display">y_{ij} = \mu + \eta_i + \eta_j + \varepsilon_{ij} \quad , \quad i = 1, \ldots , 9 \ ,  \quad j = 1, \ldots , 4</span></p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-52_73634fa4aae9e8c838a95d8c7681fb14">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-104_76d26c0a24802906de69c3d08949e8b8">
 <div class="sourceCode" id="cb91"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>lme.ergo3 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(effort <span class="sc">~</span> (<span class="dv">1</span><span class="sc">|</span>Subject) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Type) , <span class="at">data =</span> ergoStool)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -1414,12 +1446,12 @@ Type 1 2 3 4 5 6 7 8 9
 <h5 data-number="5.2.1.3" class="anchored" data-anchor-id="comparison-between-these-models"><span class="header-section-number">5.2.1.3</span> Comparison between these models</h5>
 <p>We can compare these 3 models with a linear model assuming only one fixed factor</p>
 <p><span class="math display">y_{ij} = \mu  + \beta_j + \varepsilon_{ij} \quad , \quad i = 1, \ldots , 9 \ ,  \quad j = 1, \ldots , 4</span> where <span class="math inline">\beta_1=0</span>.</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-53_72ae7ca02af162af23ff383c0de67b62">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-106_bbf9b281c96f999f740e6d2033725bb1">
 <div class="sourceCode" id="cb92"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>lm.ergo <span class="ot">&lt;-</span> <span class="fu">lm</span>(effort <span class="sc">~</span> Type , <span class="at">data =</span> ergoStool)</span>
 <span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Residual standard error: "</span>,<span class="fu">summary</span>(lm.ergo)<span class="sc">$</span>sigma)</span>
 <span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Residual standard error:  1.728037</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-54_9d926a5a3ae317dd573022a0826be5a2">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-108_e7d1f8b021647f5d893bd57274c4a950">
 <div class="sourceCode" id="cb93"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">BIC</span>(lm.ergo, lme.ergo1, lme.ergo2, lme.ergo3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>          df      BIC
@@ -1438,7 +1470,7 @@ lme.ergo3  4 148.6678</code></pre>
 <h4 data-number="5.2.2" class="anchored" data-anchor-id="design-with-replications"><span class="header-section-number">5.2.2</span> Design with replications</h4>
 <p><strong>dataset:</strong> <code>Machines</code> (package: <strong>nlme</strong>)</p>
 <p><strong>Experiment:</strong> Six workers were chosen randomly among the employees of a factory to operate each machine three times. The response is an overall productivity score taking into account the number and quality of components produced.</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-55_15e40ef3c6fa615f41f63dfc582f79d1">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-110_fbc0e932e2b93c881056900e05a5ee8e">
 <div class="sourceCode" id="cb95"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Machines)</span>
 <span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a>Machines<span class="sc">$</span>Worker <span class="ot">&lt;-</span> <span class="fu">factor</span>(Machines<span class="sc">$</span>Worker, <span class="at">levels=</span><span class="fu">unique</span>(Machines<span class="sc">$</span>Worker))</span>
 <span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a>Machines <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1464,7 +1496,7 @@ Machine 1 2 3 4 5 6
 <p>A first model considers therefore the machine as a fixed effect (<span class="math inline">\beta_j</span>) and the subject (or worker in this example) as a random effect (<span class="math inline">\eta_i</span>). We don’t assume any interaction between the worker and the machine in this first model.</p>
 <p><span class="math display">y_{ijk} = \mu + \beta_j + \eta_i + e_{ijk} \quad , \quad i = 1, \ldots , 6 \ ,  \quad j = 1, 2, 3 \ ,  \quad k = 1, 2, 3 \ \text{replications}</span></p>
 <p>where <span class="math inline">\beta_1=0</span>.</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-56_11e01737fd46d4099bd34d3e67a5b4a5">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-112_36528bdc18b9738f86e431eb133439bf">
 <div class="sourceCode" id="cb98"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a>lme.machine1 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(score <span class="sc">~</span> Machine <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Worker), <span class="at">data =</span> Machines)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -1472,7 +1504,7 @@ Machine 1 2 3 4 5 6
 <h5 data-number="5.2.2.2" class="anchored" data-anchor-id="model-with-one-fixed-and-one-random-factor-with-interaction"><span class="header-section-number">5.2.2.2</span> Model with one fixed and one random factor, with interaction</h5>
 <p>We can furthermore assume that there exists an interaction between the worker and the machine. This interaction is treated as a random effect <span class="math inline">\eta_{ij}</span>:</p>
 <p><span class="math display">y_{ijk} = \mu + \beta_j + \eta_i + \eta_{ij} + e_{ijk} \quad , \quad i = 1, \ldots , 6 \ ,  \quad j = 1, 2, 3 \ ,  \quad k = 1, 2, 3 \ \text{replications}</span></p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-57_d18f1533e7fec7680248993c2b47b992">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-114_c20d49828f35a9b3e6668318efd969b2">
 <div class="sourceCode" id="cb99"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>lme.machine2 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(score <span class="sc">~</span> Machine <span class="sc">+</span>  (<span class="dv">1</span><span class="sc">|</span>Worker) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Worker<span class="sc">:</span>Machine), <span class="at">data =</span> Machines)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -1480,18 +1512,18 @@ Machine 1 2 3 4 5 6
 <h5 data-number="5.2.2.3" class="anchored" data-anchor-id="model-with-two-random-factors-without-interaction"><span class="header-section-number">5.2.2.3</span> Model with two random factors without interaction</h5>
 <p>The effect of the machine could be considered as a random effect, instead of a fixed one:</p>
 <p><span class="math display">y_{ijk} = \mu + \eta_i + \eta_j + e_{ijk} \quad , \quad i = 1, \ldots , 6 \ ,  \quad j = 1, 2, 3 \ ,  \quad k = 1, 2, 3 \ \text{replications}</span></p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-58_df8cb8123c109e4ce802d7926a2edd0d">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-116_f273e12c6a949083325afc172b7e9b1f">
 <div class="sourceCode" id="cb100"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a>lme.machine3 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(score <span class="sc">~</span> (<span class="dv">1</span><span class="sc">|</span>Machine) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Worker), <span class="at">data =</span> Machines)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="model-with-two-random-factors-with-interaction" class="level5" data-number="5.2.2.4">
 <h5 data-number="5.2.2.4" class="anchored" data-anchor-id="model-with-two-random-factors-with-interaction"><span class="header-section-number">5.2.2.4</span> Model with two random factors with interaction</h5>
 <p><span class="math display">y_{ijk} = \mu + \eta_i + \eta_j + \eta_{ij} + e_{ijk} \quad , \quad i = 1, \ldots , 6 \ ,  \quad j = 1, 2, 3 \ ,  \quad k = 1, 2, 3 \ \text{replications}</span></p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-59_15a103ef0e6910d9509bc93b7844f0f1">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-118_d1e1eb8000c60e7a023e82f653576276">
 <div class="sourceCode" id="cb101"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a>lme.machine4 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(score <span class="sc">~</span> (<span class="dv">1</span><span class="sc">|</span>Machine) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Worker) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Worker<span class="sc">:</span>Machine), <span class="at">data =</span> Machines)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Model comparison:</p>
-<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-60_c6e54e7f46ca1c5228ad2185cdc9b60e">
+<div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-120_550748104c98b307ce5f75ceea17273b">
 <div class="sourceCode" id="cb102"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">BIC</span>(lme.machine1, lme.machine2, lme.machine3, lme.machine4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>             df      BIC
@@ -1588,17 +1620,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../docs/mixed-models/map566-lab-linear-mixed-model.html">
-        <span class="nav-page-text">Linear Mixed Models: exercices</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
-    <div class="nav-footer-left">Last update: November 2021</div>   
-  </div>
-</footer>
 
 
 </body></html>

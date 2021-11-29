@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.2.277">
+  <meta name="generator" content="quarto-0.2.318">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Linear Mixed Models: exercices</title>
   <style>
@@ -86,7 +86,6 @@
   <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
   <script src="../../site_libs/quarto-search/fuse.min.js"></script>
   <script src="../../site_libs/quarto-search/quarto-search.js"></script>
-  <link href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html" rel="prev">
   <script src="../../site_libs/quarto-html/quarto.js"></script>
   <script src="../../site_libs/quarto-html/popper.min.js"></script>
   <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -157,8 +156,6 @@
         <li>
     <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html">Exercices</a>
   </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">Documents</li>
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -166,21 +163,23 @@
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-regression-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html">Linear regression: quick recap</a>
-  </li>  
-        <li>
     <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html">Polynomial regression models</a>
   </li>  
         <li>
     <a class="dropdown-item" href="../../docs/regression/map566-lecture-nonlinear-regression.html">Nonlinear regression</a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">PC/Labs</li>
+        <li class="dropdown-header">Exercices</li>
         <li>
     <a class="dropdown-item" href="../../docs/regression/map566-lab-polynomial-regression.html">Polynomial regression model: exercices</a>
   </li>  
         <li>
     <a class="dropdown-item" href="../../docs/regression/map566-lab-nonlinear-regression.html">Nonlinear regression: exercices</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html">Linear regression: quick recap</a>
   </li>  
     </ul>
   </li>
@@ -191,10 +190,18 @@
         <li>
     <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html">Linear Mixed Effects Models</a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html">Nonlinear Mixed Effects Models</a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">PC/Labs</li>
+        <li class="dropdown-header">Exercices</li>
         <li>
     <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-linear-mixed-model.html">Linear Mixed Models: exercices</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html">An EM Algorithm for Linear Mixed Effects Models</a>
   </li>  
     </ul>
   </li>
@@ -202,16 +209,19 @@
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mixture models</a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixture-models">    
         <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html">Mixture Models</a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">PC/Labs</li>
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-multivariate-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Multivariate models</a>
-    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-multivariate-models">    
-        <li class="dropdown-header">Lectures</li>
+        <li class="dropdown-header">Exercices</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">Mixture models: exercices</a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">PC/Labs</li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-doc-mixture-models-example.html">Mixture Models: an example</a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -252,6 +262,9 @@
           <li class="sidebar-item">
   <a href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html" class="">Linear Mixed Effects Models</a>
 </li>
+          <li class="sidebar-item">
+  <a href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html" class="">Nonlinear Mixed Effects Models</a>
+</li>
         </ul>
       </div>
     </li>
@@ -259,12 +272,12 @@
       <ul class="list-unstyled sidebar-section depth1">
     <li class="">
         <div class="me-auto">
-            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#pc/labs-collapse" aria-expanded="true">
-              <div class="me-auto sidebar-section-item">PC/Labs</div>
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#exercices-collapse" aria-expanded="true">
+              <div class="me-auto sidebar-section-item">Exercices</div>
             <div><i class="bi bi-chevron-right ms-2"></i></div>
             </a>
         </div>
-      <div class="collapse  show" id="pc/labs-collapse">
+      <div class="collapse  show" id="exercices-collapse">
         <ul class="list-unstyled sidebar-item-contents">
           <li class="sidebar-item">
   <a href="../../docs/mixed-models/map566-lab-linear-mixed-model.html" class="active">Linear Mixed Models: exercices</a>
@@ -273,11 +286,29 @@
       </div>
     </li>
   </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#supplementarymaterial-collapse" aria-expanded="true">
+              <div class="me-auto sidebar-section-item">Supplementary material</div>
+            <div><i class="bi bi-chevron-right ms-2"></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="supplementarymaterial-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html" class="">An EM Algorithm for Linear Mixed Effects Models</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
   </ul>
   </div>
 </nav>
-<!-- toc -->
-    <nav id="TOC" role="doc-toc" class="sidebar sidebar-toc">
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+      <nav id="TOC" role="doc-toc">
 <h2 id="toc-title">On this page</h2>
 <ul>
 <li><a href="#preliminary" class="nav-link active" data-scroll-target="#preliminary">Preliminary</a></li>
@@ -286,6 +317,7 @@
 <li><a href="#the-oats-data" class="nav-link" data-scroll-target="#the-oats-data"> <span class="header-section-number">3</span> The <code>Oats</code> data</a></li>
 </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
 <!-- main -->
 <main class="content">
 <header id="title-block-header">
@@ -295,18 +327,17 @@
 <section id="preliminary" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="preliminary">Preliminary</h2>
 <p>Functions from <code>R</code>-base and stats (preloaded) are required plus packages from the <strong>tidyverse</strong> for data representation and manipulation. We also need the <strong>lme4</strong> package which is the standard for fitting mixed-model. <strong>lattice</strong> is used for graphical representation of quantities such as random and fixed effects in the mixed models.</p>
-<div class="cell" data-hash="map566-lab-linear-mixed-model_cache/html/tests-config_3166f28a8611cf3ea285fb880a355838">
+<div class="cell" data-hash="map566-lab-linear-mixed-model_cache/html/tests-config_94cdca162f1694f2854369293ec6a230">
 <div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lattice)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lattice)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="the-orange-data" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="the-orange-data"><span class="header-section-number">1</span> The <code>Orange</code> data</h2>
 <p>The <code>Orange</code> data is a classical data set provided with the <strong>datasets</strong> package included with <code>R</code>. It consists in a 35-row data frame with records of the growth of 3 orange trees, giving their circumference against their age:</p>
-<div class="cell" data-hash="map566-lab-linear-mixed-model_cache/html/orange-data-loading_d81ff82706139b8562335947577555b6">
+<div class="cell" data-hash="map566-lab-linear-mixed-model_cache/html/orange-data-loading_db34b00cc7f4ac2a305fed29858ddf83">
 <div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Orange)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="do">## we force the sorting of the levels (1,2,3)</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>Orange<span class="sc">$</span>Tree <span class="ot">&lt;-</span> <span class="fu">factor</span>(Orange<span class="sc">$</span>Tree, <span class="at">levels =</span> <span class="fu">unique</span>(Orange<span class="sc">$</span>Tree))</span>
@@ -319,7 +350,7 @@
 </div>
 </div>
 </div>
-<div class="cell" data-hash="map566-lab-linear-mixed-model_cache/html/unnamed-chunk-1_2bda3cb5c6dc7b8f9722fb701a0e9ec8">
+<div class="cell" data-hash="map566-lab-linear-mixed-model_cache/html/unnamed-chunk-2_ba2030df8df4874adf71f50a8e4cdbbb">
 <p></p><details>
 <summary>Show the code</summary><p></p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pl <span class="ot">&lt;-</span> </span>
@@ -329,7 +360,7 @@
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>pl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lab-linear-mixed-model_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="768"></p>
+<p><img src="map566-lab-linear-mixed-model_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="768"></p>
 </div>
 </div>
 <ol type="1">
@@ -342,7 +373,7 @@
 <section id="the-pastes-data" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="the-pastes-data"><span class="header-section-number">2</span> The <code>Pastes</code> data</h2>
 <p>The <code>Pastes</code> data is a another classical data set provided with the <strong>lme4</strong> package. It describes the strength of a chemical paste product whose quality depends on the delivery batch, and the cask within the delivery. There are 60 observations, 10 levels of batch and 3 levels of cask.</p>
-<div class="cell" data-hash="map566-lab-linear-mixed-model_cache/html/pastes data loading_dc300033f1d94168d48438b2b10c2eb8">
+<div class="cell" data-hash="map566-lab-linear-mixed-model_cache/html/pastes data loading_b5e4cf4da0523dc867f00e72e6eb098b">
 <div class="sourceCode" id="cb4"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Pastes)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Pastes <span class="sc">%&gt;%</span> <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -354,7 +385,7 @@
 </div>
 </div>
 <p>We can have a quick look on summary statistics in each level of each factor:</p>
-<div class="cell" data-hash="map566-lab-linear-mixed-model_cache/html/tidy alternative cross_6a780811e50197034c818c1f35db4bd5">
+<div class="cell" data-hash="map566-lab-linear-mixed-model_cache/html/tidy alternative cross_c5eecd1d27fb4c69032ab447912d6eb1">
 <div class="sourceCode" id="cb5"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Pastes <span class="sc">%&gt;%</span> </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(batch, cask) <span class="sc">%&gt;%</span> </span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_strengh =</span> <span class="fu">mean</span>(strength), <span class="at">sd_strength =</span> <span class="fu">sd</span>(strength), <span class="at">n_replicat =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span> </span>
@@ -371,7 +402,7 @@
 </div>
 </div>
 <p>There is obviously some structure in the data set and an effect of the batch level:</p>
-<div class="cell" data-hash="map566-lab-linear-mixed-model_cache/html/Paste plot_923b5eef86a3018290a223192e4a1a12">
+<div class="cell" data-hash="map566-lab-linear-mixed-model_cache/html/Paste plot_2c090d540f7088fc084c16191e31ebd4">
 <p></p><details>
 <summary>Show the code</summary><p></p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>Pastes <span class="sc">%&gt;%</span> </span>
@@ -382,7 +413,7 @@
 </div>
 </div>
 <p>We can plot the cask as the function of the strength, conditionning on batch (and ) the later being reorder by strength)</p>
-<div class="cell" data-hash="map566-lab-linear-mixed-model_cache/html/Pastes plot 2_36ba9300bcf22f83e4d74872aec2919c">
+<div class="cell" data-hash="map566-lab-linear-mixed-model_cache/html/Pastes plot 2_83914e84cd245bf30d9a04927c3f27d7">
 <p></p><details>
 <summary>Show the code</summary><p></p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>lattice<span class="sc">::</span><span class="fu">dotplot</span>(cask <span class="sc">~</span> strength <span class="sc">|</span> <span class="fu">reorder</span>(batch, strength), Pastes,</span>
@@ -405,7 +436,7 @@
 <p>These data have been introduced by Yates (1935) as an example of a split-plot design. The objective is to assess the effect of treatment (level of nitrogen) on the yield of different varieties of oat.</p>
 <p>The treatment structure used in the experiment was a 3 x 4 full factorial, with three varieties of oats and four concentrations of nitrogen. The experimental units were arranged into six blocks, each with three whole-plots subdivided into four subplots. The varieties of oats were assigned randomly to the whole-plots and the concentrations of nitrogen to the subplots. All four concentrations of nitrogen were used on each whole-plot.</p>
 <p>The data are available from the <strong>nlme</strong> package:</p>
-<div class="cell" data-hash="map566-lab-linear-mixed-model_cache/html/unnamed-chunk-2_9df343bc247f7c9d6fb9f20726f0f2cf">
+<div class="cell" data-hash="map566-lab-linear-mixed-model_cache/html/unnamed-chunk-4_61890d3e2eeb3e547587b7bac1005ba4">
 <div class="sourceCode" id="cb9"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Oats, <span class="at">package =</span> <span class="st">"nlme"</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># keep the original order of the levels of Block and Variety</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>Oats<span class="sc">$</span>Block   <span class="ot">&lt;-</span> <span class="fu">factor</span>(Oats<span class="sc">$</span>Block  , <span class="at">levels =</span> <span class="fu">unique</span>(Oats<span class="sc">$</span>Block))  </span>
@@ -420,7 +451,7 @@
 </div>
 </div>
 <p>The <code>xtabs</code> function creates a contingency table using the handy formula notation which allows us to check that the data indeed follows a full factorial design:</p>
-<div class="cell" data-hash="map566-lab-linear-mixed-model_cache/html/unnamed-chunk-3_d540cabd476281e8eb1cf950f18459a0">
+<div class="cell" data-hash="map566-lab-linear-mixed-model_cache/html/unnamed-chunk-6_4f5dbe6f5f91b212a1f05f714ad02cd5">
 <div class="sourceCode" id="cb10"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xtabs</span>(<span class="sc">~</span> Block <span class="sc">+</span> Variety, Oats)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>     Variety
@@ -519,19 +550,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </main> <!-- /main -->
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Linear Mixed Effects Models</span>
-      </a>          
   </div>
   <div class="nav-page nav-page-next">
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
-    <div class="nav-footer-left">Last update: November 2021</div>   
-  </div>
-</footer>
 
 
 </body></html>
