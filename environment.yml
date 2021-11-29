@@ -12,5 +12,4 @@ dependencies:
   - r-nlme
   - r-lme4
   - r-saemix
-  - r-mixtools
   - r-vgam
