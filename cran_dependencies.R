@@ -5,4 +5,4 @@ local({
 })
 
 ## R packages not available on conda
-remotes::install_package('ggfortify')
+install_package('ggfortify')
