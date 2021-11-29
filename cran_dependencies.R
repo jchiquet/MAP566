@@ -5,6 +5,6 @@ local({
 })
 
 ## R packages not available on conda
-install_package('ggfortify')
-install_package('mixtools')
+install.packages('ggfortify')
+install.packages('mixtools')
 

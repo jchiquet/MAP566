@@ -5,12 +5,12 @@ channels:
 dependencies:
   - r-base>=3.6.2
   - r-tidyverse
-#  - r-ggfortify
   - r-knitr
   - r-lattice
   - r-gridextra
-  # - r-pwr
-  # - r-nlme
-  # - r-lme4
+   - r-nlme
+   - r-lme4
+   - r-pwr
+  # - r-ggfortify
   # - r-saemix
   # - r-vgam
