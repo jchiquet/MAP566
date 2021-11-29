@@ -13,4 +13,5 @@ dependencies:
   - r-pwr
   - r-saemix
   - r-vgam
+  - r-mixtools
   # - r-ggfortify
