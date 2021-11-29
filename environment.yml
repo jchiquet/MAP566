@@ -8,14 +8,10 @@ dependencies:
   - r-kableextra
   - r-pwr
   - r-tidyverse
-  - r-broom
-  - r-viridis
   - r-lattice
+  - r-nlme
   - r-lme4
   - r-saemix
   - r-ggfortify
   - r-mixtools
-  - r-rsample
   - r-vgam
-  
-  

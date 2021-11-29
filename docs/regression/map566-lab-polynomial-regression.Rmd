@@ -5,13 +5,12 @@ title: "Polynomial regression model: exercices"
 
 ## Preliminary
 
-Only functions from `R`-base and stats (preloaded) are required plus packages from the **tidyverse** for data representation and manipulation. You could also try the package **broom** that standardizes the output of built-in R functions for statistical modelling
+Only functions from `R`-base and stats (preloaded) are required plus packages from the **tidyverse** for data representation and manipulation.
 
 
 ```{r linear-regression-config, message = FALSE}
 library(tidyverse)
 library(ggfortify) # extend some ggplot2 features
-library(broom)
 theme_set(theme_bw())
 ```
 

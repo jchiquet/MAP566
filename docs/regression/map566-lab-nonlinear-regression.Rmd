@@ -9,7 +9,6 @@ The usual libraries:
 ```{r linear-regression-config, message = FALSE}
 library(tidyverse)
 library(ggfortify) # extend some ggplot2 features
-library(broom)
 theme_set(theme_bw())
 ```
 

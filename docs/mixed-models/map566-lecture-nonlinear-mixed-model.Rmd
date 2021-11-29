@@ -10,10 +10,10 @@ Functions from `R`-base and stats (preloaded) are required plus packages from th
 #| code-fold: false
 library(tidyverse)
 library(ggfortify)
-theme_set(theme_bw())
 library(lme4)
 library(saemix)
 library(lattice)
+theme_set(theme_bw())
 ```
 
 ## Introduction: the `theophylline` data set

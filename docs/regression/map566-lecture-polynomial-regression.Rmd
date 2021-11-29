@@ -7,15 +7,13 @@ format:
 
 ## Preliminary {.unnumbered}
 
-Only functions from `R`-base and stats (preloaded) are required plus packages from the **tidyverse** for data representation and manipulation. You could also try the package **broom** that standardizes the output of built-in R functions for statistical modelling
+Only functions from `R`-base and stats (preloaded) are required plus packages from the **tidyverse** for data representation and manipulation. 
 
 ```{r linear-regression-config, message = FALSE}
 #| code-fold: false
 library(tidyverse)
 library(gridExtra)
 library(ggfortify)  # extend some ggplot2 features
-library(rsample)    # create training/test sets 
-library(broom)
 theme_set(theme_bw())
 ```
 
@@ -98,6 +96,7 @@ Then, $X\beta$ is the vector of *predicted values* and $varepsilon$ the vector o
 
 A very basic model considers that the observations $(y_j)$ fluctuates around a constant value $c_0$:
 
+$$y_j = c_0 + \varepsilon_j$$
 $$y_j = c_0 + \varepsilon_j$$
 
 ```{r, message=FALSE, warning=FALSE}
@@ -184,10 +183,12 @@ A common practice is to split the dataset into a 80:20 sample (training:test), t
 Doing it this way, we will have the model predicted values for the 20% data (test). We can then see how the model will perform with this ``new'' data, by comparing these predicted values with the original ones.  We can alo check the stability of the prediction given by the model, by comparing these predicted values with those obtained previouly, when the complete data were used for building the model.
 
 Let us first randomly define the training and test samples:
+
 ```{r}
-cars_split    <- rsample::initial_split(cars, prop = 0.8)
-cars_training <- rsample::training(cars_split)
-cars_test     <- rsample::testing(cars_split)
+n <- nrow(cars)
+is_train <- sample(c(TRUE, FALSE), n, prob = c(0.8, 0.2), replace = TRUE)
+cars_training <- filter(cars,  is_train)
+cars_test     <- filter(cars, !is_train)
 ```
 
 ```{r}
@@ -497,8 +498,8 @@ Several quantitative criteria and several statistical tests are available for co
 First, we have seen that $t$-test are performed for each coefficient of the model
 
 ```{r}
-tidy(lm1_ortho)
-tidy(lm2_ortho)
+summary(lm1_ortho)$coefficients
+summary(lm2_ortho)$coefficients
 ```
 
 Based on these results, we can conclude that $c_0 \neq  0$ and $c_1 \neq  0$. On the other hand, the data does not allow us to conclude that $c_2 \neq  0$.

@@ -445,15 +445,7 @@ We would consider the 7 first $p$-values as significant using this new correctio
 <!-- c(mean(m01.bhc/m0), mean(m11.bhc/m1),mean(m01.bhc/(m01.bhc+m11.bhc),na.rm=TRUE)) -->
 <!-- ``` -->
 
-
-
-
 > Benjamini, Y., and Y. Hochberg. 1995. Controlling the false discovery rate: a practical and powerful approach to multiple testing. Journal of the Royal Statistical Society B 57: 289-300.
 
 > Garcia-Arenzana, N., E.M. Navarrete-Munoz, V. Lope, P. Moreo, S. Laso-Pablos, N. Ascunce, F. Casanova-Gomez, C. Sanchez-Contador, C. Santamariña, N. Aragonès, B.P. Gomez, J. Vioque, and M. Pollan. 2014. Calorie intake, olive oil consumption and mammographic density among Spanish women. International Journal of Cancer 134: 1916-1925.
-
-
-
-
-
 

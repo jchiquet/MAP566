@@ -14,7 +14,7 @@ Only functions from `R`-base and stats (preloaded) are required plus packages fr
 library(tidyverse)
 library(ggfortify)  # extend some ggplot2 features
 library(kableExtra) # fancy table display
-library(viridis)    # color-blind palette
+library(pwr)        # power study in R
 theme_set(theme_bw())
 ```
 
@@ -35,8 +35,7 @@ The data per gender and regime is displayed  below
 #| code-fold: true
 rat_weight %>% 
   ggplot() + aes(x = gender, y = weight) +
-  geom_violin(aes(fill = regime)) + geom_jitter(alpha = 0.5) +  ylab("weight (g)") +
-  scale_fill_viridis(discrete = TRUE)
+  geom_violin(aes(fill = regime)) + geom_jitter(alpha = 0.5) +  ylab("weight (g)")
 ```
 
 The following table provides the mean weight in each group
@@ -60,8 +59,7 @@ Before considering the problem of comparing two groups, let us start looking at 
 #| code-fold: true
 rat_weight %>% filter(gender == "Male") %>% 
   ggplot() + aes(x = regime, y = weight) +
-  geom_violin(aes(fill = regime)) + geom_jitter(alpha = 0.5) +  ylab("weight (g)") +
-  scale_fill_viridis(discrete = TRUE)
+  geom_violin(aes(fill = regime)) + geom_jitter(alpha = 0.5) +  ylab("weight (g)")
 ```
 
 Let $x_1, x_2, x_n$ the weights of the $n$ male rats. We will assume that the $x_i$'s are independent and normally distributed with mean $\mu$ and variance $\sigma^2$:
@@ -331,8 +329,7 @@ Let us now compare the weights of the male and female rats.
 ```{r, fig.height=5, fig.width=10}
 rat_weight %>% 
   ggplot() + aes(x = gender, y = weight) +
-  geom_violin(aes(fill = gender)) + geom_jitter(alpha = 0.5) +  ylab("weight (g)") +
-  scale_fill_viridis(discrete = TRUE)
+  geom_violin(aes(fill = gender)) + geom_jitter(alpha = 0.5) +  ylab("weight (g)")
 ```
 
 Looking at the data is more than enough for concluding that the mean weight of the males is (much) larger than the mean weight of the females \ldots Computing a $p$-value here is of little interest \ldots
@@ -349,8 +346,7 @@ Let us see now what happens if we compare the control and GMO groups for the mal
 ```{r, fig.height=5, fig.width=10}
 rat_weight %>% filter(gender == "Male") %>% 
   ggplot() + aes(x = regime, y = weight) +
-  geom_boxplot(aes(fill = regime)) + geom_jitter(alpha = 0.5) +  ylab("weight (g)") +
-  scale_fill_viridis(discrete = TRUE)
+  geom_boxplot(aes(fill = regime)) + geom_jitter(alpha = 0.5) +  ylab("weight (g)")
 x <- rat_weight %>% filter(gender == "Male" & regime == "Control") %>% pull("weight")
 y <- rat_weight %>% filter(gender == "Male" & regime == "GMO") %>% pull("weight")
 ```
@@ -673,7 +669,6 @@ dt <- delta_mu/x_sd/sqrt(1/nx_new+1/ny_new)
 The function `pwr.t.test` allows to compute this power:
 
 ```{r, message=FALSE, warning=FALSE}
-library(pwr)
 pwr.t.test(n = nx_new, d = delta_mu/x_sd, type = "two.sample",
            alternative="two.sided", sig.level = alpha)
 ```
