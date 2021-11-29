@@ -11,6 +11,6 @@ dependencies:
   - r-nlme
   - r-lme4
   - r-pwr
+  - r-saemix
   # - r-ggfortify
-  # - r-saemix
   # - r-vgam
