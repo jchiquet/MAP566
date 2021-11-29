@@ -9,7 +9,6 @@ dependencies:
   - r-gridextra
   - r-knitr
   - r-pwr
-  - r-nlme
   - r-lme4
   - r-saemix
   - r-vgam
