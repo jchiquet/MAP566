@@ -19,7 +19,7 @@ format:
 site:
   title: "MAP566 - Stats in Action"
   repo-url: https://github.com/jchiquet/MAP566
-  repo-actions: issue
+  repo-actions: [issue]
   page-navigation: true
 
   navbar:
