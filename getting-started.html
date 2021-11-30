@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.2.318">
+  <meta name="generator" content="quarto-0.2.323">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Setup instructions</title>
   <style>
@@ -150,9 +150,9 @@
     <a class="dropdown-item" href="./docs/tests/map566-lecture-multiple.html">Multiple Testing</a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">Labs</li>
+        <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="./docs/tests/map566-lab-tests.html">Exercices</a>
+    <a class="dropdown-item" href="./docs/tests/map566-lab-tests.html">Hypothesis Tesing</a>
   </li>  
     </ul>
   </li>
@@ -161,23 +161,23 @@
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-regression-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="./docs/regression/map566-lecture-polynomial-regression.html">Polynomial regression models</a>
+    <a class="dropdown-item" href="./docs/regression/map566-lecture-polynomial-regression.html">Polynomial Regression</a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./docs/regression/map566-lecture-nonlinear-regression.html">Nonlinear regression</a>
+    <a class="dropdown-item" href="./docs/regression/map566-lecture-nonlinear-regression.html">Nonlinear Regression</a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="./docs/regression/map566-lab-polynomial-regression.html">Polynomial regression model: exercices</a>
+    <a class="dropdown-item" href="./docs/regression/map566-lab-polynomial-regression.html">Polynomial Regression</a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./docs/regression/map566-lab-nonlinear-regression.html">Nonlinear regression: exercices</a>
+    <a class="dropdown-item" href="./docs/regression/map566-lab-nonlinear-regression.html">Nonlinear Regression</a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
         <li>
-    <a class="dropdown-item" href="./docs/regression/map566-lecture-regression-background.html">Linear regression: quick recap</a>
+    <a class="dropdown-item" href="./docs/regression/map566-lecture-regression-background.html">Linear Regression: Quick Recap</a>
   </li>  
     </ul>
   </li>
@@ -194,7 +194,10 @@
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="./docs/mixed-models/map566-lab-linear-mixed-model.html">Linear Mixed Models: exercices</a>
+    <a class="dropdown-item" href="./docs/mixed-models/map566-lab-linear-mixed-model.html">Linear Mixed Models</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./docs/mixed-models/map566-lab-nonlinear-mixed-model.html">Nonlinear Mixed Effects Models</a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
@@ -213,7 +216,7 @@
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="./docs/mixture-models/map566-lab-mixture-models.html">Mixture models: exercices</a>
+    <a class="dropdown-item" href="./docs/mixture-models/map566-lab-mixture-models.html">Mixture Models</a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
@@ -241,9 +244,9 @@
       <nav id="TOC" role="doc-toc">
 <h2 id="toc-title">On this page</h2>
 <ul>
-<li><a href="#installing-r" class="nav-link active" data-scroll-target="#installing-r"> <span class="header-section-number">0.1</span> Installing R</a></li>
-<li><a href="#installing-rstudio-desktop" class="nav-link" data-scroll-target="#installing-rstudio-desktop"> <span class="header-section-number">0.2</span> Installing RStudio Desktop</a></li>
-<li><a href="#installing-r-packages" class="nav-link" data-scroll-target="#installing-r-packages"> <span class="header-section-number">0.3</span> Installing R packages</a></li>
+<li><a href="#installing-r" class="nav-link active" data-scroll-target="#installing-r">Installing R</a></li>
+<li><a href="#installing-rstudio-desktop" class="nav-link" data-scroll-target="#installing-rstudio-desktop">Installing RStudio Desktop</a></li>
+<li><a href="#installing-r-packages" class="nav-link" data-scroll-target="#installing-r-packages">Installing R packages</a></li>
 </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -258,19 +261,26 @@
 <li><p>R is the underlying statistical computing environment</p></li>
 <li><p>RStudio is a graphical integrated development environment (IDE)</p></li>
 </ul>
-<section id="installing-r" class="level3" data-number="0.1">
-<h3 data-number="0.1" class="anchored" data-anchor-id="installing-r"><span class="header-section-number">0.1</span> Installing R</h3>
+<section id="installing-r" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="installing-r">Installing R</h3>
 <p><a href="https://cran.r-project.org/">Go to the CRAN webpage</a>, select your OS and follow the instructions.</p>
 </section>
-<section id="installing-rstudio-desktop" class="level3" data-number="0.2">
-<h3 data-number="0.2" class="anchored" data-anchor-id="installing-rstudio-desktop"><span class="header-section-number">0.2</span> Installing RStudio Desktop</h3>
+<section id="installing-rstudio-desktop" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="installing-rstudio-desktop">Installing RStudio Desktop</h3>
 <p><a href="https://rstudio.com/products/rstudio/download/#download">Go to the download page</a>. Select, download and install the file corresponding to your OS.</p>
 </section>
-<section id="installing-r-packages" class="level3" data-number="0.3">
-<h3 data-number="0.3" class="anchored" data-anchor-id="installing-r-packages"><span class="header-section-number">0.3</span> Installing R packages</h3>
+<section id="installing-r-packages" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="installing-r-packages">Installing R packages</h3>
 <p>Launch Rstudio and execute the following commands in the console (at least these R packages will be needed during MAP566)</p>
-<div class="cell" data-hash="getting-started_cache/html/unnamed-chunk-2_3287913a191eaa3db22474e8a7aa710e">
-<div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="getting-started_cache/html/unnamed-chunk-2_25b44b591c429357f5b49a8e8e231a2e">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"knitr"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"lme4"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"lattice"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"nlme"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"ggfortify"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"gridextra"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"saemix"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li><strong>On Windows</strong></li>
@@ -290,6 +300,7 @@
 
 
 </section>
+</main> <!-- /main -->
 <script type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const icon = "";
@@ -366,7 +377,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-</main> <!-- /main -->
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
   </div>

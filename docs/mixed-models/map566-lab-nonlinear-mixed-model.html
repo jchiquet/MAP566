@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.2.323">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>MAP566 - Stats in Action - Nonlinear Mixed Effects Models</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+    }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+   var mathElements = document.getElementsByClassName("math");
+   var macros = [];
+   for (var i = 0; i < mathElements.length; i++) {
+    var texText = mathElements[i].firstChild;
+    if (mathElements[i].tagName == "SPAN") {
+     katex.render(texText.data, mathElements[i], {
+      displayMode: mathElements[i].classList.contains('display'),
+      throwOnError: false,
+      macros: macros,
+      fleqn: false
+     });
+  }}});
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="../../site_libs/clipboard/clipboard.min.js"></script>
+  <meta name="quarto:offset" content="../../">
+  <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+  <script src="../../site_libs/quarto-search/fuse.min.js"></script>
+  <script src="../../site_libs/quarto-search/quarto-search.js"></script>
+  <script src="../../site_libs/quarto-html/quarto.js"></script>
+  <script src="../../site_libs/quarto-html/popper.min.js"></script>
+  <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="../../site_libs/quarto-html/anchor.min.js"></script>
+  <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <script id="quarto-search-options" type="application/json">{
+    "location": "navbar",
+    "copy-button": false,
+    "collapse-after": 2,
+    "panel-placement": "end",
+    "type": "overlay",
+    "limit": 20,
+    "language": {
+      "search-no-results-text": "No results",
+      "search-matching-documents-text": "matching documents",
+      "search-copy-link-title": "Copy link to search",
+      "search-hide-matches-text": "Hide additional matches",
+      "search-more-match-text": "more match in this document",
+      "search-more-matches-text": "more matches in this document",
+      "search-clear-button-title": "Clear",
+      "search-detached-cancel-button-title": "Cancel",
+      "search-submit-button-title": "Submit"
+    }
+  }</script>
+  <link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+  <script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+</head>
+<body class="docked">
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <img src="../../logo_X.jpg" alt="">
+    <span class="navbar-title">MAP566 - Stats in Action</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../getting-started.html">Getting Started</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/jchiquet/MAP566"><i class="bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hypothesis-testing" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hypothesis Testing</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-hypothesis-testing">    
+        <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-single.html">Statistical Tests</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-multiple.html">Multiple Testing</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Exercices</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html">Hypothesis Tesing</a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-regression-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Regression models</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-regression-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html">Polynomial Regression</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-nonlinear-regression.html">Nonlinear Regression</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Exercices</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-polynomial-regression.html">Polynomial Regression</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-nonlinear-regression.html">Nonlinear Regression</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html">Linear Regression: Quick Recap</a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixed-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mixed models</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixed-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html">Linear Mixed Effects Models</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html">Nonlinear Mixed Effects Models</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Exercices</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-linear-mixed-model.html">Linear Mixed Models</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-nonlinear-mixed-model.html">Nonlinear Mixed Effects Models</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html">An EM Algorithm for Linear Mixed Effects Models</a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mixture models</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixture-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html">Mixture Models</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Exercices</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">Mixture Models</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-doc-mixture-models-example.html">Mixture Models: an example</a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-homework" role="button" data-bs-toggle="dropdown" aria-expanded="false">Homework</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-homework">    
+    </ul>
+  </li>
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Nonlinear Mixed Effects Models</h1>
+      <button type="button" class="quarto-btn-toggle btn">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+  <div class="sidebar-menu-container"> 
+  <ul class="list-unstyled mt-1">
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#lectures-collapse" aria-expanded="true">
+              <div class="me-auto sidebar-section-item">Lectures</div>
+            <div><i class="bi bi-chevron-right ms-2"></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="lectures-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html" class="">Linear Mixed Effects Models</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html" class="">Nonlinear Mixed Effects Models</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#exercices-collapse" aria-expanded="true">
+              <div class="me-auto sidebar-section-item">Exercices</div>
+            <div><i class="bi bi-chevron-right ms-2"></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="exercices-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../../docs/mixed-models/map566-lab-linear-mixed-model.html" class="">Linear Mixed Models</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../../docs/mixed-models/map566-lab-nonlinear-mixed-model.html" class="active">Nonlinear Mixed Effects Models</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#supplementarymaterial-collapse" aria-expanded="true">
+              <div class="me-auto sidebar-section-item">Supplementary material</div>
+            <div><i class="bi bi-chevron-right ms-2"></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="supplementarymaterial-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html" class="">An EM Algorithm for Linear Mixed Effects Models</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+  </ul>
+  </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+      <nav id="TOC" role="doc-toc">
+<h2 id="toc-title">On this page</h2>
+<ul>
+<li><a href="#preliminary" class="nav-link active" data-scroll-target="#preliminary">Preliminary</a></li>
+<li><a href="#introduction" class="nav-link" data-scroll-target="#introduction"> <span class="header-section-number">1</span> Introduction</a></li>
+<li><a href="#nonlinear-fixed-effect-model-reproducing-seralini-et-al.s-study" class="nav-link" data-scroll-target="#nonlinear-fixed-effect-model-reproducing-seralini-et-al.s-study"> <span class="header-section-number">2</span> Nonlinear fixed effect model reproducing Seralini et al.’s study</a></li>
+<li><a href="#nonlinear-mixed-effect-model-with-saemix" class="nav-link" data-scroll-target="#nonlinear-mixed-effect-model-with-saemix"> <span class="header-section-number">3</span> Nonlinear mixed effect model with SAEMIX</a>
+<ul class="collapse">
+<li><a href="#gompertz-model-with-random-effects" class="nav-link" data-scroll-target="#gompertz-model-with-random-effects"> <span class="header-section-number">3.1</span> Gompertz model with random effects</a></li>
+<li><a href="#questions" class="nav-link" data-scroll-target="#questions"> <span class="header-section-number">3.2</span> Questions</a></li>
+</ul></li>
+<li><a href="#references" class="nav-link" data-scroll-target="#references"> <span class="header-section-number">4</span> References</a></li>
+</ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content">
+<header id="title-block-header">
+<h1 class="title d-none d-lg-block display-7">Nonlinear Mixed Effects Models</h1>
+<p class="subtitle lead">Exercices</p>
+</header>
+
+<section id="preliminary" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="preliminary">Preliminary</h2>
+<p>Functions from <code>R</code>-base and stats (preloaded) are required plus packages from the <strong>tidyverse</strong> for data representation and manipulation. We also need the <strong>lme4</strong> package which is the standard for fitting mixed-model. <strong>lattice</strong> is used for graphical representation of quantities such as random and fixed effects in the mixed models. <strong>saemix</strong> implements Stochastic EM algorithms to fit non-linear mixed effect models.</p>
+<div class="cell" data-hash="map566-lab-nonlinear-mixed-model_cache/html/packages_941a5311a1477092dd39acc999254d91">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(saemix)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="introduction" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1</span> Introduction</h2>
+<p><span class="citation" data-cites="seralini2007new">Séralini, Cellier, and Vendomois (<a href="#ref-seralini2007new" role="doc-biblioref">2007</a>)</span> published the paper “New Analysis of a Rat Feeding Study with a Genetically Modified Maize Reveals Signs of Hepatorenal Toxicity”. The authors of the paper pretend that, after the consumption of MON863, rats showed slight but dose-related significant variations in growth.</p>
+<p>The objective of this exercise is to highlight the flaws in the methodology used to achieve this result, and show how to properly analyse the data.</p>
+<p>We will restrict our study to the male rats of the study fed with 11% of maize (control and GMO)</p>
+<div class="cell" data-hash="map566-lab-nonlinear-mixed-model_cache/html/data loading_6a791d7218cc73b9dbef692afcca2241">
+<div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>rats <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../data/ratWeight.csv"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>males11 <span class="ot">&lt;-</span> <span class="fu">filter</span>(rats, gender <span class="sc">==</span> <span class="st">"Male"</span> <span class="sc">&amp;</span> dosage <span class="sc">==</span> <span class="st">"11%"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>males11 <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["id"],"name":[1],"type":["chr"],"align":["left"]},{"label":["week"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["weight"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["regime"],"name":[4],"type":["chr"],"align":["left"]},{"label":["gender"],"name":[5],"type":["chr"],"align":["left"]},{"label":["dosage"],"name":[6],"type":["chr"],"align":["left"]}],"data":[{"1":"B38602","2":"1","3":"236.1","4":"Control","5":"Male","6":"11%"},{"1":"B38602","2":"2","3":"282.6","4":"Control","5":"Male","6":"11%"},{"1":"B38602","2":"3","3":"336.0","4":"Control","5":"Male","6":"11%"},{"1":"B38602","2":"4","3":"376.8","4":"Control","5":"Male","6":"11%"},{"1":"B38602","2":"5","3":"403.9","4":"Control","5":"Male","6":"11%"},{"1":"B38602","2":"6","3":"414.3","4":"Control","5":"Male","6":"11%"},{"1":"B38602","2":"7","3":"443.3","4":"Control","5":"Male","6":"11%"},{"1":"B38602","2":"8","3":"460.4","4":"Control","5":"Male","6":"11%"},{"1":"B38602","2":"9","3":"473.8","4":"Control","5":"Male","6":"11%"},{"1":"B38602","2":"10","3":"493.8","4":"Control","5":"Male","6":"11%"},{"1":"B38602","2":"11","3":"498.1","4":"Control","5":"Male","6":"11%"},{"1":"B38602","2":"12","3":"492.3","4":"Control","5":"Male","6":"11%"},{"1":"B38602","2":"13","3":"510.8","4":"Control","5":"Male","6":"11%"},{"1":"B38602","2":"14","3":"514.9","4":"Control","5":"Male","6":"11%"},{"1":"B38603","2":"1","3":"230.1","4":"Control","5":"Male","6":"11%"},{"1":"B38603","2":"2","3":"277.2","4":"Control","5":"Male","6":"11%"},{"1":"B38603","2":"3","3":"324.5","4":"Control","5":"Male","6":"11%"},{"1":"B38603","2":"4","3":"356.6","4":"Control","5":"Male","6":"11%"},{"1":"B38603","2":"5","3":"386.6","4":"Control","5":"Male","6":"11%"},{"1":"B38603","2":"6","3":"392.6","4":"Control","5":"Male","6":"11%"},{"1":"B38603","2":"7","3":"420.9","4":"Control","5":"Male","6":"11%"},{"1":"B38603","2":"8","3":"438.5","4":"Control","5":"Male","6":"11%"},{"1":"B38603","2":"9","3":"454.7","4":"Control","5":"Male","6":"11%"},{"1":"B38603","2":"10","3":"468.2","4":"Control","5":"Male","6":"11%"},{"1":"B38603","2":"11","3":"474.6","4":"Control","5":"Male","6":"11%"},{"1":"B38603","2":"12","3":"485.8","4":"Control","5":"Male","6":"11%"},{"1":"B38603","2":"13","3":"495.1","4":"Control","5":"Male","6":"11%"},{"1":"B38603","2":"14","3":"505.0","4":"Control","5":"Male","6":"11%"},{"1":"B38604","2":"1","3":"230.2","4":"Control","5":"Male","6":"11%"},{"1":"B38604","2":"2","3":"286.0","4":"Control","5":"Male","6":"11%"},{"1":"B38604","2":"3","3":"337.1","4":"Control","5":"Male","6":"11%"},{"1":"B38604","2":"4","3":"374.0","4":"Control","5":"Male","6":"11%"},{"1":"B38604","2":"5","3":"410.0","4":"Control","5":"Male","6":"11%"},{"1":"B38604","2":"6","3":"422.4","4":"Control","5":"Male","6":"11%"},{"1":"B38604","2":"7","3":"456.9","4":"Control","5":"Male","6":"11%"},{"1":"B38604","2":"8","3":"485.3","4":"Control","5":"Male","6":"11%"},{"1":"B38604","2":"9","3":"493.7","4":"Control","5":"Male","6":"11%"},{"1":"B38604","2":"10","3":"515.0","4":"Control","5":"Male","6":"11%"},{"1":"B38604","2":"11","3":"518.3","4":"Control","5":"Male","6":"11%"},{"1":"B38604","2":"12","3":"528.8","4":"Control","5":"Male","6":"11%"},{"1":"B38604","2":"13","3":"532.0","4":"Control","5":"Male","6":"11%"},{"1":"B38604","2":"14","3":"545.1","4":"Control","5":"Male","6":"11%"},{"1":"B38605","2":"1","3":"236.4","4":"Control","5":"Male","6":"11%"},{"1":"B38605","2":"2","3":"299.8","4":"Control","5":"Male","6":"11%"},{"1":"B38605","2":"3","3":"358.6","4":"Control","5":"Male","6":"11%"},{"1":"B38605","2":"4","3":"404.4","4":"Control","5":"Male","6":"11%"},{"1":"B38605","2":"5","3":"438.0","4":"Control","5":"Male","6":"11%"},{"1":"B38605","2":"6","3":"468.8","4":"Control","5":"Male","6":"11%"},{"1":"B38605","2":"7","3":"494.6","4":"Control","5":"Male","6":"11%"},{"1":"B38605","2":"8","3":"510.2","4":"Control","5":"Male","6":"11%"},{"1":"B38605","2":"9","3":"497.4","4":"Control","5":"Male","6":"11%"},{"1":"B38605","2":"10","3":"518.5","4":"Control","5":"Male","6":"11%"},{"1":"B38605","2":"11","3":"570.6","4":"Control","5":"Male","6":"11%"},{"1":"B38605","2":"12","3":"586.8","4":"Control","5":"Male","6":"11%"},{"1":"B38605","2":"13","3":"591.7","4":"Control","5":"Male","6":"11%"},{"1":"B38605","2":"14","3":"596.6","4":"Control","5":"Male","6":"11%"},{"1":"B38606","2":"1","3":"232.3","4":"Control","5":"Male","6":"11%"},{"1":"B38606","2":"2","3":"281.8","4":"Control","5":"Male","6":"11%"},{"1":"B38606","2":"3","3":"309.5","4":"Control","5":"Male","6":"11%"},{"1":"B38606","2":"4","3":"363.3","4":"Control","5":"Male","6":"11%"},{"1":"B38606","2":"5","3":"390.9","4":"Control","5":"Male","6":"11%"},{"1":"B38606","2":"6","3":"405.0","4":"Control","5":"Male","6":"11%"},{"1":"B38606","2":"7","3":"435.9","4":"Control","5":"Male","6":"11%"},{"1":"B38606","2":"8","3":"452.5","4":"Control","5":"Male","6":"11%"},{"1":"B38606","2":"9","3":"467.4","4":"Control","5":"Male","6":"11%"},{"1":"B38606","2":"10","3":"484.3","4":"Control","5":"Male","6":"11%"},{"1":"B38606","2":"11","3":"498.7","4":"Control","5":"Male","6":"11%"},{"1":"B38606","2":"12","3":"510.3","4":"Control","5":"Male","6":"11%"},{"1":"B38606","2":"13","3":"512.8","4":"Control","5":"Male","6":"11%"},{"1":"B38606","2":"14","3":"516.8","4":"Control","5":"Male","6":"11%"},{"1":"B38607","2":"1","3":"232.4","4":"Control","5":"Male","6":"11%"},{"1":"B38607","2":"2","3":"274.7","4":"Control","5":"Male","6":"11%"},{"1":"B38607","2":"3","3":"329.9","4":"Control","5":"Male","6":"11%"},{"1":"B38607","2":"4","3":"361.0","4":"Control","5":"Male","6":"11%"},{"1":"B38607","2":"5","3":"385.6","4":"Control","5":"Male","6":"11%"},{"1":"B38607","2":"6","3":"399.5","4":"Control","5":"Male","6":"11%"},{"1":"B38607","2":"7","3":"429.6","4":"Control","5":"Male","6":"11%"},{"1":"B38607","2":"8","3":"447.1","4":"Control","5":"Male","6":"11%"},{"1":"B38607","2":"9","3":"464.6","4":"Control","5":"Male","6":"11%"},{"1":"B38607","2":"10","3":"480.8","4":"Control","5":"Male","6":"11%"},{"1":"B38607","2":"11","3":"496.2","4":"Control","5":"Male","6":"11%"},{"1":"B38607","2":"12","3":"511.9","4":"Control","5":"Male","6":"11%"},{"1":"B38607","2":"13","3":"520.8","4":"Control","5":"Male","6":"11%"},{"1":"B38607","2":"14","3":"518.1","4":"Control","5":"Male","6":"11%"},{"1":"B38608","2":"1","3":"223.1","4":"Control","5":"Male","6":"11%"},{"1":"B38608","2":"2","3":"266.1","4":"Control","5":"Male","6":"11%"},{"1":"B38608","2":"3","3":"318.5","4":"Control","5":"Male","6":"11%"},{"1":"B38608","2":"4","3":"351.5","4":"Control","5":"Male","6":"11%"},{"1":"B38608","2":"5","3":"382.6","4":"Control","5":"Male","6":"11%"},{"1":"B38608","2":"6","3":"388.9","4":"Control","5":"Male","6":"11%"},{"1":"B38608","2":"7","3":"435.8","4":"Control","5":"Male","6":"11%"},{"1":"B38608","2":"8","3":"459.1","4":"Control","5":"Male","6":"11%"},{"1":"B38608","2":"9","3":"485.8","4":"Control","5":"Male","6":"11%"},{"1":"B38608","2":"10","3":"494.9","4":"Control","5":"Male","6":"11%"},{"1":"B38608","2":"11","3":"518.3","4":"Control","5":"Male","6":"11%"},{"1":"B38608","2":"12","3":"524.7","4":"Control","5":"Male","6":"11%"},{"1":"B38608","2":"13","3":"539.5","4":"Control","5":"Male","6":"11%"},{"1":"B38608","2":"14","3":"539.0","4":"Control","5":"Male","6":"11%"},{"1":"B38609","2":"1","3":"226.5","4":"Control","5":"Male","6":"11%"},{"1":"B38609","2":"2","3":"270.6","4":"Control","5":"Male","6":"11%"},{"1":"B38609","2":"3","3":"313.4","4":"Control","5":"Male","6":"11%"},{"1":"B38609","2":"4","3":"347.6","4":"Control","5":"Male","6":"11%"},{"1":"B38609","2":"5","3":"363.4","4":"Control","5":"Male","6":"11%"},{"1":"B38609","2":"6","3":"381.6","4":"Control","5":"Male","6":"11%"},{"1":"B38609","2":"7","3":"417.4","4":"Control","5":"Male","6":"11%"},{"1":"B38609","2":"8","3":"431.9","4":"Control","5":"Male","6":"11%"},{"1":"B38609","2":"9","3":"444.8","4":"Control","5":"Male","6":"11%"},{"1":"B38609","2":"10","3":"456.5","4":"Control","5":"Male","6":"11%"},{"1":"B38609","2":"11","3":"452.9","4":"Control","5":"Male","6":"11%"},{"1":"B38609","2":"12","3":"449.9","4":"Control","5":"Male","6":"11%"},{"1":"B38609","2":"13","3":"457.4","4":"Control","5":"Male","6":"11%"},{"1":"B38609","2":"14","3":"470.6","4":"Control","5":"Male","6":"11%"},{"1":"B38610","2":"1","3":"226.4","4":"Control","5":"Male","6":"11%"},{"1":"B38610","2":"2","3":"276.3","4":"Control","5":"Male","6":"11%"},{"1":"B38610","2":"3","3":"330.5","4":"Control","5":"Male","6":"11%"},{"1":"B38610","2":"4","3":"364.2","4":"Control","5":"Male","6":"11%"},{"1":"B38610","2":"5","3":"400.7","4":"Control","5":"Male","6":"11%"},{"1":"B38610","2":"6","3":"410.9","4":"Control","5":"Male","6":"11%"},{"1":"B38610","2":"7","3":"441.5","4":"Control","5":"Male","6":"11%"},{"1":"B38610","2":"8","3":"465.2","4":"Control","5":"Male","6":"11%"},{"1":"B38610","2":"9","3":"486.7","4":"Control","5":"Male","6":"11%"},{"1":"B38610","2":"10","3":"510.9","4":"Control","5":"Male","6":"11%"},{"1":"B38610","2":"11","3":"525.5","4":"Control","5":"Male","6":"11%"},{"1":"B38610","2":"12","3":"536.2","4":"Control","5":"Male","6":"11%"},{"1":"B38610","2":"13","3":"546.3","4":"Control","5":"Male","6":"11%"},{"1":"B38610","2":"14","3":"554.8","4":"Control","5":"Male","6":"11%"},{"1":"B38611","2":"1","3":"236.0","4":"Control","5":"Male","6":"11%"},{"1":"B38611","2":"2","3":"280.0","4":"Control","5":"Male","6":"11%"},{"1":"B38611","2":"3","3":"322.5","4":"Control","5":"Male","6":"11%"},{"1":"B38611","2":"4","3":"355.4","4":"Control","5":"Male","6":"11%"},{"1":"B38611","2":"5","3":"379.9","4":"Control","5":"Male","6":"11%"},{"1":"B38611","2":"6","3":"383.4","4":"Control","5":"Male","6":"11%"},{"1":"B38611","2":"7","3":"415.6","4":"Control","5":"Male","6":"11%"},{"1":"B38611","2":"8","3":"436.0","4":"Control","5":"Male","6":"11%"},{"1":"B38611","2":"9","3":"439.6","4":"Control","5":"Male","6":"11%"},{"1":"B38611","2":"10","3":"441.1","4":"Control","5":"Male","6":"11%"},{"1":"B38611","2":"11","3":"448.1","4":"Control","5":"Male","6":"11%"},{"1":"B38611","2":"12","3":"456.7","4":"Control","5":"Male","6":"11%"},{"1":"B38611","2":"13","3":"467.9","4":"Control","5":"Male","6":"11%"},{"1":"B38611","2":"14","3":"476.8","4":"Control","5":"Male","6":"11%"},{"1":"B38612","2":"1","3":"224.0","4":"Control","5":"Male","6":"11%"},{"1":"B38612","2":"2","3":"276.3","4":"Control","5":"Male","6":"11%"},{"1":"B38612","2":"3","3":"320.4","4":"Control","5":"Male","6":"11%"},{"1":"B38612","2":"4","3":"352.2","4":"Control","5":"Male","6":"11%"},{"1":"B38612","2":"5","3":"381.3","4":"Control","5":"Male","6":"11%"},{"1":"B38612","2":"6","3":"412.1","4":"Control","5":"Male","6":"11%"},{"1":"B38612","2":"7","3":"425.5","4":"Control","5":"Male","6":"11%"},{"1":"B38612","2":"8","3":"456.4","4":"Control","5":"Male","6":"11%"},{"1":"B38612","2":"9","3":"441.2","4":"Control","5":"Male","6":"11%"},{"1":"B38612","2":"10","3":"452.0","4":"Control","5":"Male","6":"11%"},{"1":"B38612","2":"11","3":"467.4","4":"Control","5":"Male","6":"11%"},{"1":"B38612","2":"12","3":"414.4","4":"Control","5":"Male","6":"11%"},{"1":"B38612","2":"13","3":"516.8","4":"Control","5":"Male","6":"11%"},{"1":"B38612","2":"14","3":"527.0","4":"Control","5":"Male","6":"11%"},{"1":"B38613","2":"1","3":"206.2","4":"Control","5":"Male","6":"11%"},{"1":"B38613","2":"2","3":"254.4","4":"Control","5":"Male","6":"11%"},{"1":"B38613","2":"3","3":"296.9","4":"Control","5":"Male","6":"11%"},{"1":"B38613","2":"4","3":"328.0","4":"Control","5":"Male","6":"11%"},{"1":"B38613","2":"5","3":"356.7","4":"Control","5":"Male","6":"11%"},{"1":"B38613","2":"6","3":"386.7","4":"Control","5":"Male","6":"11%"},{"1":"B38613","2":"7","3":"351.3","4":"Control","5":"Male","6":"11%"},{"1":"B38613","2":"8","3":"393.8","4":"Control","5":"Male","6":"11%"},{"1":"B38613","2":"9","3":"409.9","4":"Control","5":"Male","6":"11%"},{"1":"B38613","2":"10","3":"433.8","4":"Control","5":"Male","6":"11%"},{"1":"B38613","2":"11","3":"444.6","4":"Control","5":"Male","6":"11%"},{"1":"B38613","2":"12","3":"454.0","4":"Control","5":"Male","6":"11%"},{"1":"B38613","2":"13","3":"460.5","4":"Control","5":"Male","6":"11%"},{"1":"B38613","2":"14","3":"468.6","4":"Control","5":"Male","6":"11%"},{"1":"B38614","2":"1","3":"230.9","4":"Control","5":"Male","6":"11%"},{"1":"B38614","2":"2","3":"275.5","4":"Control","5":"Male","6":"11%"},{"1":"B38614","2":"3","3":"324.1","4":"Control","5":"Male","6":"11%"},{"1":"B38614","2":"4","3":"357.0","4":"Control","5":"Male","6":"11%"},{"1":"B38614","2":"5","3":"375.8","4":"Control","5":"Male","6":"11%"},{"1":"B38614","2":"6","3":"399.0","4":"Control","5":"Male","6":"11%"},{"1":"B38614","2":"7","3":"425.7","4":"Control","5":"Male","6":"11%"},{"1":"B38614","2":"8","3":"451.0","4":"Control","5":"Male","6":"11%"},{"1":"B38614","2":"9","3":"457.1","4":"Control","5":"Male","6":"11%"},{"1":"B38614","2":"10","3":"469.7","4":"Control","5":"Male","6":"11%"},{"1":"B38614","2":"11","3":"477.5","4":"Control","5":"Male","6":"11%"},{"1":"B38614","2":"12","3":"488.0","4":"Control","5":"Male","6":"11%"},{"1":"B38614","2":"13","3":"495.7","4":"Control","5":"Male","6":"11%"},{"1":"B38614","2":"14","3":"505.3","4":"Control","5":"Male","6":"11%"},{"1":"B38615","2":"1","3":"249.9","4":"Control","5":"Male","6":"11%"},{"1":"B38615","2":"2","3":"301.3","4":"Control","5":"Male","6":"11%"},{"1":"B38615","2":"3","3":"353.3","4":"Control","5":"Male","6":"11%"},{"1":"B38615","2":"4","3":"394.4","4":"Control","5":"Male","6":"11%"},{"1":"B38615","2":"5","3":"420.2","4":"Control","5":"Male","6":"11%"},{"1":"B38615","2":"6","3":"453.9","4":"Control","5":"Male","6":"11%"},{"1":"B38615","2":"7","3":"485.0","4":"Control","5":"Male","6":"11%"},{"1":"B38615","2":"8","3":"504.8","4":"Control","5":"Male","6":"11%"},{"1":"B38615","2":"9","3":"513.6","4":"Control","5":"Male","6":"11%"},{"1":"B38615","2":"10","3":"541.8","4":"Control","5":"Male","6":"11%"},{"1":"B38615","2":"11","3":"549.7","4":"Control","5":"Male","6":"11%"},{"1":"B38615","2":"12","3":"566.2","4":"Control","5":"Male","6":"11%"},{"1":"B38615","2":"13","3":"574.9","4":"Control","5":"Male","6":"11%"},{"1":"B38615","2":"14","3":"545.0","4":"Control","5":"Male","6":"11%"},{"1":"B38616","2":"1","3":"223.0","4":"Control","5":"Male","6":"11%"},{"1":"B38616","2":"2","3":"270.6","4":"Control","5":"Male","6":"11%"},{"1":"B38616","2":"3","3":"309.7","4":"Control","5":"Male","6":"11%"},{"1":"B38616","2":"4","3":"345.1","4":"Control","5":"Male","6":"11%"},{"1":"B38616","2":"5","3":"371.3","4":"Control","5":"Male","6":"11%"},{"1":"B38616","2":"6","3":"387.4","4":"Control","5":"Male","6":"11%"},{"1":"B38616","2":"7","3":"407.3","4":"Control","5":"Male","6":"11%"},{"1":"B38616","2":"8","3":"430.9","4":"Control","5":"Male","6":"11%"},{"1":"B38616","2":"9","3":"441.1","4":"Control","5":"Male","6":"11%"},{"1":"B38616","2":"10","3":"456.9","4":"Control","5":"Male","6":"11%"},{"1":"B38616","2":"11","3":"464.0","4":"Control","5":"Male","6":"11%"},{"1":"B38616","2":"12","3":"462.7","4":"Control","5":"Male","6":"11%"},{"1":"B38616","2":"13","3":"477.0","4":"Control","5":"Male","6":"11%"},{"1":"B38616","2":"14","3":"473.5","4":"Control","5":"Male","6":"11%"},{"1":"B38617","2":"1","3":"222.7","4":"Control","5":"Male","6":"11%"},{"1":"B38617","2":"2","3":"256.6","4":"Control","5":"Male","6":"11%"},{"1":"B38617","2":"3","3":"293.5","4":"Control","5":"Male","6":"11%"},{"1":"B38617","2":"4","3":"314.8","4":"Control","5":"Male","6":"11%"},{"1":"B38617","2":"5","3":"338.8","4":"Control","5":"Male","6":"11%"},{"1":"B38617","2":"6","3":"359.4","4":"Control","5":"Male","6":"11%"},{"1":"B38617","2":"7","3":"380.0","4":"Control","5":"Male","6":"11%"},{"1":"B38617","2":"8","3":"400.0","4":"Control","5":"Male","6":"11%"},{"1":"B38617","2":"9","3":"410.5","4":"Control","5":"Male","6":"11%"},{"1":"B38617","2":"10","3":"421.5","4":"Control","5":"Male","6":"11%"},{"1":"B38617","2":"11","3":"431.6","4":"Control","5":"Male","6":"11%"},{"1":"B38617","2":"12","3":"429.6","4":"Control","5":"Male","6":"11%"},{"1":"B38617","2":"13","3":"443.9","4":"Control","5":"Male","6":"11%"},{"1":"B38617","2":"14","3":"443.6","4":"Control","5":"Male","6":"11%"},{"1":"B38618","2":"1","3":"219.0","4":"Control","5":"Male","6":"11%"},{"1":"B38618","2":"2","3":"262.1","4":"Control","5":"Male","6":"11%"},{"1":"B38618","2":"3","3":"311.4","4":"Control","5":"Male","6":"11%"},{"1":"B38618","2":"4","3":"345.8","4":"Control","5":"Male","6":"11%"},{"1":"B38618","2":"5","3":"372.9","4":"Control","5":"Male","6":"11%"},{"1":"B38618","2":"6","3":"395.5","4":"Control","5":"Male","6":"11%"},{"1":"B38618","2":"7","3":"414.2","4":"Control","5":"Male","6":"11%"},{"1":"B38618","2":"8","3":"433.5","4":"Control","5":"Male","6":"11%"},{"1":"B38618","2":"9","3":"449.8","4":"Control","5":"Male","6":"11%"},{"1":"B38618","2":"10","3":"464.5","4":"Control","5":"Male","6":"11%"},{"1":"B38618","2":"11","3":"482.2","4":"Control","5":"Male","6":"11%"},{"1":"B38618","2":"12","3":"489.8","4":"Control","5":"Male","6":"11%"},{"1":"B38618","2":"13","3":"507.3","4":"Control","5":"Male","6":"11%"},{"1":"B38618","2":"14","3":"497.7","4":"Control","5":"Male","6":"11%"},{"1":"B38619","2":"1","3":"228.7","4":"Control","5":"Male","6":"11%"},{"1":"B38619","2":"2","3":"287.3","4":"Control","5":"Male","6":"11%"},{"1":"B38619","2":"3","3":"331.2","4":"Control","5":"Male","6":"11%"},{"1":"B38619","2":"4","3":"362.3","4":"Control","5":"Male","6":"11%"},{"1":"B38619","2":"5","3":"383.6","4":"Control","5":"Male","6":"11%"},{"1":"B38619","2":"6","3":"413.1","4":"Control","5":"Male","6":"11%"},{"1":"B38619","2":"7","3":"439.3","4":"Control","5":"Male","6":"11%"},{"1":"B38619","2":"8","3":"469.5","4":"Control","5":"Male","6":"11%"},{"1":"B38619","2":"9","3":"486.2","4":"Control","5":"Male","6":"11%"},{"1":"B38619","2":"10","3":"496.0","4":"Control","5":"Male","6":"11%"},{"1":"B38619","2":"11","3":"513.5","4":"Control","5":"Male","6":"11%"},{"1":"B38619","2":"12","3":"521.5","4":"Control","5":"Male","6":"11%"},{"1":"B38619","2":"13","3":"533.5","4":"Control","5":"Male","6":"11%"},{"1":"B38619","2":"14","3":"540.3","4":"Control","5":"Male","6":"11%"},{"1":"B38620","2":"1","3":"220.3","4":"Control","5":"Male","6":"11%"},{"1":"B38620","2":"2","3":"261.5","4":"Control","5":"Male","6":"11%"},{"1":"B38620","2":"3","3":"305.4","4":"Control","5":"Male","6":"11%"},{"1":"B38620","2":"4","3":"337.1","4":"Control","5":"Male","6":"11%"},{"1":"B38620","2":"5","3":"361.0","4":"Control","5":"Male","6":"11%"},{"1":"B38620","2":"6","3":"377.3","4":"Control","5":"Male","6":"11%"},{"1":"B38620","2":"7","3":"403.8","4":"Control","5":"Male","6":"11%"},{"1":"B38620","2":"8","3":"419.7","4":"Control","5":"Male","6":"11%"},{"1":"B38620","2":"9","3":"440.8","4":"Control","5":"Male","6":"11%"},{"1":"B38620","2":"10","3":"449.5","4":"Control","5":"Male","6":"11%"},{"1":"B38620","2":"11","3":"460.7","4":"Control","5":"Male","6":"11%"},{"1":"B38620","2":"12","3":"473.2","4":"Control","5":"Male","6":"11%"},{"1":"B38620","2":"13","3":"488.9","4":"Control","5":"Male","6":"11%"},{"1":"B38620","2":"14","3":"493.1","4":"Control","5":"Male","6":"11%"},{"1":"B38621","2":"1","3":"237.6","4":"Control","5":"Male","6":"11%"},{"1":"B38621","2":"2","3":"278.8","4":"Control","5":"Male","6":"11%"},{"1":"B38621","2":"3","3":"325.2","4":"Control","5":"Male","6":"11%"},{"1":"B38621","2":"4","3":"352.4","4":"Control","5":"Male","6":"11%"},{"1":"B38621","2":"5","3":"372.1","4":"Control","5":"Male","6":"11%"},{"1":"B38621","2":"6","3":"389.3","4":"Control","5":"Male","6":"11%"},{"1":"B38621","2":"7","3":"418.5","4":"Control","5":"Male","6":"11%"},{"1":"B38621","2":"8","3":"455.4","4":"Control","5":"Male","6":"11%"},{"1":"B38621","2":"9","3":"466.2","4":"Control","5":"Male","6":"11%"},{"1":"B38621","2":"10","3":"482.1","4":"Control","5":"Male","6":"11%"},{"1":"B38621","2":"11","3":"489.9","4":"Control","5":"Male","6":"11%"},{"1":"B38621","2":"12","3":"504.9","4":"Control","5":"Male","6":"11%"},{"1":"B38621","2":"13","3":"522.3","4":"Control","5":"Male","6":"11%"},{"1":"B38621","2":"14","3":"524.3","4":"Control","5":"Male","6":"11%"},{"1":"B38642","2":"1","3":"232.4","4":"GMO","5":"Male","6":"11%"},{"1":"B38642","2":"2","3":"278.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38642","2":"3","3":"328.2","4":"GMO","5":"Male","6":"11%"},{"1":"B38642","2":"4","3":"281.8","4":"GMO","5":"Male","6":"11%"},{"1":"B38642","2":"5","3":"296.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38642","2":"6","3":"361.5","4":"GMO","5":"Male","6":"11%"},{"1":"B38642","2":"7","3":"384.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38642","2":"8","3":"456.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38642","2":"9","3":"481.6","4":"GMO","5":"Male","6":"11%"},{"1":"B38642","2":"10","3":"499.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38642","2":"11","3":"507.2","4":"GMO","5":"Male","6":"11%"},{"1":"B38642","2":"12","3":"514.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38642","2":"13","3":"526.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38642","2":"14","3":"534.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38643","2":"1","3":"219.4","4":"GMO","5":"Male","6":"11%"},{"1":"B38643","2":"2","3":"265.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38643","2":"3","3":"310.5","4":"GMO","5":"Male","6":"11%"},{"1":"B38643","2":"4","3":"324.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38643","2":"5","3":"357.2","4":"GMO","5":"Male","6":"11%"},{"1":"B38643","2":"6","3":"366.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38643","2":"7","3":"388.2","4":"GMO","5":"Male","6":"11%"},{"1":"B38643","2":"8","3":"404.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38643","2":"9","3":"409.5","4":"GMO","5":"Male","6":"11%"},{"1":"B38643","2":"10","3":"418.1","4":"GMO","5":"Male","6":"11%"},{"1":"B38643","2":"11","3":"415.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38643","2":"12","3":"406.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38643","2":"13","3":"427.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38643","2":"14","3":"426.9","4":"GMO","5":"Male","6":"11%"},{"1":"B38644","2":"1","3":"217.9","4":"GMO","5":"Male","6":"11%"},{"1":"B38644","2":"2","3":"263.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38644","2":"3","3":"310.2","4":"GMO","5":"Male","6":"11%"},{"1":"B38644","2":"4","3":"340.8","4":"GMO","5":"Male","6":"11%"},{"1":"B38644","2":"5","3":"370.5","4":"GMO","5":"Male","6":"11%"},{"1":"B38644","2":"6","3":"391.4","4":"GMO","5":"Male","6":"11%"},{"1":"B38644","2":"7","3":"425.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38644","2":"8","3":"440.4","4":"GMO","5":"Male","6":"11%"},{"1":"B38644","2":"9","3":"456.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38644","2":"10","3":"469.9","4":"GMO","5":"Male","6":"11%"},{"1":"B38644","2":"11","3":"473.1","4":"GMO","5":"Male","6":"11%"},{"1":"B38644","2":"12","3":"474.1","4":"GMO","5":"Male","6":"11%"},{"1":"B38644","2":"13","3":"492.5","4":"GMO","5":"Male","6":"11%"},{"1":"B38644","2":"14","3":"498.9","4":"GMO","5":"Male","6":"11%"},{"1":"B38645","2":"1","3":"201.4","4":"GMO","5":"Male","6":"11%"},{"1":"B38645","2":"2","3":"243.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38645","2":"3","3":"297.6","4":"GMO","5":"Male","6":"11%"},{"1":"B38645","2":"4","3":"329.9","4":"GMO","5":"Male","6":"11%"},{"1":"B38645","2":"5","3":"362.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38645","2":"6","3":"382.2","4":"GMO","5":"Male","6":"11%"},{"1":"B38645","2":"7","3":"424.4","4":"GMO","5":"Male","6":"11%"},{"1":"B38645","2":"8","3":"448.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38645","2":"9","3":"473.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38645","2":"10","3":"486.5","4":"GMO","5":"Male","6":"11%"},{"1":"B38645","2":"11","3":"508.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38645","2":"12","3":"508.5","4":"GMO","5":"Male","6":"11%"},{"1":"B38645","2":"13","3":"520.1","4":"GMO","5":"Male","6":"11%"},{"1":"B38645","2":"14","3":"531.6","4":"GMO","5":"Male","6":"11%"},{"1":"B38646","2":"1","3":"214.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38646","2":"2","3":"264.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38646","2":"3","3":"304.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38646","2":"4","3":"335.4","4":"GMO","5":"Male","6":"11%"},{"1":"B38646","2":"5","3":"355.8","4":"GMO","5":"Male","6":"11%"},{"1":"B38646","2":"6","3":"374.6","4":"GMO","5":"Male","6":"11%"},{"1":"B38646","2":"7","3":"390.6","4":"GMO","5":"Male","6":"11%"},{"1":"B38646","2":"8","3":"410.1","4":"GMO","5":"Male","6":"11%"},{"1":"B38646","2":"9","3":"416.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38646","2":"10","3":"435.2","4":"GMO","5":"Male","6":"11%"},{"1":"B38646","2":"11","3":"444.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38646","2":"12","3":"446.1","4":"GMO","5":"Male","6":"11%"},{"1":"B38646","2":"13","3":"453.6","4":"GMO","5":"Male","6":"11%"},{"1":"B38646","2":"14","3":"465.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38647","2":"1","3":"224.6","4":"GMO","5":"Male","6":"11%"},{"1":"B38647","2":"2","3":"276.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38647","2":"3","3":"309.5","4":"GMO","5":"Male","6":"11%"},{"1":"B38647","2":"4","3":"365.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38647","2":"5","3":"396.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38647","2":"6","3":"413.4","4":"GMO","5":"Male","6":"11%"},{"1":"B38647","2":"7","3":"445.8","4":"GMO","5":"Male","6":"11%"},{"1":"B38647","2":"8","3":"467.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38647","2":"9","3":"493.8","4":"GMO","5":"Male","6":"11%"},{"1":"B38647","2":"10","3":"502.9","4":"GMO","5":"Male","6":"11%"},{"1":"B38647","2":"11","3":"506.1","4":"GMO","5":"Male","6":"11%"},{"1":"B38647","2":"12","3":"516.4","4":"GMO","5":"Male","6":"11%"},{"1":"B38647","2":"13","3":"532.2","4":"GMO","5":"Male","6":"11%"},{"1":"B38647","2":"14","3":"536.2","4":"GMO","5":"Male","6":"11%"},{"1":"B38648","2":"1","3":"223.5","4":"GMO","5":"Male","6":"11%"},{"1":"B38648","2":"2","3":"263.8","4":"GMO","5":"Male","6":"11%"},{"1":"B38648","2":"3","3":"285.9","4":"GMO","5":"Male","6":"11%"},{"1":"B38648","2":"4","3":"306.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38648","2":"5","3":"336.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38648","2":"6","3":"351.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38648","2":"7","3":"379.6","4":"GMO","5":"Male","6":"11%"},{"1":"B38648","2":"8","3":"407.2","4":"GMO","5":"Male","6":"11%"},{"1":"B38648","2":"9","3":"422.5","4":"GMO","5":"Male","6":"11%"},{"1":"B38648","2":"10","3":"435.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38648","2":"11","3":"449.2","4":"GMO","5":"Male","6":"11%"},{"1":"B38648","2":"12","3":"446.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38648","2":"13","3":"468.1","4":"GMO","5":"Male","6":"11%"},{"1":"B38648","2":"14","3":"470.9","4":"GMO","5":"Male","6":"11%"},{"1":"B38649","2":"1","3":"225.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38649","2":"2","3":"273.8","4":"GMO","5":"Male","6":"11%"},{"1":"B38649","2":"3","3":"329.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38649","2":"4","3":"365.1","4":"GMO","5":"Male","6":"11%"},{"1":"B38649","2":"5","3":"398.4","4":"GMO","5":"Male","6":"11%"},{"1":"B38649","2":"6","3":"423.9","4":"GMO","5":"Male","6":"11%"},{"1":"B38649","2":"7","3":"448.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38649","2":"8","3":"472.8","4":"GMO","5":"Male","6":"11%"},{"1":"B38649","2":"9","3":"486.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38649","2":"10","3":"508.1","4":"GMO","5":"Male","6":"11%"},{"1":"B38649","2":"11","3":"517.4","4":"GMO","5":"Male","6":"11%"},{"1":"B38649","2":"12","3":"518.5","4":"GMO","5":"Male","6":"11%"},{"1":"B38649","2":"13","3":"537.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38649","2":"14","3":"542.6","4":"GMO","5":"Male","6":"11%"},{"1":"B38650","2":"1","3":"225.2","4":"GMO","5":"Male","6":"11%"},{"1":"B38650","2":"2","3":"273.8","4":"GMO","5":"Male","6":"11%"},{"1":"B38650","2":"3","3":"326.1","4":"GMO","5":"Male","6":"11%"},{"1":"B38650","2":"4","3":"361.6","4":"GMO","5":"Male","6":"11%"},{"1":"B38650","2":"5","3":"389.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38650","2":"6","3":"410.2","4":"GMO","5":"Male","6":"11%"},{"1":"B38650","2":"7","3":"430.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38650","2":"8","3":"455.2","4":"GMO","5":"Male","6":"11%"},{"1":"B38650","2":"9","3":"465.6","4":"GMO","5":"Male","6":"11%"},{"1":"B38650","2":"10","3":"485.4","4":"GMO","5":"Male","6":"11%"},{"1":"B38650","2":"11","3":"490.2","4":"GMO","5":"Male","6":"11%"},{"1":"B38650","2":"12","3":"494.1","4":"GMO","5":"Male","6":"11%"},{"1":"B38650","2":"13","3":"505.8","4":"GMO","5":"Male","6":"11%"},{"1":"B38650","2":"14","3":"504.1","4":"GMO","5":"Male","6":"11%"},{"1":"B38651","2":"1","3":"243.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38651","2":"2","3":"286.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38651","2":"3","3":"324.6","4":"GMO","5":"Male","6":"11%"},{"1":"B38651","2":"4","3":"351.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38651","2":"5","3":"380.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38651","2":"6","3":"402.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38651","2":"7","3":"429.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38651","2":"8","3":"453.2","4":"GMO","5":"Male","6":"11%"},{"1":"B38651","2":"9","3":"459.4","4":"GMO","5":"Male","6":"11%"},{"1":"B38651","2":"10","3":"482.2","4":"GMO","5":"Male","6":"11%"},{"1":"B38651","2":"11","3":"493.6","4":"GMO","5":"Male","6":"11%"},{"1":"B38651","2":"12","3":"496.2","4":"GMO","5":"Male","6":"11%"},{"1":"B38651","2":"13","3":"508.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38651","2":"14","3":"515.9","4":"GMO","5":"Male","6":"11%"},{"1":"B38652","2":"1","3":"245.9","4":"GMO","5":"Male","6":"11%"},{"1":"B38652","2":"2","3":"287.9","4":"GMO","5":"Male","6":"11%"},{"1":"B38652","2":"3","3":"326.9","4":"GMO","5":"Male","6":"11%"},{"1":"B38652","2":"4","3":"349.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38652","2":"5","3":"371.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38652","2":"6","3":"396.6","4":"GMO","5":"Male","6":"11%"},{"1":"B38652","2":"7","3":"418.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38652","2":"8","3":"433.1","4":"GMO","5":"Male","6":"11%"},{"1":"B38652","2":"9","3":"443.6","4":"GMO","5":"Male","6":"11%"},{"1":"B38652","2":"10","3":"455.2","4":"GMO","5":"Male","6":"11%"},{"1":"B38652","2":"11","3":"471.5","4":"GMO","5":"Male","6":"11%"},{"1":"B38652","2":"12","3":"473.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38652","2":"13","3":"484.5","4":"GMO","5":"Male","6":"11%"},{"1":"B38652","2":"14","3":"484.6","4":"GMO","5":"Male","6":"11%"},{"1":"B38653","2":"1","3":"245.5","4":"GMO","5":"Male","6":"11%"},{"1":"B38653","2":"2","3":"293.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38653","2":"3","3":"323.2","4":"GMO","5":"Male","6":"11%"},{"1":"B38653","2":"4","3":"347.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38653","2":"5","3":"372.1","4":"GMO","5":"Male","6":"11%"},{"1":"B38653","2":"6","3":"397.8","4":"GMO","5":"Male","6":"11%"},{"1":"B38653","2":"7","3":"416.9","4":"GMO","5":"Male","6":"11%"},{"1":"B38653","2":"8","3":"430.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38653","2":"9","3":"448.4","4":"GMO","5":"Male","6":"11%"},{"1":"B38653","2":"10","3":"455.9","4":"GMO","5":"Male","6":"11%"},{"1":"B38653","2":"11","3":"473.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38653","2":"12","3":"478.5","4":"GMO","5":"Male","6":"11%"},{"1":"B38653","2":"13","3":"496.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38653","2":"14","3":"506.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38654","2":"1","3":"237.8","4":"GMO","5":"Male","6":"11%"},{"1":"B38654","2":"2","3":"289.2","4":"GMO","5":"Male","6":"11%"},{"1":"B38654","2":"3","3":"336.9","4":"GMO","5":"Male","6":"11%"},{"1":"B38654","2":"4","3":"371.5","4":"GMO","5":"Male","6":"11%"},{"1":"B38654","2":"5","3":"402.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38654","2":"6","3":"432.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38654","2":"7","3":"452.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38654","2":"8","3":"482.8","4":"GMO","5":"Male","6":"11%"},{"1":"B38654","2":"9","3":"491.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38654","2":"10","3":"507.2","4":"GMO","5":"Male","6":"11%"},{"1":"B38654","2":"11","3":"517.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38654","2":"12","3":"532.1","4":"GMO","5":"Male","6":"11%"},{"1":"B38654","2":"13","3":"548.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38654","2":"14","3":"561.5","4":"GMO","5":"Male","6":"11%"},{"1":"B38655","2":"1","3":"235.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38655","2":"2","3":"276.9","4":"GMO","5":"Male","6":"11%"},{"1":"B38655","2":"3","3":"305.5","4":"GMO","5":"Male","6":"11%"},{"1":"B38655","2":"4","3":"327.8","4":"GMO","5":"Male","6":"11%"},{"1":"B38655","2":"5","3":"349.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38655","2":"6","3":"372.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38655","2":"7","3":"391.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38655","2":"8","3":"406.2","4":"GMO","5":"Male","6":"11%"},{"1":"B38655","2":"9","3":"411.6","4":"GMO","5":"Male","6":"11%"},{"1":"B38655","2":"10","3":"426.5","4":"GMO","5":"Male","6":"11%"},{"1":"B38655","2":"11","3":"427.5","4":"GMO","5":"Male","6":"11%"},{"1":"B38655","2":"12","3":"434.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38655","2":"13","3":"446.6","4":"GMO","5":"Male","6":"11%"},{"1":"B38655","2":"14","3":"454.8","4":"GMO","5":"Male","6":"11%"},{"1":"B38656","2":"1","3":"253.5","4":"GMO","5":"Male","6":"11%"},{"1":"B38656","2":"2","3":"303.6","4":"GMO","5":"Male","6":"11%"},{"1":"B38656","2":"3","3":"356.2","4":"GMO","5":"Male","6":"11%"},{"1":"B38656","2":"4","3":"391.1","4":"GMO","5":"Male","6":"11%"},{"1":"B38656","2":"5","3":"431.8","4":"GMO","5":"Male","6":"11%"},{"1":"B38656","2":"6","3":"369.2","4":"GMO","5":"Male","6":"11%"},{"1":"B38656","2":"7","3":"287.4","4":"GMO","5":"Male","6":"11%"},{"1":"B38656","2":"8","3":"413.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38656","2":"9","3":"454.5","4":"GMO","5":"Male","6":"11%"},{"1":"B38656","2":"10","3":"488.9","4":"GMO","5":"Male","6":"11%"},{"1":"B38656","2":"11","3":"533.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38656","2":"12","3":"545.1","4":"GMO","5":"Male","6":"11%"},{"1":"B38656","2":"13","3":"553.4","4":"GMO","5":"Male","6":"11%"},{"1":"B38656","2":"14","3":"566.4","4":"GMO","5":"Male","6":"11%"},{"1":"B38657","2":"1","3":"227.1","4":"GMO","5":"Male","6":"11%"},{"1":"B38657","2":"2","3":"270.9","4":"GMO","5":"Male","6":"11%"},{"1":"B38657","2":"3","3":"305.9","4":"GMO","5":"Male","6":"11%"},{"1":"B38657","2":"4","3":"350.5","4":"GMO","5":"Male","6":"11%"},{"1":"B38657","2":"5","3":"383.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38657","2":"6","3":"419.1","4":"GMO","5":"Male","6":"11%"},{"1":"B38657","2":"7","3":"444.1","4":"GMO","5":"Male","6":"11%"},{"1":"B38657","2":"8","3":"467.1","4":"GMO","5":"Male","6":"11%"},{"1":"B38657","2":"9","3":"476.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38657","2":"10","3":"497.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38657","2":"11","3":"516.5","4":"GMO","5":"Male","6":"11%"},{"1":"B38657","2":"12","3":"519.9","4":"GMO","5":"Male","6":"11%"},{"1":"B38657","2":"13","3":"535.1","4":"GMO","5":"Male","6":"11%"},{"1":"B38657","2":"14","3":"529.2","4":"GMO","5":"Male","6":"11%"},{"1":"B38658","2":"1","3":"245.5","4":"GMO","5":"Male","6":"11%"},{"1":"B38658","2":"2","3":"287.5","4":"GMO","5":"Male","6":"11%"},{"1":"B38658","2":"3","3":"321.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38658","2":"4","3":"345.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38658","2":"5","3":"363.6","4":"GMO","5":"Male","6":"11%"},{"1":"B38658","2":"6","3":"381.2","4":"GMO","5":"Male","6":"11%"},{"1":"B38658","2":"7","3":"404.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38658","2":"8","3":"413.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38658","2":"9","3":"419.1","4":"GMO","5":"Male","6":"11%"},{"1":"B38658","2":"10","3":"424.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38658","2":"11","3":"439.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38658","2":"12","3":"436.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38658","2":"13","3":"447.2","4":"GMO","5":"Male","6":"11%"},{"1":"B38658","2":"14","3":"452.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38659","2":"1","3":"217.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38659","2":"2","3":"258.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38659","2":"3","3":"292.8","4":"GMO","5":"Male","6":"11%"},{"1":"B38659","2":"4","3":"311.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38659","2":"5","3":"323.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38659","2":"6","3":"344.4","4":"GMO","5":"Male","6":"11%"},{"1":"B38659","2":"7","3":"371.5","4":"GMO","5":"Male","6":"11%"},{"1":"B38659","2":"8","3":"384.2","4":"GMO","5":"Male","6":"11%"},{"1":"B38659","2":"9","3":"395.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38659","2":"10","3":"405.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38659","2":"11","3":"401.6","4":"GMO","5":"Male","6":"11%"},{"1":"B38659","2":"12","3":"398.1","4":"GMO","5":"Male","6":"11%"},{"1":"B38659","2":"13","3":"407.8","4":"GMO","5":"Male","6":"11%"},{"1":"B38659","2":"14","3":"407.2","4":"GMO","5":"Male","6":"11%"},{"1":"B38660","2":"1","3":"223.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38660","2":"2","3":"262.9","4":"GMO","5":"Male","6":"11%"},{"1":"B38660","2":"3","3":"300.2","4":"GMO","5":"Male","6":"11%"},{"1":"B38660","2":"4","3":"329.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38660","2":"5","3":"343.8","4":"GMO","5":"Male","6":"11%"},{"1":"B38660","2":"6","3":"370.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38660","2":"7","3":"388.1","4":"GMO","5":"Male","6":"11%"},{"1":"B38660","2":"8","3":"400.8","4":"GMO","5":"Male","6":"11%"},{"1":"B38660","2":"9","3":"415.1","4":"GMO","5":"Male","6":"11%"},{"1":"B38660","2":"10","3":"425.8","4":"GMO","5":"Male","6":"11%"},{"1":"B38660","2":"11","3":"432.9","4":"GMO","5":"Male","6":"11%"},{"1":"B38660","2":"12","3":"431.9","4":"GMO","5":"Male","6":"11%"},{"1":"B38660","2":"13","3":"442.8","4":"GMO","5":"Male","6":"11%"},{"1":"B38660","2":"14","3":"452.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38661","2":"1","3":"217.1","4":"GMO","5":"Male","6":"11%"},{"1":"B38661","2":"2","3":"260.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38661","2":"3","3":"303.9","4":"GMO","5":"Male","6":"11%"},{"1":"B38661","2":"4","3":"330.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38661","2":"5","3":"349.0","4":"GMO","5":"Male","6":"11%"},{"1":"B38661","2":"6","3":"371.5","4":"GMO","5":"Male","6":"11%"},{"1":"B38661","2":"7","3":"389.3","4":"GMO","5":"Male","6":"11%"},{"1":"B38661","2":"8","3":"409.7","4":"GMO","5":"Male","6":"11%"},{"1":"B38661","2":"9","3":"417.1","4":"GMO","5":"Male","6":"11%"},{"1":"B38661","2":"10","3":"432.9","4":"GMO","5":"Male","6":"11%"},{"1":"B38661","2":"11","3":"445.4","4":"GMO","5":"Male","6":"11%"},{"1":"B38661","2":"12","3":"459.1","4":"GMO","5":"Male","6":"11%"},{"1":"B38661","2":"13","3":"469.8","4":"GMO","5":"Male","6":"11%"},{"1":"B38661","2":"14","3":"474.7","4":"GMO","5":"Male","6":"11%"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</section>
+<section id="nonlinear-fixed-effect-model-reproducing-seralini-et-al.s-study" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="nonlinear-fixed-effect-model-reproducing-seralini-et-al.s-study"><span class="header-section-number">2</span> Nonlinear fixed effect model reproducing Seralini et al.’s study</h2>
+<ol type="1">
+<li><p>Plot the growth curves of the control and GMO groups.</p></li>
+<li><p>Fit an Gompertz growth model <span class="math inline">f_1(t) = A \exp(-\exp(-b(t-c)))</span> to the complete data (males fed with 11% of maize) using a least square approach, with the same parameters for the control and GMO groups.</p></li>
+<li><p>Fit a Gompertz growth model to the complete data using a least square approach, with different parameters for the control and GMO groups.</p></li>
+</ol>
+<p><em>Hint</em>: write the model as</p>
+<p><span class="math display"> y_{ij} = A_{0} e^{-e^{-b_0 (t_{ij}-c_0)}} \mathbf{1}_{\{{\rm regime\}}_i={\rm Control}} +
+A_{1} e^{- e^{-b_1 (t_{ij}-c_1)}} \mathbf{1}_{\{{\rm regime}_i={\rm GMO}\}} + \varepsilon_{ij}</span></p>
+<ol start="4" type="1">
+<li><p>Check out the results of the paper displayed Table 1, for the 11% males.</p></li>
+<li><p>Plot the residuals and explain why the results of the paper are wrong.</p></li>
+</ol>
+</section>
+<section id="nonlinear-mixed-effect-model-with-saemix" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="nonlinear-mixed-effect-model-with-saemix"><span class="header-section-number">3</span> Nonlinear mixed effect model with SAEMIX</h2>
+<p>We propose to use instead a mixed effects model for testing the effect of the regime on the growth of the 11% male rats.</p>
+<section id="gompertz-model-with-random-effects" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="gompertz-model-with-random-effects"><span class="header-section-number">3.1</span> Gompertz model with random effects</h3>
+<p>The codes below show how to fit a Gompertz model to the data</p>
+<ul>
+<li>assuming the same population parameters for the two regime groups,</li>
+<li>using lognormal distributions for the 3 parameters (setting transform.par=c(1,1,1))</li>
+<li>assuming a diagonal covariance matrix <span class="math inline">\Omega</span> (default)</li>
+</ul>
+<section id="data-declaration" class="level4" data-number="3.1.1">
+<h4 data-number="3.1.1" class="anchored" data-anchor-id="data-declaration"><span class="header-section-number">3.1.1</span> Data declaration</h4>
+<p>Create first the <code>saemixData</code> object</p>
+<div class="cell" data-hash="map566-lab-nonlinear-mixed-model_cache/html/saemix create_346f4bfc56e6003d4e83570a08f7a785">
+<div class="sourceCode" id="cb3"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>saemix_data <span class="ot">&lt;-</span> <span class="fu">saemixData</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">name.data       =</span> males11, </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">name.group      =</span> <span class="st">"id"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">name.predictors =</span> <span class="st">"week"</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">name.response   =</span> <span class="st">"weight"</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>Using the object called males11 in this R session as the data.
+
+
+The following SaemixData object was successfully created:
+
+Object of class SaemixData
+    longitudinal data for use with the SAEM algorithm
+Dataset males11 
+    Structured data: weight ~ week | id 
+    Predictor: week () </code></pre>
+</div>
+</div>
+</section>
+<section id="model-declaration" class="level4" data-number="3.1.2">
+<h4 data-number="3.1.2" class="anchored" data-anchor-id="model-declaration"><span class="header-section-number">3.1.2</span> Model declaration</h4>
+<p>Implement then the structural model and create the <code>saemixModel</code> object. Initial values for the population parameters should be provided.</p>
+<div class="cell" data-hash="map566-lab-nonlinear-mixed-model_cache/html/unnamed-chunk-2_a6305596f88fd8583d6692af9ed7940e">
+<div class="sourceCode" id="cb5"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>gompertz <span class="ot">&lt;-</span> <span class="cf">function</span>(psi, id, x) { </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  t <span class="ot">&lt;-</span> x[,<span class="dv">1</span>]</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  A <span class="ot">&lt;-</span> psi[id, <span class="dv">1</span>]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> psi[id, <span class="dv">2</span>]</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  c <span class="ot">&lt;-</span> psi[id, <span class="dv">3</span>]</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  ypred <span class="ot">&lt;-</span> A<span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span><span class="fu">exp</span>(<span class="sc">-</span>b<span class="sc">*</span>(t<span class="sc">-</span>c)))</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  ypred</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>psi0 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">A =</span> <span class="dv">500</span>, <span class="at">b =</span> <span class="fl">0.2</span>, <span class="at">c =</span> <span class="fl">0.2</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>distribParam <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>NLMM_gompertz <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model =</span> gompertz, <span class="at">psi0 =</span> psi0, <span class="at">transform.par =</span> distribParam)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="model-estimation" class="level4" data-number="3.1.3">
+<h4 data-number="3.1.3" class="anchored" data-anchor-id="model-estimation"><span class="header-section-number">3.1.3</span> Model estimation</h4>
+<p>Run <strong>saemix</strong> for estimating the population parameters, computing the individual estimates, computing the FIM and the log-likelihood (linearization)</p>
+<div class="cell" data-hash="map566-lab-nonlinear-mixed-model_cache/html/unnamed-chunk-4_328fcf1b5fbdbeaeeea11bb65ccbd5a7">
+<div class="sourceCode" id="cb6"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>saemix_options <span class="ot">&lt;-</span> <span class="fu">saemixControl</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">map   =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">fim   =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ll.is =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">displayProgress =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">directory =</span> <span class="st">"output_saemix"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> <span class="dv">12345</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>NLMM_gompertz_fit <span class="ot">&lt;-</span> <span class="fu">saemix</span>(NLMM_gompertz , saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="map566-lab-nonlinear-mixed-model_cache/html/unnamed-chunk-6_77968d25bd9397c07efb20e199ac9a31">
+<div class="sourceCode" id="cb7"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(NLMM_gompertz_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>----------------------------------------------------
+-----------------  Fixed effects  ------------------
+----------------------------------------------------
+  Parameter Estimate     SE  CV(%)
+1         A  527.870 8.2753   1.57
+2         b    0.217 0.0071   3.30
+3         c    0.061 0.0794 129.56
+4        a.   12.238 0.4035   3.30
+----------------------------------------------------
+-----------  Variance of random effects  -----------
+----------------------------------------------------
+  Parameter Estimate     SE CV(%)
+A  omega2.A    0.009 0.0021 23.93
+b  omega2.b    0.028 0.0093 32.73
+c  omega2.c    0.191 0.0553 28.92
+----------------------------------------------------
+------  Correlation matrix of random effects  ------
+----------------------------------------------------
+         omega2.A omega2.b omega2.c
+omega2.A 1.00     0.00     0.00    
+omega2.b 0.00     1.00     0.00    
+omega2.c 0.00     0.00     1.00    
+----------------------------------------------------
+---------------  Statistical criteria  -------------
+----------------------------------------------------
+Likelihood computed by linearisation
+      -2LL= 4716.78 
+      AIC = 4730.78 
+      BIC = 4742.602 
+----------------------------------------------------</code></pre>
+</div>
+</div>
+</section>
+<section id="diagnostic-plots" class="level4" data-number="3.1.4">
+<h4 data-number="3.1.4" class="anchored" data-anchor-id="diagnostic-plots"><span class="header-section-number">3.1.4</span> Diagnostic plots:</h4>
+<div class="cell" data-hash="map566-lab-nonlinear-mixed-model_cache/html/unnamed-chunk-8_a3c331aed735163c193c9bf1db432d20">
+<div class="sourceCode" id="cb9"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Individual plot for subject 1 to 9, </span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">saemix.plot.fits</span>(NLMM_gompertz_fit, <span class="at">ilist =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>), <span class="at">smooth=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map566-lab-nonlinear-mixed-model_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell" data-hash="map566-lab-nonlinear-mixed-model_cache/html/unnamed-chunk-10_8dd4557cca7d29c832bedf90a1bf7751">
+<div class="sourceCode" id="cb10"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagnostic plot: observations versus population predictions</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">saemix.plot.obsvspred</span>(NLMM_gompertz_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map566-lab-nonlinear-mixed-model_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell" data-hash="map566-lab-nonlinear-mixed-model_cache/html/unnamed-chunk-12_2581081bf3f50c721099796fbba390ea">
+<div class="sourceCode" id="cb11"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Scatter plot of residuals</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">saemix.plot.scatterresiduals</span>(NLMM_gompertz_fit, <span class="at">level=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map566-lab-nonlinear-mixed-model_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="correlation-matrix-of-the-estimates" class="level4" data-number="3.1.5">
+<h4 data-number="3.1.5" class="anchored" data-anchor-id="correlation-matrix-of-the-estimates"><span class="header-section-number">3.1.5</span> Correlation matrix of the estimates</h4>
+<div class="cell" data-hash="map566-lab-nonlinear-mixed-model_cache/html/unnamed-chunk-14_36829fbb5a1acaa50364a350ec761f77">
+<div class="sourceCode" id="cb12"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>fim <span class="ot">&lt;-</span> NLMM_gompertz_fit<span class="sc">@</span>results<span class="sc">@</span>fim <span class="co"># Fisher information matrix</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>cov_hat <span class="ot">&lt;-</span> <span class="fu">solve</span>(fim)                <span class="co"># covariance matrix of the estimates</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(cov_hat))             <span class="co"># s.e. of the estimates</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(cov_hat <span class="sc">/</span> (d <span class="sc">%*%</span> <span class="fu">t</span>(d)), <span class="at">type =</span> <span class="st">'upper'</span>, <span class="at">diag =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map566-lab-nonlinear-mixed-model_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>cov_hat <span class="sc">/</span> (d <span class="sc">%*%</span> <span class="fu">t</span>(d))               <span class="co"># correlation matrix of the estimates</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>            [,1]       [,2]        [,3]          [,4]        [,5]          [,6]
+[1,]  1.00000000 -0.1571634 -0.01843078  0.000000e+00  0.00000000  0.000000e+00
+[2,] -0.15716344  1.0000000  0.13584772  0.000000e+00  0.00000000  0.000000e+00
+[3,] -0.01843078  0.1358477  1.00000000  0.000000e+00  0.00000000  0.000000e+00
+[4,]  0.00000000  0.0000000  0.00000000  1.000000e+00 -0.02504654 -8.490399e-05
+[5,]  0.00000000  0.0000000  0.00000000 -2.504654e-02  1.00000000 -2.126693e-02
+[6,]  0.00000000  0.0000000  0.00000000 -8.490399e-05 -0.02126693  1.000000e+00
+[7,]  0.00000000  0.0000000  0.00000000 -1.138141e-02 -0.07700297 -5.777241e-02
+            [,7]
+[1,]  0.00000000
+[2,]  0.00000000
+[3,]  0.00000000
+[4,] -0.01138141
+[5,] -0.07700297
+[6,] -0.05777241
+[7,]  1.00000000</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="questions" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="questions"><span class="header-section-number">3.2</span> Questions</h3>
+<ol type="1">
+<li><p>Fit the same model to the same data, assuming different population parameters for the control and GMO groups. Can we conclude that the regime has an effect on the growth of the 11% male rats?</p></li>
+<li><p>Use an asymptotic regression model <span class="math inline">f(t) = w_{\infty} + (w_0 -w_{\infty})e^{-k\,t}</span> to test the effect of the regime on the growth of the 11% male rats.</p></li>
+<li><p>Should we accept the hypothesis that the random effects are uncorrelated?</p></li>
+</ol>
+</section>
+</section>
+<section id="references" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="references"><span class="header-section-number">4</span> References</h2>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-seralini2007new" class="csl-entry" role="doc-biblioentry">
+Séralini, Gilles-Eric, Dominique Cellier, and Joël Spiroux de Vendomois. 2007. <span>“New Analysis of a Rat Feeding Study with a Genetically Modified Maize Reveals Signs of Hepatorenal Toxicity.”</span> <em>Archives of Environmental Contamination and Toxicology</em> 52 (4): 596–602. <a href="https://link.springer.com/article/10.1007/s00244-006-0149-5">https://link.springer.com/article/10.1007/s00244-006-0149-5</a>.
+</div>
+</div>
+</section>
+</main> <!-- /main -->
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+</body></html>

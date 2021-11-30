@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.2.318">
+  <meta name="generator" content="quarto-0.2.323">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Statistical Tests</title>
   <style>
@@ -168,9 +168,9 @@
     <a class="dropdown-item" href="../../docs/tests/map566-lecture-multiple.html">Multiple Testing</a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">Labs</li>
+        <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html">Exercices</a>
+    <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html">Hypothesis Tesing</a>
   </li>  
     </ul>
   </li>
@@ -179,23 +179,23 @@
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-regression-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html">Polynomial regression models</a>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html">Polynomial Regression</a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lecture-nonlinear-regression.html">Nonlinear regression</a>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-nonlinear-regression.html">Nonlinear Regression</a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lab-polynomial-regression.html">Polynomial regression model: exercices</a>
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-polynomial-regression.html">Polynomial Regression</a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lab-nonlinear-regression.html">Nonlinear regression: exercices</a>
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-nonlinear-regression.html">Nonlinear Regression</a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html">Linear regression: quick recap</a>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html">Linear Regression: Quick Recap</a>
   </li>  
     </ul>
   </li>
@@ -212,7 +212,10 @@
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-linear-mixed-model.html">Linear Mixed Models: exercices</a>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-linear-mixed-model.html">Linear Mixed Models</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-nonlinear-mixed-model.html">Nonlinear Mixed Effects Models</a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
@@ -231,7 +234,7 @@
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">Mixture models: exercices</a>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">Mixture Models</a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
@@ -288,15 +291,15 @@
       <ul class="list-unstyled sidebar-section depth1">
     <li class="">
         <div class="me-auto">
-            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#labs-collapse" aria-expanded="true">
-              <div class="me-auto sidebar-section-item">Labs</div>
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#exercices-collapse" aria-expanded="true">
+              <div class="me-auto sidebar-section-item">Exercices</div>
             <div><i class="bi bi-chevron-right ms-2"></i></div>
             </a>
         </div>
-      <div class="collapse  show" id="labs-collapse">
+      <div class="collapse  show" id="exercices-collapse">
         <ul class="list-unstyled sidebar-item-contents">
           <li class="sidebar-item">
-  <a href="../../docs/tests/map566-lab-tests.html" class="">Exercices</a>
+  <a href="../../docs/tests/map566-lab-tests.html" class="">Hypothesis Tesing</a>
 </li>
         </ul>
       </div>
@@ -331,6 +334,7 @@
 <li><a href="#the-limited-role-of-the-p-value" class="nav-link" data-scroll-target="#the-limited-role-of-the-p-value"> <span class="header-section-number">4</span> The limited role of the p-value</a>
 <ul class="collapse">
 <li><a href="#power-of-a-t-test" class="nav-link" data-scroll-target="#power-of-a-t-test"> <span class="header-section-number">4.1</span> Power of a t-test</a></li>
+<li><a href="#references" class="nav-link" data-scroll-target="#references"> <span class="header-section-number">4.2</span> References</a></li>
 </ul></li>
 </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
@@ -339,6 +343,7 @@
 <main class="content">
 <header id="title-block-header">
 <h1 class="title d-none d-lg-block display-7">Statistical Tests</h1>
+<p class="subtitle lead">Lecture Notes</p>
 </header>
 
 <section id="preliminary" class="level3 unnumbered">
@@ -354,7 +359,7 @@
 <section id="introduction" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
 <p>A feeding study served to authorize the MON863 maize, a genetically modified organism (GMO) developed by the Monsanto company, by the European and American authorities. It included male and female rats. For each sex, one group was fed with GMOs in the equilibrated diet, and one with the closest control regimen without GMOs.</p>
-<p>We are interested in the weight of thttps://ggplot2.tidyverse.org/reference/geom_histogram.htmlhe rats after a period of 14 weeks.</p>
+<p>We are interested in the weight of the rats after a period of 14 weeks.</p>
 <div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-2_9b2fbfdaab0c24b59a61cfcdd5e63fc2">
 <div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../data/ratWeight.csv"</span>) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(week <span class="sc">==</span> <span class="dv">14</span>) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>week)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stderr">
@@ -655,7 +660,8 @@ p_{\rm value} &amp; = \mathbb{P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm ob
 <pre><code>[1] 496.4727 515.9709</code></pre>
 </div>
 </div>
-<p><strong>Remark 1:</strong> The fact that <span class="math inline">\mathbb{P}( \mu \in {\rm CI}_{1-\alpha}) = 1- \alpha</span> does not mean that <span class="math inline">\mu</span> is a random variable! It is the bounds of the confidence interval that are random because they are function of the data.</p>
+<div class="remark proof">
+<p><span class="proof-title"><em>Remark</em>.</span>The fact that <span class="math inline">\mathbb{P}( \mu \in {\rm CI}_{1-\alpha}) = 1- \alpha</span> does not mean that <span class="math inline">\mu</span> is a random variable! It is the bounds of the confidence interval that are random because they are function of the data.</p>
 <p>A confidence interval of level <span class="math inline">1-\alpha</span> should be interpreted like this: imagine that we repeat the same experiment many times, with the same experimental conditions, and that we build a confidence interval for <span class="math inline">\mu</span> for each of these replicate. Then, the true mean <span class="math inline">\mu</span> will lie in the confidence interval <span class="math inline">(1-\alpha)100\%</span> of the times.</p>
 <p>Let us check this property with a Monte Carlo simulation.</p>
 <div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-40_6ea4d541b44c062acb0202b0540bd9ed">
@@ -668,12 +674,13 @@ p_{\rm value} &amp; = \mathbb{P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm ob
 <span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(R)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 0.94839</code></pre>
+<pre><code>[1] 0.94907</code></pre>
 </div>
 </div>
-<p><strong>Remark 2:</strong></p>
-<p>The decision rule to reject or not the null hypothesis can be derived from the confidence interval. Indeed, the confidence interval plays the role of an acceptance region: we reject <span class="math inline">H_0</span> if <span class="math inline">\mu_0</span> does not belong to <span class="math inline">{\rm CI}_{1-\alpha}</span>.</p>
-<p>In the case of a one sided test, the output of <code>t.test</code> called confidence interval is indeed an acceptance region for <span class="math inline">\mu</span>, but not a ``confidence interval’’ (we cannot seriouly consider that <span class="math inline">\mu</span> can take any value above 500 for instance )</p>
+</div>
+<div class="remark proof">
+<p><span class="proof-title"><em>Remark</em>.</span>The decision rule to reject or not the null hypothesis can be derived from the confidence interval. Indeed, the confidence interval plays the role of an acceptance region: we reject <span class="math inline">H_0</span> if <span class="math inline">\mu_0</span> does not belong to <span class="math inline">{\rm CI}_{1-\alpha}</span>.</p>
+<p>In the case of a one sided test, the output of <code>t.test</code> called confidence interval is indeed an acceptance region for <span class="math inline">\mu</span>, but not a ``confidence interval’’ (we cannot seriously consider that <span class="math inline">\mu</span> can take any value above 500 for instance )</p>
 <div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-42_38f328d2c93e10cdad30f2b68a3d4f5c">
 <div class="sourceCode" id="cb35"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(x_mean <span class="sc">+</span> x_sd<span class="sc">/</span><span class="fu">sqrt</span>(n)<span class="sc">*</span><span class="fu">qt</span>(alpha,df) , <span class="cn">Inf</span>),</span>
@@ -682,6 +689,7 @@ p_{\rm value} &amp; = \mathbb{P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm ob
 <pre><code>         [,1]     [,2]
 [1,] 499.0229      Inf
 [2,]     -Inf 513.4207</code></pre>
+</div>
 </div>
 </div>
 </section>
@@ -726,7 +734,8 @@ mean of x mean of y
  506.2218  282.8025 </code></pre>
 </div>
 </div>
-<p>Let us see now what happens if we compare the control and GMO groups for the male rats. ::: {.cell hash=“map566-lecture-single_cache/html/unnamed-chunk-48_22b5bd72e41e9c2a5458cfb28cc64469”}</p>
+<p>Let us see now what happens if we compare the control and GMO groups for the male rats.</p>
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-48_22b5bd72e41e9c2a5458cfb28cc64469">
 <div class="sourceCode" id="cb41"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="sc">%&gt;%</span> <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">"Male"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> regime, <span class="at">y =</span> weight) <span class="sc">+</span></span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">fill =</span> regime)) <span class="sc">+</span> <span class="fu">geom_jitter</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span>  <span class="fu">ylab</span>(<span class="st">"weight (g)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -735,7 +744,7 @@ mean of x mean of y
 </div>
 <div class="sourceCode" id="cb42"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> rat_weight <span class="sc">%&gt;%</span> <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">"Male"</span> <span class="sc">&amp;</span> regime <span class="sc">==</span> <span class="st">"Control"</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(<span class="st">"weight"</span>)</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> rat_weight <span class="sc">%&gt;%</span> <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">"Male"</span> <span class="sc">&amp;</span> regime <span class="sc">==</span> <span class="st">"GMO"</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(<span class="st">"weight"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>:::</p>
+</div>
 <p>We observe a difference between the two empirical means (the mean weight after 14 weeks is greater in the control group), but we cannot say how significant this difference is by simply looking at the data. Performing a statistical test is now necessary.</p>
 <p>Let <span class="math inline">x_{1}, x_{2}, \ldots, x_{n_x}</span> be the weights of the <span class="math inline">n_x</span> male rats of the control group and <span class="math inline">y_{1}, y_{2}, \ldots, y_{n_x}</span> the weights of the <span class="math inline">n_y</span> male rats of the GMO group. We will assume normal distributions for both <span class="math inline">(x_{i})</span> and <span class="math inline">(y_{i})</span>:</p>
 <p><span class="math display"> x_{i} \sim^{\mathrm{iid}} \mathcal{N}(\mu_x \ , \ \sigma^2_x) \quad ; \quad y_{i} \sim^{\mathrm{iid}} \mathcal{N}(\mu_y \ , \ \sigma^2_y)</span></p>
@@ -744,7 +753,8 @@ mean of x mean of y
 </section>
 <section id="assuming-equal-variances" class="level3" data-number="2.2.2">
 <h3 data-number="2.2.2" class="anchored" data-anchor-id="assuming-equal-variances"><span class="header-section-number">2.2.2</span> Assuming equal variances</h3>
-<p>We can use the function <code>t.test</code> assuming first equal variances (<span class="math inline">\sigma^2_x=\sigma_y^2</span>) ::: {.cell hash=“map566-lecture-single_cache/html/unnamed-chunk-50_c00784a4fe43d34d8b1c17cac1a6265a”}</p>
+<p>We can use the function <code>t.test</code> assuming first equal variances (<span class="math inline">\sigma^2_x=\sigma_y^2</span>)</p>
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-50_c00784a4fe43d34d8b1c17cac1a6265a">
 <div class="sourceCode" id="cb43"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x, y, <span class="at">conf.level =</span> <span class="dv">1</span><span class="sc">-</span>alpha, <span class="at">var.equal =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
@@ -760,8 +770,9 @@ sample estimates:
 mean of x mean of y 
  513.7077  498.7359 </code></pre>
 </div>
-<p>:::</p>
-<p>The test statistic is <span class="math display">T_{\rm stat} = \frac{\bar{x} - \bar{y}}{s_p \sqrt{\frac{1}{n_x}+\frac{1}{n_y}}}  </span> where <span class="math inline">s_p^2</span> is the <em>pooled variance</em>:</p>
+</div>
+<p>The test statistic is</p>
+<p><span class="math display">T_{\rm stat} = \frac{\bar{x} - \bar{y}}{s_p \sqrt{\frac{1}{n_x}+\frac{1}{n_y}}}  </span> where <span class="math inline">s_p^2</span> is the <em>pooled variance</em>:</p>
 <p><span class="math display">s_p^2 = \frac{1}{n_x+n_y-2} \left(\sum_{i=1}^{n_x} (x_{i}-\bar{x})^2 + \sum_{i=1}^{n_y} (y_{i}-\bar{y})^2 \right)  </span></p>
 <p>Under the null hypothesis, <span class="math inline">T_{\rm stat}</span> follows a <span class="math inline">t</span>-distribution with <span class="math inline">n_x+n_y-2</span> degree of freedom. The <span class="math inline">p</span>-value is therefore</p>
 <p><span class="math display">\begin{aligned}
@@ -845,7 +856,8 @@ s_y^2 = \frac{1}{n_y-1}\sum_{i=1}^{n_y} (y_{i}-\bar{y})^2</span></p>
 <pre><code>[1]  1.5426375 75.9760868  0.1270739</code></pre>
 </div>
 </div>
-<p>The confidence interval for <span class="math inline">\mu_x-\mu_y</span> is now computed as <span class="math display">{\rm CI}_{1-\alpha} = [\bar{x} - \bar{y} +\sqrt{\frac{s_x^2}{n_x}+\frac{s_y^2}{n_y}} \ qt_{\frac{\alpha}{2},\mathrm{df}_W} \ \ , \ \ 
+<p>The confidence interval for <span class="math inline">\mu_x-\mu_y</span> is now computed as</p>
+<p><span class="math display">{\rm CI}_{1-\alpha} = [\bar{x} - \bar{y} +\sqrt{\frac{s_x^2}{n_x}+\frac{s_y^2}{n_y}} \ qt_{\frac{\alpha}{2},\mathrm{df}_W} \ \ , \ \ 
 \bar{x} - \bar{y} +\sqrt{\frac{s_x^2}{n_x}+\frac{s_y^2}{n_y}} \ qt_{1-\frac{\alpha}{2},\mathrm{df}_W} ] </span></p>
 <div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-64_980623ba271e0babd849adbf39599c7e">
 <div class="sourceCode" id="cb55"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>x_mean<span class="sc">-</span>y_mean  <span class="sc">+</span> sbar.xy<span class="sc">*</span><span class="fu">qt</span>(<span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>),dfw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -917,11 +929,13 @@ W = 616.5, p-value = 0.1516
 alternative hypothesis: true location shift is not equal to 0</code></pre>
 </div>
 </div>
-<p><strong>Remark:</strong> It is easy to show that <span class="math inline">W_x+W_y=n_x n_y</span></p>
+<div class="remark proof">
+<p><span class="proof-title"><em>Remark</em>.</span>It is easy to show that <span class="math inline">W_x+W_y=n_x n_y</span></p>
 <div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-76_d53c410498de5faca534adee169676ae">
 <div class="sourceCode" id="cb66"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(Wx<span class="sc">+</span>Wy, nx<span class="sc">*</span>ny)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>[1] 1521 1521</code></pre>
+</div>
 </div>
 </div>
 <p>Unlike the t-test, the Mann-Whitney-Wilcoxon does not require the assumption of normal distributions. However, it is nearly as efficient as the t-test on normal distributions. That means that both tests have similar power.</p>
@@ -940,7 +954,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <span id="cb68-11"><a href="#cb68-11" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">%&gt;%</span> <span class="fu">rowMeans</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code> Student Wilcoxon 
-  0.8258   0.8077 </code></pre>
+  0.8312   0.8136 </code></pre>
 </div>
 </div>
 <p>On the other hand, the Wilcoxon test may be much more powerful than the t-test for non normal distributions when the empirical mean converges slowly in distribution to the normal distribution. Such is the case, for instance, of the log-normal ditribution which is strongly skewed for large variances.</p>
@@ -956,7 +970,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <span id="cb70-9"><a href="#cb70-9" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">%&gt;%</span> <span class="fu">rowMeans</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code> Student Wilcoxon 
-  0.6695   0.8471 </code></pre>
+  0.6747   0.8499 </code></pre>
 </div>
 </div>
 </section>
@@ -964,7 +978,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <h1 data-number="4"><span class="header-section-number">4</span> The limited role of the p-value</h1>
 <p>First of all it is important to emphasis that statistics is a tool for supporting decision-making. It is not a decision tool that can be used blindly.</p>
 <p>A <span class="math inline">p</span>-value below the sacrosanct 0.05 threshold does not mean that GMOs have some negative impacts on human health, or that a drug is better than another one. On the other hand, a <span class="math inline">p</span>-value above 0.05 does not mean that GMOs are safe or that a drug has no effect.</p>
-<p>The American Statistical Association (ASA) has released a <a href="http://amstat.tandfonline.com/doi/abs/10.1080/00031305.2016.1154108">“Statement on Statistical Significance and P-Values”</a> with six principles underlying the proper use and interpretation of the p-value.</p>
+<p>The American Statistical Association (ASA) has released in <span class="citation" data-cites="american2016statement">(<a href="#ref-american2016statement" role="doc-biblioref"><strong>american2016statement?</strong></a>)</span> a <a href="http://amstat.tandfonline.com/doi/abs/10.1080/00031305.2016.1154108">“Statement on Statistical Significance and P-Values”</a> with six principles underlying the proper use and interpretation of the p-value.</p>
 <p>“The p-value was never intended to be a substitute for scientific reasoning,” said Ron Wasserstein, the ASA’s executive director. “Well-reasoned statistical arguments contain much more than the value of a single number and whether that number exceeds an arbitrary threshold. The ASA statement is intended to steer research into a ‘post p&lt;0.05 era.’” “Over time it appears the p-value has become a gatekeeper for whether work is publishable, at least in some fields,” said Jessica Utts, ASA president. “This apparent editorial bias leads to the ‘file-drawer effect,’ in which research with statistically significant outcomes are much more likely to get published, while other work that might well be just as important scientifically is never seen in print. It also leads to practices called by such names as ‘p-hacking’ and ‘data dredging’ that emphasize the search for small p-values over other statistical and scientific reasoning.”</p>
 <p>The statement’s six principles, many of which address misconceptions and misuse of the pvalue, are the following:</p>
 <ol type="1">
@@ -990,13 +1004,13 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
     Welch Two Sample t-test
 
 data:  x.sim and y.sim
-t = -1.2882, df = 18, p-value = 0.214
+t = -0.99866, df = 18, p-value = 0.3312
 alternative hypothesis: true difference in means is not equal to 0
 95 percent confidence interval:
- -39.46424   9.46424
+ -46.55609  16.55609
 sample estimates:
 mean of x mean of y 
- 492.6076  507.6076 </code></pre>
+ 498.4821  513.4821 </code></pre>
 </div>
 </div>
 <p>This basic example shows that a difference considered as biologically significant may not be statistically significant.</p>
@@ -1012,13 +1026,13 @@ mean of x mean of y
     Welch Two Sample t-test
 
 data:  x.sim and y.sim
-t = -2.3297, df = 19998, p-value = 0.01983
+t = -2.3487, df = 19998, p-value = 0.01885
 alternative hypothesis: true difference in means is not equal to 0
 95 percent confidence interval:
- -1.8413448 -0.1586552
+ -1.8345244 -0.1654756
 sample estimates:
 mean of x mean of y 
- 500.4432  501.4432 </code></pre>
+ 499.9726  500.9726 </code></pre>
 </div>
 </div>
 <p>This example confirms the need for a power analysis as a complement of the comparison test. We will see that equivalence testing may also be relevant for evaluating what the data allows to say.</p>
@@ -1084,7 +1098,7 @@ NOTE: n is number in *each* group</code></pre>
 <span id="cb80-8"><a href="#cb80-8" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb80-9"><a href="#cb80-9" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(R)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 0.55612</code></pre>
+<pre><code>[1] 0.55205</code></pre>
 </div>
 </div>
 <p>We may consider this probability as too small. If our objective is a power of 80% at least, with the same significance level, we need to increase the sample size.</p>
@@ -1133,10 +1147,14 @@ NOTE: n is number in *each* group</code></pre>
 </div>
 </div>
 <p>If we accept a significance level of about 20%, then we will be less demanding for rejecting <span class="math inline">H_0</span>: we will reject the null hypothesis when <span class="math inline">|T_{\rm stat}|&gt;qt_{0.9,158}</span>= 1.29, instead of <span class="math inline">|T_{\rm stat}|&gt;qt_{0.975,158}</span>= 1.98. This strategy will therefore increase the power, but also the type I error rate.</p>
+</section>
+<section id="references" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="references"><span class="header-section-number">4.2</span> References</h2>
 
 
 </section>
 </section>
+</main> <!-- /main -->
 <script type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const icon = "";
@@ -1213,7 +1231,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-</main> <!-- /main -->
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
   </div>
