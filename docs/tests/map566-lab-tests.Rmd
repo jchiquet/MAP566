@@ -1,5 +1,6 @@
 ---
-title: 'Exercices'
+title: 'Hypothesis Tesing'
+subtitle: 'Exercices'
 ---
 
 ## Preliminary {.unnumbered}

@@ -1,5 +1,6 @@
 ---
 title: "Mixture Models: an example"
+subtitle: "An Example Study"
 ---
 
 ## Preliminary {.unnumbered}

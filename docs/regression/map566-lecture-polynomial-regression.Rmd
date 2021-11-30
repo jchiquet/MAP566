@@ -1,8 +1,6 @@
 ---
-title: "Polynomial regression models"
-format:
-  html:
-    code-fold: false
+title: "Polynomial Regression"
+subtitle: "Lecture Notes"
 ---
 
 ## Preliminary {.unnumbered}

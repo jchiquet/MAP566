@@ -1,10 +1,6 @@
 ---
-title: "Linear regression: quick recap"
-format:
-  html:
-    toc: true
-    number-sections: true
-    html-math-method: katex
+title: "Linear Regression: Quick Recap"
+subtitle: "Lecture Notes"
 ---
 
 ## Regression models  {.unnumbered}

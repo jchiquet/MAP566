@@ -1,5 +1,6 @@
 ---
 title: 'Multiple Testing'
+subtitle: "Lecture Notes"
 ---
 
 ## Introduction {.unnumbered}
@@ -256,13 +257,13 @@ The Bonferroni correction is appropriate when a single false positive in a set o
 
 (Example from [Handbook of Biological Statistics](http://www.biostathandbook.com/multiplecomparisons.html))
 
-Garcia-Arenzana et al. (2014) tested associations of 25 dietary variables with [mammographic density](https://breast-cancer-research.biomedcentral.com/articles/10.1186/bcr2102), an important risk factor for breast cancer, in Spanish women. They found the following results
+@garcia2014calorie tested associations of 25 dietary variables with [mammographic density](https://breast-cancer-research.biomedcentral.com/articles/10.1186/bcr2102), an important risk factor for breast cancer, in Spanish women. They found the following results
 
 ```{r, message = FALSE}
 data <- read_csv("../../data/dietary.csv") %>% mutate_if(is.character, factor) 
 ```
 
-We can see that five of the variables show a significant  $p$-value (<0.05). However, because Garc?a-Arenzana et al. (2014) tested 25 dietary variables, we would expect one or two variables to show a significant result purely by chance, even if diet had no real effect on mammographic density. 
+We can see that five of the variables show a significant  $p$-value (<0.05). However, because @garcia2014calorie tested 25 dietary variables, we would expect one or two variables to show a significant result purely by chance, even if diet had no real effect on mammographic density. 
 
 Applying the Bonferroni correction, we divide $\alpha=0.05$ by the number of tests ($m=25$) to get the Bonferroni critical value, so a test would have to have $p<0.002$ to be significant. Under that criterion, only the test for total calories is significant.
 
@@ -272,9 +273,9 @@ Applying the Bonferroni correction, we divide $\alpha=0.05$ by the number of tes
  
 ### The Benjamini-Hochberg procedure
  
- The Benjamini-Hochberg (BH) procedure controls the FDR... and it is simple to use!
+The ) @benjamini1995controlling procedure (BH) controls the FDR... and it is simple to use!
  
- Indeed,  for a given $\alpha$ and a given sequence of **ordered** $p$-values $P_{(1)}$, $P_{(2)}$, \ldots, $P_{(m)}$, it consists in computing the $m$ *adjusted* $p$-values
+Indeed,  for a given $\alpha$ and a given sequence of **ordered** $p$-values $P_{(1)}$, $P_{(2)}$, \ldots, $P_{(m)}$, it consists in computing the $m$ *adjusted* $p$-values
 defined as
 
  $$ P_{(i)}^{\rm BH} = \min\left( P_{(i)}\frac{m}{i} \ , \ P_{(i+1)}^{\rm BH} \right)$$
@@ -444,7 +445,4 @@ We would consider the 7 first $p$-values as significant using this new correctio
 <!-- c(mean(m01.bhc/m0), mean(m11.bhc/m1),mean(m01.bhc/(m01.bhc+m11.bhc),na.rm=TRUE)) -->
 <!-- ``` -->
 
-> Benjamini, Y., and Y. Hochberg. 1995. Controlling the false discovery rate: a practical and powerful approach to multiple testing. Journal of the Royal Statistical Society B 57: 289-300.
-
-> Garcia-Arenzana, N., E.M. Navarrete-Munoz, V. Lope, P. Moreo, S. Laso-Pablos, N. Ascunce, F. Casanova-Gomez, C. Sanchez-Contador, C. Santamariña, N. Aragonès, B.P. Gomez, J. Vioque, and M. Pollan. 2014. Calorie intake, olive oil consumption and mammographic density among Spanish women. International Journal of Cancer 134: 1916-1925.
-
+## References

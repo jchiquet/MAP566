@@ -1,8 +1,6 @@
 ---
 title: "Statistical Tests"
-format:
-  html:
-    code-fold: false
+subtitle: "Lecture Notes"
 ---
 
 ### Preliminary {.unnumbered}
@@ -21,7 +19,7 @@ theme_set(theme_bw())
 
 A feeding study served to authorize the MON863 maize, a genetically modified organism (GMO) developed by the Monsanto company,  by the European and American authorities. It included male and female rats. For each sex, one group was fed with GMOs in the equilibrated diet, and one with the closest control regimen without GMOs.
 
-We are interested in the weight of thttps://ggplot2.tidyverse.org/reference/geom_histogram.htmlhe rats after a period of 14 weeks. 
+We are interested in the weight of the rats after a period of 14 weeks. 
 
 ```{r}
 rat_weight <- read_csv("../../data/ratWeight.csv") %>% filter(week == 14) %>% select(-week)
@@ -289,7 +287,8 @@ $${\rm CI}_{1-\alpha} = \left[\bar{x} +\frac{s}{\sqrt{n}}qt_{\frac{\alpha}{2},n-
 (CI <- x_mean + x_sd / sqrt(n) * qt(c(alpha/2, 1-alpha/2), df))
 ```
 
-**Remark 1:** 
+::: {.remark}
+
 The fact that $\mathbb{P}( \mu \in {\rm CI}_{1-\alpha}) = 1- \alpha$ does not mean that $\mu$ is a random variable! It is the bounds of the confidence interval that  are random because they are function of the data.
   
 A confidence interval of level $1-\alpha$ should be interpreted like this: imagine that we repeat  the same experiment many times, with the same experimental conditions, and that we build a confidence interval for $\mu$ for each of these replicate. Then, the true mean $\mu$ will lie in the confidence interval  $(1-\alpha)100\%$ of the times.
@@ -307,18 +306,22 @@ R <- replicate(n_replicate, {
 mean(R)
 ```
 
-**Remark 2:**  
+:::
+
+
+::: {.remark}
 
 The decision rule to reject or not the null hypothesis can be derived from the confidence interval. Indeed, the confidence interval plays the role of an acceptance region:  we reject $H_0$ if $\mu_0$ does not belong to ${\rm CI}_{1-\alpha}$.
 
-In the case of a one sided test, the output of `t.test` called confidence interval is indeed an acceptance region for $\mu$, but not a ``confidence interval'' (we cannot seriouly consider that $\mu$ can take any value above 500 for instance \ldots)
-
+In the case of a one sided test, the output of `t.test` called confidence interval is indeed an acceptance region for $\mu$, but not a ``confidence interval'' (we cannot seriously consider that $\mu$ can take any value above 500 for instance \ldots)
 
 ```{r}
 rbind(
 c(x_mean + x_sd/sqrt(n)*qt(alpha,df) , Inf),
 c(-Inf, x_mean + x_sd/sqrt(n)*qt(1-alpha,df)))
 ```
+
+::: 
 
 ## Two samples t-test
 
@@ -342,6 +345,7 @@ t.test(x, y)
 ```
 
 Let us see now what happens if we compare the control and GMO groups for the male rats.
+
 ```{r, fig.height=5, fig.width=10}
 rat_weight %>% filter(gender == "Male") %>% 
   ggplot() + aes(x = regime, y = weight) +
@@ -364,12 +368,14 @@ $$H_0: \ ``\mu_x = \mu_y" \quad \text{versus} \quad H_1: \ ``\mu_x \neq \mu_y" $
 ### Assuming equal variances
 
 We can use the function `t.test` assuming first equal variances ($\sigma^2_x=\sigma_y^2$)
+
 ```{r}
 alpha <- 0.05
 t.test(x, y, conf.level = 1-alpha, var.equal = TRUE)
 ```
 
 The test statistic is
+
 $$T_{\rm stat} = \frac{\bar{x} - \bar{y}}{s_p \sqrt{\frac{1}{n_x}+\frac{1}{n_y}}}  $$
 where $s_p^2$ is the *pooled variance*:
 
@@ -446,15 +452,17 @@ dfw <- (cx + cy)^2 / (cx^2/(nx-1) + cy^2/(ny-1))
 p.value <- pt(-t.stat,dfw) + (1- pt(t.stat,dfw))
 c(t.stat, dfw, p.value)
 ```
+
 The confidence interval for  $\mu_x-\mu_y$ is now computed as
+
 $${\rm CI}_{1-\alpha} = [\bar{x} - \bar{y} +\sqrt{\frac{s_x^2}{n_x}+\frac{s_y^2}{n_y}} \ qt_{\frac{\alpha}{2},\mathrm{df}_W} \ \ , \ \ 
 \bar{x} - \bar{y} +\sqrt{\frac{s_x^2}{n_x}+\frac{s_y^2}{n_y}} \ qt_{1-\frac{\alpha}{2},\mathrm{df}_W} ] $$
-
 
 
 ```{r}
 x_mean-y_mean  + sbar.xy*qt(c(alpha/2,1-alpha/2),dfw)
 ```
+
 # Wilcoxon test
 
 The Mann-Whitney-Wilcoxon test, or Wilcoxon rank sum test, can be used to test if the weight in one of the two groups tends to be greater than in the other group.
@@ -483,13 +491,11 @@ We can check that the Mann-Whitney-Wilcoxon test is not significant (at the leve
 wilcox.test(x, y, alternative="two.sided", conf.level=1-alpha)
 ```
 
-
 The test statistic $W_x$ is computed a follows:
 
    * Assign numeric ranks to all the observations, beginning with 1 for the smallest value. Where there are groups of tied values, assign a rank equal to the midpoint of unadjusted rankings
    * define $R_x$ (resp. $R_y$) as the sum of the ranks for the observations which came from sample $x$ (resp. $y$)
    * Let   $W_x = R_x - {n_x(n_x+1)}/{2}$ and $W_y = R_y - {n_y(n_y+1)}/{2}$
-
 
 ```{r}
 nx <- length(x)
@@ -515,11 +521,15 @@ $W_y$ but the p-value would be the same.
 wilcox.test(y, x, alternative="two.sided", conf.level=1-alpha)
 ```
 
-**Remark:** It is easy to show that $W_x+W_y=n_x n_y$
+::: {.remark}
+
+It is easy to show that $W_x+W_y=n_x n_y$
 
 ```{r}
 c(Wx+Wy, nx*ny)
 ```
+
+:::
 
 Unlike the t-test, the Mann-Whitney-Wilcoxon does not require the assumption of normal distributions. However, it is nearly as efficient as the t-test on normal distributions. That means that both tests have similar power.
 
@@ -538,6 +548,7 @@ replicate(n_replicate, {
     Wilcoxon = wilcox.test(x_new, y_new)$p.value < alpha)
 }) %>% rowMeans()
 ```
+
 On the other hand, the Wilcoxon test may be much more powerful than the t-test for non normal distributions when the empirical mean converges slowly in distribution to the normal distribution. Such is the case, for instance, of the log-normal ditribution which is strongly skewed for large variances.
 
 ```{r}
@@ -559,9 +570,8 @@ First of all it is important to emphasis that statistics is a tool for supportin
 A $p$-value below the sacrosanct 0.05 threshold does not mean that GMOs have some negative impacts on human health, or that a drug is better than another one. On the other hand, a $p$-value above 0.05 does not mean that GMOs are safe or that a drug has no effect. 
 
 
-The American Statistical Association (ASA) has released a ["Statement on Statistical Significance
+The American Statistical Association (ASA) has released in @american2016statement a ["Statement on Statistical Significance
 and P-Values"](http://amstat.tandfonline.com/doi/abs/10.1080/00031305.2016.1154108) with six principles underlying the proper use and interpretation of the p-value. 
-
 
 "The p-value was never intended to be a substitute for scientific reasoning," said Ron
 Wasserstein, the ASA's executive director. "Well-reasoned statistical arguments contain much
@@ -712,3 +722,6 @@ pwr.t.test(power=0.8, d=delta_mu/x_sd, n = 80, sig.level = NULL)
 ```
 
 If we accept a significance level of about 20%, then we will be less demanding for rejecting $H_0$: we will reject the null hypothesis when $|T_{\rm stat}|>qt_{0.9,158}$=  `r round(qt(0.9,158),2)`, instead of $|T_{\rm stat}|>qt_{0.975,158}$=  `r round(qt(0.975,158),2)`. This strategy will therefore increase the power, but also the type I error rate.
+
+## References
+

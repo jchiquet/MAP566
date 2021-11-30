@@ -1,5 +1,6 @@
 ---
 title: "Mixture Models"
+subtitle: "Lecture Notes"
 ---
 
 ## Preliminary {.unnumbered}

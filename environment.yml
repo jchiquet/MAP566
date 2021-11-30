@@ -16,4 +16,5 @@ dependencies:
   - r-mixtools
   - r-ellipse
   - r-codetools
+  - r-corrplot
   - r-ggfortify

@@ -8,7 +8,7 @@ The objective of this course is to show students how statistics is used in pract
 
 The students will learn to select and use appropriate statistical methodologies and acquire solid and practical skills by working-out examples on real-world data sets from various areas including medicine, genomics, ecology, and others.
 
-All analyses will be conducted with the R software, possibly with interfacing to Python. No strong knwoledge neither of R or Python programming is required (only basic scripting).
+All analyses will be conducted with the R software, possibly with interfacing to Python. No strong knwoledge neither of R nor Python programming is required (only basic scripting).
 
 ::: {.callout-note appearance="simple"}
 
@@ -30,15 +30,13 @@ We only have made some adjustments to it.
 **Numerus closus**: 80 students
 
 
-
-
-1. Statistical tests (x1)
+1. Statistical tests (x1.5)
 
     - Two-populations comparison
     - Power analysis
     - Multiple Testing
 
-2. Regression models (x2)
+2. Regression models (x1.5)
 
     - Linear and Non Linear Regression models
     - Nonlinear regression models
@@ -48,7 +46,6 @@ We only have made some adjustments to it.
 
     - Linear mixed effects models
     - Nonlinear mixed effects models
-    - EM algorithm
 
 4. Mixture models and model-based clustering (x2)
 

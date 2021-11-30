@@ -1,7 +1,7 @@
 ---
-title: "Polynomial regression model: exercices"
+title: "Polynomial Regression"
+subtitle: 'Exercices'
 ---
-
 
 ## Preliminary
 

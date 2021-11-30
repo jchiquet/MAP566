@@ -1,5 +1,6 @@
 ---
 title: "Linear Mixed Effects Models"
+subtitle: "Lecture Notes"
 ---
 
 ## Preliminary {.unnumbered}

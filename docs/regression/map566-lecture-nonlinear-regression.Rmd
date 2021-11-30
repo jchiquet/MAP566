@@ -1,5 +1,6 @@
 ---
-title: "Nonlinear regression"
+title: "Nonlinear Regression"
+subtitle: "Lecture Notes"
 ---
 
 ## Preliminary {.unnumbered}

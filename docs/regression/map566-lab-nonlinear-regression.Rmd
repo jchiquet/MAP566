@@ -1,5 +1,6 @@
 ---
-title: 'Nonlinear regression: exercices'
+title: 'Nonlinear Regression'
+subtitle: 'Exercices'
 ---
 
 ## Preliminary {.unnumbered}

@@ -1,5 +1,6 @@
 ---
-title: "Mixture models: exercices"
+title: "Mixture Models"
+subtitle: "Exercices"
 ---
 
 ## Preliminary

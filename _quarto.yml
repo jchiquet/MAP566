@@ -51,7 +51,7 @@ site:
           contents:
             - docs/tests/map566-lecture-single.Rmd
             - docs/tests/map566-lecture-multiple.Rmd
-        - section: "Labs"
+        - section: "Exercices"
           contents:
             - docs/tests/map566-lab-tests.Rmd
 
@@ -116,4 +116,4 @@ site:
   footer:
     left: "Last update: November 2021"
 
-bibliography: biblio_MAP566.bib
+bibliography: biblio_map566.bib

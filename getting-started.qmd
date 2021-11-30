@@ -12,20 +12,27 @@ knitr::opts_chunk$set(echo = TRUE)
 
 - RStudio is a graphical integrated development environment (IDE)
 
-### Installing R
+### Installing R {.unnumbered}
 
 [Go to the CRAN webpage](https://cran.r-project.org/), select your OS and follow the instructions.
 
-### Installing RStudio Desktop
+### Installing RStudio Desktop  {.unnumbered}
 
 [Go to the download page](https://rstudio.com/products/rstudio/download/#download). Select, download and install the file corresponding to your OS.
 
-### Installing R packages
+### Installing R packages  {.unnumbered}
 
 Launch Rstudio and execute the following commands in the console (at least these R packages will be needed during MAP566)
 
 ```{r, eval = FALSE}
 install.packages("tidyverse")
+install.packages("knitr")
+install.packages("lme4")
+install.packages("lattice")
+install.packages("nlme")
+install.packages("ggfortify")
+install.packages("gridextra")
+install.packages("saemix")
 ```
 
 - **On Windows**

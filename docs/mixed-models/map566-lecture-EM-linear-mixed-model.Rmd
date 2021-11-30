@@ -1,5 +1,6 @@
 ---
 title: "An EM Algorithm for Linear Mixed Effects Models"
+subtitle: "Lecture Notes"
 ---
 
 ## The model
