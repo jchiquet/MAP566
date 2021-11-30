@@ -126,7 +126,7 @@ all_comparisons %>% rmarkdown::paged_table()
 Let us plot the ordered p-values:
 
 ```{r, message=FALSE, warning=FALSE, fig.height=4, fig.width=10}
-#| code-fold:true
+#| code-fold: true
 all_comparisons %>% 
   ggplot() + geom_point(aes(x = 1:18, color = regime, y = p.value, shape = gender), size=4) + 
   scale_y_log10() + xlab("regime") + ylab("p-value") + scale_color_viridis_d() + theme_bw()
