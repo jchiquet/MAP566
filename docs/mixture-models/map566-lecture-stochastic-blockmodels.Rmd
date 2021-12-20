@@ -1,0 +1,384 @@
+---
+title: "Graph clustering"
+subtitle: "Lecture Notes"
+---
+
+## Preliminary {.unnumbered}
+
+Functions from `R`-base and stats (preloaded) are required plus packages from the **tidyverse** for data representation and manipulation. The package **igraph** is a great library for network data manipulation (interface exists in `Python`)
+
+We will also use the package **mixtools**, which implements EM for simple mixture models to check our own implementation.
+
+:::{.hidden}
+$$
+\newcommand{\Rset}{\mathbb{R}}
+\newcommand{\Rbb}{\mathbb{R}}
+\newcommand{\Nset}{\mathbb{N}}
+\newcommand{\ud}{\mathrm{d}}
+\newcommand{\var}{\mathbb{V}}
+\newcommand{\cov}{\mathrm{cov}}
+\newcommand{\cor}{\mathrm{cor}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Beta}{B}
+\newcommand{\Nbb}{\mathbb{N}}
+
+\newcommand{\projorth}[2]{\text{proj}^{\bot}_{#2}(#1)}
+\newcommand{\proj}[2]{\text{proj}_{#2}(#1)}
+\newcommand{\argmax}{\mathop{\mathrm{arg\ max}}}
+\newcommand{\argmin}{\mathop{\mathrm{arg\ min}}}
+\newcommand{\minimize}{\mathop{\mathrm{minimize}}}
+\newcommand{\maximize}{\mathop{\mathrm{maximize}}}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\distance}{\text{dist}}
+% definitions related to 
+\newcommand{\norm}[2][]{\left|\left|#2\right|\right|_{#1}}
+\newcommand{\group}[1][k]{{\mathcal G}_{#1}}
+\newcommand{\positive}{{\mathcal P}}
+\newcommand{\negative}{{\mathcal N}}
+\newcommand{\zero}{{\mathcal Z}}
+%\renewcommand{\active}[1][k]{{\mathcal A}_{#1}}
+\newcommand{\1}{\mathbf{1}}
+
+\newcommand{\tr}{\mathrm{tr}}
+\newcommand{\trace}[1]{\mathrm{trace}{\left(#1\right)}}
+\newcommand{\vect}{\mathrm{vec}}
+\newcommand{\sign}{\mathrm{sign}}
+\newcommand{\err}{\mathrm{err}}
+\newcommand{\weights}{\mathbf{w}}
+\newcommand{\supp}{\mathcal{A}}
+\newcommand{\prob}{\mathbb{P}}
+\renewcommand{\P}{\mathbb{P}}
+
+%definitions related to convergences
+\newcommand{\inprob}{\overset{P}{\longrightarrow}}
+\newcommand{\inlaw}{\overset{D}{\longrightarrow}}
+
+\newcommand{\C}{\texttt}
+\newcommand{\R}{\C{R}}
+\newcommand{\easy}{\mbox{\large\fontencoding{U}\fontfamily{wasy}\selectfont\char44}}
+\newcommand{\medium}{\mbox{\large\fontencoding{U}\fontfamily{wasy}\selectfont\char47}}
+\newcommand{\hard}{\raisebox{2pt}{\footnotesize\fontencoding{U}\fontfamily{futs}\selectfont\char77}}
+
+\newcommand{\Easy}{\mbox{\Huge\fontencoding{U}\fontfamily{wasy}\selectfont\char44}}
+\newcommand{\Medium}{\mbox{\Huge\fontencoding{U}\fontfamily{wasy}\selectfont\char47}}
+\newcommand{\Hard}{\raisebox{3pt}{\huge\fontencoding{U}\fontfamily{futs}\selectfont\char77}}
+
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\green}[1]{\textcolor{green!50!black}{#1}}
+
+\newcommand\indep{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+%-------------------------------------------------------------------------%
+% Definitions
+%-------------------------------------------------------------------------%
+\def\Argmin{\mathop{\mbox{\rm argmin}}}
+\def\Argmax{\mathop{\mbox{\rm argmax}}}
+
+\newcommand{\hatbeta}{\hat{\beta}}
+\newcommand{\hatbbeta}{\,\hat{\!\bbeta}}
+\newcommand{\hatbetalasso}{\,\hat{\!\beta}^{\mathrm{lasso}}}
+\newcommand{\hatbetacoop}{\,\hat{\!\beta}^{\mathrm{coop}}}
+\newcommand{\hatbetagroup}{\,\hat{\!\beta}^{\mathrm{group}}}
+\newcommand{\hatbetaspgroup}{\,\hat{\!\beta}^{\mathrm{spgroup}}}
+\newcommand{\hatbetaridge}{\,\hat{\!\beta}^{\mathrm{ridge}}}
+\newcommand{\hatbetaols}{\,\hat{\!\beta}^{\mathrm{ols}}}
+\newcommand{\hatbbetacoop}{\,\hat{\!\bbeta}^{\mathrm{coop}}}
+\newcommand{\hatbbetagroup}{\,\hat{\!\bbeta}^{\mathrm{group}}}
+\newcommand{\hatbbetaridge}{\,\hat{\!\bbeta}^{\mathrm{ridge}}}
+\newcommand{\hatbbetalasso}{\,\hat{\!\bbeta}^{\mathrm{lasso}}}
+\newcommand{\hatbbetaols}{\,\hat{\!\bbeta}^{\mathrm{ols}}}
+\newcommand{\hatbbetamv}{\,\hat{\!\bbeta}^{\mathrm{mv}}}
+\newcommand{\tildebbeta}{\,\tilde{\!\bbeta}}
+\newcommand{\bbetaridge}{\bbeta^{\mathrm{ridge}}}
+\newcommand{\bbetacoop}{\bbeta^{\mathrm{coop}}}
+\newcommand{\bbetagroup}{\bbeta^{\mathrm{group}}}
+\newcommand{\bbetaols}{\bbeta^{\mathrm{ols}}}
+
+\newcommand{\hattheta}{\hat{\theta}}
+\newcommand{\hatbtheta}{\,\hat{\!\btheta}}
+\newcommand{\hatthetalasso}{\,\hat{\!\theta}^{\mathrm{lasso}}}
+\newcommand{\hatthetacoop}{\,\hat{\!\theta}^{\mathrm{coop}}}
+\newcommand{\hatthetagroup}{\,\hat{\!\theta}^{\mathrm{group}}}
+\newcommand{\hatthetaspgroup}{\,\hat{\!\theta}^{\mathrm{spgroup}}}
+\newcommand{\hatthetaridge}{\,\hat{\!\theta}^{\mathrm{ridge}}}
+\newcommand{\hatthetaols}{\,\hat{\!\theta}^{\mathrm{ols}}}
+\newcommand{\hatbthetacoop}{\,\hat{\!\btheta}^{\mathrm{coop}}}
+\newcommand{\hatbthetagroup}{\,\hat{\!\btheta}^{\mathrm{group}}}
+\newcommand{\hatbthetaridge}{\,\hat{\!\btheta}^{\mathrm{ridge}}}
+\newcommand{\hatbthetalasso}{\,\hat{\!\btheta}^{\mathrm{lasso}}}
+\newcommand{\hatbthetaols}{\,\hat{\!\btheta}^{\mathrm{ols}}}
+\newcommand{\hatbthetamv}{\,\hat{\!\btheta}^{\mathrm{mv}}}
+\newcommand{\tildebtheta}{\,\tilde{\!\btheta}}
+\newcommand{\bthetaridge}{\btheta^{\mathrm{ridge}}}
+\newcommand{\bthetacoop}{\btheta^{\mathrm{coop}}}
+\newcommand{\bthetagroup}{\btheta^{\mathrm{group}}}
+\newcommand{\bthetaols}{\btheta^{\mathrm{ols}}}
+
+\newcommand{\bTheta}{\boldsymbol\Theta}
+
+\newcommand{\transpose}[1]{\matr{#1}^\trans}
+\newcommand{\crossprod}[2]{\transpose{#1} \matr{#2}}
+\newcommand{\tcrossprod}[2]{\matr{#1} \transpose{#2}}
+
+\newcommand{\bbeta}{\boldsymbol\beta}
+\newcommand{\bPsi}{\boldsymbol\Psi}
+\newcommand{\ba}{\mathbf{a}}
+\newcommand{\bb}{\mathbf{b}}
+\newcommand{\bc}{\mathbf{c}}
+
+\newcommand{\bmu}{\boldsymbol{\mu}}
+\newcommand{\bSigma}{\boldsymbol{\Sigma}}
+\newcommand{\bOmega}{\boldsymbol{\Omega}}
+\newcommand{\invcov}{\bOmega}
+\newcommand{\bsigma}{\boldsymbol{\sigma}}
+\newcommand{\bomega}{\boldsymbol{\omega}}
+
+\newcommand{\tP}{\tilde{p}}
+\newcommand{\diag}{\text{diag}}
+
+\newcommand{\I}{\mathbf{1}}
+\newcommand{\clG}{\mathcal{G}}
+\newcommand{\clV}{\mathcal{V}}
+\newcommand{\clE}{\mathcal{E}}
+\newcommand{\clJ}{\mathcal{J}}
+\newcommand{\clN}{\mathcal{N}}
+\newcommand{\clP}{\mathcal{P}}
+\newcommand{\clA}{\mathcal{A}}
+\newcommand{\clD}{\mathcal{D}}
+\newcommand{\clH}{\mathcal{H}}
+\newcommand{\clO}{\mathcal{O}}
+\newcommand{\clS}{\mathcal{S}}
+\newcommand{W}{\mathbf{W}}
+\newcommand{\bM}{\mathbf{M}}
+\newcommand{\bR}{\mathbf{R}}
+\newcommand{\bm}{\mathbf{m}}
+\newcommand{\bs}{\mathbf{s}}
+\newcommand{\bS}{\mathbf{S}}
+\newcommand{\bO}{\mathbf{O}}
+\newcommand{\bA}{\mathbf{A}}
+\newcommand{\bE}{\mathbf{E}}
+\newcommand{\bI}{\mathbf{I}}
+\newcommand{\bP}{\mathbf{P}}
+\newcommand{\bL}{\mathbf{L}}
+\newcommand{\be}{\mathbf{e}}
+\newcommand{\bg}{\mathbf{g}}
+\newcommand{\bv}{\mathbf{v}}
+\newcommand{\bu}{\mathbf{u}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{W}{\mathbf{y}}
+\newcommand{W}{\mathbf{Y}}
+\newcommand{\bz}{\mathbf{z}}
+\newcommand{\bX}{\mathbf{X}}
+\newcommand{\bzr}{\mathbf{0}}
+\newcommand{\bH}{\mathbf{H}}
+\newcommand{\bC}{\mathbf{C}}
+\newcommand{\bB}{\mathbf{B}}
+\newcommand{\bT}{\mathbf{T}}
+\newcommand{\bV}{\mathbf{V}}
+\newcommand{\bD}{\mathbf{D}}
+\newcommand{\bU}{\mathbf{U}}
+\newcommand{\bZ}{\mathbf{Z}}
+\newcommand{\bzero}{\boldsymbol 0}
+\newcommand{\balpha}{\boldsymbol\alpha}
+\newcommand{\bkappa}{\boldsymbol\kappa}
+\newcommand{\bvarphi}{\boldsymbol\varphi}
+\newcommand{\btheta}{\boldsymbol\theta}
+\newcommand{\bgamma}{{\boldsymbol\gamma}}
+\newcommand{\bepsilon}{\boldsymbol\epsilon}
+\newcommand{\bvarepsilon}{\boldsymbol\varepsilon}
+\newcommand{\blambda}{\boldsymbol\lambda}
+\newcommand{\rsa}{\emphase{\mathversion{bold}{$\rightsquigarrow$}~}}
+$$
+:::
+
+```{r tests-config, message = FALSE}
+#| code-fold: false
+library(tidyverse)
+library(igraph)
+library(missSBM)
+library(sbm)
+theme_set(theme_bw())
+```
+
+## Introduction
+
+### Network data and binary graphs: minimal notation
+
+A **network** is a collection of interacting entities. A **graph** is the mathematical representation of a network.
+
+In what follow, a graph $\clG=(\clV,\clE)$ is a mathematical structure consisting of
+
+  - a set $\clV=\set{1,\dots,n}$ of vertices or **nodes**
+  - a set $\clE=\set{e_1,\dots,e_p:e_k=(i_k,j_k)\in (\clV\times\clV)}$ of **edges**
+  - the number of vertices $|\clV|$ is called the **order**
+  - the number of edges $|\clE|$ is called the **size**
+  
+
+The connectivity of a binary undirected (symmetric) graph $\clG = (\clV,\clE)$ is captured by the $|\clV|\times |\clV|$ matrix $W$, called the adjacency matrix
+$$
+  (W)_{ij} = \begin{cases}
+  1  & \text{ if } i \sim j,\\
+  0  & \text{otherwise}.
+\end{cases}
+$$
+For a valued of weighted graph, a similar definition would be
+
+$$
+  (W)_{ij} = \begin{cases}
+  w_{ij}  & \text{ if } i \sim j,\\
+  0  & \text{otherwise}.
+\end{cases}
+$$
+where $w_{ij}$ is the weight associated with edge $i\sim j$.
+
+### The French political Blogosphere
+
+The `frenchblog2007` data is a network dataset which consists of a single day snapshot of over 200 political blogs automatically extracted the 14 October 2006 and manually classified by the "Observatoire Présidentielle" project. It is part of the **missSBM** package. It is provided as an **igraph** object with 196 nodes. The vertex attribute "party" provides a classification of the nodes.
+
+```{r mixture-faitful-load}
+data("frenchblog2007")
+summary(frenchblog2007)
+igraph::V(frenchblog2007)$party %>% table() %>% as_tibble() %>% rmarkdown::paged_table()
+```
+
+A visual representation of the network data with nodes colored according to the political party each blog belongs to is achieved as follows:
+
+```{r frenchblog-igraph-plot}
+#| code-fold: TRUE
+plot.igraph(frenchblog2007,
+  vertex.color = factor(V(frenchblog2007)$party),
+  vertex.label = NA
+ )
+```
+
+Another commonly used representation is via a matrix view, where the adjacency matrix is re-ordered column-wise and row-wise according to a predefined classification. In the `frenchblog2007` data, nodes are originally reordered according to their party:
+
+```{r frenchblog-matrix-plot}
+#| code-fold: TRUE
+frenchblog2007 %>% as_adj(sparse = FALSE) %>% plotMyMatrix()
+```
+
+:::{.callout-warning}
+In this example, one can see that the pattern of connections between the nodes is highly related to the blog classification (the political party). However, just like with any kind of clustering, this is note always the case: the data may support a natural grouping of the node which is not necessarily related a predefined classification.
+:::
+
+:::{.callout-note}
+For convenience, in the following,
+
+  - we remove the isolated nodes or node with degree equal to one[^1]
+  - we denote by $Y$ the adjacency matrix encoding the network
+  - we extract the political party of the nodes as a categorical variable 
+
+** Our objective is now to automatically find a partitioning of the node, i.e. a clustering, that groups together nodes with similar connectivity pattern. This is known as graph clustering.**
+
+:::
+
+[^1]: A "nice" side-effect is that the 'far-right' blogs have removed from the study. Amazing for data collected only a decade ago...
+
+```{r export data}
+blog <- frenchblog2007 %>%  delete_vertices(which(degree(frenchblog2007) <= 1))
+party <- V(blog)$party %>% as_factor()
+W     <- blog %>% as_adjacency_matrix()
+n_nodes <- gorder(blog)
+n_edges <- gsize(blog)
+party %>% table() %>% as_tibble() %>% rmarkdown::paged_table()
+```
+
+## Spectral Clustering
+
+We start by a popular algorithm which can be seen as the equivalent of k-means algorithm for clustering network data: **the spectral clustering** (see @von2007tutorial). This algorithm is based on the spectral properties of graph, and in particular of the Laplacian matrix, which we briefly recap here. A detail introduction is made by @chung1997spectral .
+
+Here, we motivate the introduction of the Laplacian matrix via the graph-cut problem:
+
+### Graph-cut
+
+First, we need to measure the importance or quantity of information associated to a node or a subset of nodes in the graph. The degree is a natural candidate: we define
+
+$$
+\begin{aligned}
+\mathrm{degree}_i & = d_i = \sum_{j} W_{ij}, \\
+\mathrm{Vol}(\matcal{S}) & = \sum_{i\in\mathcal{S}} d_i , \\
+$$
+where the volume of a subset $\mathcal{S}$  of nodes is the cumulated degrees[^2].
+
+[^2]: Note that this definition works for weighted graphs.
+
+For instance, in the French blog data set, the volume associated to each party would be
+
+```{r volume_party}
+degree(blog) %>% split(party) %>% map_dbl(sum) %>% 
+  as_tibble() %>% rmarkdown::paged_table()
+```
+
+
+Second, let us define the cut between two set of nodes that form a partition in the graph: 
+
+$$
+\mathrm{cut}(\mathcal{V}_A, \mathcal{V}_B) = \sum_{i\in\clV_A, j\in\clV_B} Y_{ij}, \qquad \clV_A \cup \clV_B = \clV
+$$
+that is, the cut is the sum of the weights of the edge set that connect the two components $clV_A$ and $\clV_B$. For instance, in this simple binary graph, the graph cut between $\clV_A= \{1,2,3,4,10\}$ and $\clV_B= \{5,6,7,8,9\}$ is 2.
+
+```{r graph-cut-plot, echo = FALSE}
+g <- graph.formula(1-2, 1-3, 1-4,1-10, 2-3, 2-4, 3-4, 3-10, 10-2, 10-4, 5-6, 5-7, 5-8, 5-9, 6-7, 6-8, 6-9, 7-8, 7-9, 8-9, 2-6, 3-7)
+plot(g)
+```
+
+
+:::{.callout-note}
+## Idea
+
+A natural criterion to cluster a graph into two homogeneous groups of node is to find the two sets (the partition) that minimizes the cut. 
+
+Based on this principle, the normalized cut  consider the connectivity between group relative to the volume of each groups:
+
+$$
+\begin{aligned}
+\argmin_{\{\clV_A, \clV_B\}} \mathrm{cut}^{N}(\clV_A, \clV_B),  
+\quad \mathrm{cut}^{N}(\clV_A, \clV_B) & = \frac{\mathrm{cut}(\clV_A, \clV_B)}{\mathrm{Vol}(\clV_A)} + \frac{\mathrm{cut}(\clV_A, \clV_B)}{\mathrm{Vol}(\clV_B)} \\
+ & =  \mathrm{cut}(\clV_A, \clV_B)\frac{\mathrm{Vol}(\clV_A) + \mathrm{Vol}(\clV_B)}{\mathrm{Vol}(\clV_A)\mathrm{Vol}(\clV_B)} \\
+\end{aligned}
+$$
+
+:::
+
+The above problem can be formalized as follows: a partition into two clusters of the graph can be defined by a vector of $\{-1, 1\}^n$. Indeed, 
+
+$$
+x = (x_i)_{i=1,\dots,n} = 
+\begin{cases}
+-1 & \mathrm{if} \quad  i\in \clV_A, \\
+ 1 & \mathrm{if} \quad  i\in \clV_B. \\
+\end{cases}
+$$
+Then, letting $D$ the diagonal matrix of degrees, we can show that
+
+$$
+\argmin_{\{\clV_A, \clV_B\}}  \mathrm{cut}^{N}(\clV_A, \clV_B) \Leftrightarrow \argmin_{x\in\{-1, 1\}^n} \frac{x^\top (D - W) x}{x^\top D x}, \quad \text{s.c.} x^\top D \mathbf{1}_n = 0, 
+$$
+where the constraint imposes only discrete values in $x$. This problem is combinatorial (and NP-hard). However, if we relax to $x\in[-1,1]^n$, it turns to a simple eigenvalue problem
+
+$$
+\argmin_{x\in[-1, 1]^n} x^\top (D - W) x, \quad \text{s.c.} \quad x^\top D x = 1 \Leftrightarrow (D - W) x = \lambda D x .
+$$
+
+
+  - The matrix $L = D - W$ is called the Laplacian matrix of the graph $\clG$
+  - $\mathbf{1}_n$ is in the kernel of $L$ since $L \mathbf{1}_n = 0$
+  - The first normalized eigen vector with eigen value $\lambda> 0$ is solution to the relaxed graph cut problem
+
+### Fiedler vector
+
+
+### Spectral clustering algorithms
+
+
+## Model-based clustering for graph data
+
+### The Erdös-Renyi model
+
+### The Stochastic Block Model
+
+## Variational Algorithm for binary SBM
+
+## References {.unnumbered}
