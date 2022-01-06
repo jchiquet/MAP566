@@ -136,10 +136,10 @@ This value is called the *p-value*:
 $$\begin{aligned}
 p_{\rm value} & = \max\mathbb{P}_{H_0}(T_{\rm stat} > T_{\rm stat}^{\rm obs}) \\
 & = \mathbb{P}(T_{\rm stat} > T_{\rm stat}^{\rm obs}  \ | \ \mu=\mu_0) \\
-&= 1 - \mathbb{P}{t_{n-1} \leq T_{\rm stat}^{\rm obs}}
+&= 1 - \mathbb{P}(t_{n-1} \leq T_{\rm stat}^{\rm obs})
 \end{aligned}$$
 
-Now, $T_{\rm stat} > qt_{1-\alpha,n-1}$ under $H_0$ if and only if $\mathbb{P}{t_{n-1} \leq T_{\rm stat}^{\rm obs}} \geq 1-\alpha$.
+Now, $T_{\rm stat} > qt_{1-\alpha,n-1}$ under $H_0$ if and only if $\mathbb{P}(t_{n-1} \leq T_{\rm stat}^{\rm obs}) \geq 1-\alpha$.
 Then, the test is significant at the level $\alpha$ if and only if $p_{\rm value}\leq \alpha$.
 
 ```{r}
@@ -156,7 +156,7 @@ Here, we would reject $H_0$ for any significance level $\alpha \geq$ `r round(p1
 **Important:** The fact that the test is not significant at the level $\alpha$ does not allow us to conclude that $H_0$ is true, i.e. that $\mu$ is less than or equal to 500. We can only say that the data does not allow us to conclude that $\mu>500$. 
 
 
-Imagine now that we want to test if $\mu \geq 515$ for instance. The alternative here is $H_1: \ ``\mu < 515$.
+Imagine now that we want to test if $\mu \geq 515$ for instance. The alternative here is $H_1: \ ``\mu < 515"$.
 
 ```{r}
 mu0 <- 515
@@ -198,7 +198,7 @@ The test also uses the statistic $T_{\rm stat} = \sqrt{n}(\bar{x}-\mu_0)/s$, but
 \mathbb{P}(\text{reject } H_0 \ | \ H_0 \ \text{true}) &= \mathbb{P}(|T_{\rm stat}| > qt_{1 -\frac{\alpha}{2},n-1} \ | \ \mu = \mu_0) \\
 & = \mathbb{P}(T_{\rm stat} < qt_{\frac{\alpha}{2},n-1} \ | \ \mu = \mu_0) +
  \mathbb{P}(T_{\rm stat} > qt_{1-\frac{\alpha}{2},n-1} \ | \ \mu = \mu_0)\\
-&= \mathbb{P}{t_{n-1} \leq qt_{\frac{\alpha}{2},n-1}} +  \mathbb{P}{t_{n-1} \geq qt_{1-\frac{\alpha}{2},n-1}} \\
+&= \mathbb{P}(t_{n-1} \leq qt_{\frac{\alpha}{2},n-1}) +  \mathbb{P}(t_{n-1} \geq qt_{1-\frac{\alpha}{2},n-1}) \\
  &= \frac{\alpha}{2} + \frac{\alpha}{2} \\
 & = \alpha
 \end{aligned} $$
@@ -208,8 +208,8 @@ The test also uses the statistic $T_{\rm stat} = \sqrt{n}(\bar{x}-\mu_0)/s$, but
  $$\begin{aligned}
 p_{\rm value} & = \mathbb{P}_{H_0}(|T_{\rm stat}| > |T_{\rm stat}^{\rm obs}|) \\
 & = \mathbb{P}_{H_0}(T_{\rm stat} < -|T_{\rm stat}^{\rm obs}|)  + \mathbb{P}_{H_0}(T_{\rm stat} > |T_{\rm stat}^{\rm obs}|)\\
-&= \mathbb{P}{t_{n-1} \leq -|T_{\rm stat}^{\rm obs}|} +  \mathbb{P}{t_{n-1} \geq |T_{\rm stat}^{\rm obs}|} \\
-&= 2 \,\mathbb{P}{t_{n-1} \leq -|T_{\rm stat}^{\rm obs}|}
+&= \mathbb{P}(t_{n-1} \leq -|T_{\rm stat}^{\rm obs}|) +  \mathbb{P}(t_{n-1} \geq |T_{\rm stat}^{\rm obs}|) \\
+&= 2 \,\mathbb{P}(t_{n-1} \leq -|T_{\rm stat}^{\rm obs}|)
 \end{aligned}$$
  
  
@@ -313,7 +313,7 @@ mean(R)
 
 The decision rule to reject or not the null hypothesis can be derived from the confidence interval. Indeed, the confidence interval plays the role of an acceptance region:  we reject $H_0$ if $\mu_0$ does not belong to ${\rm CI}_{1-\alpha}$.
 
-In the case of a one sided test, the output of `t.test` called confidence interval is indeed an acceptance region for $\mu$, but not a ``confidence interval'' (we cannot seriously consider that $\mu$ can take any value above 500 for instance \ldots)
+In the case of a one sided test, the output of `t.test` called confidence interval is indeed an acceptance region for $\mu$, but not a "confidence interval" (we cannot seriously consider that $\mu$ can take any value above 500 for instance \ldots)
 
 ```{r}
 rbind(
@@ -328,6 +328,7 @@ c(-Inf, x_mean + x_sd/sqrt(n)*qt(1-alpha,df)))
 ### What should we test?
 
 Let us now compare the weights of the male and female rats.
+
 ```{r, fig.height=5, fig.width=10}
 rat_weight %>% 
   ggplot() + aes(x = gender, y = weight) +
@@ -385,7 +386,7 @@ Under the null hypothesis, $T_{\rm stat}$ follows a $t$-distribution with $n_x+n
 
 $$\begin{aligned}
 p_{\rm value} & = \mathbb{P}_{H_0}(|T_{\rm stat}| > |T_{\rm stat}^{\rm obs}|) \\
-&= \mathbb{P}{t_{n_x+n_y-2} \leq -T_{\rm stat}^{\rm obs}} + 1 - \mathbb{P}{t_{n_x+n_y-2} \leq T_{\rm stat}^{\rm obs}}
+&= \mathbb{P}(t_{n_x+n_y-2} \leq -T_{\rm stat}^{\rm obs}) + 1 - \mathbb{P}(t_{n_x+n_y-2} \leq T_{\rm stat}^{\rm obs})
 \end{aligned}$$
 
 ```{r}
@@ -506,11 +507,11 @@ c(Wx, Wy)
 ```
 
 For a two sided tests and assuming that $W_x^{\rm obs}>W_y^{\rm obs}$, the $p$-value is 
-$$ p_{\rm value} =  \mathbb{P}{W_y \leq W_y^{\rm obs}} + \mathbb{P}{W_x \geq W_x^{\rm obs}}$$
+$$ p_{\rm value} =  \mathbb{P}(W_y \leq W_y^{\rm obs}) + \mathbb{P}(W_x \geq W_x^{\rm obs})$$
 The distribution of $W_x$ and $W_y$ are tabulated and this $p$-value can then be computed
 
 ```{r}
-pwilcox(Wy,ny,nx)+ 1 - pwilcox(Wx,nx,ny)
+pwilcox(Wy,ny,nx) + 1 - pwilcox(Wx,nx,ny)
 ```
 
 
@@ -570,7 +571,7 @@ First of all it is important to emphasis that statistics is a tool for supportin
 A $p$-value below the sacrosanct 0.05 threshold does not mean that GMOs have some negative impacts on human health, or that a drug is better than another one. On the other hand, a $p$-value above 0.05 does not mean that GMOs are safe or that a drug has no effect. 
 
 
-The American Statistical Association (ASA) has released in @american2016statement a ["Statement on Statistical Significance
+The American Statistical Association (ASA) has released a ["Statement on Statistical Significance
 and P-Values"](http://amstat.tandfonline.com/doi/abs/10.1080/00031305.2016.1154108) with six principles underlying the proper use and interpretation of the p-value. 
 
 "The p-value was never intended to be a substitute for scientific reasoning," said Ron
@@ -585,7 +586,7 @@ never seen in print. It also leads to practices called by such names as 'p-hacki
 dredging' that emphasize the search for small p-values over other statistical and scientific
 reasoning."
 
-The statement's six principles, many of which address misconceptions and misuse of the pvalue,
+The statement's six principles, many of which address misconceptions and misuse of the p-value,
 are the following:
 
    1. P-values can indicate how incompatible the data are with a specified statistical model.
@@ -646,7 +647,7 @@ The power of the test is the probability to reject the null hypothesis when it i
 
 $$ \begin{aligned}
 \eta(\delta) &= 1 - \beta(\delta) \\
-&= \mathbb{P}{\text{reject } H_0 \ | \ \mu_x-\mu_y=\delta } 
+&= \mathbb{P}(\text{reject } H_0 \ | \ \mu_x-\mu_y=\delta )
 \end{aligned} $$
 
 Remember that, for a two sided test,  we reject the null hypothesis when  $|T_{\rm stat}| > qt_{1-\alpha/2, \mathrm{df}}$, where $\mathrm{df}$ is the appropriate degree of freedom.
@@ -655,10 +656,10 @@ On the other hand, ${(\bar{x} - \bar{y} - \delta)}/{s_{xy}}$, where $s_{xy} = \s
 Thus,
 
 $$ \begin{aligned}
-\eta(\delta) &= 1 - \mathbb{P}(qt_{\frac{\alpha}{2},\mathrm{df}} < T_{\rm stat} < qt_{1 -\frac{\alpha}{2},\mathrm{df}} \ | \ \mu_x-\mu_y=\delta) \\
-& = 1- \mathbb{P}(qt_{\frac{\alpha}{2},\mathrm{df}} < \frac{\bar{x} - \bar{y}}{s_{xy}} < qt_{1-\frac{\alpha}{2},\mathrm{df}} \ | \ \mu_x-\mu_y=\delta) \\
-&= 1- \mathbb{P}(qt_{\frac{\alpha}{2},\mathrm{df}} - \frac{\delta}{s_{xy}} < \frac{\bar{x} - \bar{y} - \delta}{s_{xy}} < qt_{1-\frac{\alpha}{2},\mathrm{df}} - \frac{\delta}{s_{xy}} \ | \ \mu_x-\mu_y=\delta) \\
-&= 1 - Ft_{\mathrm{df}}(qt_{1-\frac{\alpha}{2},\mathrm{df}} - \frac{\delta}{s_{xy}}) + Ft_{\mathrm{df}}(qt_{\frac{\alpha}{2},\mathrm{df}} - \frac{\delta}{s_{xy}})
+\eta(\delta) &= 1 - \mathbb{P}\left(qt_{\frac{\alpha}{2},\mathrm{df}} < T_{\rm stat} < qt_{1 -\frac{\alpha}{2},\mathrm{df}} \ | \ \mu_x-\mu_y=\delta\right) \\
+& = 1- \mathbb{P}\left(qt_{\frac{\alpha}{2},\mathrm{df}} < \frac{\bar{x} - \bar{y}}{s_{xy}} < qt_{1-\frac{\alpha}{2},\mathrm{df}} \ | \ \mu_x-\mu_y=\delta\right) \\
+&= 1- \mathbb{P}\left(qt_{\frac{\alpha}{2},\mathrm{df}} - \frac{\delta}{s_{xy}} < \frac{\bar{x} - \bar{y} - \delta}{s_{xy}} < qt_{1-\frac{\alpha}{2},\mathrm{df}} - \frac{\delta}{s_{xy}} \ | \ \mu_x-\mu_y=\delta\right) \\
+&= 1 - Ft_{\mathrm{df}}\left(qt_{1-\frac{\alpha}{2},\mathrm{df}} - \frac{\delta}{s_{xy}}\right) + Ft_{\mathrm{df}}\left(qt_{\frac{\alpha}{2},\mathrm{df}} - \frac{\delta}{s_{xy}}\right)
 \end{aligned} $$
 
 
@@ -682,7 +683,7 @@ pwr.t.test(n = nx_new, d = delta_mu/x_sd, type = "two.sample",
            alternative="two.sided", sig.level = alpha)
 ```
 
-Let us perform a Monte Carlo simulation, to check this result and better understand what it means. Imagine that the ``true'' difference in weight is $\delta=10$g. Then, if could repeat the same experiment a (very) large number of times, we would reject the null hypothesis in $55\%$ of cases.
+Let us perform a Monte Carlo simulation, to check this result and better understand what it means. Imagine that the "true" difference in weight is $\delta=10$g. Then, if could repeat the same experiment a (very) large number of times, we would reject the null hypothesis in $55\%$ of cases.
 
 ```{r}
 n_replicate <- 1e5
@@ -722,6 +723,4 @@ pwr.t.test(power=0.8, d=delta_mu/x_sd, n = 80, sig.level = NULL)
 ```
 
 If we accept a significance level of about 20%, then we will be less demanding for rejecting $H_0$: we will reject the null hypothesis when $|T_{\rm stat}|>qt_{0.9,158}$=  `r round(qt(0.9,158),2)`, instead of $|T_{\rm stat}|>qt_{0.975,158}$=  `r round(qt(0.975,158),2)`. This strategy will therefore increase the power, but also the type I error rate.
-
-## References
 
