@@ -5,6 +5,7 @@ local({
 })
 
 ## R packages not available on conda
-## install.packages('ggfortify')
-## install.packages('mixtools')
+install.packages('blockmodels')
+install.packages('sbm')
+install.packages('missSBM')
 

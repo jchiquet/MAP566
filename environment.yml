@@ -18,3 +18,4 @@ dependencies:
   - r-codetools
   - r-corrplot
   - r-ggfortify
+  - r-igraph
