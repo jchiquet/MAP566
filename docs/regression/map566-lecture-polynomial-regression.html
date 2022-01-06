@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.2.323">
+  <meta name="generator" content="quarto-0.2.438">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Polynomial Regression</title>
   <style>
@@ -102,6 +102,7 @@
   <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
   <script src="../../site_libs/quarto-search/fuse.min.js"></script>
   <script src="../../site_libs/quarto-search/quarto-search.js"></script>
+  <link href="../../docs/regression/map566-lecture-nonlinear-regression.html" rel="next">
   <script src="../../site_libs/quarto-html/quarto.js"></script>
   <script src="../../site_libs/quarto-html/popper.min.js"></script>
   <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -136,7 +137,7 @@
 <body class="docked">
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-light ">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
       <a class="navbar-brand" href="../../index.html">
     <img src="../../logo_X.jpg" alt="">
@@ -231,6 +232,9 @@
         <li>
     <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html">Mixture Models</a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-stochastic-blockmodels.html">Graph clustering</a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
@@ -271,12 +275,12 @@
       <ul class="list-unstyled sidebar-section depth1">
     <li class="">
         <div class="me-auto">
-            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#lectures-collapse" aria-expanded="true">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">
               <div class="me-auto sidebar-section-item">Lectures</div>
             <div><i class="bi bi-chevron-right ms-2"></i></div>
             </a>
         </div>
-      <div class="collapse  show" id="lectures-collapse">
+      <div class="collapse  show" id="quarto-sidebar-section-lectures">
         <ul class="list-unstyled sidebar-item-contents">
           <li class="sidebar-item">
   <a href="../../docs/regression/map566-lecture-polynomial-regression.html" class="active">Polynomial Regression</a>
@@ -291,12 +295,12 @@
       <ul class="list-unstyled sidebar-section depth1">
     <li class="">
         <div class="me-auto">
-            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#exercices-collapse" aria-expanded="true">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">
               <div class="me-auto sidebar-section-item">Exercices</div>
             <div><i class="bi bi-chevron-right ms-2"></i></div>
             </a>
         </div>
-      <div class="collapse  show" id="exercices-collapse">
+      <div class="collapse  show" id="quarto-sidebar-section-exercices">
         <ul class="list-unstyled sidebar-item-contents">
           <li class="sidebar-item">
   <a href="../../docs/regression/map566-lab-polynomial-regression.html" class="">Polynomial Regression</a>
@@ -311,12 +315,12 @@
       <ul class="list-unstyled sidebar-section depth1">
     <li class="">
         <div class="me-auto">
-            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#supplementarymaterial-collapse" aria-expanded="true">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-supplementary-material" aria-expanded="true">
               <div class="me-auto sidebar-section-item">Supplementary material</div>
             <div><i class="bi bi-chevron-right ms-2"></i></div>
             </a>
         </div>
-      <div class="collapse  show" id="supplementarymaterial-collapse">
+      <div class="collapse  show" id="quarto-sidebar-section-supplementary-material">
         <ul class="list-unstyled sidebar-item-contents">
           <li class="sidebar-item">
   <a href="../../docs/regression/map566-lecture-regression-background.html" class="">Linear Regression: Quick Recap</a>
@@ -599,12 +603,12 @@ See vignette('programming') for more help</code></pre>
 <p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>On one hand, it is reassuring to see that removing part of the data has a very little impact on the predictions. On the other hand, the predictive performance of the model remains limited because of the natural variability of the data. Indeed, this model built with the training sample only explains 68 % of the variabilility of the new test sample.</p>
+<p>On one hand, it is reassuring to see that removing part of the data has a very little impact on the predictions. On the other hand, the predictive performance of the model remains limited because of the natural variability of the data. Indeed, this model built with the training sample only explains 82 % of the variabilility of the new test sample.</p>
 <div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-28_c359c349ec38ec08fad4795178c51c21">
 <div class="sourceCode" id="cb21"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>R2_test <span class="ot">&lt;-</span> <span class="fu">cor</span>(pred_testing_set, cars_test<span class="sc">$</span>dist)<span class="sc">^</span><span class="dv">2</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>R2_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 0.6767296</code></pre>
+<pre><code>[1] 0.8247586</code></pre>
 </div>
 </div>
 <p>Let us see now how the model behaves with extreme values by defining as test sample the data points with the 5 smallest and the 5 largest speeds.</p>
@@ -836,7 +840,7 @@ f(x) =  c_1 x + c_2 x^2 + \ldots + c_d x^d
 6                                   81</code></pre>
 </div>
 </div>
-<p>Results obtained with both methods are absolutely identical ::: {.cell hash=“map566-lecture-polynomial-regression_cache/html/unnamed-chunk-56_0b1251dbf8d2cb08456e77e556d3edcb”}</p>
+<p>Results obtained with both methods are absolutely identical ::: {.cell hash=‘map566-lecture-polynomial-regression_cache/html/unnamed-chunk-56_0b1251dbf8d2cb08456e77e556d3edcb’}</p>
 <div class="sourceCode" id="cb42"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(lm2_poly)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>                         (Intercept) poly(speed, degree = 2, raw = TRUE)1 
@@ -1376,6 +1380,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../../docs/regression/map566-lecture-nonlinear-regression.html">
+        <span class="nav-page-text">Nonlinear Regression</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

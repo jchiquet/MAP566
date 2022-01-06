@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.2.323">
+  <meta name="generator" content="quarto-0.2.438">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Linear Mixed Effects Models</title>
   <style>
@@ -102,6 +102,7 @@
   <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
   <script src="../../site_libs/quarto-search/fuse.min.js"></script>
   <script src="../../site_libs/quarto-search/quarto-search.js"></script>
+  <link href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html" rel="next">
   <script src="../../site_libs/quarto-html/quarto.js"></script>
   <script src="../../site_libs/quarto-html/popper.min.js"></script>
   <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -136,7 +137,7 @@
 <body class="docked">
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-light ">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
       <a class="navbar-brand" href="../../index.html">
     <img src="../../logo_X.jpg" alt="">
@@ -231,6 +232,9 @@
         <li>
     <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html">Mixture Models</a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-stochastic-blockmodels.html">Graph clustering</a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
@@ -271,12 +275,12 @@
       <ul class="list-unstyled sidebar-section depth1">
     <li class="">
         <div class="me-auto">
-            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#lectures-collapse" aria-expanded="true">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">
               <div class="me-auto sidebar-section-item">Lectures</div>
             <div><i class="bi bi-chevron-right ms-2"></i></div>
             </a>
         </div>
-      <div class="collapse  show" id="lectures-collapse">
+      <div class="collapse  show" id="quarto-sidebar-section-lectures">
         <ul class="list-unstyled sidebar-item-contents">
           <li class="sidebar-item">
   <a href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html" class="active">Linear Mixed Effects Models</a>
@@ -291,12 +295,12 @@
       <ul class="list-unstyled sidebar-section depth1">
     <li class="">
         <div class="me-auto">
-            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#exercices-collapse" aria-expanded="true">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">
               <div class="me-auto sidebar-section-item">Exercices</div>
             <div><i class="bi bi-chevron-right ms-2"></i></div>
             </a>
         </div>
-      <div class="collapse  show" id="exercices-collapse">
+      <div class="collapse  show" id="quarto-sidebar-section-exercices">
         <ul class="list-unstyled sidebar-item-contents">
           <li class="sidebar-item">
   <a href="../../docs/mixed-models/map566-lab-linear-mixed-model.html" class="">Linear Mixed Models</a>
@@ -311,12 +315,12 @@
       <ul class="list-unstyled sidebar-section depth1">
     <li class="">
         <div class="me-auto">
-            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#supplementarymaterial-collapse" aria-expanded="true">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-supplementary-material" aria-expanded="true">
               <div class="me-auto sidebar-section-item">Supplementary material</div>
             <div><i class="bi bi-chevron-right ms-2"></i></div>
             </a>
         </div>
-      <div class="collapse  show" id="supplementarymaterial-collapse">
+      <div class="collapse  show" id="quarto-sidebar-section-supplementary-material">
         <ul class="list-unstyled sidebar-item-contents">
           <li class="sidebar-item">
   <a href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html" class="">An EM Algorithm for Linear Mixed Effects Models</a>
@@ -638,7 +642,7 @@ Multiple R-squared:  0.4227,    Adjusted R-squared:  0.4061
 F-statistic: 25.39 on 3 and 104 DF,  p-value: 2.108e-12</code></pre>
 </div>
 </div>
-<p>Both prametrizations give the same predictions ::: {.cell hash=“map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-30_dae6dc9717b47540960fe5ae49f2ebf7”}</p>
+<p>Both prametrizations give the same predictions ::: {.cell hash=‘map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-30_dae6dc9717b47540960fe5ae49f2ebf7’}</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(<span class="fu">head</span>(<span class="fu">predict</span>(lm4)), <span class="fu">head</span>(<span class="fu">predict</span>(lm4b)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>      [,1]     [,2]
@@ -1261,11 +1265,11 @@ age:SexFemale  0.3866637  0.6576257</code></pre>
 </div>
 <div class="cell-output-stdout">
 <pre><code>                   2.5 %     97.5 %
-.sig01         1.2121805  2.4084544
-.sigma         1.1438408  1.5869132
-(Intercept)   15.3720781 18.2727168
-age:SexMale    0.6281242  0.8743263
-age:SexFemale  0.3875697  0.6616452</code></pre>
+.sig01         1.2350936  2.3912126
+.sigma         1.1738542  1.6033519
+(Intercept)   15.2709123 18.3761578
+age:SexMale    0.6237347  0.8881911
+age:SexFemale  0.3780027  0.6737881</code></pre>
 </div>
 </div>
 <p>There is only one random effect in the final model. We can plot 95% prediction intervals on the random effects <span class="math inline">(\eta_i)</span>:</p>
@@ -1328,13 +1332,13 @@ age:SexFemale  0.3875697  0.6616452</code></pre>
 <div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-88_48bd8f15ea441720f5d982d200d4fd07">
 <div class="sourceCode" id="cb76"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>lme.rail <span class="ot">&lt;-</span> <span class="fu">lmer</span>(travel <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> Rail), <span class="at">data =</span> Rail)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The population intercept <span class="math inline">\mu</span> is estimated by the empirical mean of the 18 travel times ::: {.cell hash=“map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-90_3d4fb65bfab4061acb41db8c4fe34202”}</p>
+<p>The population intercept <span class="math inline">\mu</span> is estimated by the empirical mean of the 18 travel times ::: {.cell hash=‘map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-90_3d4fb65bfab4061acb41db8c4fe34202’}</p>
 <div class="sourceCode" id="cb77"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Rail<span class="sc">$</span>travel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>[1] 66.5</code></pre>
 </div>
 <p>:::</p>
-<p>The estimated individual predicted travel times <span class="math inline">(\hat{\mu}_i)</span> are ::: {.cell hash=“map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-92_6962e1a9a2b45a188560b5ef8169c9c4”}</p>
+<p>The estimated individual predicted travel times <span class="math inline">(\hat{\mu}_i)</span> are ::: {.cell hash=‘map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-92_6962e1a9a2b45a188560b5ef8169c9c4’}</p>
 <div class="sourceCode" id="cb79"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(lme.rail)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>$Rail
@@ -1627,6 +1631,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html">
+        <span class="nav-page-text">Nonlinear Mixed Effects Models</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

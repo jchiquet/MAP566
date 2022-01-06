@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.2.323">
+  <meta name="generator" content="quarto-0.2.438">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Nonlinear Mixed Effects Models</title>
   <style>
@@ -102,6 +102,8 @@
   <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
   <script src="../../site_libs/quarto-search/fuse.min.js"></script>
   <script src="../../site_libs/quarto-search/quarto-search.js"></script>
+  <link href="../../docs/mixed-models/map566-lab-linear-mixed-model.html" rel="next">
+  <link href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html" rel="prev">
   <script src="../../site_libs/quarto-html/quarto.js"></script>
   <script src="../../site_libs/quarto-html/popper.min.js"></script>
   <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -136,7 +138,7 @@
 <body class="docked">
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-light ">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
       <a class="navbar-brand" href="../../index.html">
     <img src="../../logo_X.jpg" alt="">
@@ -231,6 +233,9 @@
         <li>
     <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html">Mixture Models</a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-stochastic-blockmodels.html">Graph clustering</a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
@@ -271,12 +276,12 @@
       <ul class="list-unstyled sidebar-section depth1">
     <li class="">
         <div class="me-auto">
-            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#lectures-collapse" aria-expanded="true">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">
               <div class="me-auto sidebar-section-item">Lectures</div>
             <div><i class="bi bi-chevron-right ms-2"></i></div>
             </a>
         </div>
-      <div class="collapse  show" id="lectures-collapse">
+      <div class="collapse  show" id="quarto-sidebar-section-lectures">
         <ul class="list-unstyled sidebar-item-contents">
           <li class="sidebar-item">
   <a href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html" class="">Linear Mixed Effects Models</a>
@@ -291,12 +296,12 @@
       <ul class="list-unstyled sidebar-section depth1">
     <li class="">
         <div class="me-auto">
-            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#exercices-collapse" aria-expanded="true">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">
               <div class="me-auto sidebar-section-item">Exercices</div>
             <div><i class="bi bi-chevron-right ms-2"></i></div>
             </a>
         </div>
-      <div class="collapse  show" id="exercices-collapse">
+      <div class="collapse  show" id="quarto-sidebar-section-exercices">
         <ul class="list-unstyled sidebar-item-contents">
           <li class="sidebar-item">
   <a href="../../docs/mixed-models/map566-lab-linear-mixed-model.html" class="">Linear Mixed Models</a>
@@ -311,12 +316,12 @@
       <ul class="list-unstyled sidebar-section depth1">
     <li class="">
         <div class="me-auto">
-            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#supplementarymaterial-collapse" aria-expanded="true">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-supplementary-material" aria-expanded="true">
               <div class="me-auto sidebar-section-item">Supplementary material</div>
             <div><i class="bi bi-chevron-right ms-2"></i></div>
             </a>
         </div>
-      <div class="collapse  show" id="supplementarymaterial-collapse">
+      <div class="collapse  show" id="quarto-sidebar-section-supplementary-material">
         <ul class="list-unstyled sidebar-item-contents">
           <li class="sidebar-item">
   <a href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html" class="">An EM Algorithm for Linear Mixed Effects Models</a>
@@ -445,7 +450,7 @@
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  f</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>We can then use the <code>nls</code> function for fitting this (nonlinear) model to the data ::: {.cell hash=“map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-12_9af5155d2f94380c1ecbca3b54214b8d”}</p>
+<p>We can then use the <code>nls</code> function for fitting this (nonlinear) model to the data ::: {.cell hash=‘map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-12_9af5155d2f94380c1ecbca3b54214b8d’}</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>model_1 <span class="ot">&lt;-</span> <span class="fu">nls</span>(concentration <span class="sc">~</span> <span class="fu">f1</span>(psi, time), <span class="at">start =</span> <span class="fu">list</span>(<span class="at">psi=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>, <span class="at">V=</span><span class="dv">40</span>, <span class="at">ke=</span><span class="fl">0.1</span>)), <span class="at">data=</span>subject1)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(model_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
@@ -1176,8 +1181,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Linear Mixed Effects Models</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../../docs/mixed-models/map566-lab-linear-mixed-model.html">
+        <span class="nav-page-text">Linear Mixed Models</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

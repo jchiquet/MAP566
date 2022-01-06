@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.2.323">
+  <meta name="generator" content="quarto-0.2.438">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Statistical Tests</title>
   <style>
@@ -102,6 +102,7 @@
   <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
   <script src="../../site_libs/quarto-search/fuse.min.js"></script>
   <script src="../../site_libs/quarto-search/quarto-search.js"></script>
+  <link href="../../docs/tests/map566-lecture-multiple.html" rel="next">
   <script src="../../site_libs/quarto-html/quarto.js"></script>
   <script src="../../site_libs/quarto-html/popper.min.js"></script>
   <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -136,7 +137,7 @@
 <body class="docked">
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-light ">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
       <a class="navbar-brand" href="../../index.html">
     <img src="../../logo_X.jpg" alt="">
@@ -231,6 +232,9 @@
         <li>
     <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html">Mixture Models</a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-stochastic-blockmodels.html">Graph clustering</a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
@@ -271,12 +275,12 @@
       <ul class="list-unstyled sidebar-section depth1">
     <li class="">
         <div class="me-auto">
-            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#lectures-collapse" aria-expanded="true">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">
               <div class="me-auto sidebar-section-item">Lectures</div>
             <div><i class="bi bi-chevron-right ms-2"></i></div>
             </a>
         </div>
-      <div class="collapse  show" id="lectures-collapse">
+      <div class="collapse  show" id="quarto-sidebar-section-lectures">
         <ul class="list-unstyled sidebar-item-contents">
           <li class="sidebar-item">
   <a href="../../docs/tests/map566-lecture-single.html" class="active">Statistical Tests</a>
@@ -291,12 +295,12 @@
       <ul class="list-unstyled sidebar-section depth1">
     <li class="">
         <div class="me-auto">
-            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#exercices-collapse" aria-expanded="true">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">
               <div class="me-auto sidebar-section-item">Exercices</div>
             <div><i class="bi bi-chevron-right ms-2"></i></div>
             </a>
         </div>
-      <div class="collapse  show" id="exercices-collapse">
+      <div class="collapse  show" id="quarto-sidebar-section-exercices">
         <ul class="list-unstyled sidebar-item-contents">
           <li class="sidebar-item">
   <a href="../../docs/tests/map566-lab-tests.html" class="">Hypothesis Tesing</a>
@@ -334,7 +338,6 @@
 <li><a href="#the-limited-role-of-the-p-value" class="nav-link" data-scroll-target="#the-limited-role-of-the-p-value"> <span class="header-section-number">4</span> The limited role of the p-value</a>
 <ul class="collapse">
 <li><a href="#power-of-a-t-test" class="nav-link" data-scroll-target="#power-of-a-t-test"> <span class="header-section-number">4.1</span> Power of a t-test</a></li>
-<li><a href="#references" class="nav-link" data-scroll-target="#references"> <span class="header-section-number">4.2</span> References</a></li>
 </ul></li>
 </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
@@ -494,9 +497,9 @@ T_{\rm stat} = \frac{(\bar{x} - \mu_0)}{s/\sqrt{n}}  </span> which follows a <sp
 <p>We can equivalently compute the significance level for which the test becomes significant. This value is called the <em>p-value</em>: <span class="math display">\begin{aligned}
 p_{\rm value} &amp; = \max\mathbb{P}_{H_0}(T_{\rm stat} &gt; T_{\rm stat}^{\rm obs}) \\
 &amp; = \mathbb{P}(T_{\rm stat} &gt; T_{\rm stat}^{\rm obs}  \ | \ \mu=\mu_0) \\
-&amp;= 1 - \mathbb{P}{t_{n-1} \leq T_{\rm stat}^{\rm obs}}
+&amp;= 1 - \mathbb{P}(t_{n-1} \leq T_{\rm stat}^{\rm obs})
 \end{aligned}</span></p>
-<p>Now, <span class="math inline">T_{\rm stat} &gt; qt_{1-\alpha,n-1}</span> under <span class="math inline">H_0</span> if and only if <span class="math inline">\mathbb{P}{t_{n-1} \leq T_{\rm stat}^{\rm obs}} \geq 1-\alpha</span>. Then, the test is significant at the level <span class="math inline">\alpha</span> if and only if <span class="math inline">p_{\rm value}\leq \alpha</span>.</p>
+<p>Now, <span class="math inline">T_{\rm stat} &gt; qt_{1-\alpha,n-1}</span> under <span class="math inline">H_0</span> if and only if <span class="math inline">\mathbb{P}(t_{n-1} \leq T_{\rm stat}^{\rm obs}) \geq 1-\alpha</span>. Then, the test is significant at the level <span class="math inline">\alpha</span> if and only if <span class="math inline">p_{\rm value}\leq \alpha</span>.</p>
 <div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-14_f89087a78fa8c56941353b4b46d147c1">
 <div class="sourceCode" id="cb12"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>p.value <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(t.stat,df) </span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p.value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -509,7 +512,7 @@ p_{\rm value} &amp; = \max\mathbb{P}_{H_0}(T_{\rm stat} &gt; T_{\rm stat}^{\rm o
 </div>
 <p>Here, we would reject <span class="math inline">H_0</span> for any significance level <span class="math inline">\alpha \geq</span> 0.104.</p>
 <p><strong>Important:</strong> The fact that the test is not significant at the level <span class="math inline">\alpha</span> does not allow us to conclude that <span class="math inline">H_0</span> is true, i.e.&nbsp;that <span class="math inline">\mu</span> is less than or equal to 500. We can only say that the data does not allow us to conclude that <span class="math inline">\mu&gt;500</span>.</p>
-<p>Imagine now that we want to test if <span class="math inline">\mu \geq 515</span> for instance. The alternative here is <span class="math inline">H_1: \ ``\mu &lt; 515</span>.</p>
+<p>Imagine now that we want to test if <span class="math inline">\mu \geq 515</span> for instance. The alternative here is <span class="math inline">H_1: \ ``\mu &lt; 515"</span>.</p>
 <div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-18_196eb5a557d31341fc33dfcdae9824e3">
 <div class="sourceCode" id="cb14"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>mu0 <span class="ot">&lt;-</span> <span class="dv">515</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x, <span class="at">alternative =</span> <span class="st">"less"</span>, <span class="at">mu =</span> mu0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -568,15 +571,15 @@ mean of x
 \mathbb{P}(\text{reject } H_0 \ | \ H_0 \ \text{true}) &amp;= \mathbb{P}(|T_{\rm stat}| &gt; qt_{1 -\frac{\alpha}{2},n-1} \ | \ \mu = \mu_0) \\
 &amp; = \mathbb{P}(T_{\rm stat} &lt; qt_{\frac{\alpha}{2},n-1} \ | \ \mu = \mu_0) +
  \mathbb{P}(T_{\rm stat} &gt; qt_{1-\frac{\alpha}{2},n-1} \ | \ \mu = \mu_0)\\
-&amp;= \mathbb{P}{t_{n-1} \leq qt_{\frac{\alpha}{2},n-1}} +  \mathbb{P}{t_{n-1} \geq qt_{1-\frac{\alpha}{2},n-1}} \\
+&amp;= \mathbb{P}(t_{n-1} \leq qt_{\frac{\alpha}{2},n-1}) +  \mathbb{P}(t_{n-1} \geq qt_{1-\frac{\alpha}{2},n-1}) \\
  &amp;= \frac{\alpha}{2} + \frac{\alpha}{2} \\
 &amp; = \alpha
 \end{aligned} </span></p>
 <p>The p-value of the test is now <span class="math display">\begin{aligned}
 p_{\rm value} &amp; = \mathbb{P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm obs}|) \\
 &amp; = \mathbb{P}_{H_0}(T_{\rm stat} &lt; -|T_{\rm stat}^{\rm obs}|)  + \mathbb{P}_{H_0}(T_{\rm stat} &gt; |T_{\rm stat}^{\rm obs}|)\\
-&amp;= \mathbb{P}{t_{n-1} \leq -|T_{\rm stat}^{\rm obs}|} +  \mathbb{P}{t_{n-1} \geq |T_{\rm stat}^{\rm obs}|} \\
-&amp;= 2 \,\mathbb{P}{t_{n-1} \leq -|T_{\rm stat}^{\rm obs}|}
+&amp;= \mathbb{P}(t_{n-1} \leq -|T_{\rm stat}^{\rm obs}|) +  \mathbb{P}(t_{n-1} \geq |T_{\rm stat}^{\rm obs}|) \\
+&amp;= 2 \,\mathbb{P}(t_{n-1} \leq -|T_{\rm stat}^{\rm obs}|)
 \end{aligned}</span></p>
 <div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-24_dee5b7a53cd011ddf93ba09053e76e9d">
 <div class="sourceCode" id="cb20"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>t.stat <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n)<span class="sc">*</span>(x_mean<span class="sc">-</span>mu0)<span class="sc">/</span>x_sd</span>
@@ -674,13 +677,13 @@ p_{\rm value} &amp; = \mathbb{P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm ob
 <span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(R)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 0.94907</code></pre>
+<pre><code>[1] 0.95036</code></pre>
 </div>
 </div>
 </div>
 <div class="remark proof">
 <p><span class="proof-title"><em>Remark</em>.</span>The decision rule to reject or not the null hypothesis can be derived from the confidence interval. Indeed, the confidence interval plays the role of an acceptance region: we reject <span class="math inline">H_0</span> if <span class="math inline">\mu_0</span> does not belong to <span class="math inline">{\rm CI}_{1-\alpha}</span>.</p>
-<p>In the case of a one sided test, the output of <code>t.test</code> called confidence interval is indeed an acceptance region for <span class="math inline">\mu</span>, but not a ``confidence interval’’ (we cannot seriously consider that <span class="math inline">\mu</span> can take any value above 500 for instance )</p>
+<p>In the case of a one sided test, the output of <code>t.test</code> called confidence interval is indeed an acceptance region for <span class="math inline">\mu</span>, but not a “confidence interval” (we cannot seriously consider that <span class="math inline">\mu</span> can take any value above 500 for instance )</p>
 <div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-42_38f328d2c93e10cdad30f2b68a3d4f5c">
 <div class="sourceCode" id="cb35"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(x_mean <span class="sc">+</span> x_sd<span class="sc">/</span><span class="fu">sqrt</span>(n)<span class="sc">*</span><span class="fu">qt</span>(alpha,df) , <span class="cn">Inf</span>),</span>
@@ -698,14 +701,15 @@ p_{\rm value} &amp; = \mathbb{P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm ob
 <h2 data-number="2.2" class="anchored" data-anchor-id="two-samples-t-test"><span class="header-section-number">2.2</span> Two samples t-test</h2>
 <section id="what-should-we-test" class="level3" data-number="2.2.1">
 <h3 data-number="2.2.1" class="anchored" data-anchor-id="what-should-we-test"><span class="header-section-number">2.2.1</span> What should we test?</h3>
-<p>Let us now compare the weights of the male and female rats. ::: {.cell hash=“map566-lecture-single_cache/html/unnamed-chunk-44_807159b2e4521c30b36f9ddb7c9149f9”}</p>
+<p>Let us now compare the weights of the male and female rats.</p>
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-44_807159b2e4521c30b36f9ddb7c9149f9">
 <div class="sourceCode" id="cb37"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="sc">%&gt;%</span> </span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> gender, <span class="at">y =</span> weight) <span class="sc">+</span></span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="fu">aes</span>(<span class="at">fill =</span> gender)) <span class="sc">+</span> <span class="fu">geom_jitter</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span>  <span class="fu">ylab</span>(<span class="st">"weight (g)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="map566-lecture-single_files/figure-html/unnamed-chunk-44-1.png" class="img-fluid" width="960"></p>
 </div>
-<p>:::</p>
+</div>
 <p>Looking at the data is more than enough for concluding that the mean weight of the males is (much) larger than the mean weight of the females Computing a <span class="math inline">p</span>-value here is of little interest </p>
 <div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-46_a1cec16007160ce1df3ccda4398f559f">
 <div class="sourceCode" id="cb38"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(gender) <span class="sc">%&gt;%</span> <span class="fu">summarize</span>(<span class="at">average_weight =</span> <span class="fu">mean</span>(weight)) <span class="sc">%&gt;%</span> </span>
@@ -777,7 +781,7 @@ mean of x mean of y
 <p>Under the null hypothesis, <span class="math inline">T_{\rm stat}</span> follows a <span class="math inline">t</span>-distribution with <span class="math inline">n_x+n_y-2</span> degree of freedom. The <span class="math inline">p</span>-value is therefore</p>
 <p><span class="math display">\begin{aligned}
 p_{\rm value} &amp; = \mathbb{P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm obs}|) \\
-&amp;= \mathbb{P}{t_{n_x+n_y-2} \leq -T_{\rm stat}^{\rm obs}} + 1 - \mathbb{P}{t_{n_x+n_y-2} \leq T_{\rm stat}^{\rm obs}}
+&amp;= \mathbb{P}(t_{n_x+n_y-2} \leq -T_{\rm stat}^{\rm obs}) + 1 - \mathbb{P}(t_{n_x+n_y-2} \leq T_{\rm stat}^{\rm obs})
 \end{aligned}</span></p>
 <div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-52_2837df55740bfc95263105962cfbf76a">
 <div class="sourceCode" id="cb45"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>nx <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
@@ -910,9 +914,9 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <pre><code>[1] 904.5 616.5</code></pre>
 </div>
 </div>
-<p>For a two sided tests and assuming that <span class="math inline">W_x^{\rm obs}&gt;W_y^{\rm obs}</span>, the <span class="math inline">p</span>-value is <span class="math display"> p_{\rm value} =  \mathbb{P}{W_y \leq W_y^{\rm obs}} + \mathbb{P}{W_x \geq W_x^{\rm obs}}</span> The distribution of <span class="math inline">W_x</span> and <span class="math inline">W_y</span> are tabulated and this <span class="math inline">p</span>-value can then be computed</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-72_cc085f4363868cd7d99f712c1cb97e0b">
-<div class="sourceCode" id="cb62"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pwilcox</span>(Wy,ny,nx)<span class="sc">+</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pwilcox</span>(Wx,nx,ny)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For a two sided tests and assuming that <span class="math inline">W_x^{\rm obs}&gt;W_y^{\rm obs}</span>, the <span class="math inline">p</span>-value is <span class="math display"> p_{\rm value} =  \mathbb{P}(W_y \leq W_y^{\rm obs}) + \mathbb{P}(W_x \geq W_x^{\rm obs})</span> The distribution of <span class="math inline">W_x</span> and <span class="math inline">W_y</span> are tabulated and this <span class="math inline">p</span>-value can then be computed</p>
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-72_0d33a6318c8fd32af9462ac7712866f0">
+<div class="sourceCode" id="cb62"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pwilcox</span>(Wy,ny,nx) <span class="sc">+</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pwilcox</span>(Wx,nx,ny)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>[1] 0.1508831</code></pre>
 </div>
@@ -954,7 +958,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <span id="cb68-11"><a href="#cb68-11" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">%&gt;%</span> <span class="fu">rowMeans</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code> Student Wilcoxon 
-  0.8312   0.8136 </code></pre>
+  0.8348   0.8130 </code></pre>
 </div>
 </div>
 <p>On the other hand, the Wilcoxon test may be much more powerful than the t-test for non normal distributions when the empirical mean converges slowly in distribution to the normal distribution. Such is the case, for instance, of the log-normal ditribution which is strongly skewed for large variances.</p>
@@ -970,7 +974,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <span id="cb70-9"><a href="#cb70-9" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">%&gt;%</span> <span class="fu">rowMeans</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code> Student Wilcoxon 
-  0.6747   0.8499 </code></pre>
+  0.6669   0.8520 </code></pre>
 </div>
 </div>
 </section>
@@ -978,9 +982,9 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <h1 data-number="4"><span class="header-section-number">4</span> The limited role of the p-value</h1>
 <p>First of all it is important to emphasis that statistics is a tool for supporting decision-making. It is not a decision tool that can be used blindly.</p>
 <p>A <span class="math inline">p</span>-value below the sacrosanct 0.05 threshold does not mean that GMOs have some negative impacts on human health, or that a drug is better than another one. On the other hand, a <span class="math inline">p</span>-value above 0.05 does not mean that GMOs are safe or that a drug has no effect.</p>
-<p>The American Statistical Association (ASA) has released in <span class="citation" data-cites="american2016statement">(<a href="#ref-american2016statement" role="doc-biblioref"><strong>american2016statement?</strong></a>)</span> a <a href="http://amstat.tandfonline.com/doi/abs/10.1080/00031305.2016.1154108">“Statement on Statistical Significance and P-Values”</a> with six principles underlying the proper use and interpretation of the p-value.</p>
+<p>The American Statistical Association (ASA) has released a <a href="http://amstat.tandfonline.com/doi/abs/10.1080/00031305.2016.1154108">“Statement on Statistical Significance and P-Values”</a> with six principles underlying the proper use and interpretation of the p-value.</p>
 <p>“The p-value was never intended to be a substitute for scientific reasoning,” said Ron Wasserstein, the ASA’s executive director. “Well-reasoned statistical arguments contain much more than the value of a single number and whether that number exceeds an arbitrary threshold. The ASA statement is intended to steer research into a ‘post p&lt;0.05 era.’” “Over time it appears the p-value has become a gatekeeper for whether work is publishable, at least in some fields,” said Jessica Utts, ASA president. “This apparent editorial bias leads to the ‘file-drawer effect,’ in which research with statistically significant outcomes are much more likely to get published, while other work that might well be just as important scientifically is never seen in print. It also leads to practices called by such names as ‘p-hacking’ and ‘data dredging’ that emphasize the search for small p-values over other statistical and scientific reasoning.”</p>
-<p>The statement’s six principles, many of which address misconceptions and misuse of the pvalue, are the following:</p>
+<p>The statement’s six principles, many of which address misconceptions and misuse of the p-value, are the following:</p>
 <ol type="1">
 <li>P-values can indicate how incompatible the data are with a specified statistical model.</li>
 <li>P-values do not measure the probability that the studied hypothesis is true, or the probability that the data were produced by random chance alone.</li>
@@ -1004,13 +1008,13 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
     Welch Two Sample t-test
 
 data:  x.sim and y.sim
-t = -0.99866, df = 18, p-value = 0.3312
+t = -1.1819, df = 18, p-value = 0.2526
 alternative hypothesis: true difference in means is not equal to 0
 95 percent confidence interval:
- -46.55609  16.55609
+ -41.66353  11.66353
 sample estimates:
 mean of x mean of y 
- 498.4821  513.4821 </code></pre>
+ 493.0421  508.0421 </code></pre>
 </div>
 </div>
 <p>This basic example shows that a difference considered as biologically significant may not be statistically significant.</p>
@@ -1026,13 +1030,13 @@ mean of x mean of y
     Welch Two Sample t-test
 
 data:  x.sim and y.sim
-t = -2.3487, df = 19998, p-value = 0.01885
+t = -2.339, df = 19998, p-value = 0.01935
 alternative hypothesis: true difference in means is not equal to 0
 95 percent confidence interval:
- -1.8345244 -0.1654756
+ -1.83801 -0.16199
 sample estimates:
 mean of x mean of y 
- 499.9726  500.9726 </code></pre>
+ 500.3408  501.3408 </code></pre>
 </div>
 </div>
 <p>This example confirms the need for a power analysis as a complement of the comparison test. We will see that equivalence testing may also be relevant for evaluating what the data allows to say.</p>
@@ -1046,15 +1050,15 @@ mean of x mean of y
 <p>The power of the test is the probability to reject the null hypothesis when it is false. It is also a function of <span class="math inline">\delta =\mu_x-\mu_y</span> defined as</p>
 <p><span class="math display"> \begin{aligned}
 \eta(\delta) &amp;= 1 - \beta(\delta) \\
-&amp;= \mathbb{P}{\text{reject } H_0 \ | \ \mu_x-\mu_y=\delta } 
+&amp;= \mathbb{P}(\text{reject } H_0 \ | \ \mu_x-\mu_y=\delta )
 \end{aligned} </span></p>
 <p>Remember that, for a two sided test, we reject the null hypothesis when <span class="math inline">|T_{\rm stat}| &gt; qt_{1-\alpha/2, \mathrm{df}}</span>, where <span class="math inline">\mathrm{df}</span> is the appropriate degree of freedom.</p>
 <p>On the other hand, <span class="math inline">{(\bar{x} - \bar{y} - \delta)}/{s_{xy}}</span>, where <span class="math inline">s_{xy} = \sqrt{{s_x^2}/{n_x}+{s_y^2}/{n_y}}</span>, follows a <span class="math inline">t</span>-distribution with <span class="math inline">\mathrm{df}</span> degrees of freedom. Thus,</p>
 <p><span class="math display"> \begin{aligned}
-\eta(\delta) &amp;= 1 - \mathbb{P}(qt_{\frac{\alpha}{2},\mathrm{df}} &lt; T_{\rm stat} &lt; qt_{1 -\frac{\alpha}{2},\mathrm{df}} \ | \ \mu_x-\mu_y=\delta) \\
-&amp; = 1- \mathbb{P}(qt_{\frac{\alpha}{2},\mathrm{df}} &lt; \frac{\bar{x} - \bar{y}}{s_{xy}} &lt; qt_{1-\frac{\alpha}{2},\mathrm{df}} \ | \ \mu_x-\mu_y=\delta) \\
-&amp;= 1- \mathbb{P}(qt_{\frac{\alpha}{2},\mathrm{df}} - \frac{\delta}{s_{xy}} &lt; \frac{\bar{x} - \bar{y} - \delta}{s_{xy}} &lt; qt_{1-\frac{\alpha}{2},\mathrm{df}} - \frac{\delta}{s_{xy}} \ | \ \mu_x-\mu_y=\delta) \\
-&amp;= 1 - Ft_{\mathrm{df}}(qt_{1-\frac{\alpha}{2},\mathrm{df}} - \frac{\delta}{s_{xy}}) + Ft_{\mathrm{df}}(qt_{\frac{\alpha}{2},\mathrm{df}} - \frac{\delta}{s_{xy}})
+\eta(\delta) &amp;= 1 - \mathbb{P}\left(qt_{\frac{\alpha}{2},\mathrm{df}} &lt; T_{\rm stat} &lt; qt_{1 -\frac{\alpha}{2},\mathrm{df}} \ | \ \mu_x-\mu_y=\delta\right) \\
+&amp; = 1- \mathbb{P}\left(qt_{\frac{\alpha}{2},\mathrm{df}} &lt; \frac{\bar{x} - \bar{y}}{s_{xy}} &lt; qt_{1-\frac{\alpha}{2},\mathrm{df}} \ | \ \mu_x-\mu_y=\delta\right) \\
+&amp;= 1- \mathbb{P}\left(qt_{\frac{\alpha}{2},\mathrm{df}} - \frac{\delta}{s_{xy}} &lt; \frac{\bar{x} - \bar{y} - \delta}{s_{xy}} &lt; qt_{1-\frac{\alpha}{2},\mathrm{df}} - \frac{\delta}{s_{xy}} \ | \ \mu_x-\mu_y=\delta\right) \\
+&amp;= 1 - Ft_{\mathrm{df}}\left(qt_{1-\frac{\alpha}{2},\mathrm{df}} - \frac{\delta}{s_{xy}}\right) + Ft_{\mathrm{df}}\left(qt_{\frac{\alpha}{2},\mathrm{df}} - \frac{\delta}{s_{xy}}\right)
 \end{aligned} </span></p>
 <p>As an example, let us compute the probability to detect a difference in weight of 10g with two groups of 80 rats each and assuming that the standard deviation is 30g in each group.</p>
 <div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-86_5da493f49ed81f77ab109c884ab65f5c">
@@ -1086,7 +1090,7 @@ mean of x mean of y
 NOTE: n is number in *each* group</code></pre>
 </div>
 </div>
-<p>Let us perform a Monte Carlo simulation, to check this result and better understand what it means. Imagine that the ``true’’ difference in weight is <span class="math inline">\delta=10</span>g. Then, if could repeat the same experiment a (very) large number of times, we would reject the null hypothesis in <span class="math inline">55\%</span> of cases.</p>
+<p>Let us perform a Monte Carlo simulation, to check this result and better understand what it means. Imagine that the “true” difference in weight is <span class="math inline">\delta=10</span>g. Then, if could repeat the same experiment a (very) large number of times, we would reject the null hypothesis in <span class="math inline">55\%</span> of cases.</p>
 <div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-90_381b92ba7d4aefccc82b8a64ed3e96ad">
 <div class="sourceCode" id="cb80"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>n_replicate <span class="ot">&lt;-</span> <span class="fl">1e5</span></span>
 <span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>mu_x <span class="ot">&lt;-</span> <span class="dv">500</span></span>
@@ -1098,7 +1102,7 @@ NOTE: n is number in *each* group</code></pre>
 <span id="cb80-8"><a href="#cb80-8" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb80-9"><a href="#cb80-9" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(R)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 0.55205</code></pre>
+<pre><code>[1] 0.55099</code></pre>
 </div>
 </div>
 <p>We may consider this probability as too small. If our objective is a power of 80% at least, with the same significance level, we need to increase the sample size.</p>
@@ -1147,9 +1151,6 @@ NOTE: n is number in *each* group</code></pre>
 </div>
 </div>
 <p>If we accept a significance level of about 20%, then we will be less demanding for rejecting <span class="math inline">H_0</span>: we will reject the null hypothesis when <span class="math inline">|T_{\rm stat}|&gt;qt_{0.9,158}</span>= 1.29, instead of <span class="math inline">|T_{\rm stat}|&gt;qt_{0.975,158}</span>= 1.98. This strategy will therefore increase the power, but also the type I error rate.</p>
-</section>
-<section id="references" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="references"><span class="header-section-number">4.2</span> References</h2>
 
 
 </section>
@@ -1235,6 +1236,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../../docs/tests/map566-lecture-multiple.html">
+        <span class="nav-page-text">Multiple Testing</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

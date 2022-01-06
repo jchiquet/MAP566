@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.2.323">
+  <meta name="generator" content="quarto-0.2.438">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Nonlinear Regression</title>
   <style>
@@ -102,6 +102,8 @@
   <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
   <script src="../../site_libs/quarto-search/fuse.min.js"></script>
   <script src="../../site_libs/quarto-search/quarto-search.js"></script>
+  <link href="../../docs/regression/map566-lab-polynomial-regression.html" rel="next">
+  <link href="../../docs/regression/map566-lecture-polynomial-regression.html" rel="prev">
   <script src="../../site_libs/quarto-html/quarto.js"></script>
   <script src="../../site_libs/quarto-html/popper.min.js"></script>
   <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -134,7 +136,7 @@
 <body class="docked">
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-light ">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
       <a class="navbar-brand" href="../../index.html">
     <img src="../../logo_X.jpg" alt="">
@@ -229,6 +231,9 @@
         <li>
     <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html">Mixture Models</a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-stochastic-blockmodels.html">Graph clustering</a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
@@ -269,12 +274,12 @@
       <ul class="list-unstyled sidebar-section depth1">
     <li class="">
         <div class="me-auto">
-            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#lectures-collapse" aria-expanded="true">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">
               <div class="me-auto sidebar-section-item">Lectures</div>
             <div><i class="bi bi-chevron-right ms-2"></i></div>
             </a>
         </div>
-      <div class="collapse  show" id="lectures-collapse">
+      <div class="collapse  show" id="quarto-sidebar-section-lectures">
         <ul class="list-unstyled sidebar-item-contents">
           <li class="sidebar-item">
   <a href="../../docs/regression/map566-lecture-polynomial-regression.html" class="">Polynomial Regression</a>
@@ -289,12 +294,12 @@
       <ul class="list-unstyled sidebar-section depth1">
     <li class="">
         <div class="me-auto">
-            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#exercices-collapse" aria-expanded="true">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">
               <div class="me-auto sidebar-section-item">Exercices</div>
             <div><i class="bi bi-chevron-right ms-2"></i></div>
             </a>
         </div>
-      <div class="collapse  show" id="exercices-collapse">
+      <div class="collapse  show" id="quarto-sidebar-section-exercices">
         <ul class="list-unstyled sidebar-item-contents">
           <li class="sidebar-item">
   <a href="../../docs/regression/map566-lab-polynomial-regression.html" class="">Polynomial Regression</a>
@@ -309,12 +314,12 @@
       <ul class="list-unstyled sidebar-section depth1">
     <li class="">
         <div class="me-auto">
-            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#supplementarymaterial-collapse" aria-expanded="true">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-supplementary-material" aria-expanded="true">
               <div class="me-auto sidebar-section-item">Supplementary material</div>
             <div><i class="bi bi-chevron-right ms-2"></i></div>
             </a>
         </div>
-      <div class="collapse  show" id="supplementarymaterial-collapse">
+      <div class="collapse  show" id="quarto-sidebar-section-supplementary-material">
         <ul class="list-unstyled sidebar-item-contents">
           <li class="sidebar-item">
   <a href="../../docs/regression/map566-lecture-regression-background.html" class="">Linear Regression: Quick Recap</a>
@@ -682,7 +687,7 @@ tau    0.4320764 -0.008769862  0.011924743</code></pre>
 [3,] -3794.4768 -114782.3   58845.489</code></pre>
 </div>
 </div>
-<p>We then derive the FIM and the variance <span class="math inline">\mathbb{V}_{\rm ml}(\hat{\beta})</span>: ::: {.cell hash=“map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-32_9960d090e32a447dba7855f3df6146f8”}</p>
+<p>We then derive the FIM and the variance <span class="math inline">\mathbb{V}_{\rm ml}(\hat{\beta})</span>: ::: {.cell hash=‘map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-32_9960d090e32a447dba7855f3df6146f8’}</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>V_ml <span class="ot">&lt;-</span> <span class="fu">solve</span>(H<span class="sc">/</span>(<span class="dv">2</span><span class="sc">*</span>sigma_hat_ML<span class="sc">^</span><span class="dv">2</span>))</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>V_ml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
@@ -753,16 +758,16 @@ y^{(\ell)}_j = f(x_j,\hat{\beta}) + \hat{\sigma} \varepsilon^{(\ell)}_j \quad ; 
 <span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>V_mc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>           [,1]        [,2]        [,3]
-[1,] 33.4182158 -0.56242579  0.95883346
-[2,] -0.5624258  0.01128818 -0.01375664
-[3,]  0.9588335 -0.01375664  0.03190255</code></pre>
+[1,] 33.5029952 -0.56750958  0.95160623
+[2,] -0.5675096  0.01168344 -0.01350975
+[3,]  0.9516062 -0.01350975  0.03167338</code></pre>
 </div>
 </div>
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-40_249e272abe2b1aa8f8b993b6179d0167">
 <div class="sourceCode" id="cb38"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>se_mc <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(V_mc))</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>se_mc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 5.7808491 0.1062458 0.1786128</code></pre>
+<pre><code>[1] 5.7881772 0.1080900 0.1779702</code></pre>
 </div>
 </div>
 <div class="remark proof">
@@ -770,7 +775,7 @@ y^{(\ell)}_j = f(x_j,\hat{\beta}) + \hat{\sigma} \varepsilon^{(\ell)}_j \quad ; 
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-42_14451409a8d4ed9f80c607d86cb32438">
 <div class="sourceCode" id="cb40"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(betas_boot, <span class="dv">2</span>, sd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 5.7808491 0.1062458 0.1786128</code></pre>
+<pre><code>[1] 5.7881772 0.1080900 0.1779702</code></pre>
 </div>
 </div>
 </div>
@@ -861,9 +866,9 @@ tau    1.2597849   1.6647346</code></pre>
 <span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>CI_bootstrap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>        2.5%       97.5%
-1 86.7380589 108.6805477
-2  0.4371328   0.8589796
-3  1.3247831   1.9981815</code></pre>
+1 86.3086931 107.8479716
+2  0.4448865   0.8648338
+3  1.3247614   1.9328488</code></pre>
 </div>
 </div>
 <div class="remark proof">
@@ -884,10 +889,10 @@ tau    1.2597849   1.6647346</code></pre>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>rq <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>,df)<span class="sc">/</span><span class="fu">qnorm</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>)</span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>beta_hat <span class="sc">+</span> rq<span class="sc">*</span>(CI_bootstrap <span class="sc">-</span> beta_hat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>        2.5%      97.5%
-1 86.7092623 108.750919
-2  0.4362187   0.859972
-3  1.3241618   2.000604</code></pre>
+<pre><code>        2.5%       97.5%
+1 86.2779560 107.9145806
+2  0.4440074   0.8658527
+3  1.3241400   1.9349756</code></pre>
 </div>
 </div>
 </div>
@@ -1241,27 +1246,24 @@ f(x_0 , \beta) \simeq f(x_0 , \hat{\beta}) + \nabla f(x_0 , \hat{\beta})(\beta -
 <span id="cb82-8"><a href="#cb82-8" aria-hidden="true" tabindex="-1"></a>  nlm2_b <span class="ot">&lt;-</span> <span class="fu">nls</span>(y_b <span class="sc">~</span> <span class="fu">f_hat</span>(beta, x), <span class="at">start =</span> <span class="fu">list</span>(<span class="at">beta =</span> beta_hat))</span>
 <span id="cb82-9"><a href="#cb82-9" aria-hidden="true" tabindex="-1"></a>  f_b <span class="ot">&lt;-</span> <span class="fu">predict</span>(nlm2_b, <span class="at">newdata =</span> df_mc)</span>
 <span id="cb82-10"><a href="#cb82-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">f_hat =</span> f_b, <span class="at">y_hat =</span> f_b <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="fu">sigma</span>(nlm2)))</span>
-<span id="cb82-11"><a href="#cb82-11" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stderr">
-<pre><code>Warning in mclapply(1:1000, function(b) {: scheduled core 1 encountered error in
-user code, all values of the job will be affected</code></pre>
-</div>
-<div class="sourceCode" id="cb84"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>df_mc[<span class="fu">c</span>(<span class="st">"lwr_conf"</span>,<span class="st">"upr_conf"</span>)] <span class="ot">&lt;-</span> </span>
-<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(res, <span class="st">"f_hat"</span>) <span class="sc">%&gt;%</span> <span class="fu">reduce</span>(rbind) <span class="sc">%&gt;%</span> </span>
-<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(<span class="dv">2</span>, quantile, <span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>)) <span class="sc">%&gt;%</span> <span class="fu">t</span>()</span>
-<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a>df_mc[<span class="fu">c</span>(<span class="st">"lwr_pred"</span>,<span class="st">"upr_pred"</span>)] <span class="ot">&lt;-</span></span>
-<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(res, <span class="st">"y_hat"</span>) <span class="sc">%&gt;%</span> <span class="fu">reduce</span>(rbind) <span class="sc">%&gt;%</span> </span>
-<span id="cb84-6"><a href="#cb84-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(<span class="dv">2</span>, quantile, <span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>)) <span class="sc">%&gt;%</span> <span class="fu">t</span>()</span>
-<span id="cb84-7"><a href="#cb84-7" aria-hidden="true" tabindex="-1"></a><span class="do">## removing bias</span></span>
-<span id="cb84-8"><a href="#cb84-8" aria-hidden="true" tabindex="-1"></a>df_mc[,(<span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>)] <span class="ot">&lt;-</span> f_new <span class="sc">+</span> rq<span class="sc">*</span>(df_mc[,(<span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>)] <span class="sc">-</span> f_new)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb82-11"><a href="#cb82-11" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb82-12"><a href="#cb82-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-13"><a href="#cb82-13" aria-hidden="true" tabindex="-1"></a>df_mc[<span class="fu">c</span>(<span class="st">"lwr_conf"</span>,<span class="st">"upr_conf"</span>)] <span class="ot">&lt;-</span> </span>
+<span id="cb82-14"><a href="#cb82-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(res, <span class="st">"f_hat"</span>) <span class="sc">%&gt;%</span> <span class="fu">reduce</span>(rbind) <span class="sc">%&gt;%</span> </span>
+<span id="cb82-15"><a href="#cb82-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(<span class="dv">2</span>, quantile, <span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>)) <span class="sc">%&gt;%</span> <span class="fu">t</span>()</span>
+<span id="cb82-16"><a href="#cb82-16" aria-hidden="true" tabindex="-1"></a>df_mc[<span class="fu">c</span>(<span class="st">"lwr_pred"</span>,<span class="st">"upr_pred"</span>)] <span class="ot">&lt;-</span></span>
+<span id="cb82-17"><a href="#cb82-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(res, <span class="st">"y_hat"</span>) <span class="sc">%&gt;%</span> <span class="fu">reduce</span>(rbind) <span class="sc">%&gt;%</span> </span>
+<span id="cb82-18"><a href="#cb82-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(<span class="dv">2</span>, quantile, <span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>)) <span class="sc">%&gt;%</span> <span class="fu">t</span>()</span>
+<span id="cb82-19"><a href="#cb82-19" aria-hidden="true" tabindex="-1"></a><span class="do">## removing bias</span></span>
+<span id="cb82-20"><a href="#cb82-20" aria-hidden="true" tabindex="-1"></a>df_mc[,(<span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>)] <span class="ot">&lt;-</span> f_new <span class="sc">+</span> rq<span class="sc">*</span>(df_mc[,(<span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>)] <span class="sc">-</span> f_new)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-94_159d83206cb8c9e0c9867a07f7dfef7a">
 <p></p><details>
 <summary>Show the code</summary><p></p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(faithful)  <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> eruptions, <span class="at">y =</span> waiting)) <span class="sc">+</span></span>
-<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_ribbon</span>(<span class="at">data=</span>df_mc, <span class="fu">aes</span>(<span class="at">x=</span>x_new, <span class="at">ymin=</span>lwr_pred, <span class="at">ymax=</span>upr_pred), <span class="at">alpha=</span><span class="fl">0.1</span>, <span class="at">fill=</span><span class="st">"blue"</span>) <span class="sc">+</span> </span>
-<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data=</span>df_mc, <span class="fu">aes</span>(<span class="at">x=</span>x_new, <span class="at">ymin=</span>lwr_conf, <span class="at">ymax=</span>upr_conf), <span class="at">alpha=</span><span class="fl">0.2</span>, <span class="at">fill=</span><span class="st">"#339900"</span>) <span class="sc">+</span>   </span>
-<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>df_mc, <span class="fu">aes</span>(<span class="at">x=</span>x_new, <span class="at">y=</span>f_new), <span class="at">colour=</span><span class="st">"#339900"</span>, <span class="at">size=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(faithful)  <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> eruptions, <span class="at">y =</span> waiting)) <span class="sc">+</span></span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_ribbon</span>(<span class="at">data=</span>df_mc, <span class="fu">aes</span>(<span class="at">x=</span>x_new, <span class="at">ymin=</span>lwr_pred, <span class="at">ymax=</span>upr_pred), <span class="at">alpha=</span><span class="fl">0.1</span>, <span class="at">fill=</span><span class="st">"blue"</span>) <span class="sc">+</span> </span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data=</span>df_mc, <span class="fu">aes</span>(<span class="at">x=</span>x_new, <span class="at">ymin=</span>lwr_conf, <span class="at">ymax=</span>upr_conf), <span class="at">alpha=</span><span class="fl">0.2</span>, <span class="at">fill=</span><span class="st">"#339900"</span>) <span class="sc">+</span>   </span>
+<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>df_mc, <span class="fu">aes</span>(<span class="at">x=</span>x_new, <span class="at">y=</span>f_new), <span class="at">colour=</span><span class="st">"#339900"</span>, <span class="at">size=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="map566-lecture-nonlinear-regression_files/figure-html/unnamed-chunk-94-1.png" class="img-fluid" width="672"></p>
@@ -1350,8 +1352,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../../docs/regression/map566-lecture-polynomial-regression.html">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Polynomial Regression</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../../docs/regression/map566-lab-polynomial-regression.html">
+        <span class="nav-page-text">Polynomial Regression</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

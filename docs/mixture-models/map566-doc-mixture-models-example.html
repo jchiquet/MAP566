@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.2.323">
+  <meta name="generator" content="quarto-0.2.438">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Mixture Models: an example</title>
   <style>
@@ -102,6 +102,7 @@
   <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
   <script src="../../site_libs/quarto-search/fuse.min.js"></script>
   <script src="../../site_libs/quarto-search/quarto-search.js"></script>
+  <link href="../../docs/mixture-models/map566-lab-mixture-models.html" rel="prev">
   <script src="../../site_libs/quarto-html/quarto.js"></script>
   <script src="../../site_libs/quarto-html/popper.min.js"></script>
   <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -134,7 +135,7 @@
 <body class="docked">
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-light ">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
       <a class="navbar-brand" href="../../index.html">
     <img src="../../logo_X.jpg" alt="">
@@ -229,6 +230,9 @@
         <li>
     <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html">Mixture Models</a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-stochastic-blockmodels.html">Graph clustering</a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
@@ -269,15 +273,18 @@
       <ul class="list-unstyled sidebar-section depth1">
     <li class="">
         <div class="me-auto">
-            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#lectures-collapse" aria-expanded="true">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">
               <div class="me-auto sidebar-section-item">Lectures</div>
             <div><i class="bi bi-chevron-right ms-2"></i></div>
             </a>
         </div>
-      <div class="collapse  show" id="lectures-collapse">
+      <div class="collapse  show" id="quarto-sidebar-section-lectures">
         <ul class="list-unstyled sidebar-item-contents">
           <li class="sidebar-item">
   <a href="../../docs/mixture-models/map566-lecture-mixture-models.html" class="">Mixture Models</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../../docs/mixture-models/map566-lecture-stochastic-blockmodels.html" class="">Graph clustering</a>
 </li>
         </ul>
       </div>
@@ -286,12 +293,12 @@
       <ul class="list-unstyled sidebar-section depth1">
     <li class="">
         <div class="me-auto">
-            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#exercices-collapse" aria-expanded="true">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">
               <div class="me-auto sidebar-section-item">Exercices</div>
             <div><i class="bi bi-chevron-right ms-2"></i></div>
             </a>
         </div>
-      <div class="collapse  show" id="exercices-collapse">
+      <div class="collapse  show" id="quarto-sidebar-section-exercices">
         <ul class="list-unstyled sidebar-item-contents">
           <li class="sidebar-item">
   <a href="../../docs/mixture-models/map566-lab-mixture-models.html" class="">Mixture Models</a>
@@ -303,12 +310,12 @@
       <ul class="list-unstyled sidebar-section depth1">
     <li class="">
         <div class="me-auto">
-            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#supplementarymaterial-collapse" aria-expanded="true">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-supplementary-material" aria-expanded="true">
               <div class="me-auto sidebar-section-item">Supplementary material</div>
             <div><i class="bi bi-chevron-right ms-2"></i></div>
             </a>
         </div>
-      <div class="collapse  show" id="supplementarymaterial-collapse">
+      <div class="collapse  show" id="quarto-sidebar-section-supplementary-material">
         <ul class="list-unstyled sidebar-item-contents">
           <li class="sidebar-item">
   <a href="../../docs/mixture-models/map566-doc-mixture-models-example.html" class="active">Mixture Models: an example</a>
@@ -589,7 +596,7 @@ Reference group is level  3  of the response</code></pre>
 6 1.894589e-36 5.671292e-11      1</code></pre>
 </div>
 </div>
-<p>Percentage of missclassified flowers: ::: {.cell hash=“map566-doc-mixture-models-example_cache/html/unnamed-chunk-20_f635000c2b1f9764403891aafda71b91”}</p>
+<p>Percentage of missclassified flowers: ::: {.cell hash=‘map566-doc-mixture-models-example_cache/html/unnamed-chunk-20_f635000c2b1f9764403891aafda71b91’}</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Now we use 'fitted.iris' as the model-based classifications</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="co"># of which flower is of each type.  How does this compare</span></span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="co"># to the real types?</span></span>
@@ -605,7 +612,7 @@ Reference group is level  3  of the response</code></pre>
 </section>
 <section id="non-supervised-classification" class="level3" data-number="1.2">
 <h3 data-number="1.2" class="anchored" data-anchor-id="non-supervised-classification"><span class="header-section-number">1.2</span> Non supervised classification</h3>
-<p>Ignoring the known labels (species) of theFisher Iris data, let us identify three clusters with the <span class="math inline">k</span>-means method and compute the missclassification rate: ::: {.cell hash=“map566-doc-mixture-models-example_cache/html/unnamed-chunk-22_293720867d9995a675863230e75b155e”}</p>
+<p>Ignoring the known labels (species) of theFisher Iris data, let us identify three clusters with the <span class="math inline">k</span>-means method and compute the missclassification rate: ::: {.cell hash=‘map566-doc-mixture-models-example_cache/html/unnamed-chunk-22_293720867d9995a675863230e75b155e’}</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>) <span class="co"># labels are the original ones with this seed (avoid permutation)</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>r.km <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(iris[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">centers=</span><span class="dv">3</span>)</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(r.km<span class="sc">$</span>cluster<span class="sc">!=</span><span class="fu">as.numeric</span>(iris<span class="sc">$</span>Species))<span class="sc">*</span><span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -613,14 +620,14 @@ Reference group is level  3  of the response</code></pre>
 <pre><code>[1] 10.66667</code></pre>
 </div>
 <p>:::</p>
-<p>Let us know fit a mixture of three multidimensional Gaussian distributions. The model assumes the same variance covariance matrix for the three distributions (<ttt>arbvar=FALSE). Initial centers are those given by the kmeans procedure. ::: {.cell hash=“map566-doc-mixture-models-example_cache/html/unnamed-chunk-24_f472a7ae4e9cdf1376cef60a005510da”}</ttt></p>
+<p>Let us know fit a mixture of three multidimensional Gaussian distributions. The model assumes the same variance covariance matrix for the three distributions (<ttt>arbvar=FALSE). Initial centers are those given by the kmeans procedure. ::: {.cell hash=‘map566-doc-mixture-models-example_cache/html/unnamed-chunk-24_f472a7ae4e9cdf1376cef60a005510da’}</ttt></p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mixtools)</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>c0 <span class="ot">&lt;-</span> <span class="fu">list</span>(r.km<span class="sc">$</span>centers[<span class="dv">1</span>,], r.km<span class="sc">$</span>centers[<span class="dv">2</span>,], r.km<span class="sc">$</span>centers[<span class="dv">3</span>,])</span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>r.em <span class="ot">&lt;-</span> <span class="fu">mvnormalmixEM</span>(iris[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">mu=</span>c0, <span class="at">arbvar=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>number of iterations= 25 </code></pre>
 </div>
-<p>::: Let us display the estimated parameters of the mixture: ::: {.cell hash=“map566-doc-mixture-models-example_cache/html/unnamed-chunk-26_0c5f203aecb1065b9959c2ebeeebc57d”}</p>
+<p>::: Let us display the estimated parameters of the mixture: ::: {.cell hash=‘map566-doc-mixture-models-example_cache/html/unnamed-chunk-26_0c5f203aecb1065b9959c2ebeeebc57d’}</p>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>r.em<span class="sc">$</span>lambda</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>[1] 0.3333333 0.3296062 0.3370605</code></pre>
@@ -645,7 +652,7 @@ Reference group is level  3  of the response</code></pre>
 [4,] 0.03933917 0.02998048 0.04197301 0.03971404</code></pre>
 </div>
 <p>:::</p>
-<p>For each flower, the estimated label maximizes the posterior distribution. We can then compute the missclassification rate: ::: {.cell hash=“map566-doc-mixture-models-example_cache/html/unnamed-chunk-28_dd588bfaef396ab9d93f5bb40a951260”}</p>
+<p>For each flower, the estimated label maximizes the posterior distribution. We can then compute the missclassification rate: ::: {.cell hash=‘map566-doc-mixture-models-example_cache/html/unnamed-chunk-28_dd588bfaef396ab9d93f5bb40a951260’}</p>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>post <span class="ot">&lt;-</span> r.em<span class="sc">$</span>posterior</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>r.em<span class="sc">$</span>class <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">seq</span>(<span class="fu">nrow</span>(post)), <span class="cf">function</span>(i) { j <span class="ot">&lt;-</span> <span class="fu">which.max</span>(<span class="fu">as.vector</span>(post[i,])) })</span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(r.em<span class="sc">$</span>class<span class="sc">!=</span><span class="fu">as.numeric</span>(iris<span class="sc">$</span>Species))<span class="sc">*</span><span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -653,7 +660,7 @@ Reference group is level  3  of the response</code></pre>
 <pre><code>[1] 2</code></pre>
 </div>
 <p>:::</p>
-<p>Let us plot the original data with the three distributions estimated with EM ::: {.cell hash=“map566-doc-mixture-models-example_cache/html/unnamed-chunk-30_1d7f0dc5ae26c3356dab036d07c45143”}</p>
+<p>Let us plot the original data with the three distributions estimated with EM ::: {.cell hash=‘map566-doc-mixture-models-example_cache/html/unnamed-chunk-30_1d7f0dc5ae26c3356dab036d07c45143’}</p>
 <div class="sourceCode" id="cb48"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">detach</span>(package<span class="sc">:</span>mixtools)</span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ellipse)</span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
@@ -774,6 +781,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../../docs/mixture-models/map566-lab-mixture-models.html">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Mixture Models</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
   </div>
