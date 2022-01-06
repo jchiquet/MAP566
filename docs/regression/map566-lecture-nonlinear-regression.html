@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.2.438">
+  <meta name="generator" content="quarto-0.2.444">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Nonlinear Regression</title>
   <style>
@@ -758,16 +758,16 @@ y^{(\ell)}_j = f(x_j,\hat{\beta}) + \hat{\sigma} \varepsilon^{(\ell)}_j \quad ; 
 <span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>V_mc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>           [,1]        [,2]        [,3]
-[1,] 33.5029952 -0.56750958  0.95160623
-[2,] -0.5675096  0.01168344 -0.01350975
-[3,]  0.9516062 -0.01350975  0.03167338</code></pre>
+[1,] 26.2195769 -0.47418874  0.71268562
+[2,] -0.4741887  0.01003231 -0.01094397
+[3,]  0.7126856 -0.01094397  0.02339591</code></pre>
 </div>
 </div>
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-40_249e272abe2b1aa8f8b993b6179d0167">
 <div class="sourceCode" id="cb38"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>se_mc <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(V_mc))</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>se_mc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 5.7881772 0.1080900 0.1779702</code></pre>
+<pre><code>[1] 5.1205055 0.1001614 0.1529572</code></pre>
 </div>
 </div>
 <div class="remark proof">
@@ -775,7 +775,7 @@ y^{(\ell)}_j = f(x_j,\hat{\beta}) + \hat{\sigma} \varepsilon^{(\ell)}_j \quad ; 
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-42_14451409a8d4ed9f80c607d86cb32438">
 <div class="sourceCode" id="cb40"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(betas_boot, <span class="dv">2</span>, sd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 5.7881772 0.1080900 0.1779702</code></pre>
+<pre><code>[1] 5.1205055 0.1001614 0.1529572</code></pre>
 </div>
 </div>
 </div>
@@ -866,9 +866,9 @@ tau    1.2597849   1.6647346</code></pre>
 <span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>CI_bootstrap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>        2.5%       97.5%
-1 86.3086931 107.8479716
-2  0.4448865   0.8648338
-3  1.3247614   1.9328488</code></pre>
+1 86.5929330 106.4211157
+2  0.4603746   0.8412544
+3  1.3120496   1.8942202</code></pre>
 </div>
 </div>
 <div class="remark proof">
@@ -890,9 +890,9 @@ tau    1.2597849   1.6647346</code></pre>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>beta_hat <span class="sc">+</span> rq<span class="sc">*</span>(CI_bootstrap <span class="sc">-</span> beta_hat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>        2.5%       97.5%
-1 86.2779560 107.9145806
-2  0.4440074   0.8658527
-3  1.3241400   1.9349756</code></pre>
+1 86.5634805 106.4812760
+2  0.4595655   0.8421667
+3  1.3113707   1.8961724</code></pre>
 </div>
 </div>
 </div>
