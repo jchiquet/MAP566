@@ -19,3 +19,4 @@ dependencies:
   - r-corrplot
   - r-ggfortify
   - r-igraph
+  - r-aricode
