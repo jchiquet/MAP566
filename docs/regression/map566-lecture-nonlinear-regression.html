@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.2.444">
+  <meta name="generator" content="quarto-0.3.8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Nonlinear Regression</title>
   <style>
@@ -745,12 +745,12 @@ y^{(\ell)}_j = f(x_j,\hat{\beta}) + \hat{\sigma} \varepsilon^{(\ell)}_j \quad ; 
 <p><span class="math display"> \mathbb{V}_{\rm mc}(\hat{\beta}) = \frac{1}{L-1}\sum_{\ell=1}^L ( \hat\beta^{(\ell)} - \bar{\beta} )( \hat\beta^{(\ell)} - \bar{ \beta} )^\prime
 </span></p>
 <p>where <span class="math inline">\bar{ \beta} = 1/L \sum_{\ell=1}^L \hat\beta^{(\ell)}</span>.</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-38_95d2b4c958b4093d3eaae57599eac7f5">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-38_14b1bcd07a7ce01d28a7f3a8f0ba7d6f">
 <div class="sourceCode" id="cb36"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>y_hat_ref <span class="ot">&lt;-</span> <span class="fu">predict</span>(nlm1)</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>beta_hat <span class="ot">&lt;-</span> <span class="fu">coef</span>(nlm1)</span>
 <span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> faithful<span class="sc">$</span>eruptions</span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>betas_boot <span class="ot">&lt;-</span> <span class="fu">mclapply</span>(<span class="dv">1</span><span class="sc">:</span>L, <span class="cf">function</span>(b) {</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>betas_boot <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">mclapply</span>(<span class="dv">1</span><span class="sc">:</span>L, <span class="cf">function</span>(b) {</span>
 <span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  y_b <span class="ot">&lt;-</span> y_hat_ref <span class="sc">+</span> sigma_hat <span class="sc">*</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(y_hat_ref))</span>
 <span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coef</span>(<span class="fu">suppressWarnings</span>(<span class="fu">nls</span>(y_b <span class="sc">~</span>  <span class="fu">f_1</span>(beta, x), <span class="at">start =</span> <span class="fu">list</span>(<span class="at">beta =</span> beta_hat))))</span>
 <span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">%&gt;%</span> <span class="fu">unlist</span>() <span class="sc">%&gt;%</span> <span class="fu">matrix</span>(<span class="at">ncol =</span> L) <span class="sc">%&gt;%</span> <span class="fu">t</span>()</span>
@@ -758,16 +758,16 @@ y^{(\ell)}_j = f(x_j,\hat{\beta}) + \hat{\sigma} \varepsilon^{(\ell)}_j \quad ; 
 <span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>V_mc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>           [,1]        [,2]        [,3]
-[1,] 26.2195769 -0.47418874  0.71268562
-[2,] -0.4741887  0.01003231 -0.01094397
-[3,]  0.7126856 -0.01094397  0.02339591</code></pre>
+[1,] 26.8207035 -0.49271186  0.72547831
+[2,] -0.4927119  0.01059175 -0.01131632
+[3,]  0.7254783 -0.01131632  0.02369592</code></pre>
 </div>
 </div>
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-40_249e272abe2b1aa8f8b993b6179d0167">
 <div class="sourceCode" id="cb38"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>se_mc <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(V_mc))</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>se_mc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 5.1205055 0.1001614 0.1529572</code></pre>
+<pre><code>[1] 5.1788709 0.1029162 0.1539348</code></pre>
 </div>
 </div>
 <div class="remark proof">
@@ -775,7 +775,7 @@ y^{(\ell)}_j = f(x_j,\hat{\beta}) + \hat{\sigma} \varepsilon^{(\ell)}_j \quad ; 
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-42_14451409a8d4ed9f80c607d86cb32438">
 <div class="sourceCode" id="cb40"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(betas_boot, <span class="dv">2</span>, sd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 5.1205055 0.1001614 0.1529572</code></pre>
+<pre><code>[1] 5.1788709 0.1029162 0.1539348</code></pre>
 </div>
 </div>
 </div>
@@ -866,9 +866,9 @@ tau    1.2597849   1.6647346</code></pre>
 <span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>CI_bootstrap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>        2.5%       97.5%
-1 86.5929330 106.4211157
-2  0.4603746   0.8412544
-3  1.3120496   1.8942202</code></pre>
+1 86.5946040 105.6785223
+2  0.4595651   0.8538838
+3  1.3178072   1.8879978</code></pre>
 </div>
 </div>
 <div class="remark proof">
@@ -890,9 +890,9 @@ tau    1.2597849   1.6647346</code></pre>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>beta_hat <span class="sc">+</span> rq<span class="sc">*</span>(CI_bootstrap <span class="sc">-</span> beta_hat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>        2.5%       97.5%
-1 86.5634805 106.4812760
-2  0.4595655   0.8421667
-3  1.3113707   1.8961724</code></pre>
+1 86.5651591 105.7353265
+2  0.4587524   0.8548532
+3  1.3171544   1.8899219</code></pre>
 </div>
 </div>
 </div>
@@ -1235,13 +1235,13 @@ f(x_0 , \beta) \simeq f(x_0 , \hat{\beta}) + \nabla f(x_0 , \hat{\beta})(\beta -
 &amp; [f(x_0,\hat{\beta}) + \frac{qt_{\alpha/2, n-d}}{q\mathcal{N}_{\alpha/2}}(y_{0,\alpha/2} - f(x_0,\hat{\beta}))\ , \  f(x_0,\hat{\beta}) + \frac{qt_{1-\alpha/2, n-d}}{q\mathcal{N}_{1-\alpha/2}}(y_{0,1-\alpha/2} - f(x_0,\hat{\beta}))]  
 \end{aligned}</span></p>
 <p>Let us compute these confidence and prediction interval bu boostraping for the <span class="math inline">f_2</span>:</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-92_5513e8885bcbb0b68ab6609bc62bb49e">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-92_cd610d2e7d3ef4f8e7d2c2be11c103cf">
 <div class="sourceCode" id="cb82"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>f_hat <span class="ot">&lt;-</span> <span class="cf">function</span>(beta, x){ beta[<span class="dv">4</span>] <span class="sc">+</span> (beta[<span class="dv">1</span>]<span class="sc">-</span>beta[<span class="dv">4</span>])<span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>(<span class="sc">-</span>beta[<span class="dv">2</span>]<span class="sc">*</span>(x<span class="sc">-</span>beta[<span class="dv">3</span>]))) }</span>
 <span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>beta_hat  <span class="ot">&lt;-</span> <span class="fu">coef</span>(nlm2)</span>
 <span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>y_hat_ref <span class="ot">&lt;-</span> <span class="fu">f_hat</span>(beta_hat, x)</span>
 <span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a>df_mc <span class="ot">&lt;-</span> <span class="fu">data.frame</span>( <span class="at">x =</span>x_new, <span class="at">f =</span> f_new)</span>
 <span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb82-6"><a href="#cb82-6" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">mclapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>, <span class="cf">function</span>(b) {</span>
+<span id="cb82-6"><a href="#cb82-6" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">mclapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>, <span class="cf">function</span>(b) {</span>
 <span id="cb82-7"><a href="#cb82-7" aria-hidden="true" tabindex="-1"></a>  y_b <span class="ot">&lt;-</span> y_hat_ref <span class="sc">+</span> <span class="fu">sigma</span>(nlm2) <span class="sc">*</span> <span class="fu">rnorm</span>(n)</span>
 <span id="cb82-8"><a href="#cb82-8" aria-hidden="true" tabindex="-1"></a>  nlm2_b <span class="ot">&lt;-</span> <span class="fu">nls</span>(y_b <span class="sc">~</span> <span class="fu">f_hat</span>(beta, x), <span class="at">start =</span> <span class="fu">list</span>(<span class="at">beta =</span> beta_hat))</span>
 <span id="cb82-9"><a href="#cb82-9" aria-hidden="true" tabindex="-1"></a>  f_b <span class="ot">&lt;-</span> <span class="fu">predict</span>(nlm2_b, <span class="at">newdata =</span> df_mc)</span>
