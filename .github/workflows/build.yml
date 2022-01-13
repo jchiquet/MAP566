@@ -37,6 +37,7 @@ jobs:
       - name: Rendering with Quarto
         shell: bash -l {0}
         run: |
+          export LD_LIBRARY_PATH=/usr/local/lib
           quarto render 
         
       - name: Deploying website on github pages
