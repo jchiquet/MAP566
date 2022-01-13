@@ -396,7 +396,7 @@ L <- 1000
 y_hat_ref <- predict(nlm1)
 beta_hat <- coef(nlm1)
 x <- faithful$eruptions
-betas_boot <- mclapply(1:L, function(b) {
+betas_boot <- parallel::mclapply(1:L, function(b) {
   y_b <- y_hat_ref + sigma_hat * rnorm(length(y_hat_ref))
   coef(suppressWarnings(nls(y_b ~  f_1(beta, x), start = list(beta = beta_hat))))
 }) %>% unlist() %>% matrix(ncol = L) %>% t()
@@ -883,7 +883,7 @@ beta_hat  <- coef(nlm2)
 y_hat_ref <- f_hat(beta_hat, x)
 df_mc <- data.frame( x =x_new, f = f_new)
 
-res <- mclapply(1:1000, function(b) {
+res <- parallel::mclapply(1:1000, function(b) {
   y_b <- y_hat_ref + sigma(nlm2) * rnorm(n)
   nlm2_b <- nls(y_b ~ f_hat(beta, x), start = list(beta = beta_hat))
   f_b <- predict(nlm2_b, newdata = df_mc)

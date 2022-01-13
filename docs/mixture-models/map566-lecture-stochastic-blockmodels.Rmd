@@ -203,6 +203,10 @@ library(sbm)
 theme_set(theme_bw())
 ```
 
+```{r pdf-setting}
+options(tinytex.engine = 'xelatex')
+```
+
 ## Introduction
 
 ### Network data and binary graphs: minimal notation
