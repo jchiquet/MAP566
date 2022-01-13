@@ -22,5 +22,4 @@ dependencies:
   - r-aricode
   - r-viridis
   - r-tinytex
-  - r-magick
-  
+
