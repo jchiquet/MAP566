@@ -59,13 +59,14 @@ levels(survival$regimen)
 
 ### Single comparison between 2 groups
 
-One objective of this study is the comparison of the survival between the control group and the experimental groups.
+One objective of this study is the comparison of the *survival time* between the control group and the experimental groups.
 
 Consider for instance the control group of females 
 
 ```{r}
 time_control <- survival %>% 
   filter(regimen == "control", gender == "female") %>% pull(time)
+time_control
 ``` 
 
 Only 2 rats of this group died before the end of the experiment. On the other hand, 7 females of the group fed with 22% of maize NK693 died during the experiment.
@@ -73,9 +74,10 @@ Only 2 rats of this group died before the end of the experiment. On the other ha
 ```{r}
 time_test <- survival %>% 
   filter(regimen == "NK603-22%", gender == "female") %>% pull(time)
+time_test
 ``` 
 
-A negative effect of the diet on the survival means that the rats of the experimental group tend to die before those of the control group. Then, we would like to test 
+A negative effect of the diet on the survival means that the rats of the experimental group *tend to die before* those of the control group. Then, we would like to test 
 
 $$\begin{aligned}
 & H_0: \ "\text{the NK603 22\% diet has no effect on the survival of female rats }"\\
@@ -88,7 +90,7 @@ $$\begin{aligned}
 \text{versus } & H_1: \ ``\mathbb{P}(T_{\rm test}>t) < \mathbb{P}(T_{\rm control}>t), \text{ for any } t>0" \end{aligned}$$
  
 Because of the (right) censoring process, we cannot just compare the mean survival times using  a $t$-test.
-On the other hand, we can use the Wilcoxon-Mann-Whitney test which precisely aims to compare the ranks of the survival times in both groups.
+On the other hand, we can use the *Wilcoxon-Mann-Whitney test* which precisely aims to compare the ranks of the survival times in both groups.
 
 ```{r, message=FALSE, warning=FALSE}
 wilcox.test(time_test, time_control, alternative="less")
@@ -99,7 +101,7 @@ Here, the $p$-value should lead us to reject the null hypothesis and conclude th
 ## A single comparison... among many others
 
 Should we really accept this conclusion as it stands? No, because we don't know the whole story...
-Remember that there are 9 experimental groups for each sex. Then, 18 comparisons with the control groups are performed.
+Remember that there are *9 experimental groups for each sex*. Then, 18 comparisons with the control groups are performed.
 
 ```{r, warning = FALSE}
 do_all_comparisons <- function(data) {
@@ -120,7 +122,7 @@ do_all_comparisons <- function(data) {
   }) %>% bind_rows() %>% arrange(p.value)
 }
 all_comparisons <- do_all_comparisons(survival)
-all_comparisons %>% rmarkdown::paged_table()
+all_comparisons %>% rmarkdown::paged_table(options = list(rows.print = 18))
 ```
 
 Let us plot the ordered p-values:
@@ -137,7 +139,11 @@ how can we conclude that these differences are statistically significant?
 
 ### Permutation test
 
+::: {.callout-info}
+## Permutation test
+
 A permutation test (also called a randomization test) is a type of statistical significance test in which the distribution of the test statistic under the null hypothesis is obtained by calculating all possible values of the test statistic under rearrangements of the labels on the observed data points. If the labels are exchangeable under the null hypothesis, then the resulting tests yield exact significance levels. Prediction intervals can also be derived.
+:::
 
 In our example, imagine that the null hypothesis is true. We  can then randomly exchange the labels (i.e. the regimen) and perform the 18 comparisons between the experimental groups and the control groups. 
 
@@ -149,7 +155,16 @@ permuted_data <- survival %>%
 do_all_comparisons(permuted_data) %>% rmarkdown::paged_table()
 ```
 
-The test statistics and the $p$-values now really behave how they are supposed to behave under the null hypothesis. If we now repeat the same experiment using many different permutations, we will be able to estimate the $m$ distributions of the $m$ test statistics as well as the $m$ distributions of the $m$ $p$-values under the null hypothesis.
+The test statistics and the $p$-values now really behave how they are supposed to behave under the null hypothesis. Let us plot this:
+
+```{r, message=FALSE, warning=FALSE, fig.height=4, fig.width=10}
+#| code-fold: true
+do_all_comparisons(permuted_data) %>% 
+  ggplot() + geom_point(aes(x = 1:18, color = regime, y = p.value, shape = gender), size=4) + 
+  scale_y_log10() + xlab("regime") + ylab("p-value") + scale_color_viridis_d() + theme_bw()
+``` 
+Is this really different from the plot we obtained before, with the original data? To answer this question
+ we repeat the same experiment using many different permutations. We will be able to estimate the $m$ distributions of the $m$ test statistics as well as the $m$ distributions of the $m$ $p$-values under the null hypothesis.
 
 ```{r, message=FALSE, warning=FALSE}
 n_replicates <- 1000
@@ -180,13 +195,14 @@ and plot them, with the original $p$-values
 
 
 ```{r, fig.height=4, fig.width=10}
+#| code-fold: true
 quantiles_pvalues %>% ggplot() +
   geom_errorbar(aes(x = rank, ymin = low, ymax = up), width=0.2, size=1.5, colour="grey50") +
   scale_y_log10() + xlab("regimen") + ylab("p-value") + scale_x_continuous(breaks=NULL)  +  
   geom_point(data = all_comparisons, aes(x = 1:18, color = regime, y = p.value, shape=gender), size=4) 
 ```
 
-Here, all the $p$-values, including the smallest ones, belong to the 90% prediction intervals: all the observed $p$-values behave individually how they are expected to behave under the null hypothesis. 
+Here, all the $p$-values, including the smallest ones, belong to the 90% prediction intervals: *all the observed $p$-values behave individually how they are expected to behave under the null hypothesis*. 
 
 In particular, when 18 comparisons are performed, it's not unlikely under the null hypothesis to obtain a smallest p-value less than or equal to the observed one (0.011).
 
@@ -261,51 +277,55 @@ The Bonferroni correction is appropriate when a single false positive in a set o
 
 ```{r, message = FALSE}
 data <- read_csv("../../data/dietary.csv") %>% mutate_if(is.character, factor) 
+data %>% rmarkdown::paged_table()
 ```
 
 We can see that five of the variables show a significant  $p$-value (<0.05). However, because @garcia2014calorie tested 25 dietary variables, we would expect one or two variables to show a significant result purely by chance, even if diet had no real effect on mammographic density. 
 
 Applying the Bonferroni correction, we divide $\alpha=0.05$ by the number of tests ($m=25$) to get the Bonferroni critical value, so a test would have to have $p<0.002$ to be significant. Under that criterion, only the test for total calories is significant.
 
- An alternative approach is to control the false discovery rate, i.e the expected proportion of ``discoveries" (significant results) that are actually false positives. FDR control offers a way to increase power while maintaining some principled bound on error.
- 
- Imagine for instance that we compare expression levels for 20,000 genes between liver tumors and normal liver cells. We are going to do additional experiments on any genes that show a significant difference between the normal and tumor cells. Then, because we don't want to miss genes of interest, we are willing to accept up to 25% of the genes with significant results being false positives. We'll find out they're false positives when we do the followup experiments. In this case, we would set the false discovery rate to 25%.
- 
 ### The Benjamini-Hochberg procedure
+
+::: {.callout-info}
+## Controlling FDR
+
+An alternative approach is to control the false discovery rate, i.e the expected proportion of "discoveries" (significant results) that are actually false positives. FDR control offers a way to increase power while maintaining some principled bound on error.
  
-The ) @benjamini1995controlling procedure (BH) controls the FDR... and it is simple to use!
+Imagine for instance that we compare expression levels for 20,000 genes between liver tumors and normal liver cells. We are going to do additional experiments on any genes that show a significant difference between the normal and tumor cells. Then, because we don't want to miss genes of interest, we are willing to accept up to 25% of the genes with significant results being false positives. We'll find out they're false positives when we do the followup experiments. In this case, we would set the false discovery rate to 25%.
+:::
  
-Indeed,  for a given $\alpha$ and a given sequence of **ordered** $p$-values $P_{(1)}$, $P_{(2)}$, \ldots, $P_{(m)}$, it consists in computing the $m$ *adjusted* $p$-values
+The @benjamini1995controlling procedure (BH) controls the FDR... and it is simple to use!
+ 
+Indeed, for a given $\alpha$ and a given sequence of **ordered** $p$-values $P_{(1)}$, $P_{(2)}$, \ldots, $P_{(m)}$, it consists in computing the $m$ *adjusted* $p$-values
 defined as
 
- $$ P_{(i)}^{\rm BH} = \min\left( P_{(i)}\frac{m}{i} \ , \ P_{(i+1)}^{\rm BH} \right)$$
+$$P_{(i)}^{\rm BH} = \min\left( P_{(i)}\frac{m}{i} \ , \ P_{(i+1)}^{\rm BH} \right)$$
 
 ```{r}
 data$p.bh <- p.adjust(data$`p-value`, method = "BH")
+data %>% rmarkdown::paged_table()
 ```   
 
-Then, the discoveries, i.e. the significant tests, are those with an ajusted p-value less than $\alpha$.
+Then, the discoveries, i.e. the significant tests, are those with an adjusted p-value less than $\alpha$.
 
 It can be shown that this procedure guarantees that for *independent tests*, and for *any alternative hypothesis*,
    
 $$\begin{aligned}
-{\rm FDR} &= \mathbb{E}{\frac{m_{01}}{m_{01} + m_{11}}} \\
+{\rm FDR} &= \mathbb{E}\left(\frac{m_{01}}{m_{01} + m_{11}}\right) \\
 &\leq \frac{m_{0\cdot}}{m} \alpha \\
 &\leq \alpha 
 \end{aligned}$$
+
 where $m_{0\cdot}$ is the (unknown) total number of true null hypotheses, and where the first inequality is an equality with continuous $p$-value distributions.
 
-
 In our example, the first five tests would be significant with $\alpha=0.25$, which means that we expect   no more than 25% of these 5 tests to be  false discoveries.
-
-
 
 **Remark 1:**
 The BH procedure is equivalent to consider as significant the non adjusted $p$-values smaller than a threshold $P_{\rm BH}$ defined as
 
+$$ P_{\rm BH} = \max_i \left\{ P_{(i)}: \ \ P_{(i)} \leq \alpha \frac{i}{m}  \right\} $$
 
- $$ P_{\rm BH} = \max_i \left\{ P_{(i)}: \ \ P_{(i)} \leq \alpha \frac{i}{m}  \right\} $$
-In other words, the largest $p$-value that has $P_{(i)}<(i/m)\alpha$ is significant, and all of the $P$-values smaller than it are also significant, even the ones that aren't less than their Benjamini-Hochberg critical value $\alpha \times i/m$
+In other words, the largest $p$-value that has $P_{(i)}<(i/m)\alpha$ is significant, and all of the $p$-values smaller than it are also significant, even the ones that aren't less than their Benjamini-Hochberg critical value $\alpha \times i/m$
  
 ```{r}
 alpha <- 0.25
@@ -314,10 +334,13 @@ data$critical.value <- (1:m)/m*alpha
 data
 ```
 
+If we plot this, we clearly exhibit two regimen in the behaviour of the p-values distribution:
+
 ```{r, fig.height=6, fig.width=8, message=FALSE, warning=FALSE}
+#| code-fold: true
 pl1 <- ggplot(data) + geom_line(aes(x=1:m,y=`p-value`), colour="blue") +
-geom_line(aes(x=1:m,y=critical.value), colour="red") +xlab("(i)")
-grid.arrange(pl1,pl1 + xlim(c(1,8)) + ylim(c(0,0.21)) + geom_vline(xintercept=5.5))
+geom_line(aes(x=1:m,y=critical.value), colour="red") + xlab("(i)") + theme_bw()
+grid.arrange(pl1, pl1 + xlim(c(1,8)) + ylim(c(0,0.21)) + geom_vline(xintercept=5.5))
 ```
 
 The largest $p$-value with $P_{(i)}<(i/m)\alpha$ is *proteins*, where the individual $p$-value (0.042) is less than the $(i/m)\alpha$ value of 0.050. Thus the first five tests would be significant.
@@ -383,7 +406,6 @@ We would consider the 7 first $p$-values as significant using this new correctio
 <!-- Setting the significance level $\alpha$ to 0.2, we can compute for each replicate the numbers of true and false discoveries $m_{11}$ and $m_{01}$, as well as the numbers of true and false nondiscoveries  $m_{00}$ and $m_{10}$. -->
 
 <!-- We can then compute the proportion of wrongly rejected null hypotheses -->
-
 
 <!-- ```{r} -->
 <!-- alpha=0.2 -->

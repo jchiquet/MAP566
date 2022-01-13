@@ -22,6 +22,6 @@ dependencies:
   - r-aricode
   - r-viridis
   - r-tinytex
-  - conda-forge::r-magick
-  - conda-forge::imagemagick
+  - r-magick
+  - imagemagick
   
