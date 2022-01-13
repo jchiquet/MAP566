@@ -8,5 +8,5 @@ local({
 install.packages('blockmodels')
 install.packages('sbm')
 install.packages('missSBM')
-install.packages('magick')
+## install.packages('magick')
 
