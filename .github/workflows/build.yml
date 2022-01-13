@@ -13,8 +13,8 @@ jobs:
       - name: Checking out repository for Github action
         uses: actions/checkout@v2
         
-      - name: Install ImageMagick
-        run: sudo apt-get install libmagick++-dev
+      # - name: Install ImageMagick
+      #   run: sudo apt-get install libmagick++-dev
 
       - name: Setting up miniconda with specified dependencies
         uses: conda-incubator/setup-miniconda@v2
