@@ -29,10 +29,15 @@ jobs:
       - name: Installing quarto
         uses: quarto-dev/quarto-actions/install-quarto@v1
 
+      - name: Install TinyTeX for quarto
+        shell: bash -l {0}
+        run: |
+          quarto tools install tinytex
+        
       - name: Rendering with Quarto
         shell: bash -l {0}
         run: |
-            quarto render 
+          quarto render 
         
       - name: Deploying website on github pages
         uses: JamesIves/github-pages-deploy-action@3.7.1
