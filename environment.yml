@@ -23,4 +23,5 @@ dependencies:
   - r-viridis
   - r-tinytex
   - r-magick
+  - imagemagick
   
