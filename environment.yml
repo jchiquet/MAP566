@@ -2,7 +2,7 @@ name: MAP566
 channels:
   - conda-forge
 dependencies:
-  - r-base>=4.0.1
+  - r-base
   - r-tidyverse
   - r-knitr
   - r-lattice

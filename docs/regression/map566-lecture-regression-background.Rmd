@@ -11,7 +11,7 @@ $$y_j = f(x_j,\beta) + \varepsilon_j \quad ; \quad 1\leq j \leq n$$
 
 where $f$ is a *structural model* which depends on a $p$-vector of parameters  $\beta$. We will assume that the residuals $(\varepsilon_j)$ are independent random variables with mean 0 and variance $\sigma^2$:
 $$ 
-\mathbb{E}{\varepsilon_j} = 0 \quad ; \quad  \mathbb{E}{\varepsilon^2_j} = \sigma^2 \quad ; \quad \mathbb{E}{\varepsilon_j \varepsilon_k} = 0  \ (j \neq k)
+\mathbb{E}(\varepsilon_j) = 0 \quad ; \quad  \mathbb{E}(\varepsilon^2_j) = \sigma^2 \quad ; \quad \mathbb{E}(\varepsilon_j \varepsilon_k) = 0  \ (j \neq k)
 $$
 
 
@@ -185,7 +185,7 @@ The following central limit theorem (CLT) holds under certain regularity conditi
 $$ 
 I_n(\theta^\star)^{\frac{1}{2}}(\hat{\theta}-\theta^\star) \xrightarrow{n\to \infty} {\mathcal N}(0,{\rm Id}_n) .
 $$
-This theorem shows that under  relevant hypotheses, the estimator $\hat{\theta}$ is consistent and converges to $\theta^\star$ at  rate  $\sqrt{n}$ since $I_n={\cal O}(n)$.
+This theorem shows that under  relevant hypotheses, the estimator $\hat{\theta}$ is consistent and converges to $\theta^\star$ at  rate  $\sqrt{n}$ since $I_n=\mathcal{O}(n)$.
 
 
 The normalizing term

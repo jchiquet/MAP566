@@ -68,7 +68,7 @@ $$
 y_j = c_0 + c_1 x_j + c_2 x^2_j + \ldots + c_{d} x^{d}_j + \varepsilon_j
 $$
 can be written in a matrix form
-$$y = X\beta + varepsilon $$
+$$y = X\beta + \varepsilon $$
 where 
 $$
 y = \left( \begin{array}{c}
