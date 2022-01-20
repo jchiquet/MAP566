@@ -439,7 +439,7 @@ $$
 The Laplacian is easily (and fastly) computed in `R` thanks to the igraph package. Let us compute this for the French blog graph:
 
 ```{r compute-laplacian}
-L <- laplacian_matrix(frenchblog2007)
+L <- laplacian_matrix(blog)
 ```
 
 :::{.callout-note}
