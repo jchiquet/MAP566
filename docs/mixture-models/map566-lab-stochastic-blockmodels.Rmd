@@ -40,7 +40,7 @@ library(aricode)   # clustering measures comparison
 
 Some extra packages can be obtained for fancier representations, 
 
-```{r additional packages}
+```{r additional packages, eval = FALSE}
 #| code-fold: true
 library(corrplot)  # plot of covariance/correlation matrices
 library(ggraph)
