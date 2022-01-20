@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.3.8">
+  <meta name="generator" content="quarto-0.3.31">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Multiple Testing</title>
   <style>
@@ -95,25 +95,6 @@
     }
   </style>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", function () {
-   var mathElements = document.getElementsByClassName("math");
-   var macros = [];
-   for (var i = 0; i < mathElements.length; i++) {
-    var texText = mathElements[i].firstChild;
-    if (mathElements[i].tagName == "SPAN") {
-     katex.render(texText.data, mathElements[i], {
-      displayMode: mathElements[i].classList.contains('display'),
-      throwOnError: false,
-      macros: macros,
-      fleqn: false
-     });
-  }}});
-  </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
   <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
   <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
   <script src="../../site_libs/clipboard/clipboard.min.js"></script>
@@ -153,6 +134,25 @@
   }</script>
   <link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
   <script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
 </head>
 <body class="docked">
 <div id="quarto-search-results"></div>
@@ -259,6 +259,9 @@
         <li class="dropdown-header">Exercices</li>
         <li>
     <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">Mixture Models</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html">Graph Clustering: Spectral methods and Stochastic Blockmodels</a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
@@ -377,10 +380,10 @@
 <p>When we perform a large number of statistical tests, some will have <span class="math inline">p</span>-values less than 0.05 purely by chance, even if all the null hypotheses are really true.</p>
 <p>More precisely, if we do a large number <span class="math inline">m</span> of statistical tests, and for <span class="math inline">m_{0\cdot}</span> of them the null hypothesis is actually true, we would expect about 5% of the <span class="math inline">m_{0\cdot}</span> tests to be significant at the 0.05 level, just due to chance: these significant results are false discoveries (or false positives). On the other hand, if some alternative hypothesis are true, we can miss some of them: these non significant results are false negatives.</p>
 <p><span class="math display"> \begin{array}{c|c|c|c}
-&amp; \text{Null hypothesis true} &amp; \text{Alternative hypothesis true}  &amp; \\ \hline 
+&amp; \text{Null hypothesis true} &amp; \text{Alternative hypothesis true}  &amp; \\ \hline
 \text{Test non significant} &amp; m_{00} &amp; m_{10} &amp; m_{\cdot 0} \\ \hline
 \text{Test significant} &amp; m_{01} &amp; m_{11} &amp; m_{\cdot 1} \\ \hline
- &amp; m_{0 \cdot} &amp; m_{1 \cdot} &amp; m
+&amp; m_{0 \cdot} &amp; m_{1 \cdot} &amp; m
 \end{array} </span></p>
 <p>If important conclusions and decisions are based on these false positives, it is then important to control the <em>family-wise error rate</em> (FWER):</p>
 <ul>
@@ -533,7 +536,7 @@ Permutation test
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["gender"],"name":[1],"type":["fct"],"align":["left"]},{"label":["regime"],"name":[2],"type":["fct"],"align":["left"]},{"label":["statistic"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"female","2":"NK603-33%","3":"31.5","4":"0.07989333"},{"1":"female","2":"NK603-33%+R","3":"32.0","4":"0.08273271"},{"1":"male","2":"RoundUp B","3":"31.5","4":"0.08591706"},{"1":"female","2":"RoundUp C","3":"34.5","4":"0.12070069"},{"1":"male","2":"NK603-11%","3":"41.0","4":"0.25835776"},{"1":"male","2":"NK603-22%","3":"41.5","4":"0.27099460"},{"1":"female","2":"NK603-11%+R","3":"44.0","4":"0.32823154"},{"1":"male","2":"NK603-11%+R","3":"44.5","4":"0.35068102"},{"1":"female","2":"RoundUp B","3":"45.0","4":"0.36068172"},{"1":"male","2":"NK603-33%+R","3":"45.5","4":"0.38004175"},{"1":"male","2":"NK603-33%","3":"46.0","4":"0.39329058"},{"1":"female","2":"NK603-11%","3":"49.5","4":"0.50000000"},{"1":"female","2":"RoundUp A","3":"51.5","4":"0.56575073"},{"1":"male","2":"RoundUp C","3":"53.5","4":"0.62013699"},{"1":"male","2":"RoundUp A","3":"55.0","4":"0.66469148"},{"1":"female","2":"NK603-22%","3":"56.0","4":"0.70482610"},{"1":"male","2":"NK603-22%+R","3":"57.5","4":"0.73215757"},{"1":"female","2":"NK603-22%+R","3":"63.0","4":"0.87541899"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["gender"],"name":[1],"type":["fct"],"align":["left"]},{"label":["regime"],"name":[2],"type":["fct"],"align":["left"]},{"label":["statistic"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"male","2":"NK603-11%","3":"33.0","4":"0.1042450"},{"1":"male","2":"RoundUp B","3":"37.0","4":"0.1699697"},{"1":"male","2":"NK603-33%+R","3":"37.5","4":"0.1787859"},{"1":"male","2":"NK603-22%+R","3":"40.5","4":"0.2450966"},{"1":"male","2":"NK603-11%+R","3":"43.0","4":"0.3077515"},{"1":"male","2":"RoundUp C","3":"43.5","4":"0.3226939"},{"1":"female","2":"NK603-22%+R","3":"46.5","4":"0.4095596"},{"1":"male","2":"NK603-33%","3":"50.0","4":"0.5155809"},{"1":"female","2":"NK603-11%","3":"50.5","4":"0.5305439"},{"1":"male","2":"RoundUp A","3":"51.0","4":"0.5467037"},{"1":"female","2":"RoundUp A","3":"53.5","4":"0.6213647"},{"1":"male","2":"NK603-22%","3":"54.0","4":"0.6363795"},{"1":"female","2":"RoundUp B","3":"58.5","4":"0.7549873"},{"1":"female","2":"NK603-33%","3":"59.0","4":"0.7684482"},{"1":"female","2":"NK603-33%+R","3":"59.5","4":"0.7782725"},{"1":"female","2":"NK603-22%","3":"66.0","4":"0.9012384"},{"1":"female","2":"NK603-11%+R","3":"69.0","4":"0.9388786"},{"1":"female","2":"RoundUp C","3":"80.5","4":"0.9938759"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -596,7 +599,7 @@ Permutation test
 <div class="sourceCode" id="cb18"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>stat_rank1 <span class="ot">&lt;-</span> <span class="fu">split</span>(res, res<span class="sc">$</span>simu) <span class="sc">%&gt;%</span> <span class="fu">map_dbl</span>(<span class="cf">function</span>(x) <span class="fu">sort</span>(x<span class="sc">$</span>statistic)[<span class="dv">1</span>])</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(stat_rank1 <span class="sc">&lt;</span> all_comparisons<span class="sc">$</span>statistic[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 0.154</code></pre>
+<pre><code>[1] 0.146</code></pre>
 </div>
 </div>
 </section>
@@ -611,7 +614,7 @@ Permutation test
 &amp;= 1 - \mathbb{P}(m_{01}= 0)  \\
 &amp;= 1 - (1-\alpha_m)^m
 \end{aligned} </span></p>
-<p>Then, if we set FWER<span class="math inline">=\alpha</span>, the significance level for each individual test should be <span class="math display">\begin{aligned} 
+<p>Then, if we set FWER<span class="math inline">=\alpha</span>, the significance level for each individual test should be <span class="math display">\begin{aligned}
 \alpha_m &amp;=  1 - (1-\alpha)^{\frac{1}{m}} \quad \quad (\text{Sidak correction})\\
 &amp; \simeq  \frac{\alpha}{m} \quad \quad (\text{Bonferroni correction})
 \end{aligned}</span></p>
@@ -702,7 +705,7 @@ Controlling FDR
 <p><span class="math display">\begin{aligned}
 {\rm FDR} &amp;= \mathbb{E}\left(\frac{m_{01}}{m_{01} + m_{11}}\right) \\
 &amp;\leq \frac{m_{0\cdot}}{m} \alpha \\
-&amp;\leq \alpha 
+&amp;\leq \alpha
 \end{aligned}</span></p>
 <p>where <span class="math inline">m_{0\cdot}</span> is the (unknown) total number of true null hypotheses, and where the first inequality is an equality with continuous <span class="math inline">p</span>-value distributions.</p>
 <p>In our example, the first five tests would be significant with <span class="math inline">\alpha=0.25</span>, which means that we expect no more than 25% of these 5 tests to be false discoveries.</p>

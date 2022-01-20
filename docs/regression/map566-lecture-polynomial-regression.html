@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.3.8">
+  <meta name="generator" content="quarto-0.3.31">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Polynomial Regression</title>
   <style>
@@ -76,25 +76,6 @@
     code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", function () {
-   var mathElements = document.getElementsByClassName("math");
-   var macros = [];
-   for (var i = 0; i < mathElements.length; i++) {
-    var texText = mathElements[i].firstChild;
-    if (mathElements[i].tagName == "SPAN") {
-     katex.render(texText.data, mathElements[i], {
-      displayMode: mathElements[i].classList.contains('display'),
-      throwOnError: false,
-      macros: macros,
-      fleqn: false
-     });
-  }}});
-  </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
   <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
   <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
   <script src="../../site_libs/clipboard/clipboard.min.js"></script>
@@ -133,6 +114,25 @@
   }</script>
   <link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
   <script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
 </head>
 <body class="docked">
 <div id="quarto-search-results"></div>
@@ -239,6 +239,9 @@
         <li class="dropdown-header">Exercices</li>
         <li>
     <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">Mixture Models</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html">Graph Clustering: Spectral methods and Stochastic Blockmodels</a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
@@ -436,21 +439,21 @@ f(x) &amp;= f(x ; c_0, c_1, c_2, \ldots, c_d) \\
 <h3 data-number="2.1" class="anchored" data-anchor-id="fitting-a-polynomial-model-as-a-linear-model"><span class="header-section-number">2.1</span> Fitting a polynomial model as a linear model</h3>
 <p>Remark that the polynomial regression model <span class="math display">
 y_j = c_0 + c_1 x_j + c_2 x^2_j + \ldots + c_{d} x^{d}_j + \varepsilon_j
-</span> can be written in a matrix form <span class="math display">y = X\beta + varepsilon </span> where <span class="math display">
+</span> can be written in a matrix form <span class="math display">y = X\beta + \varepsilon </span> where <span class="math display">
 y = \left( \begin{array}{c}
-y_1 \\ y_2 \\ \vdots \\ y_n 
-\end{array}\right), \quad 
-X = \left( \begin{array}{cccc} 
-1 &amp; x_1 &amp; \cdots &amp; x_1^{d} \\ 
-1 &amp; x_2 &amp; \cdots &amp; x_2^{d} \\ 
+y_1 \\ y_2 \\ \vdots \\ y_n
+\end{array}\right), \quad
+X = \left( \begin{array}{cccc}
+1 &amp; x_1 &amp; \cdots &amp; x_1^{d} \\
+1 &amp; x_2 &amp; \cdots &amp; x_2^{d} \\
 \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
-1 &amp; x_n &amp; \cdots &amp; x_n^{d} 
-\end{array}\right), \quad 
+1 &amp; x_n &amp; \cdots &amp; x_n^{d}
+\end{array}\right), \quad
 \beta = \left( \begin{array}{c}
-c_0 \\ c_1 \\ \vdots \\ c_{d} 
-\end{array}\right), \quad 
+c_0 \\ c_1 \\ \vdots \\ c_{d}
+\end{array}\right), \quad
 \varepsilon = \left( \begin{array}{c}
-\varepsilon_1 \\ \varepsilon_2 \\ \vdots \\ \varepsilon_n 
+\varepsilon_1 \\ \varepsilon_2 \\ \vdots \\ \varepsilon_n
 \end{array}\right)
 </span></p>
 <p>Then, <span class="math inline">X\beta</span> is the vector of <em>predicted values</em> and <span class="math inline">varepsilon</span> the vector of <em>residual errors</em>. Then, all what is said in the lecture about linear regression model can be applied.</p>
@@ -603,12 +606,12 @@ See vignette('programming') for more help</code></pre>
 <p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>On one hand, it is reassuring to see that removing part of the data has a very little impact on the predictions. On the other hand, the predictive performance of the model remains limited because of the natural variability of the data. Indeed, this model built with the training sample only explains 72 % of the variabilility of the new test sample.</p>
+<p>On one hand, it is reassuring to see that removing part of the data has a very little impact on the predictions. On the other hand, the predictive performance of the model remains limited because of the natural variability of the data. Indeed, this model built with the training sample only explains 58 % of the variabilility of the new test sample.</p>
 <div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-28_c359c349ec38ec08fad4795178c51c21">
 <div class="sourceCode" id="cb21"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>R2_test <span class="ot">&lt;-</span> <span class="fu">cor</span>(pred_testing_set, cars_test<span class="sc">$</span>dist)<span class="sc">^</span><span class="dv">2</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>R2_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 0.724412</code></pre>
+<pre><code>[1] 0.5818831</code></pre>
 </div>
 </div>
 <p>Let us see now how the model behaves with extreme values by defining as test sample the data points with the 5 smallest and the 5 largest speeds.</p>
@@ -874,7 +877,7 @@ p_2(x) &amp;= x^2
 p_{d}(x) &amp;= x^{d}
 - \frac{\langle x^{d} , p_{d-1} \rangle}{\langle p_{d-1}, p_{d-1} \rangle} p_{d-1}(x)
 - \cdots
- - \frac{\langle x^{d} , p_0 \rangle}{\langle p_0, p_0 \rangle} p_0(x)
+- \frac{\langle x^{d} , p_0 \rangle}{\langle p_0, p_0 \rangle} p_0(x)
 \end{aligned}
 </span></p>
 <p>Let <span class="math inline">\tilde{X} = (p_0(x) , p_1(x), \cdots , p_{d}(x))</span> be the new design matrix. Then, <span class="math display">

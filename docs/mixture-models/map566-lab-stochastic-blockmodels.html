@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.3.31">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>MAP566 - Stats in Action - Graph Clustering: Spectral methods and Stochastic Blockmodels</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+    }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+
+  <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="../../site_libs/clipboard/clipboard.min.js"></script>
+  <meta name="quarto:offset" content="../../">
+  <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+  <script src="../../site_libs/quarto-search/fuse.min.js"></script>
+  <script src="../../site_libs/quarto-search/quarto-search.js"></script>
+  <link href="../../docs/mixture-models/map566-doc-mixture-models-example.html" rel="next">
+  <link href="../../docs/mixture-models/map566-lab-mixture-models.html" rel="prev">
+  <script src="../../site_libs/quarto-html/quarto.js"></script>
+  <script src="../../site_libs/quarto-html/popper.min.js"></script>
+  <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="../../site_libs/quarto-html/anchor.min.js"></script>
+  <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <script id="quarto-search-options" type="application/json">{
+    "location": "navbar",
+    "copy-button": false,
+    "collapse-after": 2,
+    "panel-placement": "end",
+    "type": "overlay",
+    "limit": 20,
+    "language": {
+      "search-no-results-text": "No results",
+      "search-matching-documents-text": "matching documents",
+      "search-copy-link-title": "Copy link to search",
+      "search-hide-matches-text": "Hide additional matches",
+      "search-more-match-text": "more match in this document",
+      "search-more-matches-text": "more matches in this document",
+      "search-clear-button-title": "Clear",
+      "search-detached-cancel-button-title": "Cancel",
+      "search-submit-button-title": "Submit"
+    }
+  }</script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body class="docked">
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <img src="../../logo_X.jpg" alt="">
+    <span class="navbar-title">MAP566 - Stats in Action</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../getting-started.html">Getting Started</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/jchiquet/MAP566"><i class="bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hypothesis-testing" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hypothesis Testing</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-hypothesis-testing">    
+        <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-single.html">Statistical Tests</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-multiple.html">Multiple Testing</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Exercices</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html">Hypothesis Tesing</a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-regression-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Regression models</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-regression-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html">Polynomial Regression</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-nonlinear-regression.html">Nonlinear Regression</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Exercices</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-polynomial-regression.html">Polynomial Regression</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-nonlinear-regression.html">Nonlinear Regression</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html">Linear Regression: Quick Recap</a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixed-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mixed models</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixed-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html">Linear Mixed Effects Models</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html">Nonlinear Mixed Effects Models</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Exercices</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-linear-mixed-model.html">Linear Mixed Models</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-nonlinear-mixed-model.html">Nonlinear Mixed Effects Models</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html">An EM Algorithm for Linear Mixed Effects Models</a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mixture models</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixture-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html">Mixture Models</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-stochastic-blockmodels.html">Graph clustering</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Exercices</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">Mixture Models</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html">Graph Clustering: Spectral methods and Stochastic Blockmodels</a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-doc-mixture-models-example.html">Mixture Models: an example</a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-homework" role="button" data-bs-toggle="dropdown" aria-expanded="false">Homework</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-homework">    
+    </ul>
+  </li>
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Graph Clustering: Spectral methods and Stochastic Blockmodels</h1>
+      <button type="button" class="quarto-btn-toggle btn">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+  <div class="sidebar-menu-container"> 
+  <ul class="list-unstyled mt-1">
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">
+              <div class="me-auto sidebar-section-item">Lectures</div>
+            <div><i class="bi bi-chevron-right ms-2"></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="quarto-sidebar-section-lectures">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../../docs/mixture-models/map566-lecture-mixture-models.html" class="">Mixture Models</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../../docs/mixture-models/map566-lecture-stochastic-blockmodels.html" class="">Graph clustering</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">
+              <div class="me-auto sidebar-section-item">Exercices</div>
+            <div><i class="bi bi-chevron-right ms-2"></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="quarto-sidebar-section-exercices">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../../docs/mixture-models/map566-lab-mixture-models.html" class="">Mixture Models</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html" class="active">Graph Clustering: Spectral methods and Stochastic Blockmodels</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-supplementary-material" aria-expanded="true">
+              <div class="me-auto sidebar-section-item">Supplementary material</div>
+            <div><i class="bi bi-chevron-right ms-2"></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="quarto-sidebar-section-supplementary-material">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../../docs/mixture-models/map566-doc-mixture-models-example.html" class="">Mixture Models: an example</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+  </ul>
+  </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+      <nav id="TOC" role="doc-toc">
+<h2 id="toc-title">On this page</h2>
+<ul>
+<li><a href="#introduction" class="nav-link active" data-scroll-target="#introduction"> <span class="header-section-number">1</span> Introduction</a>
+<ul class="collapse">
+<li><a href="#requirements" class="nav-link" data-scroll-target="#requirements"> <span class="header-section-number">1.1</span> Requirements</a></li>
+<li><a href="#data-set-antagonistic-treefungus-interaction-network" class="nav-link" data-scroll-target="#data-set-antagonistic-treefungus-interaction-network"> <span class="header-section-number">1.2</span> Data set: antagonistic tree/fungus interaction network</a></li>
+</ul></li>
+<li><a href="#analysis-of-the-treetree-data" class="nav-link" data-scroll-target="#analysis-of-the-treetree-data"> <span class="header-section-number">2</span> Analysis of the tree/tree data</a>
+<ul class="collapse">
+<li><a href="#tree-tree-binary-interaction-networks" class="nav-link" data-scroll-target="#tree-tree-binary-interaction-networks"> <span class="header-section-number">2.1</span> Tree-tree binary interaction networks</a></li>
+<li><a href="#weighted-interaction-network-with-poisson-model" class="nav-link" data-scroll-target="#weighted-interaction-network-with-poisson-model"> <span class="header-section-number">2.2</span> Weighted interaction network with Poisson model</a></li>
+<li><a href="#including-covariate-effects" class="nav-link" data-scroll-target="#including-covariate-effects"> <span class="header-section-number">2.3</span> Including covariate effects</a></li>
+</ul></li>
+<li><a href="#analysis-of-the-treefungi-data-with-bipartite-sbm" class="nav-link" data-scroll-target="#analysis-of-the-treefungi-data-with-bipartite-sbm"> <span class="header-section-number">3</span> Analysis of the tree/fungi data with Bipartite SBM</a></li>
+<li><a href="#references" class="nav-link" data-scroll-target="#references"> <span class="header-section-number">4</span> References</a></li>
+</ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content">
+<header id="title-block-header">
+<h1 class="title d-none d-lg-block display-7">Graph Clustering: Spectral methods and Stochastic Blockmodels</h1>
+<p class="subtitle lead">An illustration on antogonistic tree/fungus network</p>
+</header>
+
+<section id="introduction" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1</span> Introduction</h2>
+<p>This tutorial introduces the graph clustering techniques seen during the lectures, that is,</p>
+<ul>
+<li>Spectral methods, mainly spectral clustering and its variants</li>
+<li>Model-based approaches, namely, stochastic blocmodels (binary, weigthed, bipartite, w/o covariates)</li>
+</ul>
+<p>These methods will be illustrated for the analysis of an (ecological) network data set.</p>
+<section id="requirements" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="requirements"><span class="header-section-number">1.1</span> Requirements</h3>
+<p>The packages required for the analysis are <code>sbm</code> and <code>igraph</code> (<code>sbm</code> <span class="citation" data-cites="sbm-package">Team großBM (Barbillon, Chiquet, Donnet, Léger) (<a href="#ref-sbm-package" role="doc-biblioref">2021</a>)</span> is based on the package <code>blockmodels</code> <span class="citation" data-cites="blockmodels">Leger (<a href="#ref-blockmodels" role="doc-biblioref">2021</a>)</span>), plus some others for data manipulation and representation.</p>
+<div class="cell" data-hash="map566-lab-stochastic-blockmodels_cache/html/packages_4b3099b57e3cf2d8fd287dad2f1aad17">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)    <span class="co"># graph manipulation</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sbm)       <span class="co"># stochastic bloc model</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># data manipulation</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(aricode)   <span class="co"># clustering measures comparison</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout-info callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Advice
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>Use the documentation of the aforementioned packages!!</em>, and the vignettes available at <a href="https://grosssbm.github.io/sbm/">https://grosssbm.github.io/sbm/</a></p>
+</div>
+</div>
+<p>Some extra packages can be obtained for fancier representations,</p>
+<div class="cell" data-hash="map566-lab-stochastic-blockmodels_cache/html/additional packages_b515a8f4bd1e9dde155d4b2d06c50673">
+<p></p><details>
+<summary>Show the code</summary><p></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)  <span class="co"># plot of covariance/correlation matrices</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggraph)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>fancy_network <span class="ot">&lt;-</span> <span class="cf">function</span>(mygraph, group) {</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">V</span>(mygraph)<span class="sc">$</span>party  <span class="ot">&lt;-</span> <span class="fu">as.character</span>(group)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">V</span>(mygraph)<span class="sc">$</span>degree <span class="ot">&lt;-</span> <span class="fu">degree</span>(mygraph)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  angle <span class="ot">&lt;-</span> <span class="dv">90</span> <span class="sc">-</span> <span class="dv">360</span> <span class="sc">*</span> <span class="dv">1</span><span class="sc">:</span>igraph<span class="sc">::</span><span class="fu">gorder</span>(mygraph) <span class="sc">/</span> igraph<span class="sc">::</span><span class="fu">gorder</span>(mygraph)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">V</span>(mygraph)<span class="sc">$</span>hjust <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(angle <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">90</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">V</span>(mygraph)<span class="sc">$</span>angle <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(angle <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">90</span>, angle <span class="sc">+</span> <span class="dv">180</span>, angle)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">ggraph</span>(mygraph, <span class="at">layout =</span> <span class="st">'linear'</span>, <span class="at">circular =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> </span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_edge_arc</span>(<span class="at">alpha =</span> <span class="fl">0.25</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co">#    geom_node_text(aes(label = party, x = x*1.05, y=y*1.05, angle = angle, hjust = hjust), size = 3) +</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_node_point</span>(<span class="fu">aes</span>(<span class="at">colour =</span> party, <span class="at">size =</span> degree), <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="fu">brewer.pal</span>(<span class="dv">6</span>,<span class="st">"Paired"</span>),<span class="st">"maroon4"</span>,<span class="st">"springgreen"</span>, <span class="st">"tan4"</span>,<span class="st">"plum"</span>,<span class="st">"brown4"</span>,<span class="st">"burlywood"</span>,<span class="fu">brewer.pal</span>(<span class="dv">8</span>, <span class="st">"Dark2"</span>), <span class="st">"navy"</span>)) <span class="sc">+</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_graph</span>(<span class="at">base_size =</span> <span class="dv">20</span>)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">invisible</span>(p)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="data-set-antagonistic-treefungus-interaction-network" class="level3" data-number="1.2">
+<h3 data-number="1.2" class="anchored" data-anchor-id="data-set-antagonistic-treefungus-interaction-network"><span class="header-section-number">1.2</span> Data set: antagonistic tree/fungus interaction network</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Tree-Fungus.jpg" class="img-fluid figure-img" width="150"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Fungus on tree</figcaption><p></p>
+</figure>
+</div>
+<p>We consider the fungus-tree interaction network studied by <span class="citation" data-cites="tree_fungus_network">Vacher, Piou, and Desprez-Loustau (<a href="#ref-tree_fungus_network" role="doc-biblioref">2008</a>)</span>, available with the package <strong>sbm</strong>:</p>
+<div class="cell" data-hash="map566-lab-stochastic-blockmodels_cache/html/import dataset_e24e1cf859237dcf97c1b95f2e3edbcc">
+<div class="sourceCode" id="cb3"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"fungusTreeNetwork"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(fungusTreeNetwork,  <span class="at">max.level =</span> <span class="dv">1</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; List of 5</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ tree_names  : Factor w/ 51 levels "Abies alba","Abies grandis",..: 1 2 3 14 42 4 5 6 7 8 ...</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ fungus_names: Factor w/ 154 levels "Amphiporthe leiphaemia",..: 1 2 3 4 5 6 7 8 9 10 ...</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ tree_tree   : num [1:51, 1:51] 0 12 9 3 2 2 0 0 2 7 ...</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ fungus_tree : int [1:154, 1:51] 0 0 0 0 1 1 1 0 0 0 ...</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ covar_tree  :List of 3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This data set provides information about <span class="math inline">154</span> fungi sampled on <span class="math inline">51</span> tree species. It is a list with the following entries:</p>
+<ul>
+<li><code>tree_names</code> : list of the tree species names</li>
+<li><code>fungus_names</code>: list of the fungus species names</li>
+<li><code>tree_tree</code> : weighted tree-tree interactions (number of common fungal species two tree species host)</li>
+<li><code>fungus_tree</code> : binary fungus-tree interactions</li>
+<li><code>covar_tree</code> : covariates associated to pairs of trees (namely genetic, taxonomic and geographic distances)</li>
+</ul>
+<p>During this tutorial we are going to explore successive variants of the Stochastic Blockmodels to analyse binary, weighted, then bipartite network, also by introducing external information via covariates.</p>
+</section>
+</section>
+<section id="analysis-of-the-treetree-data" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="analysis-of-the-treetree-data"><span class="header-section-number">2</span> Analysis of the tree/tree data</h2>
+<p>The tree-tree interactions result into a simple network.</p>
+<section id="tree-tree-binary-interaction-networks" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="tree-tree-binary-interaction-networks"><span class="header-section-number">2.1</span> Tree-tree binary interaction networks</h3>
+<p>We first consider the binary network where an edge is drawn between two trees when they do share a least one common fungi. Eventually, we will assume that our matrix is the realization of the SBM:</p>
+<p><span class="math display">
+\begin{aligned}
+(Z_i) \text{ i.i.d.} \qquad &amp; Z_i \sim \mathcal{M}(1, \alpha) \\
+(Y_{ij}) \text{ indep.} \mid (Z_i) \qquad &amp; (Y_{ij} \mid Z_i=k, Z_j = \ell) \sim \mathcal{B}(\pi_{k\ell})
+\end{aligned}
+</span></p>
+<p><strong>Questions</strong></p>
+<ol type="1">
+<li>Extract the binary tree-tree adjacency matrix and plot it (<code>plotMyMatrix</code>)</li>
+<li>Plot the adjacency matrix. Construct and build an igraph object to plot the network</li>
+<li>Implement different variant of spectral clustering and test them on this data. Plot the corresponding reordered adjacency matrix.</li>
+<li>Adjust a simple binary SBM with <code>estimateSimpleSBM</code>. Become familiar with object <code>simpleSBM</code>.</li>
+<li>Select a model via ICL. Explore/check models with similar ICL (using <code>$setModel()</code>, <code>$storedModel</code>)</li>
+</ol>
+</section>
+<section id="weighted-interaction-network-with-poisson-model" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="weighted-interaction-network-with-poisson-model"><span class="header-section-number">2.2</span> Weighted interaction network with Poisson model</h3>
+<p>Instead of considering the binary network tree-tree we may consider the weighted network where the link between two trees is the number of fungi they share.</p>
+<p><span class="math display">
+\begin{aligned}
+(Z_i) \text{ i.i.d.} \qquad &amp; Z_i \sim \mathcal{M}(1, \pi) \\
+(Y_{ij}) \text{ indep.} \mid (Z_i) \qquad &amp; (Y_{ij} \mid Z_i=k, Z_j = \ell) \sim \mathcal{P}(\exp(\alpha_{kl})) = \mathcal{P}(\lambda_{kl})
+\end{aligned}
+</span></p>
+<ol type="1">
+<li>Adjust a collection of Poisson SBM, explore the models.</li>
+<li>Compare spectral, binary SBM and Poisson SBM with ARI/NID (package <code>aricode</code>) and alluvial plots (<code>plotAlluvial</code>)</li>
+</ol>
+</section>
+<section id="including-covariate-effects" class="level3" data-number="2.3">
+<h3 data-number="2.3" class="anchored" data-anchor-id="including-covariate-effects"><span class="header-section-number">2.3</span> Including covariate effects</h3>
+<p>We have on each pair of trees 3 covariates, namely the genetic distance, the taxonomic distance and the geographic distance.</p>
+<p>Each covariate has to be introduced as a matrix: <span class="math inline">X^k_{ij}</span> corresponds to the value of the <span class="math inline">k</span>-th covariate describing the couple <span class="math inline">(i,j)</span>.</p>
+<p><span class="math display">
+Z_i \sim^{\text{iid}} \mathcal{M}(1, \alpha) \\
+Y_{ij} \mid Z_i=k, Z_j = \ell \sim \mathcal{P}(\exp(\pi_{kl} + x_{ij}^\intercal \theta)) = \mathcal{P}(\gamma_{kl}\exp(x_{ij}^\top \theta))
+</span></p>
+<p><strong>Questions</strong></p>
+<ol type="1">
+<li>Plot the data matrix of covariates</li>
+<li>Use k-means or hierarchical clustering to cluster the covariates data, and compare with the previous graph clustering obtained</li>
+<li>Adjust a Poisson SBM with covariates (1, 2, all of them).</li>
+<li>Compare the obtained clustering with ARI/NID and alluvial plots</li>
+<li>Use ICL to select the “best” model among all the Poisson models.</li>
+</ol>
+</section>
+</section>
+<section id="analysis-of-the-treefungi-data-with-bipartite-sbm" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="analysis-of-the-treefungi-data-with-bipartite-sbm"><span class="header-section-number">3</span> Analysis of the tree/fungi data with Bipartite SBM</h2>
+<p>We now consider the tree-fungi interaction network.</p>
+<p><span class="math display">
+Z^R_i \sim^{\text{iid}} \mathcal{M}(1, \alpha^R) \\
+Z^C_i \sim^{\text{iid}} \mathcal{M}(1, \alpha^C) \\
+Y_{ij} \mid Z^R_i=k, Z^C_j = \ell \sim \mathcal{f}(\gamma_{k\ell}, x_{ij}^\top \theta)
+</span></p>
+<p>Redo the whole analysis, using this time a bipartite SBM.</p>
+</section>
+<section id="references" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="references"><span class="header-section-number">4</span> References</h2>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-blockmodels" class="csl-entry" role="doc-biblioentry">
+Leger, Jean-Benoist. 2021. <span>“Blockmodels: Latent and Stochastic Block Model Estimation by a ’v-EM’ Algorithm.”</span> <a href="https://cran.r-project.org/package=blockmodels">https://cran.r-project.org/package=blockmodels</a>.
+</div>
+<div id="ref-sbm-package" class="csl-entry" role="doc-biblioentry">
+Team großBM (Barbillon, Chiquet, Donnet, Léger). 2021. <span>“<span class="nocase">sbm: Stochastic Blockmodels</span>.”</span> <a href="https://cran.r-project.org/package=sbm">https://cran.r-project.org/package=sbm</a>.
+</div>
+<div id="ref-tree_fungus_network" class="csl-entry" role="doc-biblioentry">
+Vacher, Corinne, Dominique Piou, and Marie-Laure Desprez-Loustau. 2008. <span>“Architecture of an Antagonistic Tree/Fungus Network: The Asymmetric Influence of Past Evolutionary History.”</span> <em>PloS One</em> 3 (3): e1740.
+</div>
+</div>
+</section>
+</main> <!-- /main -->
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../docs/mixture-models/map566-lab-mixture-models.html">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Mixture Models</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../docs/mixture-models/map566-doc-mixture-models-example.html">
+        <span class="nav-page-text">Mixture Models: an example</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+</body></html>

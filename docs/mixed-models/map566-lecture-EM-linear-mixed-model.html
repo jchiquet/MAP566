@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.3.8">
+  <meta name="generator" content="quarto-0.3.31">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - An EM Algorithm for Linear Mixed Effects Models</title>
   <style>
@@ -76,25 +76,6 @@
     code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", function () {
-   var mathElements = document.getElementsByClassName("math");
-   var macros = [];
-   for (var i = 0; i < mathElements.length; i++) {
-    var texText = mathElements[i].firstChild;
-    if (mathElements[i].tagName == "SPAN") {
-     katex.render(texText.data, mathElements[i], {
-      displayMode: mathElements[i].classList.contains('display'),
-      throwOnError: false,
-      macros: macros,
-      fleqn: false
-     });
-  }}});
-  </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
   <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
   <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
   <script src="../../site_libs/clipboard/clipboard.min.js"></script>
@@ -131,6 +112,25 @@
       "search-submit-button-title": "Submit"
     }
   }</script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
 </head>
 <body class="docked">
 <div id="quarto-search-results"></div>
@@ -237,6 +237,9 @@
         <li class="dropdown-header">Exercices</li>
         <li>
     <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">Mixture Models</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html">Graph Clustering: Spectral methods and Stochastic Blockmodels</a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
@@ -370,11 +373,11 @@ y_i = X_i \, \beta + A_i \, \eta_i + \varepsilon_i   \quad ;  \quad 1 \leq i \le
 <li><span class="math inline">\eta_i</span> is a <span class="math inline">q</span>-vector of random effects</li>
 <li><span class="math inline">\varepsilon_i</span> is a <span class="math inline">n_i</span>-vector of residual errors</li>
 </ul>
-<p>The random effects are normally distributed: <span class="math display"> 
+<p>The random effects are normally distributed: <span class="math display">
 \eta_i \sim^{\mathrm{iid}} \mathcal{N}(0_p \ , \ \Omega)
 </span></p>
 <p>The vector of residual errors <span class="math inline">\varepsilon_i</span> is also normally distributed. Furthermore the components <span class="math inline">\varepsilon_{ij}</span> are supposed to be independent and identically distributed:</p>
-<p><span class="math display"> 
+<p><span class="math display">
 \varepsilon_i \sim \mathcal{N}(0_{n_i} \ , \ \sigma^2 I_{n_i})
 </span></p>
 <p>Then, <span class="math inline">y_i</span> is also normally distributed:</p>
@@ -384,23 +387,23 @@ y_i = X_i \, \beta + A_i \, \eta_i + \varepsilon_i   \quad ;  \quad 1 \leq i \le
 <p>where</p>
 <p><span class="math display">
 y = \left( \begin{array}{c}
-y_{1} \\ y_{2} \\ \vdots \\ y_{N} 
+y_{1} \\ y_{2} \\ \vdots \\ y_{N}
 \end{array}\right)
 \quad ,\quad
 X = \left( \begin{array}{c}
-X_{1} \\ X_{2} \\ \vdots \\ X_{N} 
+X_{1} \\ X_{2} \\ \vdots \\ X_{N}
 \end{array}\right)
 \quad , \quad
 A = \left( \begin{array}{cccc}
-A_{1} &amp; 0 &amp; \ldots &amp; 0 \\ 0 &amp; A_{2} &amp; \ldots &amp; 0 \\ \vdots &amp;\vdots &amp;\ddots &amp;\vdots   \\ 0&amp;0&amp;\ldots &amp; A_{N} 
+A_{1} &amp; 0 &amp; \ldots &amp; 0 \\ 0 &amp; A_{2} &amp; \ldots &amp; 0 \\ \vdots &amp;\vdots &amp;\ddots &amp;\vdots   \\ 0&amp;0&amp;\ldots &amp; A_{N}
 \end{array}\right)
 \quad ,\quad
 \eta = \left( \begin{array}{c}
-\eta_{1} \\ \eta_{2} \\ \vdots \\ \eta_{N} 
+\eta_{1} \\ \eta_{2} \\ \vdots \\ \eta_{N}
 \end{array}\right)
 \quad ,\quad
 \varepsilon = \left( \begin{array}{c}
-\varepsilon_{1} \\ \varepsilon_{2} \\ \vdots \\ \varepsilon_{N} 
+\varepsilon_{1} \\ \varepsilon_{2} \\ \vdots \\ \varepsilon_{N}
 \end{array}\right)
 </span></p>
 </section>
@@ -413,7 +416,7 @@ A_{1} &amp; 0 &amp; \ldots &amp; 0 \\ 0 &amp; A_{2} &amp; \ldots &amp; 0 \\ \vdo
 <p><span class="math display">\begin{aligned}
 \log\ell_c(\theta) &amp; = \log(\mathbb{P}(y, \eta \ ; \ \theta))\\
 &amp; = \log(\mathbb{P}(y | \eta \ ; \ \theta)) + \log(\mathbb{P}(\eta \ ; \ \theta)) \\
-&amp; = \log(\mathbb{P}(y | \eta \ ; \ \beta, \sigma^2)) + \log(\mathbb{P}(\eta \ ; \ \Omega)) 
+&amp; = \log(\mathbb{P}(y | \eta \ ; \ \beta, \sigma^2)) + \log(\mathbb{P}(\eta \ ; \ \Omega))
 \end{aligned}
 </span></p>
 <p>Then, <span class="math inline">(\hat{\beta}_c, \hat{\sigma}_c^2)</span> minimizes</p>
@@ -428,7 +431,7 @@ N\log(2\pi) + N\log(|\Omega|) + \sum_{i=1}^N \eta_i^\prime \Omega^{-1} \eta_i
 <p><span class="math display"> \begin{aligned}
 \hat{\beta}_c &amp;= (X^\prime X)X^\prime (y - A\eta) \\
 \hat{\Omega}_c &amp;= \frac{1}{N} \sum_{i=1}^N \eta_i  \eta_i^\prime \\
-\hat{\sigma}_c^2 &amp;= \frac{1}{n}\| y - X\hat{\beta}_c - A\eta \|^2 = 
+\hat{\sigma}_c^2 &amp;= \frac{1}{n}\| y - X\hat{\beta}_c - A\eta \|^2 =
 \frac{1}{n} \left( \| y - X\hat{\beta}_c \|^2  + \|A\eta \|^2 - 2 &lt;y - X\hat{\beta}_c, A\eta&gt;  \right)
 \end{aligned} </span></p>
 <p>Remark that</p>
@@ -436,10 +439,10 @@ N\log(2\pi) + N\log(|\Omega|) + \sum_{i=1}^N \eta_i^\prime \Omega^{-1} \eta_i
 \|A\eta \|^2 &amp; = \sum_{i=1}^N \|A_i\eta_i \|^2 \\
 &amp;= \sum_{i=1}^N \eta_i^\prime A_i^\prime A_i \eta_i \\
 &amp;= \sum_{i=1}^N {\rm Tr}\left(\eta_i^\prime A_i^\prime A_i \eta_i \right) \\
-&amp;= \sum_{i=1}^N {\rm Tr}\left(A_i^\prime A_i \eta_i \eta_i^\prime  \right) 
+&amp;= \sum_{i=1}^N {\rm Tr}\left(A_i^\prime A_i \eta_i \eta_i^\prime  \right)
 \end{aligned} </span></p>
 <p>The set of individual statistics used for estimating <span class="math inline">\theta</span> is therefore</p>
-<p><span class="math display">S(y,\eta) = (\eta_1, \eta_2, \ldots, \eta_N, 
+<p><span class="math display">S(y,\eta) = (\eta_1, \eta_2, \ldots, \eta_N,
 \eta_1 \eta_1^\prime,  \eta_2 \eta_2^\prime, \ldots, , \eta_N \eta_N^\prime) </span></p>
 <p>Indeed, the definition of <span class="math inline">(\hat{\beta}_c, \hat{\Omega}_c, \hat{\sigma}_c^2 )</span> above defines a function <span class="math inline">\hat{\Theta}</span> such that</p>
 <p><span class="math display"> \hat{\theta}_c = \hat{\Theta}(S(y,\eta))</span></p>
@@ -462,14 +465,14 @@ N\log(2\pi) + N\log(|\Omega|) + \sum_{i=1}^N \eta_i^\prime \Omega^{-1} \eta_i
 <p>Since the marginal distributions of <span class="math inline">y_i</span> and <span class="math inline">\eta_i</span> are both Gaussian, the conditional distribution of <span class="math inline">\eta_i</span> is also Gaussian with a mean and a variance that can be computed. Indeed, from Bayes Theorem,</p>
 <p><span class="math display">\begin{aligned}
 \mathbb{P}(\eta_i \, | \, y_i \, ; \, \theta) &amp;= \frac{\mathbb{P}(y_i \, | \, \eta_i \, ; \, \theta)\mathbb{P}(\eta_i \, ; \, \theta)}{\mathbb{P}( y_i \, ; \, \theta)} \\
-&amp;= C_1 \times 
+&amp;= C_1 \times
 \exp\left\{-\frac{1}{2\sigma^2}\| y_i-X_i\beta-A_i\eta_i \|^2
 -\frac{1}{2}\eta_i^\prime\Omega^{-1} \eta_i \right\} \\
 &amp; = C_2 \times \exp\left\{-\frac{1}{2}(\eta_i-\mu_i)^\prime\Gamma_i^{-1} (\eta_i-\mu_i) \right\}
 \end{aligned}</span></p>
 <p>where</p>
 <p><span class="math display">
-\Gamma_i =  \left(\frac{A_i^\prime A_i}{\sigma^2} + \Omega^{-1}\right)^{-1} 
+\Gamma_i =  \left(\frac{A_i^\prime A_i}{\sigma^2} + \Omega^{-1}\right)^{-1}
 \quad ; \quad
 \mu_i =  \frac{\Gamma_i A_i^\prime(y_i - X_i\beta)}{\sigma^2}  
 </span></p>
@@ -488,7 +491,7 @@ N\log(2\pi) + N\log(|\Omega|) + \sum_{i=1}^N \eta_i^\prime \Omega^{-1} \eta_i
 {\beta}_k &amp;= (X^\prime X)X^\prime (y - A\mathbb{E}[\eta|y ;\theta_{k-1}]) \\
 {\Omega}_k &amp;= \frac{1}{N} \sum_{i=1}^N \mathbb{E}[\eta_i \eta_i^\prime|y ;\theta_{k-1}] \\
 {\sigma}_k^2 &amp;= \frac{1}{n} \left( \| y - X{\beta}_k \|^2  
-+  \sum_{i=1}^N {\rm Tr}\left(A_i^\prime A_i \mathbb{E}[\eta_i \eta_i^\prime|y ;\theta_{k-1}] \right) 
++  \sum_{i=1}^N {\rm Tr}\left(A_i^\prime A_i \mathbb{E}[\eta_i \eta_i^\prime|y ;\theta_{k-1}] \right)
 - 2 \sum_{i=1}^N  (y_i - X_i{\beta}_k)^\prime A_i \mathbb{E}[\eta|y ;\theta_{k-1}]  \right)
 \end{aligned} </span></p>
 <p>Of course, some arbitrary initial estimates <span class="math inline">\theta_0</span> should also be provided.</p>
@@ -552,7 +555,7 @@ N\log(2\pi) + N\log(|\Omega|) + \sum_{i=1}^N \eta_i^\prime \Omega^{-1} \eta_i
 <h3 data-number="2.3" class="anchored" data-anchor-id="a-slightly-simplified-version-of-em"><span class="header-section-number">2.3</span> A slightly simplified version of EM</h3>
 <p>By construction,</p>
 <p><span class="math display"> \begin{aligned}
-\mathbb{E}[ &lt;y - X\hat{\beta} - A \eta, X \hat\beta &gt; | y , \hat{\theta} ] &amp;= 
+\mathbb{E}[ &lt;y - X\hat{\beta} - A \eta, X \hat\beta &gt; | y , \hat{\theta} ] &amp;=
 &lt;y - A \mathbb{E}[\eta | y , \hat{\theta}] - X\hat{\beta}, X \hat\beta &gt; = 0
 \end{aligned} </span></p>
 <p>On the other hand,</p>

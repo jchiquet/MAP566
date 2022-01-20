@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.3.8">
+  <meta name="generator" content="quarto-0.3.31">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Nonlinear Regression</title>
   <style>
@@ -76,25 +76,6 @@
     code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", function () {
-   var mathElements = document.getElementsByClassName("math");
-   var macros = [];
-   for (var i = 0; i < mathElements.length; i++) {
-    var texText = mathElements[i].firstChild;
-    if (mathElements[i].tagName == "SPAN") {
-     katex.render(texText.data, mathElements[i], {
-      displayMode: mathElements[i].classList.contains('display'),
-      throwOnError: false,
-      macros: macros,
-      fleqn: false
-     });
-  }}});
-  </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
   <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
   <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
   <script src="../../site_libs/clipboard/clipboard.min.js"></script>
@@ -132,6 +113,25 @@
       "search-submit-button-title": "Submit"
     }
   }</script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
 </head>
 <body class="docked">
 <div id="quarto-search-results"></div>
@@ -238,6 +238,9 @@
         <li class="dropdown-header">Exercices</li>
         <li>
     <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">Mixture Models</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html">Graph Clustering: Spectral methods and Stochastic Blockmodels</a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
@@ -547,7 +550,7 @@ Achieved convergence tolerance: 6.239e-06</code></pre>
 <section id="maximum-likelihood-estimation" class="level4" data-number="2.1.2">
 <h4 data-number="2.1.2" class="anchored" data-anchor-id="maximum-likelihood-estimation"><span class="header-section-number">2.1.2</span> Maximum likelihood estimation</h4>
 <p>Let <span class="math inline">\varepsilon_j=\sigma \varepsilon_j</span> where <span class="math inline">(\varepsilon_j)</span> is a sequence of independent and normally distributed random variables with mean 0 and variance <span class="math inline">1</span></p>
-<p><span class="math display"> 
+<p><span class="math display">
 \varepsilon_j \sim^{\mathrm{iid}}  \mathcal{N}(0, 1).
 </span></p>
 <p>We can then rewrite the model as follows:</p>
@@ -594,7 +597,7 @@ tau    0.4320326 -0.00876922  0.01192345</code></pre>
 </div>
 <p>The <code>nls</code> function linearizes the model for computing this variance-covariance matrix. Indeed, for any <span class="math inline">\beta</span> ``close’’ to <span class="math inline">\hat{\beta}</span>,</p>
 <p><span class="math display">
-f(x_j , \beta) \simeq f(x_j , \hat{\beta}) + \nabla f(x_j , \hat{\beta})(\beta - \hat{\beta}) 
+f(x_j , \beta) \simeq f(x_j , \hat{\beta}) + \nabla f(x_j , \hat{\beta})(\beta - \hat{\beta})
 </span></p>
 <p>where <span class="math inline">\nabla f(x_j , {\beta})</span> is the gradient of <span class="math inline">f(x_j , {\beta})</span>, i.e.&nbsp;the row vector of the first derivatives of <span class="math inline">f(x_j ,{\beta})</span> with respect to the <span class="math inline">d</span> components of <span class="math inline">\beta</span>. Setting <span class="math inline">z_j=y_j-f(x_j , \hat{\beta}) + \nabla f(x_j , \hat{\beta}) \hat{\beta}</span> and <span class="math inline">g_j=\nabla f(x_j , \hat{\beta}))</span>, the original model can be approximated by the linear model</p>
 <p><span class="math display">
@@ -669,7 +672,7 @@ tau    0.4320764 -0.008769862  0.011924743</code></pre>
 <p>Let <span class="math inline">I_y(\hat{\beta})</span> be the observed Fisher information matrix at <span class="math inline">\hat{\beta}</span>:</p>
 <p><span class="math display">
 \begin{aligned}
- I_y({\hat\beta}) &amp;= - \frac{\partial^2}{\partial \beta \partial \beta^\prime} \log \ell(\hat{\beta},\hat{\sigma}^2) \\
+I_y({\hat\beta}) &amp;= - \frac{\partial^2}{\partial \beta \partial \beta^\prime} \log \ell(\hat{\beta},\hat{\sigma}^2) \\
 &amp;= \frac{1}{2\hat\sigma^2}\frac{\partial^2}{\partial \beta \partial \beta^\prime} \left(\sum_{j=1}^n(y_j - f(x_j,\hat\beta))^2 \right).
 \end{aligned}
 </span></p>
@@ -736,7 +739,7 @@ tau    0.4320764 -0.008769862  0.011924743</code></pre>
 <p>If we were able to repeat the same experiment under the same conditions, we would observe <span class="math inline">y^{(1)} = (y^{(1)}_j, 1\leq j \leq n)</span> and we would compute <span class="math inline">\beta^{(1)}</span>, an estimate of <span class="math inline">\beta</span>. Then, if we could repeat this experiment <span class="math inline">L</span> times, we would get <span class="math inline">L</span> estimates <span class="math inline">\beta^{(1)}</span>, <span class="math inline">\beta^{(2)}</span>, , <span class="math inline">\beta^{(L)}</span> of <span class="math inline">\beta</span>. This sequence of estimates <span class="math inline">(\beta^{(\ell)}, 1 \leq \ell \leq L)</span> would be a sample of random variables distributed as <span class="math inline">\hat{\beta}</span> and could therefore be used for estimating this distribution.</p>
 <p>When such replicates are not available, parametric bootstrap (or Monte-Carlo simulation) is a way to mimic the repetition of an experiment.</p>
 <p>For <span class="math inline">\ell=1,2,\ldots, L</span>, we generate ``observations’’ <span class="math inline">(y^{(\ell)}_j, 1\leq j \leq n)</span> with the model of interest, the original explanatory variables <span class="math inline">(x_j, 1\leq j\leq n)</span> and using the estimated parameters <span class="math inline">\hat\theta=(\hat\beta,\hat{\sigma}^2)</span>:</p>
-<p><span class="math display"> 
+<p><span class="math display">
 y^{(\ell)}_j = f(x_j,\hat{\beta}) + \hat{\sigma} \varepsilon^{(\ell)}_j \quad ; \quad 1\leq j \leq n
 </span></p>
 <p>where <span class="math inline">\varepsilon^{(\ell)}_j \sim^{\mathrm{iid}} \mathcal{N}(0,1)</span>. We also compute the LS /ML estimate of <span class="math inline">\beta</span>:</p>
@@ -757,17 +760,17 @@ y^{(\ell)}_j = f(x_j,\hat{\beta}) + \hat{\sigma} \varepsilon^{(\ell)}_j \quad ; 
 <span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>V_mc <span class="ot">&lt;-</span> <span class="fu">cov</span>(betas_boot)</span>
 <span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>V_mc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>           [,1]        [,2]        [,3]
-[1,] 26.8207035 -0.49271186  0.72547831
-[2,] -0.4927119  0.01059175 -0.01131632
-[3,]  0.7254783 -0.01131632  0.02369592</code></pre>
+<pre><code>           [,1]         [,2]        [,3]
+[1,] 26.7703339 -0.472734595  0.74181388
+[2,] -0.4727346  0.009846055 -0.01108068
+[3,]  0.7418139 -0.011080678  0.02465738</code></pre>
 </div>
 </div>
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-40_249e272abe2b1aa8f8b993b6179d0167">
 <div class="sourceCode" id="cb38"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>se_mc <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(V_mc))</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>se_mc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 5.1788709 0.1029162 0.1539348</code></pre>
+<pre><code>[1] 5.17400559 0.09922729 0.15702669</code></pre>
 </div>
 </div>
 <div class="remark proof">
@@ -775,7 +778,7 @@ y^{(\ell)}_j = f(x_j,\hat{\beta}) + \hat{\sigma} \varepsilon^{(\ell)}_j \quad ; 
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-42_14451409a8d4ed9f80c607d86cb32438">
 <div class="sourceCode" id="cb40"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(betas_boot, <span class="dv">2</span>, sd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 5.1788709 0.1029162 0.1539348</code></pre>
+<pre><code>[1] 5.17400559 0.09922729 0.15702669</code></pre>
 </div>
 </div>
 </div>
@@ -866,9 +869,9 @@ tau    1.2597849   1.6647346</code></pre>
 <span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>CI_bootstrap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>        2.5%       97.5%
-1 86.5946040 105.6785223
-2  0.4595651   0.8538838
-3  1.3178072   1.8879978</code></pre>
+1 86.9582460 106.2416044
+2  0.4574293   0.8456707
+3  1.3258971   1.9003530</code></pre>
 </div>
 </div>
 <div class="remark proof">
@@ -889,10 +892,10 @@ tau    1.2597849   1.6647346</code></pre>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>rq <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>,df)<span class="sc">/</span><span class="fu">qnorm</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>)</span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>beta_hat <span class="sc">+</span> rq<span class="sc">*</span>(CI_bootstrap <span class="sc">-</span> beta_hat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>        2.5%       97.5%
-1 86.5651591 105.7353265
-2  0.4587524   0.8548532
-3  1.3171544   1.8899219</code></pre>
+<pre><code>        2.5%      97.5%
+1 86.9304446 106.300953
+2  0.4566069   0.846603
+3  1.3252808   1.902333</code></pre>
 </div>
 </div>
 </div>
@@ -1154,7 +1157,7 @@ nlm2  5 1735.181</code></pre>
 <p>For a given value <span class="math inline">x_0</span> of the explanatory variable <span class="math inline">x</span>, we can use the model <span class="math inline">f</span> with the estimated parameter <span class="math inline">\hat{\beta}</span> and predict the response as <span class="math inline">f(x_0,\hat{\beta})</span>.</p>
 <p>Since <span class="math inline">\hat{\beta}</span> is a random vector with variance-covariance matrix <span class="math inline">\mathbb{V}(\hat{\beta})</span>, <span class="math inline">f(x_0,\hat{\beta})</span> is also a random variable that can be approximated by a linear function of <span class="math inline">\hat{\beta}</span></p>
 <p><span class="math display">
-f(x_0 , \beta) \simeq f(x_0 , \hat{\beta}) + \nabla f(x_0 , \hat{\beta})(\beta - \hat{\beta}) 
+f(x_0 , \beta) \simeq f(x_0 , \hat{\beta}) + \nabla f(x_0 , \hat{\beta})(\beta - \hat{\beta})
 </span></p>
 <p>Then, the so-called <em>delta-method</em> consists in using this approximation for approximating the variance of <span class="math inline">f(x_0,\hat{\beta})</span> by</p>
 <p><span class="math display">

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.3.8">
+  <meta name="generator" content="quarto-0.3.31">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Linear Regression: Quick Recap</title>
   <style>
@@ -13,25 +13,6 @@
     ul.task-list{list-style: none;}
   </style>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", function () {
-   var mathElements = document.getElementsByClassName("math");
-   var macros = [];
-   for (var i = 0; i < mathElements.length; i++) {
-    var texText = mathElements[i].firstChild;
-    if (mathElements[i].tagName == "SPAN") {
-     katex.render(texText.data, mathElements[i], {
-      displayMode: mathElements[i].classList.contains('display'),
-      throwOnError: false,
-      macros: macros,
-      fleqn: false
-     });
-  }}});
-  </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
   <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
   <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
   <script src="../../site_libs/clipboard/clipboard.min.js"></script>
@@ -68,6 +49,25 @@
       "search-submit-button-title": "Submit"
     }
   }</script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
 </head>
 <body class="docked">
 <div id="quarto-search-results"></div>
@@ -174,6 +174,9 @@
         <li class="dropdown-header">Exercices</li>
         <li>
     <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">Mixture Models</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html">Graph Clustering: Spectral methods and Stochastic Blockmodels</a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
@@ -317,8 +320,8 @@
 <section id="regression-models" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="regression-models">Regression models</h2>
 <p>A <em>regression model</em> relates a response variable <span class="math inline">y</span> to a set of explanatory variables <span class="math inline">x</span>. Assuming that we have access to <span class="math inline">n</span> set of values <span class="math inline">(x_j, y_j)</span>, <span class="math inline">1 \leq j \leq n)</span>, of these variable, the regression model is assumed to take the form <span class="math display">y_j = f(x_j,\beta) + \varepsilon_j \quad ; \quad 1\leq j \leq n</span></p>
-<p>where <span class="math inline">f</span> is a <em>structural model</em> which depends on a <span class="math inline">p</span>-vector of parameters <span class="math inline">\beta</span>. We will assume that the residuals <span class="math inline">(\varepsilon_j)</span> are independent random variables with mean 0 and variance <span class="math inline">\sigma^2</span>: <span class="math display"> 
-\mathbb{E}{\varepsilon_j} = 0 \quad ; \quad  \mathbb{E}{\varepsilon^2_j} = \sigma^2 \quad ; \quad \mathbb{E}{\varepsilon_j \varepsilon_k} = 0  \ (j \neq k)
+<p>where <span class="math inline">f</span> is a <em>structural model</em> which depends on a <span class="math inline">p</span>-vector of parameters <span class="math inline">\beta</span>. We will assume that the residuals <span class="math inline">(\varepsilon_j)</span> are independent random variables with mean 0 and variance <span class="math inline">\sigma^2</span>: <span class="math display">
+\mathbb{E}(\varepsilon_j) = 0 \quad ; \quad  \mathbb{E}(\varepsilon^2_j) = \sigma^2 \quad ; \quad \mathbb{E}(\varepsilon_j \varepsilon_k) = 0  \ (j \neq k)
 </span></p>
 </section>
 <section id="ordinary-least-squares" class="level2" data-number="1">
@@ -326,17 +329,17 @@
 <section id="least-squares-estimator" class="level3" data-number="1.1">
 <h3 data-number="1.1" class="anchored" data-anchor-id="least-squares-estimator"><span class="header-section-number">1.1</span> Least squares estimator</h3>
 <p>A method for choosing automatically the “best parameters” <span class="math inline">\beta</span> consists in minimizing the sum of squared errors of prediction, i.e.&nbsp;the residual sum of squares (RSS) :</p>
-<p><span class="math display"> 
+<p><span class="math display">
 RSS(\beta) = \sum_{j=1}^n (y_j - f(x_j))^2 = \|y - X\beta \|^2
 </span></p>
 <p>Then, <span class="math display">
-\hat{\beta} = \arg\min_{\beta} \|y - X\beta \|^2 = (X^\prime X)^{-1}X^\prime y 
+\hat{\beta} = \arg\min_{\beta} \|y - X\beta \|^2 = (X^\prime X)^{-1}X^\prime y
 </span></p>
 </section>
 <section id="estimation-of-the-residual-error-variance" class="level3" data-number="1.2">
 <h3 data-number="1.2" class="anchored" data-anchor-id="estimation-of-the-residual-error-variance"><span class="header-section-number">1.2</span> Estimation of the residual error variance</h3>
 <p>An unbiased estimate of <span class="math inline">\sigma^2</span> is <span class="math display">
-\hat{\sigma}^2 = \frac{1}{n-p} \|y - X\hat{\beta} \|^2 
+\hat{\sigma}^2 = \frac{1}{n-p} \|y - X\hat{\beta} \|^2
 </span> Indeed,</p>
 <p><span class="math display">
 \begin{aligned}
@@ -345,7 +348,7 @@ RSS(\beta) = \sum_{j=1}^n (y_j - f(x_j))^2 = \|y - X\beta \|^2
 &amp;= \varepsilon^\prime \left({\rm I}_n - X(X^\prime X)^{-1}X^\prime \right)^\prime \left({\rm I}_n - X(X^\prime X)^{-1}X^\prime \right) \varepsilon \\
 &amp;= \varepsilon^\prime \left({\rm I}_n - X(X^\prime X)^{-1}X^\prime \right) \varepsilon \\
 &amp;= {\rm trace} \left\{ \varepsilon^\prime \left({\rm I}_n - X(X^\prime X)^{-1}X^\prime \right) \varepsilon \right\} \\
-&amp;= {\rm trace} \left\{  \left({\rm I}_n - X(X^\prime X)^{-1}X^\prime \right) \varepsilon \varepsilon^\prime \right\} 
+&amp;= {\rm trace} \left\{  \left({\rm I}_n - X(X^\prime X)^{-1}X^\prime \right) \varepsilon \varepsilon^\prime \right\}
 \end{aligned}
 </span> Then,</p>
 <p><span class="math display">
@@ -382,7 +385,7 @@ RSS(\beta) = \sum_{j=1}^n (y_j - f(x_j))^2 = \|y - X\beta \|^2
 </section>
 <section id="maximum-likelihood-approach" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="maximum-likelihood-approach"><span class="header-section-number">2</span> Maximum likelihood approach</h2>
-<p>If we assume that <span class="math inline">(\varepsilon_j, 1 \leq j \leq n)</span> is a sequence of independent and normally distributed random variables with mean 0 and variance <span class="math inline">1</span>: <span class="math display"> 
+<p>If we assume that <span class="math inline">(\varepsilon_j, 1 \leq j \leq n)</span> is a sequence of independent and normally distributed random variables with mean 0 and variance <span class="math inline">1</span>: <span class="math display">
 \varepsilon_j \sim^{\mathrm{iid}} \mathcal{N}(0, 1),
 </span> then the <span class="math inline">y_j</span> are also independent and normally distributed:</p>
 <p><span class="math display"> y_j \sim \mathcal{N}(f(x_j, \beta),\sigma^2).</span> The vector <span class="math inline">y=(y_1,y_2,\ldots,y_n)</span> is therefore a Gaussian vector which probability density function (pdf) depends on a vector of parameters <span class="math inline">\theta=(\beta,\sigma^2)</span>:</p>
@@ -393,8 +396,8 @@ RSS(\beta) = \sum_{j=1}^n (y_j - f(x_j))^2 = \|y - X\beta \|^2
 <section id="likelihood" class="level3" data-number="2.1">
 <h3 data-number="2.1" class="anchored" data-anchor-id="likelihood"><span class="header-section-number">2.1</span> Likelihood</h3>
 <p>For a given vector of observations <span class="math inline">y</span>, the likelihood <span class="math inline">\ell</span> is the function of the parameter <span class="math inline">\theta=(\beta,\sigma^2)</span> defined as:</p>
-<p><span class="math display"> 
-\ell(\theta) = \mathbb{P}(y ; \theta) 
+<p><span class="math display">
+\ell(\theta) = \mathbb{P}(y ; \theta)
 </span> The log-likelihood is therefore <span class="math display">
 \log\ell(\theta) = -\frac{n}{2}\log(2\pi) - \frac{n}{2}\log(\sigma^2) - \frac{1}{2\sigma^2}\sum_{j=1}^n(y_j - f(x_j,\beta))^2
 </span></p>
@@ -402,7 +405,7 @@ RSS(\beta) = \sum_{j=1}^n (y_j - f(x_j))^2 = \|y - X\beta \|^2
 <section id="maximum-likelihood-estimator" class="level3" data-number="2.2">
 <h3 data-number="2.2" class="anchored" data-anchor-id="maximum-likelihood-estimator"><span class="header-section-number">2.2</span> Maximum likelihood estimator</h3>
 <p>Assume that <span class="math inline">\theta</span> takes its values in a subset <span class="math inline">\Theta</span> of <span class="math inline">\mathbb{R}^p</span>. Then, the <em>Maximum Likelihood</em> (ML) estimator of <span class="math inline">\theta</span> is a function of <span class="math inline">y</span> that maximizes the likelihood function:</p>
-<p><span class="math display"> 
+<p><span class="math display">
 \hat{\theta} = \arg\max_{\theta \in \Theta}\ell(\theta) = \arg\max_{\theta \in \Theta}\log\ell(\theta)
 </span></p>
 <p>Maximization of the log-likelihood can be performed in two steps:</p>
@@ -444,18 +447,18 @@ I_n(\theta^\star) = \mathbb{E}{\left(\frac{\partial}{\partial \theta} \log\mathb
 <p><span class="math display">
 \begin{aligned}
 I_n(\theta^\star) &amp;= -  \mathbb{E}{\frac{\partial^2}{\partial \theta \partial \theta^\prime} \log\mathbb{P}(y;\theta^\star)} \\
-&amp;= - \sum_{j=1}^n \mathbb{E}{\frac{\partial^2}{\partial \theta \partial \theta^\prime} \log\mathbb{P}(y_j;\theta^\star)} 
+&amp;= - \sum_{j=1}^n \mathbb{E}{\frac{\partial^2}{\partial \theta \partial \theta^\prime} \log\mathbb{P}(y_j;\theta^\star)}
 \end{aligned}
 </span></p>
 </section>
 <section id="the-central-limit-theorem" class="level3" data-number="2.5">
 <h3 data-number="2.5" class="anchored" data-anchor-id="the-central-limit-theorem"><span class="header-section-number">2.5</span> The central limit theorem</h3>
-<p>The following central limit theorem (CLT) holds under certain regularity conditions: <span class="math display"> 
+<p>The following central limit theorem (CLT) holds under certain regularity conditions: <span class="math display">
 I_n(\theta^\star)^{\frac{1}{2}}(\hat{\theta}-\theta^\star) \xrightarrow{n\to \infty} {\mathcal N}(0,{\rm Id}_n) .
-</span> This theorem shows that under relevant hypotheses, the estimator <span class="math inline">\hat{\theta}</span> is consistent and converges to <span class="math inline">\theta^\star</span> at rate <span class="math inline">\sqrt{n}</span> since <span class="math inline">I_n={\cal O}(n)</span>.</p>
+</span> This theorem shows that under relevant hypotheses, the estimator <span class="math inline">\hat{\theta}</span> is consistent and converges to <span class="math inline">\theta^\star</span> at rate <span class="math inline">\sqrt{n}</span> since <span class="math inline">I_n=\mathcal{O}(n)</span>.</p>
 <p>The normalizing term <span class="math inline">I_n(\theta^\star)^{-1}</span> is unknown since it depends on the unknown parameter <span class="math inline">\theta^\star</span>. We can use instead the <em>observed Fisher information</em>: <span class="math display">
 \begin{aligned}
- I_{y}(\hat{\theta}) &amp;= - \frac{\partial^2}{\partial \theta^2} \log\ell(\hat{\theta}) \\
+I_{y}(\hat{\theta}) &amp;= - \frac{\partial^2}{\partial \theta^2} \log\ell(\hat{\theta}) \\
 &amp;=-\sum_{i=1}^n \frac{\partial^2}{\partial \theta^2} \log \mathbb{P}(y_i ; \hat{\theta}).
 \end{aligned}
 </span> We can then approximate the distribution of <span class="math inline">\hat{\theta}</span> by a normal distribution with mean <span class="math inline">\theta^\star</span> and variance-covariance matrix <span class="math inline">I_y(\hat{\theta})^{-1}</span>: <span class="math display">
@@ -471,9 +474,9 @@ I_n(\theta^\star)^{\frac{1}{2}}(\hat{\theta}-\theta^\star) \xrightarrow{n\to \in
 \end{aligned}
 </span> By definition,</p>
 <p><span class="math display">
-I_n(\theta) =  \left( \begin{array}{cc} 
--\mathbb{E}{\frac{\partial^2}{\partial \beta \partial \beta^\prime} \log\ell(\beta,\sigma^2)} &amp; 
--\mathbb{E}{\frac{\partial^2}{\partial \beta \partial \sigma^2} \log\ell(\beta,\sigma^2)} \\ 
+I_n(\theta) =  \left( \begin{array}{cc}
+-\mathbb{E}{\frac{\partial^2}{\partial \beta \partial \beta^\prime} \log\ell(\beta,\sigma^2)} &amp;
+-\mathbb{E}{\frac{\partial^2}{\partial \beta \partial \sigma^2} \log\ell(\beta,\sigma^2)} \\
 -\mathbb{E}{\frac{\partial^2}{\partial \sigma^2 \partial \beta^\prime } \log\ell(\beta,\sigma^2)} &amp;  
 -\mathbb{E}{\frac{\partial^2}{\partial \sigma^{2^2} } \log\ell(\beta,\sigma^2)}
 \end{array} \right)
@@ -481,22 +484,22 @@ I_n(\theta) =  \left( \begin{array}{cc}
 <p>Then, <span class="math display">
 \begin{aligned}
 \mathbb{E}{\frac{\partial^2}{\partial \beta \partial \sigma^2} \log\ell(\beta,\sigma^2)} &amp;=
- -\frac{1}{\sigma^4} \times\frac{\partial}{\partial \beta}f(x_j,\beta) \times\mathbb{E}{y_j - f(x_j,\beta)} \\
- &amp;= 0
+-\frac{1}{\sigma^4} \times\frac{\partial}{\partial \beta}f(x_j,\beta) \times\mathbb{E}{y_j - f(x_j,\beta)} \\
+&amp;= 0
 \end{aligned}
 </span></p>
 <p>and the FIM reduces to</p>
 <p><span class="math display">
-I_n(\theta) =  \left( \begin{array}{cc} 
--  \mathbb{E}{\frac{\partial^2}{\partial \beta \partial \beta^\prime} \log\ell(\beta,\sigma^2)} &amp; 0 \\ 
+I_n(\theta) =  \left( \begin{array}{cc}
+-  \mathbb{E}{\frac{\partial^2}{\partial \beta \partial \beta^\prime} \log\ell(\beta,\sigma^2)} &amp; 0 \\
 0 &amp;  -\mathbb{E}{\frac{\partial^2}{\partial \sigma^{2^2} } \log\ell(\beta,\sigma^2)}
 \end{array} \right)
 </span></p>
 <p>Because of the bloc structure of <span class="math inline">I_n(\theta^\star)</span>, the variance-covariance of <span class="math inline">\hat{\beta}</span> can be estimated by <span class="math inline">I^{-1}_y(\hat{\beta})</span> where <span class="math display">
 \begin{aligned}
- I_y(\hat{\beta}) &amp;= - \frac{\partial^2}{\partial \beta \partial \beta^\prime} \log\ell(\hat{\beta},\hat{\sigma}^2) \\
+I_y(\hat{\beta}) &amp;= - \frac{\partial^2}{\partial \beta \partial \beta^\prime} \log\ell(\hat{\beta},\hat{\sigma}^2) \\
 &amp;= \frac{1}{2\hat\sigma^2}\frac{\partial^2}{\partial \beta \partial \beta^\prime} \left(\sum_{j=1}^n(y_j - f(x_j,\hat\beta))^2 \right) \\
-&amp;= \frac{1}{\hat\sigma^2} \sum_{j=1}^n \left( 
+&amp;= \frac{1}{\hat\sigma^2} \sum_{j=1}^n \left(
 \left(\frac{\partial}{\partial \beta}f(x_j,\hat\beta)\right)\left(\frac{\partial}{\partial \beta}f(x_j,\hat\beta)\right)^\prime - \frac{\partial^2}{\partial \beta \partial \beta^\prime}f(x_j,\hat\beta)y_j
 \right)
 \end{aligned}
@@ -513,13 +516,13 @@ I_y(\hat{\sigma}^2) &amp;= -\frac{\partial^2}{\partial \sigma^{2^2} } \log\ell(\
 </section>
 <section id="statistical-inference-and-diagnostics" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="statistical-inference-and-diagnostics"><span class="header-section-number">3</span> Statistical inference and diagnostics</h2>
-<p>Suppose that residuals <span class="math inline">(\varepsilon_j)</span> are independent and normally distributed with mean 0 and variance <span class="math inline">\sigma^2</span>: <span class="math display"> 
+<p>Suppose that residuals <span class="math inline">(\varepsilon_j)</span> are independent and normally distributed with mean 0 and variance <span class="math inline">\sigma^2</span>: <span class="math display">
 \varepsilon_j \sim^{\mathrm{iid}} \mathcal{N}(0 \ , \ \sigma^2).
 </span></p>
 <section id="statistical-tests-for-the-model-parameters" class="level3" data-number="3.1">
 <h3 data-number="3.1" class="anchored" data-anchor-id="statistical-tests-for-the-model-parameters"><span class="header-section-number">3.1</span> Statistical tests for the model parameters</h3>
 <p>In this case, <span class="math inline">\hat{\beta}</span> is also normally distributed:</p>
-<p><span class="math display"> 
+<p><span class="math display">
 \hat{\beta} \sim \mathcal{N}(\beta \ , \ \sigma^2 (X^\prime X)^{-1})
 </span> and, for <span class="math inline">k=1, 2, \ldots , p</span>, <span class="math display">t_k = \frac{\hat{\beta}_k - \beta_k}{{\rm se}(\hat{\beta}_k)}</span> follows a <span class="math inline">t</span>-distribution with <span class="math inline">n-d</span> degrees of freedom.</p>
 <p>For each component <span class="math inline">\beta_k</span> of <span class="math inline">\beta</span>, we can then perform a <span class="math inline">t</span>-test (known as the <em>Wald test</em>) to test <span class="math display">
@@ -571,12 +574,12 @@ F_{\rm stat} &amp;=  \frac{\|\hat{\beta}_0 + \hat{\beta}_1 x - \bar{y}\|^2}{\|y 
 \|y - \bar{y}\|^2 = \|X\hat{\beta} - \bar{y}\|^2 + \|y - X\hat{\beta} \|^2
 </span></p>
 <p><span class="math display">
-R^2 =  \frac{\|X\hat{\beta} - \bar{y}\|^2}{\|y - \bar{y}\|^2} = 1 - \frac{\|y - X\hat{\beta} \|^2}{\|y - \bar{y}\|^2} 
+R^2 =  \frac{\|X\hat{\beta} - \bar{y}\|^2}{\|y - \bar{y}\|^2} = 1 - \frac{\|y - X\hat{\beta} \|^2}{\|y - \bar{y}\|^2}
 </span></p>
 <p>By construction, adding more predictors to the model, i.e.&nbsp;increasing the degree of the polynome, is always going to increase the R-squared value. Adjusted R-squared penalizes this effect by normalizing each term by the associated degree of freedom.</p>
 <p><span class="math display">
 \begin{aligned}
-R^2_{\rm adj} &amp;=  1 - \frac{\|y - X\hat{\beta} \|^2/(n-p)}{\|y - \bar{y}\|^2/(n-1)} 
+R^2_{\rm adj} &amp;=  1 - \frac{\|y - X\hat{\beta} \|^2/(n-p)}{\|y - \bar{y}\|^2/(n-1)}
 \end{aligned}
 </span></p>
 <p>The R-squared is a purely descriptive statistics. The adjusted R-squared should be preferably used to compare the explanatory power of models built from the same dataset.</p>
@@ -624,7 +627,7 @@ D = \sum_{j=1}^n(y_j - f(x_j,\hat{\beta}))^2
 <p><span class="math display">
 \begin{aligned}
 AIC &amp;= -2\log\ell(\hat{\theta}) + 2P \\
-BIC &amp;= -2\log\ell(\hat{\theta}) + \log(n)P 
+BIC &amp;= -2\log\ell(\hat{\theta}) + \log(n)P
 \end{aligned}
 </span> where <span class="math inline">P</span> is the number of parameters of the model, i.e.&nbsp;the length of <span class="math inline">\theta</span>.</p>
 <p>On one hand, <span class="math inline">-2\log\ell(\hat{\theta})</span> decreases when <span class="math inline">P</span> increases. On the other hand, the penalization term (<span class="math inline">2P</span> or <span class="math inline">\log(n)P</span>) increases with <span class="math inline">P</span>. The objective of these criteria is to propose a model with an optimal compromise between the goodness of fit (measured by the log-likelihood) and the complexity of the model (measured by the number of parameters <span class="math inline">P</span>).</p>
@@ -658,7 +661,7 @@ y^{\mathrm{new}} - \hat{f^{\mathrm{new}}} \sim \mathcal{N}(0, {\rm Var}(\hat{f^{
 </span> Then, <span class="math display">
 \begin{aligned}
 \left(x^{\mathrm{new}} {\rm Var}(\hat{\beta}) x^{\mathrm{new}} + {\sigma}^2 {\rm Id}_{n^{\mathrm{new}}} \right)^{-1/2}(y^{\mathrm{new}} - \hat{f^{\mathrm{new}}}) &amp; \sim \mathcal{N}(0,  {\rm Id}_{n^{\mathrm{new}}} ) \\
-\left(x^{\mathrm{new}} \widehat{{\rm Var}(\hat{\beta})} x^{\mathrm{new}} + \hat{\sigma}^2 {\rm Id}_{n^{\mathrm{new}}} \right)^{-1/2}(y^{\mathrm{new}} - \hat{f^{\mathrm{new}}}) &amp; \sim t_{n^{\mathrm{new}},n-p} 
+\left(x^{\mathrm{new}} \widehat{{\rm Var}(\hat{\beta})} x^{\mathrm{new}} + \hat{\sigma}^2 {\rm Id}_{n^{\mathrm{new}}} \right)^{-1/2}(y^{\mathrm{new}} - \hat{f^{\mathrm{new}}}) &amp; \sim t_{n^{\mathrm{new}},n-p}
 \end{aligned}
 </span></p>
 <p><a name="poly5"></a> <br></p>

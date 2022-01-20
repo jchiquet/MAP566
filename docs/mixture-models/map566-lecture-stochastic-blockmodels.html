@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.3.8">
+  <meta name="generator" content="quarto-0.3.31">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Graph clustering</title>
   <style>
@@ -95,25 +95,6 @@
     }
   </style>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", function () {
-   var mathElements = document.getElementsByClassName("math");
-   var macros = [];
-   for (var i = 0; i < mathElements.length; i++) {
-    var texText = mathElements[i].firstChild;
-    if (mathElements[i].tagName == "SPAN") {
-     katex.render(texText.data, mathElements[i], {
-      displayMode: mathElements[i].classList.contains('display'),
-      throwOnError: false,
-      macros: macros,
-      fleqn: false
-     });
-  }}});
-  </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
   <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
   <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
   <script src="../../site_libs/clipboard/clipboard.min.js"></script>
@@ -153,6 +134,25 @@
   }</script>
   <link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
   <script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
 </head>
 <body class="docked">
 <div id="quarto-search-results"></div>
@@ -260,6 +260,9 @@
         <li>
     <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">Mixture Models</a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html">Graph Clustering: Spectral methods and Stochastic Blockmodels</a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
         <li>
@@ -324,6 +327,9 @@
         <ul class="list-unstyled sidebar-item-contents">
           <li class="sidebar-item">
   <a href="../../docs/mixture-models/map566-lab-mixture-models.html" class="">Mixture Models</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html" class="">Graph Clustering: Spectral methods and Stochastic Blockmodels</a>
 </li>
         </ul>
       </div>
@@ -394,13 +400,13 @@
 <p>Functions from <code>R</code>-base and stats (preloaded) are required plus packages from the <strong>tidyverse</strong> for data representation and manipulation. The package <strong>igraph</strong> is a great library for network data manipulation (interface exists in <code>Python</code>)</p>
 <p>We will also use the package <strong>mixtools</strong>, which implements EM for simple mixture models to check our own implementation.</p>
 <div class="hidden">
-<p>$$          </p>
+<p>$$ </p>
 % definitions related to
 %
-<p>%definitions related to convergences  </p>
-<p>%————————————————————————-% % Definitions %————————————————————————-%  </p>
-\newcommand{W}{}          
-<p>\newcommand{W}{} \newcommand{W}{}                      $$</p>
+<p>%definitions related to convergences </p>
+<p>%————————————————————————-% % Definitions %————————————————————————-% </p>
+\newcommand{W}{}
+<p>\newcommand{W}{} \newcommand{W}{} $$</p>
 </div>
 <div class="cell" data-hash="map566-lecture-stochastic-blockmodels_cache/html/tests-config_68f118d3d0e43ba0905f17ab7050c58b">
 <div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -594,7 +600,7 @@ Idea
 \begin{aligned}
 \mathop{\mathrm{arg\ min}}_{\{\mathcal{V}_A, \mathcal{V}_B\}} \mathrm{cut}^{N}(\mathcal{V}_A, \mathcal{V}_B),  
 \quad \mathrm{cut}^{N}(\mathcal{V}_A, \mathcal{V}_B) &amp; = \frac{\mathrm{cut}(\mathcal{V}_A, \mathcal{V}_B)}{\mathrm{Vol}(\mathcal{V}_A)} + \frac{\mathrm{cut}(\mathcal{V}_A, \mathcal{V}_B)}{\mathrm{Vol}(\mathcal{V}_B)} \\
- &amp; =  \mathrm{cut}(\mathcal{V}_A, \mathcal{V}_B)\frac{\mathrm{Vol}(\mathcal{V}_A) + \mathrm{Vol}(\mathcal{V}_B)}{\mathrm{Vol}(\mathcal{V}_A)\mathrm{Vol}(\mathcal{V}_B)} \\
+&amp; =  \mathrm{cut}(\mathcal{V}_A, \mathcal{V}_B)\frac{\mathrm{Vol}(\mathcal{V}_A) + \mathrm{Vol}(\mathcal{V}_B)}{\mathrm{Vol}(\mathcal{V}_A)\mathrm{Vol}(\mathcal{V}_B)} \\
 \end{aligned}
 </span></p>
 </div>
@@ -618,15 +624,15 @@ Idea
 <span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">gorder</span>(blog), A)</span>
 <span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="fu">cut</span>(blog, A, B)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 1.955897</code></pre>
+<pre><code>[1] 2.027672</code></pre>
 </div>
 </div>
 <p>The above problem can be formalized as follows: a partition into two clusters of the graph can be defined by a vector of <span class="math inline">\{-1, 1\}^n</span>. Indeed,</p>
 <p><span class="math display">
-x = (x_i)_{i=1,\dots,n} = 
+x = (x_i)_{i=1,\dots,n} =
 \begin{cases}
 -1 &amp; \mathrm{if} \quad  i\in \mathcal{V}_A, \\
- 1 &amp; \mathrm{if} \quad  i\in \mathcal{V}_B. \\
+1 &amp; \mathrm{if} \quad  i\in \mathcal{V}_B. \\
 \end{cases}
 </span> Then, letting <span class="math inline">D</span> the diagonal matrix of degrees, is not difficult to show that<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
 <p><span class="math display">
@@ -637,7 +643,7 @@ x^\top (D - Y) x = x^\top D x - ( x^\top D x - 2 \mathrm{cut} (\mathcal{V}_A, \m
 </span> From this, we can show that minimizing the normalized graph-cut is equivalent to solving an integer programming problem:</p>
 <p><span class="math display">\begin{aligned}
 &amp; \mathop{\mathrm{arg\ min}}_{\{\mathcal{V}_A, \mathcal{V}_B\}}  \mathrm{cut}^{N}(\mathcal{V}_A, \mathcal{V}_B) \\[1.5ex]
-\Leftrightarrow \quad &amp; \mathop{\mathrm{arg\ min}}_{x\in\{-1, 1\}^n} \frac{x^\top (D - Y) x}{x^\top D x}, \quad \text{s.c.} \quad x^\top D \mathbf{1}_n = 0, 
+\Leftrightarrow \quad &amp; \mathop{\mathrm{arg\ min}}_{x\in\{-1, 1\}^n} \frac{x^\top (D - Y) x}{x^\top D x}, \quad \text{s.c.} \quad x^\top D \mathbf{1}_n = 0,
 \end{aligned}
 </span> where the constraint imposes only discrete values in <span class="math inline">x</span>.</p>
 <p>This problem is combinatorial (and NP-hard). However, if we relax to <span class="math inline">x\in[-1,1]^n</span>, it turns to a simple eigenvalue problem</p>
@@ -701,7 +707,7 @@ Heuristics for spectral clustering
 <p><img src="map566-lecture-stochastic-blockmodels_files/figure-html/Fiedler-blogosphere-plot-1-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Also, and since the original motivation of the graph-cut is for two-way partionning, we collapse levels from the vector of party into a simplified left/right view (we keep the analysts into a third speparated group)</p>
+<p>Also, and since the original motivation of the graph-cut is for two-way partionning, we collapse levels from the vector of party into a simplified left/right view (we keep the analysts into a third separated group)</p>
 <div class="cell" data-hash="map566-lecture-stochastic-blockmodels_cache/html/left-right-party_52a322947f0c28bc9e9a613f72eb4c79">
 <div class="sourceCode" id="cb17"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>left_vs_right <span class="ot">&lt;-</span> </span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  forcats<span class="sc">::</span><span class="fu">fct_collapse</span>(party, </span>
@@ -753,7 +759,7 @@ Spectrum and Graph
 </ul>
 </div>
 </div>
-<p>Based on these two properties, spectral clustering algorithms follow the following genneral principles:</p>
+<p>Based on these two properties, spectral clustering algorithms follow the following general principles:</p>
 <ol type="1">
 <li>Compute spectral decompostion of <span class="math inline">\mathbf{L}</span> to perform clustering in the eigen space</li>
 <li>For a graph with <span class="math inline">K</span> connected components, the first <span class="math inline">K</span> eigen-vectors are <span class="math inline">\mathbf{1}</span> spanning the eigenspace associated with eigenvalue <span class="math inline">0</span></li>
@@ -792,14 +798,14 @@ Pseudo code for normalized spectral clustering
 <div class="callout-body-container callout-body">
 <p>As described in <span class="citation" data-cites="ng2002spectral">Ng, Jordan, and Weiss (<a href="#ref-ng2002spectral" role="doc-biblioref">2002</a>)</span></p>
 <ol type="1">
-<li>Computethe laplacian matrix <span class="math inline">\mathbf{L}</span>;</li>
+<li>Compute the laplacian matrix <span class="math inline">\mathbf{L}</span>;</li>
 <li>Compute the <span class="math inline">n\times K</span> matrix <span class="math inline">\mathbf{U}</span> of eigen vectors with the <span class="math inline">K</span> smallest eigen values</li>
 <li>Normalize <span class="math inline">\mathbf{U}</span> row-wise</li>
 <li>Apply k-means to <span class="math inline">(\tilde{\mathbf{U}}_i)_{i=1,\dots,n}</span></li>
 </ol>
 </div>
 </div>
-<div class="cell" data-hash="map566-lecture-stochastic-blockmodels_cache/html/spectral_clsutering_985362337a67042e7b928d0d84289606">
+<div class="cell" data-hash="map566-lecture-stochastic-blockmodels_cache/html/spectral_clustering_78381a5a61dd4eb389dfb82e0ae9fdf0">
 <div class="sourceCode" id="cb20"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>spectral_clustering <span class="ot">&lt;-</span> <span class="cf">function</span>(graph, nb_cluster, <span class="at">normalized =</span> <span class="cn">TRUE</span>) {</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Compute Laplcian matrix</span></span>
@@ -937,7 +943,7 @@ Stochastic Block Model: definition
 <p>In the binary Stochastic Block Model, the adjacency matrix <span class="math inline">Y_{ij}</span> is random, with probability of connexion between a dyad <span class="math inline">(i,j)</span> being defined conditionnaly on their respective group memberships, described by a vector of random variables <span class="math inline">(Z_i)_{i=1,\dots,n}</span>.</p>
 <p><span class="math display">
 \begin{aligned}
-Z_i = \mathbf{1}_{\{i \in \bullet\}}  \ &amp; \sim^{\text{iid}} \mathcal{M}(1,\alpha), \\ 
+Z_i = \mathbf{1}_{\{i \in \bullet\}}  \ &amp; \sim^{\text{iid}} \mathcal{M}(1,\alpha), \\
 Y_{ij} \ | \ \{i\in\color{#fab20a}{\bullet},j\in\color{#0000ff}{\bullet}\}
 &amp; \sim^{\text{ind}} \mathcal{B}(\pi_{\color{#fab20a}{\bullet}\color{#0000ff}{\bullet}})\\
 \end{aligned}
@@ -1171,24 +1177,24 @@ Intractable EM
 
  Initialization of 18 model(s). 
  Performing VEM inference
+    Model with 18 blocks.
+    Model with 8 blocks.
+    Model with 5 blocks.
+    Model with 3 blocks.
+    Model with 15 blocks.
+    Model with 4 blocks.
+    Model with 6 blocks.
     Model with 7 blocks.
     Model with 1 blocks.
+    Model with 2 blocks.
+    Model with 11 blocks.
+    Model with 12 blocks.
+    Model with 9 blocks.
+    Model with 10 blocks.
     Model with 17 blocks.
     Model with 16 blocks.
-    Model with 11 blocks.
-    Model with 18 blocks.
-    Model with 5 blocks.
-    Model with 4 blocks.
-    Model with 8 blocks.
-    Model with 14 blocks.
     Model with 13 blocks.
-    Model with 9 blocks.
-    Model with 12 blocks.
-    Model with 15 blocks.
-    Model with 6 blocks.
-    Model with 10 blocks.
-    Model with 3 blocks.
-    Model with 2 blocks.
+    Model with 14 blocks.
  Looking for better solutions
  Pass 1   Going forward +++++++++++++++++
                                                                                                     

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.3.8">
+  <meta name="generator" content="quarto-0.3.31">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Mixture Models: an example</title>
   <style>
@@ -76,25 +76,6 @@
     code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", function () {
-   var mathElements = document.getElementsByClassName("math");
-   var macros = [];
-   for (var i = 0; i < mathElements.length; i++) {
-    var texText = mathElements[i].firstChild;
-    if (mathElements[i].tagName == "SPAN") {
-     katex.render(texText.data, mathElements[i], {
-      displayMode: mathElements[i].classList.contains('display'),
-      throwOnError: false,
-      macros: macros,
-      fleqn: false
-     });
-  }}});
-  </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
   <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
   <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
   <script src="../../site_libs/clipboard/clipboard.min.js"></script>
@@ -102,7 +83,7 @@
   <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
   <script src="../../site_libs/quarto-search/fuse.min.js"></script>
   <script src="../../site_libs/quarto-search/quarto-search.js"></script>
-  <link href="../../docs/mixture-models/map566-lab-mixture-models.html" rel="prev">
+  <link href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html" rel="prev">
   <script src="../../site_libs/quarto-html/quarto.js"></script>
   <script src="../../site_libs/quarto-html/popper.min.js"></script>
   <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -131,6 +112,25 @@
       "search-submit-button-title": "Submit"
     }
   }</script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
 </head>
 <body class="docked">
 <div id="quarto-search-results"></div>
@@ -238,6 +238,9 @@
         <li>
     <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">Mixture Models</a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html">Graph Clustering: Spectral methods and Stochastic Blockmodels</a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
         <li>
@@ -302,6 +305,9 @@
         <ul class="list-unstyled sidebar-item-contents">
           <li class="sidebar-item">
   <a href="../../docs/mixture-models/map566-lab-mixture-models.html" class="">Mixture Models</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html" class="">Graph Clustering: Spectral methods and Stochastic Blockmodels</a>
 </li>
         </ul>
       </div>
@@ -409,7 +415,7 @@
 <p>Let <span class="math inline">y_i</span> be a binary response that take its values in <span class="math inline">\{0,1\}</span> and let <span class="math inline">c_{i1}, \ldots, c_{iM}</span> be <span class="math inline">M</span> explanatory variables (or predictors).</p>
 <p>Formally, the logistic regression model is that</p>
 <p><span class="math display">\begin{aligned}
- \log\left(\frac{\mathbb{P}(y_i=1)}{\mathbb{P}(y_i=0)}\right) 
+\log\left(\frac{\mathbb{P}(y_i=1)}{\mathbb{P}(y_i=0)}\right)
 &amp;= \log\left(\frac{\mathbb{P}(y_i=1)}{1 - \mathbb{P}(y_i=1)}\right) \\
 &amp;= \beta_0 + \sum_{m=1}^M \beta_m c_{im}
 \end{aligned}</span> Then, <span class="math display">\mathbb{P}(y_i=1) = \frac{1}{1+ e^{-\beta_0 -  \sum_{m=1}^M \beta_m c_{im}}}</span></p>
@@ -490,13 +496,13 @@ Number of Fisher Scoring iterations: 12</code></pre>
 <h4 data-number="1.1.2" class="anchored" data-anchor-id="logistic-regression-with-more-than-two-classes"><span class="header-section-number">1.1.2</span> Logistic regression with more than two classes</h4>
 <p>Assume now that <span class="math inline">y_i</span> takes its values in <span class="math inline">\{1,2\ldots,L\}</span>. The logistic regression model now writes</p>
 <p><span class="math display">\begin{aligned}
- \log\left(\frac{\mathbb{P}(y_i=k)}{\mathbb{P}(y_i=L)}\right) 
+\log\left(\frac{\mathbb{P}(y_i=k)}{\mathbb{P}(y_i=L)}\right)
 &amp;= \beta_{k0} +  \sum_{m=1}^M \beta_{k m} c_{im} \quad , \quad k=1,2,\ldots,L
 \end{aligned}</span> where we set, for instance, <span class="math inline">\beta_{L0}=\beta_{L1}=\ldots=\beta_{LM}=0</span> for identifiabilty reason. Then,</p>
 <p><span class="math display">
- \mathbb{P}(y_i=k) = \frac{e^{\beta_{k0} +  \sum_{m=1}^M \beta_{k m} c_{im}}}
- {\sum_{j=1}^K e^{\beta_{j0} +  \sum_{m=1}^M \beta_{j m} c_{im}}}
- \quad , \quad k=1,2,\ldots,L
+\mathbb{P}(y_i=k) = \frac{e^{\beta_{k0} +  \sum_{m=1}^M \beta_{k m} c_{im}}}
+{\sum_{j=1}^K e^{\beta_{j0} +  \sum_{m=1}^M \beta_{j m} c_{im}}}
+\quad , \quad k=1,2,\ldots,L
 </span></p>
 <div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-12_251308de2702985638d3c170b383bc51">
 <div class="sourceCode" id="cb20"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(VGAM)</span>
@@ -781,8 +787,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../docs/mixture-models/map566-lab-mixture-models.html">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Mixture Models</span>
+      <a href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Graph Clustering: Spectral methods and Stochastic Blockmodels</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

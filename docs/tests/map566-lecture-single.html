@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.3.8">
+  <meta name="generator" content="quarto-0.3.31">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Statistical Tests</title>
   <style>
@@ -76,25 +76,6 @@
     code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", function () {
-   var mathElements = document.getElementsByClassName("math");
-   var macros = [];
-   for (var i = 0; i < mathElements.length; i++) {
-    var texText = mathElements[i].firstChild;
-    if (mathElements[i].tagName == "SPAN") {
-     katex.render(texText.data, mathElements[i], {
-      displayMode: mathElements[i].classList.contains('display'),
-      throwOnError: false,
-      macros: macros,
-      fleqn: false
-     });
-  }}});
-  </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
   <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
   <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
   <script src="../../site_libs/clipboard/clipboard.min.js"></script>
@@ -133,6 +114,25 @@
   }</script>
   <link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
   <script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
 </head>
 <body class="docked">
 <div id="quarto-search-results"></div>
@@ -239,6 +239,9 @@
         <li class="dropdown-header">Exercices</li>
         <li>
     <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">Mixture Models</a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html">Graph Clustering: Spectral methods and Stochastic Blockmodels</a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
@@ -459,8 +462,8 @@ mean of x
 </div>
 <p>Let us see what these outputs are and how they are computed.</p>
 <p>Let <span class="math inline">\bar{x} = n^{-1}\sum_{i=1}^n x_i</span> be the empirical mean of the data. <span class="math display"> \bar{x} \sim \mathcal{N}(\mu \ , \ \frac{\sigma^2}{n})</span> Then, <span class="math display"> \begin{aligned}
-\frac{\sqrt{n}(\bar{x} - \mu)}{\sigma} \ &amp;   \sim \ \mathcal{N}(0 \ , \ 1) \\ 
-\frac{\sqrt{n}(\bar{x} - \mu)}{s} \ &amp;   \sim  \ t_{n-1} 
+\frac{\sqrt{n}(\bar{x} - \mu)}{\sigma} \ &amp;   \sim \ \mathcal{N}(0 \ , \ 1) \\
+\frac{\sqrt{n}(\bar{x} - \mu)}{s} \ &amp;   \sim  \ t_{n-1}
 \end{aligned} </span></p>
 <p>where <span class="math display">s^2 = \frac{1}{n-1}\sum_{i=1}^n (x_i - \bar{x})^2 </span> is the empirical variance of the <span class="math inline">x_i</span>’s.</p>
 <p>The statistic used for the test should be a function of the data whose distribution under <span class="math inline">H_0</span> is known, and whose expected behavior under <span class="math inline">H_1</span> allows one to define a <em>rejection region</em> (or <em>critical region</em>) for the null hypothesis.</p>
@@ -570,9 +573,9 @@ mean of x
 <p><span class="math display"> \begin{aligned}
 \mathbb{P}(\text{reject } H_0 \ | \ H_0 \ \text{true}) &amp;= \mathbb{P}(|T_{\rm stat}| &gt; qt_{1 -\frac{\alpha}{2},n-1} \ | \ \mu = \mu_0) \\
 &amp; = \mathbb{P}(T_{\rm stat} &lt; qt_{\frac{\alpha}{2},n-1} \ | \ \mu = \mu_0) +
- \mathbb{P}(T_{\rm stat} &gt; qt_{1-\frac{\alpha}{2},n-1} \ | \ \mu = \mu_0)\\
+\mathbb{P}(T_{\rm stat} &gt; qt_{1-\frac{\alpha}{2},n-1} \ | \ \mu = \mu_0)\\
 &amp;= \mathbb{P}(t_{n-1} \leq qt_{\frac{\alpha}{2},n-1}) +  \mathbb{P}(t_{n-1} \geq qt_{1-\frac{\alpha}{2},n-1}) \\
- &amp;= \frac{\alpha}{2} + \frac{\alpha}{2} \\
+&amp;= \frac{\alpha}{2} + \frac{\alpha}{2} \\
 &amp; = \alpha
 \end{aligned} </span></p>
 <p>The p-value of the test is now <span class="math display">\begin{aligned}
@@ -653,9 +656,9 @@ p_{\rm value} &amp; = \mathbb{P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm ob
 <p>By construction,</p>
 <p><span class="math display">\begin{aligned}
 1-\alpha &amp;=  \mathbb{P}\left(qt_{\frac{\alpha}{2},n-1} &lt; \frac{\bar{x}-\mu}{s/\sqrt{n}} &lt; qt_{1-\frac{\alpha}{2},n-1} \right) \\
-&amp;= \mathbb{P}\left(\bar{x} +\frac{s}{\sqrt{n}}qt_{\frac{\alpha}{2},n-1} &lt; \mu &lt; \bar{x} +\frac{s}{\sqrt{n}}qt_{1-\frac{\alpha}{2},n-1} \right) 
+&amp;= \mathbb{P}\left(\bar{x} +\frac{s}{\sqrt{n}}qt_{\frac{\alpha}{2},n-1} &lt; \mu &lt; \bar{x} +\frac{s}{\sqrt{n}}qt_{1-\frac{\alpha}{2},n-1} \right)
 \end{aligned}</span></p>
-<p>The confidence interval of level <span class="math inline">1-\alpha</span> for <span class="math inline">\mu</span> is therefore the interval <span class="math display">{\rm CI}_{1-\alpha} = \left[\bar{x} +\frac{s}{\sqrt{n}}qt_{\frac{\alpha}{2},n-1} \ \ , \ \ 
+<p>The confidence interval of level <span class="math inline">1-\alpha</span> for <span class="math inline">\mu</span> is therefore the interval <span class="math display">{\rm CI}_{1-\alpha} = \left[\bar{x} +\frac{s}{\sqrt{n}}qt_{\frac{\alpha}{2},n-1} \ \ , \ \
 \bar{x} +\frac{s}{\sqrt{n}}qt_{1-\frac{\alpha}{2},n-1}\right] </span></p>
 <div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-38_6e8fbc433e746437c8ea61a0e6026e7b">
 <div class="sourceCode" id="cb31"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>(CI <span class="ot">&lt;-</span> x_mean <span class="sc">+</span> x_sd <span class="sc">/</span> <span class="fu">sqrt</span>(n) <span class="sc">*</span> <span class="fu">qt</span>(<span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>), df))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -677,7 +680,7 @@ p_{\rm value} &amp; = \mathbb{P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm ob
 <span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(R)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 0.94951</code></pre>
+<pre><code>[1] 0.94958</code></pre>
 </div>
 </div>
 </div>
@@ -799,7 +802,7 @@ p_{\rm value} &amp; = \mathbb{P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm ob
 <pre><code>[1]  1.5426375 76.0000000  0.1270726</code></pre>
 </div>
 </div>
-<p>The confidence interval for the mean difference <span class="math inline">\mu_x-\mu_y</span> is computed as <span class="math display">{\rm CI}_{1-\alpha} = [\bar{x} - \bar{y} +s_p \sqrt{\frac{1}{n_x}+\frac{1}{n_y}}qt_{\frac{\alpha}{2},n_x+n_y-2} \ \ , \ \ 
+<p>The confidence interval for the mean difference <span class="math inline">\mu_x-\mu_y</span> is computed as <span class="math display">{\rm CI}_{1-\alpha} = [\bar{x} - \bar{y} +s_p \sqrt{\frac{1}{n_x}+\frac{1}{n_y}}qt_{\frac{\alpha}{2},n_x+n_y-2} \ \ , \ \
 \bar{x} - \bar{y} +s_p \sqrt{\frac{1}{n_x}+\frac{1}{n_y}}qt_{1-\frac{\alpha}{2},n_x+n_y-2} ] </span></p>
 <div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-54_cc83c0e9ba7eba57276645bfbf54036c">
 <div class="sourceCode" id="cb47"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>x_mean <span class="sc">-</span> y_mean  <span class="sc">+</span> xy_sd<span class="sc">*</span><span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">/</span>nx<span class="sc">+</span><span class="dv">1</span><span class="sc">/</span>ny)<span class="sc">*</span><span class="fu">qt</span>(<span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>), df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -861,7 +864,7 @@ s_y^2 = \frac{1}{n_y-1}\sum_{i=1}^{n_y} (y_{i}-\bar{y})^2</span></p>
 </div>
 </div>
 <p>The confidence interval for <span class="math inline">\mu_x-\mu_y</span> is now computed as</p>
-<p><span class="math display">{\rm CI}_{1-\alpha} = [\bar{x} - \bar{y} +\sqrt{\frac{s_x^2}{n_x}+\frac{s_y^2}{n_y}} \ qt_{\frac{\alpha}{2},\mathrm{df}_W} \ \ , \ \ 
+<p><span class="math display">{\rm CI}_{1-\alpha} = [\bar{x} - \bar{y} +\sqrt{\frac{s_x^2}{n_x}+\frac{s_y^2}{n_y}} \ qt_{\frac{\alpha}{2},\mathrm{df}_W} \ \ , \ \
 \bar{x} - \bar{y} +\sqrt{\frac{s_x^2}{n_x}+\frac{s_y^2}{n_y}} \ qt_{1-\frac{\alpha}{2},\mathrm{df}_W} ] </span></p>
 <div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-64_980623ba271e0babd849adbf39599c7e">
 <div class="sourceCode" id="cb55"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>x_mean<span class="sc">-</span>y_mean  <span class="sc">+</span> sbar.xy<span class="sc">*</span><span class="fu">qt</span>(<span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>),dfw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -958,7 +961,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <span id="cb68-11"><a href="#cb68-11" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">%&gt;%</span> <span class="fu">rowMeans</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code> Student Wilcoxon 
-  0.8350   0.8182 </code></pre>
+  0.8291   0.8090 </code></pre>
 </div>
 </div>
 <p>On the other hand, the Wilcoxon test may be much more powerful than the t-test for non normal distributions when the empirical mean converges slowly in distribution to the normal distribution. Such is the case, for instance, of the log-normal ditribution which is strongly skewed for large variances.</p>
@@ -974,7 +977,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <span id="cb70-9"><a href="#cb70-9" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">%&gt;%</span> <span class="fu">rowMeans</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code> Student Wilcoxon 
-  0.6778   0.8551 </code></pre>
+  0.6680   0.8491 </code></pre>
 </div>
 </div>
 </section>
@@ -1008,13 +1011,13 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
     Welch Two Sample t-test
 
 data:  x.sim and y.sim
-t = -0.89133, df = 18, p-value = 0.3845
+t = -0.91601, df = 18, p-value = 0.3718
 alternative hypothesis: true difference in means is not equal to 0
 95 percent confidence interval:
- -50.35588  20.35588
+ -49.40332  19.40332
 sample estimates:
 mean of x mean of y 
- 488.4402  503.4402 </code></pre>
+ 507.5121  522.5121 </code></pre>
 </div>
 </div>
 <p>This basic example shows that a difference considered as biologically significant may not be statistically significant.</p>
@@ -1030,13 +1033,13 @@ mean of x mean of y
     Welch Two Sample t-test
 
 data:  x.sim and y.sim
-t = -2.3648, df = 19998, p-value = 0.01805
+t = -2.3394, df = 19998, p-value = 0.01933
 alternative hypothesis: true difference in means is not equal to 0
 95 percent confidence interval:
- -1.8288579 -0.1711421
+ -1.8378719 -0.1621281
 sample estimates:
 mean of x mean of y 
- 500.4897  501.4897 </code></pre>
+ 500.2472  501.2472 </code></pre>
 </div>
 </div>
 <p>This example confirms the need for a power analysis as a complement of the comparison test. We will see that equivalence testing may also be relevant for evaluating what the data allows to say.</p>
@@ -1102,7 +1105,7 @@ NOTE: n is number in *each* group</code></pre>
 <span id="cb80-8"><a href="#cb80-8" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb80-9"><a href="#cb80-9" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(R)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 0.55312</code></pre>
+<pre><code>[1] 0.55515</code></pre>
 </div>
 </div>
 <p>We may consider this probability as too small. If our objective is a power of 80% at least, with the same significance level, we need to increase the sample size.</p>
