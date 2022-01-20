@@ -439,7 +439,7 @@ $$
 The Laplacian is easily (and fastly) computed in `R` thanks to the igraph package. Let us compute this for the French blog graph:
 
 ```{r compute-laplacian}
-L <- laplacian_matrix(blog)
+L <- laplacian_matrix(frenchblog2007)
 ```
 
 :::{.callout-note}
@@ -471,7 +471,7 @@ qplot(y = fiedler, colour = party) +
   viridis::scale_color_viridis(discrete = TRUE)
 ```
 
-Also, and since the original motivation of the graph-cut is for two-way partionning, we collapse levels from the vector of party into a simplified left/right view (we keep the analysts into a third speparated group)
+Also, and since the original motivation of the graph-cut is for two-way partionning, we collapse levels from the vector of party into a simplified left/right view (we keep the analysts into a third separated group)
 
 ```{r left-right-party}
 left_vs_right <- 
@@ -517,7 +517,7 @@ Various heuristics generalize the approach defined above to more than 2 groups. 
   - The larger the second non trivial (positive) eigenvalue, the higher the connectivity of $\clG$.
 :::
 
-Based on these two properties, spectral clustering algorithms follow the following genneral principles:
+Based on these two properties, spectral clustering algorithms follow the following general principles:
 
 1. Compute spectral decompostion of $\bL$ to perform clustering in the eigen space
 2. For a graph with $K$ connected components, the first $K$ eigen-vectors are $\mathbf{1}$ spanning the eigenspace associated with eigenvalue $0$
@@ -549,14 +549,14 @@ with eigenvalues $1-\lambda_n \leq \dots \leq 1-\lambda_2 \leq 1-\lambda_1 = 1$,
 
 As described in @ng2002spectral
 
-1. Computethe laplacian matrix $\mathbf{L}$\;
+1. Compute the laplacian matrix $\mathbf{L}$\;
 2. Compute the $n\times K$ matrix  $\mathbf{U}$ of eigen vectors with the $K$ smallest eigen values
 3. Normalize $\mathbf{U}$ row-wise 
 4.  Apply k-means to $(\tilde{\mathbf{U}}_i)_{i=1,\dots,n}$
 :::
 
 
-```{r spectral_clsutering}
+```{r spectral_clustering}
 spectral_clustering <- function(graph, nb_cluster, normalized = TRUE) {
   
   ## Compute Laplcian matrix

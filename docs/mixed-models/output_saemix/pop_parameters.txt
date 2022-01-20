@@ -1,0 +1,103 @@
+Nonlinear mixed-effects model fit by the SAEM algorithm
+-----------------------------------
+----          Data             ----
+-----------------------------------
+Object of class SaemixData
+    longitudinal data for use with the SAEM algorithm
+Dataset males11 
+    Structured data: weight ~ week | id 
+    Predictor: week () 
+Dataset characteristics:
+    number of subjects:     40 
+    number of observations: 560 
+    average/min/max nb obs: 14.00  /  14  /  14 
+First 10 lines of data:
+       id week weight mdv cens occ ytype
+1  B38602    1  236.1   0    0   1     1
+2  B38602    2  282.6   0    0   1     1
+3  B38602    3  336.0   0    0   1     1
+4  B38602    4  376.8   0    0   1     1
+5  B38602    5  403.9   0    0   1     1
+6  B38602    6  414.3   0    0   1     1
+7  B38602    7  443.3   0    0   1     1
+8  B38602    8  460.4   0    0   1     1
+9  B38602    9  473.8   0    0   1     1
+10 B38602   10  493.8   0    0   1     1
+-----------------------------------
+----          Model            ----
+-----------------------------------
+Nonlinear mixed-effects model
+  Model function
+function(psi, id, x) { 
+  t <- x[,1]
+  A <- psi[id, 1]
+  b <- psi[id, 2]
+  c <- psi[id, 3]
+  ypred <- A*exp(-exp(-b*(t-c)))
+  ypred
+}
+<bytecode: 0x5574dec0e860>
+  Nb of parameters: 3 
+      parameter names:  A b c 
+      distribution:
+     Parameter Distribution Estimated
+[1,] A         log-normal   Estimated
+[2,] b         log-normal   Estimated
+[3,] c         normal       Estimated
+  Variance-covariance matrix:
+  A b c
+A 1 0 0
+b 0 1 0
+c 0 0 1
+  Error model: constant , initial values: a.=1 
+    No covariate in the model.
+    Initial values
+               A   b   c
+Pop.CondInit 500 0.2 0.2
+-----------------------------------
+----    Key algorithm options  ----
+-----------------------------------
+    Estimation of individual parameters (MAP)
+    Estimation of standard errors and linearised log-likelihood
+    Number of iterations:  K1=300, K2=100 
+    Number of chains:  2 
+    Seed:  12345 
+    Simulations:
+        nb of simulated datasets used for npde:  1000 
+        nb of simulated datasets used for VPC:  100 
+    Input/output
+        save the results to a file:  TRUE 
+        save the graphs to files:  TRUE 
+        directory where results should be saved:  output_saemix 
+----------------------------------------------------
+----                  Results                   ----
+----------------------------------------------------
+-----------------  Fixed effects  ------------------
+----------------------------------------------------
+     Parameter Estimate SE     CV(%)
+[1,] A         527.870  8.2753   1.6
+[2,] b           0.217  0.0071   3.3
+[3,] c           0.061  0.0794 129.6
+[4,] a.         12.238  0.4063   3.3
+----------------------------------------------------
+-----------  Variance of random effects  -----------
+----------------------------------------------------
+  Parameter Estimate SE     CV(%)
+A omega2.A  0.009    0.0021 24   
+b omega2.b  0.028    0.0093 33   
+c omega2.c  0.191    0.0553 29   
+----------------------------------------------------
+------  Correlation matrix of random effects  ------
+----------------------------------------------------
+         omega2.A omega2.b omega2.c
+omega2.A 1        0        0       
+omega2.b 0        1        0       
+omega2.c 0        0        1       
+----------------------------------------------------
+---------------  Statistical criteria  -------------
+----------------------------------------------------
+Likelihood computed by linearisation
+      -2LL= 4703.59 
+      AIC = 4717.59 
+      BIC = 4729.412 
+----------------------------------------------------
