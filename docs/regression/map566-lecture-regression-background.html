@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.3.31">
+  <meta name="generator" content="quarto-0.3.32">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Linear Regression: Quick Recap</title>
   <style>
@@ -371,7 +371,7 @@ RSS(\beta) = \sum_{j=1}^n (y_j - f(x_j))^2 = \|y - X\beta \|^2
 &amp;= \beta + (X^\prime X)^{-1}X^\prime \varepsilon
 \end{aligned}
 </span></p>
-<p>Then, since <span class="math inline">\mathbb{E}{e}=0</span>, <span class="math display"> \mathbb{E}{\hat{\beta}} = \beta</span></p>
+<p>Then, since <span class="math inline">\mathbb{E}{e}=0</span>, <span class="math display"> \mathbb{E}(\hat{\beta}) = \beta</span></p>
 <p>and <span class="math display">
 \begin{aligned}
 \mathbb{V}{\hat\beta} &amp;=  \mathbb{V}{(X^\prime X)^{-1}X^\prime \varepsilon} \\
@@ -438,7 +438,7 @@ n\log(2\pi) + n\log(\sigma^2) + \frac{1}{\sigma^2}\sum_{j=1}^n(y_j - f(x_j,\hat{
 <section id="some-general-definitions" class="level3" data-number="2.4">
 <h3 data-number="2.4" class="anchored" data-anchor-id="some-general-definitions"><span class="header-section-number">2.4</span> Some general definitions</h3>
 <p>The partial derivative of the log-likelihood with respect to <span class="math inline">\theta</span> is called the <em>score</em>. Under general regularity conditions, the expected value of the score is 0. Indeed, it is easy to show that</p>
-<p><span class="math display">\mathbb{E}{\frac{\partial}{\partial \theta} \log\mathbb{P}(y;\theta^\star)} = 0.</span></p>
+<p><span class="math display">\mathbb{E}\left(\frac{\partial}{\partial \theta} \log\mathbb{P}(y;\theta^\star)\right) = 0.</span></p>
 <p>where <span class="math inline">\theta^\star</span> is the ``true’’ unknown value of <span class="math inline">\theta</span> such that the observations <span class="math inline">y</span> where generated with model <span class="math inline">\mathbb{P}(\cdot;\theta^\star)</span>.</p>
 <p>The variance of the score is called the <em>Fisher information matrix</em> (FIM): <span class="math display">
 I_n(\theta^\star) = \mathbb{E}{\left(\frac{\partial}{\partial \theta} \log\mathbb{P}(y;\theta^\star)\right)\left(\frac{\partial}{\partial \theta} \log\mathbb{P}(y;\theta^\star)\right)^\prime}.
@@ -446,8 +446,8 @@ I_n(\theta^\star) = \mathbb{E}{\left(\frac{\partial}{\partial \theta} \log\mathb
 <p>Furthermore, it can be shown that if <span class="math inline">\log\ell</span> is twice differentiable with respect to <span class="math inline">\theta</span>,</p>
 <p><span class="math display">
 \begin{aligned}
-I_n(\theta^\star) &amp;= -  \mathbb{E}{\frac{\partial^2}{\partial \theta \partial \theta^\prime} \log\mathbb{P}(y;\theta^\star)} \\
-&amp;= - \sum_{j=1}^n \mathbb{E}{\frac{\partial^2}{\partial \theta \partial \theta^\prime} \log\mathbb{P}(y_j;\theta^\star)}
+I_n(\theta^\star) &amp;= -  \mathbb{E}\left(\frac{\partial^2}{\partial \theta \partial \theta^\prime} \log\mathbb{P}(y;\theta^\star)\right) \\
+&amp;= - \sum_{j=1}^n \mathbb{E}\left(\frac{\partial^2}{\partial \theta \partial \theta^\prime} \log\mathbb{P}(y_j;\theta^\star)\right)
 \end{aligned}
 </span></p>
 </section>
@@ -559,7 +559,7 @@ F_{\rm stat} &amp;=  \frac{\|X\hat{\beta} - \bar{y}\|^2/(p-1)}{\|y - X\hat{\beta
 <p>Using the fact that <span class="math display">
 \|y - \bar{y}\|^2 = \|X\hat{\beta} - \bar{y}\|^2 + \|y - X\hat{\beta} \|^2
 </span> We deduce that, under <span class="math inline">H_0</span>, <span class="math inline">\|X\hat{\beta} - \bar{y}\|^2/\sigma^2</span> has a <span class="math inline">\chi^2</span> distribution with <span class="math inline">(n-1) - (n-p) = p-1</span> df which leads to the conclusion since <span class="math inline">(\chi^2(\nu_1)/\nu1)/(\chi^2(\nu_2)/\nu2) = F(\nu_1,\nu_2)</span>.</p>
-<p>The <span class="math inline">p</span>-value of the F-test is therefore <span class="math display">\text{p-value(F-test)} = \mathbb{P}{F_{p-1,n-p} &gt; F_{\rm stat}}=1- \mathbb{P}{F_{p-1,n-p} \leq F_{\rm stat}}</span></p>
+<p>The <span class="math inline">p</span>-value of the F-test is therefore <span class="math display">\text{p-value(F-test)} = \mathbb{P}(F_{p-1,n-p} &gt; F_{\rm stat})=1- \mathbb{P}(F_{p-1,n-p} \leq F_{\rm stat})</span></p>
 <p><strong>Remark:</strong> t-test and F-test are equivalent for linear models with only one predictor. In the case of polynomial regression of degree <span class="math inline">d = 1</span>, both tests can be used equally for testing if <span class="math inline">\beta_1=0</span>. Indeed, <span class="math display">
 \begin{aligned}
 F_{\rm stat} &amp;=  \frac{\|\hat{\beta}_0 + \hat{\beta}_1 x - \bar{y}\|^2}{\|y - \hat{\beta}_0 - \hat{\beta}_1 x\|^2/(n-2)} \\[1.5ex]

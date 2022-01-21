@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.3.31">
+  <meta name="generator" content="quarto-0.3.32">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Multiple Testing</title>
   <style>
@@ -536,7 +536,7 @@ Permutation test
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["gender"],"name":[1],"type":["fct"],"align":["left"]},{"label":["regime"],"name":[2],"type":["fct"],"align":["left"]},{"label":["statistic"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"male","2":"NK603-11%","3":"33.0","4":"0.1042450"},{"1":"male","2":"RoundUp B","3":"37.0","4":"0.1699697"},{"1":"male","2":"NK603-33%+R","3":"37.5","4":"0.1787859"},{"1":"male","2":"NK603-22%+R","3":"40.5","4":"0.2450966"},{"1":"male","2":"NK603-11%+R","3":"43.0","4":"0.3077515"},{"1":"male","2":"RoundUp C","3":"43.5","4":"0.3226939"},{"1":"female","2":"NK603-22%+R","3":"46.5","4":"0.4095596"},{"1":"male","2":"NK603-33%","3":"50.0","4":"0.5155809"},{"1":"female","2":"NK603-11%","3":"50.5","4":"0.5305439"},{"1":"male","2":"RoundUp A","3":"51.0","4":"0.5467037"},{"1":"female","2":"RoundUp A","3":"53.5","4":"0.6213647"},{"1":"male","2":"NK603-22%","3":"54.0","4":"0.6363795"},{"1":"female","2":"RoundUp B","3":"58.5","4":"0.7549873"},{"1":"female","2":"NK603-33%","3":"59.0","4":"0.7684482"},{"1":"female","2":"NK603-33%+R","3":"59.5","4":"0.7782725"},{"1":"female","2":"NK603-22%","3":"66.0","4":"0.9012384"},{"1":"female","2":"NK603-11%+R","3":"69.0","4":"0.9388786"},{"1":"female","2":"RoundUp C","3":"80.5","4":"0.9938759"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["gender"],"name":[1],"type":["fct"],"align":["left"]},{"label":["regime"],"name":[2],"type":["fct"],"align":["left"]},{"label":["statistic"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"male","2":"RoundUp A","3":"32.0","4":"0.09119295"},{"1":"female","2":"RoundUp A","3":"38.5","4":"0.19924664"},{"1":"female","2":"RoundUp C","3":"39.5","4":"0.22163936"},{"1":"male","2":"NK603-11%","3":"43.5","4":"0.32351891"},{"1":"male","2":"RoundUp C","3":"46.5","4":"0.40908023"},{"1":"male","2":"NK603-33%+R","3":"47.5","4":"0.43939226"},{"1":"male","2":"NK603-22%","3":"48.5","4":"0.46951481"},{"1":"male","2":"NK603-33%","3":"52.0","4":"0.57602755"},{"1":"male","2":"NK603-22%+R","3":"52.5","4":"0.59091977"},{"1":"male","2":"RoundUp B","3":"52.5","4":"0.59095431"},{"1":"female","2":"NK603-33%","3":"54.0","4":"0.63596738"},{"1":"female","2":"NK603-22%+R","3":"61.0","4":"0.81905852"},{"1":"female","2":"NK603-33%+R","3":"61.0","4":"0.81905852"},{"1":"female","2":"NK603-22%","3":"62.5","4":"0.84063097"},{"1":"male","2":"NK603-11%+R","3":"66.5","4":"0.90402817"},{"1":"female","2":"RoundUp B","3":"71.5","4":"0.95950777"},{"1":"female","2":"NK603-11%+R","3":"71.5","4":"0.96227159"},{"1":"female","2":"NK603-11%","3":"78.5","4":"0.99052029"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -599,7 +599,7 @@ Permutation test
 <div class="sourceCode" id="cb18"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>stat_rank1 <span class="ot">&lt;-</span> <span class="fu">split</span>(res, res<span class="sc">$</span>simu) <span class="sc">%&gt;%</span> <span class="fu">map_dbl</span>(<span class="cf">function</span>(x) <span class="fu">sort</span>(x<span class="sc">$</span>statistic)[<span class="dv">1</span>])</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(stat_rank1 <span class="sc">&lt;</span> all_comparisons<span class="sc">$</span>statistic[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 0.146</code></pre>
+<pre><code>[1] 0.155</code></pre>
 </div>
 </div>
 </section>
