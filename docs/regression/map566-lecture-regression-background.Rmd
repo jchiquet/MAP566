@@ -74,7 +74,7 @@ $$
 $$
 
 Then, since $\mathbb{E}{e}=0$,
-$$ \mathbb{E}{\hat{\beta}} = \beta$$
+$$ \mathbb{E}(\hat{\beta}) = \beta$$
 
 and 
 $$
@@ -161,7 +161,7 @@ $$
 
 The partial derivative of the log-likelihood  with respect to $\theta$ is called the *score*. Under general regularity conditions,  the expected value of the score is 0. Indeed,  it is easy to show that
 
-$$\mathbb{E}{\frac{\partial}{\partial \theta} \log\mathbb{P}(y;\theta^\star)} = 0.$$
+$$\mathbb{E}\left(\frac{\partial}{\partial \theta} \log\mathbb{P}(y;\theta^\star)\right) = 0.$$
 
 where $\theta^\star$ is the ``true'' unknown value of $\theta$ such that the observations $y$ where generated with model $\mathbb{P}(\cdot;\theta^\star)$. 
 
@@ -174,8 +174,8 @@ Furthermore, it can be shown that if $\log\ell$ is twice differentiable with res
 
 $$
 \begin{aligned}
-I_n(\theta^\star) &= -  \mathbb{E}{\frac{\partial^2}{\partial \theta \partial \theta^\prime} \log\mathbb{P}(y;\theta^\star)} \\
-&= - \sum_{j=1}^n \mathbb{E}{\frac{\partial^2}{\partial \theta \partial \theta^\prime} \log\mathbb{P}(y_j;\theta^\star)} 
+I_n(\theta^\star) &= -  \mathbb{E}\left(\frac{\partial^2}{\partial \theta \partial \theta^\prime} \log\mathbb{P}(y;\theta^\star)\right) \\
+&= - \sum_{j=1}^n \mathbb{E}\left(\frac{\partial^2}{\partial \theta \partial \theta^\prime} \log\mathbb{P}(y_j;\theta^\star)\right) 
 \end{aligned}
 $$
 
@@ -344,7 +344,7 @@ We deduce that, under $H_0$, $\|X\hat{\beta} - \bar{y}\|^2/\sigma^2$ has a $\chi
 
 
 The $p$-value of the F-test is therefore
-$$\text{p-value(F-test)} = \mathbb{P}{F_{p-1,n-p} > F_{\rm stat}}=1- \mathbb{P}{F_{p-1,n-p} \leq F_{\rm stat}}$$
+$$\text{p-value(F-test)} = \mathbb{P}(F_{p-1,n-p} > F_{\rm stat})=1- \mathbb{P}(F_{p-1,n-p} \leq F_{\rm stat})$$
 
 **Remark:** t-test and F-test are equivalent for linear models with only one predictor. In the case of polynomial regression of degree $d = 1$, both tests can be used equally for testing if $\beta_1=0$. 
 Indeed,

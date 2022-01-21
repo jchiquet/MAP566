@@ -146,7 +146,7 @@ The slope $c_1$ is clearly statistically significant while the model explains ab
 confint(lm1)
 ```
 
-<a href="polynomialRegression2.html#poly1">See how these quantities are computed.</a>
+<a href="map566-lecture-regression-background.html#ordinary-least-squares">See how these quantities are computed.</a>
 
 #### Some diagnostic plots
 
@@ -279,7 +279,7 @@ cars_training %>% ggplot() +  aes(x = speed, y = dist) + geom_point() +
 
 These intervals are of very little interest and should not be used in practice. Indeed, we can see that both the confidence interval and the prediction interval contain negative values for small or moderate speeds, which is obviously unrealistic...  We'll see later how to transform the model and/or the data in order to take into account some constraints about the data.
 
-<a href="polynomialRegression2.html#poly4">See how these intervals are computed.</a>
+<a href="map566-lecture-regression-background.html#confidence-and-prediction-intervals">See how these intervals are computed.</a>
 
 ### Fitting a polynomial of degree 2
 
@@ -318,7 +318,6 @@ Nevertheless, plotting the data together with the fitted polynomial suggests tha
 #| code-fold: true
 cars_plot + 
   geom_smooth(method = "lm", formula = y ~ poly(x, 2, raw = TRUE), se = FALSE, colour="#339900")
-cars_plot
 ```
 
 The predictive performance of the model need to be assesed in order to confirm this property of the model.
@@ -380,7 +379,7 @@ cars_training %>% ggplot() +  aes(x = speed, y = dist) + geom_point() +
 
 Confidence interval for $f(x)$  now only contain positive values for any $x>0$ and is reduce to 0 when $x=0$.
 
-On the other hand, prediction intervals for new observations still contain negative values. This is due to the fact that the residual error model is a *constant error model* $y=f(x)+e$, assuming that the variance of the error $e$ does not depend on the predicted value $f(x)$. This hypothesis doe not reflect the true phenomena and should be rejected.  We will see that an appropriate alternative may consist in [transforming the data](#transform).
+On the other hand, prediction intervals for new observations still contain negative values. This is due to the fact that the residual error model is a *constant error model* $y=f(x)+e$, assuming that the variance of the error $e$ does not depend on the predicted value $f(x)$. This hypothesis doe not reflect the true phenomena and should be rejected.  We will see that an appropriate alternative may consist in [transforming the data](#data-transformation).
 
 ### Using orthogonal polynomials
 
@@ -485,7 +484,7 @@ confint(lm2_ortho)
 
 * The estimated variance of the residuals $\hat{\sigma}^2$, the R-squared value and the adjusted R-squared value are identical when orthogonal or non orthogonal polynomial are used. Indeed, even if the parameterization is different, the two models are the same polynomials of degree 2 and therefore lead to the same predictions.  
 
-<a href="polynomialRegression2.html#poly5">See how these quantities are computed.</a>
+<a href="map566-lecture-regression-background.html#statistical-inference-and-diagnostics">See how these quantities are computed.</a>
 
 ## Model comparison
 
@@ -572,10 +571,8 @@ Models with lowest AIC and/or BIC will be preferred. Here, both criteria agree f
 AIC has a very slight preference for `lm2` while BIC penalizes a little bit more polynomial with higher degree and  prefers `lm1`. Nevertheless, these differences are not large enough for selecting definitely any of these 2 models.
 
 
-<a href="polynomialRegression2.html#poly3">See how these quantities are computed.</a>
+<a href="map566-lecture-regression-background.html#model-comparison">See how these quantities are computed.</a>
 
-
-<a name="transform"></a>
 
 ## Data transformation 
 
