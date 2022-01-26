@@ -106,11 +106,12 @@ $$
 
 **Questions**
 
-1. Extract the binary tree-tree adjacency matrix and plot it (`plotMyMatrix`)
-2. Plot the adjacency matrix. Construct and build an igraph object to plot the network 
-3. Implement different variant of spectral clustering and test them on this data. Plot the corresponding reordered adjacency matrix.
-4. Adjust a simple binary SBM with `estimateSimpleSBM`. Become familiar with object `simpleSBM`.
-5. Select a model via ICL. Explore/check models with similar ICL (using `$setModel()`, `$storedModel`)
+1. Extract the binary tree-tree adjacency matrix and plot it (`plotMyMatrix`). Remove isolated nodes.
+2. Construct and build an igraph object to plot the network.
+3. Perform hierarchical clustering with modularity and edge betweenness.
+4. Implement a variant of the spectral clustering and test them on this data. Plot the corresponding reordered adjacency matrix.
+5. Adjust a simple binary SBM with `estimateSimpleSBM`. Become familiar with object `simpleSBM`.
+6. Select a model via ICL. Explore/check models with similar ICL (using `$setModel()`, `$storedModel`)
 
 ### Weighted interaction network with Poisson model
 
@@ -124,7 +125,8 @@ $$
 $$
 
 1. Adjust a collection of Poisson SBM, explore the models.
-2. Compare spectral, binary SBM and Poisson SBM with ARI/NID (package `aricode`) and alluvial plots (`plotAlluvial`)
+2. Adjust spectral methods (you might need to adapt your spectral clustering function to weighted graphs)
+3. Compare spectral, binary SBM and Poisson SBM with ARI/NID (package `aricode`) and alluvial plots (`plotAlluvial`)
 
 ### Including covariate effects
 
