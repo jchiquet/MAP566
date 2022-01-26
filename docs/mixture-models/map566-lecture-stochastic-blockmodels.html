@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.3.32">
+  <meta name="generator" content="quarto-0.3.52">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Graph clustering</title>
   <style>
@@ -293,71 +293,69 @@
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
-  <div class="sidebar-menu-container"> 
-  <ul class="list-unstyled mt-1">
-      <ul class="list-unstyled sidebar-section depth1">
-    <li class="">
-        <div class="me-auto">
-            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">
-              <div class="me-auto sidebar-section-item">Lectures</div>
-            <div><i class="bi bi-chevron-right ms-2"></i></div>
-            </a>
-        </div>
-      <div class="collapse  show" id="quarto-sidebar-section-lectures">
-        <ul class="list-unstyled sidebar-item-contents">
-          <li class="sidebar-item">
-  <a href="../../docs/mixture-models/map566-lecture-mixture-models.html" class="">Mixture Models</a>
-</li>
-          <li class="sidebar-item">
-  <a href="../../docs/mixture-models/map566-lecture-stochastic-blockmodels.html" class="active">Graph clustering</a>
-</li>
-        </ul>
-      </div>
-    </li>
-  </ul>
-      <ul class="list-unstyled sidebar-section depth1">
-    <li class="">
-        <div class="me-auto">
-            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">
-              <div class="me-auto sidebar-section-item">Exercices</div>
-            <div><i class="bi bi-chevron-right ms-2"></i></div>
-            </a>
-        </div>
-      <div class="collapse  show" id="quarto-sidebar-section-exercices">
-        <ul class="list-unstyled sidebar-item-contents">
-          <li class="sidebar-item">
-  <a href="../../docs/mixture-models/map566-lab-mixture-models.html" class="">Mixture Models</a>
-</li>
-          <li class="sidebar-item">
-  <a href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html" class="">Graph Clustering: Spectral methods and Stochastic Blockmodels</a>
-</li>
-        </ul>
-      </div>
-    </li>
-  </ul>
-      <ul class="list-unstyled sidebar-section depth1">
-    <li class="">
-        <div class="me-auto">
-            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-supplementary-material" aria-expanded="true">
-              <div class="me-auto sidebar-section-item">Supplementary material</div>
-            <div><i class="bi bi-chevron-right ms-2"></i></div>
-            </a>
-        </div>
-      <div class="collapse  show" id="quarto-sidebar-section-supplementary-material">
-        <ul class="list-unstyled sidebar-item-contents">
-          <li class="sidebar-item">
-  <a href="../../docs/mixture-models/map566-doc-mixture-models-example.html" class="">Mixture Models: an example</a>
-</li>
-        </ul>
-      </div>
-    </li>
-  </ul>
-  </ul>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+    <div class="sidebar-item-container"> 
+        <a class="sidebar-item-text text-start  " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">Lectures</a>
+      <a class="sidebar-item-toggle text-start  " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">
+        <i class="bi bi-chevron-right ms-2"></i>
+      </a>
+    </div>
+    <ul id="quarto-sidebar-section-lectures" class="collapse list-unstyled sidebar-section depth1 show">  
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/mixture-models/map566-lecture-mixture-models.html" class="sidebar-item-text ">Mixture Models</a>
   </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/mixture-models/map566-lecture-stochastic-blockmodels.html" class="sidebar-item-text active">Graph clustering</a>
+  </div>
+</li>
+    </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+    <div class="sidebar-item-container"> 
+        <a class="sidebar-item-text text-start  " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">Exercices</a>
+      <a class="sidebar-item-toggle text-start  " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">
+        <i class="bi bi-chevron-right ms-2"></i>
+      </a>
+    </div>
+    <ul id="quarto-sidebar-section-exercices" class="collapse list-unstyled sidebar-section depth1 show">  
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/mixture-models/map566-lab-mixture-models.html" class="sidebar-item-text ">Mixture Models</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html" class="sidebar-item-text ">Graph Clustering: Spectral methods and Stochastic Blockmodels</a>
+  </div>
+</li>
+    </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+    <div class="sidebar-item-container"> 
+        <a class="sidebar-item-text text-start  " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-supplementary-material" aria-expanded="true">Supplementary material</a>
+      <a class="sidebar-item-toggle text-start  " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-supplementary-material" aria-expanded="true">
+        <i class="bi bi-chevron-right ms-2"></i>
+      </a>
+    </div>
+    <ul id="quarto-sidebar-section-supplementary-material" class="collapse list-unstyled sidebar-section depth1 show">  
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/mixture-models/map566-doc-mixture-models-example.html" class="sidebar-item-text ">Mixture Models: an example</a>
+  </div>
+</li>
+    </ul>
+  </li>
+    </ul>
+    </div>
 </nav>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-      <nav id="TOC" role="doc-toc">
+        <nav id="TOC" role="doc-toc">
 <h2 id="toc-title">On this page</h2>
 <ul>
 <li><a href="#preliminary" class="nav-link active" data-scroll-target="#preliminary">Preliminary</a></li>
@@ -624,7 +622,7 @@ Idea
 <span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">gorder</span>(blog), A)</span>
 <span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="fu">cut</span>(blog, A, B)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 1.974485</code></pre>
+<pre><code>[1] 2.032213</code></pre>
 </div>
 </div>
 <p>The above problem can be formalized as follows: a partition into two clusters of the graph can be defined by a vector of <span class="math inline">\{-1, 1\}^n</span>. Indeed,</p>
@@ -1177,24 +1175,24 @@ Intractable EM
 
  Initialization of 18 model(s). 
  Performing VEM inference
-    Model with 17 blocks.
-    Model with 9 blocks.
-    Model with 7 blocks.
-    Model with 4 blocks.
-    Model with 12 blocks.
-    Model with 16 blocks.
-    Model with 5 blocks.
     Model with 18 blocks.
-    Model with 14 blocks.
-    Model with 8 blocks.
-    Model with 10 blocks.
-    Model with 13 blocks.
+    Model with 4 blocks.
     Model with 1 blocks.
-    Model with 2 blocks.
+    Model with 10 blocks.
+    Model with 16 blocks.
+    Model with 9 blocks.
+    Model with 14 blocks.
+    Model with 12 blocks.
+    Model with 5 blocks.
     Model with 6 blocks.
+    Model with 17 blocks.
     Model with 3 blocks.
-    Model with 15 blocks.
+    Model with 13 blocks.
+    Model with 7 blocks.
     Model with 11 blocks.
+    Model with 2 blocks.
+    Model with 15 blocks.
+    Model with 8 blocks.
  Looking for better solutions
  Pass 1   Going forward +++++++++++++++++
                                                                                                     

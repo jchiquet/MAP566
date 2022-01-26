@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.3.32">
+  <meta name="generator" content="quarto-0.3.52">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Statistical Tests</title>
   <style>
@@ -273,51 +273,49 @@
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
-  <div class="sidebar-menu-container"> 
-  <ul class="list-unstyled mt-1">
-      <ul class="list-unstyled sidebar-section depth1">
-    <li class="">
-        <div class="me-auto">
-            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">
-              <div class="me-auto sidebar-section-item">Lectures</div>
-            <div><i class="bi bi-chevron-right ms-2"></i></div>
-            </a>
-        </div>
-      <div class="collapse  show" id="quarto-sidebar-section-lectures">
-        <ul class="list-unstyled sidebar-item-contents">
-          <li class="sidebar-item">
-  <a href="../../docs/tests/map566-lecture-single.html" class="active">Statistical Tests</a>
-</li>
-          <li class="sidebar-item">
-  <a href="../../docs/tests/map566-lecture-multiple.html" class="">Multiple Testing</a>
-</li>
-        </ul>
-      </div>
-    </li>
-  </ul>
-      <ul class="list-unstyled sidebar-section depth1">
-    <li class="">
-        <div class="me-auto">
-            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">
-              <div class="me-auto sidebar-section-item">Exercices</div>
-            <div><i class="bi bi-chevron-right ms-2"></i></div>
-            </a>
-        </div>
-      <div class="collapse  show" id="quarto-sidebar-section-exercices">
-        <ul class="list-unstyled sidebar-item-contents">
-          <li class="sidebar-item">
-  <a href="../../docs/tests/map566-lab-tests.html" class="">Hypothesis Tesing</a>
-</li>
-        </ul>
-      </div>
-    </li>
-  </ul>
-  </ul>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+    <div class="sidebar-item-container"> 
+        <a class="sidebar-item-text text-start  " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">Lectures</a>
+      <a class="sidebar-item-toggle text-start  " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">
+        <i class="bi bi-chevron-right ms-2"></i>
+      </a>
+    </div>
+    <ul id="quarto-sidebar-section-lectures" class="collapse list-unstyled sidebar-section depth1 show">  
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tests/map566-lecture-single.html" class="sidebar-item-text active">Statistical Tests</a>
   </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tests/map566-lecture-multiple.html" class="sidebar-item-text ">Multiple Testing</a>
+  </div>
+</li>
+    </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+    <div class="sidebar-item-container"> 
+        <a class="sidebar-item-text text-start  " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">Exercices</a>
+      <a class="sidebar-item-toggle text-start  " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">
+        <i class="bi bi-chevron-right ms-2"></i>
+      </a>
+    </div>
+    <ul id="quarto-sidebar-section-exercices" class="collapse list-unstyled sidebar-section depth1 show">  
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tests/map566-lab-tests.html" class="sidebar-item-text ">Hypothesis Tesing</a>
+  </div>
+</li>
+    </ul>
+  </li>
+    </ul>
+    </div>
 </nav>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-      <nav id="TOC" role="doc-toc">
+        <nav id="TOC" role="doc-toc">
 <h2 id="toc-title">On this page</h2>
 <ul>
 <li><a href="#preliminary" class="nav-link active" data-scroll-target="#preliminary">Preliminary</a></li>
@@ -680,7 +678,7 @@ p_{\rm value} &amp; = \mathbb{P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm ob
 <span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(R)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 0.95003</code></pre>
+<pre><code>[1] 0.95037</code></pre>
 </div>
 </div>
 </div>
@@ -961,7 +959,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <span id="cb68-11"><a href="#cb68-11" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">%&gt;%</span> <span class="fu">rowMeans</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code> Student Wilcoxon 
-  0.8211   0.8035 </code></pre>
+  0.8268   0.8097 </code></pre>
 </div>
 </div>
 <p>On the other hand, the Wilcoxon test may be much more powerful than the t-test for non normal distributions when the empirical mean converges slowly in distribution to the normal distribution. Such is the case, for instance, of the log-normal ditribution which is strongly skewed for large variances.</p>
@@ -977,7 +975,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <span id="cb70-9"><a href="#cb70-9" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">%&gt;%</span> <span class="fu">rowMeans</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code> Student Wilcoxon 
-  0.6734   0.8536 </code></pre>
+  0.6677   0.8489 </code></pre>
 </div>
 </div>
 </section>
@@ -1011,13 +1009,13 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
     Welch Two Sample t-test
 
 data:  x.sim and y.sim
-t = -1.4414, df = 18, p-value = 0.1667
+t = -1.1558, df = 18, p-value = 0.2629
 alternative hypothesis: true difference in means is not equal to 0
 95 percent confidence interval:
- -36.863749   6.863749
+ -42.2655  12.2655
 sample estimates:
 mean of x mean of y 
- 495.1545  510.1545 </code></pre>
+ 500.9821  515.9821 </code></pre>
 </div>
 </div>
 <p>This basic example shows that a difference considered as biologically significant may not be statistically significant.</p>
@@ -1033,13 +1031,13 @@ mean of x mean of y
     Welch Two Sample t-test
 
 data:  x.sim and y.sim
-t = -2.3468, df = 19998, p-value = 0.01895
+t = -2.34, df = 19998, p-value = 0.01929
 alternative hypothesis: true difference in means is not equal to 0
 95 percent confidence interval:
- -1.8352203 -0.1647797
+ -1.837647 -0.162353
 sample estimates:
 mean of x mean of y 
- 500.0915  501.0915 </code></pre>
+ 499.7649  500.7649 </code></pre>
 </div>
 </div>
 <p>This example confirms the need for a power analysis as a complement of the comparison test. We will see that equivalence testing may also be relevant for evaluating what the data allows to say.</p>
@@ -1105,7 +1103,7 @@ NOTE: n is number in *each* group</code></pre>
 <span id="cb80-8"><a href="#cb80-8" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb80-9"><a href="#cb80-9" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(R)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 0.55379</code></pre>
+<pre><code>[1] 0.55472</code></pre>
 </div>
 </div>
 <p>We may consider this probability as too small. If our objective is a power of 80% at least, with the same significance level, we need to increase the sample size.</p>
