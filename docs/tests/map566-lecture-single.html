@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.3.52">
+  <meta name="generator" content="quarto-0.3.56">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Statistical Tests</title>
   <style>
@@ -678,7 +678,7 @@ p_{\rm value} &amp; = \mathbb{P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm ob
 <span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(R)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 0.95037</code></pre>
+<pre><code>[1] 0.95117</code></pre>
 </div>
 </div>
 </div>
@@ -959,7 +959,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <span id="cb68-11"><a href="#cb68-11" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">%&gt;%</span> <span class="fu">rowMeans</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code> Student Wilcoxon 
-  0.8268   0.8097 </code></pre>
+  0.8273   0.8083 </code></pre>
 </div>
 </div>
 <p>On the other hand, the Wilcoxon test may be much more powerful than the t-test for non normal distributions when the empirical mean converges slowly in distribution to the normal distribution. Such is the case, for instance, of the log-normal ditribution which is strongly skewed for large variances.</p>
@@ -975,7 +975,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <span id="cb70-9"><a href="#cb70-9" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">%&gt;%</span> <span class="fu">rowMeans</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code> Student Wilcoxon 
-  0.6677   0.8489 </code></pre>
+  0.6711   0.8536 </code></pre>
 </div>
 </div>
 </section>
@@ -1009,13 +1009,13 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
     Welch Two Sample t-test
 
 data:  x.sim and y.sim
-t = -1.1558, df = 18, p-value = 0.2629
+t = -1.1584, df = 18, p-value = 0.2618
 alternative hypothesis: true difference in means is not equal to 0
 95 percent confidence interval:
- -42.2655  12.2655
+ -42.20448  12.20448
 sample estimates:
 mean of x mean of y 
- 500.9821  515.9821 </code></pre>
+ 497.5937  512.5937 </code></pre>
 </div>
 </div>
 <p>This basic example shows that a difference considered as biologically significant may not be statistically significant.</p>
@@ -1031,13 +1031,13 @@ mean of x mean of y
     Welch Two Sample t-test
 
 data:  x.sim and y.sim
-t = -2.34, df = 19998, p-value = 0.01929
+t = -2.3519, df = 19998, p-value = 0.01869
 alternative hypothesis: true difference in means is not equal to 0
 95 percent confidence interval:
- -1.837647 -0.162353
+ -1.8334067 -0.1665933
 sample estimates:
 mean of x mean of y 
- 499.7649  500.7649 </code></pre>
+ 500.0593  501.0593 </code></pre>
 </div>
 </div>
 <p>This example confirms the need for a power analysis as a complement of the comparison test. We will see that equivalence testing may also be relevant for evaluating what the data allows to say.</p>
@@ -1103,7 +1103,7 @@ NOTE: n is number in *each* group</code></pre>
 <span id="cb80-8"><a href="#cb80-8" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb80-9"><a href="#cb80-9" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(R)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 0.55472</code></pre>
+<pre><code>[1] 0.55201</code></pre>
 </div>
 </div>
 <p>We may consider this probability as too small. If our objective is a power of 80% at least, with the same significance level, we need to increase the sample size.</p>

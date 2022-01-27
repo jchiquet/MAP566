@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.3.52">
+  <meta name="generator" content="quarto-0.3.56">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Nonlinear Regression</title>
   <style>
@@ -391,26 +391,27 @@
 </div>
 </div>
 <p>We aim to fit a model to this data that describes the relationship between duration and waiting time.</p>
-<p>If we try to fit a fit a polynomial model, we can check that a polynomial of degree 4 is considered as the ``best polynomial model’’.</p>
+<p>If we try to fit a fit a polynomial model, we can check that a polynomial of degree 4 is considered as the “best polynomial model”.</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/faithful-poly4-fit_fc1482c4f0b66d835b682e1219867ccc">
 <div class="sourceCode" id="cb3"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>poly4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(waiting <span class="sc">~</span><span class="fu">poly</span>(eruptions, <span class="dv">4</span>), <span class="at">data =</span> faithful)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/faithful-poly4-plot_b2a83a25e3ceed73a4d85e2481718fe9">
-<p></p><details>
-<summary>Show the code</summary><p></p>
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/faithful-poly4-plot_c3437674cf3ce332579e3d852454b0dd">
 <div class="sourceCode" id="cb4"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>faithful_plot <span class="ot">&lt;-</span> </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  faithful_plot <span class="sc">+</span> </span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">4</span>), <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">colour=</span><span class="st">"#339900"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">4</span>), <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">colour=</span><span class="st">"#339900"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>faithful_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map566-lecture-nonlinear-regression_files/figure-html/faithful-poly4-plot-1.png" class="img-fluid" width="672"></p>
 </div>
-<p>Even if this model is the ``best’’ polynomial model, we may have serious doubts on the capabilities of the model to predict waiting times for durations outside of the observed range of durations.</p>
+</div>
+<p>Even if this model is the “best” polynomial model, we may have serious doubts on the capabilities of the model to predict waiting times for durations outside of the observed range of durations.</p>
 <p>Furthermore, parameters of the model, i.e.&nbsp;the polynomials’ coefficients, have no obvious physical interpretation. Using a polynomial model here, we are therefore not seeking to build a structural model <span class="math inline">f</span> that approximates a physical phenomenon, but merely seeking to rely the variability in the observations to the explanatory variables <span class="math inline">x</span>, <span class="math inline">x^2</span>, …</p>
 <p>We therefore need to consider other types of models, <em>i)</em> that do not necessarily assume linear relationships between the response variable and the explanatory variables, <em>ii)</em> whose parameters have some physical interpretation.</p>
 <p>A <em>logistic function</em> (or <em>logistic curve</em>) is a common “S” shape (sigmoid curve), with equation:</p>
 <p><span class="math display">
 f_1(x) = \frac{A}{1+{\rm exp}(-\gamma(x-\tau))}
 </span></p>
-<iframe src="http://shiny.webpopix.org/sia/nlm1/" style="border: none; width: 800px; height: 400px">
+<iframe src="http://shiny.webpopix.org/sia/nlm1/" style="border: none; width: 780px; height: 400px">
 </iframe>
 <p>Here, <span class="math inline">A</span> is the limiting value (when <span class="math inline">x \to \infty</span>), <span class="math inline">\gamma</span> measure the steepness of the curve and <span class="math inline">\tau</span> is the <span class="math inline">x</span>-value of the sigmoid’s midpoint.</p>
 <p>This model is a nonlinear model in the sense that the regression function <span class="math inline">f_1</span> is a nonlinear function of the parameters.We can fit this model to our data using the <code>nls</code> function.</p>
@@ -440,7 +441,7 @@ Achieved convergence tolerance: 6.24e-06</code></pre>
 <p><span class="math display">
 f_2(x) =  S + \frac{A-S}{1+{\rm exp}(-\gamma(x-\tau))}
 </span></p>
-<iframe src="http://shiny.webpopix.org/sia/nlm2/" style="border: none; width: 800px; height: 400px">
+<iframe src="http://shiny.webpopix.org/sia/nlm2/" style="border: none; width: 780px; height: 400px">
 </iframe>
 <p>We can again use <code>nls</code> to fit this nonlinear model to the data:</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-6_0faaec02ddc7109a7010fc2f22db0f2b">
@@ -466,7 +467,9 @@ Achieved convergence tolerance: 6.239e-06</code></pre>
 </div>
 </div>
 <p>We can now compute and plot the waiting times predicted with these two fitted models</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-8_34ce1d1c916e76e73118d77bfd2a8354">
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-8_1f84c66a6f00cbed3a928a00b44eef18">
+<p></p><details>
+<summary>Show the code</summary><p></p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>faithful_plot <span class="ot">&lt;-</span> faithful_plot <span class="sc">+</span> </span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">method  =</span> <span class="st">"nls"</span>,  <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"#E69F00"</span>,</span>
@@ -477,6 +480,7 @@ Achieved convergence tolerance: 6.239e-06</code></pre>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">formula =</span> y <span class="sc">~</span> (A<span class="sc">-</span>S) <span class="sc">/</span> ( <span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span>gamma <span class="sc">*</span> (x<span class="sc">-</span>tau)) ) <span class="sc">+</span> S, </span>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">method.args =</span> <span class="fu">list</span>(<span class="at">start=</span><span class="fu">c</span>(<span class="at">A=</span><span class="dv">90</span>, <span class="at">gamma=</span><span class="dv">2</span>, <span class="at">tau=</span><span class="dv">2</span>, <span class="at">S=</span><span class="dv">50</span>))) </span>
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>faithful_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <p><img src="map566-lecture-nonlinear-regression_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -606,7 +610,7 @@ z_j = g_j \ \beta + \varepsilon_j.
 <p><span class="theorem-title"><strong>Proposition 1 (Equivalence of the two LS estimate) </strong></span>The LS estimator of the linearized model is equivalent to the LS estimator of the original model:</p>
 <p><span class="math display">
 \begin{aligned}
-\hat{\beta} &amp;=  \arg\min{\beta}\sum_{j=1}^n(y_j - f(x_j,\beta))^2 \\
+\hat{\beta} &amp;=  \arg\min_{\beta}\sum_{j=1}^n(y_j - f(x_j,\beta))^2 \\
 &amp; =  \arg\min{\beta}\sum_{j=1}^n(z_j - g_j\beta)^2 \\
 \end{aligned}
 </span></p>
@@ -697,7 +701,8 @@ I_y({\hat\beta}) &amp;= - \frac{\partial^2}{\partial \beta \partial \beta^\prime
 [2,] -0.3866661  0.008998208 -0.007381367
 [3,]  0.3699911 -0.007381367  0.010576191</code></pre>
 </div>
-<p>::: and</p>
+<p>:::</p>
+<p>and</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-34_a33bea2631d5542032ba219f67d594d1">
 <div class="sourceCode" id="cb32"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>se_ml <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(V_ml))</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>se_ml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -736,12 +741,12 @@ I_y({\hat\beta}) &amp;= - \frac{\partial^2}{\partial \beta \partial \beta^\prime
 <h4 data-number="2.2.3" class="anchored" data-anchor-id="parametric-bootstrap"><span class="header-section-number">2.2.3</span> Parametric bootstrap</h4>
 <p>If we were able to repeat the same experiment under the same conditions, we would observe <span class="math inline">y^{(1)} = (y^{(1)}_j, 1\leq j \leq n)</span> and we would compute <span class="math inline">\beta^{(1)}</span>, an estimate of <span class="math inline">\beta</span>. Then, if we could repeat this experiment <span class="math inline">L</span> times, we would get <span class="math inline">L</span> estimates <span class="math inline">\beta^{(1)}</span>, <span class="math inline">\beta^{(2)}</span>, , <span class="math inline">\beta^{(L)}</span> of <span class="math inline">\beta</span>. This sequence of estimates <span class="math inline">(\beta^{(\ell)}, 1 \leq \ell \leq L)</span> would be a sample of random variables distributed as <span class="math inline">\hat{\beta}</span> and could therefore be used for estimating this distribution.</p>
 <p>When such replicates are not available, parametric bootstrap (or Monte-Carlo simulation) is a way to mimic the repetition of an experiment.</p>
-<p>For <span class="math inline">\ell=1,2,\ldots, L</span>, we generate ``observations’’ <span class="math inline">(y^{(\ell)}_j, 1\leq j \leq n)</span> with the model of interest, the original explanatory variables <span class="math inline">(x_j, 1\leq j\leq n)</span> and using the estimated parameters <span class="math inline">\hat\theta=(\hat\beta,\hat{\sigma}^2)</span>:</p>
+<p>For <span class="math inline">\ell=1,2,\ldots, L</span>, we generate “observations” <span class="math inline">(y^{(\ell)}_j, 1\leq j \leq n)</span> with the model of interest, the original explanatory variables <span class="math inline">(x_j, 1\leq j\leq n)</span> and using the estimated parameters <span class="math inline">\hat\theta=(\hat\beta,\hat{\sigma}^2)</span>:</p>
 <p><span class="math display">
 y^{(\ell)}_j = f(x_j,\hat{\beta}) + \hat{\sigma} \varepsilon^{(\ell)}_j \quad ; \quad 1\leq j \leq n
 </span></p>
 <p>where <span class="math inline">\varepsilon^{(\ell)}_j \sim^{\mathrm{iid}} \mathcal{N}(0,1)</span>. We also compute the LS /ML estimate of <span class="math inline">\beta</span>:</p>
-<p><span class="math display">\hat\beta^{(\ell)} = \arg\min{\beta}\sum_{j=1}^n(y^{(\ell)}_j - f(x_j,\beta))^2</span></p>
+<p><span class="math display">\hat\beta^{(\ell)} = \arg\min_{\beta}\sum_{j=1}^n(y^{(\ell)}_j - f(x_j,\beta))^2</span></p>
 <p>The variance-covariance matrix of <span class="math inline">\hat\beta</span> is then estimated by the empirical variance-covariance matrix of <span class="math inline">(\hat\beta^{(\ell)})</span>:</p>
 <p><span class="math display"> \mathbb{V}_{\rm mc}(\hat{\beta}) = \frac{1}{L-1}\sum_{\ell=1}^L ( \hat\beta^{(\ell)} - \bar{\beta} )( \hat\beta^{(\ell)} - \bar{ \beta} )^\prime
 </span></p>
@@ -759,16 +764,16 @@ y^{(\ell)}_j = f(x_j,\hat{\beta}) + \hat{\sigma} \varepsilon^{(\ell)}_j \quad ; 
 <span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>V_mc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>           [,1]        [,2]        [,3]
-[1,] 26.3947596 -0.47899193  0.71815580
-[2,] -0.4789919  0.01019953 -0.01110249
-[3,]  0.7181558 -0.01110249  0.02340772</code></pre>
+[1,] 28.7612990 -0.51416135  0.79742911
+[2,] -0.5141614  0.01079297 -0.01224066
+[3,]  0.7974291 -0.01224066  0.02605856</code></pre>
 </div>
 </div>
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-40_249e272abe2b1aa8f8b993b6179d0167">
 <div class="sourceCode" id="cb38"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>se_mc <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(V_mc))</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>se_mc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 5.1375830 0.1009927 0.1529958</code></pre>
+<pre><code>[1] 5.3629562 0.1038892 0.1614266</code></pre>
 </div>
 </div>
 <div class="remark proof">
@@ -776,7 +781,7 @@ y^{(\ell)}_j = f(x_j,\hat{\beta}) + \hat{\sigma} \varepsilon^{(\ell)}_j \quad ; 
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-42_14451409a8d4ed9f80c607d86cb32438">
 <div class="sourceCode" id="cb40"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(betas_boot, <span class="dv">2</span>, sd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 5.1375830 0.1009927 0.1529958</code></pre>
+<pre><code>[1] 5.3629562 0.1038892 0.1614266</code></pre>
 </div>
 </div>
 </div>
@@ -866,10 +871,10 @@ tau    1.2597849   1.6647346</code></pre>
 <span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setNames</span>(<span class="fu">c</span>(<span class="fu">paste0</span>((<span class="dv">1</span><span class="sc">-</span>level)<span class="sc">/</span><span class="dv">2</span><span class="sc">*</span><span class="dv">100</span>,<span class="st">"%"</span>),<span class="fu">paste0</span>((<span class="dv">1</span><span class="sc">+</span>level)<span class="sc">/</span><span class="dv">2</span><span class="sc">*</span><span class="dv">100</span>,<span class="st">"%"</span>)))</span>
 <span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>CI_bootstrap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>       2.5%       97.5%
-1 86.847737 107.5731983
-2  0.444256   0.8492577
-3  1.319483   1.9211150</code></pre>
+<pre><code>        2.5%      97.5%
+1 87.0934593 107.713046
+2  0.4489207   0.845151
+3  1.3236573   1.931228</code></pre>
 </div>
 </div>
 <div class="remark proof">
@@ -891,9 +896,9 @@ tau    1.2597849   1.6647346</code></pre>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>beta_hat <span class="sc">+</span> rq<span class="sc">*</span>(CI_bootstrap <span class="sc">-</span> beta_hat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>        2.5%       97.5%
-1 86.8194361 107.6385655
-2  0.4433741   0.8502062
-3  1.3188382   1.9231888</code></pre>
+1 87.0662690 107.7790448
+2  0.4480599   0.8460809
+3  1.3230309   1.9333480</code></pre>
 </div>
 </div>
 </div>
@@ -916,8 +921,8 @@ tau    1.3109469   1.8569351</code></pre>
 <p><span class="math display">\ell_p(\beta_1) = \max_{\beta_2, \ldots, \beta_d}\ell(\beta_1, \beta_2, \ldots, \beta_d )</span></p>
 <p><span class="math inline">\ell_p(\beta_1)</span> does no longer depend on <span class="math inline">\beta_2, \ldots, \beta_d</span> since it has been profiled out.</p>
 <p>As an example, let us compute and display the profile log-likelihood of <span class="math inline">A</span> for model <code>nlm1</code></p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-58_8a0db95ba94bf7b480f6ff3652b870ca">
-<div class="sourceCode" id="cb56"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>f_1A <span class="ot">&lt;-</span> <span class="cf">function</span>(gamma,tau,x,A){ f <span class="ot">&lt;-</span>  A<span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>(<span class="sc">-</span>gamma<span class="sc">*</span>(x<span class="sc">-</span>tau))) ; <span class="fu">return</span>(f)}</span>
+<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-58_1a51a5fef0ed7176fd61ff78d1ffc79b">
+<div class="sourceCode" id="cb56"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>f_1A <span class="ot">&lt;-</span> <span class="cf">function</span>(gamma,tau,x,A){A<span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>(<span class="sc">-</span>gamma<span class="sc">*</span>(x<span class="sc">-</span>tau)))}</span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>values_A <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">86</span>, <span class="dv">110</span>, <span class="at">by =</span> <span class="fl">0.1</span>)</span>
 <span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>start    <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">gamma =</span> beta_hat[<span class="dv">2</span>], <span class="at">tau =</span> beta_hat[<span class="dv">3</span>])</span>
 <span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>logLik_A <span class="ot">&lt;-</span> <span class="fu">map</span>(values_A, <span class="sc">~</span></span>
