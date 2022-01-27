@@ -31,20 +31,20 @@ faithful_plot
 
 We aim to fit a model  to this data that  describes the relationship between duration and waiting time.
 
-If we try to fit a fit a polynomial model, we can check that a polynomial of degree 4 is considered as the ``best polynomial model''.
+If we try to fit a fit a polynomial model, we can check that a polynomial of degree 4 is considered as the "best polynomial model".
 
 ```{r faithful-poly4-fit}
 poly4 <- lm(waiting ~poly(eruptions, 4), data = faithful)
 ```
 
 ```{r faithful-poly4-plot}
-#| code-fold: true
 faithful_plot <- 
   faithful_plot + 
   geom_smooth(method = "lm", formula = y ~ poly(x, 4), se = FALSE, colour="#339900")
+faithful_plot
 ```
 
-Even if this model is the ``best'' polynomial model, we may have serious doubts on the capabilities of the model to predict waiting times for durations outside of the observed range of durations.
+Even if this model is the "best" polynomial model, we may have serious doubts on the capabilities of the model to predict waiting times for durations outside of the observed range of durations.
 
 Furthermore, parameters of the model, i.e. the polynomials' coefficients, have no obvious physical interpretation. Using a polynomial model here, we are therefore not seeking to build a structural model $f$ that approximates a physical phenomenon, but merely seeking to rely the variability in the observations to the explanatory variables $x$, $x^2$, ...  
 
@@ -57,7 +57,7 @@ $$
 f_1(x) = \frac{A}{1+{\rm exp}(-\gamma(x-\tau))}
 $$
 
-<iframe src="http://shiny.webpopix.org/sia/nlm1/" style="border: none; width: 800px; height: 400px"></iframe>
+<iframe src="http://shiny.webpopix.org/sia/nlm1/" style="border: none; width: 780px; height: 400px"></iframe>
 
 Here, $A$ is the limiting value (when $x \to \infty$),  $\gamma$ measure the steepness of the curve and $\tau$ is the $x$-value of the sigmoid's midpoint.
 
@@ -76,7 +76,7 @@ $$
 f_2(x) =  S + \frac{A-S}{1+{\rm exp}(-\gamma(x-\tau))}
 $$
 
-<iframe src="http://shiny.webpopix.org/sia/nlm2/" style="border: none; width: 800px; height: 400px"></iframe>
+<iframe src="http://shiny.webpopix.org/sia/nlm2/" style="border: none; width: 780px; height: 400px"></iframe>
 
 We can again use `nls` to fit this nonlinear model to the data:
 
@@ -88,6 +88,7 @@ summary(nlm2)
 We can now compute and plot the waiting times predicted with these two fitted models 
 
 ```{r}
+#| code-fold: true
 faithful_plot <- faithful_plot + 
   geom_smooth(
     method  = "nls",  se = FALSE, color = "#E69F00",
@@ -244,7 +245,7 @@ The LS estimator of the linearized model is equivalent to the LS estimator of th
 
 $$
 \begin{aligned}
-\hat{\beta} &=  \arg\min{\beta}\sum_{j=1}^n(y_j - f(x_j,\beta))^2 \\
+\hat{\beta} &=  \arg\min_{\beta}\sum_{j=1}^n(y_j - f(x_j,\beta))^2 \\
 & =  \arg\min{\beta}\sum_{j=1}^n(z_j - g_j\beta)^2 \\
 \end{aligned}
 $$
@@ -330,6 +331,7 @@ We then derive the FIM and the variance $\mathbb{V}_{\rm ml}(\hat{\beta})$:
 V_ml <- solve(H/(2*sigma_hat_ML^2))
 V_ml
 ```
+
 and
 
 ```{r}
@@ -374,7 +376,7 @@ This sequence of estimates $(\beta^{(\ell)}, 1 \leq \ell \leq L)$ would be a sam
 
 When such replicates are not available, parametric bootstrap (or Monte-Carlo simulation) is a way to mimic the repetition of an experiment.
 
-For $\ell=1,2,\ldots, L$, we generate ``observations'' $(y^{(\ell)}_j, 1\leq j \leq n)$ with the model of interest, the original explanatory variables $(x_j, 1\leq j\leq n)$ and using the estimated parameters $\hat\theta=(\hat\beta,\hat{\sigma}^2)$:
+For $\ell=1,2,\ldots, L$, we generate "observations" $(y^{(\ell)}_j, 1\leq j \leq n)$ with the model of interest, the original explanatory variables $(x_j, 1\leq j\leq n)$ and using the estimated parameters $\hat\theta=(\hat\beta,\hat{\sigma}^2)$:
 
 $$ 
 y^{(\ell)}_j = f(x_j,\hat{\beta}) + \hat{\sigma} \varepsilon^{(\ell)}_j \quad ; \quad 1\leq j \leq n
@@ -382,7 +384,7 @@ $$
 
 where $\varepsilon^{(\ell)}_j \sim^{\mathrm{iid}} \mathcal{N}(0,1)$. We also compute the LS /ML estimate of $\beta$:
 
-$$\hat\beta^{(\ell)} = \arg\min{\beta}\sum_{j=1}^n(y^{(\ell)}_j - f(x_j,\beta))^2$$
+$$\hat\beta^{(\ell)} = \arg\min_{\beta}\sum_{j=1}^n(y^{(\ell)}_j - f(x_j,\beta))^2$$
 
 The variance-covariance matrix of $\hat\beta$ is then estimated by the empirical variance-covariance matrix of $(\hat\beta^{(\ell)})$:
 
@@ -556,7 +558,7 @@ $\ell_p(\beta_1)$ does no longer depend on $\beta_2, \ldots, \beta_d$ since it h
 As an example, let us compute and display the profile log-likelihood of $A$ for model `nlm1`
 
 ```{r}
-f_1A <- function(gamma,tau,x,A){ f <-  A/(1+exp(-gamma*(x-tau))) ; return(f)}
+f_1A <- function(gamma,tau,x,A){A/(1+exp(-gamma*(x-tau)))}
 values_A <- seq(86, 110, by = 0.1)
 start    <- list(gamma = beta_hat[2], tau = beta_hat[3])
 logLik_A <- map(values_A, ~

@@ -161,7 +161,6 @@ $$
 \newcommand{\bE}{\mathbf{E}}
 \newcommand{\bI}{\mathbf{I}}
 \newcommand{\bP}{\mathbf{P}}
-\newcommand{\bL}{\mathbf{L}}
 \newcommand{\be}{\mathbf{e}}
 \newcommand{\bg}{\mathbf{g}}
 \newcommand{\bv}{\mathbf{v}}
