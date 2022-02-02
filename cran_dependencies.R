@@ -5,9 +5,10 @@ local({
 })
 
 ## R packages not available on conda
+install.packages('nloptr')
 install.packages('blockmodels')
 install.packages('sbm')
-remotes::install_version('missSBM', "1.0.1")
+install.packages('missSBM')
 
 ## install.packages('magick')
 
