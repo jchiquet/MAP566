@@ -176,8 +176,8 @@ Indeed, we didn't take into account the fact that the data are *repeated measure
 ```{r, fig.height=4, fig.width=9, warning=FALSE, message=FALSE}
 #| code-fold: true
 ggplot(data = Orthodont) + 
-  geom_point(aes(x = age, y = distance, color = Sex), size = 3) + 
-  geom_line(aes(x = age, y = distance, group = Subject)) + theme_bw()
+  geom_point(aes(x = age, y = distance, color = Subject), size = 3) + 
+  geom_line(aes(x = age, y = distance, color = Subject)) + facet_grid(~Sex)
 ```
 
 We see on this plot, that even if the distance seems to increase linearly for each individual, the intercept and the slope may change from a subject to another one, including within the same Sex group.
