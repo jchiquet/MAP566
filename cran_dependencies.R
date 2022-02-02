@@ -7,6 +7,7 @@ local({
 ## R packages not available on conda
 install.packages('blockmodels')
 install.packages('sbm')
-install.packages('missSBM', version = "1.0.1")
+remotes::install_version('missSBM', "1.0.1")
+
 ## install.packages('magick')
 

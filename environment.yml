@@ -20,6 +20,7 @@ dependencies:
   - r-igraph
   - r-aricode
   - r-viridis
+  - r-remotes
   - r-tinytex
 #  - imagemagick
   
