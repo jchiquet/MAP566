@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.3.56">
+  <meta name="generator" content="quarto-0.3.79">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Multiple Testing</title>
   <style>
@@ -270,11 +270,8 @@
   </li>  
     </ul>
   </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-homework" role="button" data-bs-toggle="dropdown" aria-expanded="false">Homework</a>
-    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-homework">    
-    </ul>
-  </li>
+  <li class="dropdown-header">
+ sidebar:homework</li>
 </ul>
               <div id="quarto-search" class="" title="Search"></div>
           </div> <!-- /navcollapse -->
@@ -498,8 +495,8 @@ alternative hypothesis: true location shift is less than 0</code></pre>
 </div>
 <p>Let us plot the ordered p-values:</p>
 <div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-14_c7a7460886b59875da478cc82dc2b051">
-<p></p><details>
-<summary>Show the code</summary><p></p>
+<details>
+<summary>Show the code</summary>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>all_comparisons <span class="sc">%&gt;%</span> </span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">18</span>, <span class="at">color =</span> regime, <span class="at">y =</span> p.value, <span class="at">shape =</span> gender), <span class="at">size=</span><span class="dv">4</span>) <span class="sc">+</span> </span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"regime"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"p-value"</span>) <span class="sc">+</span> <span class="fu">scale_color_viridis_d</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -534,15 +531,15 @@ Permutation test
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["gender"],"name":[1],"type":["fct"],"align":["left"]},{"label":["regime"],"name":[2],"type":["fct"],"align":["left"]},{"label":["statistic"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"female","2":"NK603-22%","3":"26.0","4":"0.03127064"},{"1":"female","2":"RoundUp C","3":"28.5","4":"0.04492916"},{"1":"male","2":"NK603-22%","3":"34.0","4":"0.11879122"},{"1":"female","2":"RoundUp B","3":"38.0","4":"0.17065621"},{"1":"female","2":"NK603-11%+R","3":"38.5","4":"0.17398546"},{"1":"female","2":"NK603-33%","3":"38.5","4":"0.17398546"},{"1":"female","2":"NK603-33%+R","3":"38.5","4":"0.17398546"},{"1":"female","2":"RoundUp A","3":"43.0","4":"0.28212416"},{"1":"female","2":"NK603-22%+R","3":"43.5","4":"0.30426529"},{"1":"male","2":"RoundUp B","3":"43.5","4":"0.32420810"},{"1":"female","2":"NK603-11%","3":"45.5","4":"0.36130252"},{"1":"male","2":"NK603-22%+R","3":"45.0","4":"0.36564469"},{"1":"male","2":"RoundUp C","3":"46.5","4":"0.40983021"},{"1":"male","2":"NK603-33%+R","3":"50.5","4":"0.53042681"},{"1":"male","2":"NK603-11%+R","3":"53.5","4":"0.61982472"},{"1":"male","2":"RoundUp A","3":"58.5","4":"0.75676917"},{"1":"male","2":"NK603-11%","3":"60.0","4":"0.79140352"},{"1":"male","2":"NK603-33%","3":"65.5","4":"0.89445881"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["gender"],"name":[1],"type":["fct"],"align":["left"]},{"label":["regime"],"name":[2],"type":["fct"],"align":["left"]},{"label":["statistic"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"male","2":"NK603-22%+R","3":"18.0","4":"0.008503289"},{"1":"male","2":"NK603-33%+R","3":"29.5","4":"0.064052943"},{"1":"male","2":"NK603-11%","3":"29.5","4":"0.064270768"},{"1":"female","2":"RoundUp A","3":"35.0","4":"0.128628922"},{"1":"female","2":"NK603-11%+R","3":"36.5","4":"0.154983238"},{"1":"male","2":"RoundUp C","3":"41.0","4":"0.258437983"},{"1":"male","2":"RoundUp B","3":"43.5","4":"0.323455849"},{"1":"male","2":"NK603-22%","3":"44.0","4":"0.335369464"},{"1":"female","2":"NK603-33%","3":"46.5","4":"0.404271334"},{"1":"female","2":"NK603-33%+R","3":"48.0","4":"0.451764218"},{"1":"female","2":"NK603-11%","3":"48.5","4":"0.467799102"},{"1":"male","2":"NK603-33%","3":"51.0","4":"0.545848199"},{"1":"female","2":"NK603-22%+R","3":"52.5","4":"0.595768979"},{"1":"female","2":"NK603-22%","3":"53.5","4":"0.626733448"},{"1":"female","2":"RoundUp B","3":"55.0","4":"0.675555573"},{"1":"female","2":"RoundUp C","3":"56.0","4":"0.704658622"},{"1":"male","2":"RoundUp A","3":"58.5","4":"0.756769171"},{"1":"male","2":"NK603-11%+R","3":"62.5","4":"0.848761883"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
 </div>
 <p>The test statistics and the <span class="math inline">p</span>-values now really behave how they are supposed to behave under the null hypothesis. Let us plot this:</p>
 <div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-18_9bf25eefdf764785ae93492a5d6db6c4">
-<p></p><details>
-<summary>Show the code</summary><p></p>
+<details>
+<summary>Show the code</summary>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">do_all_comparisons</span>(permuted_data) <span class="sc">%&gt;%</span> </span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">18</span>, <span class="at">color =</span> regime, <span class="at">y =</span> p.value, <span class="at">shape =</span> gender), <span class="at">size=</span><span class="dv">4</span>) <span class="sc">+</span> </span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"regime"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"p-value"</span>) <span class="sc">+</span> <span class="fu">scale_color_viridis_d</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -576,8 +573,8 @@ Permutation test
 </div>
 <p>and plot them, with the original <span class="math inline">p</span>-values</p>
 <div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-24_7ed7323f39384d5c4efe9b84910e3410">
-<p></p><details>
-<summary>Show the code</summary><p></p>
+<details>
+<summary>Show the code</summary>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>quantiles_pvalues <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">x =</span> rank, <span class="at">ymin =</span> low, <span class="at">ymax =</span> up), <span class="at">width=</span><span class="fl">0.2</span>, <span class="at">size=</span><span class="fl">1.5</span>, <span class="at">colour=</span><span class="st">"grey50"</span>) <span class="sc">+</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"regimen"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"p-value"</span>) <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="cn">NULL</span>)  <span class="sc">+</span>  </span>
@@ -597,7 +594,7 @@ Permutation test
 <div class="sourceCode" id="cb18"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>stat_rank1 <span class="ot">&lt;-</span> <span class="fu">split</span>(res, res<span class="sc">$</span>simu) <span class="sc">%&gt;%</span> <span class="fu">map_dbl</span>(<span class="cf">function</span>(x) <span class="fu">sort</span>(x<span class="sc">$</span>statistic)[<span class="dv">1</span>])</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(stat_rank1 <span class="sc">&lt;</span> all_comparisons<span class="sc">$</span>statistic[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 0.142</code></pre>
+<pre><code>[1] 0.159</code></pre>
 </div>
 </div>
 </section>
@@ -734,8 +731,8 @@ Controlling FDR
 </div>
 <p>If we plot this, we clearly exhibit two regimen in the behaviour of the p-values distribution:</p>
 <div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-38_3fbf7116a8202f8be4b9ea4f80bbf8c8">
-<p></p><details>
-<summary>Show the code</summary><p></p>
+<details>
+<summary>Show the code</summary>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>pl1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>m,<span class="at">y=</span><span class="st">`</span><span class="at">p-value</span><span class="st">`</span>), <span class="at">colour=</span><span class="st">"blue"</span>) <span class="sc">+</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>m,<span class="at">y=</span>critical.value), <span class="at">colour=</span><span class="st">"red"</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"(i)"</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(pl1, pl1 <span class="sc">+</span> <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">8</span>)) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.21</span>)) <span class="sc">+</span> <span class="fu">geom_vline</span>(<span class="at">xintercept=</span><span class="fl">5.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

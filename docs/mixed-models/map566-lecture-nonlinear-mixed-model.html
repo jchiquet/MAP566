@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.3.56">
+  <meta name="generator" content="quarto-0.3.79">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Nonlinear Mixed Effects Models</title>
   <style>
@@ -251,11 +251,8 @@
   </li>  
     </ul>
   </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-homework" role="button" data-bs-toggle="dropdown" aria-expanded="false">Homework</a>
-    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-homework">    
-    </ul>
-  </li>
+  <li class="dropdown-header">
+ sidebar:homework</li>
 </ul>
               <div id="quarto-search" class="" title="Search"></div>
           </div> <!-- /navcollapse -->
@@ -395,8 +392,8 @@
 <p>The 12 subjects received 320 mg of theophylline at time 0.</p>
 <p>Let us plot the data, i.e.&nbsp;the concentration versus time:</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-4_3a8618cca645579981b2a63ca4149c7f">
-<p></p><details>
-<summary>Show the code</summary><p></p>
+<details>
+<summary>Show the code</summary>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>theo_plot <span class="ot">&lt;-</span> theophylline <span class="sc">%&gt;%</span> </span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> concentration) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">color=</span><span class="st">"#993399"</span>, <span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"time (h)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"concentration (mg/l)"</span>)</span>
@@ -408,8 +405,8 @@
 </div>
 <p>We can also plot the 12 individual concentration profiles on 12 separated plots,</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-6_d14a3e339d47db2bdc9900d4d6174ca2">
-<p></p><details>
-<summary>Show the code</summary><p></p>
+<details>
+<summary>Show the code</summary>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>theo_plot <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>( <span class="sc">~</span> id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
@@ -460,8 +457,8 @@
 </div>
 <p>::: and plot the predicted concentration <span class="math inline">f(t,\hat\psi)</span></p>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-14_1571a0f7885110bbcc55039367a6380a">
-<p></p><details>
-<summary>Show the code</summary><p></p>
+<details>
+<summary>Show the code</summary>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dplot <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">time =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">40</span>, <span class="at">by=</span><span class="fl">0.2</span>))</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>dplot<span class="sc">$</span>pred_1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_1, <span class="at">newdata =</span> dplot)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>subject1_plot <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">data =</span> dplot, <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y=</span>pred_1), <span class="at">colour=</span><span class="st">"#339900"</span>, <span class="at">size=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -488,8 +485,8 @@
 </div>
 </div>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-18_acf4005ef06f193f9b3d90e7be0550e5">
-<p></p><details>
-<summary>Show the code</summary><p></p>
+<details>
+<summary>Show the code</summary>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dplot<span class="sc">$</span>pred_all <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_all, <span class="at">newdata =</span> dplot)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>theo_plot <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">data =</span> dplot, <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> pred_all), <span class="at">colour=</span><span class="st">"#339900"</span>, <span class="at">size=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -499,8 +496,8 @@
 </div>
 <p>These estimated parameters are typical parameters and this profile is a typical profile for this sample of patients: by definition, they do not take into account the variability between the patients and therefore do not provide good individual predictions.</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-20_7f125694eda85dac4c9fdcad6517bd76">
-<p></p><details>
-<summary>Show the code</summary><p></p>
+<details>
+<summary>Show the code</summary>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>theo_plot <span class="sc">+</span>  </span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> dplot, <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y=</span>pred_all), <span class="at">colour=</span><span class="st">"#339900"</span>, <span class="at">size=</span><span class="dv">1</span>) <span class="sc">+</span> </span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -519,8 +516,8 @@
 <p><span class="math display">\hat\psi_i = \arg\min_{\psi}  \sum_{j=1}^{n_i} \Big(y_{ij} - f(t_{ij} ,\psi)\Big)^2 \quad , \quad 1\leq i \leq N</span></p>
 <p>Each individual predicted concentration <span class="math inline">f(t,\hat\psi_i)</span> seems to predict quite well the observed concentrations for the 12 subjects:</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-22_188be9b7304a7623a130c043c5a76491">
-<p></p><details>
-<summary>Show the code</summary><p></p>
+<details>
+<summary>Show the code</summary>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">split</span>(theophylline, theophylline<span class="sc">$</span>id) <span class="sc">%&gt;%</span> </span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="sc">~</span>{</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  model_i <span class="ot">&lt;-</span> <span class="fu">nls</span>(concentration <span class="sc">~</span> <span class="fu">f1</span>(psi, time), </span>

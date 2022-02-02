@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.3.56">
+  <meta name="generator" content="quarto-0.3.79">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Graph clustering</title>
   <style>
@@ -270,11 +270,8 @@
   </li>  
     </ul>
   </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-homework" role="button" data-bs-toggle="dropdown" aria-expanded="false">Homework</a>
-    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-homework">    
-    </ul>
-  </li>
+  <li class="dropdown-header">
+ sidebar:homework</li>
 </ul>
               <div id="quarto-search" class="" title="Search"></div>
           </div> <!-- /navcollapse -->
@@ -463,8 +460,8 @@
 </div>
 <p>A visual representation of the network data with nodes colored according to the political party each blog belongs to is achieved as follows:</p>
 <div class="cell" data-hash="map566-lecture-stochastic-blockmodels_cache/html/frenchblog-igraph-plot_3280e4973d1f39bf262928acf13c5040">
-<p></p><details>
-<summary>Show the code</summary><p></p>
+<details>
+<summary>Show the code</summary>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.igraph</span>(frenchblog2007,</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">vertex.color =</span> <span class="fu">factor</span>(<span class="fu">V</span>(frenchblog2007)<span class="sc">$</span>party),</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">vertex.label =</span> <span class="cn">NA</span></span>
@@ -476,8 +473,8 @@
 </div>
 <p>Another commonly used representation is via a matrix view, where the adjacency matrix is re-ordered column-wise and row-wise according to a predefined classification. In the <code>frenchblog2007</code> data, nodes are originally reordered according to their party:</p>
 <div class="cell" data-hash="map566-lecture-stochastic-blockmodels_cache/html/frenchblog-matrix-plot_03c83d7810e132ad851f3534a53118ca">
-<p></p><details>
-<summary>Show the code</summary><p></p>
+<details>
+<summary>Show the code</summary>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>frenchblog2007 <span class="sc">%&gt;%</span> <span class="fu">as_adj</span>(<span class="at">sparse =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span> <span class="fu">plotMyMatrix</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
@@ -621,7 +618,7 @@ Idea
 <span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">gorder</span>(blog), A)</span>
 <span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="fu">cut</span>(blog, A, B)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 2.316245</code></pre>
+<pre><code>[1] 1.85282</code></pre>
 </div>
 </div>
 <p>The above problem can be formalized as follows: a partition into two clusters of the graph can be defined by a vector of <span class="math inline">\{-1, 1\}^n</span>. Indeed,</p>
@@ -830,8 +827,8 @@ Pseudo code for normalized spectral clustering
 </div>
 <p>Once reorder according to the best clustering (obtained <span class="math inline">k=6</span>) groups, the orginal data matrix looks as follows</p>
 <div class="cell" data-hash="map566-lecture-stochastic-blockmodels_cache/html/spectral-blog-plot_6a3cf57c89d171b93176bbf3c27b9248">
-<p></p><details>
-<summary>Show the code</summary><p></p>
+<details>
+<summary>Show the code</summary>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotMyMatrix</span>(<span class="fu">as_adj</span>(blog, <span class="at">sparse =</span> <span class="cn">FALSE</span>),</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">clustering =</span> <span class="fu">list</span>(<span class="at">row =</span> <span class="fu">spectral_clustering</span>(blog, <span class="dv">6</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -1174,24 +1171,24 @@ Intractable EM
 
  Initialization of 18 model(s). 
  Performing VEM inference
-    Model with 5 blocks.
+    Model with 2 blocks.
+    Model with 13 blocks.
+    Model with 14 blocks.
     Model with 18 blocks.
-    Model with 12 blocks.
-    Model with 1 blocks.
-    Model with 7 blocks.
-    Model with 10 blocks.
+    Model with 4 blocks.
     Model with 15 blocks.
     Model with 17 blocks.
+    Model with 5 blocks.
+    Model with 6 blocks.
     Model with 3 blocks.
+    Model with 9 blocks.
+    Model with 7 blocks.
     Model with 8 blocks.
     Model with 16 blocks.
-    Model with 2 blocks.
-    Model with 4 blocks.
-    Model with 14 blocks.
-    Model with 6 blocks.
     Model with 11 blocks.
-    Model with 13 blocks.
-    Model with 9 blocks.
+    Model with 12 blocks.
+    Model with 10 blocks.
+    Model with 1 blocks.
  Looking for better solutions
  Pass 1   Going forward +++++++++++++++++
                                                                                                     

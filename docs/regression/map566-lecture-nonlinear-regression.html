@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.3.56">
+  <meta name="generator" content="quarto-0.3.79">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Nonlinear Regression</title>
   <style>
@@ -249,11 +249,8 @@
   </li>  
     </ul>
   </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-homework" role="button" data-bs-toggle="dropdown" aria-expanded="false">Homework</a>
-    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-homework">    
-    </ul>
-  </li>
+  <li class="dropdown-header">
+ sidebar:homework</li>
 </ul>
               <div id="quarto-search" class="" title="Search"></div>
           </div> <!-- /navcollapse -->
@@ -377,8 +374,8 @@
 <p>The <code>faithful</code> data (provided by the <code>R</code> base package <strong>datasets</strong>) consist of the waiting time between eruptions and the duration of the eruption for the Old Faithful geyser in Yellowstone National Park, Wyoming, USA.</p>
 <p>Let us see how these data look like.</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-2_44950213454ce269b4a440a91862ca6b">
-<p></p><details>
-<summary>Show the code</summary><p></p>
+<details>
+<summary>Show the code</summary>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>faithful_plot <span class="ot">&lt;-</span> </span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  faithful <span class="sc">%&gt;%</span> </span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> eruptions, <span class="at">y =</span> waiting) <span class="sc">+</span> </span>
@@ -468,8 +465,8 @@ Achieved convergence tolerance: 6.239e-06</code></pre>
 </div>
 <p>We can now compute and plot the waiting times predicted with these two fitted models</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-8_1f84c66a6f00cbed3a928a00b44eef18">
-<p></p><details>
-<summary>Show the code</summary><p></p>
+<details>
+<summary>Show the code</summary>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>faithful_plot <span class="ot">&lt;-</span> faithful_plot <span class="sc">+</span> </span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">method  =</span> <span class="st">"nls"</span>,  <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"#E69F00"</span>,</span>
@@ -764,16 +761,16 @@ y^{(\ell)}_j = f(x_j,\hat{\beta}) + \hat{\sigma} \varepsilon^{(\ell)}_j \quad ; 
 <span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>V_mc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>           [,1]        [,2]        [,3]
-[1,] 28.7612990 -0.51416135  0.79742911
-[2,] -0.5141614  0.01079297 -0.01224066
-[3,]  0.7974291 -0.01224066  0.02605856</code></pre>
+[1,] 26.1830598 -0.48403764  0.70721280
+[2,] -0.4840376  0.01041061 -0.01111361
+[3,]  0.7072128 -0.01111361  0.02320339</code></pre>
 </div>
 </div>
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-40_249e272abe2b1aa8f8b993b6179d0167">
 <div class="sourceCode" id="cb38"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>se_mc <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(V_mc))</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>se_mc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 5.3629562 0.1038892 0.1614266</code></pre>
+<pre><code>[1] 5.1169385 0.1020324 0.1523266</code></pre>
 </div>
 </div>
 <div class="remark proof">
@@ -781,7 +778,7 @@ y^{(\ell)}_j = f(x_j,\hat{\beta}) + \hat{\sigma} \varepsilon^{(\ell)}_j \quad ; 
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-42_14451409a8d4ed9f80c607d86cb32438">
 <div class="sourceCode" id="cb40"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(betas_boot, <span class="dv">2</span>, sd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 5.3629562 0.1038892 0.1614266</code></pre>
+<pre><code>[1] 5.1169385 0.1020324 0.1523266</code></pre>
 </div>
 </div>
 </div>
@@ -871,10 +868,10 @@ tau    1.2597849   1.6647346</code></pre>
 <span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setNames</span>(<span class="fu">c</span>(<span class="fu">paste0</span>((<span class="dv">1</span><span class="sc">-</span>level)<span class="sc">/</span><span class="dv">2</span><span class="sc">*</span><span class="dv">100</span>,<span class="st">"%"</span>),<span class="fu">paste0</span>((<span class="dv">1</span><span class="sc">+</span>level)<span class="sc">/</span><span class="dv">2</span><span class="sc">*</span><span class="dv">100</span>,<span class="st">"%"</span>)))</span>
 <span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>CI_bootstrap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>        2.5%      97.5%
-1 87.0934593 107.713046
-2  0.4489207   0.845151
-3  1.3236573   1.931228</code></pre>
+<pre><code>       2.5%       97.5%
+1 86.657690 106.4836425
+2  0.460559   0.8498536
+3  1.312539   1.8690953</code></pre>
 </div>
 </div>
 <div class="remark proof">
@@ -896,9 +893,9 @@ tau    1.2597849   1.6647346</code></pre>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>beta_hat <span class="sc">+</span> rq<span class="sc">*</span>(CI_bootstrap <span class="sc">-</span> beta_hat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>        2.5%       97.5%
-1 87.0662690 107.7790448
-2  0.4480599   0.8460809
-3  1.3230309   1.9333480</code></pre>
+1 86.6285304 106.5440854
+2  0.4597508   0.8508048
+3  1.3118623   1.8709339</code></pre>
 </div>
 </div>
 </div>
@@ -930,8 +927,8 @@ tau    1.3109469   1.8569351</code></pre>
 <span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> <span class="fu">map</span>(logLik) <span class="sc">%&gt;%</span> <span class="fu">map_dbl</span>(as.numeric)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-60_b3af73968c8998db0979177095095515">
-<p></p><details>
-<summary>Show the code</summary><p></p>
+<details>
+<summary>Show the code</summary>
 <div class="sourceCode" id="cb57"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">A =</span> values_A, <span class="at">logLik =</span> logLik_A) <span class="sc">%&gt;%</span> </span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> A, <span class="at">y =</span> logLik) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">color=</span><span class="st">"blue"</span>, <span class="at">size=</span><span class="dv">1</span>) <span class="sc">+</span> </span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> beta_hat[<span class="dv">1</span>], <span class="at">color=</span><span class="st">"red"</span>, <span class="at">linetype =</span> <span class="st">"longdash"</span>) <span class="sc">+</span> </span>
@@ -966,8 +963,8 @@ $$\begin{aligned}
 <span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>c2_A <span class="ot">&lt;-</span> <span class="fu">uniroot</span>(lp_A, <span class="fu">c</span>(beta_hat[<span class="dv">1</span>], <span class="dv">110</span>), qlevel)<span class="sc">$</span>root</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-64_b71c9673476ec862d9c2df65b11f3a26">
-<p></p><details>
-<summary>Show the code</summary><p></p>
+<details>
+<summary>Show the code</summary>
 <div class="sourceCode" id="cb59"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>dlogLik_A <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span>(<span class="fu">as.numeric</span>(<span class="fu">logLik</span>(nlm1)) <span class="sc">-</span> logLik_A)</span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">A =</span> values_A, <span class="at">dlogLik =</span> dlogLik_A) <span class="sc">%&gt;%</span> </span>
 <span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(values_A,dlogLik), <span class="at">size=</span><span class="dv">1</span>, <span class="at">color=</span><span class="st">"blue"</span>) <span class="sc">+</span> </span>
@@ -1039,8 +1036,8 @@ tau    1.3118040   1.8520538</code></pre>
 <li>the distribution of the residuals</li>
 </ol>
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-70_e2275bbc9ec49e7a7595856b67d9ae57">
-<p></p><details>
-<summary>Show the code</summary><p></p>
+<details>
+<summary>Show the code</summary>
 <div class="sourceCode" id="cb64"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="do">## unfortunately, no plotting function is defined for 'nls' object</span></span>
 <span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>residual_nlm1 <span class="ot">&lt;-</span> <span class="fu">resid</span>(nlm1)<span class="sc">/</span><span class="fu">sd</span>(<span class="fu">resid</span>(nlm1))</span>
 <span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
@@ -1066,8 +1063,8 @@ tau    1.3118040   1.8520538</code></pre>
 <h2 data-number="4" class="anchored" data-anchor-id="model-comparison"><span class="header-section-number">4</span> Model comparison</h2>
 <p>We can produce the same the diagnostic plots with model <code>nlm2</code> and arrive at the same conclusion concerning this model.</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-72_1d941ff59616e4b33bed48bd0206a842">
-<p></p><details>
-<summary>Show the code</summary><p></p>
+<details>
+<summary>Show the code</summary>
 <div class="sourceCode" id="cb65"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>residual_nlm2 <span class="ot">&lt;-</span> <span class="fu">resid</span>(nlm2)<span class="sc">/</span><span class="fu">sd</span>(<span class="fu">resid</span>(nlm2))</span>
 <span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
 <span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">predict</span>(nlm2), faithful<span class="sc">$</span>waiting)</span>
@@ -1208,8 +1205,8 @@ f(x_0 , \beta) \simeq f(x_0 , \hat{\beta}) + \nabla f(x_0 , \hat{\beta})(\beta -
 </div>
 <p>We can now plot these two intervals together with the data:</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-90_9a1352213235b2a5c9a49f1c14c4496e">
-<p></p><details>
-<summary>Show the code</summary><p></p>
+<details>
+<summary>Show the code</summary>
 <div class="sourceCode" id="cb81"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(faithful)  <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> eruptions, <span class="at">y =</span> waiting)) <span class="sc">+</span></span>
 <span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_ribbon</span>(<span class="at">data=</span>df_delta, <span class="fu">aes</span>(<span class="at">x=</span>x_new, <span class="at">ymin=</span>lwr_pred, <span class="at">ymax=</span>upr_pred), <span class="at">alpha=</span><span class="fl">0.1</span>, <span class="at">fill=</span><span class="st">"blue"</span>) <span class="sc">+</span> </span>
 <span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data=</span>df_delta, <span class="fu">aes</span>(<span class="at">x=</span>x_new, <span class="at">ymin=</span>lwr_conf, <span class="at">ymax=</span>upr_conf), <span class="at">alpha=</span><span class="fl">0.2</span>, <span class="at">fill=</span><span class="st">"#339900"</span>) <span class="sc">+</span>   <span class="fu">geom_line</span>(<span class="at">data=</span>df_delta, <span class="fu">aes</span>(<span class="at">x=</span>x_new, <span class="at">y=</span>f_new), <span class="at">colour=</span><span class="st">"#339900"</span>, <span class="at">size=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1264,8 +1261,8 @@ f(x_0 , \beta) \simeq f(x_0 , \hat{\beta}) + \nabla f(x_0 , \hat{\beta})(\beta -
 <span id="cb82-20"><a href="#cb82-20" aria-hidden="true" tabindex="-1"></a>df_mc[,(<span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>)] <span class="ot">&lt;-</span> f_new <span class="sc">+</span> rq<span class="sc">*</span>(df_mc[,(<span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>)] <span class="sc">-</span> f_new)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-94_159d83206cb8c9e0c9867a07f7dfef7a">
-<p></p><details>
-<summary>Show the code</summary><p></p>
+<details>
+<summary>Show the code</summary>
 <div class="sourceCode" id="cb83"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(faithful)  <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> eruptions, <span class="at">y =</span> waiting)) <span class="sc">+</span></span>
 <span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_ribbon</span>(<span class="at">data=</span>df_mc, <span class="fu">aes</span>(<span class="at">x=</span>x_new, <span class="at">ymin=</span>lwr_pred, <span class="at">ymax=</span>upr_pred), <span class="at">alpha=</span><span class="fl">0.1</span>, <span class="at">fill=</span><span class="st">"blue"</span>) <span class="sc">+</span> </span>
 <span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data=</span>df_mc, <span class="fu">aes</span>(<span class="at">x=</span>x_new, <span class="at">ymin=</span>lwr_conf, <span class="at">ymax=</span>upr_conf), <span class="at">alpha=</span><span class="fl">0.2</span>, <span class="at">fill=</span><span class="st">"#339900"</span>) <span class="sc">+</span>   </span>
