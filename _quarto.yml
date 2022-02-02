@@ -110,10 +110,7 @@ site:
     #         - docs/mixed-models/map566-lab-probabilitic-PCA.Rmd
     #         - docs/mixed-models/map566-lab-generalized-linear-mixed-models.Rmd
 
-    - id: homework
-      title: "Homework"
-        
   footer:
-    left: "Last update: November 2021"
+    left: "Last update: February 2022"
 
 bibliography: biblio_map566.bib
