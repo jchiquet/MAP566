@@ -17,7 +17,9 @@ theme_set(theme_bw())
 
 ## Introduction: the orthodont data
 
-The `Orthodont` data has 108 rows and 4 columns of the change in an orthdontic measurement over time for 27 young subjects. Here, `distance` is a numeric vector of distances from the pituitary to the pterygomaxillary fissure (mm). These distances are measured on x-ray images of the skull.
+The `Orthodont` data has 108 rows and 4 columns of the change in an orthodontic measurement over time for 27 young subjects. Here, `distance` is a numeric vector of distances from the pituitary to the pterygomaxillary fissure (mm). These distances are measured on x-ray images of the skull.
+
+![](https://upload.wikimedia.org/wikipedia/commons/a/a7/Gray189.png)
 
 ```{r}
 data("Orthodont", package = "nlme")
@@ -55,14 +57,14 @@ Let us plot the predicted distance $\hat{a}_0 + \hat{a}_1 \times {\rm age}$ toge
 
 ```{r, fig.height=4, fig.width=9}
 #| code-fold: true
-orthodont_plot + geom_line(aes(x = age, y = predict(lm1)))
+orthodont_plot + geom_line(aes(x = age, y = predict(lm1))) + theme_bw()
 ```
 
 if we now display explicitely the boys and girls, we see that we are missing something: we underestimate the distance for the boys and overestimate it for the girls:
 
 ```{r, fig.height=4, fig.width=9}
 #| code-fold: true
-orthodont_plot + geom_line(aes(x = age, y = predict(lm1))) + facet_grid( ~ Sex )
+orthodont_plot + geom_line(aes(x = age, y = predict(lm1))) + facet_grid( ~ Sex ) + theme_bw()
 ```
 
 We can then assume the same slope but different intercepts for boys and girls,
@@ -80,7 +82,7 @@ Orthodont$pred_lm2 <- predict(lm2)
 ```{r, fig.height=4, fig.width=9}
 #| code-fold: true
 orthodont_plot +   
-  geom_line(aes(x = age, y = predict(lm2)))
+  geom_line(aes(x = age, y = predict(lm2))) + theme_bw()
 ```
 
 We could instead assume the same intercept but different slopes for boys and girls:
@@ -96,10 +98,11 @@ Orthodont$pred_lm3 <- predict(lm3)
 
 ```{r, fig.height=4, fig.width=9}
 #| code-fold: true
-orthodont_plot + geom_line(aes(x = age, y = predict(lm3)))
+orthodont_plot + geom_line(aes(x = age, y = predict(lm3))) + theme_bw()
 ```
 
 We can also combine these two models by assuming different intercepts and different slopes:
+
 $$\text{linear model 4:} \quad \quad y_j = c_0 +  \delta_{0F}\times \mathbf{1}_{{\rm Sex}_j={\rm F}} + c_{1M} \times{\rm age}_j \times \mathbf{1}_{{\rm Sex}_j={\rm M}} + c_{1F}\times{\rm age}_j\times \mathbf{1}_{{\rm Sex}_j={\rm F}}  + \varepsilon_j$$
 
 ```{r, fig.height=4, fig.width=9}
@@ -111,10 +114,11 @@ Orthodont$pred_lm4 <- predict(lm4)
 
 ```{r, fig.height=4, fig.width=9}
 #| code-fold: true
-orthodont_plot + geom_line(aes(x = age, y = predict(lm4)))
+orthodont_plot + geom_line(aes(x = age, y = predict(lm4))) + theme_bw()
 ```
 
-**Remarks:**
+::: {.callout-info}
+### Remarks
 
   * 1.  The p-value cannot be used as such since the deign matrix is not orthogonal
   
@@ -131,6 +135,7 @@ summary(lm(distance ~ age , data = subset(Orthodont, Sex == "Male")))
 
 $$\text{linear model 4':} \quad \quad y_j = c_{0} +  \delta_{0F}\times \mathbf{1}_{{\rm Sex}_j={\rm F}} + (c_{1}  + 
 \delta_{1F}\times{\rm age}_j\times \mathbf{1}_{{\rm Sex}_j={\rm F}})\times{\rm age}_j  + \varepsilon_j$$
+
 where $c_{1}=c_{1M}$ and $c_{1}  + \delta_{1F}=c_{1F}$. This model is implemented by defining the interaction between Sex and age as <ttt>age*Sex</ttt>:
 
 ```{r}
@@ -139,19 +144,20 @@ summary(lm4b)
 ```
 
 Both prametrizations give the same predictions
+
 ```{r}
 cbind(head(predict(lm4)), head(predict(lm4b)))
 ```
-
-
+:::
 
 Different criteria for model selection, including BIC, seem to prefer `lm3`.
 
 ```{r}
-BIC(lm1,lm2,lm3, lm4)
+BIC(lm1, lm2, lm3, lm4)
 ```
 
-Should we then consider that `lm3`is our final model? 
+Should we then consider that `lm3` is our final model? 
+
 Let us look at the *individual fits* for 8 subjects,
 
 ```{r, fig.height=4, fig.width=9}
@@ -169,8 +175,9 @@ Indeed, we didn't take into account the fact that the data are *repeated measure
 
 ```{r, fig.height=4, fig.width=9, warning=FALSE, message=FALSE}
 #| code-fold: true
-ggplot(data = Orthodont) + geom_point(aes(x = age, y=distance), color="red", size=3)  + 
-  geom_line(aes(x=age,y=distance,group=Subject)) # +  facet_grid(~Sex) 
+ggplot(data = Orthodont) + 
+  geom_point(aes(x = age, y = distance, color = Sex), size = 3) + 
+  geom_line(aes(x = age, y = distance, group = Subject)) + theme_bw()
 ```
 
 We see on this plot, that even if the distance seems to increase linearly for each individual, the intercept and the slope may change from a subject to another one, including within the same Sex group.
@@ -340,7 +347,7 @@ $$\hat{\sigma}^2_{\rm ML} = \frac{1}{n}\| y - X\hat\beta\|^2 \quad ; \quad \hat{
 
 Standard errors (se) of the parameter estimate $\hat{\theta}$ can be obtained by computing the Fisher information matrix
 
-$$ I(\hat{\theta}) = -\esp{ \frac{\partial^2}{\partial \theta \partial \theta^\top} \log\mathbb{P}(y;\hat\theta)}$$
+$$ I(\hat{\theta}) = -\mathbb{E}\left( \frac{\partial^2}{\partial \theta \partial \theta^\top} \log\mathbb{P}(y;\hat\theta)\right)$$
 
 Then, the standard errors are the square roots of the diagonal elements of the inverse matrix of $I(\hat{\theta})$.
 
@@ -449,7 +456,7 @@ lmem <- lmer(distance ~ age + (age|Subject), data = Orthodont)
 summary(lmem)
 ```
 
-The estimated fixed effects are $\hat{\beta}_0 =$ `r fixef(lmem)[1]` and $\hat{\beta}_1 =$ `r fixef(lmem)[2]`.
+The estimated fixed effects are $\hat{\beta}_0 =$ `r lme4::fixef(lmem)[1]` and $\hat{\beta}_1 =$ `r lme4::fixef(lmem)[2]`.
 
 The  standard errors and correlation  of these estimates are
 
@@ -710,6 +717,7 @@ Consider the following linear model:
 
 $$y_{ij} = \beta_i + \varepsilon_{ij} \quad , \quad i = 1, \ldots , 6 \ ,  \quad j = 1, 2, 3$$
 
+
 Remark the use of the notation `0 + ` to avoid a global intercept:
 
 ```{r}
@@ -740,14 +748,17 @@ lme.rail <- lmer(travel ~ 1 + (1 | Rail), data = Rail)
 ```
 
 The population intercept $\mu$ is estimated by the empirical mean of the 18 travel times
+
 ```{r}
 mean(Rail$travel)
 ```
 
 The estimated individual predicted travel times $(\hat{\mu}_i)$ are
+
 ```{r}
 coef(lme.rail)
 ```
+
 These individual parameter estimates are not anymore the empirical means $(\bar{y}_i,1 \leq i \leq 6)$. Indeed, the MAP estimate of $\mu_i$ combines the least square estimate $\bar{y}_i$ and the estimated population intercept $\hat\mu$:
 
 $$\hat\mu_i = \frac{n_i \hat\omega^2}{n_i \hat\omega^2 + \hat\sigma^2}\ \bar{y}_i + 
