@@ -60,7 +60,7 @@ Let us plot the predicted distance $\hat{a}_0 + \hat{a}_1 \times {\rm age}$ toge
 orthodont_plot + geom_line(aes(x = age, y = predict(lm1))) + theme_bw()
 ```
 
-if we now display explicitely the boys and girls, we see that we are missing something: we underestimate the distance for the boys and overestimate it for the girls:
+If we now display explicitly the boys and girls, we see that we are missing something: we underestimate the distance for the boys and overestimate it for the girls.
 
 ```{r, fig.height=4, fig.width=9}
 #| code-fold: true
@@ -120,7 +120,7 @@ orthodont_plot + geom_line(aes(x = age, y = predict(lm4))) + theme_bw()
 ::: {.callout-info}
 ### Remarks
 
-  * 1.  The p-value cannot be used as such since the deign matrix is not orthogonal
+  * 1.  The p-value cannot be used as such since the design matrix is not orthogonal
   
 ```{r}
 C <- crossprod(model.matrix(lm4))
@@ -136,14 +136,14 @@ summary(lm(distance ~ age , data = subset(Orthodont, Sex == "Male")))
 $$\text{linear model 4':} \quad \quad y_j = c_{0} +  \delta_{0F}\times \mathbf{1}_{{\rm Sex}_j={\rm F}} + (c_{1}  + 
 \delta_{1F}\times{\rm age}_j\times \mathbf{1}_{{\rm Sex}_j={\rm F}})\times{\rm age}_j  + \varepsilon_j$$
 
-where $c_{1}=c_{1M}$ and $c_{1}  + \delta_{1F}=c_{1F}$. This model is implemented by defining the interaction between Sex and age as <ttt>age*Sex</ttt>:
+where $c_{1}=c_{1M}$ and $c_{1}  + \delta_{1F}=c_{1F}$. This model is implemented by defining the interaction between Sex and age as `age*Sex`:
 
 ```{r}
 lm4b <- lm(distance~age*Sex, data=Orthodont)
 summary(lm4b)
 ```
 
-Both prametrizations give the same predictions
+Both parametrizations give the same predictions
 
 ```{r}
 cbind(head(predict(lm4)), head(predict(lm4b)))
@@ -187,8 +187,7 @@ We therefore need to extend our linear model in order to take into account this 
 
 ## Mathematical definition of a linear mixed effects models
 
-The linear model introduced above concerns a single individual. Suppose now that a study
-is based on $N$ individuals and that we seek to build a global model for all the collected observations for the $N$ individuals. We will denote $y_{ij}$ the $j$th  observation taken of individual $i$ and $x_{ij}^{(1)}, \ldots , x_{ij}^{(m)}$ the values of the $m$ explanatory variables for individual $i$. If we assume the parameters of the model can vary from one individual to another, then for any subject $i$, $1\leq i \leq N$, the linear model becomes
+The linear model introduced above concerns a single individual. Suppose now that a study is based on $N$ individuals and that we seek to build a global model for all the collected observations for the $N$ individuals. We will denote $y_{ij}$ the $j$th  observation taken of individual $i$ and $x_{ij}^{(1)}, \ldots , x_{ij}^{(m)}$ the values of the $m$ explanatory variables for individual $i$. If we assume that the parameters of the model can vary from one individual to another, then for any subject $i$, $1\leq i \leq N$, the linear model becomes
 
 $$
  y_{ij} = c_{i0}^{\ } + c_{i1}^{\ } x_{ij}^{(1)} + c_{i2}^{\ } x_{ij}^{(2)} + \cdots + c_{im}^{\ } x_{ij}^{(m)} + \varepsilon_{ij},   \quad 1\leq j \leq n_i.
@@ -241,17 +240,17 @@ X_i = \left( \begin{array}{cccc}
 \end{array}\right)
 $$
  
-Here, $y_i$ is the $n_i$ vector of observations for individual $i$, $X_i$ is the $n_i \times d$ design matrix (with $p = m+1$), $\beta$ is a  $p$-vector of **fixed effects** (i.e. common to all individuals of the population), $\eta_i$ is a $p$-vector of **random effects** (i.e. specific to each individual) and $\varepsilon_i$ is a $n_i$-vector of residual errors.
+Here, $y_i$ is the $n_i$ vector of observations for individual $i$, $X_i$ is the $n_i \times d$ design matrix (with $d = m+1$), $\beta$ is a  $p$-vector of **fixed effects** (i.e. common to all individuals of the population), $\eta_i$ is a $p$-vector of **random effects** (i.e. specific to each individual) and $\varepsilon_i$ is a $n_i$-vector of residual errors.
 
 The model is called **linear mixed effects model** because it is a linear combination of fixed and random effects.
 
-The random effects are assumed to be normally distributed in a linear mixed effects model
+The random effects are assumed to be normally distributed in a linear mixed effects model:
 
 $$ 
 \eta_i \sim^{\mathrm{iid}} \mathcal{N}(0_p \ , \ \Omega)
 $$
 
-$\Omega$ is the $p\times p$ variance-covariance matrix of the random effects. This matrix is diagonal if the components of $\eta_i$ are independent.  
+$\Omega$ is the $d\times d$ variance-covariance matrix of the random effects. This matrix is diagonal if the components of $\eta_i$ are independent.  
 
 The vector of residual errors $\varepsilon_i$ is also normally distributed:
 
@@ -341,7 +340,7 @@ There is no analytical solution to this maximization problem. Nevertheless, nume
 
 The **restricted maximum likelihood (REML)** approach is a variant of the ML approach. In contrast to the earlier maximum likelihood estimation, REML can produce unbiased estimates of variance and covariance parameters.
 
-Consider the linear model $y=X\beta+e$ as an example where $\beta$ is a $d$-vector of unknown coefficients and where $\varepsilon_j \sim^{\mathrm{iid}} \mathcal{N}(0, \sigma^2)$ for $1\leq j \leq n$. Both the ML and the REML estimators of $\beta$ reduce to the least-squares estimator $\hat{\beta} = (X^\top X)^{-1}X^\top y$, but the estimator of the variance component $\sigma^2$ differs according to the method:
+Consider the linear model $y=X\beta+\varepsilon$ as an example where $\beta$ is a $d$-vector of unknown coefficients and where $\varepsilon_j \sim^{\mathrm{iid}} \mathcal{N}(0, \sigma^2)$ for $1\leq j \leq n$. Both the ML and the REML estimators of $\beta$ reduce to the least-squares estimator $\hat{\beta} = (X^\top X)^{-1}X^\top y$, but the estimator of the variance component $\sigma^2$ differs according to the method:
 
 $$\hat{\sigma}^2_{\rm ML} = \frac{1}{n}\| y - X\hat\beta\|^2 \quad ; \quad \hat{\sigma}^2_{\rm REML} = \frac{1}{n-p}\| y - X\hat\beta\|^2  $$
 
@@ -587,7 +586,8 @@ y_{ij} &= \beta_0  + \beta_{1M} \times{\rm age}_{ij}\times \mathbf{1}_{{\rm Sex}
 lmer(distance ~ age:Sex  + (0 + age | Subject), data = Orthodont) 
 ```
 
-::: {.remark}
+::: {.callout-info}
+### Remark
 
 By default, the standard deviation of a random effect ($\eta_{i0}$ or $\eta_{i1}$) is the same for all the individuals. If we put a random effect on the intercept, for instance, it is then possible to consider different variances for males and females:
 
@@ -597,7 +597,7 @@ $$
 
 where $\eta_{i0}^{\rm F} \sim \mathcal{N}(0, \omega_{0F}^2)$ and $\eta_{i0}^{\rm M} \sim \mathcal{N}(0, \omega_{0M}^2)$
 
-```{r}
+```{r, warning = FALSE}
 lmer(distance ~ age + (-1 + Sex|Subject), data = Orthodont)
 ```
 
@@ -623,7 +623,7 @@ At the end, there would be a very large number of models to fit and compare...
 
 Let us restrict ourselves to models with correlated random effects, with the same variance for males and females. We therefore have $2\times 2 \times 2 \times 2 = 16$ models to fit and compare if we want to perform an exhaustive comparison.
 
-For a sake of simplicity in the notations, let us define the 2 numerical explanatory variables $s_i=\mathbf{1}_{{\rm Sex}_i=M}$ and $a_i = {\rm age}_i$.
+For a sake of simplicity in the notations, let us define the 2 numerical explanatory variables $s_i=\mathbf{1}_{\{{\rm Sex}_i=M\}}$ and $a_i = {\rm age}_i$.
 
 $$\begin{aligned} 
 \text{M1}  \ \ \quad \quad  y_{ij} &= \beta_0 + \beta_1 a_{ij} + \varepsilon_{ij} \\
@@ -711,6 +711,7 @@ A "one-way classification" of data refers to data sets that are grouped accordin
 ```{r, message=FALSE, warning=FALSE}
 data(Rail, package = "nlme")
 Rail$Rail <- factor(Rail$Rail, level = unique(Rail$Rail), ordered = FALSE)
+Rail %>% rmarkdown::paged_table()
 ```
 
 Consider the following linear model:
