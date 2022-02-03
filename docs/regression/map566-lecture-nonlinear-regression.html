@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.3.79">
+  <meta name="generator" content="quarto-0.3.85">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Nonlinear Regression</title>
   <style>
@@ -759,16 +759,16 @@ y^{(\ell)}_j = f(x_j,\hat{\beta}) + \hat{\sigma} \varepsilon^{(\ell)}_j \quad ; 
 <span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>V_mc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>           [,1]        [,2]        [,3]
-[1,] 30.4464879 -0.52530778  0.85478403
-[2,] -0.5253078  0.01076903 -0.01252875
-[3,]  0.8547840 -0.01252875  0.02818595</code></pre>
+[1,] 27.1999275 -0.50719981  0.71604598
+[2,] -0.5071998  0.01097335 -0.01144010
+[3,]  0.7160460 -0.01144010  0.02257675</code></pre>
 </div>
 </div>
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-40_249e272abe2b1aa8f8b993b6179d0167">
 <div class="sourceCode" id="cb38"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>se_mc <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(V_mc))</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>se_mc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 5.5178336 0.1037739 0.1678867</code></pre>
+<pre><code>[1] 5.2153550 0.1047537 0.1502556</code></pre>
 </div>
 </div>
 <div class="remark proof">
@@ -776,7 +776,7 @@ y^{(\ell)}_j = f(x_j,\hat{\beta}) + \hat{\sigma} \varepsilon^{(\ell)}_j \quad ; 
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-42_14451409a8d4ed9f80c607d86cb32438">
 <div class="sourceCode" id="cb40"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(betas_boot, <span class="dv">2</span>, sd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 5.5178336 0.1037739 0.1678867</code></pre>
+<pre><code>[1] 5.2153550 0.1047537 0.1502556</code></pre>
 </div>
 </div>
 </div>
@@ -866,10 +866,10 @@ tau    1.2597849   1.6647346</code></pre>
 <span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setNames</span>(<span class="fu">c</span>(<span class="fu">paste0</span>((<span class="dv">1</span><span class="sc">-</span>level)<span class="sc">/</span><span class="dv">2</span><span class="sc">*</span><span class="dv">100</span>,<span class="st">"%"</span>),<span class="fu">paste0</span>((<span class="dv">1</span><span class="sc">+</span>level)<span class="sc">/</span><span class="dv">2</span><span class="sc">*</span><span class="dv">100</span>,<span class="st">"%"</span>)))</span>
 <span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>CI_bootstrap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>        2.5%      97.5%
-1 86.6064399 107.952549
-2  0.4370543   0.859801
-3  1.3162865   1.978805</code></pre>
+<pre><code>        2.5%       97.5%
+1 86.6238915 107.0019584
+2  0.4558334   0.8672096
+3  1.3229651   1.9216627</code></pre>
 </div>
 </div>
 <div class="remark proof">
@@ -891,9 +891,9 @@ tau    1.2597849   1.6647346</code></pre>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>beta_hat <span class="sc">+</span> rq<span class="sc">*</span>(CI_bootstrap <span class="sc">-</span> beta_hat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>        2.5%       97.5%
-1 86.5770485 108.0196301
-2  0.4361399   0.8607971
-3  1.3156267   1.9811398</code></pre>
+1 86.5945789 107.0647438
+2  0.4550038   0.8682392
+3  1.3223356   1.9237390</code></pre>
 </div>
 </div>
 </div>
