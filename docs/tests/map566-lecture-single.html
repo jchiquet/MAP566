@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.3.85">
+  <meta name="generator" content="quarto-0.3.116">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Statistical Tests</title>
   <style>
@@ -272,35 +272,35 @@
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
     <div class="sidebar-item-container"> 
-        <a class="sidebar-item-text text-start  " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">Lectures</a>
-      <a class="sidebar-item-toggle text-start  " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">
+        <a class="sidebar-item-text sidebar-link text-start " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">Lectures</a>
+      <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">
         <i class="bi bi-chevron-right ms-2"></i>
       </a>
     </div>
     <ul id="quarto-sidebar-section-lectures" class="collapse list-unstyled sidebar-section depth1 show">  
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/tests/map566-lecture-single.html" class="sidebar-item-text active">Statistical Tests</a>
+  <a href="../../docs/tests/map566-lecture-single.html" class="sidebar-item-text sidebar-link active">Statistical Tests</a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/tests/map566-lecture-multiple.html" class="sidebar-item-text ">Multiple Testing</a>
+  <a href="../../docs/tests/map566-lecture-multiple.html" class="sidebar-item-text sidebar-link">Multiple Testing</a>
   </div>
 </li>
     </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
     <div class="sidebar-item-container"> 
-        <a class="sidebar-item-text text-start  " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">Exercices</a>
-      <a class="sidebar-item-toggle text-start  " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">
+        <a class="sidebar-item-text sidebar-link text-start " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">Exercices</a>
+      <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">
         <i class="bi bi-chevron-right ms-2"></i>
       </a>
     </div>
     <ul id="quarto-sidebar-section-exercices" class="collapse list-unstyled sidebar-section depth1 show">  
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/tests/map566-lab-tests.html" class="sidebar-item-text ">Hypothesis Tesing</a>
+  <a href="../../docs/tests/map566-lab-tests.html" class="sidebar-item-text sidebar-link">Hypothesis Tesing</a>
   </div>
 </li>
     </ul>
@@ -660,7 +660,7 @@ p_{\rm value} &amp; = \mathbb{P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm ob
 </div>
 </div>
 <div class="remark proof">
-<p><span class="proof-title"><em>Remark</em>.</span>The fact that <span class="math inline">\mathbb{P}( \mu \in {\rm CI}_{1-\alpha}) = 1- \alpha</span> does not mean that <span class="math inline">\mu</span> is a random variable! It is the bounds of the confidence interval that are random because they are function of the data.</p>
+<p><span class="proof-title"><em>Remark</em>. </span>The fact that <span class="math inline">\mathbb{P}( \mu \in {\rm CI}_{1-\alpha}) = 1- \alpha</span> does not mean that <span class="math inline">\mu</span> is a random variable! It is the bounds of the confidence interval that are random because they are function of the data.</p>
 <p>A confidence interval of level <span class="math inline">1-\alpha</span> should be interpreted like this: imagine that we repeat the same experiment many times, with the same experimental conditions, and that we build a confidence interval for <span class="math inline">\mu</span> for each of these replicate. Then, the true mean <span class="math inline">\mu</span> will lie in the confidence interval <span class="math inline">(1-\alpha)100\%</span> of the times.</p>
 <p>Let us check this property with a Monte Carlo simulation.</p>
 <div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-40_6ea4d541b44c062acb0202b0540bd9ed">
@@ -673,12 +673,12 @@ p_{\rm value} &amp; = \mathbb{P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm ob
 <span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(R)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 0.95034</code></pre>
+<pre><code>[1] 0.95083</code></pre>
 </div>
 </div>
 </div>
 <div class="remark proof">
-<p><span class="proof-title"><em>Remark</em>.</span>The decision rule to reject or not the null hypothesis can be derived from the confidence interval. Indeed, the confidence interval plays the role of an acceptance region: we reject <span class="math inline">H_0</span> if <span class="math inline">\mu_0</span> does not belong to <span class="math inline">{\rm CI}_{1-\alpha}</span>.</p>
+<p><span class="proof-title"><em>Remark</em>. </span>The decision rule to reject or not the null hypothesis can be derived from the confidence interval. Indeed, the confidence interval plays the role of an acceptance region: we reject <span class="math inline">H_0</span> if <span class="math inline">\mu_0</span> does not belong to <span class="math inline">{\rm CI}_{1-\alpha}</span>.</p>
 <p>In the case of a one sided test, the output of <code>t.test</code> called confidence interval is indeed an acceptance region for <span class="math inline">\mu</span>, but not a “confidence interval” (we cannot seriously consider that <span class="math inline">\mu</span> can take any value above 500 for instance )</p>
 <div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-42_38f328d2c93e10cdad30f2b68a3d4f5c">
 <div class="sourceCode" id="cb35"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(</span>
@@ -930,7 +930,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 </div>
 </div>
 <div class="remark proof">
-<p><span class="proof-title"><em>Remark</em>.</span>It is easy to show that <span class="math inline">W_x+W_y=n_x n_y</span></p>
+<p><span class="proof-title"><em>Remark</em>. </span>It is easy to show that <span class="math inline">W_x+W_y=n_x n_y</span></p>
 <div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-76_d53c410498de5faca534adee169676ae">
 <div class="sourceCode" id="cb66"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(Wx<span class="sc">+</span>Wy, nx<span class="sc">*</span>ny)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
@@ -954,7 +954,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <span id="cb68-11"><a href="#cb68-11" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">%&gt;%</span> <span class="fu">rowMeans</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code> Student Wilcoxon 
-  0.8263   0.8085 </code></pre>
+  0.8340   0.8138 </code></pre>
 </div>
 </div>
 <p>On the other hand, the Wilcoxon test may be much more powerful than the t-test for non normal distributions when the empirical mean converges slowly in distribution to the normal distribution. Such is the case, for instance, of the log-normal ditribution which is strongly skewed for large variances.</p>
@@ -970,7 +970,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <span id="cb70-9"><a href="#cb70-9" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">%&gt;%</span> <span class="fu">rowMeans</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code> Student Wilcoxon 
-  0.6692   0.8484 </code></pre>
+  0.6693   0.8510 </code></pre>
 </div>
 </div>
 </section>
@@ -1004,13 +1004,13 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
     Welch Two Sample t-test
 
 data:  x.sim and y.sim
-t = -1.1603, df = 18, p-value = 0.2611
+t = -1.2668, df = 18, p-value = 0.2214
 alternative hypothesis: true difference in means is not equal to 0
 95 percent confidence interval:
- -42.16112  12.16112
+ -39.8764   9.8764
 sample estimates:
 mean of x mean of y 
- 496.7784  511.7784 </code></pre>
+ 503.0462  518.0462 </code></pre>
 </div>
 </div>
 <p>This basic example shows that a difference considered as biologically significant may not be statistically significant.</p>
@@ -1026,13 +1026,13 @@ mean of x mean of y
     Welch Two Sample t-test
 
 data:  x.sim and y.sim
-t = -2.352, df = 19998, p-value = 0.01868
+t = -2.3725, df = 19998, p-value = 0.01768
 alternative hypothesis: true difference in means is not equal to 0
 95 percent confidence interval:
- -1.8333589 -0.1666411
+ -1.8261516 -0.1738484
 sample estimates:
 mean of x mean of y 
- 500.2356  501.2356 </code></pre>
+ 499.7185  500.7185 </code></pre>
 </div>
 </div>
 <p>This example confirms the need for a power analysis as a complement of the comparison test. We will see that equivalence testing may also be relevant for evaluating what the data allows to say.</p>
@@ -1098,7 +1098,7 @@ NOTE: n is number in *each* group</code></pre>
 <span id="cb80-8"><a href="#cb80-8" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb80-9"><a href="#cb80-9" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(R)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 0.55568</code></pre>
+<pre><code>[1] 0.55438</code></pre>
 </div>
 </div>
 <p>We may consider this probability as too small. If our objective is a power of 80% at least, with the same significance level, we need to increase the sample size.</p>
@@ -1232,7 +1232,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../docs/tests/map566-lecture-multiple.html">
+      <a href="../../docs/tests/map566-lecture-multiple.html" class="pagination-link">
         <span class="nav-page-text">Multiple Testing</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>

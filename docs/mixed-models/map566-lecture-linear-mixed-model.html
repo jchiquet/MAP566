@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.3.85">
+  <meta name="generator" content="quarto-0.3.116">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Linear Mixed Effects Models</title>
   <style>
@@ -272,55 +272,55 @@
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
     <div class="sidebar-item-container"> 
-        <a class="sidebar-item-text text-start  " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">Lectures</a>
-      <a class="sidebar-item-toggle text-start  " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">
+        <a class="sidebar-item-text sidebar-link text-start " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">Lectures</a>
+      <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">
         <i class="bi bi-chevron-right ms-2"></i>
       </a>
     </div>
     <ul id="quarto-sidebar-section-lectures" class="collapse list-unstyled sidebar-section depth1 show">  
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html" class="sidebar-item-text active">Linear Mixed Effects Models</a>
+  <a href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html" class="sidebar-item-text sidebar-link active">Linear Mixed Effects Models</a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html" class="sidebar-item-text ">Nonlinear Mixed Effects Models</a>
+  <a href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html" class="sidebar-item-text sidebar-link">Nonlinear Mixed Effects Models</a>
   </div>
 </li>
     </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
     <div class="sidebar-item-container"> 
-        <a class="sidebar-item-text text-start  " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">Exercices</a>
-      <a class="sidebar-item-toggle text-start  " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">
+        <a class="sidebar-item-text sidebar-link text-start " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">Exercices</a>
+      <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">
         <i class="bi bi-chevron-right ms-2"></i>
       </a>
     </div>
     <ul id="quarto-sidebar-section-exercices" class="collapse list-unstyled sidebar-section depth1 show">  
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/mixed-models/map566-lab-linear-mixed-model.html" class="sidebar-item-text ">Linear Mixed Models</a>
+  <a href="../../docs/mixed-models/map566-lab-linear-mixed-model.html" class="sidebar-item-text sidebar-link">Linear Mixed Models</a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/mixed-models/map566-lab-nonlinear-mixed-model.html" class="sidebar-item-text ">Nonlinear Mixed Effects Models</a>
+  <a href="../../docs/mixed-models/map566-lab-nonlinear-mixed-model.html" class="sidebar-item-text sidebar-link">Nonlinear Mixed Effects Models</a>
   </div>
 </li>
     </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
     <div class="sidebar-item-container"> 
-        <a class="sidebar-item-text text-start  " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-supplementary-material" aria-expanded="true">Supplementary material</a>
-      <a class="sidebar-item-toggle text-start  " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-supplementary-material" aria-expanded="true">
+        <a class="sidebar-item-text sidebar-link text-start " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-supplementary-material" aria-expanded="true">Supplementary material</a>
+      <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-supplementary-material" aria-expanded="true">
         <i class="bi bi-chevron-right ms-2"></i>
       </a>
     </div>
     <ul id="quarto-sidebar-section-supplementary-material" class="collapse list-unstyled sidebar-section depth1 show">  
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html" class="sidebar-item-text ">An EM Algorithm for Linear Mixed Effects Models</a>
+  <a href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html" class="sidebar-item-text sidebar-link">An EM Algorithm for Linear Mixed Effects Models</a>
   </div>
 </li>
     </ul>
@@ -1284,11 +1284,11 @@ age:SexFemale  0.3866637  0.6576257</code></pre>
 </div>
 <div class="cell-output-stdout">
 <pre><code>                   2.5 %     97.5 %
-.sig01         1.2000910  2.4067950
-.sigma         1.1781021  1.5668263
-(Intercept)   15.2655721 18.2918202
-age:SexMale    0.6265932  0.8750406
-age:SexFemale  0.3831174  0.6611085</code></pre>
+.sig01         1.2763910  2.4235873
+.sigma         1.1540003  1.5833290
+(Intercept)   15.1573235 18.2123634
+age:SexMale    0.6211967  0.8893322
+age:SexFemale  0.3911614  0.6661862</code></pre>
 </div>
 </div>
 <p>There is only one random effect in the final model. We can plot 95% prediction intervals on the random effects <span class="math inline">(\eta_i)</span>:</p>
@@ -1503,7 +1503,7 @@ lme.ergo3  4 148.6678</code></pre>
 </div>
 </div>
 <div class="remark proof">
-<p><span class="proof-title"><em>Remark</em>.</span>The interaction between the testing subject and the stool type cannot be taken into account with this design as there is no replication.</p>
+<p><span class="proof-title"><em>Remark</em>. </span>The interaction between the testing subject and the stool type cannot be taken into account with this design as there is no replication.</p>
 </div>
 </section>
 </section>
@@ -1661,7 +1661,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html">
+      <a href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html" class="pagination-link">
         <span class="nav-page-text">Nonlinear Mixed Effects Models</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>

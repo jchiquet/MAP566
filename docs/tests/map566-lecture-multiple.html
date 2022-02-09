@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.3.85">
+  <meta name="generator" content="quarto-0.3.116">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Multiple Testing</title>
   <style>
@@ -292,35 +292,35 @@
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
     <div class="sidebar-item-container"> 
-        <a class="sidebar-item-text text-start  " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">Lectures</a>
-      <a class="sidebar-item-toggle text-start  " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">
+        <a class="sidebar-item-text sidebar-link text-start " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">Lectures</a>
+      <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">
         <i class="bi bi-chevron-right ms-2"></i>
       </a>
     </div>
     <ul id="quarto-sidebar-section-lectures" class="collapse list-unstyled sidebar-section depth1 show">  
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/tests/map566-lecture-single.html" class="sidebar-item-text ">Statistical Tests</a>
+  <a href="../../docs/tests/map566-lecture-single.html" class="sidebar-item-text sidebar-link">Statistical Tests</a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/tests/map566-lecture-multiple.html" class="sidebar-item-text active">Multiple Testing</a>
+  <a href="../../docs/tests/map566-lecture-multiple.html" class="sidebar-item-text sidebar-link active">Multiple Testing</a>
   </div>
 </li>
     </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
     <div class="sidebar-item-container"> 
-        <a class="sidebar-item-text text-start  " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">Exercices</a>
-      <a class="sidebar-item-toggle text-start  " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">
+        <a class="sidebar-item-text sidebar-link text-start " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">Exercices</a>
+      <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">
         <i class="bi bi-chevron-right ms-2"></i>
       </a>
     </div>
     <ul id="quarto-sidebar-section-exercices" class="collapse list-unstyled sidebar-section depth1 show">  
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/tests/map566-lab-tests.html" class="sidebar-item-text ">Hypothesis Tesing</a>
+  <a href="../../docs/tests/map566-lab-tests.html" class="sidebar-item-text sidebar-link">Hypothesis Tesing</a>
   </div>
 </li>
     </ul>
@@ -529,7 +529,7 @@ Permutation test
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["gender"],"name":[1],"type":["fct"],"align":["left"]},{"label":["regime"],"name":[2],"type":["fct"],"align":["left"]},{"label":["statistic"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"female","2":"NK603-33%","3":"40.0","4":"0.2257548"},{"1":"female","2":"NK603-11%","3":"41.0","4":"0.2501790"},{"1":"female","2":"RoundUp A","3":"47.0","4":"0.4180580"},{"1":"female","2":"RoundUp C","3":"47.5","4":"0.4342493"},{"1":"female","2":"RoundUp B","3":"48.0","4":"0.4506107"},{"1":"male","2":"RoundUp B","3":"48.0","4":"0.4546397"},{"1":"female","2":"NK603-11%+R","3":"49.0","4":"0.4834919"},{"1":"female","2":"NK603-22%+R","3":"49.0","4":"0.4834993"},{"1":"female","2":"NK603-33%+R","3":"50.5","4":"0.5329879"},{"1":"male","2":"NK603-33%","3":"54.5","4":"0.6474831"},{"1":"female","2":"NK603-22%","3":"54.0","4":"0.6494904"},{"1":"male","2":"NK603-11%","3":"59.0","4":"0.7644144"},{"1":"male","2":"RoundUp A","3":"64.0","4":"0.8666750"},{"1":"male","2":"NK603-22%+R","3":"65.0","4":"0.8812984"},{"1":"male","2":"NK603-11%+R","3":"66.5","4":"0.9017185"},{"1":"male","2":"NK603-33%+R","3":"66.5","4":"0.9036840"},{"1":"male","2":"RoundUp C","3":"70.5","4":"0.9462335"},{"1":"male","2":"NK603-22%","3":"75.0","4":"0.9747087"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["gender"],"name":[1],"type":["fct"],"align":["left"]},{"label":["regime"],"name":[2],"type":["fct"],"align":["left"]},{"label":["statistic"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"female","2":"NK603-33%","3":"20.0","4":"0.01118993"},{"1":"female","2":"NK603-11%","3":"29.0","4":"0.05454194"},{"1":"female","2":"NK603-33%+R","3":"31.0","4":"0.07121777"},{"1":"female","2":"RoundUp B","3":"38.0","4":"0.18094148"},{"1":"male","2":"NK603-33%+R","3":"42.0","4":"0.28486656"},{"1":"female","2":"RoundUp C","3":"43.5","4":"0.31390161"},{"1":"female","2":"NK603-22%+R","3":"46.5","4":"0.40423102"},{"1":"male","2":"NK603-22%+R","3":"48.0","4":"0.45463967"},{"1":"male","2":"NK603-11%","3":"51.0","4":"0.54530898"},{"1":"female","2":"NK603-22%","3":"51.0","4":"0.54941143"},{"1":"female","2":"NK603-11%+R","3":"57.0","4":"0.73293496"},{"1":"male","2":"NK603-22%","3":"59.0","4":"0.76416295"},{"1":"male","2":"RoundUp C","3":"62.0","4":"0.82966051"},{"1":"male","2":"RoundUp A","3":"66.0","4":"0.89514738"},{"1":"female","2":"RoundUp A","3":"65.0","4":"0.91551874"},{"1":"male","2":"NK603-11%+R","3":"68.0","4":"0.91988342"},{"1":"male","2":"RoundUp B","3":"84.0","4":"0.99577856"},{"1":"male","2":"NK603-33%","3":"85.0","4":"0.99666908"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -592,7 +592,7 @@ Permutation test
 <div class="sourceCode" id="cb18"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>stat_rank1 <span class="ot">&lt;-</span> <span class="fu">split</span>(res, res<span class="sc">$</span>simu) <span class="sc">%&gt;%</span> <span class="fu">map_dbl</span>(<span class="cf">function</span>(x) <span class="fu">sort</span>(x<span class="sc">$</span>statistic)[<span class="dv">1</span>])</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(stat_rank1 <span class="sc">&lt;</span> all_comparisons<span class="sc">$</span>statistic[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 0.135</code></pre>
+<pre><code>[1] 0.161</code></pre>
 </div>
 </div>
 </section>
@@ -938,12 +938,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../docs/tests/map566-lecture-single.html">
+      <a href="../../docs/tests/map566-lecture-single.html" class="pagination-link">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Statistical Tests</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../docs/tests/map566-lab-tests.html">
+      <a href="../../docs/tests/map566-lab-tests.html" class="pagination-link">
         <span class="nav-page-text">Hypothesis Tesing</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
