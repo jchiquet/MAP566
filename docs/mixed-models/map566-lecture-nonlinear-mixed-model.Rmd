@@ -67,9 +67,9 @@ subject1_plot + geom_line(color="#993399")
 ```
 We may want to fit a nonlinear model to this data of the form
 
-$$y_j = f(t_j ,\psi) + \varepsilons_j \quad , \quad 1\leq j \leq n$$
+$$y_j = f(t_j ,\psi) + \varepsilon_j \quad , \quad 1\leq j \leq n$$
 
-where $(y_j, 1\leq j \leq n)$ are the $n$ measurements for this subject, $f$ is the model (e.g. from pharmacokinetics), $\psi$ is the vector of parameters for this subject and $(\varepsilons_j, 1\leq j \leq n)$ are residual errors.
+where $(y_j, 1\leq j \leq n)$ are the $n$ measurements for this subject, $f$ is the model (e.g. from pharmacokinetics), $\psi$ is the vector of parameters for this subject and $(\varepsilon_j, 1\leq j \leq n)$ are residual errors.
 
 A one compartment model with first order absorption and linear elimination to this data writes
 
@@ -81,7 +81,7 @@ Let us compute the least squares estimate of $\psi$ defined as
 
 $$\hat\psi = \arg\min_{\psi}  \sum_{j=1}^{n} (y_{j} - f(t_{j} ,\psi))^2$$
 
-We first need to implement the pharmakokinetics (PK) model:
+We first need to implement the pharmacokinetics (PK) model:
 
 ```{r}
 f1 <- function(psi, t){
@@ -92,10 +92,12 @@ f1 <- function(psi, t){
 ```
 
 We can then use the `nls` function for fitting this (nonlinear) model to the data
+
 ```{r}
 model_1 <- nls(concentration ~ f1(psi, time), start = list(psi=c(ka=1, V=40, ke=0.1)), data=subject1)
 coef(model_1)
 ```
+
 and plot the predicted concentration $f(t,\hat\psi)$
 
 ```{r, fig.height=4, fig.width=10}
@@ -200,7 +202,7 @@ where $\eta_i \sim^{\mathrm{iid}} \mathcal{N}(0 , \Omega)$.
 
 :::
 
-We will also start asuming that the residual errors $(\varepsilon_{ij})$ are independent and normally distributed: 
+We will also start assuming that the residual errors $(\varepsilon_{ij})$ are independent and normally distributed: 
 $\varepsilon_{ij} \sim^{\mathrm{iid}} \mathcal{N}(0 , a^2)$.
 
 In summary, we can equivalently represent a (nonlinear) mixed effects model
@@ -239,13 +241,13 @@ The parameters of the model are $\theta=(\psi_{\rm pop}, \Omega, a^2)$.
 Maximum likelihood estimation of $\theta$  consists of maximizing with respect to $\theta$ the *observed likelihood function*  defined by
 
 $$\begin{aligned}
-\like(\theta,y) &\triangleq \mathbb{P}(y ; \theta) \\
+\ell(\theta,y) &\triangleq \mathbb{P}(y ; \theta) \\
 &= \int \mathbb{P}(y,\psi ;\theta) \, d \psi \\
 &= \prod_{i=1}^N\int \mathbb{P}(y_i|\psi_i ;\theta)\mathbb{P}(\psi_i ;\theta) \, d \psi_i .
 \end{aligned}$$
 
 If $f$ is a nonlinear function of $\psi_i$, then $y_i$ is not a Gaussian vector and the likelihood function 
-$\like(\theta,y)$ cannot be computed in a closed form. 
+$\ell(\theta,y)$ cannot be computed in a closed form. 
 
 Several algorithms exists for maximum likelihood estimation in nonlinear mixed effects models. In particular, the stochastic approximation EM algorithm (SAEM) is an iterative algorithm that converges to a maximum of the likelihood function under general conditions.
 
@@ -372,7 +374,7 @@ saemix_options <- list(map=TRUE, fim=TRUE, ll.is=FALSE, displayProgress=FALSE, s
 saemix_fit1    <- saemix(saemix_model, saemix_data, saemix_options)
 ```
 
-A summary of the results of the etimation algorithm can be displayed
+A summary of the results of the estimation algorithm can be displayed
 
 ```{r}
 saemix_fit1@results
@@ -485,7 +487,7 @@ fit.exponential@results
 
 #### Transformation of the individual parameters
 
-Clearly, not all distributions are Gaussian. To begin with, the normal distribution has  support $\Rset$, unlike many parameters that take values in precise  intervals. For instance, some variables take only positive values (e.g., volumes and transfer rate constants) and others are restricted to bounded intervals.
+Clearly, not all distributions are Gaussian. To begin with, the normal distribution has  support $\mathbb[R}$, unlike many parameters that take values in precise  intervals. For instance, some variables take only positive values (e.g., volumes and transfer rate constants) and others are restricted to bounded intervals.
 
 Furthermore, the Gaussian distribution is symmetric, which is not a property shared by all distributions. One way to extend the use of Gaussian distributions is to consider that some transformation of the parameters in which we are interested is Gaussian.
 
@@ -519,28 +521,28 @@ $$\begin{aligned}
 
 **Logit-normal distribution:**
 
-The logit function is defined on $(0,1)$ and take its value in $\Rset$:
+The logit function is defined on $(0,1)$ and take its value in $\mathbb[R}$:
 For any $x$ in $(0,1)$,
 
-$$ \logit(x) = \log \left(\frac{x}{1-x}\right) \Longleftrightarrow
-x = \frac{1}{1+e^{-\logit(x)}}
+$$ \mathrm{logit}(x) = \log \left(\frac{x}{1-x}\right) \Longleftrightarrow
+x = \frac{1}{1+e^{-\mathrm{logit}(x)}}
 $$
 
 An individual parameter $\psi_i$ with a logit-normal distribution takes its values in $(0,1)$. The logit of $\psi$ is normally distributed, i.e.,
 
-$$\logit(\psi_i) = \log \left(\frac{\psi_i}{1-\psi_i}\right)  \ \sim \ \ \mathcal{N}( \logit(\psi_{\rm pop}) \ , \ \omega^2),$$
+$$\mathrm{logit}(\psi_i) = \log \left(\frac{\psi_i}{1-\psi_i}\right)  \ \sim \ \ \mathcal{N}( \mathrm{logit}(\psi_{\rm pop}) \ , \ \omega^2),$$
 
 **Probit-normal distribution:**
 
 The probit function is the inverse cumulative distribution function (quantile function) $\psi^{-1}$  associated with the standard normal distribution $\mathcal{N}(0,1)$. For any $x$ in $(0,1)$,
 $$
-\probit(x) = \psi^{-1}(x) \ \Longleftrightarrow
-\prob{\mathcal{N}(0,1) \leq \probit(x)} = x
+\mathrm{probit}(x) = \psi^{-1}(x) \ \Longleftrightarrow
+\prob{\mathcal{N}(0,1) \leq \mathrm{probit}(x)} = x
 $$
 
 An individual parameter $\psi_i$ with a probit-normal distribution takes its values in $(0,1)$. The probit of $\psi_i$ is normally distributed:
 
-$$\probit(\psi_i) = \psi^{-1}(\psi_i) \ \sim \  \mathcal{N}( \probit(\psi_{\rm pop}) \ , \ \omega^2) . $$
+$$\mathrm{probit}(\psi_i) = \psi^{-1}(\psi_i) \ \sim \  \mathcal{N}( \mathrm{probit}(\psi_{\rm pop}) \ , \ \omega^2) . $$
 
 The distribution of each individual parameter can be defined using the argument `transform.par`
 (0=normal, 1=log-normal, 2=probit, 3=logit). Default are normal distributions, i.e. a vector of 0.
@@ -561,7 +563,7 @@ saemix_fit2@results
 
 ::: {.remark}
 
-Here, $\omega^2_{ka}$ and $\omega^2_{ke}$ are the variances of $\log(k_a_i)$ and $\log(k_e_i)$ while $\omega^2_{V}$ is the  variance of $V_i$.
+Here, $\omega^2_{ka}$ and $\omega^2_{ke}$ are the variances of $\log({k_a}_i)$ and $\log({k_e}_i)$ while $\omega^2_{V}$ is the  variance of $V_i$.
 
 :::
 
@@ -595,7 +597,7 @@ Assume that we decide to use 70kg as typical weight in the theophylline study. T
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 theophylline$w70 <- theophylline$weight - 70
-saemix_data <- saemixData(name.data       = "theophylline",
+saemix_data <- saemixData(name.data       = theophylline,
                           name.group      = c("id"),
                           name.predictors = c("time"),
                           name.response   = c("concentration"),
@@ -662,11 +664,11 @@ saemix_fit4@results
 
 #### Correlations between random effects
 
-Until now, the random effects were assumed to be uncorrelated, i.e. the veariance-covariance matrix $\Omega$ was a diagonal matrix (default covariance model for **saemix**).
+Until now, the random effects were assumed to be uncorrelated, i.e. the variance-covariance matrix $\Omega$ was a diagonal matrix (default covariance model for **saemix**).
 
 Correlations between random effects can be introduced with the input argument `covariance.model`, a square matrix of size equal to the number of parameters in the model, giving the variance-covariance structure of the model: 1s correspond to estimated variances (in the diagonal) or covariances (off-diagonal elements). The structure of the matrix $\Omega$ should be block.
 
-Consider, for instance a model where $k_a$ is fixed in the population, i.e. $\omega_{k_a}=0$ (and thus $k_a_i=0$ for all $i$), and where $\log(V)$ and $\log(k_e)$ are correlated, i.e $\eta_V$ and $\eta_{k_e})$ are correlated:
+Consider, for instance a model where $k_a$ is fixed in the population, i.e. $\omega_{k_a}=0$ (and thus ${k_a}_i={k_a}_{\text{pop}}$ for all $i$), and where $\log(V)$ and $\log(k_e)$ are correlated, i.e $\eta_V$ and $\eta_{k_e})$ are correlated:
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 saemix_model<-saemixModel(model           = model1_nlme,
