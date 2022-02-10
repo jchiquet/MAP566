@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.3.116">
+  <meta name="generator" content="quarto-0.3.119">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Nonlinear Regression</title>
   <style>
@@ -352,7 +352,7 @@
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
-<main class="content">
+<main class="content" id="quarto-document-content">
 <header id="title-block-header">
 <h1 class="title d-none d-lg-block display-7">Nonlinear Regression</h1>
 <p class="subtitle lead">Lecture Notes</p>
@@ -428,7 +428,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 Residual standard error: 5.763 on 269 degrees of freedom
 
 Number of iterations to convergence: 9 
-Achieved convergence tolerance: 6.24e-06</code></pre>
+Achieved convergence tolerance: 6.242e-06</code></pre>
 </div>
 </div>
 <p>We will see in the next sections what these results are and how they are computed.</p>
@@ -458,7 +458,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 Residual standard error: 5.622 on 268 degrees of freedom
 
 Number of iterations to convergence: 9 
-Achieved convergence tolerance: 6.239e-06</code></pre>
+Achieved convergence tolerance: 6.287e-06</code></pre>
 </div>
 </div>
 <p>We can now compute and plot the waiting times predicted with these two fitted models</p>
@@ -578,10 +578,10 @@ Achieved convergence tolerance: 6.239e-06</code></pre>
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-20_0982e106264b66d72314f846c005a62e">
 <div class="sourceCode" id="cb18"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vcov</span>(nlm1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>               A       gamma         tau
-A     20.3217734 -0.45141489  0.43203259
-gamma -0.4514149  0.01045294 -0.00876922
-tau    0.4320326 -0.00876922  0.01192345</code></pre>
+<pre><code>               A        gamma          tau
+A     20.3217803 -0.451414983  0.432032790
+gamma -0.4514150  0.010452942 -0.008769223
+tau    0.4320328 -0.008769223  0.011923452</code></pre>
 </div>
 </div>
 <p>The standard errors of the estimates are then the square roots of the diagonal elements of this matrix</p>
@@ -589,7 +589,7 @@ tau    0.4320326 -0.00876922  0.01192345</code></pre>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">diag</span>(<span class="fu">vcov</span>(nlm1)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>        A     gamma       tau 
-4.5079678 0.1022396 0.1091945 </code></pre>
+4.5079685 0.1022396 0.1091946 </code></pre>
 </div>
 </div>
 <p>The <code>nls</code> function linearizes the model for computing this variance-covariance matrix. Indeed, for any <span class="math inline">\beta</span> ``close’’ to <span class="math inline">\hat{\beta}</span>,</p>
@@ -692,7 +692,7 @@ I_y({\hat\beta}) &amp;= - \frac{\partial^2}{\partial \beta \partial \beta^\prime
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>V_ml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>           [,1]         [,2]         [,3]
-[1,] 17.4344845 -0.386666102  0.369991091
+[1,] 17.4344838 -0.386666087  0.369991073
 [2,] -0.3866661  0.008998208 -0.007381367
 [3,]  0.3699911 -0.007381367  0.010576191</code></pre>
 </div>
@@ -702,7 +702,7 @@ I_y({\hat\beta}) &amp;= - \frac{\partial^2}{\partial \beta \partial \beta^\prime
 <div class="sourceCode" id="cb32"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>se_ml <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(V_ml))</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>se_ml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 4.17546219 0.09485889 0.10284061</code></pre>
+<pre><code>[1] 4.17546210 0.09485888 0.10284061</code></pre>
 </div>
 </div>
 <!-- ::: {.remark} -->
@@ -759,16 +759,16 @@ y^{(\ell)}_j = f(x_j,\hat{\beta}) + \hat{\sigma} \varepsilon^{(\ell)}_j \quad ; 
 <span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>V_mc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>           [,1]        [,2]        [,3]
-[1,] 31.7452800 -0.53399413  0.91613818
-[2,] -0.5339941  0.01076128 -0.01319404
-[3,]  0.9161382 -0.01319404  0.03056128</code></pre>
+[1,] 27.0240267 -0.50067752  0.72799749
+[2,] -0.5006775  0.01087541 -0.01146103
+[3,]  0.7279975 -0.01146103  0.02352638</code></pre>
 </div>
 </div>
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-40_249e272abe2b1aa8f8b993b6179d0167">
 <div class="sourceCode" id="cb38"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>se_mc <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(V_mc))</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>se_mc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 5.6342950 0.1037366 0.1748178</code></pre>
+<pre><code>[1] 5.1984639 0.1042852 0.1533831</code></pre>
 </div>
 </div>
 <div class="remark proof">
@@ -776,7 +776,7 @@ y^{(\ell)}_j = f(x_j,\hat{\beta}) + \hat{\sigma} \varepsilon^{(\ell)}_j \quad ; 
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-42_14451409a8d4ed9f80c607d86cb32438">
 <div class="sourceCode" id="cb40"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(betas_boot, <span class="dv">2</span>, sd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 5.6342950 0.1037366 0.1748178</code></pre>
+<pre><code>[1] 5.1984639 0.1042852 0.1533831</code></pre>
 </div>
 </div>
 </div>
@@ -791,9 +791,9 @@ y^{(\ell)}_j = f(x_j,\hat{\beta}) + \hat{\sigma} \varepsilon^{(\ell)}_j \quad ; 
 <div class="sourceCode" id="cb42"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(nlm1)<span class="sc">$</span>coefficient</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>        Estimate Std. Error   t value     Pr(&gt;|t|)
-A     93.1097345  4.5079678 20.654481 1.974720e-57
-gamma  0.6393917  0.1022396  6.253854 1.567060e-09
-tau    1.4622598  0.1091945 13.391327 1.110063e-31</code></pre>
+A     93.1097358  4.5079685 20.654478 1.974771e-57
+gamma  0.6393916  0.1022396  6.253853 1.567065e-09
+tau    1.4622598  0.1091946 13.391324 1.110090e-31</code></pre>
 </div>
 </div>
 <p>Let <span class="math inline">\beta = (\beta_k, 1\leq k \leq p)</span> be the <span class="math inline">p</span>-vector of parameters of the model. In the linearized model <span class="math inline">z=G\beta+e</span>,</p>
@@ -829,10 +829,10 @@ tau     1.4623 0.1092 13.3906       0</code></pre>
 <span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setNames</span>(<span class="fu">c</span>(<span class="fu">paste0</span>((<span class="dv">1</span><span class="sc">-</span>level)<span class="sc">/</span><span class="dv">2</span><span class="sc">*</span><span class="dv">100</span>,<span class="st">"%"</span>),<span class="fu">paste0</span>((<span class="dv">1</span><span class="sc">+</span>level)<span class="sc">/</span><span class="dv">2</span><span class="sc">*</span><span class="dv">100</span>,<span class="st">"%"</span>)))</span>
 <span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>CI_linearized</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>            2.5%       97.5%
-A     84.2340700 101.9853990
-gamma  0.4381011   0.8406823
-tau    1.2472635   1.6772560</code></pre>
+<pre><code>           2.5%       97.5%
+A     84.234071 101.9854003
+gamma  0.438101   0.8406823
+tau    1.247263   1.6772561</code></pre>
 </div>
 </div>
 </section>
@@ -849,7 +849,7 @@ tau    1.2472635   1.6772560</code></pre>
 <span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>CI_ML</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>            2.5%       97.5%
-A     84.8889928 101.3304762
+A     84.8889942 101.3304773
 gamma  0.4526314   0.8261519
 tau    1.2597849   1.6647346</code></pre>
 </div>
@@ -867,9 +867,9 @@ tau    1.2597849   1.6647346</code></pre>
 <span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>CI_bootstrap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>        2.5%       97.5%
-1 86.7350550 108.4043239
-2  0.4385476   0.8536153
-3  1.3198713   1.9614566</code></pre>
+1 86.4132627 106.7282413
+2  0.4523086   0.8584888
+3  1.3160179   1.9331904</code></pre>
 </div>
 </div>
 <div class="remark proof">
@@ -890,10 +890,10 @@ tau    1.2597849   1.6647346</code></pre>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>rq <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>,df)<span class="sc">/</span><span class="fu">qnorm</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>)</span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>beta_hat <span class="sc">+</span> rq<span class="sc">*</span>(CI_bootstrap <span class="sc">-</span> beta_hat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>        2.5%       97.5%
-1 86.7062448 108.4734473
-2  0.4376399   0.8545835
-3  1.3192278   1.9637127</code></pre>
+<pre><code>        2.5%      97.5%
+1 86.3829982 106.789790
+2  0.4514631   0.859479
+3  1.3153569   1.935319</code></pre>
 </div>
 </div>
 </div>
@@ -1116,7 +1116,7 @@ F_{\rm stat} = \frac{(RSS_1 - RSS_2)/(d_2-d_1)}{(RSS_2)/(n-d_2}
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-78_e67bd9046639ac05461fc47768909f9b">
 <div class="sourceCode" id="cb70"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(RSS1<span class="sc">-</span>RSS2, <span class="fu">sum</span>((<span class="fu">predict</span>(nlm1)<span class="sc">-</span><span class="fu">predict</span>(nlm2))<span class="sc">^</span><span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 464.2987 520.3558</code></pre>
+<pre><code>[1] 464.2987 520.3557</code></pre>
 </div>
 </div>
 <p>Another way to test <code>nlm1</code> against <code>nlm2</code> consists in testing if <span class="math inline">S=0</span> in model <code>nlm2</code>:</p>
@@ -1124,10 +1124,10 @@ F_{\rm stat} = \frac{(RSS_1 - RSS_2)/(d_2-d_1)}{(RSS_2)/(n-d_2}
 <div class="sourceCode" id="cb72"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(nlm2)<span class="sc">$</span>coefficients</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>       Estimate Std. Error   t value      Pr(&gt;|t|)
-A     82.465891  0.9973074 82.688541 8.974177e-193
-gamma  2.253936  0.4355265  5.175197  4.469538e-07
-tau    3.055263  0.1106570 27.610219  2.420366e-80
-S     51.322077  1.8302944 28.040339  1.110823e-81</code></pre>
+A     82.465891  0.9973074 82.688541 8.974188e-193
+gamma  2.253936  0.4355265  5.175198  4.469534e-07
+tau    3.055263  0.1106570 27.610217  2.420406e-80
+S     51.322076  1.8302946 28.040336  1.110849e-81</code></pre>
 </div>
 </div>
 <p>Even if both tests clearly prefer model <code>nlm2</code>, we can remark that the <span class="math inline">t</span>-test and the <span class="math inline">F</span>-test are not equivalent since the models are nonlinear.</p>
