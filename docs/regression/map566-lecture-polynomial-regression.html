@@ -599,12 +599,12 @@ See vignette('programming') for more help</code></pre>
 <p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>On one hand, it is reassuring to see that removing part of the data has a very little impact on the predictions. On the other hand, the predictive performance of the model remains limited because of the natural variability of the data. Indeed, this model built with the training sample only explains 70 % of the variabilility of the new test sample.</p>
+<p>On one hand, it is reassuring to see that removing part of the data has a very little impact on the predictions. On the other hand, the predictive performance of the model remains limited because of the natural variability of the data. Indeed, this model built with the training sample only explains 80 % of the variabilility of the new test sample.</p>
 <div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-28_c359c349ec38ec08fad4795178c51c21">
 <div class="sourceCode" id="cb21"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>R2_test <span class="ot">&lt;-</span> <span class="fu">cor</span>(pred_testing_set, cars_test<span class="sc">$</span>dist)<span class="sc">^</span><span class="dv">2</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>R2_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 0.7031356</code></pre>
+<pre><code>[1] 0.8001973</code></pre>
 </div>
 </div>
 <p>Let us see now how the model behaves with extreme values by defining as test sample the data points with the 5 smallest and the 5 largest speeds.</p>
@@ -894,8 +894,8 @@ n &amp; 0 &amp; \cdots &amp; 0 \\
 <div class="sourceCode" id="cb45"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">crossprod</span>(design_ortho)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>                         (Intercept) poly(speed, degree = 1)
-(Intercept)             5.000000e+01            1.665335e-16
-poly(speed, degree = 1) 1.665335e-16            1.000000e+00</code></pre>
+(Intercept)             5.000000e+01            1.276756e-15
+poly(speed, degree = 1) 1.276756e-15            1.000000e+00</code></pre>
 </div>
 </div>
 <p>Here, the estimated intercept <span class="math inline">\hat{c}_0</span> is the empirical mean <span class="math inline">\bar{y}=</span> NA</p>
@@ -923,12 +923,12 @@ poly(speed, degree = 1) 1.665335e-16            1.000000e+00</code></pre>
 <div class="sourceCode" id="cb51"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">crossprod</span>(design_ortho)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>                          (Intercept) poly(speed, degree = 2)1
-(Intercept)              5.000000e+01             1.665335e-16
-poly(speed, degree = 2)1 1.665335e-16             1.000000e+00
-poly(speed, degree = 2)2 1.665335e-16             1.301786e-16
+(Intercept)              5.000000e+01             1.276756e-15
+poly(speed, degree = 2)1 1.276756e-15             1.000000e+00
+poly(speed, degree = 2)2 5.551115e-17             1.019032e-16
                          poly(speed, degree = 2)2
-(Intercept)                          1.665335e-16
-poly(speed, degree = 2)1             1.301786e-16
+(Intercept)                          5.551115e-17
+poly(speed, degree = 2)1             1.019032e-16
 poly(speed, degree = 2)2             1.000000e+00</code></pre>
 </div>
 </div>
