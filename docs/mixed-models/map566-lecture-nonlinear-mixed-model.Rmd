@@ -291,9 +291,9 @@ Indeed, we can linearize the model for the observations $(y_{ij},\, 1\leq j \leq
 Let $\partial_{\psi}{f(t , \psi)}$ be the row vector of derivatives of  $f(t , \psi)$ with respect to $\psi$. Then,
 
 $$\begin{aligned}
-y_{ij} &\simeq f(t_{ij} , \hat\psi_i) + \partial_{\psi}{f(t_{ij} , \hat\psi_i)} \, (\psi_i - \hat\psi_i)  + \varepsilon_{ij} \\
-&\simeq f(t_{ij} , \hat\psi_i) +  \partial_{\psi}{f(t_{ij} , \hat\psi_i)} \, (\hat\psi_{\rm pop} - \hat\psi_i)
-+  \partial_{\psi}{f(t_{ij} , \hat\psi_i)} \, \eta_i  + \varepsilon_{ij} .
+y_{ij} &\simeq f(t_{ij} , \hat\psi_i) + \nabla_{\psi}{f(t_{ij} , \hat\psi_i)^\top} \, (\psi_i - \hat\psi_i)  + \varepsilon_{ij} \\
+&\simeq f(t_{ij} , \hat\psi_i) +  \nabla_{\psi}{f(t_{ij} , \hat\psi_i)^\top} \, (\hat\psi_{\rm pop} - \hat\psi_i)
++  \nabla_{\psi}{f(t_{ij} , \hat\psi_i)^\top} \, \eta_i  + \varepsilon_{ij} .
 \end{aligned}$$
 
 Following this, we can approximate the marginal distribution of the vector $y_i$ by a normal one:
@@ -305,9 +305,9 @@ $$
 where
 
 $$\begin{aligned}
-\mu_i & = f(t_{i} , \hat\psi_i) +  \partial_{\psi}{f(t_{i} , \hat\psi_i)}(\hat\psi_{\rm pop} - \hat\psi_i) \\
+\mu_i & = f(t_{i} , \hat\psi_i) +  \nabla_{\psi}{f(t_{i} , \hat\psi_i)^\top}(\hat\psi_{\rm pop} - \hat\psi_i) \\
 \Gamma_i &=
-\partial_{\psi}{f(t_{i} , \hat\psi_i)} \, \hat\Omega \, \partial_{\psi}{f(t_{i} , \hat\psi_i)}^{\top}  + \hat{a}^2\, I_{n_i}
+\nabla_{\psi}{f(t_{i} , \hat\psi_i)^\top} \, \hat\Omega \, \nabla_{\psi}{f(t_{i} , \hat\psi_i)}^{\top}  + \hat{a}^2\, I_{n_i}
 \end{aligned}$$
 
 The log-likelihood function is then approximated by
