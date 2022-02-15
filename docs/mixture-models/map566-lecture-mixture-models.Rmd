@@ -5,12 +5,13 @@ subtitle: "Lecture Notes"
 
 ## Preliminary {.unnumbered}
 
-Functions from `R`-base and stats (preloaded) are required plus packages from the **tidyverse** for data representation and manipulation. We will also use the package **mixtools**, which implements EM for simple mixture models to check our own implementation.
+Functions from `R`-base and stats (preloaded) are required plus packages from the **tidyverse** for data representation and manipulation. We will also use the package **mixtools**, which implements EM for simple mixture models to check our own implementation, and the package **aricode** for computing various metrics and for comparing clustering:
 
 ```{r tests-config, message = FALSE}
 #| code-fold: false
 library(tidyverse)
 library(gridExtra)
+library(aricode)
 library(mixtools)
 theme_set(theme_bw())
 ```
@@ -19,7 +20,7 @@ theme_set(theme_bw())
 
 ### The data
 
-The `faithful` data consist of the waiting time between eruptions and the duration of the eruption for the Old Faithful geyser in Yellowstone National Park, Wyoming, USA.
+The `faithful` data consists of the waiting time between eruptions and the duration of the eruption for the Old Faithful geyser in Yellowstone National Park, Wyoming, USA.
 
 ```{r mixture-faitful-load}
 data("faithful")
@@ -56,12 +57,12 @@ The centers $(\mu_k)$  can be estimated by minimizing the within-cluster sum of 
 $$\begin{aligned}
 U(\mu_1,\mu_2,\ldots,\mu_L) & =\sum_{i=1}^n \min_{k \in \{1, \ldots, K\}} (y_i - \mu_k)^2  \\
  &= \sum_{i=1}^n (y_i - \mu_{Z_i})^2 \\
- &= \sum_{i=1}^n \sum_{k=1}^K (y_i - \mu_k)^2 \mathbf{1}_{{z}_i=k} 
+ &= \sum_{i=1}^n \sum_{k=1}^K (y_i - \mu_k)^2 \mathbf{1}_{\{{z}_i=k\}} 
 \end{aligned}$$
 
-For $k=1,2,\ldots, K$, the solution $\hat\mu_k$ is  the empirical mean computed in  cluster $k$.  Let $n_k = \sum_{i=1}^n \mathbf{1}_{{z}_i=k}$ be the number of observation belonging to cluster $k$. Then
+For $k=1,2,\ldots, K$, the solution $\hat\mu_k$ is  the empirical mean computed in  cluster $k$.  Let $n_k = \sum_{i=1}^n \mathbf{1}_{\{{z}_i=k\}}$ be the number of observation belonging to cluster $k$. Then
 
-$$ \hat{\mu}_k =  \frac{1}{n_k} \sum_{i=1}^n y_i \mathbf{1}_{\{Z_i=k\}} $$
+$$ \hat{\mu}_k =  \frac{1}{n_k} \sum_{i=1}^n y_i \mathbf{1}_{\{z_i=k\}} $$
 
 Let us compute the centers of the two clusters for our faithful data:
 
@@ -96,12 +97,14 @@ ggplot() +
 and compute the sizes, the empirical means and standard deviations for each cluster:
 
 ```{r}
-clustered_data %>% group_by(cl_hat) %>% summarise(count = n(), means = mean(y), stdev = sd(y))
+clustered_data %>% 
+  group_by(cl_hat) %>% 
+  summarise(count = n(), means = mean(y), stdev = sd(y))
 ```
 
-::: {.remark}
+::: {.callout-info}
 
-The base-`R` function `kmeans` generalizes that problem to more than $2$clusters:
+The base-`R` function `kmeans` generalizes that problem to more than $2$ clusters:
 
 ```{r, warning=FALSE}
 kmeans_out <- kmeans(y, centers = 2)
@@ -177,7 +180,7 @@ The maximum likelihood (ML) estimate of $\theta$ cannot be computed in a closed 
 For instance, a Newton-type algorithm can be used for minimizing the deviance $-2\log(\ell(\theta , y))$. 
 
 ```{r, warning=FALSE}
-## trick: nlm diverge if two parameters are used for pi, so for ce the summation to 1
+## trick: nlm diverge if two parameters are used for pi, so force the summation to 1
 objective <- function(theta, y) {
   theta_l <- list(pi = c(theta[1], 1 - theta[1]), mu = theta[2:3], sigma = theta[4:5])
   deviance <- -2*sum(log(dmixture(y, theta_l)))
@@ -238,11 +241,9 @@ dcomponents <- function(theta, x) {
     )
 }
 tau <- dcomponents(theta_hat, y)
-tau %>% as_tibble() %>% setNames(c("comp.1", "comp.2")) %>% 
+tau %>% as.data.frame() %>% setNames(c("comp.1", "comp.2")) %>% 
   add_column(y = y) %>% rmarkdown::paged_table()
 ```
-
-::: {.remark}
 
 The Expectation - Maximization (EM) algorithm (implemented in the `mixtools` library for instance) could also be used for computing the ML estimate of $\theta$. Both algorithms provide the same results.
 
@@ -259,15 +260,13 @@ plot(mixture_EM, which=2)
 mixture_EM$posterior %>% as_tibble() %>% rmarkdown::paged_table()
 ```
 
-:::
-
 ### Mixture model versus clustering
 
 Let us sample some data from a Gaussian mixture model. Of course, the labels of the simulated data are known.
 
 ```{r}
 n1 <- 120; n2 <- 80
-d <- data.frame(
+some_data <- data.frame(
   y = c(rnorm(n1, 0, 1), rnorm(n2, 3, 1)),
   z = rep(1:2, c(n1,n2))
 )
@@ -276,7 +275,7 @@ d <- data.frame(
 We can use the $k$-means method to create two clusters and compute the proportion, center and standard deviation for each cluster, 
 
 ```{r}
-kmeans_out <- kmeans(y, centers = 2)
+kmeans_out <- kmeans(some_data$y, centers = 2)
 list(pi    = kmeans_out$size/sum(kmeans_out$size),
      mu    = as.vector(kmeans_out$centers),
      sigma = sqrt(kmeans_out$withinss/kmeans_out$size))
@@ -285,7 +284,7 @@ list(pi    = kmeans_out$size/sum(kmeans_out$size),
 We can instead consider a Gaussian mixture model, use the EM algorithm with the same data and display the estimated parameters
 
 ```{r}
-gmm_out = normalmixEM(y)
+gmm_out = normalmixEM(some_data$y)
 list(pi    = gmm_out$lambda,
      mu    = gmm_out$mu,
      sigma = gmm_out$sigma)
@@ -296,14 +295,39 @@ Since the "true" labels are known, we can compute the *classification error rate
 ```{r}
 cl_kmeans <- kmeans_out$cluster
 cl_gmm    <- apply(gmm_out$posterior, 1, which.max)
-accuracy <-c(mean(d$z != cl_kmeans)*100, mean(d$z != cl_gmm)*100)
+accuracy  <- c(mean(some_data$z != cl_kmeans)*100, mean(some_data$z != cl_gmm)*100)
 accuracy
+```
+
+::: {.callout-info}
+### (Adjusted) Rand Index
+
+Another metric widely used for evaluating a clustering is the **Rand Index** -- RI (@RandIndex), more precisely its adjusted version **ARI**. The Rand index can be seen as a measure of the percentage of correct decisions made by a clustering algorithm. It can be computed using the following formula:
+
+$$
+RI = \frac{TP + TN} {TP + FP + FN + TN}
+$$
+
+where `TP` is the number of true positives, `TN` is the number of true negatives, `FP` is the number of false positives, and `FN` is the number of false negatives.
+
+The ARI (adjusted Rand index) (@ARI) is the "corrected-for-chance version" of the Rand index, that is, a correction made by using the expected similarity of all pair-wise comparisons between clusterings specified by a random model (can be seen as a null hypothesis).
+
+The ARI can also be used to compare several clusterings: the higher, the better.
+
+:::
+
+In this case, the two clusterings are very close: 
+
+```{r}
+aricode::ARI(cl_kmeans, some_data$z)
+aricode::ARI(cl_gmm   , some_data$z)
+aricode::ARI(cl_kmeans, cl_gmm)
 ```
 
 Of course, these results depend strongly on the model, i.e. on the parameters of the mixture. 
 This Shiny app allows one to modify the parameters of the second distribution (the first distribution is assumed to be a normal distribution with mean 0 and variance 1) and compare the results provided by the two methods.
 
-<iframe src="http://shiny.webpopix.org/sia/mm2/" style="border: none; width: 800px; height: 600px"></iframe>
+<iframe src="http://shiny.webpopix.org/sia/mm2/" style="border: none; width: 780px; height: 600px"></iframe>
 
 ## Some EM-type algorithms
 
@@ -456,6 +480,7 @@ plot_singleEM(myEM_mixture$convergence)
 The sequence of EM estimates $(\theta_k)$ depends on the initial guess $\theta_0$. Let us plot the convergence of the algorithm obtained with several initial values. To do this, we write a small function to automatize the plot in the same vein as in the above output. 
 
 ```{r}
+#| code-fold: true
 plot_convergence <- function(convergence, title = "Convergence of EM for random initialization") {
   if (is.null(convergence$simu)) convergence$simu <- 1
   p <- ggplot(convergence)
@@ -468,6 +493,7 @@ plot_convergence <- function(convergence, title = "Convergence of EM for random 
 ```
 
 ```{r}
+#| code-fold: true
 set.seed(12345)
 convergences <- lapply(1:10, function(i) {
   pi1 <- runif(1, 0.1, 0.9)
@@ -553,5 +579,7 @@ mySEM_mixture$deviance
 plot_singleEM(mySEM_mixture$convergence, title="Convergence of S-EM")
 ```
 
-<iframe src="http://shiny.webpopix.org/sia/mm4/" style="border: none; width: 900px; height: 600px"></iframe>
+<iframe src="http://shiny.webpopix.org/sia/mm4/" style="border: none; width: 780px; height: 550px"></iframe>
+
+### References {-}
 
