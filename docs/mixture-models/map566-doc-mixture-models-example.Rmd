@@ -1,55 +1,55 @@
 ---
-title: "Mixture Models: an example"
-subtitle: "An Example Study"
+title: "Clustering and classification with model based approaches" 
+subtitle: "An short example study on the penguins dataset"
 ---
 
 ## Preliminary {.unnumbered}
 
-Functions from `R`-base and stats (preloaded) are required plus packages from the **tidyverse** for data representation and manipulation. We also need the packages **mixtools** and **mclust**, which are commonly used to fit mixture models in `R`.
+Functions from `R`-base and stats (preloaded) are required plus packages from the **tidyverse** for data representation and manipulation. We also need the package **mclust**, which are commonly used to fit mixture models in `R`, as weel as **palmerpenguins** for the illustrative data set. **aricode** is used for clustering comparison, **VGAM** to fit multinomial models.
 
 ```{r tests-config, message = FALSE}
 #| code-fold: false
 library(tidyverse)
 library(gridExtra)
-library(mixtools)
+library(GGally)
+library(mclust)
+library(aricode)
+library(VGAM)
+library(palmerpenguins)
 theme_set(theme_bw())
 ```
 
+## The Palmer penguins data set
 
-## The Iris data
+The  `palmerpenguins` data [^1] (@penguins) contains size measurements for three penguin species observed on three islands in the Palmer Archipelago, Antarctica. 
 
-The famous (Fisher's or Anderson's) iris data set gives the measurements in centimeters of the variables <a href="http://en.wikipedia.org/wiki/Sepal" target="_blank" >sepal</a> length and width and petal length and width, respectively, for 50 flowers from each of 3 species of iris. The species are Iris setosa, versicolor, and virginica. (from `?iris`).
+These data were collected from 2007 - 2009 by Dr. Kristen Gorman with the [Palmer Station Long Term Ecological Research Program](https://pal.lternet.edu/), part of the [US Long Term Ecological Research Network](https://lternet.edu/). The data were imported directly from the [Environmental Data Initiative](https://environmentaldatainitiative.org/) (EDI) Data Portal, and are available for use by CC0 license ("No Rights Reserved") in accordance with the [Palmer Station Data Policy](https://pal.lternet.edu/data/policies). 
 
-The Iris flower data set is a nice example for learning supervised classification algorithms, and is known as a difficult case for unsupervised learning.
+This data et is an alternative to Anderson's **Iris** data (see `datasets::iris`). There are both a nice example for learning supervised classification algorithms, and is known as a difficult case for unsupervised learning.
 
-```{r, fig.height=5,fig.width=9}
-iris <- datasets::iris
-head(iris)
-
-species_labels <- iris[,5]
-species_col <- c("#7DB0DD","#86B875","#E495A5")
-
-pairs(iris[,-5], col = species_col[species_labels],
-     lower.panel = NULL, cex.labels=2, pch=19, cex = 1)
-
-par(xpd = TRUE)
-legend(x = 0.1, y = 0.4, cex = 1.2,
-       legend = as.character(levels(species_labels)), fill = species_col)
-```
-
-We can see that the Setosa species are distinctly different from Versicolor and Virginica (they have lower petal length and width). But Versicolor and Virginica cannot easily be separated based on measurements of their sepal and petal width/length.
-
-The same conclusion can be made by looking at the parallel coordinates plot of the data:
+[^1]: [more to read here](https://allisonhorst.github.io/palmerpenguins/)
 
 ```{r}
-# https://cran.r-project.org/web/packages/dendextend/vignettes/Cluster_Analysis.html
-MASS::parcoord(iris[,-5], col = species_col[species_labels], var.label = TRUE, lwd = 2)
+data("penguins", package = "palmerpenguins")
+penguins %>% rmarkdown::paged_table()
+```
 
-# Add a legend
-par(xpd = TRUE)
-legend(x = 1.75, y = -.25, cex = 1,
-   legend = as.character(levels(species_labels)),
-    fill = species_col, horiz = TRUE)
+We remove row with `NA` values and columns `year`, `island` and `sex` to only keep the four continuous attributes and the species of each individual:
+
+```{r}
+penguins <- penguins %>% drop_na() %>% 
+  select(-year, -island, -sex)
+
+```
+
+The pair plot show some structure that could find by clustering or descreibe by a Gaussian mixture model: 
+
+```{r, fig.height=7,fig.width=9}
+
+species_col <- c("darkorange","purple","cyan4")
+ggpairs(penguins, columns = c(2:5), aes(color = species)) + 
+    scale_color_manual(values = species_col) +
+    scale_fill_manual(values = species_col)
 ```
 
 ### Supervised classification 
@@ -60,32 +60,52 @@ Let $y_i$ be a binary response that take its values in $\{0,1\}$ and let $c_{i1}
 
 Formally, the logistic regression model is that
 
-$$\begin{aligned}
- \log\left(\frac{\mathbb{P}(y_i=1)}{\mathbb{P}(y_i=0)}\right) 
-&= \log\left(\frac{\mathbb{P}(y_i=1)}{1 - \mathbb{P}(y_i=1)}\right) \\
-&= \beta_0 + \sum_{m=1}^M \beta_m c_{im}
-\end{aligned}$$
+$$
+ \log\left(\frac{\mathbb{P}(y_i=1)}{\mathbb{P}(y_i=0)}\right) = \log\left(\frac{\mathbb{P}(y_i=1)}{1 - \mathbb{P}(y_i=1)}\right) 
+ = \beta_0 + \sum_{m=1}^M \beta_m c_{im}
+$$
 Then,
+
 $$\mathbb{P}(y_i=1) = \frac{1}{1+ e^{-\beta_0 -  \sum_{m=1}^M \beta_m c_{im}}}$$
 
+We try to predict the binary indicator variable for species `Adelie` with this model:
+
 ```{r, warning=FALSE}
-myiris <- cbind(iris,virginica=ifelse(iris$Species=="virginica",1,0))
-myiris$virginica
-iris.glm <- glm(virginica ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width, family=binomial, data=myiris)
-summary(iris.glm)
-as.vector(round(fitted(iris.glm)))
+penguins <- penguins %>% mutate(adelie = (species == 'Adelie') * 1) 
+logistic_Adelie <- glm(
+  adelie ~ 
+    bill_length_mm + 
+    bill_depth_mm  + 
+    flipper_length_mm + 
+    body_mass_g, family = binomial, data = penguins)
+summary(logistic_Adelie)
+
 ```
+
+The linear predictor can be recovered as follows (e.g. for penguins #127)
 
 ```{r}
-iris.glm$linear.predictors[71]
-sum(cbind(1,iris[71,1:4])*iris.glm$coefficients)
+X <- as.matrix(cbind(1, penguins[, 2:5]))
+beta <- coefficients(logistic_Adelie)
+all.equal(
+  predict(logistic_Adelie, type = "link"), 
+  as.numeric(X %*% beta),
+  check.attributes = FALSE)
 ```
+The fitted value as follows:
 
 ```{r}
-iris.glm$fitted.values[71]
-1/(1+exp(-iris.glm$linear.predictors[71]))
+all.equal(
+  predict(logistic_Adelie, type = "response"),
+  as.numeric(1 / ( 1 + exp( - (X %*% beta)))),
+ check.attributes = FALSE)
 ```
 
+The ARI is close to 1 in that case
+
+```{r}
+aricode::ARI(penguins$adelie, round(predict(logistic_Adelie, type = "response")))
+```
 
 #### Logistic regression with more than two classes
 
@@ -93,10 +113,9 @@ Assume now that $y_i$ takes its values in $\{1,2\ldots,L\}$.
 The logistic regression model now writes
 
 
-$$\begin{aligned}
- \log\left(\frac{\mathbb{P}(y_i=k)}{\mathbb{P}(y_i=L)}\right) 
-&= \beta_{k0} +  \sum_{m=1}^M \beta_{k m} c_{im} \quad , \quad k=1,2,\ldots,L
-\end{aligned}$$
+$$ \log\left(\frac{\mathbb{P}(y_i=k)}{\mathbb{P}(y_i=L)}\right) 
+= \beta_{k0} +  \sum_{m=1}^M \beta_{k m} c_{im} \quad , \quad k=1,2,\ldots,L
+$$
 where we set, for instance, $\beta_{L0}=\beta_{L1}=\ldots=\beta_{LM}=0$ for identifiabilty reason. Then,
 
 $$
@@ -104,115 +123,82 @@ $$
  {\sum_{j=1}^K e^{\beta_{j0} +  \sum_{m=1}^M \beta_{j m} c_{im}}}
  \quad , \quad k=1,2,\ldots,L
 $$
+Let us first code all species modalities as dummy variables:
 
 ```{r, message=FALSE, warning=FALSE}
-library(VGAM)
-myiris <- cbind(myiris,versicolor=ifelse(iris$Species=="versicolor",1,0))
-myiris <- cbind(myiris,setosa=ifelse(iris$Species=="setosa",1,0))
+penguins <- penguins %>% 
+  mutate(gentoo    = (species == 'Gentoo') * 1) %>% 
+  mutate(chinstrap = (species == 'Chinstrap') * 1) 
+penguins %>% rmarkdown::paged_table()
+```
 
-head(myiris)
+We now fit a multinomial model to this 3-class problem:
 
-iris.vglm <- vglm(cbind(virginica,versicolor,setosa) ~ Sepal.Length +
-Sepal.Width + Petal.Length + Petal.Width, family=multinomial,
-data=myiris)
-
-summary(iris.vglm)
+```{r, warning=FALSE}
+multinomial_penguins <- 
+  vglm(cbind(gentoo, adelie, chinstrap) ~ 
+    bill_length_mm + 
+    bill_depth_mm  + 
+    flipper_length_mm + 
+    body_mass_g, family = multinomial, data = penguins)
+summary(multinomial_penguins)
 ```
 
 ```{r}
-iris.vglm@predictors[71,]
-c(sum(cbind(1,iris[71,1:4])*iris.vglm@coefficients[c(1,3,5,7,9)]), 
-  sum(cbind(1,iris[71,1:4])*iris.vglm@coefficients[c(2,4,6,8,10)]))
+posterior_prob <- predict(multinomial_penguins, type = "response")
+matplot(posterior_prob)
+clustering_map <- apply(posterior_prob, 1, which.max)
 ```
+
+we get a perfect clustering of the penguins with this model (on the training set!)
 
 ```{r}
-iris.vglm@fitted.values[71,]
-lp71 <- as.vector(c(iris.vglm@predictors[71,],0))
-exp(lp71)/sum(exp(lp71))
+clustering_map <- apply(posterior_prob, 1, which.max)
+aricode::ARI(clustering_map, penguins$species)
 ```
 
-
-```{r}
-head(fitted(iris.vglm))
-```
-
-Percentage of missclassified flowers:
-```{r}
-# Now we use 'fitted.iris' as the model-based classifications
-# of which flower is of each type.  How does this compare
-# to the real types?
-
-
-rclass.iris <- ifelse(apply(abs(round(fitted(iris.vglm)) - myiris[,6:8]),1,sum)==0,1,0)
-(1-mean(rclass.iris))*100
-```
 
 ### Non supervised classification
 
-Ignoring the known labels (species) of theFisher Iris data, let us identify three clusters with the $k$-means method and compute the missclassification rate:
+Ignoring the known labels (species) of the penguin data, let us identify three clusters with the $k$-means method and compute the missclassification rate:
+
 ```{r, warning=FALSE}
-set.seed(1234) # labels are the original ones with this seed (avoid permutation)
-r.km <- kmeans(iris[,1:4], centers=3)
-mean(r.km$cluster!=as.numeric(iris$Species))*100
+kclust <- kmeans(penguins[, 2:5], centers = 3, nstart = 10)
+aricode::ARI(kclust$cl,  penguins$species)
 ```
 
 Let us know fit a mixture of three multidimensional Gaussian distributions.
-The model assumes the same variance covariance matrix for the three distributions (<ttt>arbvar=FALSE).
-Initial centers are those given by the kmeans procedure.
+
+Function `Mclust` fits many multivariate Gaussian mixture model, with various parametric form for the covariances. Let us force the model to have spherical variance with equal volume (thus close to the k-means setting):
+
 ```{r}
-library(mixtools)
-c0 <- list(r.km$centers[1,], r.km$centers[2,], r.km$centers[3,])
-r.em <- mvnormalmixEM(iris[,1:4], mu=c0, arbvar=FALSE)
+GMM_EII <- Mclust(penguins[, 2:4], G = 3, modelNames = 'EII')
 ```
-Let us display the estimated parameters of the mixture:
+
+The fit is poor
+
 ```{r}
-r.em$lambda
-r.em$mu
-r.em$sigma
+plot(GMM_EII, "classification")
 ```
 
-For each flower, the estimated label maximizes the posterior distribution. We can then compute the missclassification rate:
 ```{r}
-post <- r.em$posterior
-r.em$class <- sapply(seq(nrow(post)), function(i) { j <- which.max(as.vector(post[i,])) })
-mean(r.em$class!=as.numeric(iris$Species))*100
+aricode::ARI(penguins$species, map(GMM_EII$z))
 ```
 
-Let us plot the original data with the three distributions estimated with EM
-```{r, message=FALSE, warning=FALSE}
-detach(package:mixtools)
-library(ellipse)
-library(gridExtra)
+We can let Mclust chose the "best" model, relying on BIC: we found "VVE", an ellipsoidal model with equal orientation 
 
-Species <- levels(iris$Species)
-j1=1;  j2=2
-df_ell <- data.frame()
-for(g in (1:3)){
-#  M=r.em$sigma[[g]][c(j1,j2),c(j1,j2)]
-  M=r.em$sigma[c(j1,j2),c(j1,j2)]
-  c=r.em$mu[[g]][c(j1,j2)]
-  df_ell <- rbind(df_ell, cbind(as.data.frame(ellipse(M,centre=c, level=0.68)), group=Species[g]))
-}
-pl1 <- ggplot(data=iris) + geom_point(aes_string(x=iris[,j1],y=iris[,j2], colour=iris[,5])) + 
-  theme(legend.position="none") +xlab(names(iris)[j1])+ylab(names(iris)[j2]) +
-geom_path(data=df_ell, aes(x=x, y=y,color=group), size=1, linetype=1) 
-
-j1=3;  j2=4
-df_ell <- data.frame()
-for(g in (1:3)){
-#  M=r.em$sigma[[g]][c(j1,j2),c(j1,j2)]
-  M=r.em$sigma[c(j1,j2),c(j1,j2)]
-  c=r.em$mu[[g]][c(j1,j2)]
-  df_ell <- rbind(df_ell, cbind(as.data.frame(ellipse(M,centre=c, level=0.68)), group=Species[g]))
-}
-pl2 <- ggplot(data=iris) + geom_point(aes_string(x=iris[,j1],y=iris[,j2], colour=iris[,5])) + 
-  theme(legend.position="none") +xlab(names(iris)[j1])+ylab(names(iris)[j2]) +
-geom_path(data=df_ell, aes(x=x, y=y,color=group), size=1, linetype=1) 
-
-grid.arrange(pl1, pl2)
+```{r}
+GMM_best <- Mclust(penguins[, 2:4], G = 3)
+plot(GMM_best, "classification")
+summary(GMM_best, parameters = TRUE)
 ```
 
 
-This Shiny app allows one to select the two variables to plot.
+We get an almost perfect clustering with the MAP: 
 
-<iframe src="http://shiny.webpopix.org/sia/mm3/" style="border: none; width: 800px; height: 550px"></iframe>
+```{r}
+aricode::ARI(penguins$species, map(GMM_best$z))
+```
+
+## References {-}
+
