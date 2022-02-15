@@ -14,6 +14,7 @@ dependencies:
   - r-vgam
   - r-mixtools
   - r-mclust
+  - r-ggally
   - r-codetools
   - r-corrplot
   - r-ggfortify
