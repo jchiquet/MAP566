@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.3.119">
+  <meta name="generator" content="quarto-0.9.17">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Statistical Tests</title>
   <style>
@@ -246,7 +246,7 @@
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-doc-mixture-models-example.html">Mixture Models: an example</a>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-doc-mixture-models-example.html">Clustering and classification with model based approaches</a>
   </li>  
     </ul>
   </li>
@@ -272,7 +272,7 @@
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
     <div class="sidebar-item-container"> 
-        <a class="sidebar-item-text sidebar-link text-start " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">Lectures</a>
+        <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">Lectures</a>
       <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">
         <i class="bi bi-chevron-right ms-2"></i>
       </a>
@@ -292,7 +292,7 @@
   </li>
         <li class="sidebar-item sidebar-item-section">
     <div class="sidebar-item-container"> 
-        <a class="sidebar-item-text sidebar-link text-start " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">Exercices</a>
+        <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">Exercices</a>
       <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">
         <i class="bi bi-chevron-right ms-2"></i>
       </a>
@@ -673,7 +673,7 @@ p_{\rm value} &amp; = \mathbb{P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm ob
 <span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(R)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 0.95086</code></pre>
+<pre><code>[1] 0.94987</code></pre>
 </div>
 </div>
 </div>
@@ -954,7 +954,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <span id="cb68-11"><a href="#cb68-11" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">%&gt;%</span> <span class="fu">rowMeans</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code> Student Wilcoxon 
-  0.8304   0.8121 </code></pre>
+  0.8287   0.8081 </code></pre>
 </div>
 </div>
 <p>On the other hand, the Wilcoxon test may be much more powerful than the t-test for non normal distributions when the empirical mean converges slowly in distribution to the normal distribution. Such is the case, for instance, of the log-normal ditribution which is strongly skewed for large variances.</p>
@@ -970,7 +970,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <span id="cb70-9"><a href="#cb70-9" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">%&gt;%</span> <span class="fu">rowMeans</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code> Student Wilcoxon 
-  0.6740   0.8497 </code></pre>
+  0.6706   0.8472 </code></pre>
 </div>
 </div>
 </section>
@@ -1004,13 +1004,13 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
     Welch Two Sample t-test
 
 data:  x.sim and y.sim
-t = -0.80507, df = 18, p-value = 0.4313
+t = -1.2641, df = 18, p-value = 0.2223
 alternative hypothesis: true difference in means is not equal to 0
 95 percent confidence interval:
- -54.14444  24.14444
+ -39.930509   9.930509
 sample estimates:
 mean of x mean of y 
- 519.5067  534.5067 </code></pre>
+ 507.5919  522.5919 </code></pre>
 </div>
 </div>
 <p>This basic example shows that a difference considered as biologically significant may not be statistically significant.</p>
@@ -1026,13 +1026,13 @@ mean of x mean of y
     Welch Two Sample t-test
 
 data:  x.sim and y.sim
-t = -2.342, df = 19998, p-value = 0.01919
+t = -2.3544, df = 19998, p-value = 0.01856
 alternative hypothesis: true difference in means is not equal to 0
 95 percent confidence interval:
- -1.8369267 -0.1630733
+ -1.8325337 -0.1674663
 sample estimates:
 mean of x mean of y 
- 499.6258  500.6258 </code></pre>
+ 499.8236  500.8236 </code></pre>
 </div>
 </div>
 <p>This example confirms the need for a power analysis as a complement of the comparison test. We will see that equivalence testing may also be relevant for evaluating what the data allows to say.</p>
@@ -1098,7 +1098,7 @@ NOTE: n is number in *each* group</code></pre>
 <span id="cb80-8"><a href="#cb80-8" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb80-9"><a href="#cb80-9" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(R)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 0.55155</code></pre>
+<pre><code>[1] 0.55364</code></pre>
 </div>
 </div>
 <p>We may consider this probability as too small. If our objective is a power of 80% at least, with the same significance level, we need to increase the sample size.</p>

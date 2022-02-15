@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.3.119">
+  <meta name="generator" content="quarto-0.9.17">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>MAP566 - Stats in Action - Mixture Models: an example</title>
+  <title>MAP566 - Stats in Action - Clustering and classification with model based approaches</title>
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -74,6 +74,25 @@
     code span.va { color: #19177c; } /* Variable */
     code span.vs { color: #4070a0; } /* VerbatimString */
     code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+    }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
   </style>
 
   <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -112,6 +131,8 @@
       "search-submit-button-title": "Submit"
     }
   }</script>
+  <link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+  <script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
   <script>document.addEventListener("DOMContentLoaded", function () {
  var mathElements = document.getElementsByClassName("math");
@@ -244,7 +265,7 @@
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-doc-mixture-models-example.html">Mixture Models: an example</a>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-doc-mixture-models-example.html">Clustering and classification with model based approaches</a>
   </li>  
     </ul>
   </li>
@@ -255,7 +276,7 @@
     </nav>
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Mixture Models: an example</h1>
+      <h1 class="quarto-secondary-nav-title">Clustering and classification with model based approaches</h1>
       <button type="button" class="quarto-btn-toggle btn">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -270,7 +291,7 @@
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
     <div class="sidebar-item-container"> 
-        <a class="sidebar-item-text sidebar-link text-start " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">Lectures</a>
+        <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">Lectures</a>
       <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">
         <i class="bi bi-chevron-right ms-2"></i>
       </a>
@@ -290,7 +311,7 @@
   </li>
         <li class="sidebar-item sidebar-item-section">
     <div class="sidebar-item-container"> 
-        <a class="sidebar-item-text sidebar-link text-start " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">Exercices</a>
+        <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">Exercices</a>
       <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">
         <i class="bi bi-chevron-right ms-2"></i>
       </a>
@@ -310,7 +331,7 @@
   </li>
         <li class="sidebar-item sidebar-item-section">
     <div class="sidebar-item-container"> 
-        <a class="sidebar-item-text sidebar-link text-start " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-supplementary-material" aria-expanded="true">Supplementary material</a>
+        <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-supplementary-material" aria-expanded="true">Supplementary material</a>
       <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-supplementary-material" aria-expanded="true">
         <i class="bi bi-chevron-right ms-2"></i>
       </a>
@@ -318,7 +339,7 @@
     <ul id="quarto-sidebar-section-supplementary-material" class="collapse list-unstyled sidebar-section depth1 show">  
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/mixture-models/map566-doc-mixture-models-example.html" class="sidebar-item-text sidebar-link active">Mixture Models: an example</a>
+  <a href="../../docs/mixture-models/map566-doc-mixture-models-example.html" class="sidebar-item-text sidebar-link active">Clustering and classification with model based approaches</a>
   </div>
 </li>
     </ul>
@@ -332,73 +353,65 @@
 <h2 id="toc-title">On this page</h2>
 <ul>
 <li><a href="#preliminary" class="nav-link active" data-scroll-target="#preliminary">Preliminary</a></li>
-<li><a href="#the-iris-data" class="nav-link" data-scroll-target="#the-iris-data"> <span class="header-section-number">1</span> The Iris data</a>
+<li><a href="#the-palmer-penguins-data-set" class="nav-link" data-scroll-target="#the-palmer-penguins-data-set"> <span class="header-section-number">1</span> The Palmer penguins data set</a>
 <ul class="collapse">
 <li><a href="#supervised-classification" class="nav-link" data-scroll-target="#supervised-classification"> <span class="header-section-number">1.1</span> Supervised classification</a></li>
 <li><a href="#non-supervised-classification" class="nav-link" data-scroll-target="#non-supervised-classification"> <span class="header-section-number">1.2</span> Non supervised classification</a></li>
 </ul></li>
+<li><a href="#references" class="nav-link" data-scroll-target="#references">References</a></li>
 </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 <header id="title-block-header">
-<h1 class="title d-none d-lg-block display-7">Mixture Models: an example</h1>
-<p class="subtitle lead">An Example Study</p>
+<h1 class="title d-none d-lg-block display-7">Clustering and classification with model based approaches</h1>
+<p class="subtitle lead">An short example study on the penguins dataset</p>
 </header>
 
 <section id="preliminary" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="preliminary">Preliminary</h2>
-<p>Functions from <code>R</code>-base and stats (preloaded) are required plus packages from the <strong>tidyverse</strong> for data representation and manipulation. We also need the packages <strong>mixtools</strong> and <strong>mclust</strong>, which are commonly used to fit mixture models in <code>R</code>.</p>
-<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/tests-config_dce41e30327c345953e80f8490a32745">
+<p>Functions from <code>R</code>-base and stats (preloaded) are required plus packages from the <strong>tidyverse</strong> for data representation and manipulation. We also need the package <strong>mclust</strong>, which are commonly used to fit mixture models in <code>R</code>, as weel as <strong>palmerpenguins</strong> for the illustrative data set. <strong>aricode</strong> is used for clustering comparison, <strong>VGAM</strong> to fit multinomial models.</p>
+<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/tests-config_23fe3551ff10ec8c3e7ffc5a081cbec8">
 <div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mixtools)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mclust)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(aricode)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(VGAM)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(palmerpenguins)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="the-iris-data" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="the-iris-data"><span class="header-section-number">1</span> The Iris data</h2>
-<p>The famous (Fisher’s or Anderson’s) iris data set gives the measurements in centimeters of the variables <a href="http://en.wikipedia.org/wiki/Sepal" target="_blank">sepal</a> length and width and petal length and width, respectively, for 50 flowers from each of 3 species of iris. The species are Iris setosa, versicolor, and virginica. (from <code>?iris</code>).</p>
-<p>The Iris flower data set is a nice example for learning supervised classification algorithms, and is known as a difficult case for unsupervised learning.</p>
-<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-2_d528669a419dd311e48f0b073f87600e">
-<div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>iris <span class="ot">&lt;-</span> datasets<span class="sc">::</span>iris</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(iris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
-<pre><code>  Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-1          5.1         3.5          1.4         0.2  setosa
-2          4.9         3.0          1.4         0.2  setosa
-3          4.7         3.2          1.3         0.2  setosa
-4          4.6         3.1          1.5         0.2  setosa
-5          5.0         3.6          1.4         0.2  setosa
-6          5.4         3.9          1.7         0.4  setosa</code></pre>
-</div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>species_labels <span class="ot">&lt;-</span> iris[,<span class="dv">5</span>]</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>species_col <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"#7DB0DD"</span>,<span class="st">"#86B875"</span>,<span class="st">"#E495A5"</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(iris[,<span class="sc">-</span><span class="dv">5</span>], <span class="at">col =</span> species_col[species_labels],</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">lower.panel =</span> <span class="cn">NULL</span>, <span class="at">cex.labels=</span><span class="dv">2</span>, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">cex =</span> <span class="dv">1</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">xpd =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="at">x =</span> <span class="fl">0.1</span>, <span class="at">y =</span> <span class="fl">0.4</span>, <span class="at">cex =</span> <span class="fl">1.2</span>,</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">as.character</span>(<span class="fu">levels</span>(species_labels)), <span class="at">fill =</span> species_col)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="the-palmer-penguins-data-set" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="the-palmer-penguins-data-set"><span class="header-section-number">1</span> The Palmer penguins data set</h2>
+<p>The <code>palmerpenguins</code> data <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> (<span class="citation" data-cites="penguins">Horst, Hill, and Gorman (<a href="#ref-penguins" role="doc-biblioref">2020</a>)</span>) contains size measurements for three penguin species observed on three islands in the Palmer Archipelago, Antarctica.</p>
+<p>These data were collected from 2007 - 2009 by Dr.&nbsp;Kristen Gorman with the <a href="https://pal.lternet.edu/">Palmer Station Long Term Ecological Research Program</a>, part of the <a href="https://lternet.edu/">US Long Term Ecological Research Network</a>. The data were imported directly from the <a href="https://environmentaldatainitiative.org/">Environmental Data Initiative</a> (EDI) Data Portal, and are available for use by CC0 license (“No Rights Reserved”) in accordance with the <a href="https://pal.lternet.edu/data/policies">Palmer Station Data Policy</a>.</p>
+<p>This data et is an alternative to Anderson’s <strong>Iris</strong> data (see <code>datasets::iris</code>). There are both a nice example for learning supervised classification algorithms, and is known as a difficult case for unsupervised learning.</p>
+<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-2_8abc5901a97f885945d0cad8952d59d9">
+<div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"penguins"</span>, <span class="at">package =</span> <span class="st">"palmerpenguins"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-doc-mixture-models-example_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="864"></p>
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["species"],"name":[1],"type":["fct"],"align":["left"]},{"label":["island"],"name":[2],"type":["fct"],"align":["left"]},{"label":["bill_length_mm"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["bill_depth_mm"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["flipper_length_mm"],"name":[5],"type":["int"],"align":["right"]},{"label":["body_mass_g"],"name":[6],"type":["int"],"align":["right"]},{"label":["sex"],"name":[7],"type":["fct"],"align":["left"]},{"label":["year"],"name":[8],"type":["int"],"align":["right"]}],"data":[{"1":"Adelie","2":"Torgersen","3":"39.1","4":"18.7","5":"181","6":"3750","7":"male","8":"2007"},{"1":"Adelie","2":"Torgersen","3":"39.5","4":"17.4","5":"186","6":"3800","7":"female","8":"2007"},{"1":"Adelie","2":"Torgersen","3":"40.3","4":"18.0","5":"195","6":"3250","7":"female","8":"2007"},{"1":"Adelie","2":"Torgersen","3":"NA","4":"NA","5":"NA","6":"NA","7":"NA","8":"2007"},{"1":"Adelie","2":"Torgersen","3":"36.7","4":"19.3","5":"193","6":"3450","7":"female","8":"2007"},{"1":"Adelie","2":"Torgersen","3":"39.3","4":"20.6","5":"190","6":"3650","7":"male","8":"2007"},{"1":"Adelie","2":"Torgersen","3":"38.9","4":"17.8","5":"181","6":"3625","7":"female","8":"2007"},{"1":"Adelie","2":"Torgersen","3":"39.2","4":"19.6","5":"195","6":"4675","7":"male","8":"2007"},{"1":"Adelie","2":"Torgersen","3":"34.1","4":"18.1","5":"193","6":"3475","7":"NA","8":"2007"},{"1":"Adelie","2":"Torgersen","3":"42.0","4":"20.2","5":"190","6":"4250","7":"NA","8":"2007"},{"1":"Adelie","2":"Torgersen","3":"37.8","4":"17.1","5":"186","6":"3300","7":"NA","8":"2007"},{"1":"Adelie","2":"Torgersen","3":"37.8","4":"17.3","5":"180","6":"3700","7":"NA","8":"2007"},{"1":"Adelie","2":"Torgersen","3":"41.1","4":"17.6","5":"182","6":"3200","7":"female","8":"2007"},{"1":"Adelie","2":"Torgersen","3":"38.6","4":"21.2","5":"191","6":"3800","7":"male","8":"2007"},{"1":"Adelie","2":"Torgersen","3":"34.6","4":"21.1","5":"198","6":"4400","7":"male","8":"2007"},{"1":"Adelie","2":"Torgersen","3":"36.6","4":"17.8","5":"185","6":"3700","7":"female","8":"2007"},{"1":"Adelie","2":"Torgersen","3":"38.7","4":"19.0","5":"195","6":"3450","7":"female","8":"2007"},{"1":"Adelie","2":"Torgersen","3":"42.5","4":"20.7","5":"197","6":"4500","7":"male","8":"2007"},{"1":"Adelie","2":"Torgersen","3":"34.4","4":"18.4","5":"184","6":"3325","7":"female","8":"2007"},{"1":"Adelie","2":"Torgersen","3":"46.0","4":"21.5","5":"194","6":"4200","7":"male","8":"2007"},{"1":"Adelie","2":"Biscoe","3":"37.8","4":"18.3","5":"174","6":"3400","7":"female","8":"2007"},{"1":"Adelie","2":"Biscoe","3":"37.7","4":"18.7","5":"180","6":"3600","7":"male","8":"2007"},{"1":"Adelie","2":"Biscoe","3":"35.9","4":"19.2","5":"189","6":"3800","7":"female","8":"2007"},{"1":"Adelie","2":"Biscoe","3":"38.2","4":"18.1","5":"185","6":"3950","7":"male","8":"2007"},{"1":"Adelie","2":"Biscoe","3":"38.8","4":"17.2","5":"180","6":"3800","7":"male","8":"2007"},{"1":"Adelie","2":"Biscoe","3":"35.3","4":"18.9","5":"187","6":"3800","7":"female","8":"2007"},{"1":"Adelie","2":"Biscoe","3":"40.6","4":"18.6","5":"183","6":"3550","7":"male","8":"2007"},{"1":"Adelie","2":"Biscoe","3":"40.5","4":"17.9","5":"187","6":"3200","7":"female","8":"2007"},{"1":"Adelie","2":"Biscoe","3":"37.9","4":"18.6","5":"172","6":"3150","7":"female","8":"2007"},{"1":"Adelie","2":"Biscoe","3":"40.5","4":"18.9","5":"180","6":"3950","7":"male","8":"2007"},{"1":"Adelie","2":"Dream","3":"39.5","4":"16.7","5":"178","6":"3250","7":"female","8":"2007"},{"1":"Adelie","2":"Dream","3":"37.2","4":"18.1","5":"178","6":"3900","7":"male","8":"2007"},{"1":"Adelie","2":"Dream","3":"39.5","4":"17.8","5":"188","6":"3300","7":"female","8":"2007"},{"1":"Adelie","2":"Dream","3":"40.9","4":"18.9","5":"184","6":"3900","7":"male","8":"2007"},{"1":"Adelie","2":"Dream","3":"36.4","4":"17.0","5":"195","6":"3325","7":"female","8":"2007"},{"1":"Adelie","2":"Dream","3":"39.2","4":"21.1","5":"196","6":"4150","7":"male","8":"2007"},{"1":"Adelie","2":"Dream","3":"38.8","4":"20.0","5":"190","6":"3950","7":"male","8":"2007"},{"1":"Adelie","2":"Dream","3":"42.2","4":"18.5","5":"180","6":"3550","7":"female","8":"2007"},{"1":"Adelie","2":"Dream","3":"37.6","4":"19.3","5":"181","6":"3300","7":"female","8":"2007"},{"1":"Adelie","2":"Dream","3":"39.8","4":"19.1","5":"184","6":"4650","7":"male","8":"2007"},{"1":"Adelie","2":"Dream","3":"36.5","4":"18.0","5":"182","6":"3150","7":"female","8":"2007"},{"1":"Adelie","2":"Dream","3":"40.8","4":"18.4","5":"195","6":"3900","7":"male","8":"2007"},{"1":"Adelie","2":"Dream","3":"36.0","4":"18.5","5":"186","6":"3100","7":"female","8":"2007"},{"1":"Adelie","2":"Dream","3":"44.1","4":"19.7","5":"196","6":"4400","7":"male","8":"2007"},{"1":"Adelie","2":"Dream","3":"37.0","4":"16.9","5":"185","6":"3000","7":"female","8":"2007"},{"1":"Adelie","2":"Dream","3":"39.6","4":"18.8","5":"190","6":"4600","7":"male","8":"2007"},{"1":"Adelie","2":"Dream","3":"41.1","4":"19.0","5":"182","6":"3425","7":"male","8":"2007"},{"1":"Adelie","2":"Dream","3":"37.5","4":"18.9","5":"179","6":"2975","7":"NA","8":"2007"},{"1":"Adelie","2":"Dream","3":"36.0","4":"17.9","5":"190","6":"3450","7":"female","8":"2007"},{"1":"Adelie","2":"Dream","3":"42.3","4":"21.2","5":"191","6":"4150","7":"male","8":"2007"},{"1":"Adelie","2":"Biscoe","3":"39.6","4":"17.7","5":"186","6":"3500","7":"female","8":"2008"},{"1":"Adelie","2":"Biscoe","3":"40.1","4":"18.9","5":"188","6":"4300","7":"male","8":"2008"},{"1":"Adelie","2":"Biscoe","3":"35.0","4":"17.9","5":"190","6":"3450","7":"female","8":"2008"},{"1":"Adelie","2":"Biscoe","3":"42.0","4":"19.5","5":"200","6":"4050","7":"male","8":"2008"},{"1":"Adelie","2":"Biscoe","3":"34.5","4":"18.1","5":"187","6":"2900","7":"female","8":"2008"},{"1":"Adelie","2":"Biscoe","3":"41.4","4":"18.6","5":"191","6":"3700","7":"male","8":"2008"},{"1":"Adelie","2":"Biscoe","3":"39.0","4":"17.5","5":"186","6":"3550","7":"female","8":"2008"},{"1":"Adelie","2":"Biscoe","3":"40.6","4":"18.8","5":"193","6":"3800","7":"male","8":"2008"},{"1":"Adelie","2":"Biscoe","3":"36.5","4":"16.6","5":"181","6":"2850","7":"female","8":"2008"},{"1":"Adelie","2":"Biscoe","3":"37.6","4":"19.1","5":"194","6":"3750","7":"male","8":"2008"},{"1":"Adelie","2":"Biscoe","3":"35.7","4":"16.9","5":"185","6":"3150","7":"female","8":"2008"},{"1":"Adelie","2":"Biscoe","3":"41.3","4":"21.1","5":"195","6":"4400","7":"male","8":"2008"},{"1":"Adelie","2":"Biscoe","3":"37.6","4":"17.0","5":"185","6":"3600","7":"female","8":"2008"},{"1":"Adelie","2":"Biscoe","3":"41.1","4":"18.2","5":"192","6":"4050","7":"male","8":"2008"},{"1":"Adelie","2":"Biscoe","3":"36.4","4":"17.1","5":"184","6":"2850","7":"female","8":"2008"},{"1":"Adelie","2":"Biscoe","3":"41.6","4":"18.0","5":"192","6":"3950","7":"male","8":"2008"},{"1":"Adelie","2":"Biscoe","3":"35.5","4":"16.2","5":"195","6":"3350","7":"female","8":"2008"},{"1":"Adelie","2":"Biscoe","3":"41.1","4":"19.1","5":"188","6":"4100","7":"male","8":"2008"},{"1":"Adelie","2":"Torgersen","3":"35.9","4":"16.6","5":"190","6":"3050","7":"female","8":"2008"},{"1":"Adelie","2":"Torgersen","3":"41.8","4":"19.4","5":"198","6":"4450","7":"male","8":"2008"},{"1":"Adelie","2":"Torgersen","3":"33.5","4":"19.0","5":"190","6":"3600","7":"female","8":"2008"},{"1":"Adelie","2":"Torgersen","3":"39.7","4":"18.4","5":"190","6":"3900","7":"male","8":"2008"},{"1":"Adelie","2":"Torgersen","3":"39.6","4":"17.2","5":"196","6":"3550","7":"female","8":"2008"},{"1":"Adelie","2":"Torgersen","3":"45.8","4":"18.9","5":"197","6":"4150","7":"male","8":"2008"},{"1":"Adelie","2":"Torgersen","3":"35.5","4":"17.5","5":"190","6":"3700","7":"female","8":"2008"},{"1":"Adelie","2":"Torgersen","3":"42.8","4":"18.5","5":"195","6":"4250","7":"male","8":"2008"},{"1":"Adelie","2":"Torgersen","3":"40.9","4":"16.8","5":"191","6":"3700","7":"female","8":"2008"},{"1":"Adelie","2":"Torgersen","3":"37.2","4":"19.4","5":"184","6":"3900","7":"male","8":"2008"},{"1":"Adelie","2":"Torgersen","3":"36.2","4":"16.1","5":"187","6":"3550","7":"female","8":"2008"},{"1":"Adelie","2":"Torgersen","3":"42.1","4":"19.1","5":"195","6":"4000","7":"male","8":"2008"},{"1":"Adelie","2":"Torgersen","3":"34.6","4":"17.2","5":"189","6":"3200","7":"female","8":"2008"},{"1":"Adelie","2":"Torgersen","3":"42.9","4":"17.6","5":"196","6":"4700","7":"male","8":"2008"},{"1":"Adelie","2":"Torgersen","3":"36.7","4":"18.8","5":"187","6":"3800","7":"female","8":"2008"},{"1":"Adelie","2":"Torgersen","3":"35.1","4":"19.4","5":"193","6":"4200","7":"male","8":"2008"},{"1":"Adelie","2":"Dream","3":"37.3","4":"17.8","5":"191","6":"3350","7":"female","8":"2008"},{"1":"Adelie","2":"Dream","3":"41.3","4":"20.3","5":"194","6":"3550","7":"male","8":"2008"},{"1":"Adelie","2":"Dream","3":"36.3","4":"19.5","5":"190","6":"3800","7":"male","8":"2008"},{"1":"Adelie","2":"Dream","3":"36.9","4":"18.6","5":"189","6":"3500","7":"female","8":"2008"},{"1":"Adelie","2":"Dream","3":"38.3","4":"19.2","5":"189","6":"3950","7":"male","8":"2008"},{"1":"Adelie","2":"Dream","3":"38.9","4":"18.8","5":"190","6":"3600","7":"female","8":"2008"},{"1":"Adelie","2":"Dream","3":"35.7","4":"18.0","5":"202","6":"3550","7":"female","8":"2008"},{"1":"Adelie","2":"Dream","3":"41.1","4":"18.1","5":"205","6":"4300","7":"male","8":"2008"},{"1":"Adelie","2":"Dream","3":"34.0","4":"17.1","5":"185","6":"3400","7":"female","8":"2008"},{"1":"Adelie","2":"Dream","3":"39.6","4":"18.1","5":"186","6":"4450","7":"male","8":"2008"},{"1":"Adelie","2":"Dream","3":"36.2","4":"17.3","5":"187","6":"3300","7":"female","8":"2008"},{"1":"Adelie","2":"Dream","3":"40.8","4":"18.9","5":"208","6":"4300","7":"male","8":"2008"},{"1":"Adelie","2":"Dream","3":"38.1","4":"18.6","5":"190","6":"3700","7":"female","8":"2008"},{"1":"Adelie","2":"Dream","3":"40.3","4":"18.5","5":"196","6":"4350","7":"male","8":"2008"},{"1":"Adelie","2":"Dream","3":"33.1","4":"16.1","5":"178","6":"2900","7":"female","8":"2008"},{"1":"Adelie","2":"Dream","3":"43.2","4":"18.5","5":"192","6":"4100","7":"male","8":"2008"},{"1":"Adelie","2":"Biscoe","3":"35.0","4":"17.9","5":"192","6":"3725","7":"female","8":"2009"},{"1":"Adelie","2":"Biscoe","3":"41.0","4":"20.0","5":"203","6":"4725","7":"male","8":"2009"},{"1":"Adelie","2":"Biscoe","3":"37.7","4":"16.0","5":"183","6":"3075","7":"female","8":"2009"},{"1":"Adelie","2":"Biscoe","3":"37.8","4":"20.0","5":"190","6":"4250","7":"male","8":"2009"},{"1":"Adelie","2":"Biscoe","3":"37.9","4":"18.6","5":"193","6":"2925","7":"female","8":"2009"},{"1":"Adelie","2":"Biscoe","3":"39.7","4":"18.9","5":"184","6":"3550","7":"male","8":"2009"},{"1":"Adelie","2":"Biscoe","3":"38.6","4":"17.2","5":"199","6":"3750","7":"female","8":"2009"},{"1":"Adelie","2":"Biscoe","3":"38.2","4":"20.0","5":"190","6":"3900","7":"male","8":"2009"},{"1":"Adelie","2":"Biscoe","3":"38.1","4":"17.0","5":"181","6":"3175","7":"female","8":"2009"},{"1":"Adelie","2":"Biscoe","3":"43.2","4":"19.0","5":"197","6":"4775","7":"male","8":"2009"},{"1":"Adelie","2":"Biscoe","3":"38.1","4":"16.5","5":"198","6":"3825","7":"female","8":"2009"},{"1":"Adelie","2":"Biscoe","3":"45.6","4":"20.3","5":"191","6":"4600","7":"male","8":"2009"},{"1":"Adelie","2":"Biscoe","3":"39.7","4":"17.7","5":"193","6":"3200","7":"female","8":"2009"},{"1":"Adelie","2":"Biscoe","3":"42.2","4":"19.5","5":"197","6":"4275","7":"male","8":"2009"},{"1":"Adelie","2":"Biscoe","3":"39.6","4":"20.7","5":"191","6":"3900","7":"female","8":"2009"},{"1":"Adelie","2":"Biscoe","3":"42.7","4":"18.3","5":"196","6":"4075","7":"male","8":"2009"},{"1":"Adelie","2":"Torgersen","3":"38.6","4":"17.0","5":"188","6":"2900","7":"female","8":"2009"},{"1":"Adelie","2":"Torgersen","3":"37.3","4":"20.5","5":"199","6":"3775","7":"male","8":"2009"},{"1":"Adelie","2":"Torgersen","3":"35.7","4":"17.0","5":"189","6":"3350","7":"female","8":"2009"},{"1":"Adelie","2":"Torgersen","3":"41.1","4":"18.6","5":"189","6":"3325","7":"male","8":"2009"},{"1":"Adelie","2":"Torgersen","3":"36.2","4":"17.2","5":"187","6":"3150","7":"female","8":"2009"},{"1":"Adelie","2":"Torgersen","3":"37.7","4":"19.8","5":"198","6":"3500","7":"male","8":"2009"},{"1":"Adelie","2":"Torgersen","3":"40.2","4":"17.0","5":"176","6":"3450","7":"female","8":"2009"},{"1":"Adelie","2":"Torgersen","3":"41.4","4":"18.5","5":"202","6":"3875","7":"male","8":"2009"},{"1":"Adelie","2":"Torgersen","3":"35.2","4":"15.9","5":"186","6":"3050","7":"female","8":"2009"},{"1":"Adelie","2":"Torgersen","3":"40.6","4":"19.0","5":"199","6":"4000","7":"male","8":"2009"},{"1":"Adelie","2":"Torgersen","3":"38.8","4":"17.6","5":"191","6":"3275","7":"female","8":"2009"},{"1":"Adelie","2":"Torgersen","3":"41.5","4":"18.3","5":"195","6":"4300","7":"male","8":"2009"},{"1":"Adelie","2":"Torgersen","3":"39.0","4":"17.1","5":"191","6":"3050","7":"female","8":"2009"},{"1":"Adelie","2":"Torgersen","3":"44.1","4":"18.0","5":"210","6":"4000","7":"male","8":"2009"},{"1":"Adelie","2":"Torgersen","3":"38.5","4":"17.9","5":"190","6":"3325","7":"female","8":"2009"},{"1":"Adelie","2":"Torgersen","3":"43.1","4":"19.2","5":"197","6":"3500","7":"male","8":"2009"},{"1":"Adelie","2":"Dream","3":"36.8","4":"18.5","5":"193","6":"3500","7":"female","8":"2009"},{"1":"Adelie","2":"Dream","3":"37.5","4":"18.5","5":"199","6":"4475","7":"male","8":"2009"},{"1":"Adelie","2":"Dream","3":"38.1","4":"17.6","5":"187","6":"3425","7":"female","8":"2009"},{"1":"Adelie","2":"Dream","3":"41.1","4":"17.5","5":"190","6":"3900","7":"male","8":"2009"},{"1":"Adelie","2":"Dream","3":"35.6","4":"17.5","5":"191","6":"3175","7":"female","8":"2009"},{"1":"Adelie","2":"Dream","3":"40.2","4":"20.1","5":"200","6":"3975","7":"male","8":"2009"},{"1":"Adelie","2":"Dream","3":"37.0","4":"16.5","5":"185","6":"3400","7":"female","8":"2009"},{"1":"Adelie","2":"Dream","3":"39.7","4":"17.9","5":"193","6":"4250","7":"male","8":"2009"},{"1":"Adelie","2":"Dream","3":"40.2","4":"17.1","5":"193","6":"3400","7":"female","8":"2009"},{"1":"Adelie","2":"Dream","3":"40.6","4":"17.2","5":"187","6":"3475","7":"male","8":"2009"},{"1":"Adelie","2":"Dream","3":"32.1","4":"15.5","5":"188","6":"3050","7":"female","8":"2009"},{"1":"Adelie","2":"Dream","3":"40.7","4":"17.0","5":"190","6":"3725","7":"male","8":"2009"},{"1":"Adelie","2":"Dream","3":"37.3","4":"16.8","5":"192","6":"3000","7":"female","8":"2009"},{"1":"Adelie","2":"Dream","3":"39.0","4":"18.7","5":"185","6":"3650","7":"male","8":"2009"},{"1":"Adelie","2":"Dream","3":"39.2","4":"18.6","5":"190","6":"4250","7":"male","8":"2009"},{"1":"Adelie","2":"Dream","3":"36.6","4":"18.4","5":"184","6":"3475","7":"female","8":"2009"},{"1":"Adelie","2":"Dream","3":"36.0","4":"17.8","5":"195","6":"3450","7":"female","8":"2009"},{"1":"Adelie","2":"Dream","3":"37.8","4":"18.1","5":"193","6":"3750","7":"male","8":"2009"},{"1":"Adelie","2":"Dream","3":"36.0","4":"17.1","5":"187","6":"3700","7":"female","8":"2009"},{"1":"Adelie","2":"Dream","3":"41.5","4":"18.5","5":"201","6":"4000","7":"male","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"46.1","4":"13.2","5":"211","6":"4500","7":"female","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"50.0","4":"16.3","5":"230","6":"5700","7":"male","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"48.7","4":"14.1","5":"210","6":"4450","7":"female","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"50.0","4":"15.2","5":"218","6":"5700","7":"male","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"47.6","4":"14.5","5":"215","6":"5400","7":"male","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"46.5","4":"13.5","5":"210","6":"4550","7":"female","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"45.4","4":"14.6","5":"211","6":"4800","7":"female","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"46.7","4":"15.3","5":"219","6":"5200","7":"male","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"43.3","4":"13.4","5":"209","6":"4400","7":"female","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"46.8","4":"15.4","5":"215","6":"5150","7":"male","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"40.9","4":"13.7","5":"214","6":"4650","7":"female","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"49.0","4":"16.1","5":"216","6":"5550","7":"male","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"45.5","4":"13.7","5":"214","6":"4650","7":"female","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"48.4","4":"14.6","5":"213","6":"5850","7":"male","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"45.8","4":"14.6","5":"210","6":"4200","7":"female","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"49.3","4":"15.7","5":"217","6":"5850","7":"male","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"42.0","4":"13.5","5":"210","6":"4150","7":"female","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"49.2","4":"15.2","5":"221","6":"6300","7":"male","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"46.2","4":"14.5","5":"209","6":"4800","7":"female","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"48.7","4":"15.1","5":"222","6":"5350","7":"male","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"50.2","4":"14.3","5":"218","6":"5700","7":"male","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"45.1","4":"14.5","5":"215","6":"5000","7":"female","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"46.5","4":"14.5","5":"213","6":"4400","7":"female","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"46.3","4":"15.8","5":"215","6":"5050","7":"male","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"42.9","4":"13.1","5":"215","6":"5000","7":"female","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"46.1","4":"15.1","5":"215","6":"5100","7":"male","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"44.5","4":"14.3","5":"216","6":"4100","7":"NA","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"47.8","4":"15.0","5":"215","6":"5650","7":"male","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"48.2","4":"14.3","5":"210","6":"4600","7":"female","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"50.0","4":"15.3","5":"220","6":"5550","7":"male","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"47.3","4":"15.3","5":"222","6":"5250","7":"male","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"42.8","4":"14.2","5":"209","6":"4700","7":"female","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"45.1","4":"14.5","5":"207","6":"5050","7":"female","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"59.6","4":"17.0","5":"230","6":"6050","7":"male","8":"2007"},{"1":"Gentoo","2":"Biscoe","3":"49.1","4":"14.8","5":"220","6":"5150","7":"female","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"48.4","4":"16.3","5":"220","6":"5400","7":"male","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"42.6","4":"13.7","5":"213","6":"4950","7":"female","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"44.4","4":"17.3","5":"219","6":"5250","7":"male","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"44.0","4":"13.6","5":"208","6":"4350","7":"female","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"48.7","4":"15.7","5":"208","6":"5350","7":"male","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"42.7","4":"13.7","5":"208","6":"3950","7":"female","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"49.6","4":"16.0","5":"225","6":"5700","7":"male","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"45.3","4":"13.7","5":"210","6":"4300","7":"female","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"49.6","4":"15.0","5":"216","6":"4750","7":"male","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"50.5","4":"15.9","5":"222","6":"5550","7":"male","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"43.6","4":"13.9","5":"217","6":"4900","7":"female","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"45.5","4":"13.9","5":"210","6":"4200","7":"female","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"50.5","4":"15.9","5":"225","6":"5400","7":"male","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"44.9","4":"13.3","5":"213","6":"5100","7":"female","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"45.2","4":"15.8","5":"215","6":"5300","7":"male","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"46.6","4":"14.2","5":"210","6":"4850","7":"female","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"48.5","4":"14.1","5":"220","6":"5300","7":"male","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"45.1","4":"14.4","5":"210","6":"4400","7":"female","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"50.1","4":"15.0","5":"225","6":"5000","7":"male","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"46.5","4":"14.4","5":"217","6":"4900","7":"female","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"45.0","4":"15.4","5":"220","6":"5050","7":"male","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"43.8","4":"13.9","5":"208","6":"4300","7":"female","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"45.5","4":"15.0","5":"220","6":"5000","7":"male","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"43.2","4":"14.5","5":"208","6":"4450","7":"female","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"50.4","4":"15.3","5":"224","6":"5550","7":"male","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"45.3","4":"13.8","5":"208","6":"4200","7":"female","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"46.2","4":"14.9","5":"221","6":"5300","7":"male","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"45.7","4":"13.9","5":"214","6":"4400","7":"female","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"54.3","4":"15.7","5":"231","6":"5650","7":"male","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"45.8","4":"14.2","5":"219","6":"4700","7":"female","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"49.8","4":"16.8","5":"230","6":"5700","7":"male","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"46.2","4":"14.4","5":"214","6":"4650","7":"NA","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"49.5","4":"16.2","5":"229","6":"5800","7":"male","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"43.5","4":"14.2","5":"220","6":"4700","7":"female","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"50.7","4":"15.0","5":"223","6":"5550","7":"male","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"47.7","4":"15.0","5":"216","6":"4750","7":"female","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"46.4","4":"15.6","5":"221","6":"5000","7":"male","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"48.2","4":"15.6","5":"221","6":"5100","7":"male","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"46.5","4":"14.8","5":"217","6":"5200","7":"female","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"46.4","4":"15.0","5":"216","6":"4700","7":"female","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"48.6","4":"16.0","5":"230","6":"5800","7":"male","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"47.5","4":"14.2","5":"209","6":"4600","7":"female","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"51.1","4":"16.3","5":"220","6":"6000","7":"male","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"45.2","4":"13.8","5":"215","6":"4750","7":"female","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"45.2","4":"16.4","5":"223","6":"5950","7":"male","8":"2008"},{"1":"Gentoo","2":"Biscoe","3":"49.1","4":"14.5","5":"212","6":"4625","7":"female","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"52.5","4":"15.6","5":"221","6":"5450","7":"male","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"47.4","4":"14.6","5":"212","6":"4725","7":"female","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"50.0","4":"15.9","5":"224","6":"5350","7":"male","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"44.9","4":"13.8","5":"212","6":"4750","7":"female","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"50.8","4":"17.3","5":"228","6":"5600","7":"male","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"43.4","4":"14.4","5":"218","6":"4600","7":"female","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"51.3","4":"14.2","5":"218","6":"5300","7":"male","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"47.5","4":"14.0","5":"212","6":"4875","7":"female","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"52.1","4":"17.0","5":"230","6":"5550","7":"male","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"47.5","4":"15.0","5":"218","6":"4950","7":"female","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"52.2","4":"17.1","5":"228","6":"5400","7":"male","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"45.5","4":"14.5","5":"212","6":"4750","7":"female","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"49.5","4":"16.1","5":"224","6":"5650","7":"male","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"44.5","4":"14.7","5":"214","6":"4850","7":"female","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"50.8","4":"15.7","5":"226","6":"5200","7":"male","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"49.4","4":"15.8","5":"216","6":"4925","7":"male","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"46.9","4":"14.6","5":"222","6":"4875","7":"female","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"48.4","4":"14.4","5":"203","6":"4625","7":"female","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"51.1","4":"16.5","5":"225","6":"5250","7":"male","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"48.5","4":"15.0","5":"219","6":"4850","7":"female","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"55.9","4":"17.0","5":"228","6":"5600","7":"male","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"47.2","4":"15.5","5":"215","6":"4975","7":"female","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"49.1","4":"15.0","5":"228","6":"5500","7":"male","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"47.3","4":"13.8","5":"216","6":"4725","7":"NA","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"46.8","4":"16.1","5":"215","6":"5500","7":"male","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"41.7","4":"14.7","5":"210","6":"4700","7":"female","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"53.4","4":"15.8","5":"219","6":"5500","7":"male","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"43.3","4":"14.0","5":"208","6":"4575","7":"female","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"48.1","4":"15.1","5":"209","6":"5500","7":"male","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"50.5","4":"15.2","5":"216","6":"5000","7":"female","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"49.8","4":"15.9","5":"229","6":"5950","7":"male","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"43.5","4":"15.2","5":"213","6":"4650","7":"female","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"51.5","4":"16.3","5":"230","6":"5500","7":"male","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"46.2","4":"14.1","5":"217","6":"4375","7":"female","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"55.1","4":"16.0","5":"230","6":"5850","7":"male","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"44.5","4":"15.7","5":"217","6":"4875","7":"NA","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"48.8","4":"16.2","5":"222","6":"6000","7":"male","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"47.2","4":"13.7","5":"214","6":"4925","7":"female","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"NA","4":"NA","5":"NA","6":"NA","7":"NA","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"46.8","4":"14.3","5":"215","6":"4850","7":"female","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"50.4","4":"15.7","5":"222","6":"5750","7":"male","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"45.2","4":"14.8","5":"212","6":"5200","7":"female","8":"2009"},{"1":"Gentoo","2":"Biscoe","3":"49.9","4":"16.1","5":"213","6":"5400","7":"male","8":"2009"},{"1":"Chinstrap","2":"Dream","3":"46.5","4":"17.9","5":"192","6":"3500","7":"female","8":"2007"},{"1":"Chinstrap","2":"Dream","3":"50.0","4":"19.5","5":"196","6":"3900","7":"male","8":"2007"},{"1":"Chinstrap","2":"Dream","3":"51.3","4":"19.2","5":"193","6":"3650","7":"male","8":"2007"},{"1":"Chinstrap","2":"Dream","3":"45.4","4":"18.7","5":"188","6":"3525","7":"female","8":"2007"},{"1":"Chinstrap","2":"Dream","3":"52.7","4":"19.8","5":"197","6":"3725","7":"male","8":"2007"},{"1":"Chinstrap","2":"Dream","3":"45.2","4":"17.8","5":"198","6":"3950","7":"female","8":"2007"},{"1":"Chinstrap","2":"Dream","3":"46.1","4":"18.2","5":"178","6":"3250","7":"female","8":"2007"},{"1":"Chinstrap","2":"Dream","3":"51.3","4":"18.2","5":"197","6":"3750","7":"male","8":"2007"},{"1":"Chinstrap","2":"Dream","3":"46.0","4":"18.9","5":"195","6":"4150","7":"female","8":"2007"},{"1":"Chinstrap","2":"Dream","3":"51.3","4":"19.9","5":"198","6":"3700","7":"male","8":"2007"},{"1":"Chinstrap","2":"Dream","3":"46.6","4":"17.8","5":"193","6":"3800","7":"female","8":"2007"},{"1":"Chinstrap","2":"Dream","3":"51.7","4":"20.3","5":"194","6":"3775","7":"male","8":"2007"},{"1":"Chinstrap","2":"Dream","3":"47.0","4":"17.3","5":"185","6":"3700","7":"female","8":"2007"},{"1":"Chinstrap","2":"Dream","3":"52.0","4":"18.1","5":"201","6":"4050","7":"male","8":"2007"},{"1":"Chinstrap","2":"Dream","3":"45.9","4":"17.1","5":"190","6":"3575","7":"female","8":"2007"},{"1":"Chinstrap","2":"Dream","3":"50.5","4":"19.6","5":"201","6":"4050","7":"male","8":"2007"},{"1":"Chinstrap","2":"Dream","3":"50.3","4":"20.0","5":"197","6":"3300","7":"male","8":"2007"},{"1":"Chinstrap","2":"Dream","3":"58.0","4":"17.8","5":"181","6":"3700","7":"female","8":"2007"},{"1":"Chinstrap","2":"Dream","3":"46.4","4":"18.6","5":"190","6":"3450","7":"female","8":"2007"},{"1":"Chinstrap","2":"Dream","3":"49.2","4":"18.2","5":"195","6":"4400","7":"male","8":"2007"},{"1":"Chinstrap","2":"Dream","3":"42.4","4":"17.3","5":"181","6":"3600","7":"female","8":"2007"},{"1":"Chinstrap","2":"Dream","3":"48.5","4":"17.5","5":"191","6":"3400","7":"male","8":"2007"},{"1":"Chinstrap","2":"Dream","3":"43.2","4":"16.6","5":"187","6":"2900","7":"female","8":"2007"},{"1":"Chinstrap","2":"Dream","3":"50.6","4":"19.4","5":"193","6":"3800","7":"male","8":"2007"},{"1":"Chinstrap","2":"Dream","3":"46.7","4":"17.9","5":"195","6":"3300","7":"female","8":"2007"},{"1":"Chinstrap","2":"Dream","3":"52.0","4":"19.0","5":"197","6":"4150","7":"male","8":"2007"},{"1":"Chinstrap","2":"Dream","3":"50.5","4":"18.4","5":"200","6":"3400","7":"female","8":"2008"},{"1":"Chinstrap","2":"Dream","3":"49.5","4":"19.0","5":"200","6":"3800","7":"male","8":"2008"},{"1":"Chinstrap","2":"Dream","3":"46.4","4":"17.8","5":"191","6":"3700","7":"female","8":"2008"},{"1":"Chinstrap","2":"Dream","3":"52.8","4":"20.0","5":"205","6":"4550","7":"male","8":"2008"},{"1":"Chinstrap","2":"Dream","3":"40.9","4":"16.6","5":"187","6":"3200","7":"female","8":"2008"},{"1":"Chinstrap","2":"Dream","3":"54.2","4":"20.8","5":"201","6":"4300","7":"male","8":"2008"},{"1":"Chinstrap","2":"Dream","3":"42.5","4":"16.7","5":"187","6":"3350","7":"female","8":"2008"},{"1":"Chinstrap","2":"Dream","3":"51.0","4":"18.8","5":"203","6":"4100","7":"male","8":"2008"},{"1":"Chinstrap","2":"Dream","3":"49.7","4":"18.6","5":"195","6":"3600","7":"male","8":"2008"},{"1":"Chinstrap","2":"Dream","3":"47.5","4":"16.8","5":"199","6":"3900","7":"female","8":"2008"},{"1":"Chinstrap","2":"Dream","3":"47.6","4":"18.3","5":"195","6":"3850","7":"female","8":"2008"},{"1":"Chinstrap","2":"Dream","3":"52.0","4":"20.7","5":"210","6":"4800","7":"male","8":"2008"},{"1":"Chinstrap","2":"Dream","3":"46.9","4":"16.6","5":"192","6":"2700","7":"female","8":"2008"},{"1":"Chinstrap","2":"Dream","3":"53.5","4":"19.9","5":"205","6":"4500","7":"male","8":"2008"},{"1":"Chinstrap","2":"Dream","3":"49.0","4":"19.5","5":"210","6":"3950","7":"male","8":"2008"},{"1":"Chinstrap","2":"Dream","3":"46.2","4":"17.5","5":"187","6":"3650","7":"female","8":"2008"},{"1":"Chinstrap","2":"Dream","3":"50.9","4":"19.1","5":"196","6":"3550","7":"male","8":"2008"},{"1":"Chinstrap","2":"Dream","3":"45.5","4":"17.0","5":"196","6":"3500","7":"female","8":"2008"},{"1":"Chinstrap","2":"Dream","3":"50.9","4":"17.9","5":"196","6":"3675","7":"female","8":"2009"},{"1":"Chinstrap","2":"Dream","3":"50.8","4":"18.5","5":"201","6":"4450","7":"male","8":"2009"},{"1":"Chinstrap","2":"Dream","3":"50.1","4":"17.9","5":"190","6":"3400","7":"female","8":"2009"},{"1":"Chinstrap","2":"Dream","3":"49.0","4":"19.6","5":"212","6":"4300","7":"male","8":"2009"},{"1":"Chinstrap","2":"Dream","3":"51.5","4":"18.7","5":"187","6":"3250","7":"male","8":"2009"},{"1":"Chinstrap","2":"Dream","3":"49.8","4":"17.3","5":"198","6":"3675","7":"female","8":"2009"},{"1":"Chinstrap","2":"Dream","3":"48.1","4":"16.4","5":"199","6":"3325","7":"female","8":"2009"},{"1":"Chinstrap","2":"Dream","3":"51.4","4":"19.0","5":"201","6":"3950","7":"male","8":"2009"},{"1":"Chinstrap","2":"Dream","3":"45.7","4":"17.3","5":"193","6":"3600","7":"female","8":"2009"},{"1":"Chinstrap","2":"Dream","3":"50.7","4":"19.7","5":"203","6":"4050","7":"male","8":"2009"},{"1":"Chinstrap","2":"Dream","3":"42.5","4":"17.3","5":"187","6":"3350","7":"female","8":"2009"},{"1":"Chinstrap","2":"Dream","3":"52.2","4":"18.8","5":"197","6":"3450","7":"male","8":"2009"},{"1":"Chinstrap","2":"Dream","3":"45.2","4":"16.6","5":"191","6":"3250","7":"female","8":"2009"},{"1":"Chinstrap","2":"Dream","3":"49.3","4":"19.9","5":"203","6":"4050","7":"male","8":"2009"},{"1":"Chinstrap","2":"Dream","3":"50.2","4":"18.8","5":"202","6":"3800","7":"male","8":"2009"},{"1":"Chinstrap","2":"Dream","3":"45.6","4":"19.4","5":"194","6":"3525","7":"female","8":"2009"},{"1":"Chinstrap","2":"Dream","3":"51.9","4":"19.5","5":"206","6":"3950","7":"male","8":"2009"},{"1":"Chinstrap","2":"Dream","3":"46.8","4":"16.5","5":"189","6":"3650","7":"female","8":"2009"},{"1":"Chinstrap","2":"Dream","3":"45.7","4":"17.0","5":"195","6":"3650","7":"female","8":"2009"},{"1":"Chinstrap","2":"Dream","3":"55.8","4":"19.8","5":"207","6":"4000","7":"male","8":"2009"},{"1":"Chinstrap","2":"Dream","3":"43.5","4":"18.1","5":"202","6":"3400","7":"female","8":"2009"},{"1":"Chinstrap","2":"Dream","3":"49.6","4":"18.2","5":"193","6":"3775","7":"male","8":"2009"},{"1":"Chinstrap","2":"Dream","3":"50.8","4":"19.0","5":"210","6":"4100","7":"male","8":"2009"},{"1":"Chinstrap","2":"Dream","3":"50.2","4":"18.7","5":"198","6":"3775","7":"female","8":"2009"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
 </div>
 </div>
-<p>We can see that the Setosa species are distinctly different from Versicolor and Virginica (they have lower petal length and width). But Versicolor and Virginica cannot easily be separated based on measurements of their sepal and petal width/length.</p>
-<p>The same conclusion can be made by looking at the parallel coordinates plot of the data:</p>
-<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-4_980e10f1c4da2c7dce75c2c6ce939167">
-<div class="sourceCode" id="cb5"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># https://cran.r-project.org/web/packages/dendextend/vignettes/Cluster_Analysis.html</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>MASS<span class="sc">::</span><span class="fu">parcoord</span>(iris[,<span class="sc">-</span><span class="dv">5</span>], <span class="at">col =</span> species_col[species_labels], <span class="at">var.label =</span> <span class="cn">TRUE</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a legend</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">xpd =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="at">x =</span> <span class="fl">1.75</span>, <span class="at">y =</span> <span class="sc">-</span>.<span class="dv">25</span>, <span class="at">cex =</span> <span class="dv">1</span>,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>   <span class="at">legend =</span> <span class="fu">as.character</span>(<span class="fu">levels</span>(species_labels)),</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> species_col, <span class="at">horiz =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We remove row with <code>NA</code> values and columns <code>year</code>, <code>island</code> and <code>sex</code> to only keep the four continuous attributes and the species of each individual:</p>
+<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-4_cd22d9e71649c5db69b4595eab5e881d">
+<div class="sourceCode" id="cb3"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="ot">&lt;-</span> penguins <span class="sc">%&gt;%</span> <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>year, <span class="sc">-</span>island, <span class="sc">-</span>sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The pair plot show some structure that could find by clustering or descreibe by a Gaussian mixture model:</p>
+<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-6_9658626a46d04859666324f37733514a">
+<div class="sourceCode" id="cb4"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>species_col <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"darkorange"</span>,<span class="st">"purple"</span>,<span class="st">"cyan4"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(penguins, <span class="at">columns =</span> <span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>), <span class="fu">aes</span>(<span class="at">color =</span> species)) <span class="sc">+</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> species_col) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> species_col)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-doc-mixture-models-example_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<p><img src="map566-doc-mixture-models-example_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="864"></p>
 </div>
 </div>
 <section id="supervised-classification" class="level3" data-number="1.1">
@@ -407,299 +420,274 @@
 <h4 data-number="1.1.1" class="anchored" data-anchor-id="logistic-regression-for-a-binary-variable"><span class="header-section-number">1.1.1</span> Logistic regression for a binary variable</h4>
 <p>Let <span class="math inline">y_i</span> be a binary response that take its values in <span class="math inline">\{0,1\}</span> and let <span class="math inline">c_{i1}, \ldots, c_{iM}</span> be <span class="math inline">M</span> explanatory variables (or predictors).</p>
 <p>Formally, the logistic regression model is that</p>
-<p><span class="math display">\begin{aligned}
-\log\left(\frac{\mathbb{P}(y_i=1)}{\mathbb{P}(y_i=0)}\right)
-&amp;= \log\left(\frac{\mathbb{P}(y_i=1)}{1 - \mathbb{P}(y_i=1)}\right) \\
-&amp;= \beta_0 + \sum_{m=1}^M \beta_m c_{im}
-\end{aligned}</span> Then, <span class="math display">\mathbb{P}(y_i=1) = \frac{1}{1+ e^{-\beta_0 -  \sum_{m=1}^M \beta_m c_{im}}}</span></p>
-<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-6_5be774ba2cd2cdb4a04c3ff401df3687">
-<div class="sourceCode" id="cb6"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>myiris <span class="ot">&lt;-</span> <span class="fu">cbind</span>(iris,<span class="at">virginica=</span><span class="fu">ifelse</span>(iris<span class="sc">$</span>Species<span class="sc">==</span><span class="st">"virginica"</span>,<span class="dv">1</span>,<span class="dv">0</span>))</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>myiris<span class="sc">$</span>virginica</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
-<pre><code>  [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
- [38] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
- [75] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1
-[112] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-[149] 1 1</code></pre>
-</div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>iris.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(virginica <span class="sc">~</span> Sepal.Length <span class="sc">+</span> Sepal.Width <span class="sc">+</span> Petal.Length <span class="sc">+</span> Petal.Width, <span class="at">family=</span>binomial, <span class="at">data=</span>myiris)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(iris.glm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><span class="math display">
+\log\left(\frac{\mathbb{P}(y_i=1)}{\mathbb{P}(y_i=0)}\right) = \log\left(\frac{\mathbb{P}(y_i=1)}{1 - \mathbb{P}(y_i=1)}\right)
+= \beta_0 + \sum_{m=1}^M \beta_m c_{im}
+</span> Then,</p>
+<p><span class="math display">\mathbb{P}(y_i=1) = \frac{1}{1+ e^{-\beta_0 -  \sum_{m=1}^M \beta_m c_{im}}}</span></p>
+<p>We try to predict the binary indicator variable for species <code>Adelie</code> with this model:</p>
+<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-8_38a444dc88292cd731e58ad3d855b49a">
+<div class="sourceCode" id="cb5"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="ot">&lt;-</span> penguins <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">adelie =</span> (species <span class="sc">==</span> <span class="st">'Adelie'</span>) <span class="sc">*</span> <span class="dv">1</span>) </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>logistic_Adelie <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  adelie <span class="sc">~</span> </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    bill_length_mm <span class="sc">+</span> </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    bill_depth_mm  <span class="sc">+</span> </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    flipper_length_mm <span class="sc">+</span> </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    body_mass_g, <span class="at">family =</span> binomial, <span class="at">data =</span> penguins)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(logistic_Adelie)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>
 Call:
-glm(formula = virginica ~ Sepal.Length + Sepal.Width + Petal.Length + 
-    Petal.Width, family = binomial, data = myiris)
+glm(formula = adelie ~ bill_length_mm + bill_depth_mm + flipper_length_mm + 
+    body_mass_g, family = binomial, data = penguins)
 
 Deviance Residuals: 
-     Min        1Q    Median        3Q       Max  
--2.01105  -0.00065   0.00000   0.00048   1.78065  
+   Min      1Q  Median      3Q     Max  
+-1.328   0.000   0.000   0.000   1.652  
 
 Coefficients:
-             Estimate Std. Error z value Pr(&gt;|z|)  
-(Intercept)   -42.638     25.708  -1.659   0.0972 .
-Sepal.Length   -2.465      2.394  -1.030   0.3032  
-Sepal.Width    -6.681      4.480  -1.491   0.1359  
-Petal.Length    9.429      4.737   1.990   0.0465 *
-Petal.Width    18.286      9.743   1.877   0.0605 .
+                   Estimate Std. Error z value Pr(&gt;|z|)  
+(Intercept)       27.195927  28.156975   0.966   0.3341  
+bill_length_mm    -5.106876   2.730998  -1.870   0.0615 .
+bill_depth_mm      8.953805   5.014702   1.786   0.0742 .
+flipper_length_mm  0.052471   0.119287   0.440   0.6600  
+body_mass_g        0.006281   0.003952   1.589   0.1120  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
-    Null deviance: 190.954  on 149  degrees of freedom
-Residual deviance:  11.899  on 145  degrees of freedom
-AIC: 21.899
+    Null deviance: 456.5751  on 332  degrees of freedom
+Residual deviance:   9.4492  on 328  degrees of freedom
+AIC: 19.449
 
-Number of Fisher Scoring iterations: 12</code></pre>
+Number of Fisher Scoring iterations: 13</code></pre>
 </div>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.vector</span>(<span class="fu">round</span>(<span class="fu">fitted</span>(iris.glm)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The linear predictor can be recovered as follows (e.g.&nbsp;for penguins #127)</p>
+<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-10_b83b65ea024afa7ffa4bdcaa2648a5f4">
+<div class="sourceCode" id="cb7"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">cbind</span>(<span class="dv">1</span>, penguins[, <span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>]))</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">&lt;-</span> <span class="fu">coefficients</span>(logistic_Adelie)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(logistic_Adelie, <span class="at">type =</span> <span class="st">"link"</span>), </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.numeric</span>(X <span class="sc">%*%</span> beta),</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">check.attributes =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>  [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
- [38] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
- [75] 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1
-[112] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-[149] 1 1</code></pre>
+<pre><code>[1] TRUE</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-8_5c12e7457192c25ef8591fc1d01f083c">
-<div class="sourceCode" id="cb12"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>iris.glm<span class="sc">$</span>linear.predictors[<span class="dv">71</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The fitted value as follows:</p>
+<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-12_872d72453d0414a27ad64d3b71cf2e1e">
+<div class="sourceCode" id="cb9"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(logistic_Adelie, <span class="at">type =</span> <span class="st">"response"</span>),</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.numeric</span>(<span class="dv">1</span> <span class="sc">/</span> ( <span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>( <span class="sc">-</span> (X <span class="sc">%*%</span> beta)))),</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a> <span class="at">check.attributes =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>        71 
--0.3853463 </code></pre>
+<pre><code>[1] TRUE</code></pre>
 </div>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">cbind</span>(<span class="dv">1</span>,iris[<span class="dv">71</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])<span class="sc">*</span>iris.glm<span class="sc">$</span>coefficients)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The ARI is close to 1 in that case</p>
+<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-14_12bc6bd6e76158ed9c4bfd21f18e8bc1">
+<div class="sourceCode" id="cb11"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>aricode<span class="sc">::</span><span class="fu">ARI</span>(penguins<span class="sc">$</span>adelie, <span class="fu">round</span>(<span class="fu">predict</span>(logistic_Adelie, <span class="at">type =</span> <span class="st">"response"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] -0.3853463</code></pre>
-</div>
-</div>
-<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-10_82ab391135ed1f55df1debdb7fc9c5b1">
-<div class="sourceCode" id="cb16"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>iris.glm<span class="sc">$</span>fitted.values[<span class="dv">71</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
-<pre><code>       71 
-0.4048381 </code></pre>
-</div>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>(<span class="sc">-</span>iris.glm<span class="sc">$</span>linear.predictors[<span class="dv">71</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
-<pre><code>       71 
-0.4048381 </code></pre>
+<pre><code>[1] 0.9641751</code></pre>
 </div>
 </div>
 </section>
 <section id="logistic-regression-with-more-than-two-classes" class="level4" data-number="1.1.2">
 <h4 data-number="1.1.2" class="anchored" data-anchor-id="logistic-regression-with-more-than-two-classes"><span class="header-section-number">1.1.2</span> Logistic regression with more than two classes</h4>
 <p>Assume now that <span class="math inline">y_i</span> takes its values in <span class="math inline">\{1,2\ldots,L\}</span>. The logistic regression model now writes</p>
-<p><span class="math display">\begin{aligned}
-\log\left(\frac{\mathbb{P}(y_i=k)}{\mathbb{P}(y_i=L)}\right)
-&amp;= \beta_{k0} +  \sum_{m=1}^M \beta_{k m} c_{im} \quad , \quad k=1,2,\ldots,L
-\end{aligned}</span> where we set, for instance, <span class="math inline">\beta_{L0}=\beta_{L1}=\ldots=\beta_{LM}=0</span> for identifiabilty reason. Then,</p>
+<p><span class="math display"> \log\left(\frac{\mathbb{P}(y_i=k)}{\mathbb{P}(y_i=L)}\right)
+= \beta_{k0} +  \sum_{m=1}^M \beta_{k m} c_{im} \quad , \quad k=1,2,\ldots,L
+</span> where we set, for instance, <span class="math inline">\beta_{L0}=\beta_{L1}=\ldots=\beta_{LM}=0</span> for identifiabilty reason. Then,</p>
 <p><span class="math display">
 \mathbb{P}(y_i=k) = \frac{e^{\beta_{k0} +  \sum_{m=1}^M \beta_{k m} c_{im}}}
 {\sum_{j=1}^K e^{\beta_{j0} +  \sum_{m=1}^M \beta_{j m} c_{im}}}
 \quad , \quad k=1,2,\ldots,L
-</span></p>
-<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-12_251308de2702985638d3c170b383bc51">
-<div class="sourceCode" id="cb20"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(VGAM)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>myiris <span class="ot">&lt;-</span> <span class="fu">cbind</span>(myiris,<span class="at">versicolor=</span><span class="fu">ifelse</span>(iris<span class="sc">$</span>Species<span class="sc">==</span><span class="st">"versicolor"</span>,<span class="dv">1</span>,<span class="dv">0</span>))</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>myiris <span class="ot">&lt;-</span> <span class="fu">cbind</span>(myiris,<span class="at">setosa=</span><span class="fu">ifelse</span>(iris<span class="sc">$</span>Species<span class="sc">==</span><span class="st">"setosa"</span>,<span class="dv">1</span>,<span class="dv">0</span>))</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(myiris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
-<pre><code>  Sepal.Length Sepal.Width Petal.Length Petal.Width Species virginica
-1          5.1         3.5          1.4         0.2  setosa         0
-2          4.9         3.0          1.4         0.2  setosa         0
-3          4.7         3.2          1.3         0.2  setosa         0
-4          4.6         3.1          1.5         0.2  setosa         0
-5          5.0         3.6          1.4         0.2  setosa         0
-6          5.4         3.9          1.7         0.4  setosa         0
-  versicolor setosa
-1          0      1
-2          0      1
-3          0      1
-4          0      1
-5          0      1
-6          0      1</code></pre>
+</span> Let us first code all species modalities as dummy variables:</p>
+<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-16_1508a903c48505bdc758789af551953a">
+<div class="sourceCode" id="cb13"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="ot">&lt;-</span> penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">gentoo    =</span> (species <span class="sc">==</span> <span class="st">'Gentoo'</span>) <span class="sc">*</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">chinstrap =</span> (species <span class="sc">==</span> <span class="st">'Chinstrap'</span>) <span class="sc">*</span> <span class="dv">1</span>) </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["species"],"name":[1],"type":["fct"],"align":["left"]},{"label":["bill_length_mm"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["bill_depth_mm"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["flipper_length_mm"],"name":[4],"type":["int"],"align":["right"]},{"label":["body_mass_g"],"name":[5],"type":["int"],"align":["right"]},{"label":["adelie"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["gentoo"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["chinstrap"],"name":[8],"type":["dbl"],"align":["right"]}],"data":[{"1":"Adelie","2":"39.1","3":"18.7","4":"181","5":"3750","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"39.5","3":"17.4","4":"186","5":"3800","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"40.3","3":"18.0","4":"195","5":"3250","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"36.7","3":"19.3","4":"193","5":"3450","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"39.3","3":"20.6","4":"190","5":"3650","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"38.9","3":"17.8","4":"181","5":"3625","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"39.2","3":"19.6","4":"195","5":"4675","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"41.1","3":"17.6","4":"182","5":"3200","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"38.6","3":"21.2","4":"191","5":"3800","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"34.6","3":"21.1","4":"198","5":"4400","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"36.6","3":"17.8","4":"185","5":"3700","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"38.7","3":"19.0","4":"195","5":"3450","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"42.5","3":"20.7","4":"197","5":"4500","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"34.4","3":"18.4","4":"184","5":"3325","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"46.0","3":"21.5","4":"194","5":"4200","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"37.8","3":"18.3","4":"174","5":"3400","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"37.7","3":"18.7","4":"180","5":"3600","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"35.9","3":"19.2","4":"189","5":"3800","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"38.2","3":"18.1","4":"185","5":"3950","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"38.8","3":"17.2","4":"180","5":"3800","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"35.3","3":"18.9","4":"187","5":"3800","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"40.6","3":"18.6","4":"183","5":"3550","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"40.5","3":"17.9","4":"187","5":"3200","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"37.9","3":"18.6","4":"172","5":"3150","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"40.5","3":"18.9","4":"180","5":"3950","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"39.5","3":"16.7","4":"178","5":"3250","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"37.2","3":"18.1","4":"178","5":"3900","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"39.5","3":"17.8","4":"188","5":"3300","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"40.9","3":"18.9","4":"184","5":"3900","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"36.4","3":"17.0","4":"195","5":"3325","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"39.2","3":"21.1","4":"196","5":"4150","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"38.8","3":"20.0","4":"190","5":"3950","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"42.2","3":"18.5","4":"180","5":"3550","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"37.6","3":"19.3","4":"181","5":"3300","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"39.8","3":"19.1","4":"184","5":"4650","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"36.5","3":"18.0","4":"182","5":"3150","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"40.8","3":"18.4","4":"195","5":"3900","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"36.0","3":"18.5","4":"186","5":"3100","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"44.1","3":"19.7","4":"196","5":"4400","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"37.0","3":"16.9","4":"185","5":"3000","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"39.6","3":"18.8","4":"190","5":"4600","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"41.1","3":"19.0","4":"182","5":"3425","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"36.0","3":"17.9","4":"190","5":"3450","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"42.3","3":"21.2","4":"191","5":"4150","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"39.6","3":"17.7","4":"186","5":"3500","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"40.1","3":"18.9","4":"188","5":"4300","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"35.0","3":"17.9","4":"190","5":"3450","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"42.0","3":"19.5","4":"200","5":"4050","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"34.5","3":"18.1","4":"187","5":"2900","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"41.4","3":"18.6","4":"191","5":"3700","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"39.0","3":"17.5","4":"186","5":"3550","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"40.6","3":"18.8","4":"193","5":"3800","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"36.5","3":"16.6","4":"181","5":"2850","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"37.6","3":"19.1","4":"194","5":"3750","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"35.7","3":"16.9","4":"185","5":"3150","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"41.3","3":"21.1","4":"195","5":"4400","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"37.6","3":"17.0","4":"185","5":"3600","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"41.1","3":"18.2","4":"192","5":"4050","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"36.4","3":"17.1","4":"184","5":"2850","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"41.6","3":"18.0","4":"192","5":"3950","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"35.5","3":"16.2","4":"195","5":"3350","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"41.1","3":"19.1","4":"188","5":"4100","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"35.9","3":"16.6","4":"190","5":"3050","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"41.8","3":"19.4","4":"198","5":"4450","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"33.5","3":"19.0","4":"190","5":"3600","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"39.7","3":"18.4","4":"190","5":"3900","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"39.6","3":"17.2","4":"196","5":"3550","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"45.8","3":"18.9","4":"197","5":"4150","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"35.5","3":"17.5","4":"190","5":"3700","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"42.8","3":"18.5","4":"195","5":"4250","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"40.9","3":"16.8","4":"191","5":"3700","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"37.2","3":"19.4","4":"184","5":"3900","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"36.2","3":"16.1","4":"187","5":"3550","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"42.1","3":"19.1","4":"195","5":"4000","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"34.6","3":"17.2","4":"189","5":"3200","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"42.9","3":"17.6","4":"196","5":"4700","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"36.7","3":"18.8","4":"187","5":"3800","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"35.1","3":"19.4","4":"193","5":"4200","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"37.3","3":"17.8","4":"191","5":"3350","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"41.3","3":"20.3","4":"194","5":"3550","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"36.3","3":"19.5","4":"190","5":"3800","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"36.9","3":"18.6","4":"189","5":"3500","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"38.3","3":"19.2","4":"189","5":"3950","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"38.9","3":"18.8","4":"190","5":"3600","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"35.7","3":"18.0","4":"202","5":"3550","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"41.1","3":"18.1","4":"205","5":"4300","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"34.0","3":"17.1","4":"185","5":"3400","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"39.6","3":"18.1","4":"186","5":"4450","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"36.2","3":"17.3","4":"187","5":"3300","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"40.8","3":"18.9","4":"208","5":"4300","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"38.1","3":"18.6","4":"190","5":"3700","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"40.3","3":"18.5","4":"196","5":"4350","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"33.1","3":"16.1","4":"178","5":"2900","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"43.2","3":"18.5","4":"192","5":"4100","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"35.0","3":"17.9","4":"192","5":"3725","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"41.0","3":"20.0","4":"203","5":"4725","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"37.7","3":"16.0","4":"183","5":"3075","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"37.8","3":"20.0","4":"190","5":"4250","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"37.9","3":"18.6","4":"193","5":"2925","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"39.7","3":"18.9","4":"184","5":"3550","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"38.6","3":"17.2","4":"199","5":"3750","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"38.2","3":"20.0","4":"190","5":"3900","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"38.1","3":"17.0","4":"181","5":"3175","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"43.2","3":"19.0","4":"197","5":"4775","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"38.1","3":"16.5","4":"198","5":"3825","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"45.6","3":"20.3","4":"191","5":"4600","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"39.7","3":"17.7","4":"193","5":"3200","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"42.2","3":"19.5","4":"197","5":"4275","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"39.6","3":"20.7","4":"191","5":"3900","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"42.7","3":"18.3","4":"196","5":"4075","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"38.6","3":"17.0","4":"188","5":"2900","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"37.3","3":"20.5","4":"199","5":"3775","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"35.7","3":"17.0","4":"189","5":"3350","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"41.1","3":"18.6","4":"189","5":"3325","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"36.2","3":"17.2","4":"187","5":"3150","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"37.7","3":"19.8","4":"198","5":"3500","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"40.2","3":"17.0","4":"176","5":"3450","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"41.4","3":"18.5","4":"202","5":"3875","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"35.2","3":"15.9","4":"186","5":"3050","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"40.6","3":"19.0","4":"199","5":"4000","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"38.8","3":"17.6","4":"191","5":"3275","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"41.5","3":"18.3","4":"195","5":"4300","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"39.0","3":"17.1","4":"191","5":"3050","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"44.1","3":"18.0","4":"210","5":"4000","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"38.5","3":"17.9","4":"190","5":"3325","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"43.1","3":"19.2","4":"197","5":"3500","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"36.8","3":"18.5","4":"193","5":"3500","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"37.5","3":"18.5","4":"199","5":"4475","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"38.1","3":"17.6","4":"187","5":"3425","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"41.1","3":"17.5","4":"190","5":"3900","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"35.6","3":"17.5","4":"191","5":"3175","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"40.2","3":"20.1","4":"200","5":"3975","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"37.0","3":"16.5","4":"185","5":"3400","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"39.7","3":"17.9","4":"193","5":"4250","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"40.2","3":"17.1","4":"193","5":"3400","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"40.6","3":"17.2","4":"187","5":"3475","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"32.1","3":"15.5","4":"188","5":"3050","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"40.7","3":"17.0","4":"190","5":"3725","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"37.3","3":"16.8","4":"192","5":"3000","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"39.0","3":"18.7","4":"185","5":"3650","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"39.2","3":"18.6","4":"190","5":"4250","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"36.6","3":"18.4","4":"184","5":"3475","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"36.0","3":"17.8","4":"195","5":"3450","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"37.8","3":"18.1","4":"193","5":"3750","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"36.0","3":"17.1","4":"187","5":"3700","6":"1","7":"0","8":"0"},{"1":"Adelie","2":"41.5","3":"18.5","4":"201","5":"4000","6":"1","7":"0","8":"0"},{"1":"Gentoo","2":"46.1","3":"13.2","4":"211","5":"4500","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"50.0","3":"16.3","4":"230","5":"5700","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"48.7","3":"14.1","4":"210","5":"4450","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"50.0","3":"15.2","4":"218","5":"5700","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"47.6","3":"14.5","4":"215","5":"5400","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"46.5","3":"13.5","4":"210","5":"4550","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"45.4","3":"14.6","4":"211","5":"4800","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"46.7","3":"15.3","4":"219","5":"5200","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"43.3","3":"13.4","4":"209","5":"4400","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"46.8","3":"15.4","4":"215","5":"5150","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"40.9","3":"13.7","4":"214","5":"4650","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"49.0","3":"16.1","4":"216","5":"5550","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"45.5","3":"13.7","4":"214","5":"4650","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"48.4","3":"14.6","4":"213","5":"5850","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"45.8","3":"14.6","4":"210","5":"4200","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"49.3","3":"15.7","4":"217","5":"5850","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"42.0","3":"13.5","4":"210","5":"4150","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"49.2","3":"15.2","4":"221","5":"6300","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"46.2","3":"14.5","4":"209","5":"4800","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"48.7","3":"15.1","4":"222","5":"5350","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"50.2","3":"14.3","4":"218","5":"5700","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"45.1","3":"14.5","4":"215","5":"5000","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"46.5","3":"14.5","4":"213","5":"4400","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"46.3","3":"15.8","4":"215","5":"5050","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"42.9","3":"13.1","4":"215","5":"5000","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"46.1","3":"15.1","4":"215","5":"5100","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"47.8","3":"15.0","4":"215","5":"5650","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"48.2","3":"14.3","4":"210","5":"4600","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"50.0","3":"15.3","4":"220","5":"5550","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"47.3","3":"15.3","4":"222","5":"5250","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"42.8","3":"14.2","4":"209","5":"4700","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"45.1","3":"14.5","4":"207","5":"5050","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"59.6","3":"17.0","4":"230","5":"6050","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"49.1","3":"14.8","4":"220","5":"5150","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"48.4","3":"16.3","4":"220","5":"5400","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"42.6","3":"13.7","4":"213","5":"4950","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"44.4","3":"17.3","4":"219","5":"5250","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"44.0","3":"13.6","4":"208","5":"4350","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"48.7","3":"15.7","4":"208","5":"5350","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"42.7","3":"13.7","4":"208","5":"3950","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"49.6","3":"16.0","4":"225","5":"5700","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"45.3","3":"13.7","4":"210","5":"4300","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"49.6","3":"15.0","4":"216","5":"4750","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"50.5","3":"15.9","4":"222","5":"5550","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"43.6","3":"13.9","4":"217","5":"4900","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"45.5","3":"13.9","4":"210","5":"4200","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"50.5","3":"15.9","4":"225","5":"5400","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"44.9","3":"13.3","4":"213","5":"5100","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"45.2","3":"15.8","4":"215","5":"5300","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"46.6","3":"14.2","4":"210","5":"4850","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"48.5","3":"14.1","4":"220","5":"5300","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"45.1","3":"14.4","4":"210","5":"4400","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"50.1","3":"15.0","4":"225","5":"5000","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"46.5","3":"14.4","4":"217","5":"4900","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"45.0","3":"15.4","4":"220","5":"5050","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"43.8","3":"13.9","4":"208","5":"4300","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"45.5","3":"15.0","4":"220","5":"5000","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"43.2","3":"14.5","4":"208","5":"4450","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"50.4","3":"15.3","4":"224","5":"5550","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"45.3","3":"13.8","4":"208","5":"4200","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"46.2","3":"14.9","4":"221","5":"5300","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"45.7","3":"13.9","4":"214","5":"4400","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"54.3","3":"15.7","4":"231","5":"5650","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"45.8","3":"14.2","4":"219","5":"4700","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"49.8","3":"16.8","4":"230","5":"5700","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"49.5","3":"16.2","4":"229","5":"5800","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"43.5","3":"14.2","4":"220","5":"4700","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"50.7","3":"15.0","4":"223","5":"5550","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"47.7","3":"15.0","4":"216","5":"4750","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"46.4","3":"15.6","4":"221","5":"5000","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"48.2","3":"15.6","4":"221","5":"5100","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"46.5","3":"14.8","4":"217","5":"5200","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"46.4","3":"15.0","4":"216","5":"4700","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"48.6","3":"16.0","4":"230","5":"5800","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"47.5","3":"14.2","4":"209","5":"4600","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"51.1","3":"16.3","4":"220","5":"6000","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"45.2","3":"13.8","4":"215","5":"4750","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"45.2","3":"16.4","4":"223","5":"5950","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"49.1","3":"14.5","4":"212","5":"4625","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"52.5","3":"15.6","4":"221","5":"5450","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"47.4","3":"14.6","4":"212","5":"4725","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"50.0","3":"15.9","4":"224","5":"5350","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"44.9","3":"13.8","4":"212","5":"4750","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"50.8","3":"17.3","4":"228","5":"5600","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"43.4","3":"14.4","4":"218","5":"4600","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"51.3","3":"14.2","4":"218","5":"5300","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"47.5","3":"14.0","4":"212","5":"4875","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"52.1","3":"17.0","4":"230","5":"5550","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"47.5","3":"15.0","4":"218","5":"4950","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"52.2","3":"17.1","4":"228","5":"5400","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"45.5","3":"14.5","4":"212","5":"4750","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"49.5","3":"16.1","4":"224","5":"5650","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"44.5","3":"14.7","4":"214","5":"4850","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"50.8","3":"15.7","4":"226","5":"5200","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"49.4","3":"15.8","4":"216","5":"4925","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"46.9","3":"14.6","4":"222","5":"4875","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"48.4","3":"14.4","4":"203","5":"4625","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"51.1","3":"16.5","4":"225","5":"5250","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"48.5","3":"15.0","4":"219","5":"4850","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"55.9","3":"17.0","4":"228","5":"5600","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"47.2","3":"15.5","4":"215","5":"4975","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"49.1","3":"15.0","4":"228","5":"5500","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"46.8","3":"16.1","4":"215","5":"5500","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"41.7","3":"14.7","4":"210","5":"4700","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"53.4","3":"15.8","4":"219","5":"5500","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"43.3","3":"14.0","4":"208","5":"4575","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"48.1","3":"15.1","4":"209","5":"5500","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"50.5","3":"15.2","4":"216","5":"5000","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"49.8","3":"15.9","4":"229","5":"5950","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"43.5","3":"15.2","4":"213","5":"4650","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"51.5","3":"16.3","4":"230","5":"5500","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"46.2","3":"14.1","4":"217","5":"4375","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"55.1","3":"16.0","4":"230","5":"5850","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"48.8","3":"16.2","4":"222","5":"6000","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"47.2","3":"13.7","4":"214","5":"4925","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"46.8","3":"14.3","4":"215","5":"4850","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"50.4","3":"15.7","4":"222","5":"5750","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"45.2","3":"14.8","4":"212","5":"5200","6":"0","7":"1","8":"0"},{"1":"Gentoo","2":"49.9","3":"16.1","4":"213","5":"5400","6":"0","7":"1","8":"0"},{"1":"Chinstrap","2":"46.5","3":"17.9","4":"192","5":"3500","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"50.0","3":"19.5","4":"196","5":"3900","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"51.3","3":"19.2","4":"193","5":"3650","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"45.4","3":"18.7","4":"188","5":"3525","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"52.7","3":"19.8","4":"197","5":"3725","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"45.2","3":"17.8","4":"198","5":"3950","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"46.1","3":"18.2","4":"178","5":"3250","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"51.3","3":"18.2","4":"197","5":"3750","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"46.0","3":"18.9","4":"195","5":"4150","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"51.3","3":"19.9","4":"198","5":"3700","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"46.6","3":"17.8","4":"193","5":"3800","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"51.7","3":"20.3","4":"194","5":"3775","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"47.0","3":"17.3","4":"185","5":"3700","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"52.0","3":"18.1","4":"201","5":"4050","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"45.9","3":"17.1","4":"190","5":"3575","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"50.5","3":"19.6","4":"201","5":"4050","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"50.3","3":"20.0","4":"197","5":"3300","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"58.0","3":"17.8","4":"181","5":"3700","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"46.4","3":"18.6","4":"190","5":"3450","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"49.2","3":"18.2","4":"195","5":"4400","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"42.4","3":"17.3","4":"181","5":"3600","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"48.5","3":"17.5","4":"191","5":"3400","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"43.2","3":"16.6","4":"187","5":"2900","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"50.6","3":"19.4","4":"193","5":"3800","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"46.7","3":"17.9","4":"195","5":"3300","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"52.0","3":"19.0","4":"197","5":"4150","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"50.5","3":"18.4","4":"200","5":"3400","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"49.5","3":"19.0","4":"200","5":"3800","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"46.4","3":"17.8","4":"191","5":"3700","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"52.8","3":"20.0","4":"205","5":"4550","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"40.9","3":"16.6","4":"187","5":"3200","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"54.2","3":"20.8","4":"201","5":"4300","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"42.5","3":"16.7","4":"187","5":"3350","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"51.0","3":"18.8","4":"203","5":"4100","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"49.7","3":"18.6","4":"195","5":"3600","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"47.5","3":"16.8","4":"199","5":"3900","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"47.6","3":"18.3","4":"195","5":"3850","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"52.0","3":"20.7","4":"210","5":"4800","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"46.9","3":"16.6","4":"192","5":"2700","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"53.5","3":"19.9","4":"205","5":"4500","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"49.0","3":"19.5","4":"210","5":"3950","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"46.2","3":"17.5","4":"187","5":"3650","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"50.9","3":"19.1","4":"196","5":"3550","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"45.5","3":"17.0","4":"196","5":"3500","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"50.9","3":"17.9","4":"196","5":"3675","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"50.8","3":"18.5","4":"201","5":"4450","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"50.1","3":"17.9","4":"190","5":"3400","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"49.0","3":"19.6","4":"212","5":"4300","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"51.5","3":"18.7","4":"187","5":"3250","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"49.8","3":"17.3","4":"198","5":"3675","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"48.1","3":"16.4","4":"199","5":"3325","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"51.4","3":"19.0","4":"201","5":"3950","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"45.7","3":"17.3","4":"193","5":"3600","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"50.7","3":"19.7","4":"203","5":"4050","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"42.5","3":"17.3","4":"187","5":"3350","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"52.2","3":"18.8","4":"197","5":"3450","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"45.2","3":"16.6","4":"191","5":"3250","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"49.3","3":"19.9","4":"203","5":"4050","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"50.2","3":"18.8","4":"202","5":"3800","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"45.6","3":"19.4","4":"194","5":"3525","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"51.9","3":"19.5","4":"206","5":"3950","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"46.8","3":"16.5","4":"189","5":"3650","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"45.7","3":"17.0","4":"195","5":"3650","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"55.8","3":"19.8","4":"207","5":"4000","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"43.5","3":"18.1","4":"202","5":"3400","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"49.6","3":"18.2","4":"193","5":"3775","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"50.8","3":"19.0","4":"210","5":"4100","6":"0","7":"0","8":"1"},{"1":"Chinstrap","2":"50.2","3":"18.7","4":"198","5":"3775","6":"0","7":"0","8":"1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
 </div>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>iris.vglm <span class="ot">&lt;-</span> <span class="fu">vglm</span>(<span class="fu">cbind</span>(virginica,versicolor,setosa) <span class="sc">~</span> Sepal.Length <span class="sc">+</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>Sepal.Width <span class="sc">+</span> Petal.Length <span class="sc">+</span> Petal.Width, <span class="at">family=</span>multinomial,</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="at">data=</span>myiris)</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(iris.vglm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>We now fit a multinomial model to this 3-class problem:</p>
+<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-18_fe2a033f82922435a3d4ca05da765317">
+<div class="sourceCode" id="cb14"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>multinomial_penguins <span class="ot">&lt;-</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vglm</span>(<span class="fu">cbind</span>(gentoo, adelie, chinstrap) <span class="sc">~</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    bill_length_mm <span class="sc">+</span> </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    bill_depth_mm  <span class="sc">+</span> </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    flipper_length_mm <span class="sc">+</span> </span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    body_mass_g, <span class="at">family =</span> multinomial, <span class="at">data =</span> penguins)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(multinomial_penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>
 Call:
-vglm(formula = cbind(virginica, versicolor, setosa) ~ Sepal.Length + 
-    Sepal.Width + Petal.Length + Petal.Width, family = multinomial, 
-    data = myiris)
+vglm(formula = cbind(gentoo, adelie, chinstrap) ~ bill_length_mm + 
+    bill_depth_mm + flipper_length_mm + body_mass_g, family = multinomial, 
+    data = penguins)
 
 Coefficients: 
-                Estimate Std. Error z value Pr(&gt;|z|)
-(Intercept):1    -35.365  19432.051  -0.002    0.999
-(Intercept):2      7.272  19432.034   0.000    1.000
-Sepal.Length:1    -9.242   5790.844  -0.002    0.999
-Sepal.Length:2    -6.777   5790.843      NA       NA
-Sepal.Width:1    -12.569   2888.841  -0.004    0.997
-Sepal.Width:2     -5.889   2888.838      NA       NA
-Petal.Length:1    22.630   4446.221      NA       NA
-Petal.Length:2    13.201   4446.219   0.003    0.998
-Petal.Width:1     33.919   7133.176   0.005    0.996
-Petal.Width:2     15.633   7133.169   0.002    0.998
+                     Estimate Std. Error z value Pr(&gt;|z|)   
+(Intercept):1        7.294722  60.956154   0.120  0.90474   
+(Intercept):2       26.107462  22.696081   1.150  0.25002   
+bill_length_mm:1    -1.298442   1.061332  -1.223  0.22118   
+bill_length_mm:2    -3.207140   1.205017  -2.661  0.00778 **
+bill_depth_mm:1     -1.532394   1.462216  -1.048  0.29464   
+bill_depth_mm:2      3.341561   1.951686      NA       NA   
+flipper_length_mm:1  0.170417   0.316373   0.539  0.59012   
+flipper_length_mm:2  0.095995   0.125187      NA       NA   
+body_mass_g:1        0.010319   0.006946   1.486  0.13739   
+body_mass_g:2        0.009378   0.004705   1.993  0.04624 * 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Names of linear predictors: log(mu[,1]/mu[,3]), log(mu[,2]/mu[,3])
 
-Residual deviance: 11.8985 on 290 degrees of freedom
+Residual deviance: 5.7536 on 656 degrees of freedom
 
-Log-likelihood: -5.9493 on 290 degrees of freedom
+Log-likelihood: -2.8768 on 656 degrees of freedom
 
-Number of Fisher scoring iterations: 21 
+Number of Fisher scoring iterations: 18 
 
 Warning: Hauck-Donner effect detected in the following estimate(s):
-'Sepal.Length:2', 'Sepal.Width:2', 'Petal.Length:1'
+'bill_depth_mm:2', 'flipper_length_mm:2'
 
 
 Reference group is level  3  of the response</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-14_5079878916c956ac8d2ab7c76e206ead">
-<div class="sourceCode" id="cb24"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>iris.vglm<span class="sc">@</span>predictors[<span class="dv">71</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-20_a0d5c77e262d306f36c964eac2ee3e5f">
+<div class="sourceCode" id="cb16"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>posterior_prob <span class="ot">&lt;-</span> <span class="fu">predict</span>(multinomial_penguins, <span class="at">type =</span> <span class="st">"response"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stderr">
+<pre><code>Warning in object@family@linkinv(eta = object@predictors, extra = new.extra):
+fitted probabilities numerically 0 or 1 occurred</code></pre>
+</div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">matplot</span>(posterior_prob)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map566-doc-mixture-models-example_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>clustering_map <span class="ot">&lt;-</span> <span class="fu">apply</span>(posterior_prob, <span class="dv">1</span>, which.max)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>we get a perfect clustering of the penguins with this model (on the training set!)</p>
+<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-22_01b4c4bda7c9cbd956f26d1f03284575">
+<div class="sourceCode" id="cb20"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>clustering_map <span class="ot">&lt;-</span> <span class="fu">apply</span>(posterior_prob, <span class="dv">1</span>, which.max)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>aricode<span class="sc">::</span><span class="fu">ARI</span>(clustering_map, penguins<span class="sc">$</span>species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>log(mu[,1]/mu[,3]) log(mu[,2]/mu[,3]) 
-          39.56470           39.95004 </code></pre>
-</div>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">sum</span>(<span class="fu">cbind</span>(<span class="dv">1</span>,iris[<span class="dv">71</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])<span class="sc">*</span>iris.vglm<span class="sc">@</span>coefficients[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">9</span>)]), </span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(<span class="fu">cbind</span>(<span class="dv">1</span>,iris[<span class="dv">71</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])<span class="sc">*</span>iris.vglm<span class="sc">@</span>coefficients[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">6</span>,<span class="dv">8</span>,<span class="dv">10</span>)]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
-<pre><code>[1] 39.56470 39.95004</code></pre>
+<pre><code>[1] 1</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-16_628e055ff6f1e93cc1754c10b9f40cee">
-<div class="sourceCode" id="cb28"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>iris.vglm<span class="sc">@</span>fitted.values[<span class="dv">71</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
-<pre><code>   virginica   versicolor       setosa 
-4.048381e-01 5.951619e-01 2.657985e-18 </code></pre>
-</div>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>lp71 <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(<span class="fu">c</span>(iris.vglm<span class="sc">@</span>predictors[<span class="dv">71</span>,],<span class="dv">0</span>))</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(lp71)<span class="sc">/</span><span class="fu">sum</span>(<span class="fu">exp</span>(lp71))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
-<pre><code>[1] 4.048381e-01 5.951619e-01 2.657985e-18</code></pre>
-</div>
-</div>
-<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-18_0b7d8c2b9a0e4162c7757e3742139bc0">
-<div class="sourceCode" id="cb32"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">fitted</span>(iris.vglm))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
-<pre><code>     virginica   versicolor setosa
-1 5.895408e-39 3.817290e-12      1
-2 2.007661e-35 2.812349e-10      1
-3 1.073625e-36 8.972486e-11      1
-4 8.785319e-34 4.462530e-09      1
-5 4.226744e-39 4.171875e-12      1
-6 1.894589e-36 5.671292e-11      1</code></pre>
-</div>
-</div>
-<p>Percentage of missclassified flowers: ::: {.cell hash=‘map566-doc-mixture-models-example_cache/html/unnamed-chunk-20_f635000c2b1f9764403891aafda71b91’}</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Now we use 'fitted.iris' as the model-based classifications</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="co"># of which flower is of each type.  How does this compare</span></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="co"># to the real types?</span></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>rclass.iris <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">apply</span>(<span class="fu">abs</span>(<span class="fu">round</span>(<span class="fu">fitted</span>(iris.vglm)) <span class="sc">-</span> myiris[,<span class="dv">6</span><span class="sc">:</span><span class="dv">8</span>]),<span class="dv">1</span>,sum)<span class="sc">==</span><span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>)</span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>(<span class="dv">1</span><span class="sc">-</span><span class="fu">mean</span>(rclass.iris))<span class="sc">*</span><span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
-<pre><code>[1] 1.333333</code></pre>
-</div>
-<p>:::</p>
 </section>
 </section>
 <section id="non-supervised-classification" class="level3" data-number="1.2">
 <h3 data-number="1.2" class="anchored" data-anchor-id="non-supervised-classification"><span class="header-section-number">1.2</span> Non supervised classification</h3>
-<p>Ignoring the known labels (species) of theFisher Iris data, let us identify three clusters with the <span class="math inline">k</span>-means method and compute the missclassification rate: ::: {.cell hash=‘map566-doc-mixture-models-example_cache/html/unnamed-chunk-22_293720867d9995a675863230e75b155e’}</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>) <span class="co"># labels are the original ones with this seed (avoid permutation)</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>r.km <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(iris[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">centers=</span><span class="dv">3</span>)</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(r.km<span class="sc">$</span>cluster<span class="sc">!=</span><span class="fu">as.numeric</span>(iris<span class="sc">$</span>Species))<span class="sc">*</span><span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Ignoring the known labels (species) of the penguin data, let us identify three clusters with the <span class="math inline">k</span>-means method and compute the missclassification rate:</p>
+<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-24_e021c36a721edb903818a553a5f18abe">
+<div class="sourceCode" id="cb22"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>kclust <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(penguins[, <span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>], <span class="at">centers =</span> <span class="dv">3</span>, <span class="at">nstart =</span> <span class="dv">10</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>aricode<span class="sc">::</span><span class="fu">ARI</span>(kclust<span class="sc">$</span>cl,  penguins<span class="sc">$</span>species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 10.66667</code></pre>
+<pre><code>[1] 0.3078089</code></pre>
 </div>
-<p>:::</p>
-<p>Let us know fit a mixture of three multidimensional Gaussian distributions. The model assumes the same variance covariance matrix for the three distributions (<ttt>arbvar=FALSE). Initial centers are those given by the kmeans procedure. ::: {.cell hash=‘map566-doc-mixture-models-example_cache/html/unnamed-chunk-24_f472a7ae4e9cdf1376cef60a005510da’}</ttt></p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mixtools)</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>c0 <span class="ot">&lt;-</span> <span class="fu">list</span>(r.km<span class="sc">$</span>centers[<span class="dv">1</span>,], r.km<span class="sc">$</span>centers[<span class="dv">2</span>,], r.km<span class="sc">$</span>centers[<span class="dv">3</span>,])</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>r.em <span class="ot">&lt;-</span> <span class="fu">mvnormalmixEM</span>(iris[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">mu=</span>c0, <span class="at">arbvar=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
-<pre><code>number of iterations= 25 </code></pre>
 </div>
-<p>::: Let us display the estimated parameters of the mixture: ::: {.cell hash=‘map566-doc-mixture-models-example_cache/html/unnamed-chunk-26_0c5f203aecb1065b9959c2ebeeebc57d’}</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>r.em<span class="sc">$</span>lambda</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
-<pre><code>[1] 0.3333333 0.3296062 0.3370605</code></pre>
+<p>Let us know fit a mixture of three multidimensional Gaussian distributions.</p>
+<p>Function <code>Mclust</code> fits many multivariate Gaussian mixture model, with various parametric form for the covariances. Let us force the model to have spherical variance with equal volume (thus close to the k-means setting):</p>
+<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-26_7c6ce326d8dc3ff387c17330379136fa">
+<div class="sourceCode" id="cb24"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>GMM_EII <span class="ot">&lt;-</span> <span class="fu">Mclust</span>(penguins[, <span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">G =</span> <span class="dv">3</span>, <span class="at">modelNames =</span> <span class="st">'EII'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>r.em<span class="sc">$</span>mu</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
-<pre><code>[[1]]
-[1] 5.006 3.428 1.462 0.246
-
-[[2]]
-[1] 5.942320 2.760760 4.258683 1.319194
-
-[[3]]
-[1] 6.574610 2.980780 5.539001 2.024915</code></pre>
-</div>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>r.em<span class="sc">$</span>sigma</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
-<pre><code>           [,1]       [,2]       [,3]       [,4]
-[1,] 0.26393508 0.08985149 0.16965605 0.03933917
-[2,] 0.08985149 0.11194889 0.05112334 0.02998048
-[3,] 0.16965605 0.05112334 0.18652664 0.04197301
-[4,] 0.03933917 0.02998048 0.04197301 0.03971404</code></pre>
-</div>
-<p>:::</p>
-<p>For each flower, the estimated label maximizes the posterior distribution. We can then compute the missclassification rate: ::: {.cell hash=‘map566-doc-mixture-models-example_cache/html/unnamed-chunk-28_dd588bfaef396ab9d93f5bb40a951260’}</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>post <span class="ot">&lt;-</span> r.em<span class="sc">$</span>posterior</span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>r.em<span class="sc">$</span>class <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">seq</span>(<span class="fu">nrow</span>(post)), <span class="cf">function</span>(i) { j <span class="ot">&lt;-</span> <span class="fu">which.max</span>(<span class="fu">as.vector</span>(post[i,])) })</span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(r.em<span class="sc">$</span>class<span class="sc">!=</span><span class="fu">as.numeric</span>(iris<span class="sc">$</span>Species))<span class="sc">*</span><span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
-<pre><code>[1] 2</code></pre>
-</div>
-<p>:::</p>
-<p>Let us plot the original data with the three distributions estimated with EM ::: {.cell hash=‘map566-doc-mixture-models-example_cache/html/unnamed-chunk-30_1d7f0dc5ae26c3356dab036d07c45143’}</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">detach</span>(package<span class="sc">:</span>mixtools)</span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ellipse)</span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>Species <span class="ot">&lt;-</span> <span class="fu">levels</span>(iris<span class="sc">$</span>Species)</span>
-<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>j1<span class="ot">=</span><span class="dv">1</span>;  j2<span class="ot">=</span><span class="dv">2</span></span>
-<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>df_ell <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
-<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(g <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)){</span>
-<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a><span class="co">#  M=r.em$sigma[[g]][c(j1,j2),c(j1,j2)]</span></span>
-<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>  M<span class="ot">=</span>r.em<span class="sc">$</span>sigma[<span class="fu">c</span>(j1,j2),<span class="fu">c</span>(j1,j2)]</span>
-<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>  c<span class="ot">=</span>r.em<span class="sc">$</span>mu[[g]][<span class="fu">c</span>(j1,j2)]</span>
-<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a>  df_ell <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_ell, <span class="fu">cbind</span>(<span class="fu">as.data.frame</span>(<span class="fu">ellipse</span>(M,<span class="at">centre=</span>c, <span class="at">level=</span><span class="fl">0.68</span>)), <span class="at">group=</span>Species[g]))</span>
-<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a>pl1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>iris) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes_string</span>(<span class="at">x=</span>iris[,j1],<span class="at">y=</span>iris[,j2], <span class="at">colour=</span>iris[,<span class="dv">5</span>])) <span class="sc">+</span> </span>
-<span id="cb48-15"><a href="#cb48-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>) <span class="sc">+</span><span class="fu">xlab</span>(<span class="fu">names</span>(iris)[j1])<span class="sc">+</span><span class="fu">ylab</span>(<span class="fu">names</span>(iris)[j2]) <span class="sc">+</span></span>
-<span id="cb48-16"><a href="#cb48-16" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_path</span>(<span class="at">data=</span>df_ell, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y,<span class="at">color=</span>group), <span class="at">size=</span><span class="dv">1</span>, <span class="at">linetype=</span><span class="dv">1</span>) </span>
-<span id="cb48-17"><a href="#cb48-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-18"><a href="#cb48-18" aria-hidden="true" tabindex="-1"></a>j1<span class="ot">=</span><span class="dv">3</span>;  j2<span class="ot">=</span><span class="dv">4</span></span>
-<span id="cb48-19"><a href="#cb48-19" aria-hidden="true" tabindex="-1"></a>df_ell <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
-<span id="cb48-20"><a href="#cb48-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(g <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)){</span>
-<span id="cb48-21"><a href="#cb48-21" aria-hidden="true" tabindex="-1"></a><span class="co">#  M=r.em$sigma[[g]][c(j1,j2),c(j1,j2)]</span></span>
-<span id="cb48-22"><a href="#cb48-22" aria-hidden="true" tabindex="-1"></a>  M<span class="ot">=</span>r.em<span class="sc">$</span>sigma[<span class="fu">c</span>(j1,j2),<span class="fu">c</span>(j1,j2)]</span>
-<span id="cb48-23"><a href="#cb48-23" aria-hidden="true" tabindex="-1"></a>  c<span class="ot">=</span>r.em<span class="sc">$</span>mu[[g]][<span class="fu">c</span>(j1,j2)]</span>
-<span id="cb48-24"><a href="#cb48-24" aria-hidden="true" tabindex="-1"></a>  df_ell <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_ell, <span class="fu">cbind</span>(<span class="fu">as.data.frame</span>(<span class="fu">ellipse</span>(M,<span class="at">centre=</span>c, <span class="at">level=</span><span class="fl">0.68</span>)), <span class="at">group=</span>Species[g]))</span>
-<span id="cb48-25"><a href="#cb48-25" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb48-26"><a href="#cb48-26" aria-hidden="true" tabindex="-1"></a>pl2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>iris) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes_string</span>(<span class="at">x=</span>iris[,j1],<span class="at">y=</span>iris[,j2], <span class="at">colour=</span>iris[,<span class="dv">5</span>])) <span class="sc">+</span> </span>
-<span id="cb48-27"><a href="#cb48-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>) <span class="sc">+</span><span class="fu">xlab</span>(<span class="fu">names</span>(iris)[j1])<span class="sc">+</span><span class="fu">ylab</span>(<span class="fu">names</span>(iris)[j2]) <span class="sc">+</span></span>
-<span id="cb48-28"><a href="#cb48-28" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_path</span>(<span class="at">data=</span>df_ell, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y,<span class="at">color=</span>group), <span class="at">size=</span><span class="dv">1</span>, <span class="at">linetype=</span><span class="dv">1</span>) </span>
-<span id="cb48-29"><a href="#cb48-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-30"><a href="#cb48-30" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(pl1, pl2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The fit is poor</p>
+<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-28_f0bc8989418b57521187be4e8fdda2f3">
+<div class="sourceCode" id="cb25"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(GMM_EII, <span class="st">"classification"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-doc-mixture-models-example_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="672"></p>
+<p><img src="map566-doc-mixture-models-example_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
 </div>
-<p>:::</p>
-<p>This Shiny app allows one to select the two variables to plot.</p>
-<iframe src="http://shiny.webpopix.org/sia/mm3/" style="border: none; width: 800px; height: 550px">
-</iframe>
+</div>
+<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-30_7295c14ce13bee7232f5f31745981ad3">
+<div class="sourceCode" id="cb26"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>aricode<span class="sc">::</span><span class="fu">ARI</span>(penguins<span class="sc">$</span>species, <span class="fu">map</span>(GMM_EII<span class="sc">$</span>z))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 0.6363721</code></pre>
+</div>
+</div>
+<p>We can let Mclust chose the “best” model, relying on BIC: we found “VVE”, an ellipsoidal model with equal orientation</p>
+<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-32_8f06f6d1f9e5fad34277b87d06fa912f">
+<div class="sourceCode" id="cb28"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>GMM_best <span class="ot">&lt;-</span> <span class="fu">Mclust</span>(penguins[, <span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">G =</span> <span class="dv">3</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(GMM_best, <span class="st">"classification"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map566-doc-mixture-models-example_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(GMM_best, <span class="at">parameters =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>---------------------------------------------------- 
+Gaussian finite mixture model fitted by EM algorithm 
+---------------------------------------------------- 
 
+Mclust VVE (ellipsoidal, equal orientation) model with 3 components: 
 
+ log-likelihood   n df       BIC       ICL
+      -2647.114 333 23 -5427.815 -5441.159
+
+Clustering table:
+  1   2   3 
+150 119  64 
+
+Mixing probabilities:
+        1         2         3 
+0.4468457 0.3573179 0.1958364 
+
+Means:
+                       [,1]      [,2]      [,3]
+bill_length_mm     38.91639  47.56843  49.05177
+bill_depth_mm      18.32181  14.99638  18.48159
+flipper_length_mm 189.90109 217.23500 196.53408
+
+Variances:
+[,,1]
+                  bill_length_mm bill_depth_mm flipper_length_mm
+bill_length_mm          8.744628      1.529139          7.411096
+bill_depth_mm           1.529139      1.622307          3.249674
+flipper_length_mm       7.411096      3.249674         38.620270
+[,,2]
+                  bill_length_mm bill_depth_mm flipper_length_mm
+bill_length_mm          7.470233     1.5733271          9.389060
+bill_depth_mm           1.573327     0.8783978          3.965065
+flipper_length_mm       9.389060     3.9650651         45.191222
+[,,3]
+                  bill_length_mm bill_depth_mm flipper_length_mm
+bill_length_mm         11.020717      2.043209          9.017857
+bill_depth_mm           2.043209      1.134670          4.030423
+flipper_length_mm       9.017857      4.030423         47.437865</code></pre>
+</div>
+</div>
+<p>We get an almost perfect clustering with the MAP:</p>
+<div class="cell" data-hash="map566-doc-mixture-models-example_cache/html/unnamed-chunk-34_9c06a74b43c3ed908c9b18207c575ccb">
+<div class="sourceCode" id="cb31"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>aricode<span class="sc">::</span><span class="fu">ARI</span>(penguins<span class="sc">$</span>species, <span class="fu">map</span>(GMM_best<span class="sc">$</span>z))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 0.9355119</code></pre>
+</div>
+</div>
 </section>
+</section>
+<section id="references" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="references">References</h2>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-penguins" class="csl-entry" role="doc-biblioentry">
+Horst, Allison Marie, Alison Presmanes Hill, and Kristen B Gorman. 2020. <em>Palmerpenguins: Palmer Archipelago (Antarctica) Penguin Data</em>. <a href="https://doi.org/10.5281/zenodo.3960218">https://doi.org/10.5281/zenodo.3960218</a>.
+</div>
+</div>
+</section>
+<section class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2>Footnotes</h2>
+
+<ol>
+<li id="fn1" role="doc-endnote"><p><a href="https://allisonhorst.github.io/palmerpenguins/">more to read here</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
 </section>
 </main> <!-- /main -->
 <script type="application/javascript">
