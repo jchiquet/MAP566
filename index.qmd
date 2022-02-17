@@ -8,7 +8,7 @@ The objective of this course is to show students how statistics is used in pract
 
 The students will learn to select and use appropriate statistical methodologies and acquire solid and practical skills by working-out examples on real-world data sets from various areas including medicine, genomics, ecology, and others.
 
-All analyses will be conducted mainly with the R software, possibly with interfacing to Python. No strong knwoledge neither of R nor Python programming is required (only basic scripting).
+All analyses will be conducted mainly with the R software, possibly with interfacing to Python. No strong knowledge neither of R nor Python programming is required (only basic scripting).
 
 ::: {.callout-note appearance="simple"}
 
@@ -27,13 +27,13 @@ We only have made some adjustments to it.
 
 **Course Language**: French with all material in English
 
-1. Statistical tests (x1.5)
+1. Statistical tests (x2)
 
     - Two-populations comparison
     - Power analysis
     - Multiple Testing
 
-2. Regression models (x1.5)
+2. Regression models (x2)
 
     - Linear and Non Linear Regression models
     - Nonlinear regression models
@@ -50,9 +50,8 @@ We only have made some adjustments to it.
     - Stochastic Block Models for graph clustering
     - (Variational) EM algorithm
 
-5. Model-based Dimension Reduction (x2)
+5. Change-point detection (x1)
 
-    - Multivariate Gaussian model
-    - Probabilistic Gaussian PCA
-    - Generalized mixed effect models
+    - Dynamic programming
+    - 1D signal segmentation
 
