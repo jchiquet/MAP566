@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.9.17">
+  <meta name="generator" content="quarto-0.9.21">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>MAP566 - Stats in Action - Mixture Models</title>
+  <title>MAP566 - Stats in Action - Mixture models: exercices</title>
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -221,7 +221,7 @@
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">Mixture Models</a>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">Mixture models: exercices</a>
   </li>  
         <li>
     <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html">Graph Clustering: Spectral methods and Stochastic Blockmodels</a>
@@ -240,7 +240,7 @@
     </nav>
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Mixture Models</h1>
+      <h1 class="quarto-secondary-nav-title">Mixture models: exercices</h1>
       <button type="button" class="quarto-btn-toggle btn">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -283,7 +283,7 @@
     <ul id="quarto-sidebar-section-exercices" class="collapse list-unstyled sidebar-section depth1 show">  
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/mixture-models/map566-lab-mixture-models.html" class="sidebar-item-text sidebar-link active">Mixture Models</a>
+  <a href="../../docs/mixture-models/map566-lab-mixture-models.html" class="sidebar-item-text sidebar-link active">Mixture models: exercices</a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -317,7 +317,10 @@
 <h2 id="toc-title">On this page</h2>
 <ul>
 <li><a href="#preliminary" class="nav-link active" data-scroll-target="#preliminary"> <span class="header-section-number">1</span> Preliminary</a></li>
-<li><a href="#faithful-data" class="nav-link" data-scroll-target="#faithful-data"> <span class="header-section-number">2</span> Faithful data</a></li>
+<li><a href="#faithful-data" class="nav-link" data-scroll-target="#faithful-data"> <span class="header-section-number">2</span> Faithful data</a>
+<ul class="collapse">
+<li><a href="#hint-skeleton-of-em-for-1d-mixture-of-gaussian" class="nav-link" data-scroll-target="#hint-skeleton-of-em-for-1d-mixture-of-gaussian"> <span class="header-section-number">2.1</span> Hint: skeleton of EM for 1D mixture of Gaussian</a></li>
+</ul></li>
 <li><a href="#epilepsy-data" class="nav-link" data-scroll-target="#epilepsy-data"> <span class="header-section-number">3</span> Epilepsy data</a></li>
 </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
@@ -325,8 +328,7 @@
 <!-- main -->
 <main class="content" id="quarto-document-content">
 <header id="title-block-header">
-<h1 class="title d-none d-lg-block display-7">Mixture Models</h1>
-<p class="subtitle lead">Exercices</p>
+<h1 class="title d-none d-lg-block display-7">Mixture models: exercices</h1>
 </header>
 
 <section id="preliminary" class="level2" data-number="1">
@@ -358,14 +360,65 @@
 <li><p>assuming same means</p></li>
 <li><p>assuming same proportions</p></li>
 </ol>
+<section id="hint-skeleton-of-em-for-1d-mixture-of-gaussian" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="hint-skeleton-of-em-for-1d-mixture-of-gaussian"><span class="header-section-number">2.1</span> Hint: skeleton of EM for 1D mixture of Gaussian</h3>
+<p>We follow what has been done during the course: we define the function that computes the value of the likelihood for each point in each component. It will be used to compute the posterior probabilities in the E-step.</p>
+<div class="cell" data-hash="map566-lab-mixture-models_cache/html/auxiliary function_b91a6691d8af0d9869f49e791879d420">
+<div class="sourceCode" id="cb4"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## likelihood (density) of each point in each component</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="do">## data (x) is fixed while theta is variable</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>dcomponents <span class="ot">&lt;-</span> <span class="cf">function</span>(theta, x) {</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mapply</span>(</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>      <span class="cf">function</span>(pi, mu, sigma) pi <span class="sc">*</span> <span class="fu">dnorm</span>(x, mu, sigma),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>      theta<span class="sc">$</span>pi, theta<span class="sc">$</span>mu, theta<span class="sc">$</span>sigma,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">SIMPLIFY =</span> <span class="cn">TRUE</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then, we define an EM where the function that computes the M step is given as an argument:</p>
+<div class="cell" data-hash="map566-lab-mixture-models_cache/html/general EM_b4c7e3c328fc1b073896d46f40a77f2d">
+<div class="sourceCode" id="cb5"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>mixture_gaussian1D <span class="ot">&lt;-</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(x,      <span class="co"># a n-vector of data</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>           theta0, <span class="co"># starting values of vector paramter</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">M_step    =</span> M_step_general, <span class="co"># an R function</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">max_iter  =</span> <span class="dv">100</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">threshold =</span> <span class="fl">1e-6</span>) {</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="do">## initialization</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  likelihoods  <span class="ot">&lt;-</span> <span class="fu">dcomponents</span>(theta0, x) </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  deviance     <span class="ot">&lt;-</span> <span class="fu">numeric</span>(max_iter)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  deviance[<span class="dv">1</span>]  <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">sum</span>(<span class="fu">log</span>(<span class="fu">rowSums</span>(likelihoods)))</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (t <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>max_iter) {</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># E step</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    tau <span class="ot">&lt;-</span> likelihoods <span class="sc">/</span> <span class="fu">rowSums</span>(likelihoods)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># M step</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    theta <span class="ot">&lt;-</span> <span class="fu">M_step</span>(tau, x)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="do">## Assessing convergence</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    likelihoods   <span class="ot">&lt;-</span> <span class="fu">dcomponents</span>(theta, x)</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    deviance[t<span class="sc">+</span><span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sum</span>(<span class="fu">log</span>(<span class="fu">rowSums</span>(likelihoods)))</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    <span class="do">## prepare next iterations</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">abs</span>(deviance[t <span class="sc">+</span> <span class="dv">1</span>] <span class="sc">-</span> deviance[t]) <span class="sc">&lt;</span> threshold)</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>      <span class="cf">break</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">theta =</span> theta, <span class="at">deviance =</span> deviance[t <span class="sc">+</span> <span class="dv">1</span>])</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
 </section>
 <section id="epilepsy-data" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="epilepsy-data"><span class="header-section-number">3</span> Epilepsy data</h2>
 <p>The data <code>seizures.csv</code> consists of daily counts of epileptic seizures for 6 patients.</p>
 <div class="cell" data-hash="map566-lab-mixture-models_cache/html/mixture-seizures-load_9630586c35acd4a948f4a649fa70e278">
-<div class="sourceCode" id="cb4"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>seizures <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'../../data/seizures.csv'</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>seizures <span class="sc">%&gt;%</span> </span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> nsz) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>( <span class="sc">~</span> id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>seizures <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'../../data/seizures.csv'</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>seizures <span class="sc">%&gt;%</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> nsz) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>( <span class="sc">~</span> id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="map566-lab-mixture-models_files/figure-html/mixture-seizures-load-1.png" class="img-fluid" width="672"></p>
 </div>

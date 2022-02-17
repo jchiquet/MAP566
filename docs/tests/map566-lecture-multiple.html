@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.9.17">
+  <meta name="generator" content="quarto-0.9.21">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Multiple Testing</title>
   <style>
@@ -258,7 +258,7 @@
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">Mixture Models</a>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">Mixture models: exercices</a>
   </li>  
         <li>
     <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html">Graph Clustering: Spectral methods and Stochastic Blockmodels</a>
@@ -529,7 +529,7 @@ Permutation test
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["gender"],"name":[1],"type":["fct"],"align":["left"]},{"label":["regime"],"name":[2],"type":["fct"],"align":["left"]},{"label":["statistic"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"female","2":"NK603-33%","3":"28.5","4":"0.05028820"},{"1":"male","2":"RoundUp B","3":"31.0","4":"0.08051233"},{"1":"female","2":"RoundUp B","3":"32.0","4":"0.08264531"},{"1":"female","2":"NK603-11%","3":"33.0","4":"0.09530923"},{"1":"female","2":"RoundUp A","3":"35.0","4":"0.12514621"},{"1":"female","2":"NK603-33%+R","3":"37.5","4":"0.16611241"},{"1":"male","2":"NK603-11%+R","3":"38.5","4":"0.20087902"},{"1":"female","2":"NK603-11%+R","3":"41.0","4":"0.25009035"},{"1":"female","2":"NK603-22%+R","3":"41.0","4":"0.25017900"},{"1":"male","2":"RoundUp A","3":"41.0","4":"0.25907690"},{"1":"male","2":"NK603-11%","3":"44.5","4":"0.35073600"},{"1":"male","2":"NK603-33%","3":"51.0","4":"0.54537749"},{"1":"male","2":"NK603-22%","3":"52.5","4":"0.59016979"},{"1":"male","2":"RoundUp C","3":"53.0","4":"0.60550043"},{"1":"female","2":"RoundUp C","3":"53.0","4":"0.61749578"},{"1":"male","2":"NK603-33%+R","3":"59.0","4":"0.76508834"},{"1":"male","2":"NK603-22%+R","3":"61.0","4":"0.81344661"},{"1":"female","2":"NK603-22%","3":"60.0","4":"0.82428545"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["gender"],"name":[1],"type":["fct"],"align":["left"]},{"label":["regime"],"name":[2],"type":["fct"],"align":["left"]},{"label":["statistic"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"female","2":"NK603-33%","3":"26.5","4":"0.03155036"},{"1":"female","2":"NK603-33%+R","3":"28.5","4":"0.04492916"},{"1":"female","2":"NK603-11%+R","3":"30.5","4":"0.06235913"},{"1":"female","2":"RoundUp A","3":"33.0","4":"0.08607882"},{"1":"female","2":"NK603-22%+R","3":"34.0","4":"0.09982349"},{"1":"female","2":"RoundUp B","3":"34.5","4":"0.10716540"},{"1":"female","2":"RoundUp C","3":"40.5","4":"0.22127625"},{"1":"male","2":"NK603-11%+R","3":"42.5","4":"0.29807407"},{"1":"male","2":"RoundUp C","3":"43.5","4":"0.32439467"},{"1":"male","2":"NK603-33%","3":"46.0","4":"0.39547628"},{"1":"female","2":"NK603-11%","3":"49.5","4":"0.50000000"},{"1":"male","2":"NK603-33%+R","3":"49.5","4":"0.50000000"},{"1":"male","2":"RoundUp A","3":"50.5","4":"0.53024219"},{"1":"female","2":"NK603-22%","3":"54.0","4":"0.67258715"},{"1":"male","2":"NK603-11%","3":"64.5","4":"0.87365226"},{"1":"male","2":"NK603-22%","3":"66.0","4":"0.89601612"},{"1":"male","2":"NK603-22%+R","3":"72.5","4":"0.95987090"},{"1":"male","2":"RoundUp B","3":"79.0","4":"0.98867743"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -592,7 +592,7 @@ Permutation test
 <div class="sourceCode" id="cb18"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>stat_rank1 <span class="ot">&lt;-</span> <span class="fu">split</span>(res, res<span class="sc">$</span>simu) <span class="sc">%&gt;%</span> <span class="fu">map_dbl</span>(<span class="cf">function</span>(x) <span class="fu">sort</span>(x<span class="sc">$</span>statistic)[<span class="dv">1</span>])</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(stat_rank1 <span class="sc">&lt;</span> all_comparisons<span class="sc">$</span>statistic[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 0.153</code></pre>
+<pre><code>[1] 0.15</code></pre>
 </div>
 </div>
 </section>

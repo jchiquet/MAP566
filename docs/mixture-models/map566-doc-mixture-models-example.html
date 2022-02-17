@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.9.17">
+  <meta name="generator" content="quarto-0.9.21">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Clustering and classification with model based approaches</title>
   <style>
@@ -257,7 +257,7 @@
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">Mixture Models</a>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">Mixture models: exercices</a>
   </li>  
         <li>
     <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html">Graph Clustering: Spectral methods and Stochastic Blockmodels</a>
@@ -319,7 +319,7 @@
     <ul id="quarto-sidebar-section-exercices" class="collapse list-unstyled sidebar-section depth1 show">  
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/mixture-models/map566-lab-mixture-models.html" class="sidebar-item-text sidebar-link">Mixture Models</a>
+  <a href="../../docs/mixture-models/map566-lab-mixture-models.html" class="sidebar-item-text sidebar-link">Mixture models: exercices</a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -593,7 +593,7 @@ fitted probabilities numerically 0 or 1 occurred</code></pre>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>kclust <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(penguins[, <span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>], <span class="at">centers =</span> <span class="dv">3</span>, <span class="at">nstart =</span> <span class="dv">10</span>)</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>aricode<span class="sc">::</span><span class="fu">ARI</span>(kclust<span class="sc">$</span>cl,  penguins<span class="sc">$</span>species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 0.3078089</code></pre>
+<pre><code>[1] 0.3212539</code></pre>
 </div>
 </div>
 <p>Let us know fit a mixture of three multidimensional Gaussian distributions.</p>
