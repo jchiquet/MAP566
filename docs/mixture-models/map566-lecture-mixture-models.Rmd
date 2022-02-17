@@ -325,7 +325,7 @@ aricode::ARI(cl_kmeans, cl_gmm)
 ```
 
 Of course, these results depend strongly on the model, i.e. on the parameters of the mixture. 
-This Shiny app allows one to modify the parameters of the second distribution (the first distribution is assumed to be a normal distribution with mean 0 and variance 1) and compare the results provided by the two methods.
+[This Shiny app](http://shiny.webpopix.org/sia/mm2/) allows one to modify the parameters of the second distribution (the first distribution is assumed to be a normal distribution with mean 0 and variance 1) and compare the results provided by the two methods.
 
 <iframe src="http://shiny.webpopix.org/sia/mm2/" style="border: none; width: 780px; height: 600px"></iframe>
 
@@ -578,6 +578,8 @@ mySEM_mixture$deviance
 ```{r}
 plot_singleEM(mySEM_mixture$convergence, title="Convergence of S-EM")
 ```
+
+[http://shiny.webpopix.org/sia/mm4/](http://shiny.webpopix.org/sia/mm4/)
 
 <iframe src="http://shiny.webpopix.org/sia/mm4/" style="border: none; width: 780px; height: 550px"></iframe>
 
