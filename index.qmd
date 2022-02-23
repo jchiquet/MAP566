@@ -23,7 +23,7 @@ We only have made some adjustments to it.
 
 **Teachers** : Julien Chiquet (lecture + 1 PC), Geneviève Robin (2 PC)
 
-**Course Evaluation**: 2 individual homework assignements + a final exam/project 
+**Course Evaluation**: 2 individual homework assignments + a final exam/project 
 
 **Course Language**: French with all material in English
 
@@ -44,14 +44,15 @@ We only have made some adjustments to it.
     - Linear mixed effects models
     - Nonlinear mixed effects models
 
-4. Mixture models and model-based clustering (x2)
+4. Mixture models and model-based clustering (x3)
 
     - Gaussian mixture models for data clustering
-    - Stochastic Block Models for graph clustering
+    - Hierarchical and Spectral clustering for Graph
+    - Stochastic Block Models
     - (Variational) EM algorithm
 
-5. Change-point detection (x1)
+<!-- 5. Change-point detection (x1) -->
 
-    - Dynamic programming
-    - 1D signal segmentation
+<!--     - Dynamic programming -->
+<!--     - 1D signal segmentation -->
 
