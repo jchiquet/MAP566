@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.9.38">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>MAP566 - Stats in Action - Stochastic block Models</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+    }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+
+  <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="../../site_libs/clipboard/clipboard.min.js"></script>
+  <meta name="quarto:offset" content="../../">
+  <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+  <script src="../../site_libs/quarto-search/fuse.min.js"></script>
+  <script src="../../site_libs/quarto-search/quarto-search.js"></script>
+  <link href="../../docs/mixture-models/map566-lab-mixture-models.html" rel="next">
+  <link href="../../docs/mixture-models/map566-lecture-graph-clustering-part1.html" rel="prev">
+  <script src="../../site_libs/quarto-html/quarto.js"></script>
+  <script src="../../site_libs/quarto-html/popper.min.js"></script>
+  <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="../../site_libs/quarto-html/anchor.min.js"></script>
+  <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <script id="quarto-search-options" type="application/json">{
+    "location": "navbar",
+    "copy-button": false,
+    "collapse-after": 2,
+    "panel-placement": "end",
+    "type": "overlay",
+    "limit": 20,
+    "language": {
+      "search-no-results-text": "No results",
+      "search-matching-documents-text": "matching documents",
+      "search-copy-link-title": "Copy link to search",
+      "search-hide-matches-text": "Hide additional matches",
+      "search-more-match-text": "more match in this document",
+      "search-more-matches-text": "more matches in this document",
+      "search-clear-button-title": "Clear",
+      "search-detached-cancel-button-title": "Cancel",
+      "search-submit-button-title": "Submit"
+    }
+  }</script>
+  <link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+  <script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body class="docked">
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <img src="../../logo_X.jpg" alt="">
+    <span class="navbar-title">MAP566 - Stats in Action</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../getting-started.html">Getting Started</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/jchiquet/MAP566"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hypothesis-testing" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hypothesis Testing</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-hypothesis-testing">    
+        <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-single.html">
+ <span class="dropdown-text">Statistical Tests</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-multiple.html">
+ <span class="dropdown-text">Multiple Testing</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Exercices</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html">
+ <span class="dropdown-text">Hypothesis Tesing</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-regression-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Regression models</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-regression-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html">
+ <span class="dropdown-text">Polynomial Regression</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-nonlinear-regression.html">
+ <span class="dropdown-text">Nonlinear Regression</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Exercices</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-polynomial-regression.html">
+ <span class="dropdown-text">Polynomial Regression</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-nonlinear-regression.html">
+ <span class="dropdown-text">Nonlinear Regression</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html">
+ <span class="dropdown-text">Linear Regression: Quick Recap</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixed-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mixed models</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixed-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html">
+ <span class="dropdown-text">Linear Mixed Effects Models</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html">
+ <span class="dropdown-text">Nonlinear Mixed Effects Models</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Exercices</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-linear-mixed-model.html">
+ <span class="dropdown-text">Linear Mixed Models</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-nonlinear-mixed-model.html">
+ <span class="dropdown-text">Nonlinear Mixed Effects Models</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html">
+ <span class="dropdown-text">An EM Algorithm for Linear Mixed Effects Models</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mixture models</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixture-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html">
+ <span class="dropdown-text">Mixture Models</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-graph-clustering-part1.html">
+ <span class="dropdown-text">Hierarchical and Spectral methods for Graph clustering</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-graph-clustering-part2.html">
+ <span class="dropdown-text">Stochastic block Models</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Exercices</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">
+ <span class="dropdown-text">Mixture models</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html">
+ <span class="dropdown-text">Graph Clustering: Spectral methods and Stochastic Blockmodels</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-doc-mixture-models-example.html">
+ <span class="dropdown-text">Clustering and classification with model based approaches</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/jchiquet/MAP573/raw/master/slides/GraphClustering/GraphClustering.pdf">
+ <span class="dropdown-text">Slides on Graph Clustering</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Stochastic block Models</h1>
+      <button type="button" class="quarto-btn-toggle btn">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+    <div class="sidebar-item-container"> 
+        <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">Lectures</a>
+      <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">
+        <i class="bi bi-chevron-right ms-2"></i>
+      </a>
+    </div>
+    <ul id="quarto-sidebar-section-lectures" class="collapse list-unstyled sidebar-section depth1 show">  
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/mixture-models/map566-lecture-mixture-models.html" class="sidebar-item-text sidebar-link">Mixture Models</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/mixture-models/map566-lecture-graph-clustering-part1.html" class="sidebar-item-text sidebar-link">Hierarchical and Spectral methods for Graph clustering</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/mixture-models/map566-lecture-graph-clustering-part2.html" class="sidebar-item-text sidebar-link active">Stochastic block Models</a>
+  </div>
+</li>
+    </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+    <div class="sidebar-item-container"> 
+        <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">Exercices</a>
+      <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">
+        <i class="bi bi-chevron-right ms-2"></i>
+      </a>
+    </div>
+    <ul id="quarto-sidebar-section-exercices" class="collapse list-unstyled sidebar-section depth1 show">  
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/mixture-models/map566-lab-mixture-models.html" class="sidebar-item-text sidebar-link">Mixture models</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html" class="sidebar-item-text sidebar-link">Graph Clustering: Spectral methods and Stochastic Blockmodels</a>
+  </div>
+</li>
+    </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+    <div class="sidebar-item-container"> 
+        <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-supplementary-material" aria-expanded="true">Supplementary material</a>
+      <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-supplementary-material" aria-expanded="true">
+        <i class="bi bi-chevron-right ms-2"></i>
+      </a>
+    </div>
+    <ul id="quarto-sidebar-section-supplementary-material" class="collapse list-unstyled sidebar-section depth1 show">  
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/mixture-models/map566-doc-mixture-models-example.html" class="sidebar-item-text sidebar-link">Clustering and classification with model based approaches</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://github.com/jchiquet/MAP573/raw/master/slides/GraphClustering/GraphClustering.pdf" class="sidebar-item-text sidebar-link">Slides on Graph Clustering</a>
+  </div>
+</li>
+    </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+<h2 id="toc-title">On this page</h2>
+<ul>
+<li><a href="#preliminary" class="nav-link active" data-scroll-target="#preliminary">Preliminary</a></li>
+<li><a href="#introduction-the-french-political-blogosphere" class="nav-link" data-scroll-target="#introduction-the-french-political-blogosphere"> <span class="header-section-number">1</span> Introduction: the French political Blogosphere</a></li>
+<li><a href="#model-based-clustering-for-graph-data" class="nav-link" data-scroll-target="#model-based-clustering-for-graph-data"> <span class="header-section-number">2</span> Model-based clustering for graph data</a>
+<ul class="collapse">
+<li><a href="#the-erdös-renyi-model" class="nav-link" data-scroll-target="#the-erdös-renyi-model"> <span class="header-section-number">2.1</span> The Erdös-Renyi model</a></li>
+<li><a href="#the-stochastic-block-model-sbm" class="nav-link" data-scroll-target="#the-stochastic-block-model-sbm"> <span class="header-section-number">2.2</span> The Stochastic Block Model (SBM)</a></li>
+</ul></li>
+<li><a href="#estimation-variational-inference-of-the-binary-sbm" class="nav-link" data-scroll-target="#estimation-variational-inference-of-the-binary-sbm"> <span class="header-section-number">3</span> Estimation: Variational Inference of the binary SBM</a>
+<ul class="collapse">
+<li><a href="#sbm-a-latent-variable-model" class="nav-link" data-scroll-target="#sbm-a-latent-variable-model"> <span class="header-section-number">3.1</span> SBM: a latent variable model</a></li>
+<li><a href="#em-does-not-work-genuinely-for-sbm" class="nav-link" data-scroll-target="#em-does-not-work-genuinely-for-sbm"> <span class="header-section-number">3.2</span> EM does not work genuinely for SBM</a></li>
+<li><a href="#variational-approach-general-case" class="nav-link" data-scroll-target="#variational-approach-general-case"> <span class="header-section-number">3.3</span> Variational approach: general case</a></li>
+<li><a href="#variational-em-for-sbm-ingredients" class="nav-link" data-scroll-target="#variational-em-for-sbm-ingredients"> <span class="header-section-number">3.4</span> Variational EM for SBM: ingredients</a></li>
+<li><a href="#sbm-the-french-blogosphere" class="nav-link" data-scroll-target="#sbm-the-french-blogosphere"> <span class="header-section-number">3.5</span> SBM: the french blogosphere</a></li>
+</ul></li>
+<li><a href="#sbm-extensions" class="nav-link" data-scroll-target="#sbm-extensions"> <span class="header-section-number">4</span> SBM: extensions</a>
+<ul class="collapse">
+<li><a href="#including-effects-of-external-covariates" class="nav-link" data-scroll-target="#including-effects-of-external-covariates"> <span class="header-section-number">4.1</span> Including effects of external covariates</a></li>
+<li><a href="#valued-edges-network" class="nav-link" data-scroll-target="#valued-edges-network"> <span class="header-section-number">4.2</span> Valued-edges network</a></li>
+<li><a href="#bipartite-sbm-aka-latent-block-models" class="nav-link" data-scroll-target="#bipartite-sbm-aka-latent-block-models"> <span class="header-section-number">4.3</span> Bipartite SBM aka Latent Block Models</a></li>
+</ul></li>
+<li><a href="#references" class="nav-link" data-scroll-target="#references">References</a></li>
+</ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+<header id="title-block-header">
+<h1 class="title d-none d-lg-block display-7">Stochastic block Models</h1>
+<p class="subtitle lead">Lecture Notes</p>
+</header>
+
+<section id="preliminary" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="preliminary">Preliminary</h2>
+<p>Functions from <code>R</code>-base and stats (preloaded) are required plus packages from the <strong>tidyverse</strong> for data representation and manipulation. The package <strong>igraph</strong> is a great library for network data manipulation (interface exists in <code>Python</code>). We will also use the package <strong>aricode</strong> for computing clustering metrics. <strong>sbm</strong> and <strong>missSBM</strong> are used to adjust stochastic blockmodels.</p>
+<div class="cell" data-hash="map566-lecture-graph-clustering-part2_cache/html/tests-config_462c403111f1de3ae09ebf3065a674a8">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(viridis)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(aricode)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(missSBM)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sbm)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="map566-lecture-graph-clustering-part2_cache/html/pdf-setting_4cf361646f38d76ae9e7de03951ac356">
+<div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">tinytex.engine =</span> <span class="st">'xelatex'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="introduction-the-french-political-blogosphere" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="introduction-the-french-political-blogosphere"><span class="header-section-number">1</span> Introduction: the French political Blogosphere</h2>
+<p>We continue our example on the French political blogosphere</p>
+<p>The <code>frenchblog2007</code> data is a network dataset which consists of a single day snapshot of over 200 political blogs automatically extracted the 14 October 2006 and manually classified by the “Observatoire Présidentielle” project. It is part of the <strong>missSBM</strong> package. It is provided as an <strong>igraph</strong> object with 196 nodes. The vertex attribute “party” provides a classification of the nodes.</p>
+<div class="cell" data-hash="map566-lecture-graph-clustering-part2_cache/html/mixture-fblog-load2_37361b9ad1e5737de0d746257114dddf">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"frenchblog2007"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(frenchblog2007)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-stdout">
+<pre><code>IGRAPH 7b93b75 UN-- 196 1432 -- 
++ attr: name (v/c), party (v/c)</code></pre>
+</div>
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">V</span>(frenchblog2007)<span class="sc">$</span>party <span class="sc">%&gt;%</span> <span class="fu">table</span>() <span class="sc">%&gt;%</span> <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["."],"name":[1],"type":["chr"],"align":["left"]},{"label":["n"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"analyst","2":"11"},{"1":"center-left","2":"11"},{"1":"center-rigth","2":"32"},{"1":"far-left","2":"7"},{"1":"far-right","2":"4"},{"1":"green","2":"9"},{"1":"left","2":"57"},{"1":"liberal","2":"25"},{"1":"right","2":"40"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>blog <span class="ot">&lt;-</span> frenchblog2007 <span class="sc">%&gt;%</span>  <span class="fu">delete_vertices</span>(<span class="fu">which</span>(<span class="fu">degree</span>(frenchblog2007) <span class="sc">&lt;=</span> <span class="dv">1</span>))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>party <span class="ot">&lt;-</span> <span class="fu">V</span>(blog)<span class="sc">$</span>party <span class="sc">%&gt;%</span> <span class="fu">as_factor</span>()</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>Y     <span class="ot">&lt;-</span> blog <span class="sc">%&gt;%</span> <span class="fu">as_adjacency_matrix</span>()</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>n_nodes <span class="ot">&lt;-</span> <span class="fu">gorder</span>(blog)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>n_edges <span class="ot">&lt;-</span> <span class="fu">gsize</span>(blog)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>party <span class="sc">%&gt;%</span> <span class="fu">table</span>() <span class="sc">%&gt;%</span> <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["."],"name":[1],"type":["chr"],"align":["left"]},{"label":["n"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"green","2":"9"},{"1":"right","2":"40"},{"1":"center-rigth","2":"32"},{"1":"left","2":"57"},{"1":"center-left","2":"11"},{"1":"far-left","2":"7"},{"1":"liberal","2":"25"},{"1":"analyst","2":"11"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.igraph</span>(frenchblog2007,</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">vertex.color =</span> <span class="fu">factor</span>(<span class="fu">V</span>(frenchblog2007)<span class="sc">$</span>party),</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">vertex.label =</span> <span class="cn">NA</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/mixture-fblog-load2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="model-based-clustering-for-graph-data" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="model-based-clustering-for-graph-data"><span class="header-section-number">2</span> Model-based clustering for graph data</h2>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Motivation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We are still looking for an underlying organization in a observed network, yet with model-based approaches, so that statistical inference would be possible.</p>
+<p>This session essentially aims to present the <strong>stochastic block model</strong>, a random graph model tailored for clustering vertices. As will be seen, this model is can be interpreted as a special mixture model for graph data. Hence, the relationship between spectral clustering for network and the Stochastic block model is the same as the one between the k-means clustering and Gaussian mixture models.</p>
+</div>
+</div>
+<p>Recall that the connectivity of a binary undirected (symmetric) graph <span class="math inline">\mathcal{G} = (\mathcal{V},\mathcal{E})</span> is captured by the <span class="math inline">|\mathcal{V}|\times |\mathcal{V}|</span> matrix <span class="math inline">Y</span>, called the adjacency matrix <span class="math display">
+  (Y)_{ij} = \begin{cases}
+  1  &amp; \text{ if } i \sim j,\\
+  0  &amp; \text{otherwise}.
+\end{cases}
+</span> For a valued of weighted graph, a similar definition would be</p>
+<p><span class="math display">
+  (Y)_{ij} = \begin{cases}
+  w_{ij}  &amp; \text{ if } i \sim j,\\
+  0  &amp; \text{otherwise}.
+\end{cases}
+</span> where <span class="math inline">w_{ij}</span> is the weight associated with edge <span class="math inline">i\sim j</span>.</p>
+<section id="the-erdös-renyi-model" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="the-erdös-renyi-model"><span class="header-section-number">2.1</span> The Erdös-Renyi model</h3>
+<p>We start by the most simple, yet natural model for random graph, the Erdös-Rényi model.</p>
+<div id="def-erdosRenyi" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 1 (Erdös-Rényi model) </strong></span>Let <span class="math inline">\mathcal{V} = {1,\dots,n}</span> be a set of fixed vertices. The (simple) Erdös-Rényi model <span class="math inline">\mathcal{G}(n,\pi)</span> assumes random edges between pairs of nodes with probability <span class="math inline">\pi</span>. In orther word, the (random) adjacency matrix <span class="math inline">Y</span> is such that</p>
+<p><span class="math display">
+  Y_{ij} \sim \mathcal{B}(\pi)
+</span></p>
+</div>
+<p>A direct consequence is that the distribution of the (random) degree <span class="math inline">D_i</span> of a vertex <span class="math inline">i</span> follows a binomial distribution, i.e.,</p>
+<p><span class="math display">D_i \sim b(n -1, \pi).</span></p>
+<div class="cell" data-hash="map566-lecture-graph-clustering-part2_cache/html/erdos-examples_57991cdc78d9fb6ea28c94989be31218">
+<div class="sourceCode" id="cb8"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>G1 <span class="ot">&lt;-</span> igraph<span class="sc">::</span><span class="fu">sample_gnp</span>(<span class="dv">10</span>, <span class="fl">0.1</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>G2 <span class="ot">&lt;-</span> igraph<span class="sc">::</span><span class="fu">sample_gnp</span>(<span class="dv">10</span>, <span class="fl">0.9</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>G3 <span class="ot">&lt;-</span> igraph<span class="sc">::</span><span class="fu">sample_gnp</span>(<span class="dv">100</span>, .<span class="dv">02</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(G1, <span class="at">vertex.label=</span><span class="cn">NA</span>) ; <span class="fu">plot</span>(G2, <span class="at">vertex.label=</span><span class="cn">NA</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(G3, <span class="at">vertex.label=</span><span class="cn">NA</span>, <span class="at">layout=</span>layout.circle)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/erdos-examples-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Because of its simplicity, a lot of mathematical derivation can be done with this model, yet its utility for adjusting real-world network is very limited since</p>
+<ul>
+<li>the degree distribution is too concentrated, with no high degree nodes,</li>
+<li>All nodes are equivalent,</li>
+<li>No modularity is observed.</li>
+</ul>
+<p>For instance, for the graph <code>G3</code> sampled above, the empirical degree distribution and and basic clustering support the over homogeneous structure of the ER model.</p>
+<div class="cell" data-hash="map566-lecture-graph-clustering-part2_cache/html/unnamed-chunk-2_e97e94b6f78561d4d0cf0dfb80a1e2d2">
+<div class="cell-output-display">
+<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="the-stochastic-block-model-sbm" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="the-stochastic-block-model-sbm"><span class="header-section-number">2.2</span> The Stochastic Block Model (SBM)</h3>
+<p>The SBM generalizes the Erdös-Rényi model in a mixture framework (see <span class="citation" data-cites="Nowicki2001">Nowicki and Snijders (<a href="#ref-Nowicki2001" role="doc-biblioref">2001</a>)</span>, <span class="citation" data-cites="daudin2008mixture">Daudin, Picard, and Robin (<a href="#ref-daudin2008mixture" role="doc-biblioref">2008</a>)</span>). It provides</p>
+<ul>
+<li>a statistical framework to adjust and interpret the parameters</li>
+<li>a flexible yet simple specification that fits many existing network data</li>
+</ul>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Stochastic Block Model: definition
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let</p>
+<ul>
+<li><span class="math inline">\{1, \dots, n \}</span> be some <em>fixed</em> nodes,</li>
+<li>with some <strong>unknown</strong> colors picked up from <span class="math inline">\mathcal{C}=\{{\color{#fab20a}{\bullet}},{\color{#0000ff}{\bullet}},{\color{#008000}{\bullet}}\}</span></li>
+</ul>
+<p>Denote by</p>
+<ul>
+<li><span class="math inline">\alpha_\bullet = \mathbb{P}(i \in \bullet)</span>, <span class="math inline">\bullet\in\mathcal{C}</span> the prior probability of group memberships,</li>
+<li><span class="math inline">\pi_{{\color{#fab20a}{\bullet}}{\color{#0000ff}{\bullet}}} = \mathbb{P}(i \leftrightarrow j | i\in{\color{#fab20a}{\bullet}},j\in{\color{#0000ff}{\bullet}})</span>, the probability of connection between groups.</li>
+</ul>
+<p>In the binary Stochastic Block Model, the adjacency matrix <span class="math inline">Y_{ij}</span> is random, with probability of connection between a dyad <span class="math inline">(i,j)</span> being defined conditionally on their respective group memberships, described by a vector of random variables <span class="math inline">(Z_i)_{i=1,\dots,n}</span>.</p>
+<p><span class="math display">
+\begin{aligned}
+Z_i = \mathbf{1}_{\{i \in \bullet\}}  \ &amp; \sim^{\text{iid}} \mathcal{M}(1,\alpha), \\
+Y_{ij} \ | \ \{i\in{\color{#fab20a}{\bullet}},j\in{\color{#0000ff}{\bullet}}\}
+&amp; \sim^{\text{ind}} \mathcal{B}(\pi_{{\color{#fab20a}{\bullet}}{\color{#0000ff}{\bullet}}})\\
+\end{aligned}
+</span></p>
+</div>
+</div>
+<div class="cell" data-layout-align="center" data-hash="map566-lecture-graph-clustering-part2_cache/html/unnamed-chunk-4_dea203dc3dc9d8bbed13088942e67155">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="sbm.png" class="img-fluid figure-img" style="width:50.0%"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">The binary SBM model</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="a-generative-model" class="level4" data-number="2.2.1">
+<h4 data-number="2.2.1" class="anchored" data-anchor-id="a-generative-model"><span class="header-section-number">2.2.1</span> A generative model</h4>
+<p>The SBM does not assume assume any particular a priori structure of the network: because it is a probabilistic, generative model, we can easy simulate SBM-based network data with various topologies Here are a few examples:</p>
+<ul>
+<li>Community network</li>
+</ul>
+<div class="cell" data-hash="map566-lecture-graph-clustering-part2_cache/html/sample-sbm-community_9a58045cc0750fc933200ef1cfcd3713">
+<div class="sourceCode" id="cb9"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pi <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fl">0.3</span>,<span class="fl">0.02</span>,<span class="fl">0.02</span>,<span class="fl">0.02</span>,<span class="fl">0.3</span>,<span class="fl">0.02</span>,<span class="fl">0.02</span>,<span class="fl">0.02</span>,<span class="fl">0.3</span>),<span class="dv">3</span>,<span class="dv">3</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>communities <span class="ot">&lt;-</span> igraph<span class="sc">::</span><span class="fu">sample_sbm</span>(<span class="dv">100</span>, pi, <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">50</span>, <span class="dv">25</span>))</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(communities, <span class="at">vertex.label=</span><span class="cn">NA</span>, <span class="at">vertex.color =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">50</span>, <span class="dv">25</span>)))</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(<span class="fu">as_adj</span>(communities, <span class="at">sparse =</span><span class="cn">FALSE</span>), <span class="at">tl.pos =</span> <span class="st">"n"</span>, <span class="at">cl.pos =</span> <span class="st">'n'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/sample-sbm-community-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li>Star network</li>
+</ul>
+<div class="cell" data-hash="map566-lecture-graph-clustering-part2_cache/html/sample-sbm-star_138abd621529ce52bc44523d77dec3d1">
+<div class="sourceCode" id="cb10"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>pi <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fl">0.05</span>,<span class="fl">0.3</span>,<span class="fl">0.3</span>,<span class="dv">0</span>),<span class="dv">2</span>,<span class="dv">2</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>star <span class="ot">&lt;-</span> igraph<span class="sc">::</span><span class="fu">sample_sbm</span>(<span class="dv">100</span>, pi, <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">96</span>))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(star, <span class="at">vertex.label=</span><span class="cn">NA</span>, <span class="at">vertex.color =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>,<span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">96</span>)))</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(<span class="fu">as_adj</span>(star, <span class="at">sparse =</span><span class="cn">FALSE</span>), <span class="at">tl.pos =</span> <span class="st">"n"</span>, <span class="at">cl.pos =</span> <span class="st">'n'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/sample-sbm-star-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li>Bipartite network</li>
+</ul>
+<div class="cell" data-hash="map566-lecture-graph-clustering-part2_cache/html/sample-sbm-bipartite_1ec3192f52c38d66189e6ba868110190">
+<div class="sourceCode" id="cb11"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pi <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(.<span class="dv">2</span>,<span class="dv">1</span><span class="fl">-.2</span>,.<span class="dv">2</span>,.<span class="dv">2</span>,<span class="dv">1</span><span class="fl">-.2</span>,.<span class="dv">2</span>,.<span class="dv">2</span>,.<span class="dv">2</span>,.<span class="dv">2</span>,.<span class="dv">2</span>, .<span class="dv">2</span>,<span class="dv">1</span><span class="fl">-.2</span>,.<span class="dv">2</span>,.<span class="dv">2</span>,<span class="dv">1</span><span class="fl">-.2</span>,.<span class="dv">2</span>),<span class="dv">4</span>,<span class="dv">4</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>bipar <span class="ot">&lt;-</span> igraph<span class="sc">::</span><span class="fu">sample_sbm</span>(<span class="dv">100</span>, pi, <span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">35</span>, <span class="dv">5</span>, <span class="dv">45</span>))</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(bipar, <span class="at">vertex.label=</span><span class="cn">NA</span>, <span class="at">vertex.color =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,<span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">35</span>, <span class="dv">5</span>, <span class="dv">45</span>)))</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(<span class="fu">as_adj</span>(bipar, <span class="at">sparse =</span><span class="cn">FALSE</span>), <span class="at">tl.pos =</span> <span class="st">"n"</span>, <span class="at">cl.pos =</span> <span class="st">'n'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/sample-sbm-bipartite-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="degree-distribution" class="level4" data-number="2.2.2">
+<h4 data-number="2.2.2" class="anchored" data-anchor-id="degree-distribution"><span class="header-section-number">2.2.2</span> Degree distribution</h4>
+<p>Because it is defined as a simple mixture of Erdös-Rényi, the degree distribution of the binary SBM has a simple close form</p>
+<div id="def-degreeSBM" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 2 (SBM: Degree distribution) </strong></span>The conditional degree distribution of a node <span class="math inline">i\in q</span> is</p>
+<p><span class="math display">
+  D_i | i \in q \sim \mathrm{b}(n-1,\bar\pi) \approx \mathcal{P}(\lambda_q), \qquad \bar\pi_q = \sum_{\ell=1}^Q \alpha_\ell \pi_{q\ell}, \quad \lambda_q = (n-1)\bar\pi_q
+</span></p>
+<p>From this, we deduce the degree distribution of a node <span class="math inline">i</span>, which can be approximated by a mixture of Poisson distributions:</p>
+<p><span class="math display">
+  \mathbb{P}(D_i = k) = \sum_{q=1}^Q\alpha_q \exp(-\lambda_q) \ \frac{\lambda_q^k}{k !}
+</span></p>
+</div>
+</section>
+</section>
+</section>
+<section id="estimation-variational-inference-of-the-binary-sbm" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="estimation-variational-inference-of-the-binary-sbm"><span class="header-section-number">3</span> Estimation: Variational Inference of the binary SBM</h2>
+<section id="sbm-a-latent-variable-model" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="sbm-a-latent-variable-model"><span class="header-section-number">3.1</span> SBM: a latent variable model</h3>
+<p>Recall tha we have <em>fixed</em> nodes <span class="math inline">\{1, \dots, n \}</span> with <strong>hidden</strong> colors <span class="math inline">\mathcal{C}=\{\color{#fab20a}{\bullet},\color{#0000ff}{\bullet},\color{#008000}{\bullet}\}</span>. We observe the following</p>
+<div class="cell" data-layout-align="center" data-hash="map566-lecture-graph-clustering-part2_cache/html/sbm-inference_783b062d337731c0365c4569cae81c01">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="infer_sbm.png" class="img-fluid figure-img" style="width:40.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We need to estimate the model parameters and the clustering:</p>
+<ul>
+<li><span class="math inline">\theta = \{\boldsymbol\alpha = (\alpha_\bullet), \boldsymbol\Pi = (\pi_{\color{#fab20a}{\bullet}\color{#0000ff}{\bullet}})\}</span></li>
+<li>Colors of <span class="math inline">i</span>, i.e.&nbsp;the <span class="math inline">\mathbf{Z}_i</span> (the clustering)</li>
+</ul>
+<p>Just like with Gaussian mixture models, maximizing the marginal log likelihood is not straightforward</p>
+<p><span class="math display">\ell_\theta(\mathbf{Y}_i) = \log p_\theta(\mathbf{Y}_i) = \log \int_{\mathcal{Z}} \prod_{(i,j)} p_\theta(Y_{ij} | Z_i, Z_j ) \, p_\theta(\mathbf{Z}) \mathrm{d}\mathbf{Z}</span></p>
+<p>Integration over <span class="math inline">\mathcal{Z} = \otimes_{k=0,\dots,K}\{1,\dots, C_k\}^{n_k}</span> is intractable: we have <span class="math inline">\mathrm{card}(C)^n</span> terms! Like for mixture models, Expectation-Maximization seems to be the appropriate solution in the first place…</p>
+</section>
+<section id="em-does-not-work-genuinely-for-sbm" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="em-does-not-work-genuinely-for-sbm"><span class="header-section-number">3.2</span> EM does not work genuinely for SBM</h3>
+<p>To maximum the likelihood via an EM algorithm, we use the following decomposition of the log-likelihood:</p>
+<p><span class="math display">\log p_\theta(\mathbf{Y}) = \mathbb{E}_{p_\theta(\mathbf{Z}\,|\,\mathbf{Y})} [\log p_\theta(\mathbf{Y}, \mathbf{Z})] + \mathcal{H}[p_\theta(\mathbf{Z}\,|\,\mathbf{Y})], \quad \text{ with } \mathcal{H}(p) = -\mathbb{E}_p(\log(p))</span></p>
+<p>Then, we iterate the two following steps until convergence:</p>
+<ol type="1">
+<li><strong>Step E</strong>: compute</li>
+</ol>
+<p><span class="math display">Q(\theta | \theta^{(t-1)}) =   \mathbb E_{\mathbf{Z} | \mathbf{Y}, \theta^{(t-1)} } \left[\log \ell_c(\mathbf{Y},\mathbf{Z}; \theta)  \right]</span></p>
+<ol start="2" type="1">
+<li><strong>Step M</strong>: solve</li>
+</ol>
+<p><span class="math display"> \theta^{(t)} = \arg \max_{\theta} Q(\theta | \theta^{(t-1)})</span></p>
+<p>An important ingredient to compute the conditional expectation above is the complete data likelihood which, for binary SBM, is given by the following expression:</p>
+<p><span class="math display">\begin{aligned}
+\ell_c(\mathbf{Y},\mathbf{Z}; \theta)  &amp; =  p(\mathbf{Y} | \mathbf{Z}; \boldsymbol\pi) p(\mathbf{Z} ; \boldsymbol\alpha)\nonumber = \prod_{i,j} f_{\pi_{Z_i,Z_j}}(Y_{ij}) \times   \prod_{i} \alpha_{Z_i} \nonumber  \\
+&amp;=  \prod_{i,j} \pi_{Z_i,Z_j}^{Y_{ij}} (1-  \pi_{Z_i,Z_j})^{1- Y_{ij}}    \prod_{i} \alpha_{Z_i}
+\end{aligned}</span></p>
+<p>With SBM, we have</p>
+<p><span class="math display">\mathbb{E}_{\mathbf{Z}|\mathbf{Y}} \big[\log L(\boldsymbol\theta;\mathbf{Y},\mathbf{Z}) \big] = \sum_{i,q} \tau_{iq} \log \alpha_q + \sum_{i&lt;j,q,\ell} \eta_{ijq\ell} \log \pi_{q\ell}^{Y_{ij}} (1-\pi_{q\ell})^{1-Y_{ij}}</span></p>
+<p>where <span class="math inline">\tau_ {iq}, \eta_{ijq\ell}</span> are the posterior probabilities:</p>
+<ul>
+<li><span class="math inline">\tau_{iq} = \mathbb{P}(Z_{iq} = 1 | \mathbf{Y}) = \mathbb{E} \left[Z_{iq} | \mathbf{Y}\right].</span></li>
+<li><span class="math inline">\eta_{ijq\ell} = \mathbb{P}(Z_{iq}Z_{j\ell} = 1 | \mathbf{Y}) = \mathbb{E} \left[Z_{iq}Z_{j\ell} | \mathbf{Y}\right].</span></li>
+</ul>
+<div class="callout-warning callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Intractable EM
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>EM requires to evaluate (some moments of) <span class="math inline">p_\theta(\mathbf{Z}\,|\,\mathbf{Y})</span>, which is not known for the SBM (and was explicit for Gaussian mixture models). In particular, we do not have close forms for the <span class="math inline">\eta_{ijq\ell}</span>’s.</p>
+<p>One could use (at least)</p>
+<ul>
+<li>MCMC/Bayesian approaches for evaluating quantities depending on <span class="math inline">p_\theta(\mathbf{Z}\,|\,\mathbf{Y})</span>$</li>
+<li>Variational approaches, which generalize EM by approximating <span class="math inline">p_\theta(\mathbf{Z}\,|\,\mathbf{Y})</span></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="variational-approach-general-case" class="level3" data-number="3.3">
+<h3 data-number="3.3" class="anchored" data-anchor-id="variational-approach-general-case"><span class="header-section-number">3.3</span> Variational approach: general case</h3>
+<p>The idea is to find a proxy <span class="math inline">q_\psi(\mathbf{Z}) \approx p_\theta(\mathbf{Z} | \mathbf{Y})</span> picked in a convenient class of distribution <span class="math inline">\mathcal{Q}</span></p>
+<p><span class="math display">q(\mathbf{Z})^\star  \arg\min_{q\in\mathcal{Q}} D\left(q(\mathbf{Z}), p(\mathbf{Z} | \mathbf{Y})\right).</span></p>
+<p>Küllback-Leibler is a popular choice .small[(error averaged wrt the approximated distribution)]</p>
+<p><span class="math display">KL\left(q(\mathbf{Z}), p(\mathbf{Z} | \mathbf{Y})\right) = \mathbb{E}_q\left[\log \frac{q(z)}{p(z)}\right] = \int_{\mathcal{Z}} q(z) \log \frac{q(z)}{p(z)} \mathrm{d}z.</span></p>
+<p>For mixture model, the natural class of distribution used for approximation is the multinomial</p>
+<p><span class="math display">\mathcal{Q} = \Big\{q_\psi: \, q_\psi(\mathbf{Z}) = \prod_i q_{\psi_i}(\mathbf{Z}_i), \, q_{\psi_i}(\mathbf{Z}_i) = \mathcal{M}\left(\mathbf{Z}_i; \boldsymbol\tau_i\right), \, \psi_i = \{\boldsymbol{\tau}_i\}, \boldsymbol{\tau}_i \in  \mathbb{R}^{K} \Big\}</span></p>
+<p>And we maximize the ELBO (Evidence Lower BOund), a lower bound of the log-likelihood:</p>
+<p><span class="math display">J(\theta, \psi) = \log p_\theta(\mathbf{Y}) - KL[q_\psi (\mathbf{Z}) ||  p_\theta(\mathbf{Z} | \mathbf{Y})]  = \mathbb{E}_{q} [\log p_\theta(\mathbf{Y}, \mathbf{Z})] + \mathcal{H}[q_\psi(\mathbf{Z})]</span></p>
+<p>The variational EM has the following form</p>
+<ol type="1">
+<li><p>Initialization: get <span class="math inline">\mathbf{T}^0 = \{\tau_{ik}^0\}</span> with Absolute Spectral Clustering</p></li>
+<li><p>M step: update <span class="math inline">\theta^h = \{ \boldsymbol\alpha^h, \boldsymbol\Pi^h\}</span></p></li>
+<li><p>VE step: find the optimal <span class="math inline">q_\psi</span>, by updating <span class="math inline">\psi^h= (\psi^h_{i})_i = \mathbf{T}^{h} = \mathbb{E}_{q^{h}} (\mathbf{Z})</span>:</p></li>
+</ol>
+<p><span class="math display">\psi^h = \arg \max J(\theta^h, \psi) = \arg\min_{\psi} KL[q_\psi(\mathbf{Z}) \,||\, p_{\theta^h}(\mathbf{Z}\,|\,\mathbf{Y})]</span></p>
+<p><span class="math display">\theta^h = \arg\max J(\theta, \psi^h) = \arg\max_{\theta} \mathbb{E}_{q_{\psi^h}} [\log p_{\theta}(\mathbf{Y}, \mathbf{Z})]</span></p>
+</section>
+<section id="variational-em-for-sbm-ingredients" class="level3" data-number="3.4">
+<h3 data-number="3.4" class="anchored" data-anchor-id="variational-em-for-sbm-ingredients"><span class="header-section-number">3.4</span> Variational EM for SBM: ingredients</h3>
+<p>We now derive the quantity for the special case of SBM:</p>
+<section id="variational-bound" class="level4" data-number="3.4.1">
+<h4 data-number="3.4.1" class="anchored" data-anchor-id="variational-bound"><span class="header-section-number">3.4.1</span> Variational bound</h4>
+<p><span class="math display">J(\theta, \tau ; \mathbf{Y}) = \sum_{(i,j)} \sum_{(k,\ell)} \tau_{ik} \tau_{j\ell} \log b(Y_{ij},\pi_{k\ell }) + \sum_{i} \sum_{k} \tau _{ik} \log (\alpha_k/\tau_{ik})</span></p>
+</section>
+<section id="m-step-analytical" class="level4" data-number="3.4.2">
+<h4 data-number="3.4.2" class="anchored" data-anchor-id="m-step-analytical"><span class="header-section-number">3.4.2</span> M-step (Analytical)</h4>
+<p><span class="math display">\alpha_k = \frac{1}{n} \sum_{i} \tau_{i k} , \quad  \pi_{k\ell } = \frac{\sum_{(i,j)} \tau_{ik}\tau_{j\ell} Y_{ij}}{\tau_{ik}\tau_{j\ell}} \qquad \left({\boldsymbol\alpha} = \mathbf{1}_n^\top\mathbf{T}, \quad {\boldsymbol\Pi} =  \frac{\mathbf{T}^\top \mathbf{Y} \mathbf{T}}{\mathbf{T}^\top  \mathbf{T}} \right)</span></p>
+</section>
+<section id="variational-e-step-fixed-point" class="level4" data-number="3.4.3">
+<h4 data-number="3.4.3" class="anchored" data-anchor-id="variational-e-step-fixed-point"><span class="header-section-number">3.4.3</span> Variational E-step (fixed point)</h4>
+<p><span class="math display">\tau_{ik} \varpropto \alpha_k \prod_{(i,j)} \prod_{\ell} b(Y_{ij} ; \pi_{k\ell})^{\tau_{j\ell}}</span></p>
+</section>
+<section id="model-selection" class="level4" data-number="3.4.4">
+<h4 data-number="3.4.4" class="anchored" data-anchor-id="model-selection"><span class="header-section-number">3.4.4</span> Model Selection</h4>
+<p>Rather than using the BIC, we use a variational equivalent where the log-likelihood is replaced by its surrogate:</p>
+<p><span class="math display">\mathrm{vBIC}(Q) = - 2 J(\hat{\boldsymbol\tau},\hat{\boldsymbol\theta}) +  \left(\frac{Q(Q+1)}{2} \log \frac{n(n-1)}{2} + (Q-1) \log (n) \right).</span></p>
+<p>The Integrated Classification Likelihood is a preferred variant where we do not include the entropy in the term measuring the fit to the data:</p>
+<p><span class="math display">\mathrm{vICL}(K) = - 2 \mathbb{E}_{q} [\log L(\hat{\theta)}; \mathbf{Y}, \mathbf{Z}] + \left(\frac{K(K+1)}{2} \log \frac{n(n-1)}{2} + (K-1) \log (n) \right)</span></p>
+</section>
+</section>
+<section id="sbm-the-french-blogosphere" class="level3" data-number="3.5">
+<h3 data-number="3.5" class="anchored" data-anchor-id="sbm-the-french-blogosphere"><span class="header-section-number">3.5</span> SBM: the french blogosphere</h3>
+<p>There exist a variety of packages to fit SBM: we advice here using <strong>sbm</strong> and <strong>misssbm</strong> to stick to the course<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<div class="cell" data-hash="map566-lecture-graph-clustering-part2_cache/html/fblog-simpleSbm-analysis_cb86133efa9af21b97e52c0813ce1d72">
+<div class="sourceCode" id="cb12"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>blocks <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">18</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>sbm_full <span class="ot">&lt;-</span> <span class="fu">estimateMissSBM</span>(<span class="fu">as_adj</span>(blog), blocks, <span class="st">"node"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>
+
+ Adjusting Variational EM for Stochastic Block Model
+
+    Imputation assumes a 'node' network-sampling process
+
+ Initialization of 18 model(s). 
+ Performing VEM inference
+    Model with 13 blocks.
+    Model with 16 blocks.
+    Model with 11 blocks.
+    Model with 1 blocks.
+    Model with 14 blocks.
+    Model with 8 blocks.
+    Model with 4 blocks.
+    Model with 10 blocks.
+    Model with 3 blocks.
+    Model with 15 blocks.
+    Model with 5 blocks.
+    Model with 6 blocks.
+    Model with 7 blocks.
+    Model with 18 blocks.
+    Model with 9 blocks.
+    Model with 17 blocks.
+    Model with 2 blocks.
+    Model with 12 blocks.
+ Looking for better solutions
+ Pass 1   Going forward +++++++++++++++++
+                                                                                                    
+ Pass 1   Going backward +++++++++++++++++
+                                                                                                    </code></pre>
+</div>
+</div>
+<section id="convergence-monitoring-elbo" class="level4" data-number="3.5.1">
+<h4 data-number="3.5.1" class="anchored" data-anchor-id="convergence-monitoring-elbo"><span class="header-section-number">3.5.1</span> Convergence monitoring (ELBO)</h4>
+<div class="cell" data-hash="map566-lecture-graph-clustering-part2_cache/html/fblog-simpleSbm-analysis-plot1_7d819497ea02612709adc0afddc5aaf6">
+<div class="sourceCode" id="cb14"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sbm_full, <span class="st">"monitoring"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/fblog-simpleSbm-analysis-plot1-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="model-selection-vicl" class="level4" data-number="3.5.2">
+<h4 data-number="3.5.2" class="anchored" data-anchor-id="model-selection-vicl"><span class="header-section-number">3.5.2</span> Model Selection (vICL)</h4>
+<div class="cell" data-hash="map566-lecture-graph-clustering-part2_cache/html/fblog-simpleSbm-analysis-plot2_6648ec0f0ec07b901551ecb6959e5abe">
+<div class="sourceCode" id="cb15"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sbm_full)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/fblog-simpleSbm-analysis-plot2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="parameters" class="level4" data-number="3.5.3">
+<h4 data-number="3.5.3" class="anchored" data-anchor-id="parameters"><span class="header-section-number">3.5.3</span> Parameters</h4>
+<div class="cell" data-hash="map566-lecture-graph-clustering-part2_cache/html/fblog-simpleSbm-analysis-theta_f8c7eb2ce86d58a70017e21d7173ced3">
+<div class="sourceCode" id="cb16"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sbm_full<span class="sc">$</span>bestModel, <span class="st">"meso"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/fblog-simpleSbm-analysis-theta-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="clustering-i" class="level4" data-number="3.5.4">
+<h4 data-number="3.5.4" class="anchored" data-anchor-id="clustering-i"><span class="header-section-number">3.5.4</span> Clustering I</h4>
+<div class="cell" data-hash="map566-lecture-graph-clustering-part2_cache/html/fblog-simpleSbm-analysis-plot3_b8a29ff37a388d481b4153f48422f98a">
+<div class="sourceCode" id="cb17"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sbm_full<span class="sc">$</span>bestModel, <span class="at">dimLabels =</span> <span class="fu">list</span>(<span class="at">row =</span> <span class="st">"blogs"</span>, <span class="at">col =</span> <span class="st">"blogs"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/fblog-simpleSbm-analysis-plot3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="clustering-ii" class="level4" data-number="3.5.5">
+<h4 data-number="3.5.5" class="anchored" data-anchor-id="clustering-ii"><span class="header-section-number">3.5.5</span> Clustering II</h4>
+<div class="cell" data-hash="map566-lecture-graph-clustering-part2_cache/html/fblog-simpleSbm-analysis-plot4_cee6da9d96814a0344799b3faffa2857">
+<div class="sourceCode" id="cb18"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sbm_full<span class="sc">$</span>bestModel, <span class="st">"expected"</span>, <span class="at">dimLabels =</span> <span class="fu">list</span>(<span class="at">row =</span> <span class="st">"blogs"</span>, <span class="at">col =</span> <span class="st">"blogs"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/fblog-simpleSbm-analysis-plot4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="sbm-extensions" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="sbm-extensions"><span class="header-section-number">4</span> SBM: extensions</h2>
+<section id="including-effects-of-external-covariates" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="including-effects-of-external-covariates"><span class="header-section-number">4.1</span> Including effects of external covariates</h3>
+<p>Le (<span class="math inline">Y_{ij}</span>) be the adjacency matrix and let<span class="math inline">x^{ij} \in \mathbb{R}^p</span> denote some covariates describing associated to the pair <span class="math inline">(i,j)</span>.</p>
+<p>As before, we consider the nodes <span class="math inline">i= 1,\dots,n</span> partitioned into <span class="math inline">K</span> clusters, where the latent variables <span class="math inline">Z_i</span> such as $ (Z_i = k) = _k$ describes the node memberships.</p>
+<p>Then, conditionally to <span class="math inline">(Z_i)_{i=1,\dots,n}</span>}, the <span class="math inline">(Y_{ij})</span> are independent and</p>
+<p><span class="math display">Y_{ij}  | Z_i, Z_j \sim   \mathcal{B}ern(\mathrm{logit}(\alpha_{Z_i,Z_j} + \theta \cdot x_{ij}) ) \quad \textrm{if binary data}</span></p>
+<p>If <span class="math inline">K = 1</span> : all the connection heterogeneity is explained by the covariates. Otherwise, the underlying organisation is explained by weighting of the covariates and the clustering.</p>
+</section>
+<section id="valued-edges-network" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="valued-edges-network"><span class="header-section-number">4.2</span> Valued-edges network</h3>
+<p>Information on edges can be something different from presence/absence (i.e., binary). It can be:</p>
+<ul>
+<li>a count of the number of observed interactions,</li>
+<li>a quantity interpreted as the interaction strength,</li>
+</ul>
+<p>In this case, natural extensions of SBM were introduced by <span class="citation" data-cites="wsbm">Mariadassou, Robin, and Vacher (<a href="#ref-wsbm" role="doc-biblioref">2010</a>)</span></p>
+<ul>
+<li>Poisson distribution:</li>
+</ul>
+<p><span class="math inline">\mathcal{C}=\{{\color{#fab20a}{\bullet}},{\color{#0000ff}{\bullet}},{\color{#008000}{\bullet}}\}</span></p>
+<p><span class="math display">Y_{ij} \ | \ \{i\in{\color{#fab20a}{\bullet}},j\in{\color{#0000ff}{\bullet}}\} \sim^{\text{ind}} \mathcal{P}(\lambda_{{\color{#fab20a}{\bullet}}{\color{#0000ff}{\bullet}}})</span>,</p>
+<ul>
+<li>Gaussian distribution:</li>
+</ul>
+<p><span class="math display">Y_{ij} \ | \ \{i\in{\color{#fab20a}{\bullet}},j\in{\color{#0000ff}{\bullet}}\} \sim^{\text{ind}} \mathcal{N}(\mu_{{\color{#fab20a}{\bullet}}{\color{#0000ff}{\bullet}}},\sigma^2)</span>,</p>
+<ul>
+<li>More generally,</li>
+</ul>
+<p><span class="math display">Y_{ij} \ | \ \{i\in{\color{#fab20a}{\bullet}},{j\in\color{#0000ff}{\bullet}}\} \sim^{\text{ind}} \mathcal{F}(\theta_{{\color{#fab20a}{\bullet}}{\color{#0000ff}{\bullet}}})</span></p>
+</section>
+<section id="bipartite-sbm-aka-latent-block-models" class="level3" data-number="4.3">
+<h3 data-number="4.3" class="anchored" data-anchor-id="bipartite-sbm-aka-latent-block-models"><span class="header-section-number">4.3</span> Bipartite SBM aka Latent Block Models</h3>
+<p>Beyond network, we can consider several sets of interacting entities. For instance, for two sets, we have bipartite SBM (which generalizes to multi-partite SBM):</p>
+<p>Let <span class="math inline">Y_{ij}</span> be a bi-partite network (that is, a rectangular matrix). Individuals in rows and columns are not the same: row nodes <span class="math inline">i= 1,\dots,n_1</span> are partitioned into <span class="math inline">K_1</span> clusters, and col nodes <span class="math inline">j= 1,\dots,n_2</span> partitioned into <span class="math inline">K_2</span> clusters, by the following latent variables:</p>
+<ul>
+<li><span class="math inline">Z^1_i = k</span> if node <span class="math inline">i</span> belongs to cluster (block) <span class="math inline">k</span>,</li>
+<li><span class="math inline">Z^2_j = \ell</span> if node <span class="math inline">j</span> belongs to cluster (block) <span class="math inline">\ell</span></li>
+</ul>
+<p>where <span class="math inline">Z^1_i, Z^2_j</span> are independent <span class="math inline">\mathbb{P}(Z^1_i = k) = \alpha^1_k,\quad \mathbb{P}(Z^2_j = \ell) = \alpha^2_\ell</span></p>
+<p>In a nutshell,</p>
+<div class="cell" data-layout-align="center" data-hash="map566-lecture-graph-clustering-part2_cache/html/unnamed-chunk-6_b60eee991e6542173365c24a41edb1cd">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="bipartite_sbm.png" class="img-fluid figure-img" style="width:50.0%"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">binary Bipartite SBM model</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><span class="math inline">n_1</span> row nodes <span class="math inline">\mathcal{K}_1=\{{\color{#ff0000}{\bullet}},{\color{#fab20a}{\bullet}},{\color{#00ff00}{\bullet}}\}</span> classes</li>
+<li><span class="math inline">\alpha^1_\bullet = \mathbb{P}(i \in \bullet)</span>, <span class="math inline">\bullet\in\mathcal{K}_1,i=1,\dots,n</span></li>
+<li><span class="math inline">n_2</span> column nodes <span class="math inline">\mathcal{K}_2=\{{\color{#ffff00}{\bullet}},\color{black}{\bullet}\}</span> classes</li>
+<li><span class="math inline">\alpha^2_\bullet = \mathbb{P}(j \in \bullet)</span>, <span class="math inline">\bullet\in\mathcal{K}_2,j=1,\dots,m</span></li>
+<li><span class="math inline">\pi_{{\color{#ff0000}{\bullet}}{\color{#ffff00}{\bullet}}} = \mathbb{P}(i \leftrightarrow j | i\in{\color{#ff0000}{\bullet}},j\in{\color{#ffff00}{\bullet}})</span></li>
+</ul>
+<p><span class="math display">\begin{aligned}
+Z^1_i = \mathbf{1}_{\{i \in \bullet\}}  \ &amp; \sim^{\text{iid}} \mathcal{M}(1,\boldsymbol\pi^1), \quad \forall\bullet \in \mathcal{Q}_1, \\
+Z^2_j=\mathbf{1}_{\{j \in \bullet\}}  \ &amp; \sim^{\text{iid}} \mathcal{M}(1,\boldsymbol\pi^2), \quad \forall\bullet \in \mathcal{Q}_2, \\
+Y_{ij} \ | \ \{i\in{\color{#ff0000}{\bullet}},j\in{\color{#ffff00}{\bullet}}\}
+&amp; \sim^{\text{ind}} \mathcal{B}ern(\alpha_{\color{#ff0000}{\bullet}\color{#ffff00}{\bullet}})\\
+\end{aligned}</span></p>
+</section>
+</section>
+<section id="references" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="references">References</h2>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-daudin2008mixture" class="csl-entry" role="doc-biblioentry">
+Daudin, J-J, Franck Picard, and Stéphane Robin. 2008. <span>“A Mixture Model for Random Graphs.”</span> <em>Stat. Comp.</em> 18 (2): 173–83.
+</div>
+<div id="ref-wsbm" class="csl-entry" role="doc-biblioentry">
+Mariadassou, Mahendra, Stéphane Robin, and Corinne Vacher. 2010. <span>“Uncovering Latent Structure in Valued Graphs: A Variational Approach.”</span> <em>The Annals of Applied Statistics</em> 4 (2): 715–42.
+</div>
+<div id="ref-Nowicki2001" class="csl-entry" role="doc-biblioentry">
+Nowicki, K., and T. A. B. Snijders. 2001. <span>“Estimation and Prediction for Stochastic Blockstructures.”</span> <em>J. Am. Stat. Soc.</em> 96 (455): 1077–87.
+</div>
+</div>
+</section>
+<section class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2>Footnotes</h2>
+
+<ol>
+<li id="fn1" role="doc-endnote"><p>I have been involved in their development and they share some classes and have very similar interfaces<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</main> <!-- /main -->
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../docs/mixture-models/map566-lecture-graph-clustering-part1.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Hierarchical and Spectral methods for Graph clustering</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../docs/mixture-models/map566-lab-mixture-models.html" class="pagination-link">
+        <span class="nav-page-text">Mixture models</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+</body></html>
