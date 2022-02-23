@@ -89,7 +89,8 @@ site:
         - section: "Lectures"
           contents:
             - docs/mixture-models/map566-lecture-mixture-models.Rmd
-            - docs/mixture-models/map566-lecture-stochastic-blockmodels.Rmd
+            - docs/mixture-models/map566-lecture-graph-clustering-part1.Rmd
+            - docs/mixture-models/map566-lecture-graph-clustering-part2.Rmd
         - section: "Exercices"
           contents:
             - docs/mixture-models/map566-lab-mixture-models.Rmd
@@ -97,6 +98,9 @@ site:
         - section: "Supplementary material"
           contents:
             - docs/mixture-models/map566-doc-mixture-models-example.Rmd
+            - text: "Slides on Graph Clustering"
+              file: https://github.com/jchiquet/MAP573/raw/master/slides/GraphClustering/GraphClustering.pdf
+    
     # - id: multivariate-models
     #   title: "Multivariate models"
     #   contents:
