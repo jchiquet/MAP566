@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.9.38">
+  <meta name="generator" content="quarto-0.9.41">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Nonlinear Regression</title>
   <style>
@@ -260,8 +260,12 @@
  <span class="dropdown-text">Mixture models</span></a>
   </li>  
         <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-graph-partionning.html">
+ <span class="dropdown-text">Graph Clustering: Spectral and hierarchical methods</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html">
- <span class="dropdown-text">Graph Clustering: Spectral methods and Stochastic Blockmodels</span></a>
+ <span class="dropdown-text">Graph Clustering: Stochastic Blockmodels</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
@@ -785,16 +789,16 @@ y^{(\ell)}_j = f(x_j,\hat{\beta}) + \hat{\sigma} \varepsilon^{(\ell)}_j \quad ; 
 <span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>V_mc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>           [,1]        [,2]        [,3]
-[1,] 33.6850577 -0.56412657  0.95962801
-[2,] -0.5641266  0.01120961 -0.01375746
-[3,]  0.9596280 -0.01375746  0.03182206</code></pre>
+[1,] 29.9123501 -0.52991352  0.82426137
+[2,] -0.5299135  0.01087791 -0.01263913
+[3,]  0.8242614 -0.01263913  0.02662365</code></pre>
 </div>
 </div>
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-40_249e272abe2b1aa8f8b993b6179d0167">
 <div class="sourceCode" id="cb38"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>se_mc <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(V_mc))</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>se_mc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 5.8038830 0.1058755 0.1783874</code></pre>
+<pre><code>[1] 5.4692184 0.1042972 0.1631676</code></pre>
 </div>
 </div>
 <div class="remark proof">
@@ -802,7 +806,7 @@ y^{(\ell)}_j = f(x_j,\hat{\beta}) + \hat{\sigma} \varepsilon^{(\ell)}_j \quad ; 
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-42_14451409a8d4ed9f80c607d86cb32438">
 <div class="sourceCode" id="cb40"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(betas_boot, <span class="dv">2</span>, sd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 5.8038830 0.1058755 0.1783874</code></pre>
+<pre><code>[1] 5.4692184 0.1042972 0.1631676</code></pre>
 </div>
 </div>
 </div>
@@ -893,9 +897,9 @@ tau    1.2597849   1.6647346</code></pre>
 <span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>CI_bootstrap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>        2.5%       97.5%
-1 86.8405787 109.2279603
-2  0.4291797   0.8593236
-3  1.3198928   1.9997865</code></pre>
+1 86.6918897 108.0323839
+2  0.4513697   0.8618586
+3  1.3262757   1.9580812</code></pre>
 </div>
 </div>
 <div class="remark proof">
@@ -916,10 +920,10 @@ tau    1.2597849   1.6647346</code></pre>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>rq <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>,df)<span class="sc">/</span><span class="fu">qnorm</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>)</span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>beta_hat <span class="sc">+</span> rq<span class="sc">*</span>(CI_bootstrap <span class="sc">-</span> beta_hat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>        2.5%       97.5%
-1 86.8122455 109.3008061
-2  0.4282296   0.8603176
-3  1.3192493   2.0022158</code></pre>
+<pre><code>       2.5%      97.5%
+1 86.662885 108.099826
+2  0.450520   0.862864
+3  1.325661   1.960322</code></pre>
 </div>
 </div>
 </div>

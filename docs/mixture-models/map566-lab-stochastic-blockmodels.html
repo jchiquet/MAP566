@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.9.38">
+  <meta name="generator" content="quarto-0.9.41">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>MAP566 - Stats in Action - Graph Clustering: Spectral methods and Stochastic Blockmodels</title>
+  <title>MAP566 - Stats in Action - Graph Clustering: Stochastic Blockmodels</title>
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -103,7 +103,7 @@
   <script src="../../site_libs/quarto-search/fuse.min.js"></script>
   <script src="../../site_libs/quarto-search/quarto-search.js"></script>
   <link href="../../docs/mixture-models/map566-doc-mixture-models-example.html" rel="next">
-  <link href="../../docs/mixture-models/map566-lab-mixture-models.html" rel="prev">
+  <link href="../../docs/mixture-models/map566-lab-graph-partionning.html" rel="prev">
   <script src="../../site_libs/quarto-html/quarto.js"></script>
   <script src="../../site_libs/quarto-html/popper.min.js"></script>
   <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -279,8 +279,12 @@
  <span class="dropdown-text">Mixture models</span></a>
   </li>  
         <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-graph-partionning.html">
+ <span class="dropdown-text">Graph Clustering: Spectral and hierarchical methods</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html">
- <span class="dropdown-text">Graph Clustering: Spectral methods and Stochastic Blockmodels</span></a>
+ <span class="dropdown-text">Graph Clustering: Stochastic Blockmodels</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
@@ -301,7 +305,7 @@
     </nav>
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Graph Clustering: Spectral methods and Stochastic Blockmodels</h1>
+      <h1 class="quarto-secondary-nav-title">Graph Clustering: Stochastic Blockmodels</h1>
       <button type="button" class="quarto-btn-toggle btn">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -354,7 +358,12 @@
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html" class="sidebar-item-text sidebar-link active">Graph Clustering: Spectral methods and Stochastic Blockmodels</a>
+  <a href="../../docs/mixture-models/map566-lab-graph-partionning.html" class="sidebar-item-text sidebar-link">Graph Clustering: Spectral and hierarchical methods</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html" class="sidebar-item-text sidebar-link active">Graph Clustering: Stochastic Blockmodels</a>
   </div>
 </li>
     </ul>
@@ -399,33 +408,29 @@
 <li><a href="#including-covariate-effects" class="nav-link" data-scroll-target="#including-covariate-effects"> <span class="header-section-number">2.3</span> Including covariate effects</a></li>
 </ul></li>
 <li><a href="#analysis-of-the-treefungi-data-with-bipartite-sbm" class="nav-link" data-scroll-target="#analysis-of-the-treefungi-data-with-bipartite-sbm"> <span class="header-section-number">3</span> Analysis of the tree/fungi data with Bipartite SBM</a></li>
-<li><a href="#references" class="nav-link" data-scroll-target="#references"> <span class="header-section-number">4</span> References</a></li>
 </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 <header id="title-block-header">
-<h1 class="title d-none d-lg-block display-7">Graph Clustering: Spectral methods and Stochastic Blockmodels</h1>
+<h1 class="title d-none d-lg-block display-7">Graph Clustering: Stochastic Blockmodels</h1>
 <p class="subtitle lead">An illustration on antogonistic tree/fungus network</p>
 </header>
 
 <section id="introduction" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1</span> Introduction</h2>
-<p>This tutorial introduces the graph clustering techniques seen during the lectures, that is,</p>
-<ul>
-<li>Spectral methods, mainly spectral clustering and its variants</li>
-<li>Model-based approaches, namely, stochastic blocmodels (binary, weigthed, bipartite, w/o covariates)</li>
-</ul>
+<p>This tutorial introduces the model-based approaches, namely, stochastic blockmodels (binary, weighted, bipartite, w/o covariates)</p>
 <p>These methods will be illustrated for the analysis of an (ecological) network data set.</p>
 <section id="requirements" class="level3" data-number="1.1">
 <h3 data-number="1.1" class="anchored" data-anchor-id="requirements"><span class="header-section-number">1.1</span> Requirements</h3>
-<p>The packages required for the analysis are <code>sbm</code> and <code>igraph</code> (<code>sbm</code> <span class="citation" data-cites="sbm-package">Team großBM (Barbillon, Chiquet, Donnet, Léger) (<a href="#ref-sbm-package" role="doc-biblioref">2021</a>)</span> is based on the package <code>blockmodels</code> <span class="citation" data-cites="blockmodels">Leger (<a href="#ref-blockmodels" role="doc-biblioref">2021</a>)</span>), plus some others for data manipulation and representation.</p>
-<div class="cell" data-hash="map566-lab-stochastic-blockmodels_cache/html/packages_4b3099b57e3cf2d8fd287dad2f1aad17">
+<p>The packages required for the analysis are <code>sbm</code> and <code>igraph</code>, plus some others for data manipulation and representation.</p>
+<div class="cell" data-hash="map566-lab-stochastic-blockmodels_cache/html/packages_e5c73ffac1847a5a8def15951ad16c8e">
 <div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)    <span class="co"># graph manipulation</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sbm)       <span class="co"># stochastic bloc model</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># data manipulation</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(aricode)   <span class="co"># clustering measures comparison</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(aricode)   <span class="co"># clustering measures comparison</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)  <span class="co"># plot of covariance/correlation matrices</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout-info callout callout-style-default no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center">
@@ -440,35 +445,6 @@ Advice
 <p><em>Use the documentation of the aforementioned packages!!</em>, and the vignettes available at <a href="https://grosssbm.github.io/sbm/">https://grosssbm.github.io/sbm/</a></p>
 </div>
 </div>
-<p>Some extra packages can be obtained for fancier representations,</p>
-<div class="cell" data-hash="map566-lab-stochastic-blockmodels_cache/html/additional packages_b515a8f4bd1e9dde155d4b2d06c50673">
-<details>
-<summary>Show the code</summary>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)  <span class="co"># plot of covariance/correlation matrices</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggraph)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>fancy_network <span class="ot">&lt;-</span> <span class="cf">function</span>(mygraph, group) {</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">V</span>(mygraph)<span class="sc">$</span>party  <span class="ot">&lt;-</span> <span class="fu">as.character</span>(group)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">V</span>(mygraph)<span class="sc">$</span>degree <span class="ot">&lt;-</span> <span class="fu">degree</span>(mygraph)</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  angle <span class="ot">&lt;-</span> <span class="dv">90</span> <span class="sc">-</span> <span class="dv">360</span> <span class="sc">*</span> <span class="dv">1</span><span class="sc">:</span>igraph<span class="sc">::</span><span class="fu">gorder</span>(mygraph) <span class="sc">/</span> igraph<span class="sc">::</span><span class="fu">gorder</span>(mygraph)</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">V</span>(mygraph)<span class="sc">$</span>hjust <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(angle <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">90</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">V</span>(mygraph)<span class="sc">$</span>angle <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(angle <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">90</span>, angle <span class="sc">+</span> <span class="dv">180</span>, angle)</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">ggraph</span>(mygraph, <span class="at">layout =</span> <span class="st">'linear'</span>, <span class="at">circular =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> </span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_edge_arc</span>(<span class="at">alpha =</span> <span class="fl">0.25</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co">#    geom_node_text(aes(label = party, x = x*1.05, y=y*1.05, angle = angle, hjust = hjust), size = 3) +</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_node_point</span>(<span class="fu">aes</span>(<span class="at">colour =</span> party, <span class="at">size =</span> degree), <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="fu">brewer.pal</span>(<span class="dv">6</span>,<span class="st">"Paired"</span>),<span class="st">"maroon4"</span>,<span class="st">"springgreen"</span>, <span class="st">"tan4"</span>,<span class="st">"plum"</span>,<span class="st">"brown4"</span>,<span class="st">"burlywood"</span>,<span class="fu">brewer.pal</span>(<span class="dv">8</span>, <span class="st">"Dark2"</span>), <span class="st">"navy"</span>)) <span class="sc">+</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_graph</span>(<span class="at">base_size =</span> <span class="dv">20</span>)</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">invisible</span>(p)</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
 </section>
 <section id="data-set-antagonistic-treefungus-interaction-network" class="level3" data-number="1.2">
 <h3 data-number="1.2" class="anchored" data-anchor-id="data-set-antagonistic-treefungus-interaction-network"><span class="header-section-number">1.2</span> Data set: antagonistic tree/fungus interaction network</h3>
@@ -479,15 +455,17 @@ Advice
 </figure>
 </div>
 <p>We consider the fungus-tree interaction network studied by <span class="citation" data-cites="tree_fungus_network">Vacher, Piou, and Desprez-Loustau (<a href="#ref-tree_fungus_network" role="doc-biblioref">2008</a>)</span>, available with the package <strong>sbm</strong>:</p>
-<div class="cell" data-hash="map566-lab-stochastic-blockmodels_cache/html/import dataset_e24e1cf859237dcf97c1b95f2e3edbcc">
-<div class="sourceCode" id="cb3"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"fungusTreeNetwork"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(fungusTreeNetwork,  <span class="at">max.level =</span> <span class="dv">1</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; List of 5</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ tree_names  : Factor w/ 51 levels "Abies alba","Abies grandis",..: 1 2 3 14 42 4 5 6 7 8 ...</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ fungus_names: Factor w/ 154 levels "Amphiporthe leiphaemia",..: 1 2 3 4 5 6 7 8 9 10 ...</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ tree_tree   : num [1:51, 1:51] 0 12 9 3 2 2 0 0 2 7 ...</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ fungus_tree : int [1:154, 1:51] 0 0 0 0 1 1 1 0 0 0 ...</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ covar_tree  :List of 3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="map566-lab-stochastic-blockmodels_cache/html/import dataset_81e06d246a9ccf0861ba0b53ce51e340">
+<div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"fungusTreeNetwork"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(fungusTreeNetwork,  <span class="at">max.level =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>List of 5
+ $ tree_names  : Factor w/ 51 levels "Abies alba","Abies grandis",..: 1 2 3 14 42 4 5 6 7 8 ...
+ $ fungus_names: Factor w/ 154 levels "Amphiporthe leiphaemia",..: 1 2 3 4 5 6 7 8 9 10 ...
+ $ tree_tree   : num [1:51, 1:51] 0 12 9 3 2 2 0 0 2 7 ...
+ $ fungus_tree : int [1:154, 1:51] 0 0 0 0 1 1 1 0 0 0 ...
+ $ covar_tree  :List of 3</code></pre>
+</div>
 </div>
 <p>This data set provides information about <span class="math inline">154</span> fungi sampled on <span class="math inline">51</span> tree species. It is a list with the following entries:</p>
 <ul>
@@ -514,12 +492,10 @@ Advice
 </span></p>
 <p><strong>Questions</strong></p>
 <ol type="1">
-<li>Extract the binary tree-tree adjacency matrix and plot it (<code>plotMyMatrix</code>). Remove isolated nodes.</li>
-<li>Construct and build an igraph object to plot the network.</li>
-<li>Perform hierarchical clustering with modularity and edge betweenness.</li>
-<li>Implement a variant of the spectral clustering and test them on this data. Plot the corresponding reordered adjacency matrix.</li>
-<li>Adjust a simple binary SBM with <code>estimateSimpleSBM</code>. Become familiar with object <code>simpleSBM</code>.</li>
-<li>Select a model via ICL. Explore/check models with similar ICL (using <code>$setModel()</code>, <code>$storedModel</code>)</li>
+<li><p>Extract the binary tree-tree adjacency matrix and plot it (<code>plotMyMatrix</code>). Remove isolated nodes</p></li>
+<li><p>Construct and build an igraph object to plot the network</p></li>
+<li><p>Adjust a simple binary SBM with <code>estimateSimpleSBM</code>. Become familiar with object <code>simpleSBM</code>.</p></li>
+<li><p>Select a model via ICL. Explore/check models with similar ICL (using <code>$setModel()</code>, <code>$storedModel</code>)</p></li>
 </ol>
 </section>
 <section id="weighted-interaction-network-with-poisson-model" class="level3" data-number="2.2">
@@ -532,9 +508,10 @@ Advice
 \end{aligned}
 </span></p>
 <ol type="1">
-<li>Adjust a collection of Poisson SBM, explore the models.</li>
-<li>Adjust spectral methods (you might need to adapt your spectral clustering function to weighted graphs)</li>
-<li>Compare spectral, binary SBM and Poisson SBM with ARI/NID (package <code>aricode</code>) and alluvial plots (<code>plotAlluvial</code>)</li>
+<li><p>Remove the isolates node from the weighted adjacency matrix</p></li>
+<li><p>Adjust a collection of Poisson SBM, explore the models.</p></li>
+<li><p>Adjust the absolute spectral clustering and modularity-based hierarchical method</p></li>
+<li><p>Compare spectral, hierarchical clustering, binary SBM and Poisson SBM with ARI/NID (package <code>aricode</code>) and alluvial plots (<code>plotAlluvial</code>) (chose the number of block selected by the Poisson SBM).</p></li>
 </ol>
 </section>
 <section id="including-covariate-effects" class="level3" data-number="2.3">
@@ -547,11 +524,10 @@ Y_{ij} \mid Z_i=k, Z_j = \ell \sim \mathcal{P}(\exp(\pi_{kl} + x_{ij}^\intercal 
 </span></p>
 <p><strong>Questions</strong></p>
 <ol type="1">
-<li>Plot the data matrix of covariates</li>
-<li>Use k-means or hierarchical clustering to cluster the covariates data, and compare with the previous graph clustering obtained</li>
-<li>Adjust a Poisson SBM with covariates (1, 2, all of them).</li>
-<li>Compare the obtained clustering with ARI/NID and alluvial plots</li>
-<li>Use ICL to select the “best” model among all the Poisson models.</li>
+<li><p>Plot the data matrix of covariates. Remove the isolated nodes (in the graph).</p></li>
+<li><p>Use k-means or hierarchical clustering to cluster the covariates data, and compare with the previous graph clustering obtained with Poisson SBM.</p></li>
+<li><p>Adjust a Poisson SBM with covariates (1, 2, all of them). Use ICL to select the best model.</p></li>
+<li><p>Check your final model. Does it make any biological sense? Compare the obtained clustering with ARI/NID and alluvial plots of your final model with the model without covariates.</p></li>
 </ol>
 </section>
 </section>
@@ -564,18 +540,9 @@ Z^C_i \sim^{\text{iid}} \mathcal{M}(1, \alpha^C) \\
 Y_{ij} \mid Z^R_i=k, Z^C_j = \ell \sim \mathcal{f}(\gamma_{k\ell}, x_{ij}^\top \theta)
 </span></p>
 <p>Redo the whole analysis, using this time a bipartite SBM.</p>
-</section>
-<section id="references" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="references"><span class="header-section-number">4</span> References</h2>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
-<div id="ref-blockmodels" class="csl-entry" role="doc-biblioentry">
-Leger, Jean-Benoist. 2021. <span>“Blockmodels: Latent and Stochastic Block Model Estimation by a ’v-EM’ Algorithm.”</span> <a href="https://cran.r-project.org/package=blockmodels">https://cran.r-project.org/package=blockmodels</a>.
-</div>
-<div id="ref-sbm-package" class="csl-entry" role="doc-biblioentry">
-Team großBM (Barbillon, Chiquet, Donnet, Léger). 2021. <span>“<span class="nocase">sbm: Stochastic Blockmodels</span>.”</span> <a href="https://cran.r-project.org/package=sbm">https://cran.r-project.org/package=sbm</a>.
-</div>
 <div id="ref-tree_fungus_network" class="csl-entry" role="doc-biblioentry">
 Vacher, Corinne, Dominique Piou, and Marie-Laure Desprez-Loustau. 2008. <span>“Architecture of an Antagonistic Tree/Fungus Network: The Asymmetric Influence of Past Evolutionary History.”</span> <em>PloS One</em> 3 (3): e1740.
 </div>
@@ -660,8 +627,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../docs/mixture-models/map566-lab-mixture-models.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Mixture models</span>
+      <a href="../../docs/mixture-models/map566-lab-graph-partionning.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Graph Clustering: Spectral and hierarchical methods</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

@@ -3,7 +3,7 @@
   <meta charset="utf-8">
   <meta name="generator" content="quarto-0.9.41">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>MAP566 - Stats in Action - Mixture models</title>
+  <title>MAP566 - Stats in Action - Graph Clustering: Spectral and hierarchical methods</title>
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -83,8 +83,8 @@
   <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
   <script src="../../site_libs/quarto-search/fuse.min.js"></script>
   <script src="../../site_libs/quarto-search/quarto-search.js"></script>
-  <link href="../../docs/mixture-models/map566-lab-graph-partionning.html" rel="next">
-  <link href="../../docs/mixture-models/map566-lecture-graph-clustering-part2.html" rel="prev">
+  <link href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html" rel="next">
+  <link href="../../docs/mixture-models/map566-lab-mixture-models.html" rel="prev">
   <script src="../../site_libs/quarto-html/quarto.js"></script>
   <script src="../../site_libs/quarto-html/popper.min.js"></script>
   <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -270,7 +270,7 @@
     </nav>
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Mixture models</h1>
+      <h1 class="quarto-secondary-nav-title">Graph Clustering: Spectral and hierarchical methods</h1>
       <button type="button" class="quarto-btn-toggle btn">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -318,12 +318,12 @@
     <ul id="quarto-sidebar-section-exercices" class="collapse list-unstyled sidebar-section depth1 show">  
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/mixture-models/map566-lab-mixture-models.html" class="sidebar-item-text sidebar-link active">Mixture models</a>
+  <a href="../../docs/mixture-models/map566-lab-mixture-models.html" class="sidebar-item-text sidebar-link">Mixture models</a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/mixture-models/map566-lab-graph-partionning.html" class="sidebar-item-text sidebar-link">Graph Clustering: Spectral and hierarchical methods</a>
+  <a href="../../docs/mixture-models/map566-lab-graph-partionning.html" class="sidebar-item-text sidebar-link active">Graph Clustering: Spectral and hierarchical methods</a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -361,121 +361,119 @@
         <nav id="TOC" role="doc-toc">
 <h2 id="toc-title">On this page</h2>
 <ul>
-<li><a href="#preliminary" class="nav-link active" data-scroll-target="#preliminary"> <span class="header-section-number">1</span> Preliminary</a></li>
-<li><a href="#faithful-data" class="nav-link" data-scroll-target="#faithful-data"> <span class="header-section-number">2</span> Faithful data</a>
+<li><a href="#introduction" class="nav-link active" data-scroll-target="#introduction"> <span class="header-section-number">1</span> Introduction</a>
 <ul class="collapse">
-<li><a href="#hint-skeleton-of-em-for-1d-mixture-of-gaussian" class="nav-link" data-scroll-target="#hint-skeleton-of-em-for-1d-mixture-of-gaussian"> <span class="header-section-number">2.1</span> Hint: skeleton of EM for 1D mixture of Gaussian</a></li>
+<li><a href="#requirements" class="nav-link" data-scroll-target="#requirements"> <span class="header-section-number">1.1</span> Requirements</a></li>
+<li><a href="#data-set-friendship-network-of-a-uk-university-faculty" class="nav-link" data-scroll-target="#data-set-friendship-network-of-a-uk-university-faculty"> <span class="header-section-number">1.2</span> Data set: Friendship network of a UK university faculty</a></li>
 </ul></li>
-<li><a href="#epilepsy-data" class="nav-link" data-scroll-target="#epilepsy-data"> <span class="header-section-number">3</span> Epilepsy data</a></li>
+<li><a href="#analysis-of-the-friendship-network" class="nav-link" data-scroll-target="#analysis-of-the-friendship-network"> <span class="header-section-number">2</span> Analysis of the Friendship network</a>
+<ul class="collapse">
+<li><a href="#binary-interaction-network" class="nav-link" data-scroll-target="#binary-interaction-network"> <span class="header-section-number">2.1</span> Binary interaction network</a></li>
+<li><a href="#weighted-interaction-network" class="nav-link" data-scroll-target="#weighted-interaction-network"> <span class="header-section-number">2.2</span> Weighted interaction network</a></li>
+</ul></li>
 </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 <header id="title-block-header">
-<h1 class="title d-none d-lg-block display-7">Mixture models</h1>
-<p class="subtitle lead">Exercices</p>
+<h1 class="title d-none d-lg-block display-7">Graph Clustering: Spectral and hierarchical methods</h1>
+<p class="subtitle lead">An illustration on antogonistic tree/fungus network</p>
 </header>
 
-<section id="preliminary" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="preliminary"><span class="header-section-number">1</span> Preliminary</h2>
-<p>Only functions from <code>R</code>-base and stats (preloaded) are required plus packages from the <strong>tidyverse</strong> for data representation and manipulation.</p>
-<div class="cell" data-hash="map566-lab-mixture-models_cache/html/mixture-model-lab-config_8f4ae0b0107e6806d1d00ada46687b8f">
-<div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="introduction" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1</span> Introduction</h2>
+<p>This tutorial introduces the graph clustering techniques seen during the lectures, that is,</p>
+<ul>
+<li>Hierarchical clustering for network data</li>
+<li>Spectral clustering and its variants</li>
+</ul>
+<p>These methods will be illustrated for the analysis of a (friendship/social) network data set.</p>
+<section id="requirements" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="requirements"><span class="header-section-number">1.1</span> Requirements</h3>
+<p>The packages required for the analysis are <code>igraph</code>, <code>igraphdata</code>, <code>aricode</code> plus some others for data manipulation and representation.</p>
+<div class="cell" data-hash="map566-lab-graph-partionning_cache/html/packages_cd2e19610ee35c16218aaeb1a5e473d5">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)     <span class="co"># graph manipulation</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraphdata) <span class="co"># network data manipulation</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)  <span class="co"># data manipulation</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)   <span class="co"># fancy matrix representation</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(aricode)    <span class="co"># clustering measures comparison</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout-info callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Advice
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>Use the documentation of the aforementioned packages!!</em></p>
+</div>
 </div>
 </section>
-<section id="faithful-data" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="faithful-data"><span class="header-section-number">2</span> Faithful data</h2>
-<p>The <code>faithful</code> data consist of the waiting time between eruptions and the duration of the eruption for the Old Faithful geyser in Yellowstone National Park, Wyoming, USA.</p>
-<div class="cell" data-hash="map566-lab-mixture-models_cache/html/mixture-faitful-load_360158f3be871b286f437f51806a2fc7">
-<div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"faithful"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>faithful <span class="sc">%&gt;%</span> </span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x=</span>waiting) <span class="sc">+</span> <span class="fu">geom_histogram</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"waiting (mm)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stderr">
-<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<section id="data-set-friendship-network-of-a-uk-university-faculty" class="level3" data-number="1.2">
+<h3 data-number="1.2" class="anchored" data-anchor-id="data-set-friendship-network-of-a-uk-university-faculty"><span class="header-section-number">1.2</span> Data set: Friendship network of a UK university faculty</h3>
+<p>The personal friendship network of a faculty of a UK university, consists of 81 vertices (individuals) and 817 directed and weighted connections. The school affiliation of each individual is stored as a vertex attribute. This dataset can serve as a tested for community detection algorithms.</p>
+<p>We consider a undirected version of this network, available with the package <strong>igraphdata</strong>:</p>
+<div class="cell" data-hash="map566-lab-graph-partionning_cache/html/import dataset_17cf8520761fedfc521e731b74caaf36">
+<div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"UKfaculty"</span>, <span class="at">package =</span> <span class="st">"igraphdata"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>UKfaculty <span class="ot">&lt;-</span> <span class="fu">as.undirected</span>(UKfaculty)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>UKfaculty</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>IGRAPH a02c26f U-W- 81 577 -- 
++ attr: Type (g/c), Date (g/c), Citation (g/c), Author (g/c), Group
+| (v/n), weight (e/n)
++ edges from a02c26f:
+ [1]  1-- 4  3-- 4  5-- 6  5-- 7  6-- 7  3-- 9  4-- 9  5-- 9  5--10  7--10
+[11]  5--12  7--12  5--13  7--13 10--13 12--13  2--15 14--15  5--16  7--16
+[21] 12--16 13--16  3--17  4--17  9--17  2--18  7--18 15--18 15--19 18--19
+[31]  2--20  6--20  8--20 14--20 15--20 18--20 19--20  2--21  8--21 10--21
+[41] 13--21 15--21 19--21  5--22  7--22 10--22 12--22 21--22  5--23  7--23
+[51] 10--23 12--23 13--23 22--23  2--25 15--25 20--25 21--25  2--26 14--26
+[61] 20--26 21--26  5--27  7--27 10--27 13--27 16--27 19--27 22--27 23--27
++ ... omitted several edges</code></pre>
 </div>
-<div class="cell-output-display">
-<p><img src="map566-lab-mixture-models_files/figure-html/mixture-faitful-load-1.png" class="img-fluid" width="672"></p>
 </div>
-</div>
-<p>Fit variants of a mixture of two Gaussian distributions to the faithful data.</p>
+<p>This data set is an igraph object with various attributes</p>
+<ul>
+<li><code>V(UKfaculty)$Group</code> : a node attribute for the school affiliation</li>
+<li><code>E(UKfaculty)$weight</code> : an edge attribute for the weights / freindship strength</li>
+</ul>
+</section>
+</section>
+<section id="analysis-of-the-friendship-network" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="analysis-of-the-friendship-network"><span class="header-section-number">2</span> Analysis of the Friendship network</h2>
+<section id="binary-interaction-network" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="binary-interaction-network"><span class="header-section-number">2.1</span> Binary interaction network</h3>
+<p>We first consider a binary version of this network where an edge is drawn between two individual when they are friend, just to become familiar with <strong>igraph</strong>.</p>
+<section id="questions" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="questions">Questions</h4>
 <ol type="1">
-<li><p>assuming different proportions, means and variances for the 2 distributions</p></li>
-<li><p>assuming same variances</p></li>
-<li><p>assuming same means</p></li>
-<li><p>assuming same proportions</p></li>
+<li><p>Create an igraph object similar to <code>UKfaculty</code> with binary edges</p></li>
+<li><p>Check the attributes of the vertices and edges. Plot the network by adding color to the node related to the group.</p></li>
+<li><p>Extract the binary adjacency matrix and plot it with the <strong>corrplot</strong> package.</p></li>
+<li><p>Plot the distribution of the degree</p></li>
+<li><p>Plot the matrix of shortest-path distance</p></li>
+<li><p>Perform hierarchical clustering using various algorithm (modularity, edges betweeness, etc). What do you think?</p></li>
 </ol>
-<section id="hint-skeleton-of-em-for-1d-mixture-of-gaussian" class="level3" data-number="2.1">
-<h3 data-number="2.1" class="anchored" data-anchor-id="hint-skeleton-of-em-for-1d-mixture-of-gaussian"><span class="header-section-number">2.1</span> Hint: skeleton of EM for 1D mixture of Gaussian</h3>
-<p>We follow what has been done during the course: we define the function that computes the value of the likelihood for each point in each component. It will be used to compute the posterior probabilities in the E-step.</p>
-<div class="cell" data-hash="map566-lab-mixture-models_cache/html/auxiliary function_b91a6691d8af0d9869f49e791879d420">
-<div class="sourceCode" id="cb4"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## likelihood (density) of each point in each component</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="do">## data (x) is fixed while theta is variable</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>dcomponents <span class="ot">&lt;-</span> <span class="cf">function</span>(theta, x) {</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mapply</span>(</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>      <span class="cf">function</span>(pi, mu, sigma) pi <span class="sc">*</span> <span class="fu">dnorm</span>(x, mu, sigma),</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>      theta<span class="sc">$</span>pi, theta<span class="sc">$</span>mu, theta<span class="sc">$</span>sigma,</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">SIMPLIFY =</span> <span class="cn">TRUE</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Then, we define an EM where the function that computes the M step is given as an argument:</p>
-<div class="cell" data-hash="map566-lab-mixture-models_cache/html/general EM_b4c7e3c328fc1b073896d46f40a77f2d">
-<div class="sourceCode" id="cb5"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>mixture_gaussian1D <span class="ot">&lt;-</span> </span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(x,      <span class="co"># a n-vector of data</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>           theta0, <span class="co"># starting values of vector paramter</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">M_step    =</span> M_step_general, <span class="co"># an R function</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">max_iter  =</span> <span class="dv">100</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">threshold =</span> <span class="fl">1e-6</span>) {</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="do">## initialization</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  likelihoods  <span class="ot">&lt;-</span> <span class="fu">dcomponents</span>(theta0, x) </span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  deviance     <span class="ot">&lt;-</span> <span class="fu">numeric</span>(max_iter)</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  deviance[<span class="dv">1</span>]  <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">sum</span>(<span class="fu">log</span>(<span class="fu">rowSums</span>(likelihoods)))</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (t <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>max_iter) {</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># E step</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    tau <span class="ot">&lt;-</span> likelihoods <span class="sc">/</span> <span class="fu">rowSums</span>(likelihoods)</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># M step</span></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    theta <span class="ot">&lt;-</span> <span class="fu">M_step</span>(tau, x)</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="do">## Assessing convergence</span></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    likelihoods   <span class="ot">&lt;-</span> <span class="fu">dcomponents</span>(theta, x)</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    deviance[t<span class="sc">+</span><span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sum</span>(<span class="fu">log</span>(<span class="fu">rowSums</span>(likelihoods)))</span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    <span class="do">## prepare next iterations</span></span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">abs</span>(deviance[t <span class="sc">+</span> <span class="dv">1</span>] <span class="sc">-</span> deviance[t]) <span class="sc">&lt;</span> threshold)</span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>      <span class="cf">break</span></span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">theta =</span> theta, <span class="at">deviance =</span> deviance[t <span class="sc">+</span> <span class="dv">1</span>])</span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 </section>
 </section>
-<section id="epilepsy-data" class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="epilepsy-data"><span class="header-section-number">3</span> Epilepsy data</h2>
-<p>The data <code>seizures.csv</code> consists of daily counts of epileptic seizures for 6 patients.</p>
-<div class="cell" data-hash="map566-lab-mixture-models_cache/html/mixture-seizures-load_9630586c35acd4a948f4a649fa70e278">
-<div class="sourceCode" id="cb6"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>seizures <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'../../data/seizures.csv'</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>seizures <span class="sc">%&gt;%</span> </span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> nsz) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>( <span class="sc">~</span> id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="map566-lab-mixture-models_files/figure-html/mixture-seizures-load-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
+<section id="weighted-interaction-network" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="weighted-interaction-network"><span class="header-section-number">2.2</span> Weighted interaction network</h3>
 <ol type="1">
-<li><p>Select the id 12 and fit a Poisson distribution to the number of seizures for this patient.</p></li>
-<li><p>Implement and use a EM algorithm for fitting a mixture of 2 Poisson distributions to this data</p></li>
-<li><p>Compare the two models</p></li>
+<li><p>We now study the original weighted graph. Plot the graph, the matrix and the distribution of the degree. Put color on node depending on the group attribute, node size depending on the node degree, and edge thickness depending on the weigths.</p></li>
+<li><p>Perform hierarchical clustering using various distances, in particular the shortest path distance. Plot the dendrogram (use the as.hclust function if necessary)</p></li>
+<li><p>Compare the AHC clustering to the reference clustering with ARI (package <code>aricode</code>) for a varying number of groups.</p></li>
+<li><p>Plot the Fiedler vector for this data (use normalized Laplacian). Comment (use tree names no find some structure in the data).</p></li>
+<li><p>Implement different the normalized and absolute spectral clusterings and test them on this data. Plot the data matrix reordered by row and column according to these clustering.</p></li>
+<li><p>Compare all the methods with ARI/NID (package <code>aricode</code>) to the reference clsutering for various number of groups.</p></li>
+<li><p>What is your best final model?</p></li>
 </ol>
 
 
+</section>
 </section>
 </main> <!-- /main -->
 <script type="application/javascript">
@@ -556,13 +554,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../docs/mixture-models/map566-lecture-graph-clustering-part2.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Stochastic block Models</span>
+      <a href="../../docs/mixture-models/map566-lab-mixture-models.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Mixture models</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../docs/mixture-models/map566-lab-graph-partionning.html" class="pagination-link">
-        <span class="nav-page-text">Graph Clustering: Spectral and hierarchical methods</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html" class="pagination-link">
+        <span class="nav-page-text">Graph Clustering: Stochastic Blockmodels</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
