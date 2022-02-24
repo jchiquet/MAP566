@@ -9,6 +9,7 @@ install.packages('nloptr')
 install.packages('blockmodels')
 install.packages('sbm')
 install.packages('missSBM')
+install.packages('igraphdata')
 
 ## install.packages('magick')
 

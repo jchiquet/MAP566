@@ -1,0 +1,85 @@
+---
+title: " Graph Clustering: Spectral and hierarchical methods"
+subtitle: "An illustration on antogonistic tree/fungus network"
+---
+
+##  Introduction
+
+This tutorial introduces the graph clustering techniques seen during the lectures, that is,
+
+- Hierarchical clustering for network data
+- Spectral clustering and its variants
+
+These methods will be illustrated for the analysis of a (friendship/social) network data set.
+
+###  Requirements
+
+The packages required for the analysis are `igraph`,  `igraphdata`, `aricode` plus some others for data manipulation and representation. 
+
+```{r packages, message=FALSE, warning=FALSE}
+library(igraph)     # graph manipulation
+library(igraphdata) # network data manipulation
+library(tidyverse)  # data manipulation
+library(corrplot)   # fancy matrix representation
+library(aricode)    # clustering measures comparison
+```
+
+::: {.callout-info}
+## Advice
+
+*Use the documentation of the aforementioned packages!!*
+
+:::
+
+### Data set: Friendship network of a UK university faculty
+
+The personal friendship network of a faculty of a UK university, consists of 81 vertices (individuals) and 817 directed and weighted connections. The school affiliation of each individual is stored as a vertex attribute. This dataset can serve as a tested for community detection algorithms.
+
+We consider a undirected version of this network, available with the package **igraphdata**:
+
+```{r import dataset}
+data("UKfaculty", package = "igraphdata")
+UKfaculty <- as.undirected(UKfaculty)
+UKfaculty
+```
+
+This data set is an igraph object with various attributes
+
+- `V(UKfaculty)$Group`  : a node attribute for the school affiliation
+- `E(UKfaculty)$weight` : an edge attribute for the weights / freindship strength 
+
+## Analysis of the Friendship network
+
+### Binary interaction network
+
+We first consider a binary version of this network where an edge is drawn between two individual when they are friend, just to become familiar with **igraph**.
+
+#### Questions {-}
+
+1. Create an igraph object similar to `UKfaculty` with binary edges
+
+2. Check the attributes of the vertices and edges. Plot the network by adding color to the node related to the group.
+
+3. Extract the binary adjacency matrix and plot it with the **corrplot** package. 
+
+3. Plot the distribution of the degree
+
+4. Plot the matrix of shortest-path distance
+
+5. Perform hierarchical clustering using various algorithm (modularity, edges betweeness, etc). What do you think?
+
+### Weighted interaction network
+
+1. We now study the original weighted graph. Plot the graph, the matrix and the distribution of the degree. Put color on node depending on the group attribute, node size depending on the node degree, and edge thickness depending on the weigths.
+
+2. Perform hierarchical clustering using various distances, in particular the shortest path distance. Plot the dendrogram (use the as.hclust function if necessary)
+
+3. Compare the AHC clustering to the reference clustering with ARI (package `aricode`) for a varying number of groups. 
+
+4. Plot the Fiedler vector for this data (use normalized Laplacian). Comment (use tree names no find some structure in the data).
+
+5. Implement different the normalized and absolute spectral clusterings and test them on this data. Plot the data matrix reordered by row and column according to these clustering.
+
+6. Compare all the methods with ARI/NID (package `aricode`) to the reference clsutering for various number of groups. 
+
+7. What is your best final model?

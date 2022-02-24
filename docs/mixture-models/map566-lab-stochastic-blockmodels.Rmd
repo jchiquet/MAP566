@@ -1,34 +1,24 @@
 ---
-title: " Graph Clustering: Spectral methods and Stochastic Blockmodels"
+title: " Graph Clustering: Stochastic Blockmodels"
 subtitle: "An illustration on antogonistic tree/fungus network"
-link-citations: yes
 ---
-
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
 
 ##  Introduction
 
-This tutorial introduces the graph clustering techniques seen during the lectures, that is,
-
-- Spectral methods, mainly spectral clustering and its variants
-- Model-based approaches, namely, stochastic blocmodels (binary, weigthed, bipartite, w/o covariates)
+This tutorial introduces the model-based approaches, namely, stochastic blockmodels (binary, weighted, bipartite, w/o covariates)
 
 These methods will be illustrated for the analysis of an (ecological) network data set.
 
 ###  Requirements
 
-The packages required for the analysis are `sbm` and `igraph` (`sbm` @sbm-package is based on the package `blockmodels` @blockmodels), plus some others for data manipulation and representation. 
+The packages required for the analysis are `sbm` and `igraph`, plus some others for data manipulation and representation. 
 
 ```{r packages, message=FALSE, warning=FALSE}
 library(igraph)    # graph manipulation
 library(sbm)       # stochastic bloc model
 library(tidyverse) # data manipulation
 library(aricode)   # clustering measures comparison
+library(corrplot)  # plot of covariance/correlation matrices
 ```
 
 ::: {.callout-info}
@@ -37,36 +27,6 @@ library(aricode)   # clustering measures comparison
 *Use the documentation of the aforementioned packages!!*, and the vignettes available at [https://grosssbm.github.io/sbm/](https://grosssbm.github.io/sbm/)
 
 :::
-
-Some extra packages can be obtained for fancier representations, 
-
-```{r additional packages, eval = FALSE}
-#| code-fold: true
-library(corrplot)  # plot of covariance/correlation matrices
-library(ggraph)
-library(RColorBrewer)
-theme_set(theme_bw())
-
-fancy_network <- function(mygraph, group) {
-
-  V(mygraph)$party  <- as.character(group)
-  V(mygraph)$degree <- degree(mygraph)
-
-  angle <- 90 - 360 * 1:igraph::gorder(mygraph) / igraph::gorder(mygraph)
-  V(mygraph)$hjust <- ifelse(angle < -90, 1, 0)
-  V(mygraph)$angle <- ifelse(angle < -90, angle + 180, angle)
-  
-  p <- ggraph(mygraph, layout = 'linear', circular = TRUE) + 
-    geom_edge_arc(alpha = 0.25, show.legend = FALSE) +
-#    geom_node_text(aes(label = party, x = x*1.05, y=y*1.05, angle = angle, hjust = hjust), size = 3) +
-    geom_node_point(aes(colour = party, size = degree), alpha = 0.5) +
-    scale_colour_manual(values = c(brewer.pal(6,"Paired"),"maroon4","springgreen", "tan4","plum","brown4","burlywood",brewer.pal(8, "Dark2"), "navy")) +
-    theme_graph(base_size = 20)
-  
-  invisible(p)
-}
-```
- 
 
 ### Data set: antagonistic tree/fungus interaction network
 
@@ -106,12 +66,13 @@ $$
 
 **Questions**
 
-1. Extract the binary tree-tree adjacency matrix and plot it (`plotMyMatrix`). Remove isolated nodes.
-2. Construct and build an igraph object to plot the network.
-3. Perform hierarchical clustering with modularity and edge betweenness.
-4. Implement a variant of the spectral clustering and test them on this data. Plot the corresponding reordered adjacency matrix.
-5. Adjust a simple binary SBM with `estimateSimpleSBM`. Become familiar with object `simpleSBM`.
-6. Select a model via ICL. Explore/check models with similar ICL (using `$setModel()`, `$storedModel`)
+1. Extract the binary tree-tree adjacency matrix and plot it (`plotMyMatrix`). Remove isolated nodes
+
+2. Construct and build an igraph object to plot the network 
+
+3. Adjust a simple binary SBM with `estimateSimpleSBM`. Become familiar with object `simpleSBM`.
+
+4. Select a model via ICL. Explore/check models with similar ICL (using `$setModel()`, `$storedModel`)
 
 ### Weighted interaction network with Poisson model
 
@@ -124,9 +85,13 @@ $$
 \end{aligned}
 $$
 
-1. Adjust a collection of Poisson SBM, explore the models.
-2. Adjust spectral methods (you might need to adapt your spectral clustering function to weighted graphs)
-3. Compare spectral, binary SBM and Poisson SBM with ARI/NID (package `aricode`) and alluvial plots (`plotAlluvial`)
+1. Remove the isolates node from the weighted adjacency matrix
+
+2. Adjust a collection of Poisson SBM, explore the models.
+
+3. Adjust the absolute spectral clustering and modularity-based hierarchical method
+
+4. Compare spectral, hierarchical clustering, binary SBM and Poisson SBM with ARI/NID (package `aricode`) and alluvial plots (`plotAlluvial`) (chose the number of block selected by the Poisson SBM).
 
 ### Including covariate effects
 
@@ -142,11 +107,13 @@ $$
 
 **Questions**
 
-1. Plot the data matrix of covariates
-2. Use k-means or hierarchical clustering to cluster the covariates data, and compare with the previous graph clustering obtained
-3. Adjust a Poisson SBM with covariates (1, 2, all of them).
-4. Compare the obtained clustering with ARI/NID and alluvial plots
-5. Use ICL to select the "best" model among all the Poisson models.
+1. Plot the data matrix of covariates. Remove the isolated nodes (in the graph).
+
+2. Use k-means or hierarchical clustering to cluster the covariates data, and compare with the previous graph clustering obtained with Poisson SBM.
+
+3. Adjust a Poisson SBM with covariates (1, 2, all of them). Use ICL to select the best model.
+
+4. Check your final model. Does it make any biological sense? Compare the obtained clustering with ARI/NID and alluvial plots of your final model with the model without covariates. 
 
 ## Analysis of the tree/fungi data with Bipartite SBM
 
@@ -159,6 +126,4 @@ Y_{ij} \mid Z^R_i=k, Z^C_j = \ell \sim \mathcal{f}(\gamma_{k\ell}, x_{ij}^\top \
 $$
 
 Redo the whole analysis, using this time a bipartite SBM.
-
-## References
 

@@ -94,6 +94,7 @@ site:
         - section: "Exercices"
           contents:
             - docs/mixture-models/map566-lab-mixture-models.Rmd
+            - docs/mixture-models/map566-lab-graph-partionning.Rmd
             - docs/mixture-models/map566-lab-stochastic-blockmodels.Rmd
         - section: "Supplementary material"
           contents:
