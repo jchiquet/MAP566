@@ -509,13 +509,13 @@ $\rightsquigarrow$ The principle generalizes to a fully connected graph (with a 
 The **normalized** Laplacian matrix $\mathbf{L}$ (see @ng2002spectral) is defined by 
 
 $$
-      \mathbf{L}_N = \mathbf{D}^{-1/2}\mathbf{L}\mathbf{D}^{-1/2} = \bI - \mathbf{D}^{-1/2} \bA \mathbf{D}^{-1/2}.
+      \mathbf{L}_N = \mathbf{D}^{-1/2}\mathbf{L}\mathbf{D}^{-1/2} = \mathbf{I} - \mathbf{D}^{-1/2} \mathbf{Y} \mathbf{D}^{-1/2}.
 $$
 
 The **absolute** Laplacian matrix $\mathbf{L}_{abs}$ (see @rohe2011spectral) is defined by 
 
 $$
-  \mathbf{L}_{abs} = \mathbf{D}^{-1/2}\bA\mathbf{D}^{-1/2} = \bI - \mathbf{L}_N,
+  \mathbf{L}_{abs} = \mathbf{D}^{-1/2}\mathbf{Y}\mathbf{D}^{-1/2} = \mathbf{I} - \mathbf{L}_N,
 $$
 with eigenvalues $1-\lambda_n \leq \dots \leq 1-\lambda_2 \leq 1-\lambda_1 = 1$, where $0=\lambda_1\leq \dots \leq \lambda_n$ are the eigenvalues of $\mathbf{L}_N$.
 
