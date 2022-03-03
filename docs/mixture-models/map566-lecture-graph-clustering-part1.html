@@ -811,7 +811,7 @@ Idea
 <span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">gorder</span>(blog), A)</span>
 <span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="fu">cut</span>(blog, A, B)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 1.55303</code></pre>
+<pre><code>[1] 2.086818</code></pre>
 </div>
 </div>
 </section>
@@ -968,11 +968,11 @@ Variants in the definition of the graph Laplacian
 <div class="callout-body-container callout-body">
 <p>The <strong>normalized</strong> Laplacian matrix <span class="math inline">\mathbf{L}</span> (see <span class="citation" data-cites="ng2002spectral">Ng, Jordan, and Weiss (<a href="#ref-ng2002spectral" role="doc-biblioref">2002</a>)</span>) is defined by</p>
 <p><span class="math display">
-      \mathbf{L}_N = \mathbf{D}^{-1/2}\mathbf{L}\mathbf{D}^{-1/2} = \bI - \mathbf{D}^{-1/2} \bA \mathbf{D}^{-1/2}.
+      \mathbf{L}_N = \mathbf{D}^{-1/2}\mathbf{L}\mathbf{D}^{-1/2} = \mathbf{I} - \mathbf{D}^{-1/2} \mathbf{Y} \mathbf{D}^{-1/2}.
 </span></p>
 <p>The <strong>absolute</strong> Laplacian matrix <span class="math inline">\mathbf{L}_{abs}</span> (see <span class="citation" data-cites="rohe2011spectral">Rohe, Chatterjee, and Yu (<a href="#ref-rohe2011spectral" role="doc-biblioref">2011</a>)</span>) is defined by</p>
 <p><span class="math display">
-  \mathbf{L}_{abs} = \mathbf{D}^{-1/2}\bA\mathbf{D}^{-1/2} = \bI - \mathbf{L}_N,
+  \mathbf{L}_{abs} = \mathbf{D}^{-1/2}\mathbf{Y}\mathbf{D}^{-1/2} = \mathbf{I} - \mathbf{L}_N,
 </span> with eigenvalues <span class="math inline">1-\lambda_n \leq \dots \leq 1-\lambda_2 \leq 1-\lambda_1 = 1</span>, where <span class="math inline">0=\lambda_1\leq \dots \leq \lambda_n</span> are the eigenvalues of <span class="math inline">\mathbf{L}_N</span>.</p>
 </div>
 </div>
