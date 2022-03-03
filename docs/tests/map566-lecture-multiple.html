@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.9.41">
+  <meta name="generator" content="quarto-0.9.58">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Multiple Testing</title>
   <style>
@@ -387,7 +387,7 @@
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 <header id="title-block-header">
 <h1 class="title d-none d-lg-block display-7">Multiple Testing</h1>
 <p class="subtitle lead">Lecture Notes</p>
@@ -559,7 +559,7 @@ Permutation test
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["gender"],"name":[1],"type":["fct"],"align":["left"]},{"label":["regime"],"name":[2],"type":["fct"],"align":["left"]},{"label":["statistic"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"female","2":"RoundUp C","3":"26.0","4":"0.02884358"},{"1":"female","2":"NK603-11%","3":"28.0","4":"0.04123508"},{"1":"female","2":"NK603-22%+R","3":"31.0","4":"0.06282478"},{"1":"female","2":"RoundUp A","3":"32.0","4":"0.07380163"},{"1":"female","2":"NK603-11%+R","3":"37.0","4":"0.13377199"},{"1":"female","2":"NK603-33%+R","3":"41.0","4":"0.21412902"},{"1":"female","2":"NK603-22%","3":"43.0","4":"0.27232987"},{"1":"female","2":"NK603-33%","3":"44.0","4":"0.30412100"},{"1":"male","2":"RoundUp C","3":"46.0","4":"0.39481509"},{"1":"male","2":"NK603-22%+R","3":"46.0","4":"0.39539914"},{"1":"male","2":"NK603-22%","3":"46.5","4":"0.40989747"},{"1":"female","2":"RoundUp B","3":"48.0","4":"0.44076782"},{"1":"male","2":"NK603-33%+R","3":"55.0","4":"0.66213045"},{"1":"male","2":"RoundUp A","3":"58.5","4":"0.75324164"},{"1":"male","2":"NK603-11%+R","3":"60.5","4":"0.80057070"},{"1":"male","2":"RoundUp B","3":"66.0","4":"0.89497420"},{"1":"male","2":"NK603-33%","3":"66.0","4":"0.89909400"},{"1":"male","2":"NK603-11%","3":"72.5","4":"0.96102071"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["gender"],"name":[1],"type":["fct"],"align":["left"]},{"label":["regime"],"name":[2],"type":["fct"],"align":["left"]},{"label":["statistic"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"male","2":"RoundUp C","3":"32.0","4":"0.09235847"},{"1":"female","2":"NK603-11%+R","3":"35.0","4":"0.13118479"},{"1":"male","2":"RoundUp A","3":"38.5","4":"0.20186394"},{"1":"male","2":"NK603-11%","3":"39.5","4":"0.22355912"},{"1":"female","2":"NK603-33%+R","3":"42.0","4":"0.27595945"},{"1":"female","2":"NK603-11%","3":"47.0","4":"0.41805796"},{"1":"female","2":"NK603-22%+R","3":"47.0","4":"0.42140685"},{"1":"male","2":"NK603-33%+R","3":"47.0","4":"0.42443324"},{"1":"male","2":"NK603-33%","3":"48.0","4":"0.45425767"},{"1":"female","2":"NK603-22%","3":"48.5","4":"0.46781290"},{"1":"female","2":"RoundUp C","3":"48.5","4":"0.46781290"},{"1":"male","2":"NK603-22%","3":"49.5","4":"0.50000000"},{"1":"male","2":"NK603-11%+R","3":"50.0","4":"0.51527727"},{"1":"male","2":"NK603-22%+R","3":"54.5","4":"0.64942911"},{"1":"female","2":"RoundUp A","3":"54.5","4":"0.66053177"},{"1":"female","2":"NK603-33%","3":"55.5","4":"0.68286052"},{"1":"female","2":"RoundUp B","3":"55.5","4":"0.69564885"},{"1":"male","2":"RoundUp B","3":"60.5","4":"0.79849312"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -622,7 +622,7 @@ Permutation test
 <div class="sourceCode" id="cb18"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>stat_rank1 <span class="ot">&lt;-</span> <span class="fu">split</span>(res, res<span class="sc">$</span>simu) <span class="sc">%&gt;%</span> <span class="fu">map_dbl</span>(<span class="cf">function</span>(x) <span class="fu">sort</span>(x<span class="sc">$</span>statistic)[<span class="dv">1</span>])</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(stat_rank1 <span class="sc">&lt;</span> all_comparisons<span class="sc">$</span>statistic[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 0.16</code></pre>
+<pre><code>[1] 0.157</code></pre>
 </div>
 </div>
 </section>
@@ -877,19 +877,19 @@ Controlling FDR
 </section>
 </section>
 <section id="references" class="level2" data-number="5">
-<h2 data-number="5" class="anchored" data-anchor-id="references"><span class="header-section-number">5</span> References</h2>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+
+
+</section>
+<div id="quarto-appendix" class="default page-columns page-full"><section class="quarto-appendix-contents page-columns page-full" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading column-leftmargin">5 References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
 <div id="ref-benjamini1995controlling" class="csl-entry" role="doc-biblioentry">
 Benjamini, Yoav, and Yosef Hochberg. 1995. <span>“Controlling the False Discovery Rate: A Practical and Powerful Approach to Multiple Testing.”</span> <em>Journal of the Royal Statistical Society: Series B (Methodological)</em> 57 (1): 289–300.
 </div>
 <div id="ref-garcia2014calorie" class="csl-entry" role="doc-biblioentry">
 Garcı́a-Arenzana, Nicolás, Eva Marı́a Navarrete-Muñoz, Virginia Lope, Pilar Moreo, Carmen Vidal, Soledad Laso-Pablos, Nieves Ascunce, et al. 2014. <span>“Calorie Intake, Olive Oil Consumption and Mammographic Density Among Spanish Women.”</span> <em>International Journal of Cancer</em> 134 (8): 1916–25. <a href="https://breast-cancer-research.biomedcentral.com/articles/10.1186/bcr2102">https://breast-cancer-research.biomedcentral.com/articles/10.1186/bcr2102</a>.
 </div>
-</div>
-</section>
-</main> <!-- /main -->
+</div></section></div></main> <!-- /main -->
 <script type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const icon = "";

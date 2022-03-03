@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.9.41">
+  <meta name="generator" content="quarto-0.9.58">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Polynomial Regression</title>
   <style>
@@ -629,12 +629,12 @@ See vignette('programming') for more help</code></pre>
 <p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>On one hand, it is reassuring to see that removing part of the data has a very little impact on the predictions. On the other hand, the predictive performance of the model remains limited because of the natural variability of the data. Indeed, this model built with the training sample only explains 72 % of the variabilility of the new test sample.</p>
+<p>On one hand, it is reassuring to see that removing part of the data has a very little impact on the predictions. On the other hand, the predictive performance of the model remains limited because of the natural variability of the data. Indeed, this model built with the training sample only explains 83 % of the variabilility of the new test sample.</p>
 <div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-28_c359c349ec38ec08fad4795178c51c21">
 <div class="sourceCode" id="cb21"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>R2_test <span class="ot">&lt;-</span> <span class="fu">cor</span>(pred_testing_set, cars_test<span class="sc">$</span>dist)<span class="sc">^</span><span class="dv">2</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>R2_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 0.7204643</code></pre>
+<pre><code>[1] 0.8323145</code></pre>
 </div>
 </div>
 <p>Let us see now how the model behaves with extreme values by defining as test sample the data points with the 5 smallest and the 5 largest speeds.</p>

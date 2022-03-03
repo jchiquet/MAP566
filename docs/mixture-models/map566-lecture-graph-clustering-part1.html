@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.9.41">
+  <meta name="generator" content="quarto-0.9.58">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Hierarchical and Spectral methods for Graph clustering</title>
   <style>
@@ -406,7 +406,7 @@
 </ul></li>
 <li><a href="#graph-partionning" class="nav-link" data-scroll-target="#graph-partionning"> <span class="header-section-number">2</span> Graph partionning</a>
 <ul class="collapse">
-<li><a href="#agglomerative-hierarchical-clustering-ahc" class="nav-link" data-scroll-target="#agglomerative-hierarchical-clustering-ahc"> <span class="header-section-number">2.1</span> Agglomerative Hierarchical Clustering (AHC)</a></li>
+<li><a href="#agglomerative-hierarchical-clustering-hac" class="nav-link" data-scroll-target="#agglomerative-hierarchical-clustering-hac"> <span class="header-section-number">2.1</span> Agglomerative Hierarchical Clustering (HAC)</a></li>
 <li><a href="#spectral-clustering" class="nav-link" data-scroll-target="#spectral-clustering"> <span class="header-section-number">2.2</span> Spectral Clustering</a></li>
 </ul></li>
 <li><a href="#references" class="nav-link" data-scroll-target="#references">References</a></li>
@@ -414,7 +414,7 @@
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 <header id="title-block-header">
 <h1 class="title d-none d-lg-block display-7">Hierarchical and Spectral methods for Graph clustering</h1>
 <p class="subtitle lead">Lecture Notes</p>
@@ -444,8 +444,8 @@
 <p>A <strong>network</strong> is a collection of interacting entities. A <strong>graph</strong> is the mathematical representation of a network.</p>
 <p>In what follow, a graph <span class="math inline">\mathcal{G}=(\mathcal{V},\mathcal{E})</span> is a mathematical structure consisting of</p>
 <ul>
-<li>a set <span class="math inline">\mathcal{V}=\set{1,\dots,n}</span> of vertices or <strong>nodes</strong></li>
-<li>a set <span class="math inline">\mathcal{E}=\set{e_1,\dots,e_p:e_k=(i_k,j_k)\in (\mathcal{V}\times\mathcal{V})}</span> of <strong>edges</strong></li>
+<li>a set <span class="math inline">\mathcal{V}=\{1,\dots,n\}</span> of vertices or <strong>nodes</strong></li>
+<li>a set <span class="math inline">\mathcal{E}=\{e_1,\dots,e_p:e_k=(i_k,j_k)\in (\mathcal{V}\times\mathcal{V})\}</span> of <strong>edges</strong></li>
 <li>the number of vertices <span class="math inline">|\mathcal{V}|</span> is called the <strong>order</strong></li>
 <li>the number of edges <span class="math inline">|\mathcal{E}|</span> is called the <strong>size</strong></li>
 </ul>
@@ -533,7 +533,7 @@ Note
 <li>we denote by <span class="math inline">Y</span> the adjacency matrix encoding the network</li>
 <li>we extract the political party of the nodes as a categorical variable</li>
 </ul>
-<p>** Our objective is now to automatically find a partitioning of the node, i.e.&nbsp;a clustering, that groups together nodes with similar connectivity pattern. This is known as graph clustering.**</p>
+<p><strong>Our objective is now to automatically find a partitioning of the node, i.e.&nbsp;a clustering, that groups together nodes with similar connectivity pattern. This is known as graph clustering.</strong></p>
 </div>
 </div>
 <div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/export_data_39b44a25b07042d68deadc9336fadac8">
@@ -555,8 +555,8 @@ Note
 </section>
 <section id="graph-partionning" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="graph-partionning"><span class="header-section-number">2</span> Graph partionning</h2>
-<section id="agglomerative-hierarchical-clustering-ahc" class="level3" data-number="2.1">
-<h3 data-number="2.1" class="anchored" data-anchor-id="agglomerative-hierarchical-clustering-ahc"><span class="header-section-number">2.1</span> Agglomerative Hierarchical Clustering (AHC)</h3>
+<section id="agglomerative-hierarchical-clustering-hac" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="agglomerative-hierarchical-clustering-hac"><span class="header-section-number">2.1</span> Agglomerative Hierarchical Clustering (HAC)</h3>
 <section id="general-principle" class="level4" data-number="2.1.1">
 <h4 data-number="2.1.1" class="anchored" data-anchor-id="general-principle"><span class="header-section-number">2.1.1</span> General principle</h4>
 <div class="callout-info callout callout-style-default no-icon callout-captioned">
@@ -565,20 +565,24 @@ Note
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-AHC: heuristic
+HAC: heuristic
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The idea of AHC applies naturally to network data just as it applies to standard data set:</p>
+<p>The idea of HAC applies naturally to network data just as it applies to standard data set:</p>
 <ol type="1">
 <li>Start with small clusters (<em>e.g.</em> one cluster <span class="math inline">\equiv</span> one node)</li>
 <li>Merge the most similar clusters sequentially (and greedily)</li>
 <li>Stops when all nodes are in the same groups</li>
 </ol>
-<p>This implies 2 Ingredients - a dissimilarity measure (distance between nodes) - a merging criterion <span class="math inline">\Delta</span> (dissimilarity between clusters of nodes)</p>
+<p>This implies 2 Ingredients</p>
+<ul>
+<li>a dissimilarity measure (distance between nodes)</li>
+<li>a merging criterion <span class="math inline">\Delta</span> (dissimilarity between clusters of nodes)</li>
+</ul>
 </div>
 </div>
-<p>Given a dissimilarity <span class="math inline">d_{ij}</span> between a pairs <span class="math inline">(i,j)</span>, the standard merging criterion based on <span class="math inline">d_{ij}</span> are the followings:</p>
+<p>Given a dissimilarity <span class="math inline">d_{ij}</span> between a pairs <span class="math inline">(i,j)</span>, the standard merging criterion between two clusters <span class="math inline">\mathcal{C}_k</span> and <span class="math inline">\mathcal{C}_\ell</span> based on <span class="math inline">d_{ij}</span> are the followings:</p>
 <ul>
 <li><strong>Single linkage</strong> (or minimum linkage):</li>
 </ul>
@@ -673,14 +677,14 @@ Remark
 </div>
 </div>
 </section>
-<section id="some-ahc-algorithm-specific-to-network-data" class="level4" data-number="2.1.2">
-<h4 data-number="2.1.2" class="anchored" data-anchor-id="some-ahc-algorithm-specific-to-network-data"><span class="header-section-number">2.1.2</span> Some AHC algorithm specific to network data</h4>
-<p>We now consider a couple of methods building on the heuristic of AHC but explicitly dedicated to the task of graph clustering. In aprticular, we look at to dissimilarity that favors groups of nodes (modules) which are densely connected but sparsely connected to other modules.</p>
+<section id="some-hac-algorithm-specific-to-network-data" class="level4" data-number="2.1.2">
+<h4 data-number="2.1.2" class="anchored" data-anchor-id="some-hac-algorithm-specific-to-network-data"><span class="header-section-number">2.1.2</span> Some HAC algorithm specific to network data</h4>
+<p>We now consider a couple of methods building on the heuristic of HAC but explicitly dedicated to the task of graph clustering. In particular, we look at a dissimilarity that favors groups of nodes (modules) which are densely connected but sparsely connected to other modules.</p>
 <p><strong>Modularity</strong> (as introduced in <span class="citation" data-cites="modularity">Clauset, Newman, and Moore (<a href="#ref-modularity" role="doc-biblioref">2004</a>)</span>)</p>
 <p>For <span class="math inline">\mathcal{C} = \{C_1,\dots,C_K\}</span> a candidate partition and <span class="math inline">f_{ij}(\mathcal{C})</span> the fraction of edges connecting vertices from <span class="math inline">C_i</span> to <span class="math inline">C_j</span>, the modularity of a partition is defined by</p>
 <p><span class="math display">\mathrm{modularity}(\mathcal{C}) = \sum_{k=1}^K \left(f_{kk}(\mathcal{C}) - \mathbb{E}_{H_0}(f_{kk})\right)^2
 </span></p>
-<p>The following algorithm try to optimise the modularity by successive merges:</p>
+<p>The following algorithm try to optimize the modularity by successive merges:</p>
 <div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/unnamed-chunk-2_fc8a8829a09e0f67148be3a06e68dcab">
 <div class="sourceCode" id="cb15"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>hc_modularity <span class="ot">&lt;-</span> <span class="fu">cluster_fast_greedy</span>(blog)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hc_modularity, blog, <span class="at">vertex.label=</span><span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -788,7 +792,7 @@ Idea
 </span></p>
 </div>
 </div>
-<p>Our function is easily amende to compute the normalized version of the graph-cut:</p>
+<p>Our function is easily modified to compute the normalized version of the graph-cut:</p>
 <div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/n-cut-function_4238ec0aa6abd4ec3880aabef64595f3">
 <div class="sourceCode" id="cb22"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>cut <span class="ot">&lt;-</span> <span class="cf">function</span>(graph, A, B, <span class="at">normalized  =</span> <span class="cn">TRUE</span>) {</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -807,7 +811,7 @@ Idea
 <span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">gorder</span>(blog), A)</span>
 <span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="fu">cut</span>(blog, A, B)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 2.055394</code></pre>
+<pre><code>[1] 1.55303</code></pre>
 </div>
 </div>
 </section>
@@ -847,7 +851,7 @@ Proposition: Spectrum of <span class="math inline">\mathbf{L}</span>
 </div>
 <div class="callout-body-container callout-body">
 <p>The <span class="math inline">n\times n</span> matrix <span class="math inline">\mathbf{L}</span> has the following properties: <span class="math display">
-  \mathbf{x}^\top \mathbf{L} \mathbf{x} = \frac{1}{2} \sum_{i,j} Y_{ij} (x_i - x_j)^2, \quad \forall \mathbf{x}\in\Rset^n .
+  \mathbf{x}^\top \mathbf{L} \mathbf{x} = \frac{1}{2} \sum_{i,j} Y_{ij} (x_i - x_j)^2, \quad \forall \mathbf{x}\in\mathbb{R}^n .
 </span></p>
 <ul>
 <li><span class="math inline">\mathbf{L}</span> is a symmetric, positive semi-definite matrix,</li>
@@ -964,11 +968,11 @@ Variants in the definition of the graph Laplacian
 <div class="callout-body-container callout-body">
 <p>The <strong>normalized</strong> Laplacian matrix <span class="math inline">\mathbf{L}</span> (see <span class="citation" data-cites="ng2002spectral">Ng, Jordan, and Weiss (<a href="#ref-ng2002spectral" role="doc-biblioref">2002</a>)</span>) is defined by</p>
 <p><span class="math display">
-      \mathbf{L}_N = \bD^{-1/2}\mathbf{L}\bD^{-1/2} = \bI - \bD^{-1/2} \bA \bD^{-1/2}.
+      \mathbf{L}_N = \mathbf{D}^{-1/2}\mathbf{L}\mathbf{D}^{-1/2} = \bI - \mathbf{D}^{-1/2} \bA \mathbf{D}^{-1/2}.
 </span></p>
 <p>The <strong>absolute</strong> Laplacian matrix <span class="math inline">\mathbf{L}_{abs}</span> (see <span class="citation" data-cites="rohe2011spectral">Rohe, Chatterjee, and Yu (<a href="#ref-rohe2011spectral" role="doc-biblioref">2011</a>)</span>) is defined by</p>
 <p><span class="math display">
-  \mathbf{L}_{abs} = \bD^{-1/2}\bA\bD^{-1/2} = \bI - \mathbf{L}_N,
+  \mathbf{L}_{abs} = \mathbf{D}^{-1/2}\bA\mathbf{D}^{-1/2} = \bI - \mathbf{L}_N,
 </span> with eigenvalues <span class="math inline">1-\lambda_n \leq \dots \leq 1-\lambda_2 \leq 1-\lambda_1 = 1</span>, where <span class="math inline">0=\lambda_1\leq \dots \leq \lambda_n</span> are the eigenvalues of <span class="math inline">\mathbf{L}_N</span>.</p>
 </div>
 </div>
@@ -1042,7 +1046,7 @@ Some limitations
 <div class="callout-body-container callout-body">
 <p>Hence, as expected, spectral clustering does a great job for recovering community structure in the network. Yet,</p>
 <ul>
-<li>What if other kind of patterns (like star/hub nodes) structure the network</li>
+<li>What if other kinds of patterns (like star/hub nodes) structure the network</li>
 <li>What if we do not have any clue on the target number of cluster?</li>
 </ul>
 <p>A model-based approach, like the one presented below, overcomes these issues</p>
@@ -1052,10 +1056,13 @@ Some limitations
 </section>
 </section>
 <section id="references" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="references">References</h2>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+
+
+</section>
+
+<div id="quarto-appendix" class="default page-columns page-full"><section class="quarto-appendix-contents page-columns page-full" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading column-leftmargin">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
 <div id="ref-chung1997spectral" class="csl-entry" role="doc-biblioentry">
 Chung, Fan RK, and Fan Chung Graham. 1997. <em>Spectral Graph Theory</em>. 92. American Mathematical Soc.
 </div>
@@ -1080,9 +1087,7 @@ Steinley, Douglas. 2004. <span>“Properties of the Hubert-Arable Adjusted Rand 
 <div id="ref-von2007tutorial" class="csl-entry" role="doc-biblioentry">
 Von Luxburg, Ulrike. 2007. <span>“A Tutorial on Spectral Clustering.”</span> <em>Statistics and Computing</em> 17 (4): 395–416.
 </div>
-</div>
-</section>
-<section class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2>Footnotes</h2>
+</div></section><section class="footnotes footnotes-end-of-document page-columns page-full" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading column-leftmargin">Footnotes</h2>
 
 <ol>
 <li id="fn1" role="doc-endnote"><p>A “nice” side-effect is that the ‘far-right’ blogs have removed from the study. Amazing for data collected only a decade ago…<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
@@ -1090,8 +1095,7 @@ Von Luxburg, Ulrike. 2007. <span>“A Tutorial on Spectral Clustering.”</span>
 <li id="fn3" role="doc-endnote"><p>let as an exercise<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn4" role="doc-endnote"><p>a measure of comparison between two classification<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
-</section>
-</main> <!-- /main -->
+</section></div></main> <!-- /main -->
 <script type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const icon = "";
