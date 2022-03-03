@@ -31,8 +31,8 @@ A **network** is a collection of interacting entities. A **graph** is the mathem
 
 In what follow, a graph $\mathcal{G}=(\mathcal{V},\mathcal{E})$ is a mathematical structure consisting of
 
-  - a set $\mathcal{V}=\set{1,\dots,n}$ of vertices or **nodes**
-  - a set $\mathcal{E}=\set{e_1,\dots,e_p:e_k=(i_k,j_k)\in (\mathcal{V}\times\mathcal{V})}$ of **edges**
+  - a set $\mathcal{V}=\{1,\dots,n\}$ of vertices or **nodes**
+  - a set $\mathcal{E}=\{e_1,\dots,e_p:e_k=(i_k,j_k)\in (\mathcal{V}\times\mathcal{V})\}$ of **edges**
   - the number of vertices $|\mathcal{V}|$ is called the **order**
   - the number of edges $|\mathcal{E}|$ is called the **size**
   
@@ -92,7 +92,7 @@ For convenience, in the following,
   - we denote by $Y$ the adjacency matrix encoding the network
   - we extract the political party of the nodes as a categorical variable 
 
-** Our objective is now to automatically find a partitioning of the node, i.e. a clustering, that groups together nodes with similar connectivity pattern. This is known as graph clustering.**
+**Our objective is now to automatically find a partitioning of the node, i.e. a clustering, that groups together nodes with similar connectivity pattern. This is known as graph clustering.**
 
 :::
 
@@ -109,26 +109,27 @@ party %>% table() %>% as_tibble() %>% rmarkdown::paged_table()
 
 ## Graph partionning
 
-### Agglomerative Hierarchical Clustering (AHC)
+### Agglomerative Hierarchical Clustering (HAC)
 
 #### General principle
 
 ::: {.callout-info}
-### AHC: heuristic
+### HAC: heuristic
 
-The idea of AHC applies naturally to network data just as it applies to standard data set:
+The idea of HAC applies naturally to network data just as it applies to standard data set:
 
   1. Start with small clusters (*e.g.* one cluster $\equiv$ one node)
   2. Merge the most similar clusters sequentially (and greedily)
   3. Stops when all nodes are in the same groups
   
 This implies 2 Ingredients
+
   - a dissimilarity measure (distance between nodes)
   - a merging criterion $\Delta$ (dissimilarity between clusters of nodes)
 
 :::
 
-Given a dissimilarity $d_{ij}$ between a pairs $(i,j)$, the standard merging criterion based on $d_{ij}$ are the followings:
+Given a dissimilarity $d_{ij}$ between a pairs $(i,j)$, the standard merging criterion between two clusters $\mathcal{C}_k$ and $\mathcal{C}_\ell$ based on $d_{ij}$ are the followings:
 
   - **Single linkage** (or minimum linkage):
 
@@ -221,9 +222,9 @@ perf %>%
   theme_bw()
 ```
 
-#### Some AHC algorithm specific to network data
+#### Some HAC algorithm specific to network data
 
-We now consider a couple of methods building on the heuristic of AHC but explicitly dedicated to the task of graph clustering. In aprticular, we look at to dissimilarity that favors groups of nodes (modules) which are densely connected but sparsely  connected to other modules.
+We now consider a couple of methods building on the heuristic of HAC but explicitly dedicated to the task of graph clustering. In particular, we look at a dissimilarity that favors groups of nodes (modules) which are densely connected but sparsely  connected to other modules.
 
 **Modularity** (as introduced in @modularity)
 
@@ -232,7 +233,7 @@ For $\mathcal{C} = \{C_1,\dots,C_K\}$ a candidate partition and $f_{ij}(\mathcal
 $$\mathrm{modularity}(\mathcal{C}) = \sum_{k=1}^K \left(f_{kk}(\mathcal{C}) - \mathbb{E}_{H_0}(f_{kk})\right)^2
 $$
 
-The following algorithm try to optimise the modularity by successive merges:
+The following algorithm try to optimize the modularity by successive merges:
 
 ```{r}
 hc_modularity <- cluster_fast_greedy(blog)
@@ -338,7 +339,7 @@ $$
 
 :::
 
-Our function is easily amende to compute the normalized version of the graph-cut:
+Our function is easily modified to compute the normalized version of the graph-cut:
 
 ```{r n-cut-function}
 cut <- function(graph, A, B, normalized  = TRUE) {
@@ -404,7 +405,7 @@ where $\mathbf{L} = D - Y$ is called the **Laplacian matrix** of the graph $\mat
   
   The $n\times n$ matrix $\mathbf{L}$ has the following properties:
 $$
-  \mathbf{x}^\top \mathbf{L} \mathbf{x} = \frac{1}{2} \sum_{i,j} Y_{ij} (x_i - x_j)^2, \quad \forall \mathbf{x}\in\Rset^n .
+  \mathbf{x}^\top \mathbf{L} \mathbf{x} = \frac{1}{2} \sum_{i,j} Y_{ij} (x_i - x_j)^2, \quad \forall \mathbf{x}\in\mathbb{R}^n .
 $$
     
   - $\mathbf{L}$ is a symmetric, positive semi-definite matrix,
@@ -508,13 +509,13 @@ $\rightsquigarrow$ The principle generalizes to a fully connected graph (with a 
 The **normalized** Laplacian matrix $\mathbf{L}$ (see @ng2002spectral) is defined by 
 
 $$
-      \mathbf{L}_N = \bD^{-1/2}\mathbf{L}\bD^{-1/2} = \bI - \bD^{-1/2} \bA \bD^{-1/2}.
+      \mathbf{L}_N = \mathbf{D}^{-1/2}\mathbf{L}\mathbf{D}^{-1/2} = \bI - \mathbf{D}^{-1/2} \bA \mathbf{D}^{-1/2}.
 $$
 
 The **absolute** Laplacian matrix $\mathbf{L}_{abs}$ (see @rohe2011spectral) is defined by 
 
 $$
-  \mathbf{L}_{abs} = \bD^{-1/2}\bA\bD^{-1/2} = \bI - \mathbf{L}_N,
+  \mathbf{L}_{abs} = \mathbf{D}^{-1/2}\bA\mathbf{D}^{-1/2} = \bI - \mathbf{L}_N,
 $$
 with eigenvalues $1-\lambda_n \leq \dots \leq 1-\lambda_2 \leq 1-\lambda_1 = 1$, where $0=\lambda_1\leq \dots \leq \lambda_n$ are the eigenvalues of $\mathbf{L}_N$.
 
@@ -574,7 +575,7 @@ plotMyMatrix(as_adj(blog, sparse = FALSE),
 
 Hence, as expected, spectral clustering does a great job for recovering community structure in the network. Yet,
 
-- What if other kind of patterns (like star/hub nodes) structure the network
+- What if other kinds of patterns (like star/hub nodes) structure the network
 - What if we do not have any clue on the target number of cluster?
 
 A model-based approach, like the one presented below, overcomes these issues
