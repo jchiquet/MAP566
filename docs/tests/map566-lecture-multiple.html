@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.9.58">
+  <meta name="generator" content="quarto-0.9.76">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Multiple Testing</title>
   <style>
@@ -387,11 +387,11 @@
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
-<main class="content page-columns page-full" id="quarto-document-content">
-<header id="title-block-header">
-<h1 class="title d-none d-lg-block display-7">Multiple Testing</h1>
-<p class="subtitle lead">Lecture Notes</p>
-</header>
+<main class="content" id="quarto-document-content">
+<header id="title-block-header" class="quarto-title-block default">
+
+
+<div class="quarto-title"><h1 class="title d-none d-lg-block display-7">Multiple Testing</h1><p class="subtitle lead">Lecture Notes</p></div></header>
 
 <section id="introduction" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="introduction">Introduction</h2>
@@ -559,7 +559,7 @@ Permutation test
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["gender"],"name":[1],"type":["fct"],"align":["left"]},{"label":["regime"],"name":[2],"type":["fct"],"align":["left"]},{"label":["statistic"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"female","2":"NK603-22%","3":"20.0","4":"0.01185885"},{"1":"female","2":"NK603-22%+R","3":"36.0","4":"0.14854559"},{"1":"female","2":"NK603-11%","3":"38.0","4":"0.18436230"},{"1":"female","2":"RoundUp B","3":"41.5","4":"0.26597037"},{"1":"male","2":"RoundUp C","3":"41.5","4":"0.27091734"},{"1":"male","2":"RoundUp A","3":"43.5","4":"0.32377046"},{"1":"female","2":"RoundUp C","3":"44.0","4":"0.33145831"},{"1":"male","2":"NK603-22%+R","3":"46.0","4":"0.39345418"},{"1":"male","2":"RoundUp B","3":"47.0","4":"0.42403051"},{"1":"male","2":"NK603-22%","3":"48.0","4":"0.45420483"},{"1":"female","2":"NK603-33%","3":"50.5","4":"0.53220090"},{"1":"male","2":"NK603-33%","3":"51.0","4":"0.54615220"},{"1":"male","2":"NK603-33%+R","3":"53.5","4":"0.62267849"},{"1":"male","2":"NK603-11%","3":"55.5","4":"0.67853298"},{"1":"female","2":"RoundUp A","3":"56.0","4":"0.70036434"},{"1":"male","2":"NK603-11%+R","3":"57.0","4":"0.71902796"},{"1":"female","2":"NK603-33%+R","3":"60.5","4":"0.81875026"},{"1":"female","2":"NK603-11%+R","3":"68.0","4":"0.93708997"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["gender"],"name":[1],"type":["fct"],"align":["left"]},{"label":["regime"],"name":[2],"type":["fct"],"align":["left"]},{"label":["statistic"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"male","2":"NK603-33%","3":"21.5","4":"0.01590973"},{"1":"male","2":"RoundUp C","3":"22.0","4":"0.01753613"},{"1":"male","2":"NK603-22%+R","3":"26.0","4":"0.03585346"},{"1":"male","2":"RoundUp A","3":"28.5","4":"0.05226914"},{"1":"male","2":"RoundUp B","3":"33.5","4":"0.10572457"},{"1":"male","2":"NK603-33%+R","3":"34.0","4":"0.11534635"},{"1":"male","2":"NK603-11%","3":"35.5","4":"0.13691821"},{"1":"male","2":"NK603-11%+R","3":"44.5","4":"0.34583438"},{"1":"male","2":"NK603-22%","3":"44.5","4":"0.34589488"},{"1":"female","2":"NK603-22%","3":"51.0","4":"0.54613415"},{"1":"female","2":"RoundUp A","3":"52.0","4":"0.57740081"},{"1":"female","2":"RoundUp B","3":"57.0","4":"0.72395829"},{"1":"female","2":"NK603-33%","3":"59.0","4":"0.77424521"},{"1":"female","2":"NK603-11%+R","3":"60.0","4":"0.79733883"},{"1":"female","2":"NK603-22%+R","3":"63.5","4":"0.86298541"},{"1":"female","2":"NK603-11%","3":"64.0","4":"0.87475587"},{"1":"female","2":"NK603-33%+R","3":"66.0","4":"0.90868254"},{"1":"female","2":"RoundUp C","3":"72.0","4":"0.96868278"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -622,7 +622,7 @@ Permutation test
 <div class="sourceCode" id="cb18"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>stat_rank1 <span class="ot">&lt;-</span> <span class="fu">split</span>(res, res<span class="sc">$</span>simu) <span class="sc">%&gt;%</span> <span class="fu">map_dbl</span>(<span class="cf">function</span>(x) <span class="fu">sort</span>(x<span class="sc">$</span>statistic)[<span class="dv">1</span>])</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(stat_rank1 <span class="sc">&lt;</span> all_comparisons<span class="sc">$</span>statistic[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 0.159</code></pre>
+<pre><code>[1] 0.152</code></pre>
 </div>
 </div>
 </section>
@@ -882,7 +882,7 @@ Controlling FDR
 
 
 </section>
-<div id="quarto-appendix" class="default page-columns page-full"><section class="quarto-appendix-contents page-columns page-full" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading column-leftmargin">5 References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">5 References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
 <div id="ref-benjamini1995controlling" class="csl-entry" role="doc-biblioentry">
 Benjamini, Yoav, and Yosef Hochberg. 1995. <span>“Controlling the False Discovery Rate: A Practical and Powerful Approach to Multiple Testing.”</span> <em>Journal of the Royal Statistical Society: Series B (Methodological)</em> 57 (1): 289–300.
 </div>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.9.58">
+  <meta name="generator" content="quarto-0.9.76">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Stochastic block Models</title>
   <style>
@@ -424,11 +424,11 @@
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
-<main class="content page-columns page-full" id="quarto-document-content">
-<header id="title-block-header">
-<h1 class="title d-none d-lg-block display-7">Stochastic block Models</h1>
-<p class="subtitle lead">Lecture Notes</p>
-</header>
+<main class="content" id="quarto-document-content">
+<header id="title-block-header" class="quarto-title-block default">
+
+
+<div class="quarto-title"><h1 class="title d-none d-lg-block display-7">Stochastic block Models</h1><p class="subtitle lead">Lecture Notes</p></div></header>
 
 <section id="preliminary" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="preliminary">Preliminary</h2>
@@ -583,7 +583,7 @@ Stochastic Block Model: definition
 <p>Let</p>
 <ul>
 <li><span class="math inline">\{1, \dots, n \}</span> be some <em>fixed</em> nodes,</li>
-<li>with some <strong>unknown</strong> colors picked up from <span class="math inline">\mathcal{C}=\{{\color{#fab20a}{\bullet}},{\color{#0000ff}{\bullet}},{\color{#008000}{\bullet}}\}</span></li>
+<li>with some <strong>unknown</strong> <span class="math inline">K</span> colors picked up from <span class="math inline">\mathcal{C}=\{{\color{#fab20a}{\bullet}},{\color{#0000ff}{\bullet}},{\color{#008000}{\bullet}}\}</span></li>
 </ul>
 <p>Denote by</p>
 <ul>
@@ -593,7 +593,7 @@ Stochastic Block Model: definition
 <p>In the binary Stochastic Block Model, the adjacency matrix <span class="math inline">Y_{ij}</span> is random, with probability of connection between a dyad <span class="math inline">(i,j)</span> being defined conditionally on their respective group memberships, described by a vector of random variables <span class="math inline">(Z_i)_{i=1,\dots,n}</span>.</p>
 <p><span class="math display">
 \begin{aligned}
-Z_i = \mathbf{1}_{\{i \in \bullet\}}  \ &amp; \sim^{\text{iid}} \mathcal{M}(1,\alpha), \\
+Z_i =  \bullet  \ &amp; \sim^{\text{iid}} \mathcal{M}(1,\alpha), \\
 Y_{ij} \ | \ \{i\in{\color{#fab20a}{\bullet}},j\in{\color{#0000ff}{\bullet}}\}
 &amp; \sim^{\text{ind}} \mathcal{B}(\pi_{{\color{#fab20a}{\bullet}}{\color{#0000ff}{\bullet}}})\\
 \end{aligned}
@@ -659,11 +659,11 @@ Y_{ij} \ | \ \{i\in{\color{#fab20a}{\bullet}},j\in{\color{#0000ff}{\bullet}}\}
 <div id="def-degreeSBM" class="theorem definition">
 <p><span class="theorem-title"><strong>Definition 2 (SBM: Degree distribution) </strong></span>The conditional degree distribution of a node <span class="math inline">i\in q</span> is</p>
 <p><span class="math display">
-  D_i | i \in q \sim \mathrm{b}(n-1,\bar\pi) \approx \mathcal{P}(\lambda_q), \qquad \bar\pi_q = \sum_{\ell=1}^Q \alpha_\ell \pi_{q\ell}, \quad \lambda_q = (n-1)\bar\pi_q
+  D_i | i \in k \sim \mathrm{b}(n-1,\bar\pi) \approx \mathcal{P}(\lambda_k), \qquad \bar\pi_k = \sum_{\ell=1}^K \alpha_\ell \pi_{k\ell}, \quad \lambda_k = (n-1)\bar\pi_k
 </span></p>
 <p>From this, we deduce the degree distribution of a node <span class="math inline">i</span>, which can be approximated by a mixture of Poisson distributions:</p>
 <p><span class="math display">
-  \mathbb{P}(D_i = k) = \sum_{q=1}^Q\alpha_q \exp(-\lambda_q) \ \frac{\lambda_q^k}{k !}
+  \mathbb{P}(D_i = d) = \sum_{k=1}^K\alpha_k \exp(-\lambda_k) \ \frac{\lambda_k^d}{d !}
 </span></p>
 </div>
 </section>
@@ -673,7 +673,7 @@ Y_{ij} \ | \ \{i\in{\color{#fab20a}{\bullet}},j\in{\color{#0000ff}{\bullet}}\}
 <h2 data-number="3" class="anchored" data-anchor-id="estimation-variational-inference-of-the-binary-sbm"><span class="header-section-number">3</span> Estimation: Variational Inference of the binary SBM</h2>
 <section id="sbm-a-latent-variable-model" class="level3" data-number="3.1">
 <h3 data-number="3.1" class="anchored" data-anchor-id="sbm-a-latent-variable-model"><span class="header-section-number">3.1</span> SBM: a latent variable model</h3>
-<p>Recall tha we have <em>fixed</em> nodes <span class="math inline">\{1, \dots, n \}</span> with <strong>hidden</strong> colors <span class="math inline">\mathcal{C}=\{\color{#fab20a}{\bullet},\color{#0000ff}{\bullet},\color{#008000}{\bullet}\}</span>. We observe the following</p>
+<p>Recall that we have <em>fixed</em> nodes <span class="math inline">\{1, \dots, n \}</span> with <strong>hidden</strong> colors <span class="math inline">\mathcal{C}=\{\color{#fab20a}{\bullet},\color{#0000ff}{\bullet},\color{#008000}{\bullet}\}</span>. We observe the following</p>
 <div class="cell" data-layout-align="center" data-hash="map566-lecture-graph-clustering-part2_cache/html/sbm-inference_783b062d337731c0365c4569cae81c01">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -686,7 +686,7 @@ Y_{ij} \ | \ \{i\in{\color{#fab20a}{\bullet}},j\in{\color{#0000ff}{\bullet}}\}
 <p>We need to estimate the model parameters and the clustering:</p>
 <ul>
 <li><span class="math inline">\theta = \{\boldsymbol\alpha = (\alpha_\bullet), \boldsymbol\Pi = (\pi_{\color{#fab20a}{\bullet}\color{#0000ff}{\bullet}})\}</span></li>
-<li>Colors of <span class="math inline">i</span>, i.e.&nbsp;the <span class="math inline">\mathbf{Z}_i</span> (the clustering)</li>
+<li>Colors of <span class="math inline">i</span>, i.e.&nbsp;the <span class="math inline">\mathbf{Z} = (Z_i)</span> (the clustering)</li>
 </ul>
 <p>Just like with Gaussian mixture models, maximizing the marginal log likelihood is not straightforward</p>
 <p><span class="math display">\ell_\theta(\mathbf{Y}_i) = \log p_\theta(\mathbf{Y}_i) = \log \int_{\mathcal{Z}} \prod_{(i,j)} p_\theta(Y_{ij} | Z_i, Z_j ) \, p_\theta(\mathbf{Z}) \mathrm{d}\mathbf{Z}</span></p>
@@ -707,15 +707,16 @@ Y_{ij} \ | \ \{i\in{\color{#fab20a}{\bullet}},j\in{\color{#0000ff}{\bullet}}\}
 <p><span class="math display"> \theta^{(t)} = \arg \max_{\theta} Q(\theta | \theta^{(t-1)})</span></p>
 <p>An important ingredient to compute the conditional expectation above is the complete data likelihood which, for binary SBM, is given by the following expression:</p>
 <p><span class="math display">\begin{aligned}
-\ell_c(\mathbf{Y},\mathbf{Z}; \theta)  &amp; =  p(\mathbf{Y} | \mathbf{Z}; \boldsymbol\pi) p(\mathbf{Z} ; \boldsymbol\alpha)\nonumber = \prod_{i,j} f_{\pi_{Z_i,Z_j}}(Y_{ij}) \times   \prod_{i} \alpha_{Z_i} \nonumber  \\
-&amp;=  \prod_{i,j} \pi_{Z_i,Z_j}^{Y_{ij}} (1-  \pi_{Z_i,Z_j})^{1- Y_{ij}}    \prod_{i} \alpha_{Z_i}
+\ell_c(\theta;\mathbf{Y},\mathbf{Z})  &amp; =  p(\mathbf{Y} | \mathbf{Z}; \boldsymbol\pi) p(\mathbf{Z} ; \boldsymbol\alpha) \\
+&amp; =  \prod_{i&lt;j} \pi_{Z_i,Z_j}^{Y_{ij}} (1-  \pi_{Z_i,Z_j})^{1- Y_{ij}}    \prod_{i} \alpha_{Z_i} \\
+&amp; =  \prod_{i&lt;j} \prod_{k,\ell} \left(\pi_{k\ell}^{Y_{ij}} (1-  \pi_{k\ell})^{1- Y_{ij}}\right)^{\mathbf{1}_{\{Z_i = k\}}\mathbf{1}_{\{Z_i = \ell\}}} \prod_{i}\prod_k \left(\alpha_{k}\right)^{\mathbf{1}_{\{Z_i = k\}}} \\
 \end{aligned}</span></p>
 <p>With SBM, we have</p>
-<p><span class="math display">\mathbb{E}_{\mathbf{Z}|\mathbf{Y}} \big[\log L(\boldsymbol\theta;\mathbf{Y},\mathbf{Z}) \big] = \sum_{i,q} \tau_{iq} \log \alpha_q + \sum_{i&lt;j,q,\ell} \eta_{ijq\ell} \log \pi_{q\ell}^{Y_{ij}} (1-\pi_{q\ell})^{1-Y_{ij}}</span></p>
+<p><span class="math display">\mathbb{E}_{\mathbf{Z}|\mathbf{Y}} \big[\log \ell_c(\boldsymbol\theta;\mathbf{Y},\mathbf{Z}) \big] = \sum_{i,k} \tau_{ik} \log \alpha_k + \sum_{i&lt;j,k,\ell} \eta_{ijk\ell} \log \pi_{k\ell}^{Y_{ij}} (1-\pi_{k\ell})^{1-Y_{ij}}</span></p>
 <p>where <span class="math inline">\tau_ {iq}, \eta_{ijq\ell}</span> are the posterior probabilities:</p>
 <ul>
-<li><span class="math inline">\tau_{iq} = \mathbb{P}(Z_{iq} = 1 | \mathbf{Y}) = \mathbb{E} \left[Z_{iq} | \mathbf{Y}\right].</span></li>
-<li><span class="math inline">\eta_{ijq\ell} = \mathbb{P}(Z_{iq}Z_{j\ell} = 1 | \mathbf{Y}) = \mathbb{E} \left[Z_{iq}Z_{j\ell} | \mathbf{Y}\right].</span></li>
+<li><span class="math inline">\tau_{ik} = \mathbb{P}(Z_i = k | \mathbf{Y}) = \mathbb{E} \left[\mathbf{1}_{\{Z_i = k\}} | \mathbf{Y}\right].</span></li>
+<li><span class="math inline">\eta_{ijk\ell} = \mathbb{P}(Z_i = k , Z_j = \ell | \mathbf{Y}) = \mathbb{E} \left[\mathbf{1}_{\{Z_i = k\}}\mathbf{1}_{\{Z_j = \ell\}} | \mathbf{Y}\right].</span></li>
 </ul>
 <div class="callout-warning callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
@@ -727,10 +728,10 @@ Intractable EM
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>EM requires to evaluate (some moments of) <span class="math inline">p_\theta(\mathbf{Z}\,|\,\mathbf{Y})</span>, which is not known for the SBM (and was explicit for Gaussian mixture models). In particular, we do not have close forms for the <span class="math inline">\eta_{ijq\ell}</span>’s.</p>
+<p>EM requires to evaluate (some moments of) <span class="math inline">p_\theta(\mathbf{Z}\,|\,\mathbf{Y})</span>, which is not known for the SBM (and was explicit for Gaussian mixture models). In particular, we do not have close forms for the <span class="math inline">\eta_{ijk\ell}</span>’s.</p>
 <p>One could use (at least)</p>
 <ul>
-<li>MCMC/Bayesian approaches for evaluating quantities depending on <span class="math inline">p_\theta(\mathbf{Z}\,|\,\mathbf{Y})</span>$</li>
+<li>MCMC/Bayesian approaches for evaluating quantities depending on <span class="math inline">p_\theta(\mathbf{Z}\,|\,\mathbf{Y})</span></li>
 <li>Variational approaches, which generalize EM by approximating <span class="math inline">p_\theta(\mathbf{Z}\,|\,\mathbf{Y})</span></li>
 </ul>
 </div>
@@ -740,7 +741,7 @@ Intractable EM
 <h3 data-number="3.3" class="anchored" data-anchor-id="variational-approach-general-case"><span class="header-section-number">3.3</span> Variational approach: general case</h3>
 <p>The idea is to find a proxy <span class="math inline">q_\psi(\mathbf{Z}) \approx p_\theta(\mathbf{Z} | \mathbf{Y})</span> picked in a convenient class of distribution <span class="math inline">\mathcal{Q}</span></p>
 <p><span class="math display">q(\mathbf{Z})^\star  \arg\min_{q\in\mathcal{Q}} D\left(q(\mathbf{Z}), p(\mathbf{Z} | \mathbf{Y})\right).</span></p>
-<p>Küllback-Leibler is a popular choice .small[(error averaged wrt the approximated distribution)]</p>
+<p>Küllback-Leibler is a popular choice where <em>error averaged wrt the approximated distribution)</em></p>
 <p><span class="math display">KL\left(q(\mathbf{Z}), p(\mathbf{Z} | \mathbf{Y})\right) = \mathbb{E}_q\left[\log \frac{q(z)}{p(z)}\right] = \int_{\mathcal{Z}} q(z) \log \frac{q(z)}{p(z)} \mathrm{d}z.</span></p>
 <p>For mixture model, the natural class of distribution used for approximation is the multinomial</p>
 <p><span class="math display">\mathcal{Q} = \Big\{q_\psi: \, q_\psi(\mathbf{Z}) = \prod_i q_{\psi_i}(\mathbf{Z}_i), \, q_{\psi_i}(\mathbf{Z}_i) = \mathcal{M}\left(\mathbf{Z}_i; \boldsymbol\tau_i\right), \, \psi_i = \{\boldsymbol{\tau}_i\}, \boldsymbol{\tau}_i \in  \mathbb{R}^{K} \Big\}</span></p>
@@ -760,7 +761,7 @@ Intractable EM
 <p>We now derive the quantity for the special case of SBM:</p>
 <section id="variational-bound" class="level4" data-number="3.4.1">
 <h4 data-number="3.4.1" class="anchored" data-anchor-id="variational-bound"><span class="header-section-number">3.4.1</span> Variational bound</h4>
-<p><span class="math display">J(\theta, \tau ; \mathbf{Y}) = \sum_{(i,j)} \sum_{(k,\ell)} \tau_{ik} \tau_{j\ell} \log b(Y_{ij},\pi_{k\ell }) + \sum_{i} \sum_{k} \tau _{ik} \log (\alpha_k/\tau_{ik})</span></p>
+<p><span class="math display">J(\theta, \tau ; \mathbf{Y}) = \sum_{i&lt;j} \sum_{k,\ell} \tau_{ik} \tau_{j\ell} \log b(Y_{ij},\pi_{k\ell }) + \sum_{i} \sum_{k} \tau _{ik} \log (\alpha_k/\tau_{ik})</span></p>
 </section>
 <section id="m-step-analytical" class="level4" data-number="3.4.2">
 <h4 data-number="3.4.2" class="anchored" data-anchor-id="m-step-analytical"><span class="header-section-number">3.4.2</span> M-step (Analytical)</h4>
@@ -773,7 +774,7 @@ Intractable EM
 <section id="model-selection" class="level4" data-number="3.4.4">
 <h4 data-number="3.4.4" class="anchored" data-anchor-id="model-selection"><span class="header-section-number">3.4.4</span> Model Selection</h4>
 <p>Rather than using the BIC, we use a variational equivalent where the log-likelihood is replaced by its surrogate:</p>
-<p><span class="math display">\mathrm{vBIC}(Q) = - 2 J(\hat{\boldsymbol\tau},\hat{\boldsymbol\theta}) +  \left(\frac{Q(Q+1)}{2} \log \frac{n(n-1)}{2} + (Q-1) \log (n) \right).</span></p>
+<p><span class="math display">\mathrm{vBIC}(Q) = - 2 J(\hat{\boldsymbol\tau},\hat{\boldsymbol\theta}) +  \left(\frac{K(K+1)}{2} \log \frac{n(n-1)}{2} + (K-1) \log (n) \right).</span></p>
 <p>The Integrated Classification Likelihood is a preferred variant where we do not include the entropy in the term measuring the fit to the data:</p>
 <p><span class="math display">\mathrm{vICL}(K) = - 2 \mathbb{E}_{q} [\log L(\hat{\theta)}; \mathbf{Y}, \mathbf{Z}] + \left(\frac{K(K+1)}{2} \log \frac{n(n-1)}{2} + (K-1) \log (n) \right)</span></p>
 </section>
@@ -793,24 +794,24 @@ Intractable EM
 
  Initialization of 18 model(s). 
  Performing VEM inference
-    Model with 12 blocks.
-    Model with 8 blocks.
-    Model with 11 blocks.
-    Model with 18 blocks.
-    Model with 4 blocks.
-    Model with 1 blocks.
-    Model with 14 blocks.
-    Model with 6 blocks.
-    Model with 9 blocks.
-    Model with 13 blocks.
     Model with 7 blocks.
-    Model with 2 blocks.
-    Model with 10 blocks.
-    Model with 17 blocks.
+    Model with 14 blocks.
     Model with 3 blocks.
-    Model with 5 blocks.
+    Model with 12 blocks.
+    Model with 2 blocks.
+    Model with 6 blocks.
+    Model with 1 blocks.
     Model with 16 blocks.
+    Model with 13 blocks.
+    Model with 18 blocks.
+    Model with 10 blocks.
+    Model with 4 blocks.
+    Model with 5 blocks.
     Model with 15 blocks.
+    Model with 8 blocks.
+    Model with 17 blocks.
+    Model with 11 blocks.
+    Model with 9 blocks.
  Looking for better solutions
  Pass 1   Going forward +++++++++++++++++
                                                                                                     
@@ -869,9 +870,9 @@ Intractable EM
 <h2 data-number="4" class="anchored" data-anchor-id="sbm-extensions"><span class="header-section-number">4</span> SBM: extensions</h2>
 <section id="including-effects-of-external-covariates" class="level3" data-number="4.1">
 <h3 data-number="4.1" class="anchored" data-anchor-id="including-effects-of-external-covariates"><span class="header-section-number">4.1</span> Including effects of external covariates</h3>
-<p>Le (<span class="math inline">Y_{ij}</span>) be the adjacency matrix and let<span class="math inline">x^{ij} \in \mathbb{R}^p</span> denote some covariates describing associated to the pair <span class="math inline">(i,j)</span>.</p>
-<p>As before, we consider the nodes <span class="math inline">i= 1,\dots,n</span> partitioned into <span class="math inline">K</span> clusters, where the latent variables <span class="math inline">Z_i</span> such as $ (Z_i = k) = _k$ describes the node memberships.</p>
-<p>Then, conditionally to <span class="math inline">(Z_i)_{i=1,\dots,n}</span>}, the <span class="math inline">(Y_{ij})</span> are independent and</p>
+<p>Le (<span class="math inline">Y_{ij}</span>) be the adjacency matrix and let <span class="math inline">x^{ij} \in \mathbb{R}^p</span> denote some covariates describing associated to the pair <span class="math inline">(i,j)</span>.</p>
+<p>As before, we consider the nodes <span class="math inline">i= \{1,\dots,n\}</span> partitioned into <span class="math inline">K</span> clusters, where the latent variables <span class="math inline">Z_i</span> such as <span class="math inline">\mathbb{P}(Z_i = k) = \alpha_k</span> describes the node memberships.</p>
+<p>Then, conditionally to <span class="math inline">(Z_i)_{i=1,\dots,n}</span>, the <span class="math inline">(Y_{ij})</span> are independent and</p>
 <p><span class="math display">Y_{ij}  | Z_i, Z_j \sim   \mathcal{B}ern(\mathrm{logit}(\alpha_{Z_i,Z_j} + \theta \cdot x_{ij}) ) \quad \textrm{if binary data}</span></p>
 <p>If <span class="math inline">K = 1</span> : all the connection heterogeneity is explained by the covariates. Otherwise, the underlying organisation is explained by weighting of the covariates and the clustering.</p>
 </section>
@@ -887,15 +888,15 @@ Intractable EM
 <li>Poisson distribution:</li>
 </ul>
 <p><span class="math inline">\mathcal{C}=\{{\color{#fab20a}{\bullet}},{\color{#0000ff}{\bullet}},{\color{#008000}{\bullet}}\}</span></p>
-<p><span class="math display">Y_{ij} \ | \ \{i\in{\color{#fab20a}{\bullet}},j\in{\color{#0000ff}{\bullet}}\} \sim^{\text{ind}} \mathcal{P}(\lambda_{{\color{#fab20a}{\bullet}}{\color{#0000ff}{\bullet}}})</span>,</p>
+<p><span class="math display">Y_{ij} \ | \ \{i\in{\color{#fab20a}{\bullet}},j\in{\color{#0000ff}{\bullet}}\} \sim^{\text{ind}} \mathcal{P}(\lambda_{{\color{#fab20a}{\bullet}}{\color{#0000ff}{\bullet}}}),</span></p>
 <ul>
 <li>Gaussian distribution:</li>
 </ul>
-<p><span class="math display">Y_{ij} \ | \ \{i\in{\color{#fab20a}{\bullet}},j\in{\color{#0000ff}{\bullet}}\} \sim^{\text{ind}} \mathcal{N}(\mu_{{\color{#fab20a}{\bullet}}{\color{#0000ff}{\bullet}}},\sigma^2)</span>,</p>
+<p><span class="math display">Y_{ij} \ | \ \{i\in{\color{#fab20a}{\bullet}},j\in{\color{#0000ff}{\bullet}}\} \sim^{\text{ind}} \mathcal{N}(\mu_{{\color{#fab20a}{\bullet}}{\color{#0000ff}{\bullet}}},\sigma^2),</span></p>
 <ul>
 <li>More generally,</li>
 </ul>
-<p><span class="math display">Y_{ij} \ | \ \{i\in{\color{#fab20a}{\bullet}},{j\in\color{#0000ff}{\bullet}}\} \sim^{\text{ind}} \mathcal{F}(\theta_{{\color{#fab20a}{\bullet}}{\color{#0000ff}{\bullet}}})</span></p>
+<p><span class="math display">Y_{ij} \ | \ \{i\in{\color{#fab20a}{\bullet}},{j\in\color{#0000ff}{\bullet}}\} \sim^{\text{ind}} \mathcal{F}(\theta_{{\color{#fab20a}{\bullet}}{\color{#0000ff}{\bullet}}}).</span></p>
 </section>
 <section id="bipartite-sbm-aka-latent-block-models" class="level3" data-number="4.3">
 <h3 data-number="4.3" class="anchored" data-anchor-id="bipartite-sbm-aka-latent-block-models"><span class="header-section-number">4.3</span> Bipartite SBM aka Latent Block Models</h3>
@@ -925,8 +926,8 @@ Intractable EM
 <li><span class="math inline">\pi_{{\color{#ff0000}{\bullet}}{\color{#ffff00}{\bullet}}} = \mathbb{P}(i \leftrightarrow j | i\in{\color{#ff0000}{\bullet}},j\in{\color{#ffff00}{\bullet}})</span></li>
 </ul>
 <p><span class="math display">\begin{aligned}
-Z^1_i = \mathbf{1}_{\{i \in \bullet\}}  \ &amp; \sim^{\text{iid}} \mathcal{M}(1,\boldsymbol\pi^1), \quad \forall\bullet \in \mathcal{Q}_1, \\
-Z^2_j=\mathbf{1}_{\{j \in \bullet\}}  \ &amp; \sim^{\text{iid}} \mathcal{M}(1,\boldsymbol\pi^2), \quad \forall\bullet \in \mathcal{Q}_2, \\
+Z^1_i  \ &amp; \sim^{\text{iid}} \mathcal{M}(1,\boldsymbol\pi^1), \quad \forall\bullet \in \mathcal{Q}_1, \\
+Z^2_j  \ &amp; \sim^{\text{iid}} \mathcal{M}(1,\boldsymbol\pi^2), \quad \forall\bullet \in \mathcal{Q}_2, \\
 Y_{ij} \ | \ \{i\in{\color{#ff0000}{\bullet}},j\in{\color{#ffff00}{\bullet}}\}
 &amp; \sim^{\text{ind}} \mathcal{B}ern(\alpha_{\color{#ff0000}{\bullet}\color{#ffff00}{\bullet}})\\
 \end{aligned}</span></p>
@@ -939,7 +940,7 @@ Y_{ij} \ | \ \{i\in{\color{#ff0000}{\bullet}},j\in{\color{#ffff00}{\bullet}}\}
 
 </section>
 
-<div id="quarto-appendix" class="default page-columns page-full"><section class="quarto-appendix-contents page-columns page-full" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading column-leftmargin">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
 <div id="ref-daudin2008mixture" class="csl-entry" role="doc-biblioentry">
 Daudin, J-J, Franck Picard, and Stéphane Robin. 2008. <span>“A Mixture Model for Random Graphs.”</span> <em>Stat. Comp.</em> 18 (2): 173–83.
 </div>
@@ -949,7 +950,7 @@ Mariadassou, Mahendra, Stéphane Robin, and Corinne Vacher. 2010. <span>“Uncov
 <div id="ref-Nowicki2001" class="csl-entry" role="doc-biblioentry">
 Nowicki, K., and T. A. B. Snijders. 2001. <span>“Estimation and Prediction for Stochastic Blockstructures.”</span> <em>J. Am. Stat. Soc.</em> 96 (455): 1077–87.
 </div>
-</div></section><section class="footnotes footnotes-end-of-document page-columns page-full" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading column-leftmargin">Footnotes</h2>
+</div></section><section class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
 <li id="fn1" role="doc-endnote"><p>I have been involved in their development and they share some classes and have very similar interfaces<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>

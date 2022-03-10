@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.9.58">
+  <meta name="generator" content="quarto-0.9.76">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MAP566 - Stats in Action - Clustering and classification with model based approaches</title>
   <style>
@@ -408,11 +408,11 @@
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
-<main class="content page-columns page-full" id="quarto-document-content">
-<header id="title-block-header">
-<h1 class="title d-none d-lg-block display-7">Clustering and classification with model based approaches</h1>
-<p class="subtitle lead">An short example study on the penguins dataset</p>
-</header>
+<main class="content" id="quarto-document-content">
+<header id="title-block-header" class="quarto-title-block default">
+
+
+<div class="quarto-title"><h1 class="title d-none d-lg-block display-7">Clustering and classification with model based approaches</h1><p class="subtitle lead">An short example study on the penguins dataset</p></div></header>
 
 <section id="preliminary" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="preliminary">Preliminary</h2>
@@ -638,7 +638,7 @@ fitted probabilities numerically 0 or 1 occurred</code></pre>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>kclust <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(penguins[, <span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>], <span class="at">centers =</span> <span class="dv">3</span>, <span class="at">nstart =</span> <span class="dv">10</span>)</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>aricode<span class="sc">::</span><span class="fu">ARI</span>(kclust<span class="sc">$</span>cl,  penguins<span class="sc">$</span>species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 0.3212539</code></pre>
+<pre><code>[1] 0.3321371</code></pre>
 </div>
 </div>
 <p>Let us know fit a mixture of three multidimensional Gaussian distributions.</p>
@@ -725,11 +725,11 @@ flipper_length_mm       9.017857      4.030423         47.437865</code></pre>
 
 </section>
 
-<div id="quarto-appendix" class="default page-columns page-full"><section class="quarto-appendix-contents page-columns page-full" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading column-leftmargin">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
 <div id="ref-penguins" class="csl-entry" role="doc-biblioentry">
 Horst, Allison Marie, Alison Presmanes Hill, and Kristen B Gorman. 2020. <em>Palmerpenguins: Palmer Archipelago (Antarctica) Penguin Data</em>. <a href="https://doi.org/10.5281/zenodo.3960218">https://doi.org/10.5281/zenodo.3960218</a>.
 </div>
-</div></section><section class="footnotes footnotes-end-of-document page-columns page-full" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading column-leftmargin">Footnotes</h2>
+</div></section><section class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
 <li id="fn1" role="doc-endnote"><p><a href="https://allisonhorst.github.io/palmerpenguins/">more to read here</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
