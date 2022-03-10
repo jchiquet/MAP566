@@ -132,7 +132,7 @@ The SBM generalizes the Erdös-Rényi model in a mixture framework (see @Nowicki
 Let 
 
 - $\{1, \dots, n \}$ be some *fixed* nodes,
-- with some **unknown** colors picked up from $\mathcal{C}=\{{\color{#fab20a}{\bullet}},{\color{#0000ff}{\bullet}},{\color{#008000}{\bullet}}\}$
+- with some **unknown** $K$ colors picked up from $\mathcal{C}=\{{\color{#fab20a}{\bullet}},{\color{#0000ff}{\bullet}},{\color{#008000}{\bullet}}\}$
 
 Denote by
 
@@ -143,7 +143,7 @@ In the binary Stochastic Block Model, the adjacency matrix $Y_{ij}$ is random, w
 
 $$
 \begin{aligned}
-Z_i = \mathbf{1}_{\{i \in \bullet\}}  \ & \sim^{\text{iid}} \mathcal{M}(1,\alpha), \\ 
+Z_i =  \bullet  \ & \sim^{\text{iid}} \mathcal{M}(1,\alpha), \\ 
 Y_{ij} \ | \ \{i\in{\color{#fab20a}{\bullet}},j\in{\color{#0000ff}{\bullet}}\}
 & \sim^{\text{ind}} \mathcal{B}(\pi_{{\color{#fab20a}{\bullet}}{\color{#0000ff}{\bullet}}})\\
 \end{aligned}
@@ -198,13 +198,13 @@ Because it is defined as a simple mixture of Erdös-Rényi, the degree distribut
 The conditional degree distribution of a node $i\in q$ is
 
 $$
-  D_i | i \in q \sim \mathrm{b}(n-1,\bar\pi) \approx \mathcal{P}(\lambda_q), \qquad \bar\pi_q = \sum_{\ell=1}^Q \alpha_\ell \pi_{q\ell}, \quad \lambda_q = (n-1)\bar\pi_q
+  D_i | i \in k \sim \mathrm{b}(n-1,\bar\pi) \approx \mathcal{P}(\lambda_k), \qquad \bar\pi_k = \sum_{\ell=1}^K \alpha_\ell \pi_{k\ell}, \quad \lambda_k = (n-1)\bar\pi_k
 $$
 
 From this, we deduce the degree distribution of a node $i$, which can be approximated by a mixture of Poisson distributions:
 
 $$
-  \mathbb{P}(D_i = k) = \sum_{q=1}^Q\alpha_q \exp(-\lambda_q) \ \frac{\lambda_q^k}{k !}
+  \mathbb{P}(D_i = d) = \sum_{k=1}^K\alpha_k \exp(-\lambda_k) \ \frac{\lambda_k^d}{d !}
 $$
 
 :::
@@ -214,7 +214,7 @@ $$
 
 ### SBM: a latent variable model
 
-Recall tha we have  *fixed* nodes $\{1, \dots, n \}$ with **hidden** colors $\mathcal{C}=\{\color{#fab20a}{\bullet},\color{#0000ff}{\bullet},\color{#008000}{\bullet}\}$. 
+Recall that we have  *fixed* nodes $\{1, \dots, n \}$ with **hidden** colors $\mathcal{C}=\{\color{#fab20a}{\bullet},\color{#0000ff}{\bullet},\color{#008000}{\bullet}\}$. 
 We observe the following
 
 ```{r sbm-inference, out.width='40%', echo = FALSE, fig.align='center'}
@@ -224,7 +224,7 @@ knitr::include_graphics("infer_sbm.png")
 We need to estimate the model parameters and the clustering:
 
 - $\theta = \{\boldsymbol\alpha = (\alpha_\bullet), \boldsymbol\Pi = (\pi_{\color{#fab20a}{\bullet}\color{#0000ff}{\bullet}})\}$
-- Colors of $i$, i.e. the $\mathbf{Z}_i$ (the clustering)
+- Colors of $i$, i.e. the $\mathbf{Z} = (Z_i)$ (the clustering)
 
 Just like with Gaussian mixture models, maximizing the marginal log likelihood is not straightforward
 
@@ -251,27 +251,28 @@ $$ \theta^{(t)} = \arg \max_{\theta} Q(\theta | \theta^{(t-1)})$$
 An important ingredient to compute the conditional expectation above is the complete data likelihood which, for binary SBM, is given by the following expression:
 
 $$\begin{aligned}
-\ell_c(\mathbf{Y},\mathbf{Z}; \theta)  & =  p(\mathbf{Y} | \mathbf{Z}; \boldsymbol\pi) p(\mathbf{Z} ; \boldsymbol\alpha)\nonumber = \prod_{i,j} f_{\pi_{Z_i,Z_j}}(Y_{ij}) \times   \prod_{i} \alpha_{Z_i} \nonumber  \\
-&=  \prod_{i,j} \pi_{Z_i,Z_j}^{Y_{ij}} (1-  \pi_{Z_i,Z_j})^{1- Y_{ij}}    \prod_{i} \alpha_{Z_i}
+\ell_c(\theta;\mathbf{Y},\mathbf{Z})  & =  p(\mathbf{Y} | \mathbf{Z}; \boldsymbol\pi) p(\mathbf{Z} ; \boldsymbol\alpha) \\
+& =  \prod_{i<j} \pi_{Z_i,Z_j}^{Y_{ij}} (1-  \pi_{Z_i,Z_j})^{1- Y_{ij}}    \prod_{i} \alpha_{Z_i} \\
+& =  \prod_{i<j} \prod_{k,\ell} \left(\pi_{k\ell}^{Y_{ij}} (1-  \pi_{k\ell})^{1- Y_{ij}}\right)^{\mathbf{1}_{\{Z_i = k\}}\mathbf{1}_{\{Z_i = \ell\}}} \prod_{i}\prod_k \left(\alpha_{k}\right)^{\mathbf{1}_{\{Z_i = k\}}} \\
 \end{aligned}$$
 
 With SBM, we have 
 
-$$\mathbb{E}_{\mathbf{Z}|\mathbf{Y}} \big[\log L(\boldsymbol\theta;\mathbf{Y},\mathbf{Z}) \big] = \sum_{i,q} \tau_{iq} \log \alpha_q + \sum_{i<j,q,\ell} \eta_{ijq\ell} \log \pi_{q\ell}^{Y_{ij}} (1-\pi_{q\ell})^{1-Y_{ij}}$$
+$$\mathbb{E}_{\mathbf{Z}|\mathbf{Y}} \big[\log \ell_c(\boldsymbol\theta;\mathbf{Y},\mathbf{Z}) \big] = \sum_{i,k} \tau_{ik} \log \alpha_k + \sum_{i<j,k,\ell} \eta_{ijk\ell} \log \pi_{k\ell}^{Y_{ij}} (1-\pi_{k\ell})^{1-Y_{ij}}$$
     
 where $\tau_ {iq}, \eta_{ijq\ell}$ are the posterior probabilities:
 
-  - $\tau_{iq} = \mathbb{P}(Z_{iq} = 1 | \mathbf{Y}) = \mathbb{E} \left[Z_{iq} | \mathbf{Y}\right].$
-  - $\eta_{ijq\ell} = \mathbb{P}(Z_{iq}Z_{j\ell} = 1 | \mathbf{Y}) = \mathbb{E} \left[Z_{iq}Z_{j\ell} | \mathbf{Y}\right].$
+  - $\tau_{ik} = \mathbb{P}(Z_i = k | \mathbf{Y}) = \mathbb{E} \left[\mathbf{1}_{\{Z_i = k\}} | \mathbf{Y}\right].$
+  - $\eta_{ijk\ell} = \mathbb{P}(Z_i = k , Z_j = \ell | \mathbf{Y}) = \mathbb{E} \left[\mathbf{1}_{\{Z_i = k\}}\mathbf{1}_{\{Z_j = \ell\}} | \mathbf{Y}\right].$
 
 ::: {.callout-warning}
 ## Intractable EM
 
-EM requires to evaluate (some moments of)  $p_\theta(\mathbf{Z}\,|\,\mathbf{Y})$, which is not known for the SBM (and was explicit for Gaussian mixture models). In particular, we do not have close forms for the $\eta_{ijq\ell}$'s.
+EM requires to evaluate (some moments of)  $p_\theta(\mathbf{Z}\,|\,\mathbf{Y})$, which is not known for the SBM (and was explicit for Gaussian mixture models). In particular, we do not have close forms for the $\eta_{ijk\ell}$'s.
 
 One could use (at least)
 
-- MCMC/Bayesian approaches for evaluating quantities depending on $p_\theta(\mathbf{Z}\,|\,\mathbf{Y})$$
+- MCMC/Bayesian approaches for evaluating quantities depending on $p_\theta(\mathbf{Z}\,|\,\mathbf{Y})$
 - Variational approaches, which generalize EM by approximating $p_\theta(\mathbf{Z}\,|\,\mathbf{Y})$
 
 :::
@@ -282,7 +283,7 @@ The idea is to find a proxy $q_\psi(\mathbf{Z}) \approx p_\theta(\mathbf{Z} | \m
 
 $$q(\mathbf{Z})^\star  \arg\min_{q\in\mathcal{Q}} D\left(q(\mathbf{Z}), p(\mathbf{Z} | \mathbf{Y})\right).$$
 
-Küllback-Leibler  is a popular choice .small[(error averaged wrt the approximated distribution)]
+Küllback-Leibler  is a popular choice where *error averaged wrt the approximated distribution)*
 
 $$KL\left(q(\mathbf{Z}), p(\mathbf{Z} | \mathbf{Y})\right) = \mathbb{E}_q\left[\log \frac{q(z)}{p(z)}\right] = \int_{\mathcal{Z}} q(z) \log \frac{q(z)}{p(z)} \mathrm{d}z.$$
 
@@ -315,7 +316,7 @@ We now derive the quantity for the special case of SBM:
 #### Variational bound
 
 
-$$J(\theta, \tau ; \mathbf{Y}) = \sum_{(i,j)} \sum_{(k,\ell)} \tau_{ik} \tau_{j\ell} \log b(Y_{ij},\pi_{k\ell }) + \sum_{i} \sum_{k} \tau _{ik} \log (\alpha_k/\tau_{ik})$$
+$$J(\theta, \tau ; \mathbf{Y}) = \sum_{i<j} \sum_{k,\ell} \tau_{ik} \tau_{j\ell} \log b(Y_{ij},\pi_{k\ell }) + \sum_{i} \sum_{k} \tau _{ik} \log (\alpha_k/\tau_{ik})$$
 
 
 #### M-step (Analytical)
@@ -332,7 +333,7 @@ $$\tau_{ik} \varpropto \alpha_k \prod_{(i,j)} \prod_{\ell} b(Y_{ij} ; \pi_{k\ell
 
 Rather than using the BIC, we use a variational equivalent where the log-likelihood is replaced by its surrogate:
 
-$$\mathrm{vBIC}(Q) = - 2 J(\hat{\boldsymbol\tau},\hat{\boldsymbol\theta}) +  \left(\frac{Q(Q+1)}{2} \log \frac{n(n-1)}{2} + (Q-1) \log (n) \right).$$
+$$\mathrm{vBIC}(Q) = - 2 J(\hat{\boldsymbol\tau},\hat{\boldsymbol\theta}) +  \left(\frac{K(K+1)}{2} \log \frac{n(n-1)}{2} + (K-1) \log (n) \right).$$
 
 The Integrated Classification Likelihood is a preferred variant where we do not include the entropy in the term measuring the fit to the data: 
 
@@ -383,12 +384,12 @@ plot(sbm_full$bestModel, "expected", dimLabels = list(row = "blogs", col = "blog
 
 ### Including effects of external covariates
 
-Le  ($Y_{ij}$) be the adjacency matrix and let$x^{ij} \in \mathbb{R}^p$  denote some covariates describing associated to the pair $(i,j)$.
+Le  ($Y_{ij}$) be the adjacency matrix and let $x^{ij} \in \mathbb{R}^p$  denote some covariates describing associated to the pair $(i,j)$.
 
-As before, we consider the nodes $i= 1,\dots,n$ partitioned into $K$ clusters, where 
-the latent variables $Z_i$ such as  $ \mathbb{P}(Z_i = k) = \alpha_k$ describes the node memberships.
+As before, we consider the nodes $i= \{1,\dots,n\}$ partitioned into $K$ clusters, where 
+the latent variables $Z_i$ such as  $\mathbb{P}(Z_i = k) = \alpha_k$ describes the node memberships.
 
-Then, conditionally to $(Z_i)_{i=1,\dots,n}$}, the $(Y_{ij})$ are independent and 
+Then, conditionally to $(Z_i)_{i=1,\dots,n}$, the $(Y_{ij})$ are independent and 
 
 $$Y_{ij}  | Z_i, Z_j \sim   \mathcal{B}ern(\mathrm{logit}(\alpha_{Z_i,Z_j} + \theta \cdot x_{ij}) ) \quad \textrm{if binary data}$$
 
@@ -407,15 +408,15 @@ In this case, natural extensions of SBM were introduced by @wsbm
 
 $\mathcal{C}=\{{\color{#fab20a}{\bullet}},{\color{#0000ff}{\bullet}},{\color{#008000}{\bullet}}\}$
 
-$$Y_{ij} \ | \ \{i\in{\color{#fab20a}{\bullet}},j\in{\color{#0000ff}{\bullet}}\} \sim^{\text{ind}} \mathcal{P}(\lambda_{{\color{#fab20a}{\bullet}}{\color{#0000ff}{\bullet}}})$$,
+$$Y_{ij} \ | \ \{i\in{\color{#fab20a}{\bullet}},j\in{\color{#0000ff}{\bullet}}\} \sim^{\text{ind}} \mathcal{P}(\lambda_{{\color{#fab20a}{\bullet}}{\color{#0000ff}{\bullet}}}),$$
 
 - Gaussian distribution: 
 
-$$Y_{ij} \ | \ \{i\in{\color{#fab20a}{\bullet}},j\in{\color{#0000ff}{\bullet}}\} \sim^{\text{ind}} \mathcal{N}(\mu_{{\color{#fab20a}{\bullet}}{\color{#0000ff}{\bullet}}},\sigma^2)$$,
+$$Y_{ij} \ | \ \{i\in{\color{#fab20a}{\bullet}},j\in{\color{#0000ff}{\bullet}}\} \sim^{\text{ind}} \mathcal{N}(\mu_{{\color{#fab20a}{\bullet}}{\color{#0000ff}{\bullet}}},\sigma^2),$$
 
 - More generally, 
 
-$$Y_{ij} \ | \ \{i\in{\color{#fab20a}{\bullet}},{j\in\color{#0000ff}{\bullet}}\} \sim^{\text{ind}} \mathcal{F}(\theta_{{\color{#fab20a}{\bullet}}{\color{#0000ff}{\bullet}}})$$
+$$Y_{ij} \ | \ \{i\in{\color{#fab20a}{\bullet}},{j\in\color{#0000ff}{\bullet}}\} \sim^{\text{ind}} \mathcal{F}(\theta_{{\color{#fab20a}{\bullet}}{\color{#0000ff}{\bullet}}}).$$
 
 ### Bipartite SBM aka Latent Block Models
 
@@ -441,8 +442,8 @@ knitr::include_graphics("bipartite_sbm.png")
 - $\pi_{{\color{#ff0000}{\bullet}}{\color{#ffff00}{\bullet}}}   = \mathbb{P}(i \leftrightarrow j | i\in{\color{#ff0000}{\bullet}},j\in{\color{#ffff00}{\bullet}})$
 
 $$\begin{aligned}
-Z^1_i = \mathbf{1}_{\{i \in \bullet\}}  \ & \sim^{\text{iid}} \mathcal{M}(1,\boldsymbol\pi^1), \quad \forall\bullet \in \mathcal{Q}_1, \\ 
-Z^2_j=\mathbf{1}_{\{j \in \bullet\}}  \ & \sim^{\text{iid}} \mathcal{M}(1,\boldsymbol\pi^2), \quad \forall\bullet \in \mathcal{Q}_2, \\
+Z^1_i  \ & \sim^{\text{iid}} \mathcal{M}(1,\boldsymbol\pi^1), \quad \forall\bullet \in \mathcal{Q}_1, \\ 
+Z^2_j  \ & \sim^{\text{iid}} \mathcal{M}(1,\boldsymbol\pi^2), \quad \forall\bullet \in \mathcal{Q}_2, \\
 Y_{ij} \ | \ \{i\in{\color{#ff0000}{\bullet}},j\in{\color{#ffff00}{\bullet}}\}
 & \sim^{\text{ind}} \mathcal{B}ern(\alpha_{\color{#ff0000}{\bullet}\color{#ffff00}{\bullet}})\\
 \end{aligned}$$
