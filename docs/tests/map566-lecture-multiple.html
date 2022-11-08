@@ -1,140 +1,152 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-  <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.9.76">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>MAP566 - Stats in Action - Multiple Testing</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    .sourceCode { overflow: visible; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-        color: #aaaaaa;
-      }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-    div.sourceCode
-      {   }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-    code span.at { color: #7d9029; } /* Attribute */
-    code span.bn { color: #40a070; } /* BaseN */
-    code span.bu { } /* BuiltIn */
-    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-    code span.ch { color: #4070a0; } /* Char */
-    code span.cn { color: #880000; } /* Constant */
-    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-    code span.dt { color: #902000; } /* DataType */
-    code span.dv { color: #40a070; } /* DecVal */
-    code span.er { color: #ff0000; font-weight: bold; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #40a070; } /* Float */
-    code span.fu { color: #06287e; } /* Function */
-    code span.im { } /* Import */
-    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-    code span.op { color: #666666; } /* Operator */
-    code span.ot { color: #007020; } /* Other */
-    code span.pp { color: #bc7a00; } /* Preprocessor */
-    code span.sc { color: #4070a0; } /* SpecialChar */
-    code span.ss { color: #bb6688; } /* SpecialString */
-    code span.st { color: #4070a0; } /* String */
-    code span.va { color: #19177c; } /* Variable */
-    code span.vs { color: #4070a0; } /* VerbatimString */
-    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-    div.csl-bib-body { }
-    div.csl-entry {
-      clear: both;
-    }
-    .hanging div.csl-entry {
-      margin-left:2em;
-      text-indent:-2em;
-    }
-    div.csl-left-margin {
-      min-width:2em;
-      float:left;
-    }
-    div.csl-right-inline {
-      margin-left:2em;
-      padding-left:1em;
-    }
-    div.csl-indent {
-      margin-left: 2em;
-    }
-  </style>
 
-  <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-  <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-  <script src="../../site_libs/clipboard/clipboard.min.js"></script>
-  <meta name="quarto:offset" content="../../">
-  <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-  <script src="../../site_libs/quarto-search/fuse.min.js"></script>
-  <script src="../../site_libs/quarto-search/quarto-search.js"></script>
-  <link href="../../docs/tests/map566-lab-tests.html" rel="next">
-  <link href="../../docs/tests/map566-lecture-single.html" rel="prev">
-  <script src="../../site_libs/quarto-html/quarto.js"></script>
-  <script src="../../site_libs/quarto-html/popper.min.js"></script>
-  <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-  <script src="../../site_libs/quarto-html/anchor.min.js"></script>
-  <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-  <link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
-  <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-  <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-  <link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
-  <script id="quarto-search-options" type="application/json">{
-    "location": "navbar",
-    "copy-button": false,
-    "collapse-after": 2,
-    "panel-placement": "end",
-    "type": "overlay",
-    "limit": 20,
-    "language": {
-      "search-no-results-text": "No results",
-      "search-matching-documents-text": "matching documents",
-      "search-copy-link-title": "Copy link to search",
-      "search-hide-matches-text": "Hide additional matches",
-      "search-more-match-text": "more match in this document",
-      "search-more-matches-text": "more matches in this document",
-      "search-clear-button-title": "Clear",
-      "search-detached-cancel-button-title": "Cancel",
-      "search-submit-button-title": "Submit"
-    }
-  }</script>
-  <link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
-  <script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.262">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>MAP566 - Stats in Action - Multiple Testing</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../docs/tests/map566-lab-tests.html" rel="next">
+<link href="../../docs/tests/map566-lecture-single.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+<link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
   <script>document.addEventListener("DOMContentLoaded", function () {
  var mathElements = document.getElementsByClassName("math");
  var macros = [];
@@ -149,37 +161,44 @@
    });
 }}});
   </script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
 </head>
-<body class="docked">
+
+<body class="nav-sidebar docked nav-fixed">
+
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
-      <a class="navbar-brand" href="../../index.html">
-    <img src="../../logo_X.jpg" alt="">
+      <div class="navbar-brand-container">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../logo_X.jpg" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">MAP566 - Stats in Action</span>
-  </a>
+    </a>
+  </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../getting-started.html">Getting Started</a>
+    <a class="nav-link" href="../../getting-started.html">
+ <span class="menu-text">Getting Started</span></a>
   </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/jchiquet/MAP566"><i class="bi bi-github" role="img">
 </i> 
- </a>
+ <span class="menu-text"></span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hypothesis-testing" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hypothesis Testing</a>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hypothesis-testing" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Hypothesis Testing</span>
+    </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-hypothesis-testing">    
         <li class="dropdown-header">Lectures</li>
         <li>
@@ -199,7 +218,9 @@
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-regression-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Regression models</a>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-regression-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Regression models</span>
+    </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-regression-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
@@ -229,7 +250,9 @@
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixed-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mixed models</a>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixed-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Mixed models</span>
+    </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixed-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
@@ -259,7 +282,9 @@
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mixture models</a>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Mixture models</span>
+    </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixture-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
@@ -308,7 +333,7 @@
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
       <h1 class="quarto-secondary-nav-title">Multiple Testing</h1>
-      <button type="button" class="quarto-btn-toggle btn">
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
     </div>
@@ -321,82 +346,97 @@
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
-    <div class="sidebar-item-container"> 
-        <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">Lectures</a>
-      <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">
-        <i class="bi bi-chevron-right ms-2"></i>
-      </a>
-    </div>
-    <ul id="quarto-sidebar-section-lectures" class="collapse list-unstyled sidebar-section depth1 show">  
-        <li class="sidebar-item">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Lectures</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../docs/tests/map566-lecture-single.html" class="sidebar-item-text sidebar-link">Statistical Tests</a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../docs/tests/map566-lecture-multiple.html" class="sidebar-item-text sidebar-link active">Multiple Testing</a>
   </div>
 </li>
-    </ul>
+      </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
-    <div class="sidebar-item-container"> 
-        <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">Exercices</a>
-      <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">
-        <i class="bi bi-chevron-right ms-2"></i>
-      </a>
-    </div>
-    <ul id="quarto-sidebar-section-exercices" class="collapse list-unstyled sidebar-section depth1 show">  
-        <li class="sidebar-item">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Exercices</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../docs/tests/map566-lab-tests.html" class="sidebar-item-text sidebar-link">Hypothesis Tesing</a>
   </div>
 </li>
-    </ul>
+      </ul>
   </li>
     </ul>
     </div>
 </nav>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc">
-<h2 id="toc-title">On this page</h2>
-<ul>
-<li><a href="#introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-<li><a href="#distribution-of-the-p-values" class="nav-link" data-scroll-target="#distribution-of-the-p-values"> <span class="header-section-number">1</span> Distribution of the p-values</a>
-<ul class="collapse">
-<li><a href="#introduction-1" class="nav-link" data-scroll-target="#introduction-1"> <span class="header-section-number">1.1</span> Introduction</a></li>
-<li><a href="#single-comparison-between-2-groups" class="nav-link" data-scroll-target="#single-comparison-between-2-groups"> <span class="header-section-number">1.2</span> Single comparison between 2 groups</a></li>
-</ul></li>
-<li><a href="#a-single-comparison-among-many-others" class="nav-link" data-scroll-target="#a-single-comparison-among-many-others"> <span class="header-section-number">2</span> A single comparison… among many others</a>
-<ul class="collapse">
-<li><a href="#permutation-test" class="nav-link" data-scroll-target="#permutation-test"> <span class="header-section-number">2.1</span> Permutation test</a></li>
-</ul></li>
-<li><a href="#controlling-the-family-wise-error-rate" class="nav-link" data-scroll-target="#controlling-the-family-wise-error-rate"> <span class="header-section-number">3</span> Controlling the Family Wise Error Rate</a>
-<ul class="collapse">
-<li><a href="#the-bonferroni-correction" class="nav-link" data-scroll-target="#the-bonferroni-correction"> <span class="header-section-number">3.1</span> The Bonferroni correction</a></li>
-</ul></li>
-<li><a href="#controlling-the-false-discovery-rate" class="nav-link" data-scroll-target="#controlling-the-false-discovery-rate"> <span class="header-section-number">4</span> Controlling the False Discovery Rate</a>
-<ul class="collapse">
-<li><a href="#detecting-associations" class="nav-link" data-scroll-target="#detecting-associations"> <span class="header-section-number">4.1</span> Detecting associations</a></li>
-<li><a href="#the-benjamini-hochberg-procedure" class="nav-link" data-scroll-target="#the-benjamini-hochberg-procedure"> <span class="header-section-number">4.2</span> The Benjamini-Hochberg procedure</a></li>
-</ul></li>
-<li><a href="#references" class="nav-link" data-scroll-target="#references"> <span class="header-section-number">5</span> References</a></li>
-</ul>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#distribution-of-the-p-values" id="toc-distribution-of-the-p-values" class="nav-link" data-scroll-target="#distribution-of-the-p-values"><span class="toc-section-number">1</span>  Distribution of the p-values</a>
+  <ul class="collapse">
+  <li><a href="#introduction-1" id="toc-introduction-1" class="nav-link" data-scroll-target="#introduction-1"><span class="toc-section-number">1.1</span>  Introduction</a></li>
+  <li><a href="#single-comparison-between-2-groups" id="toc-single-comparison-between-2-groups" class="nav-link" data-scroll-target="#single-comparison-between-2-groups"><span class="toc-section-number">1.2</span>  Single comparison between 2 groups</a></li>
+  </ul></li>
+  <li><a href="#a-single-comparison-among-many-others" id="toc-a-single-comparison-among-many-others" class="nav-link" data-scroll-target="#a-single-comparison-among-many-others"><span class="toc-section-number">2</span>  A single comparison… among many others</a>
+  <ul class="collapse">
+  <li><a href="#permutation-test" id="toc-permutation-test" class="nav-link" data-scroll-target="#permutation-test"><span class="toc-section-number">2.1</span>  Permutation test</a></li>
+  </ul></li>
+  <li><a href="#controlling-the-family-wise-error-rate" id="toc-controlling-the-family-wise-error-rate" class="nav-link" data-scroll-target="#controlling-the-family-wise-error-rate"><span class="toc-section-number">3</span>  Controlling the Family Wise Error Rate</a>
+  <ul class="collapse">
+  <li><a href="#the-bonferroni-correction" id="toc-the-bonferroni-correction" class="nav-link" data-scroll-target="#the-bonferroni-correction"><span class="toc-section-number">3.1</span>  The Bonferroni correction</a></li>
+  </ul></li>
+  <li><a href="#controlling-the-false-discovery-rate" id="toc-controlling-the-false-discovery-rate" class="nav-link" data-scroll-target="#controlling-the-false-discovery-rate"><span class="toc-section-number">4</span>  Controlling the False Discovery Rate</a>
+  <ul class="collapse">
+  <li><a href="#detecting-associations" id="toc-detecting-associations" class="nav-link" data-scroll-target="#detecting-associations"><span class="toc-section-number">4.1</span>  Detecting associations</a></li>
+  <li><a href="#the-benjamini-hochberg-procedure" id="toc-the-benjamini-hochberg-procedure" class="nav-link" data-scroll-target="#the-benjamini-hochberg-procedure"><span class="toc-section-number">4.2</span>  The Benjamini-Hochberg procedure</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="toc-section-number">5</span>  References</a></li>
+  </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
+
 <header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">Multiple Testing</h1>
+<p class="subtitle lead">Lecture Notes</p>
+</div>
 
 
-<div class="quarto-title"><h1 class="title d-none d-lg-block display-7">Multiple Testing</h1><p class="subtitle lead">Lecture Notes</p></div></header>
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
 
 <section id="introduction" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="introduction">Introduction</h2>
-<div class="cell" data-warnings="false" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-2_39da76a89f5bacc9523dbba5e1128cc2">
-<div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<div class="cell" data-warnings="false" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-2_427f61aaaf4b915f8ba398da4a71ed9a">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -429,17 +469,18 @@
 <p>The file <ttt>ratSurvival.csv</ttt> reports the lifespan (in days) for each animal. Here, the experiment stopped after 720 days. Then, the reported survival time is 720 for those animals who were still alive at the end of the experiment.</p>
 <p>See the opinion of the <a href="http://www.hautconseildesbiotechnologies.fr/sites/www.hautconseildesbiotechnologies.fr/files/file_fields/2015/06/30/121019etudeseraliniaviscshcb.pdf">Haut Conseil des Biotechnologies</a> for more information about this study.</p>
 <p>Here is a summary of the data,</p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-4_813ec30e4b1882fd78f85b814d0bfd56">
-<div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>survival <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../data/ratSurvival.csv"</span>) <span class="sc">%&gt;%</span> <span class="fu">mutate_if</span>(is.character, factor) </span>
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-4_e9adc93b5aa036125e85b54a7d87cbd2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>survival <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../data/ratSurvival.csv"</span>) <span class="sc">%&gt;%</span> <span class="fu">mutate_if</span>(is.character, factor) </span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>survival <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
+
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
 {"columns":[{"label":["time"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["regimen"],"name":[2],"type":["fct"],"align":["left"]},{"label":["gender"],"name":[3],"type":["fct"],"align":["left"]}],"data":[{"1":"490","2":"control","3":"male"},{"1":"575","2":"control","3":"male"},{"1":"590","2":"control","3":"male"},{"1":"605","2":"control","3":"male"},{"1":"610","2":"control","3":"male"},{"1":"635","2":"control","3":"male"},{"1":"645","2":"control","3":"male"},{"1":"675","2":"control","3":"male"},{"1":"680","2":"control","3":"male"},{"1":"720","2":"control","3":"male"},{"1":"540","2":"control","3":"female"},{"1":"645","2":"control","3":"female"},{"1":"720","2":"control","3":"female"},{"1":"720","2":"control","3":"female"},{"1":"720","2":"control","3":"female"},{"1":"720","2":"control","3":"female"},{"1":"720","2":"control","3":"female"},{"1":"720","2":"control","3":"female"},{"1":"720","2":"control","3":"female"},{"1":"720","2":"control","3":"female"},{"1":"550","2":"NK603-11%","3":"male"},{"1":"600","2":"NK603-11%","3":"male"},{"1":"650","2":"NK603-11%","3":"male"},{"1":"675","2":"NK603-11%","3":"male"},{"1":"700","2":"NK603-11%","3":"male"},{"1":"710","2":"NK603-11%","3":"male"},{"1":"720","2":"NK603-11%","3":"male"},{"1":"720","2":"NK603-11%","3":"male"},{"1":"720","2":"NK603-11%","3":"male"},{"1":"720","2":"NK603-11%","3":"male"},{"1":"550","2":"NK603-22%","3":"male"},{"1":"600","2":"NK603-22%","3":"male"},{"1":"605","2":"NK603-22%","3":"male"},{"1":"610","2":"NK603-22%","3":"male"},{"1":"650","2":"NK603-22%","3":"male"},{"1":"675","2":"NK603-22%","3":"male"},{"1":"700","2":"NK603-22%","3":"male"},{"1":"720","2":"NK603-22%","3":"male"},{"1":"720","2":"NK603-22%","3":"male"},{"1":"720","2":"NK603-22%","3":"male"},{"1":"100","2":"NK603-33%","3":"male"},{"1":"425","2":"NK603-33%","3":"male"},{"1":"450","2":"NK603-33%","3":"male"},{"1":"500","2":"NK603-33%","3":"male"},{"1":"505","2":"NK603-33%","3":"male"},{"1":"600","2":"NK603-33%","3":"male"},{"1":"650","2":"NK603-33%","3":"male"},{"1":"720","2":"NK603-33%","3":"male"},{"1":"720","2":"NK603-33%","3":"male"},{"1":"720","2":"NK603-33%","3":"male"},{"1":"430","2":"NK603-11%+R","3":"male"},{"1":"590","2":"NK603-11%+R","3":"male"},{"1":"600","2":"NK603-11%+R","3":"male"},{"1":"625","2":"NK603-11%+R","3":"male"},{"1":"630","2":"NK603-11%+R","3":"male"},{"1":"635","2":"NK603-11%+R","3":"male"},{"1":"640","2":"NK603-11%+R","3":"male"},{"1":"650","2":"NK603-11%+R","3":"male"},{"1":"660","2":"NK603-11%+R","3":"male"},{"1":"700","2":"NK603-11%+R","3":"male"},{"1":"120","2":"NK603-22%+R","3":"male"},{"1":"350","2":"NK603-22%+R","3":"male"},{"1":"355","2":"NK603-22%+R","3":"male"},{"1":"550","2":"NK603-22%+R","3":"male"},{"1":"600","2":"NK603-22%+R","3":"male"},{"1":"625","2":"NK603-22%+R","3":"male"},{"1":"635","2":"NK603-22%+R","3":"male"},{"1":"680","2":"NK603-22%+R","3":"male"},{"1":"720","2":"NK603-22%+R","3":"male"},{"1":"720","2":"NK603-22%+R","3":"male"},{"1":"300","2":"NK603-33%+R","3":"male"},{"1":"450","2":"NK603-33%+R","3":"male"},{"1":"490","2":"NK603-33%+R","3":"male"},{"1":"500","2":"NK603-33%+R","3":"male"},{"1":"625","2":"NK603-33%+R","3":"male"},{"1":"650","2":"NK603-33%+R","3":"male"},{"1":"690","2":"NK603-33%+R","3":"male"},{"1":"720","2":"NK603-33%+R","3":"male"},{"1":"720","2":"NK603-33%+R","3":"male"},{"1":"720","2":"NK603-33%+R","3":"male"},{"1":"575","2":"RoundUp A","3":"male"},{"1":"625","2":"RoundUp A","3":"male"},{"1":"635","2":"RoundUp A","3":"male"},{"1":"650","2":"RoundUp A","3":"male"},{"1":"700","2":"RoundUp A","3":"male"},{"1":"720","2":"RoundUp A","3":"male"},{"1":"720","2":"RoundUp A","3":"male"},{"1":"720","2":"RoundUp A","3":"male"},{"1":"720","2":"RoundUp A","3":"male"},{"1":"720","2":"RoundUp A","3":"male"},{"1":"500","2":"RoundUp B","3":"male"},{"1":"540","2":"RoundUp B","3":"male"},{"1":"545","2":"RoundUp B","3":"male"},{"1":"575","2":"RoundUp B","3":"male"},{"1":"675","2":"RoundUp B","3":"male"},{"1":"685","2":"RoundUp B","3":"male"},{"1":"690","2":"RoundUp B","3":"male"},{"1":"720","2":"RoundUp B","3":"male"},{"1":"720","2":"RoundUp B","3":"male"},{"1":"720","2":"RoundUp B","3":"male"},{"1":"540","2":"RoundUp C","3":"male"},{"1":"585","2":"RoundUp C","3":"male"},{"1":"590","2":"RoundUp C","3":"male"},{"1":"605","2":"RoundUp C","3":"male"},{"1":"625","2":"RoundUp C","3":"male"},{"1":"635","2":"RoundUp C","3":"male"},{"1":"660","2":"RoundUp C","3":"male"},{"1":"700","2":"RoundUp C","3":"male"},{"1":"720","2":"RoundUp C","3":"male"},{"1":"720","2":"RoundUp C","3":"male"},{"1":"380","2":"NK603-11%","3":"female"},{"1":"420","2":"NK603-11%","3":"female"},{"1":"470","2":"NK603-11%","3":"female"},{"1":"640","2":"NK603-11%","3":"female"},{"1":"675","2":"NK603-11%","3":"female"},{"1":"720","2":"NK603-11%","3":"female"},{"1":"720","2":"NK603-11%","3":"female"},{"1":"720","2":"NK603-11%","3":"female"},{"1":"720","2":"NK603-11%","3":"female"},{"1":"720","2":"NK603-11%","3":"female"},{"1":"290","2":"NK603-22%","3":"female"},{"1":"475","2":"NK603-22%","3":"female"},{"1":"480","2":"NK603-22%","3":"female"},{"1":"510","2":"NK603-22%","3":"female"},{"1":"550","2":"NK603-22%","3":"female"},{"1":"555","2":"NK603-22%","3":"female"},{"1":"650","2":"NK603-22%","3":"female"},{"1":"720","2":"NK603-22%","3":"female"},{"1":"720","2":"NK603-22%","3":"female"},{"1":"720","2":"NK603-22%","3":"female"},{"1":"640","2":"NK603-33%","3":"female"},{"1":"650","2":"NK603-33%","3":"female"},{"1":"655","2":"NK603-33%","3":"female"},{"1":"690","2":"NK603-33%","3":"female"},{"1":"695","2":"NK603-33%","3":"female"},{"1":"720","2":"NK603-33%","3":"female"},{"1":"720","2":"NK603-33%","3":"female"},{"1":"720","2":"NK603-33%","3":"female"},{"1":"720","2":"NK603-33%","3":"female"},{"1":"720","2":"NK603-33%","3":"female"},{"1":"550","2":"NK603-11%+R","3":"female"},{"1":"600","2":"NK603-11%+R","3":"female"},{"1":"605","2":"NK603-11%+R","3":"female"},{"1":"625","2":"NK603-11%+R","3":"female"},{"1":"720","2":"NK603-11%+R","3":"female"},{"1":"720","2":"NK603-11%+R","3":"female"},{"1":"720","2":"NK603-11%+R","3":"female"},{"1":"720","2":"NK603-11%+R","3":"female"},{"1":"720","2":"NK603-11%+R","3":"female"},{"1":"720","2":"NK603-11%+R","3":"female"},{"1":"495","2":"NK603-22%+R","3":"female"},{"1":"550","2":"NK603-22%+R","3":"female"},{"1":"600","2":"NK603-22%+R","3":"female"},{"1":"610","2":"NK603-22%+R","3":"female"},{"1":"615","2":"NK603-22%+R","3":"female"},{"1":"630","2":"NK603-22%+R","3":"female"},{"1":"675","2":"NK603-22%+R","3":"female"},{"1":"720","2":"NK603-22%+R","3":"female"},{"1":"720","2":"NK603-22%+R","3":"female"},{"1":"720","2":"NK603-22%+R","3":"female"},{"1":"505","2":"NK603-33%+R","3":"female"},{"1":"510","2":"NK603-33%+R","3":"female"},{"1":"655","2":"NK603-33%+R","3":"female"},{"1":"660","2":"NK603-33%+R","3":"female"},{"1":"680","2":"NK603-33%+R","3":"female"},{"1":"720","2":"NK603-33%+R","3":"female"},{"1":"720","2":"NK603-33%+R","3":"female"},{"1":"720","2":"NK603-33%+R","3":"female"},{"1":"720","2":"NK603-33%+R","3":"female"},{"1":"720","2":"NK603-33%+R","3":"female"},{"1":"455","2":"RoundUp A","3":"female"},{"1":"465","2":"RoundUp A","3":"female"},{"1":"540","2":"RoundUp A","3":"female"},{"1":"650","2":"RoundUp A","3":"female"},{"1":"700","2":"RoundUp A","3":"female"},{"1":"720","2":"RoundUp A","3":"female"},{"1":"720","2":"RoundUp A","3":"female"},{"1":"720","2":"RoundUp A","3":"female"},{"1":"720","2":"RoundUp A","3":"female"},{"1":"720","2":"RoundUp A","3":"female"},{"1":"310","2":"RoundUp B","3":"female"},{"1":"575","2":"RoundUp B","3":"female"},{"1":"625","2":"RoundUp B","3":"female"},{"1":"630","2":"RoundUp B","3":"female"},{"1":"640","2":"RoundUp B","3":"female"},{"1":"720","2":"RoundUp B","3":"female"},{"1":"720","2":"RoundUp B","3":"female"},{"1":"720","2":"RoundUp B","3":"female"},{"1":"720","2":"RoundUp B","3":"female"},{"1":"720","2":"RoundUp B","3":"female"},{"1":"340","2":"RoundUp C","3":"female"},{"1":"500","2":"RoundUp C","3":"female"},{"1":"540","2":"RoundUp C","3":"female"},{"1":"675","2":"RoundUp C","3":"female"},{"1":"680","2":"RoundUp C","3":"female"},{"1":"700","2":"RoundUp C","3":"female"},{"1":"715","2":"RoundUp C","3":"female"},{"1":"720","2":"RoundUp C","3":"female"},{"1":"720","2":"RoundUp C","3":"female"},{"1":"720","2":"RoundUp C","3":"female"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(survival<span class="sc">$</span>regimen)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(survival<span class="sc">$</span>regimen)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code> [1] "control"     "NK603-11%"   "NK603-11%+R" "NK603-22%"   "NK603-22%+R"
  [6] "NK603-33%"   "NK603-33%+R" "RoundUp A"   "RoundUp B"   "RoundUp C"  </code></pre>
@@ -450,8 +491,8 @@
 <h3 data-number="1.2" class="anchored" data-anchor-id="single-comparison-between-2-groups"><span class="header-section-number">1.2</span> Single comparison between 2 groups</h3>
 <p>One objective of this study is the comparison of the <em>survival time</em> between the control group and the experimental groups.</p>
 <p>Consider for instance the control group of females</p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-6_2291d64addb3b9cebca7069a03c4d62b">
-<div class="sourceCode" id="cb5"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>time_control <span class="ot">&lt;-</span> survival <span class="sc">%&gt;%</span> </span>
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-6_04901715db529e1fbe47deda9a4a145d">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>time_control <span class="ot">&lt;-</span> survival <span class="sc">%&gt;%</span> </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(regimen <span class="sc">==</span> <span class="st">"control"</span>, gender <span class="sc">==</span> <span class="st">"female"</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(time)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>time_control</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
@@ -459,8 +500,8 @@
 </div>
 </div>
 <p>Only 2 rats of this group died before the end of the experiment. On the other hand, 7 females of the group fed with 22% of maize NK693 died during the experiment.</p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-8_d68aafc147f2fbc0388f3397a2be1b46">
-<div class="sourceCode" id="cb7"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>time_test <span class="ot">&lt;-</span> survival <span class="sc">%&gt;%</span> </span>
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-8_4122f8cf1abda72f61f4202e0cfcc689">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>time_test <span class="ot">&lt;-</span> survival <span class="sc">%&gt;%</span> </span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(regimen <span class="sc">==</span> <span class="st">"NK603-22%"</span>, gender <span class="sc">==</span> <span class="st">"female"</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(time)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>time_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
@@ -476,8 +517,8 @@
 &amp; H_0: \ ``\mathbb{P}(T_{\rm test}&gt;t) = \mathbb{P}(T_{\rm control}&gt;t), \text{ for any } t&gt;0" \\
 \text{versus } &amp; H_1: \ ``\mathbb{P}(T_{\rm test}&gt;t) &lt; \mathbb{P}(T_{\rm control}&gt;t), \text{ for any } t&gt;0" \end{aligned}</span></p>
 <p>Because of the (right) censoring process, we cannot just compare the mean survival times using a <span class="math inline">t</span>-test. On the other hand, we can use the <em>Wilcoxon-Mann-Whitney test</em> which precisely aims to compare the ranks of the survival times in both groups.</p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-10_abdd3db337b4fef47aa75f061e8ef003">
-<div class="sourceCode" id="cb9"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wilcox.test</span>(time_test, time_control, <span class="at">alternative=</span><span class="st">"less"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-10_fcea4e53c3297589377db19bf0c05c06">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wilcox.test</span>(time_test, time_control, <span class="at">alternative=</span><span class="st">"less"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>
     Wilcoxon rank sum test with continuity correction
@@ -493,8 +534,8 @@ alternative hypothesis: true location shift is less than 0</code></pre>
 <section id="a-single-comparison-among-many-others" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="a-single-comparison-among-many-others"><span class="header-section-number">2</span> A single comparison… among many others</h2>
 <p>Should we really accept this conclusion as it stands? No, because we don’t know the whole story… Remember that there are <em>9 experimental groups for each sex</em>. Then, 18 comparisons with the control groups are performed.</p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-12_fee6792267ab17398c01636f33a83b21">
-<div class="sourceCode" id="cb11"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>do_all_comparisons <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-12_aa62ea85b2e7628a3bce00c6efaddd15">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>do_all_comparisons <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="fu">levels</span>(data<span class="sc">$</span>gender), </span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">function</span>(g) {</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    control <span class="ot">&lt;-</span> <span class="fu">filter</span>(data, regimen <span class="sc">==</span> <span class="st">"control"</span> <span class="sc">&amp;</span> gender<span class="sc">==</span>g) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(time)</span>
@@ -514,18 +555,19 @@ alternative hypothesis: true location shift is less than 0</code></pre>
 <span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>all_comparisons <span class="ot">&lt;-</span> <span class="fu">do_all_comparisons</span>(survival)</span>
 <span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>all_comparisons <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>(<span class="at">options =</span> <span class="fu">list</span>(<span class="at">rows.print =</span> <span class="dv">18</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
+
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["gender"],"name":[1],"type":["fct"],"align":["left"]},{"label":["regime"],"name":[2],"type":["fct"],"align":["left"]},{"label":["statistic"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"female","2":"NK603-22%","3":"22.0","4":"0.01143779"},{"1":"female","2":"NK603-22%+R","3":"25.0","4":"0.02131745"},{"1":"female","2":"RoundUp C","3":"26.5","4":"0.02845455"},{"1":"female","2":"NK603-11%","3":"33.0","4":"0.07166095"},{"1":"female","2":"RoundUp B","3":"34.0","4":"0.08459162"},{"1":"female","2":"RoundUp A","3":"34.5","4":"0.09156610"},{"1":"female","2":"NK603-33%+R","3":"36.0","4":"0.11556850"},{"1":"female","2":"NK603-33%","3":"39.0","4":"0.17583926"},{"1":"female","2":"NK603-11%+R","3":"40.0","4":"0.18797769"},{"1":"male","2":"NK603-33%","3":"40.5","4":"0.24733242"},{"1":"male","2":"NK603-22%+R","3":"42.0","4":"0.28493944"},{"1":"male","2":"NK603-11%+R","3":"50.0","4":"0.51508635"},{"1":"male","2":"NK603-33%+R","3":"51.0","4":"0.54532608"},{"1":"male","2":"RoundUp C","3":"54.5","4":"0.64764235"},{"1":"male","2":"RoundUp B","3":"58.5","4":"0.75283120"},{"1":"male","2":"NK603-22%","3":"64.0","4":"0.86465902"},{"1":"male","2":"NK603-11%","3":"74.5","4":"0.97160483"},{"1":"male","2":"RoundUp A","3":"75.5","4":"0.97688776"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[18],"max":[18]},"pages":{}}}
+{"columns":[{"label":["gender"],"name":[1],"type":["chr"],"align":["left"]},{"label":["regime"],"name":[2],"type":["chr"],"align":["left"]},{"label":["statistic"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"female","2":"NK603-22%","3":"22.0","4":"0.01143779"},{"1":"female","2":"NK603-22%+R","3":"25.0","4":"0.02131745"},{"1":"female","2":"RoundUp C","3":"26.5","4":"0.02845455"},{"1":"female","2":"NK603-11%","3":"33.0","4":"0.07166095"},{"1":"female","2":"RoundUp B","3":"34.0","4":"0.08459162"},{"1":"female","2":"RoundUp A","3":"34.5","4":"0.09156610"},{"1":"female","2":"NK603-33%+R","3":"36.0","4":"0.11556850"},{"1":"female","2":"NK603-33%","3":"39.0","4":"0.17583926"},{"1":"female","2":"NK603-11%+R","3":"40.0","4":"0.18797769"},{"1":"male","2":"NK603-33%","3":"40.5","4":"0.24733242"},{"1":"male","2":"NK603-22%+R","3":"42.0","4":"0.28493944"},{"1":"male","2":"NK603-11%+R","3":"50.0","4":"0.51508635"},{"1":"male","2":"NK603-33%+R","3":"51.0","4":"0.54532608"},{"1":"male","2":"RoundUp C","3":"54.5","4":"0.64764235"},{"1":"male","2":"RoundUp B","3":"58.5","4":"0.75283120"},{"1":"male","2":"NK603-22%","3":"64.0","4":"0.86465902"},{"1":"male","2":"NK603-11%","3":"74.5","4":"0.97160483"},{"1":"male","2":"RoundUp A","3":"75.5","4":"0.97688776"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[18],"max":[18]},"pages":{}}}
   </script>
 </div>
 </div>
 </div>
 <p>Let us plot the ordered p-values:</p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-14_c7a7460886b59875da478cc82dc2b051">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-14_48c02e4ff5fabb9629116fc26ddc78e1">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>all_comparisons <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>all_comparisons <span class="sc">%&gt;%</span> </span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">18</span>, <span class="at">color =</span> regime, <span class="at">y =</span> p.value, <span class="at">shape =</span> gender), <span class="at">size=</span><span class="dv">4</span>) <span class="sc">+</span> </span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"regime"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"p-value"</span>) <span class="sc">+</span> <span class="fu">scale_color_viridis_d</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -550,25 +592,26 @@ Permutation test
 </div>
 </div>
 <p>In our example, imagine that the null hypothesis is true. We can then randomly exchange the labels (i.e.&nbsp;the regimen) and perform the 18 comparisons between the experimental groups and the control groups.</p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-16_c6d06e4387e00e018435d88cfed0b28c">
-<div class="sourceCode" id="cb13"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>permuted_data <span class="ot">&lt;-</span> survival <span class="sc">%&gt;%</span> </span>
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-16_050d81a1a0c7ff17053529fefe4ad479">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>permuted_data <span class="ot">&lt;-</span> survival <span class="sc">%&gt;%</span> </span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">split</span>(.<span class="sc">$</span>gender) <span class="sc">%&gt;%</span> </span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(mutate, <span class="at">regimen =</span> <span class="fu">sample</span>(regimen)) <span class="sc">%&gt;%</span> </span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>()</span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">do_all_comparisons</span>(permuted_data) <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
+
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["gender"],"name":[1],"type":["fct"],"align":["left"]},{"label":["regime"],"name":[2],"type":["fct"],"align":["left"]},{"label":["statistic"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"male","2":"NK603-33%","3":"21.5","4":"0.01590973"},{"1":"male","2":"RoundUp C","3":"22.0","4":"0.01753613"},{"1":"male","2":"NK603-22%+R","3":"26.0","4":"0.03585346"},{"1":"male","2":"RoundUp A","3":"28.5","4":"0.05226914"},{"1":"male","2":"RoundUp B","3":"33.5","4":"0.10572457"},{"1":"male","2":"NK603-33%+R","3":"34.0","4":"0.11534635"},{"1":"male","2":"NK603-11%","3":"35.5","4":"0.13691821"},{"1":"male","2":"NK603-11%+R","3":"44.5","4":"0.34583438"},{"1":"male","2":"NK603-22%","3":"44.5","4":"0.34589488"},{"1":"female","2":"NK603-22%","3":"51.0","4":"0.54613415"},{"1":"female","2":"RoundUp A","3":"52.0","4":"0.57740081"},{"1":"female","2":"RoundUp B","3":"57.0","4":"0.72395829"},{"1":"female","2":"NK603-33%","3":"59.0","4":"0.77424521"},{"1":"female","2":"NK603-11%+R","3":"60.0","4":"0.79733883"},{"1":"female","2":"NK603-22%+R","3":"63.5","4":"0.86298541"},{"1":"female","2":"NK603-11%","3":"64.0","4":"0.87475587"},{"1":"female","2":"NK603-33%+R","3":"66.0","4":"0.90868254"},{"1":"female","2":"RoundUp C","3":"72.0","4":"0.96868278"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["gender"],"name":[1],"type":["chr"],"align":["left"]},{"label":["regime"],"name":[2],"type":["chr"],"align":["left"]},{"label":["statistic"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"male","2":"NK603-11%+R","3":"30.0","4":"0.06956023"},{"1":"male","2":"NK603-22%+R","3":"30.5","4":"0.07430855"},{"1":"male","2":"NK603-33%","3":"33.0","4":"0.10485262"},{"1":"male","2":"RoundUp C","3":"45.5","4":"0.38017528"},{"1":"male","2":"NK603-33%+R","3":"46.5","4":"0.40942344"},{"1":"male","2":"RoundUp B","3":"46.5","4":"0.40942344"},{"1":"female","2":"RoundUp A","3":"48.0","4":"0.45477622"},{"1":"male","2":"NK603-22%","3":"48.5","4":"0.46947961"},{"1":"female","2":"NK603-33%","3":"58.5","4":"0.75481953"},{"1":"female","2":"RoundUp B","3":"64.0","4":"0.86685978"},{"1":"male","2":"RoundUp A","3":"64.5","4":"0.87538723"},{"1":"female","2":"RoundUp C","3":"65.5","4":"0.89182049"},{"1":"male","2":"NK603-11%","3":"65.5","4":"0.89473427"},{"1":"female","2":"NK603-22%","3":"70.0","4":"0.94347032"},{"1":"female","2":"NK603-33%+R","3":"72.0","4":"0.96056127"},{"1":"female","2":"NK603-11%","3":"80.5","4":"0.99228347"},{"1":"female","2":"NK603-11%+R","3":"82.0","4":"0.99442928"},{"1":"female","2":"NK603-22%+R","3":"89.0","4":"0.99945932"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
 </div>
 <p>The test statistics and the <span class="math inline">p</span>-values now really behave how they are supposed to behave under the null hypothesis. Let us plot this:</p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-18_9bf25eefdf764785ae93492a5d6db6c4">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-18_87a20aeeb00137ca46a31a4763896de5">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">do_all_comparisons</span>(permuted_data) <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">do_all_comparisons</span>(permuted_data) <span class="sc">%&gt;%</span> </span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">18</span>, <span class="at">color =</span> regime, <span class="at">y =</span> p.value, <span class="at">shape =</span> gender), <span class="at">size=</span><span class="dv">4</span>) <span class="sc">+</span> </span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"regime"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"p-value"</span>) <span class="sc">+</span> <span class="fu">scale_color_viridis_d</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -577,8 +620,8 @@ Permutation test
 </div>
 </div>
 <p>Is this really different from the plot we obtained before, with the original data? To answer this question we repeat the same experiment using many different permutations. We will be able to estimate the <span class="math inline">m</span> distributions of the <span class="math inline">m</span> test statistics as well as the <span class="math inline">m</span> distributions of the <span class="math inline">m</span> <span class="math inline">p</span>-values under the null hypothesis.</p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-20_db2e5e8c51916ea757533ca7fa3de799">
-<div class="sourceCode" id="cb15"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>n_replicates <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-20_5b47b3a8b132a85135ddf50231a7f8db">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>n_replicates <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">mclapply</span>(<span class="dv">1</span><span class="sc">:</span>n_replicates, <span class="cf">function</span>(i) {</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  permuted_data <span class="ot">&lt;-</span> survival <span class="sc">%&gt;%</span> </span>
@@ -591,8 +634,8 @@ Permutation test
 <span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>}, <span class="at">mc.cores =</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>()) <span class="sc">%&gt;%</span> <span class="fu">bind_rows</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can estimate, for instance, prediction intervals of level 90% for the <span class="math inline">m=18</span> ordered <span class="math inline">p</span>-values</p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-22_4c534de0d660b9ad6994d4cff51c3965">
-<div class="sourceCode" id="cb16"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>quantiles_pvalues <span class="ot">&lt;-</span> </span>
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-22_3f7c57f104c791d513acd648ef0606fc">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>quantiles_pvalues <span class="ot">&lt;-</span> </span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">split</span>(res, res<span class="sc">$</span>simu) <span class="sc">%&gt;%</span> </span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(pull, p.value) <span class="sc">%&gt;%</span> </span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(sort) <span class="sc">%&gt;%</span> <span class="fu">bind_rows</span>() <span class="sc">%&gt;%</span> </span>
@@ -600,10 +643,10 @@ Permutation test
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setNames</span>(<span class="fu">c</span>(<span class="st">"low"</span>,<span class="st">"median"</span>,<span class="st">"up"</span>)) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">rank =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>and plot them, with the original <span class="math inline">p</span>-values</p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-24_7ed7323f39384d5c4efe9b84910e3410">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-24_e4c27f11fc12bbd3021e824f48918ce4">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>quantiles_pvalues <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>quantiles_pvalues <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">x =</span> rank, <span class="at">ymin =</span> low, <span class="at">ymax =</span> up), <span class="at">width=</span><span class="fl">0.2</span>, <span class="at">size=</span><span class="fl">1.5</span>, <span class="at">colour=</span><span class="st">"grey50"</span>) <span class="sc">+</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"regimen"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"p-value"</span>) <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="cn">NULL</span>)  <span class="sc">+</span>  </span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> all_comparisons, <span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">18</span>, <span class="at">color =</span> regime, <span class="at">y =</span> p.value, <span class="at">shape=</span>gender), <span class="at">size=</span><span class="dv">4</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -618,11 +661,11 @@ Permutation test
 <p><span class="math display">
 \mathbb{P}\left(p_{(1)} \leq p_{(1)}^{\mathrm{obs}}\right) \approx \frac{1}{L} \sum_{\ell=1}^{L} \mathbf{1}_{\left\{p_{(1),\ell} \leq p_{(1)}^{\mathrm{obs}}\right\}}
 </span></p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-26_517020a44c12642cecfe1ea1f06c2a22">
-<div class="sourceCode" id="cb18"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>stat_rank1 <span class="ot">&lt;-</span> <span class="fu">split</span>(res, res<span class="sc">$</span>simu) <span class="sc">%&gt;%</span> <span class="fu">map_dbl</span>(<span class="cf">function</span>(x) <span class="fu">sort</span>(x<span class="sc">$</span>statistic)[<span class="dv">1</span>])</span>
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-26_58c08cc86610dfd3659ba4302752da53">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>stat_rank1 <span class="ot">&lt;-</span> <span class="fu">split</span>(res, res<span class="sc">$</span>simu) <span class="sc">%&gt;%</span> <span class="fu">map_dbl</span>(<span class="cf">function</span>(x) <span class="fu">sort</span>(x<span class="sc">$</span>statistic)[<span class="dv">1</span>])</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(stat_rank1 <span class="sc">&lt;</span> all_comparisons<span class="sc">$</span>statistic[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] 0.152</code></pre>
+<pre><code>[1] 0.156</code></pre>
 </div>
 </div>
 </section>
@@ -642,22 +685,23 @@ Permutation test
 &amp; \simeq  \frac{\alpha}{m} \quad \quad (\text{Bonferroni correction})
 \end{aligned}</span></p>
 <p>Let <span class="math inline">p_k</span> be the <span class="math inline">p</span>-value of the <span class="math inline">k</span>-th test. Using the Bonferroni correction, the <span class="math inline">k</span>-th test is significant if <span class="math display">  p_k \leq \alpha_m \quad  \Longleftrightarrow \quad   m \, p_k \leq \alpha </span> We can then either compare the original <span class="math inline">p</span>-value <span class="math inline">p_k</span> to the corrected significance level <span class="math inline">\alpha/m</span>, or compare the <em>adjusted</em> <span class="math inline">p</span>-value <span class="math inline">p_k^{\rm (bonferroni)} =\min(1, m \, p_k)</span> to the critical value <span class="math inline">\alpha</span>.</p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-28_dfe52f9328fc8b9980ff89b48a0028d3">
-<div class="sourceCode" id="cb20"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">nrow</span>(all_comparisons)</span>
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-28_b6fc857c577f1238220d1689d6a5d3c2">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">nrow</span>(all_comparisons)</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>all_comparisons<span class="sc">$</span>p.value_bonferonni <span class="ot">&lt;-</span> <span class="fu">pmin</span>(<span class="dv">1</span>, all_comparisons<span class="sc">$</span>p.value <span class="sc">*</span> m)</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>all_comparisons <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
+
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["gender"],"name":[1],"type":["fct"],"align":["left"]},{"label":["regime"],"name":[2],"type":["fct"],"align":["left"]},{"label":["statistic"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.value_bonferonni"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"female","2":"NK603-22%","3":"22.0","4":"0.01143779","5":"0.2058803"},{"1":"female","2":"NK603-22%+R","3":"25.0","4":"0.02131745","5":"0.3837141"},{"1":"female","2":"RoundUp C","3":"26.5","4":"0.02845455","5":"0.5121818"},{"1":"female","2":"NK603-11%","3":"33.0","4":"0.07166095","5":"1.0000000"},{"1":"female","2":"RoundUp B","3":"34.0","4":"0.08459162","5":"1.0000000"},{"1":"female","2":"RoundUp A","3":"34.5","4":"0.09156610","5":"1.0000000"},{"1":"female","2":"NK603-33%+R","3":"36.0","4":"0.11556850","5":"1.0000000"},{"1":"female","2":"NK603-33%","3":"39.0","4":"0.17583926","5":"1.0000000"},{"1":"female","2":"NK603-11%+R","3":"40.0","4":"0.18797769","5":"1.0000000"},{"1":"male","2":"NK603-33%","3":"40.5","4":"0.24733242","5":"1.0000000"},{"1":"male","2":"NK603-22%+R","3":"42.0","4":"0.28493944","5":"1.0000000"},{"1":"male","2":"NK603-11%+R","3":"50.0","4":"0.51508635","5":"1.0000000"},{"1":"male","2":"NK603-33%+R","3":"51.0","4":"0.54532608","5":"1.0000000"},{"1":"male","2":"RoundUp C","3":"54.5","4":"0.64764235","5":"1.0000000"},{"1":"male","2":"RoundUp B","3":"58.5","4":"0.75283120","5":"1.0000000"},{"1":"male","2":"NK603-22%","3":"64.0","4":"0.86465902","5":"1.0000000"},{"1":"male","2":"NK603-11%","3":"74.5","4":"0.97160483","5":"1.0000000"},{"1":"male","2":"RoundUp A","3":"75.5","4":"0.97688776","5":"1.0000000"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["gender"],"name":[1],"type":["chr"],"align":["left"]},{"label":["regime"],"name":[2],"type":["chr"],"align":["left"]},{"label":["statistic"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.value_bonferonni"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"female","2":"NK603-22%","3":"22.0","4":"0.01143779","5":"0.2058803"},{"1":"female","2":"NK603-22%+R","3":"25.0","4":"0.02131745","5":"0.3837141"},{"1":"female","2":"RoundUp C","3":"26.5","4":"0.02845455","5":"0.5121818"},{"1":"female","2":"NK603-11%","3":"33.0","4":"0.07166095","5":"1.0000000"},{"1":"female","2":"RoundUp B","3":"34.0","4":"0.08459162","5":"1.0000000"},{"1":"female","2":"RoundUp A","3":"34.5","4":"0.09156610","5":"1.0000000"},{"1":"female","2":"NK603-33%+R","3":"36.0","4":"0.11556850","5":"1.0000000"},{"1":"female","2":"NK603-33%","3":"39.0","4":"0.17583926","5":"1.0000000"},{"1":"female","2":"NK603-11%+R","3":"40.0","4":"0.18797769","5":"1.0000000"},{"1":"male","2":"NK603-33%","3":"40.5","4":"0.24733242","5":"1.0000000"},{"1":"male","2":"NK603-22%+R","3":"42.0","4":"0.28493944","5":"1.0000000"},{"1":"male","2":"NK603-11%+R","3":"50.0","4":"0.51508635","5":"1.0000000"},{"1":"male","2":"NK603-33%+R","3":"51.0","4":"0.54532608","5":"1.0000000"},{"1":"male","2":"RoundUp C","3":"54.5","4":"0.64764235","5":"1.0000000"},{"1":"male","2":"RoundUp B","3":"58.5","4":"0.75283120","5":"1.0000000"},{"1":"male","2":"NK603-22%","3":"64.0","4":"0.86465902","5":"1.0000000"},{"1":"male","2":"NK603-11%","3":"74.5","4":"0.97160483","5":"1.0000000"},{"1":"male","2":"RoundUp A","3":"75.5","4":"0.97688776","5":"1.0000000"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
 </div>
 <p>Using the Bonferroni correction, none of the 18 comparisons is significant.</p>
 <p><strong>Remark:</strong> the function <code>p.adjust</code> proposes several adjustements of the <span class="math inline">p</span>-values for multiple comparisons, including the Bonferroni adjustment:</p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-30_a8f6a5297d6c371e0b3935736c35088b">
-<div class="sourceCode" id="cb21"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">p.adjust</span>(all_comparisons<span class="sc">$</span>p.value, <span class="at">method =</span> <span class="st">"bonferroni"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-30_49f86cf901f8b868bf215a1840698ded">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">p.adjust</span>(all_comparisons<span class="sc">$</span>p.value, <span class="at">method =</span> <span class="st">"bonferroni"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code> [1] 0.2058803 0.3837141 0.5121818 1.0000000 1.0000000 1.0000000 1.0000000
  [8] 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000
@@ -679,10 +723,11 @@ Permutation test
 <h3 data-number="4.1" class="anchored" data-anchor-id="detecting-associations"><span class="header-section-number">4.1</span> Detecting associations</h3>
 <p>(Example from <a href="http://www.biostathandbook.com/multiplecomparisons.html">Handbook of Biological Statistics</a>)</p>
 <p><span class="citation" data-cites="garcia2014calorie">Garcı́a-Arenzana et al. (<a href="#ref-garcia2014calorie" role="doc-biblioref">2014</a>)</span> tested associations of 25 dietary variables with <a href="https://breast-cancer-research.biomedcentral.com/articles/10.1186/bcr2102">mammographic density</a>, an important risk factor for breast cancer, in Spanish women. They found the following results</p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-32_130e99ecb9d484fcc9e76d492ac96943">
-<div class="sourceCode" id="cb23"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../data/dietary.csv"</span>) <span class="sc">%&gt;%</span> <span class="fu">mutate_if</span>(is.character, factor) </span>
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-32_aa88fb1efa84f9da8ef9097489d1854c">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../data/dietary.csv"</span>) <span class="sc">%&gt;%</span> <span class="fu">mutate_if</span>(is.character, factor) </span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
+
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
 {"columns":[{"label":["dietary"],"name":[1],"type":["fct"],"align":["left"]},{"label":["p-value"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"Total calories","2":"0.001"},{"1":"Olive oil","2":"0.008"},{"1":"Whole milk","2":"0.039"},{"1":"White meat","2":"0.041"},{"1":"Proteins","2":"0.042"},{"1":"Nuts","2":"0.061"},{"1":"Cereals and pasta","2":"0.074"},{"1":"White fish","2":"0.205"},{"1":"Butter","2":"0.212"},{"1":"Vegetables","2":"0.216"},{"1":"Skimmed milk","2":"0.222"},{"1":"Red meat","2":"0.251"},{"1":"Fruit","2":"0.269"},{"1":"Eggs","2":"0.275"},{"1":"Blue fish","2":"0.340"},{"1":"Legumes","2":"0.341"},{"1":"Carbohydrates","2":"0.384"},{"1":"Potatoes","2":"0.569"},{"1":"Bread","2":"0.594"},{"1":"Fats","2":"0.696"},{"1":"Sweets","2":"0.762"},{"1":"Dairy products","2":"0.940"},{"1":"Semi-skimmed milk","2":"0.942"},{"1":"Total meat","2":"0.975"},{"1":"Processed meat","2":"0.986"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -712,10 +757,11 @@ Controlling FDR
 <p>The <span class="citation" data-cites="benjamini1995controlling">Benjamini and Hochberg (<a href="#ref-benjamini1995controlling" role="doc-biblioref">1995</a>)</span> procedure (BH) controls the FDR… and it is simple to use!</p>
 <p>Indeed, for a given <span class="math inline">\alpha</span> and a given sequence of <strong>ordered</strong> <span class="math inline">p</span>-values <span class="math inline">P_{(1)}</span>, <span class="math inline">P_{(2)}</span>, , <span class="math inline">P_{(m)}</span>, it consists in computing the <span class="math inline">m</span> <em>adjusted</em> <span class="math inline">p</span>-values defined as</p>
 <p><span class="math display">P_{(i)}^{\rm BH} = \min\left( P_{(i)}\frac{m}{i} \ , \ P_{(i+1)}^{\rm BH} \right)</span></p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-34_336d1e50807fa68ebb02f04ccff44b0d">
-<div class="sourceCode" id="cb24"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>p.bh <span class="ot">&lt;-</span> <span class="fu">p.adjust</span>(data<span class="sc">$</span><span class="st">`</span><span class="at">p-value</span><span class="st">`</span>, <span class="at">method =</span> <span class="st">"BH"</span>)</span>
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-34_da3b6f8886ac1bcb1dc180f9520e0cf3">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>p.bh <span class="ot">&lt;-</span> <span class="fu">p.adjust</span>(data<span class="sc">$</span><span class="st">`</span><span class="at">p-value</span><span class="st">`</span>, <span class="at">method =</span> <span class="st">"BH"</span>)</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
+
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
 {"columns":[{"label":["dietary"],"name":[1],"type":["fct"],"align":["left"]},{"label":["p-value"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["p.bh"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Total calories","2":"0.001","3":"0.0250000"},{"1":"Olive oil","2":"0.008","3":"0.1000000"},{"1":"Whole milk","2":"0.039","3":"0.2100000"},{"1":"White meat","2":"0.041","3":"0.2100000"},{"1":"Proteins","2":"0.042","3":"0.2100000"},{"1":"Nuts","2":"0.061","3":"0.2541667"},{"1":"Cereals and pasta","2":"0.074","3":"0.2642857"},{"1":"White fish","2":"0.205","3":"0.4910714"},{"1":"Butter","2":"0.212","3":"0.4910714"},{"1":"Vegetables","2":"0.216","3":"0.4910714"},{"1":"Skimmed milk","2":"0.222","3":"0.4910714"},{"1":"Red meat","2":"0.251","3":"0.4910714"},{"1":"Fruit","2":"0.269","3":"0.4910714"},{"1":"Eggs","2":"0.275","3":"0.4910714"},{"1":"Blue fish","2":"0.340","3":"0.5328125"},{"1":"Legumes","2":"0.341","3":"0.5328125"},{"1":"Carbohydrates","2":"0.384","3":"0.5647059"},{"1":"Potatoes","2":"0.569","3":"0.7815789"},{"1":"Bread","2":"0.594","3":"0.7815789"},{"1":"Fats","2":"0.696","3":"0.8700000"},{"1":"Sweets","2":"0.762","3":"0.9071429"},{"1":"Dairy products","2":"0.940","3":"0.9860000"},{"1":"Semi-skimmed milk","2":"0.942","3":"0.9860000"},{"1":"Total meat","2":"0.975","3":"0.9860000"},{"1":"Processed meat","2":"0.986","3":"0.9860000"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -735,13 +781,13 @@ Controlling FDR
 <p><strong>Remark 1:</strong> The BH procedure is equivalent to consider as significant the non adjusted <span class="math inline">p</span>-values smaller than a threshold <span class="math inline">P_{\rm BH}</span> defined as</p>
 <p><span class="math display"> P_{\rm BH} = \max_i \left\{ P_{(i)}: \ \ P_{(i)} \leq \alpha \frac{i}{m}  \right\} </span></p>
 <p>In other words, the largest <span class="math inline">p</span>-value that has <span class="math inline">P_{(i)}&lt;(i/m)\alpha</span> is significant, and all of the <span class="math inline">p</span>-values smaller than it are also significant, even the ones that aren’t less than their Benjamini-Hochberg critical value <span class="math inline">\alpha \times i/m</span></p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-36_9fd0759d2f069c30fa0b538080b4c31f">
-<div class="sourceCode" id="cb25"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.25</span></span>
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-36_bbabad03365df18d1bbd867e82913ff2">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.25</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">nrow</span>(data)</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>critical.value <span class="ot">&lt;-</span> (<span class="dv">1</span><span class="sc">:</span>m)<span class="sc">/</span>m<span class="sc">*</span>alpha</span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code># A tibble: 25 x 4
+<pre><code># A tibble: 25 × 4
    dietary           `p-value`  p.bh critical.value
    &lt;fct&gt;                 &lt;dbl&gt; &lt;dbl&gt;          &lt;dbl&gt;
  1 Total calories        0.001 0.025           0.01
@@ -758,10 +804,10 @@ Controlling FDR
 </div>
 </div>
 <p>If we plot this, we clearly exhibit two regimen in the behaviour of the p-values distribution:</p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-38_3fbf7116a8202f8be4b9ea4f80bbf8c8">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-38_3461eedc18122a3642063c6c083194a9">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>pl1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>m,<span class="at">y=</span><span class="st">`</span><span class="at">p-value</span><span class="st">`</span>), <span class="at">colour=</span><span class="st">"blue"</span>) <span class="sc">+</span></span>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>pl1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>m,<span class="at">y=</span><span class="st">`</span><span class="at">p-value</span><span class="st">`</span>), <span class="at">colour=</span><span class="st">"blue"</span>) <span class="sc">+</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>m,<span class="at">y=</span>critical.value), <span class="at">colour=</span><span class="st">"red"</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"(i)"</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(pl1, pl1 <span class="sc">+</span> <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">8</span>)) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.21</span>)) <span class="sc">+</span> <span class="fu">geom_vline</span>(<span class="at">xintercept=</span><span class="fl">5.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -772,13 +818,13 @@ Controlling FDR
 <p>The largest <span class="math inline">p</span>-value with <span class="math inline">P_{(i)}&lt;(i/m)\alpha</span> is <em>proteins</em>, where the individual <span class="math inline">p</span>-value (0.042) is less than the <span class="math inline">(i/m)\alpha</span> value of 0.050. Thus the first five tests would be significant.</p>
 <p><strong>Remark 2:</strong> The FDR is not bounded by <span class="math inline">\alpha</span>, but by <span class="math inline">(m_{0\cdot}/m) \alpha</span>. We could increase the global power of the tests and get a FDR equal to the desired level <span class="math inline">\alpha</span>, either by defining the critical values as <span class="math inline">(i/m_{0\cdot})\alpha</span>, or by multiplying the adjusted <span class="math inline">p</span>-values by <span class="math inline">m_{0\cdot}/m</span>.</p>
 <p>Unfortunately, <span class="math inline">m_{0\cdot}</span> is unknown… but it can be estimated, as the number of non significant tests for instance.</p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-40_1ffcdd84aae6f86751847395599ea4ba">
-<div class="sourceCode" id="cb28"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>m0.est <span class="ot">&lt;-</span> <span class="fu">sum</span>(data<span class="sc">$</span>p.bh<span class="sc">&gt;</span>alpha)</span>
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-40_8f80159316e3521f19c0e7a0b404ea05">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>m0.est <span class="ot">&lt;-</span> <span class="fu">sum</span>(data<span class="sc">$</span>p.bh<span class="sc">&gt;</span>alpha)</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>crit.valc <span class="ot">&lt;-</span> <span class="fu">round</span>(data<span class="sc">$</span>critical.value<span class="sc">*</span>m<span class="sc">/</span>m0.est,<span class="dv">4</span>)</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>p.bhc <span class="ot">&lt;-</span> <span class="fu">round</span>(data<span class="sc">$</span>p.bh<span class="sc">*</span>m0.est<span class="sc">/</span>m,<span class="dv">4</span>)</span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data,<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code># A tibble: 10 x 6
+<pre><code># A tibble: 10 × 6
    dietary           `p-value`  p.bh critical.value crit.valc p.bhc
    &lt;fct&gt;                 &lt;dbl&gt; &lt;dbl&gt;          &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;
  1 Total calories        0.001 0.025           0.01    0.0125 0.02 
@@ -882,6 +928,7 @@ Controlling FDR
 
 
 </section>
+
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">5 References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
 <div id="ref-benjamini1995controlling" class="csl-entry" role="doc-biblioentry">
 Benjamini, Yoav, and Yosef Hochberg. 1995. <span>“Controlling the False Discovery Rate: A Practical and Powerful Approach to Multiple Testing.”</span> <em>Journal of the Royal Statistical Society: Series B (Methodological)</em> 57 (1): 289–300.
@@ -890,8 +937,26 @@ Benjamini, Yoav, and Yosef Hochberg. 1995. <span>“Controlling the False Discov
 Garcı́a-Arenzana, Nicolás, Eva Marı́a Navarrete-Muñoz, Virginia Lope, Pilar Moreo, Carmen Vidal, Soledad Laso-Pablos, Nieves Ascunce, et al. 2014. <span>“Calorie Intake, Olive Oil Consumption and Mammographic Density Among Spanish Women.”</span> <em>International Journal of Cancer</em> 134 (8): 1916–25. <a href="https://breast-cancer-research.biomedcentral.com/articles/10.1186/bcr2102">https://breast-cancer-research.biomedcentral.com/articles/10.1186/bcr2102</a>.
 </div>
 </div></section></div></main> <!-- /main -->
-<script type="application/javascript">
+<script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -911,7 +976,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     button.blur();
     // flash "checked"
     button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
     setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
     }, 1000);
     // clear code selection
@@ -938,31 +1023,50 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      let href = ref.getAttribute('href');
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
     });
   }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
   var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
   for (var i=0; i<bibliorefs.length; i++) {
     const ref = bibliorefs[i];
-    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
-    tippyHover(ref, function() {
-      var popup = window.document.createElement('div');
-      cites.forEach(function(cite) {
-        var citeDiv = window.document.createElement('div');
-        citeDiv.classList.add('hanging-indent');
-        citeDiv.classList.add('csl-entry');
-        var biblioDiv = window.document.getElementById('ref-' + cite);
-        if (biblioDiv) {
-          citeDiv.innerHTML = biblioDiv.innerHTML;
-        }
-        popup.appendChild(citeDiv);
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
       });
-      return popup.innerHTML;
-    });
+    }
   }
 });
 </script>
@@ -979,6 +1083,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
+
 
 
 </body></html>

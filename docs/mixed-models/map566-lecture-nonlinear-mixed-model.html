@@ -1,121 +1,133 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-  <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.9.76">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>MAP566 - Stats in Action - Nonlinear Mixed Effects Models</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    .sourceCode { overflow: visible; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-        color: #aaaaaa;
-      }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-    div.sourceCode
-      {   }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-    code span.at { color: #7d9029; } /* Attribute */
-    code span.bn { color: #40a070; } /* BaseN */
-    code span.bu { } /* BuiltIn */
-    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-    code span.ch { color: #4070a0; } /* Char */
-    code span.cn { color: #880000; } /* Constant */
-    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-    code span.dt { color: #902000; } /* DataType */
-    code span.dv { color: #40a070; } /* DecVal */
-    code span.er { color: #ff0000; font-weight: bold; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #40a070; } /* Float */
-    code span.fu { color: #06287e; } /* Function */
-    code span.im { } /* Import */
-    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-    code span.op { color: #666666; } /* Operator */
-    code span.ot { color: #007020; } /* Other */
-    code span.pp { color: #bc7a00; } /* Preprocessor */
-    code span.sc { color: #4070a0; } /* SpecialChar */
-    code span.ss { color: #bb6688; } /* SpecialString */
-    code span.st { color: #4070a0; } /* String */
-    code span.va { color: #19177c; } /* Variable */
-    code span.vs { color: #4070a0; } /* VerbatimString */
-    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-  </style>
 
-  <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-  <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-  <script src="../../site_libs/clipboard/clipboard.min.js"></script>
-  <meta name="quarto:offset" content="../../">
-  <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-  <script src="../../site_libs/quarto-search/fuse.min.js"></script>
-  <script src="../../site_libs/quarto-search/quarto-search.js"></script>
-  <link href="../../docs/mixed-models/map566-lab-linear-mixed-model.html" rel="next">
-  <link href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html" rel="prev">
-  <script src="../../site_libs/quarto-html/quarto.js"></script>
-  <script src="../../site_libs/quarto-html/popper.min.js"></script>
-  <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-  <script src="../../site_libs/quarto-html/anchor.min.js"></script>
-  <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-  <link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
-  <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-  <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-  <link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
-  <script id="quarto-search-options" type="application/json">{
-    "location": "navbar",
-    "copy-button": false,
-    "collapse-after": 2,
-    "panel-placement": "end",
-    "type": "overlay",
-    "limit": 20,
-    "language": {
-      "search-no-results-text": "No results",
-      "search-matching-documents-text": "matching documents",
-      "search-copy-link-title": "Copy link to search",
-      "search-hide-matches-text": "Hide additional matches",
-      "search-more-match-text": "more match in this document",
-      "search-more-matches-text": "more matches in this document",
-      "search-clear-button-title": "Clear",
-      "search-detached-cancel-button-title": "Cancel",
-      "search-submit-button-title": "Submit"
-    }
-  }</script>
-  <link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
-  <script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.262">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>MAP566 - Stats in Action - Nonlinear Mixed Effects Models</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../docs/mixed-models/map566-lab-linear-mixed-model.html" rel="next">
+<link href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+<link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
   <script>document.addEventListener("DOMContentLoaded", function () {
  var mathElements = document.getElementsByClassName("math");
  var macros = [];
@@ -130,37 +142,44 @@
    });
 }}});
   </script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
 </head>
-<body class="docked">
+
+<body class="nav-sidebar docked nav-fixed">
+
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
-      <a class="navbar-brand" href="../../index.html">
-    <img src="../../logo_X.jpg" alt="">
+      <div class="navbar-brand-container">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../logo_X.jpg" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">MAP566 - Stats in Action</span>
-  </a>
+    </a>
+  </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../getting-started.html">Getting Started</a>
+    <a class="nav-link" href="../../getting-started.html">
+ <span class="menu-text">Getting Started</span></a>
   </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/jchiquet/MAP566"><i class="bi bi-github" role="img">
 </i> 
- </a>
+ <span class="menu-text"></span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hypothesis-testing" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hypothesis Testing</a>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hypothesis-testing" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Hypothesis Testing</span>
+    </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-hypothesis-testing">    
         <li class="dropdown-header">Lectures</li>
         <li>
@@ -180,7 +199,9 @@
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-regression-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Regression models</a>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-regression-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Regression models</span>
+    </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-regression-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
@@ -210,7 +231,9 @@
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixed-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mixed models</a>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixed-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Mixed models</span>
+    </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixed-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
@@ -240,7 +263,9 @@
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mixture models</a>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Mixture models</span>
+    </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixture-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
@@ -289,7 +314,7 @@
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
       <h1 class="quarto-secondary-nav-title">Nonlinear Mixed Effects Models</h1>
-      <button type="button" class="quarto-btn-toggle btn">
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
     </div>
@@ -302,99 +327,114 @@
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
-    <div class="sidebar-item-container"> 
-        <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">Lectures</a>
-      <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-lectures" aria-expanded="true">
-        <i class="bi bi-chevron-right ms-2"></i>
-      </a>
-    </div>
-    <ul id="quarto-sidebar-section-lectures" class="collapse list-unstyled sidebar-section depth1 show">  
-        <li class="sidebar-item">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Lectures</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html" class="sidebar-item-text sidebar-link">Linear Mixed Effects Models</a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html" class="sidebar-item-text sidebar-link active">Nonlinear Mixed Effects Models</a>
   </div>
 </li>
-    </ul>
+      </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
-    <div class="sidebar-item-container"> 
-        <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">Exercices</a>
-      <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-exercices" aria-expanded="true">
-        <i class="bi bi-chevron-right ms-2"></i>
-      </a>
-    </div>
-    <ul id="quarto-sidebar-section-exercices" class="collapse list-unstyled sidebar-section depth1 show">  
-        <li class="sidebar-item">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Exercices</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../docs/mixed-models/map566-lab-linear-mixed-model.html" class="sidebar-item-text sidebar-link">Linear Mixed Models</a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../docs/mixed-models/map566-lab-nonlinear-mixed-model.html" class="sidebar-item-text sidebar-link">Nonlinear Mixed Effects Models</a>
   </div>
 </li>
-    </ul>
+      </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
-    <div class="sidebar-item-container"> 
-        <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-supplementary-material" aria-expanded="true">Supplementary material</a>
-      <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-supplementary-material" aria-expanded="true">
-        <i class="bi bi-chevron-right ms-2"></i>
-      </a>
-    </div>
-    <ul id="quarto-sidebar-section-supplementary-material" class="collapse list-unstyled sidebar-section depth1 show">  
-        <li class="sidebar-item">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">Supplementary material</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html" class="sidebar-item-text sidebar-link">An EM Algorithm for Linear Mixed Effects Models</a>
   </div>
 </li>
-    </ul>
+      </ul>
   </li>
     </ul>
     </div>
 </nav>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc">
-<h2 id="toc-title">On this page</h2>
-<ul>
-<li><a href="#preliminary" class="nav-link active" data-scroll-target="#preliminary">Preliminary</a></li>
-<li><a href="#introduction-the-theophylline-data-set" class="nav-link" data-scroll-target="#introduction-the-theophylline-data-set"> <span class="header-section-number">1</span> Introduction: the <code>theophylline</code> data set</a></li>
-<li><a href="#fitting-nonlinear-models-to-the-data" class="nav-link" data-scroll-target="#fitting-nonlinear-models-to-the-data"> <span class="header-section-number">2</span> Fitting nonlinear models to the data</a>
-<ul class="collapse">
-<li><a href="#fitting-a-nonlinear-model-to-a-single-subject" class="nav-link" data-scroll-target="#fitting-a-nonlinear-model-to-a-single-subject"> <span class="header-section-number">2.1</span> Fitting a nonlinear model to a single subject</a></li>
-<li><a href="#fitting-a-unique-nonlinear-model-to-several-subjects" class="nav-link" data-scroll-target="#fitting-a-unique-nonlinear-model-to-several-subjects"> <span class="header-section-number">2.2</span> Fitting a unique nonlinear model to several subjects</a></li>
-<li><a href="#fitting-several-nonlinear-models-to-several-subjects" class="nav-link" data-scroll-target="#fitting-several-nonlinear-models-to-several-subjects"> <span class="header-section-number">2.3</span> Fitting several nonlinear models to several subjects</a></li>
-</ul></li>
-<li><a href="#nonlinear-mixed-effects-nlme-model" class="nav-link" data-scroll-target="#nonlinear-mixed-effects-nlme-model"> <span class="header-section-number">3</span> Nonlinear mixed effects (NLME) model</a>
-<ul class="collapse">
-<li><a href="#a-first-basic-model" class="nav-link" data-scroll-target="#a-first-basic-model"> <span class="header-section-number">3.1</span> A first basic model</a></li>
-<li><a href="#tasks-methods-and-algorithms" class="nav-link" data-scroll-target="#tasks-methods-and-algorithms"> <span class="header-section-number">3.2</span> Tasks, methods and algorithms</a></li>
-</ul></li>
-<li><a href="#fitting-a-nlme-model-to-the-theophylline-data" class="nav-link" data-scroll-target="#fitting-a-nlme-model-to-the-theophylline-data"> <span class="header-section-number">4</span> Fitting a NLME model to the theophylline data</a>
-<ul class="collapse">
-<li><a href="#some-extensions-of-the-model" class="nav-link" data-scroll-target="#some-extensions-of-the-model"> <span class="header-section-number">4.1</span> Some extensions of the model</a></li>
-</ul></li>
-</ul>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#preliminary" id="toc-preliminary" class="nav-link active" data-scroll-target="#preliminary">Preliminary</a></li>
+  <li><a href="#introduction-the-theophylline-data-set" id="toc-introduction-the-theophylline-data-set" class="nav-link" data-scroll-target="#introduction-the-theophylline-data-set"><span class="toc-section-number">1</span>  Introduction: the <code>theophylline</code> data set</a></li>
+  <li><a href="#fitting-nonlinear-models-to-the-data" id="toc-fitting-nonlinear-models-to-the-data" class="nav-link" data-scroll-target="#fitting-nonlinear-models-to-the-data"><span class="toc-section-number">2</span>  Fitting nonlinear models to the data</a>
+  <ul class="collapse">
+  <li><a href="#fitting-a-nonlinear-model-to-a-single-subject" id="toc-fitting-a-nonlinear-model-to-a-single-subject" class="nav-link" data-scroll-target="#fitting-a-nonlinear-model-to-a-single-subject"><span class="toc-section-number">2.1</span>  Fitting a nonlinear model to a single subject</a></li>
+  <li><a href="#fitting-a-unique-nonlinear-model-to-several-subjects" id="toc-fitting-a-unique-nonlinear-model-to-several-subjects" class="nav-link" data-scroll-target="#fitting-a-unique-nonlinear-model-to-several-subjects"><span class="toc-section-number">2.2</span>  Fitting a unique nonlinear model to several subjects</a></li>
+  <li><a href="#fitting-several-nonlinear-models-to-several-subjects" id="toc-fitting-several-nonlinear-models-to-several-subjects" class="nav-link" data-scroll-target="#fitting-several-nonlinear-models-to-several-subjects"><span class="toc-section-number">2.3</span>  Fitting several nonlinear models to several subjects</a></li>
+  </ul></li>
+  <li><a href="#nonlinear-mixed-effects-nlme-model" id="toc-nonlinear-mixed-effects-nlme-model" class="nav-link" data-scroll-target="#nonlinear-mixed-effects-nlme-model"><span class="toc-section-number">3</span>  Nonlinear mixed effects (NLME) model</a>
+  <ul class="collapse">
+  <li><a href="#a-first-basic-model" id="toc-a-first-basic-model" class="nav-link" data-scroll-target="#a-first-basic-model"><span class="toc-section-number">3.1</span>  A first basic model</a></li>
+  <li><a href="#tasks-methods-and-algorithms" id="toc-tasks-methods-and-algorithms" class="nav-link" data-scroll-target="#tasks-methods-and-algorithms"><span class="toc-section-number">3.2</span>  Tasks, methods and algorithms</a></li>
+  </ul></li>
+  <li><a href="#fitting-a-nlme-model-to-the-theophylline-data" id="toc-fitting-a-nlme-model-to-the-theophylline-data" class="nav-link" data-scroll-target="#fitting-a-nlme-model-to-the-theophylline-data"><span class="toc-section-number">4</span>  Fitting a NLME model to the theophylline data</a>
+  <ul class="collapse">
+  <li><a href="#some-extensions-of-the-model" id="toc-some-extensions-of-the-model" class="nav-link" data-scroll-target="#some-extensions-of-the-model"><span class="toc-section-number">4.1</span>  Some extensions of the model</a></li>
+  </ul></li>
+  </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
-<header id="title-block-header" class="quarto-title-block default">
 
-<div class="quarto-title"><h1 class="title d-none d-lg-block display-7">Nonlinear Mixed Effects Models</h1></div></header>
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">Nonlinear Mixed Effects Models</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
 
 <section id="preliminary" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="preliminary">Preliminary</h2>
 <p>Functions from <code>R</code>-base and stats (preloaded) are required plus packages from the <strong>tidyverse</strong> for data representation and manipulation. We also need the <strong>lme4</strong> and <strong>saemix</strong> package for fitting (nonlinear) mixed-model. <strong>lattice</strong> is used for graphical representation of quantities such as random and fixed effects in the mixed models.</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/tests-config_c517ffea5cdd20e540e57399d13d3911">
-<div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/tests-config_096232c9cec559a0c30c80e325177d51">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(saemix)</span>
@@ -405,10 +445,11 @@
 <section id="introduction-the-theophylline-data-set" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="introduction-the-theophylline-data-set"><span class="header-section-number">1</span> Introduction: the <code>theophylline</code> data set</h2>
 <p>The <code>theophyllineData</code> file reports data from a study of the kinetics of the anti-asthmatic drug theophylline. Twelve subjects were given oral doses of theophylline then serum concentrations were measured at 11 time points over the next 25 hours.</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-2_e0469988cab91ee540bf0aaa0f1b1e29">
-<div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>theophylline <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../data/theophyllineData.csv"</span>)</span>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-2_7dbfaa4b62e725014d2155456b1aa760">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>theophylline <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../data/theophyllineData.csv"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>theophylline <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
+
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
 {"columns":[{"label":["id"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["time"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["concentration"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["weight"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"0.25","3":"2.84","4":"79.6"},{"1":"1","2":"0.57","3":"6.57","4":"79.6"},{"1":"1","2":"1.12","3":"10.50","4":"79.6"},{"1":"1","2":"2.02","3":"9.66","4":"79.6"},{"1":"1","2":"3.82","3":"8.58","4":"79.6"},{"1":"1","2":"5.10","3":"8.36","4":"79.6"},{"1":"1","2":"7.03","3":"7.47","4":"79.6"},{"1":"1","2":"9.05","3":"6.89","4":"79.6"},{"1":"1","2":"12.12","3":"5.94","4":"79.6"},{"1":"1","2":"24.37","3":"3.28","4":"79.6"},{"1":"2","2":"0.27","3":"1.72","4":"72.4"},{"1":"2","2":"0.52","3":"7.91","4":"72.4"},{"1":"2","2":"1.00","3":"8.31","4":"72.4"},{"1":"2","2":"1.92","3":"8.33","4":"72.4"},{"1":"2","2":"3.50","3":"6.85","4":"72.4"},{"1":"2","2":"5.02","3":"6.08","4":"72.4"},{"1":"2","2":"7.03","3":"5.40","4":"72.4"},{"1":"2","2":"9.00","3":"4.55","4":"72.4"},{"1":"2","2":"12.00","3":"3.01","4":"72.4"},{"1":"2","2":"24.30","3":"0.90","4":"72.4"},{"1":"3","2":"0.27","3":"4.40","4":"70.5"},{"1":"3","2":"0.58","3":"6.90","4":"70.5"},{"1":"3","2":"1.02","3":"8.20","4":"70.5"},{"1":"3","2":"2.02","3":"7.80","4":"70.5"},{"1":"3","2":"3.62","3":"7.50","4":"70.5"},{"1":"3","2":"5.08","3":"6.20","4":"70.5"},{"1":"3","2":"7.07","3":"5.30","4":"70.5"},{"1":"3","2":"9.00","3":"4.90","4":"70.5"},{"1":"3","2":"12.15","3":"3.70","4":"70.5"},{"1":"3","2":"24.17","3":"1.05","4":"70.5"},{"1":"4","2":"0.35","3":"1.89","4":"72.7"},{"1":"4","2":"0.60","3":"4.60","4":"72.7"},{"1":"4","2":"1.07","3":"8.60","4":"72.7"},{"1":"4","2":"2.13","3":"8.38","4":"72.7"},{"1":"4","2":"3.50","3":"7.54","4":"72.7"},{"1":"4","2":"5.02","3":"6.88","4":"72.7"},{"1":"4","2":"7.02","3":"5.78","4":"72.7"},{"1":"4","2":"9.02","3":"5.33","4":"72.7"},{"1":"4","2":"11.98","3":"4.19","4":"72.7"},{"1":"4","2":"24.65","3":"1.15","4":"72.7"},{"1":"5","2":"0.30","3":"2.02","4":"54.6"},{"1":"5","2":"0.52","3":"5.63","4":"54.6"},{"1":"5","2":"1.00","3":"11.40","4":"54.6"},{"1":"5","2":"2.02","3":"9.33","4":"54.6"},{"1":"5","2":"3.50","3":"8.74","4":"54.6"},{"1":"5","2":"5.02","3":"7.56","4":"54.6"},{"1":"5","2":"7.02","3":"7.09","4":"54.6"},{"1":"5","2":"9.10","3":"5.90","4":"54.6"},{"1":"5","2":"12.00","3":"4.37","4":"54.6"},{"1":"5","2":"24.35","3":"1.57","4":"54.6"},{"1":"6","2":"0.27","3":"1.29","4":"80.0"},{"1":"6","2":"0.58","3":"3.08","4":"80.0"},{"1":"6","2":"1.15","3":"6.44","4":"80.0"},{"1":"6","2":"2.03","3":"6.32","4":"80.0"},{"1":"6","2":"3.57","3":"5.53","4":"80.0"},{"1":"6","2":"5.00","3":"4.94","4":"80.0"},{"1":"6","2":"7.00","3":"4.02","4":"80.0"},{"1":"6","2":"9.22","3":"3.46","4":"80.0"},{"1":"6","2":"12.10","3":"2.78","4":"80.0"},{"1":"6","2":"23.85","3":"0.92","4":"80.0"},{"1":"7","2":"0.25","3":"0.85","4":"64.6"},{"1":"7","2":"0.50","3":"2.35","4":"64.6"},{"1":"7","2":"1.02","3":"5.02","4":"64.6"},{"1":"7","2":"2.02","3":"6.58","4":"64.6"},{"1":"7","2":"3.48","3":"7.09","4":"64.6"},{"1":"7","2":"5.00","3":"6.66","4":"64.6"},{"1":"7","2":"6.98","3":"5.25","4":"64.6"},{"1":"7","2":"9.00","3":"4.39","4":"64.6"},{"1":"7","2":"12.05","3":"3.53","4":"64.6"},{"1":"7","2":"24.22","3":"1.15","4":"64.6"},{"1":"8","2":"0.25","3":"3.05","4":"70.5"},{"1":"8","2":"0.52","3":"3.05","4":"70.5"},{"1":"8","2":"0.98","3":"7.31","4":"70.5"},{"1":"8","2":"2.02","3":"7.56","4":"70.5"},{"1":"8","2":"3.53","3":"6.59","4":"70.5"},{"1":"8","2":"5.05","3":"5.88","4":"70.5"},{"1":"8","2":"7.15","3":"4.73","4":"70.5"},{"1":"8","2":"9.07","3":"4.57","4":"70.5"},{"1":"8","2":"12.10","3":"3.00","4":"70.5"},{"1":"8","2":"24.12","3":"1.25","4":"70.5"},{"1":"9","2":"0.30","3":"7.37","4":"86.4"},{"1":"9","2":"0.63","3":"9.03","4":"86.4"},{"1":"9","2":"1.05","3":"7.14","4":"86.4"},{"1":"9","2":"2.02","3":"6.33","4":"86.4"},{"1":"9","2":"3.53","3":"5.66","4":"86.4"},{"1":"9","2":"5.02","3":"5.67","4":"86.4"},{"1":"9","2":"7.17","3":"4.24","4":"86.4"},{"1":"9","2":"8.80","3":"4.11","4":"86.4"},{"1":"9","2":"11.60","3":"3.16","4":"86.4"},{"1":"9","2":"24.43","3":"1.12","4":"86.4"},{"1":"10","2":"0.37","3":"2.89","4":"58.2"},{"1":"10","2":"0.77","3":"5.22","4":"58.2"},{"1":"10","2":"1.02","3":"6.41","4":"58.2"},{"1":"10","2":"2.05","3":"7.83","4":"58.2"},{"1":"10","2":"3.55","3":"10.21","4":"58.2"},{"1":"10","2":"5.05","3":"9.18","4":"58.2"},{"1":"10","2":"7.08","3":"8.02","4":"58.2"},{"1":"10","2":"9.38","3":"7.14","4":"58.2"},{"1":"10","2":"12.10","3":"5.68","4":"58.2"},{"1":"10","2":"23.70","3":"2.42","4":"58.2"},{"1":"11","2":"0.25","3":"4.86","4":"65.0"},{"1":"11","2":"0.50","3":"7.24","4":"65.0"},{"1":"11","2":"0.98","3":"8.00","4":"65.0"},{"1":"11","2":"1.98","3":"6.81","4":"65.0"},{"1":"11","2":"3.60","3":"5.87","4":"65.0"},{"1":"11","2":"5.02","3":"5.22","4":"65.0"},{"1":"11","2":"7.03","3":"4.45","4":"65.0"},{"1":"11","2":"9.03","3":"3.62","4":"65.0"},{"1":"11","2":"12.12","3":"2.69","4":"65.0"},{"1":"11","2":"24.08","3":"0.86","4":"65.0"},{"1":"12","2":"0.25","3":"1.25","4":"60.5"},{"1":"12","2":"0.50","3":"3.96","4":"60.5"},{"1":"12","2":"1.00","3":"7.82","4":"60.5"},{"1":"12","2":"2.00","3":"9.72","4":"60.5"},{"1":"12","2":"3.52","3":"9.75","4":"60.5"},{"1":"12","2":"5.07","3":"8.57","4":"60.5"},{"1":"12","2":"7.07","3":"6.59","4":"60.5"},{"1":"12","2":"9.03","3":"6.11","4":"60.5"},{"1":"12","2":"12.05","3":"4.57","4":"60.5"},{"1":"12","2":"24.15","3":"1.17","4":"60.5"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -419,10 +460,10 @@
 <p>Here, <code>time</code> is the time since drug administration when the sample was drawn (h), <code>concentration</code> is the measured theophylline concentration (mg/L) and <code>weight</code> is the weight of the subject (kg).</p>
 <p>The 12 subjects received 320 mg of theophylline at time 0.</p>
 <p>Let us plot the data, i.e.&nbsp;the concentration versus time:</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-4_3a8618cca645579981b2a63ca4149c7f">
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-4_50618369f2a6fa43233c322de13b74cd">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>theo_plot <span class="ot">&lt;-</span> theophylline <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>theo_plot <span class="ot">&lt;-</span> theophylline <span class="sc">%&gt;%</span> </span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> concentration) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">color=</span><span class="st">"#993399"</span>, <span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"time (h)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"concentration (mg/l)"</span>)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>theo_plot <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">color=</span><span class="st">"#993399"</span>, <span class="fu">aes</span>(<span class="at">group =</span> id))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -432,10 +473,10 @@
 </div>
 </div>
 <p>We can also plot the 12 individual concentration profiles on 12 separated plots,</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-6_d14a3e339d47db2bdc9900d4d6174ca2">
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-6_eed35bca6a6a467c33f183923bd2eace">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>theo_plot <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>( <span class="sc">~</span> id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>theo_plot <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>( <span class="sc">~</span> id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
@@ -449,8 +490,8 @@
 <section id="fitting-a-nonlinear-model-to-a-single-subject" class="level3" data-number="2.1">
 <h3 data-number="2.1" class="anchored" data-anchor-id="fitting-a-nonlinear-model-to-a-single-subject"><span class="header-section-number">2.1</span> Fitting a nonlinear model to a single subject</h3>
 <p>Let us consider the first subject of this study (id=1)</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-8_04c67cd96e1ef095aa8c5da7c2f4c4ae">
-<div class="sourceCode" id="cb5"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>subject1 <span class="ot">&lt;-</span> theophylline <span class="sc">%&gt;%</span> </span>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-8_0492d829d5c9adb895dad499cf6b4916">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>subject1 <span class="ot">&lt;-</span> theophylline <span class="sc">%&gt;%</span> </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(id <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="st">"time"</span>,<span class="st">"concentration"</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>subject1_plot <span class="ot">&lt;-</span> subject1 <span class="sc">%&gt;%</span> </span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> concentration) <span class="sc">+</span> <span class="fu">geom_point</span>( <span class="at">color=</span><span class="st">"#993399"</span>, <span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span> </span>
@@ -469,27 +510,27 @@
 <p>Let us compute the least squares estimate of <span class="math inline">\psi</span> defined as</p>
 <p><span class="math display">\hat\psi = \arg\min_{\psi}  \sum_{j=1}^{n} (y_{j} - f(t_{j} ,\psi))^2</span></p>
 <p>We first need to implement the pharmacokinetics (PK) model:</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-10_83366cb9a3b5abba91614bdd3f939f47">
-<div class="sourceCode" id="cb6"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>f1 <span class="ot">&lt;-</span> <span class="cf">function</span>(psi, t){</span>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-10_8ca2b6241fe69fa9695b65b367458e00">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>f1 <span class="ot">&lt;-</span> <span class="cf">function</span>(psi, t){</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  D  <span class="ot">&lt;-</span> <span class="dv">320</span>; ka <span class="ot">&lt;-</span> psi[<span class="dv">1</span>]; V  <span class="ot">&lt;-</span> psi[<span class="dv">2</span>]; ke <span class="ot">&lt;-</span> psi[<span class="dv">3</span>]</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  f  <span class="ot">&lt;-</span> D<span class="sc">*</span>ka<span class="sc">/</span>V<span class="sc">/</span>(ka<span class="sc">-</span>ke)<span class="sc">*</span>(<span class="fu">exp</span>(<span class="sc">-</span>ke<span class="sc">*</span>t)<span class="sc">-</span><span class="fu">exp</span>(<span class="sc">-</span>ka<span class="sc">*</span>t)) </span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  f</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can then use the <code>nls</code> function for fitting this (nonlinear) model to the data</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-12_9af5155d2f94380c1ecbca3b54214b8d">
-<div class="sourceCode" id="cb7"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>model_1 <span class="ot">&lt;-</span> <span class="fu">nls</span>(concentration <span class="sc">~</span> <span class="fu">f1</span>(psi, time), <span class="at">start =</span> <span class="fu">list</span>(<span class="at">psi=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>, <span class="at">V=</span><span class="dv">40</span>, <span class="at">ke=</span><span class="fl">0.1</span>)), <span class="at">data=</span>subject1)</span>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-12_d2a8334b5421e8be4a93a286ae98f8e4">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>model_1 <span class="ot">&lt;-</span> <span class="fu">nls</span>(concentration <span class="sc">~</span> <span class="fu">f1</span>(psi, time), <span class="at">start =</span> <span class="fu">list</span>(<span class="at">psi=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>, <span class="at">V=</span><span class="dv">40</span>, <span class="at">ke=</span><span class="fl">0.1</span>)), <span class="at">data=</span>subject1)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(model_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>       psi1        psi2        psi3 
- 1.77741127 29.39415976  0.05395458 </code></pre>
+ 1.77741125 29.39415966  0.05395458 </code></pre>
 </div>
 </div>
 <p>and plot the predicted concentration <span class="math inline">f(t,\hat\psi)</span></p>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-14_1571a0f7885110bbcc55039367a6380a">
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-14_0f85bac370dc4ebfcd6bd2f4b1938dd4">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dplot <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">time =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">40</span>, <span class="at">by=</span><span class="fl">0.2</span>))</span>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dplot <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">time =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">40</span>, <span class="at">by=</span><span class="fl">0.2</span>))</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>dplot<span class="sc">$</span>pred_1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_1, <span class="at">newdata =</span> dplot)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>subject1_plot <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">data =</span> dplot, <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y=</span>pred_1), <span class="at">colour=</span><span class="st">"#339900"</span>, <span class="at">size=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -506,18 +547,18 @@
 <p>In this model, the least squares estimate of <span class="math inline">\psi</span> is defined as</p>
 <p><span class="math display">\hat\psi = \arg\min_{\psi} \sum_{i=1}^N \sum_{j=1}^{n_i} (y_{ij} - f(t_{ij} ,\psi))^2</span></p>
 <p>Let use the <code>nls</code> function with the pooled data from the 12 subjects.</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-16_2fcbbfa3980d83bc0b538fe279564e64">
-<div class="sourceCode" id="cb10"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>model_all <span class="ot">&lt;-</span> <span class="fu">nls</span>(concentration <span class="sc">~</span> <span class="fu">f1</span>(psi, time), <span class="at">start =</span> <span class="fu">list</span>(<span class="at">psi=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>, <span class="at">V=</span><span class="dv">40</span>, <span class="at">ke=</span><span class="fl">0.1</span>)), <span class="at">data=</span>theophylline)</span>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-16_5cd4fb55ef0b339b68aeee90ac48a244">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>model_all <span class="ot">&lt;-</span> <span class="fu">nls</span>(concentration <span class="sc">~</span> <span class="fu">f1</span>(psi, time), <span class="at">start =</span> <span class="fu">list</span>(<span class="at">psi=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>, <span class="at">V=</span><span class="dv">40</span>, <span class="at">ke=</span><span class="fl">0.1</span>)), <span class="at">data=</span>theophylline)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(model_all)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>       psi1        psi2        psi3 
- 1.57975379 33.42183643  0.07931028 </code></pre>
+ 1.57975379 33.42183648  0.07931028 </code></pre>
 </div>
 </div>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-18_acf4005ef06f193f9b3d90e7be0550e5">
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-18_1543eb0bf4da3495e0294d32bd5dc174">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dplot<span class="sc">$</span>pred_all <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_all, <span class="at">newdata =</span> dplot)</span>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dplot<span class="sc">$</span>pred_all <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_all, <span class="at">newdata =</span> dplot)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>theo_plot <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">data =</span> dplot, <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> pred_all), <span class="at">colour=</span><span class="st">"#339900"</span>, <span class="at">size=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
@@ -525,10 +566,10 @@
 </div>
 </div>
 <p>These estimated parameters are typical parameters and this profile is a typical profile for this sample of patients: by definition, they do not take into account the variability between the patients and therefore do not provide good individual predictions.</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-20_7f125694eda85dac4c9fdcad6517bd76">
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-20_a74fc4794ae6c04fc73924a86f5b7405">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>theo_plot <span class="sc">+</span>  </span>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>theo_plot <span class="sc">+</span>  </span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> dplot, <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y=</span>pred_all), <span class="at">colour=</span><span class="st">"#339900"</span>, <span class="at">size=</span><span class="dv">1</span>) <span class="sc">+</span> </span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -545,10 +586,10 @@
 <p>In this model, the least squares estimate of <span class="math inline">\psi_i</span> is defined as</p>
 <p><span class="math display">\hat\psi_i = \arg\min_{\psi}  \sum_{j=1}^{n_i} \Big(y_{ij} - f(t_{ij} ,\psi)\Big)^2 \quad , \quad 1\leq i \leq N</span></p>
 <p>Each individual predicted concentration <span class="math inline">f(t,\hat\psi_i)</span> seems to predict quite well the observed concentrations for the 12 subjects:</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-22_188be9b7304a7623a130c043c5a76491">
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-22_25d911e77ab546046d611b489ae0573c">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">split</span>(theophylline, theophylline<span class="sc">$</span>id) <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">split</span>(theophylline, theophylline<span class="sc">$</span>id) <span class="sc">%&gt;%</span> </span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="sc">~</span>{</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  model_i <span class="ot">&lt;-</span> <span class="fu">nls</span>(concentration <span class="sc">~</span> <span class="fu">f1</span>(psi, time), </span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">start =</span> <span class="fu">list</span>(<span class="at">psi=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>, <span class="at">V=</span><span class="dv">40</span>,<span class="at">k=</span><span class="fl">0.08</span>)), </span>
@@ -680,15 +721,15 @@ I({\hat\theta}) &amp;  \triangleq \  - \frac{\partial^2}{\partial \theta \partia
 <h2 data-number="4" class="anchored" data-anchor-id="fitting-a-nlme-model-to-the-theophylline-data"><span class="header-section-number">4</span> Fitting a NLME model to the theophylline data</h2>
 <p>Let us see how to use the <strong>saemix</strong> package for fitting our model to the theophylline data.</p>
 <p>We first need to create a <code>SaemixData</code> object, defining which column of the data file should be used and their role. In our example, <code>concentration</code> is the response variable <span class="math inline">y</span>, <code>time</code> is the explanatory variable (or predictor) <span class="math inline">t</span> and <code>id</code> is the grouping variable.</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-24_d2fc012ed2a1e90c8963c26a772c03d1">
-<div class="sourceCode" id="cb15"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>saemix_data <span class="ot">&lt;-</span> <span class="fu">saemixData</span>(<span class="at">name.data       =</span> theophylline,</span>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-24_0a11e5492ce27a6852f341d4e752d2c5">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>saemix_data <span class="ot">&lt;-</span> <span class="fu">saemixData</span>(<span class="at">name.data       =</span> theophylline,</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.group      =</span> <span class="st">"id"</span>,</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.predictors =</span> <span class="st">"time"</span>,</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.response   =</span> <span class="st">"concentration"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The structural model is the one compartment model with first order absorption and linear elimination previously used,</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-26_fdbf2629b52fcc2bfac2ba4f6fd3297a">
-<div class="sourceCode" id="cb16"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>model1_nlme <span class="ot">&lt;-</span> <span class="cf">function</span>(psi,id,x) {</span>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-26_1940b36a201b36c961cea47208c01b24">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>model1_nlme <span class="ot">&lt;-</span> <span class="cf">function</span>(psi,id,x) {</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  D   <span class="ot">&lt;-</span> <span class="dv">320</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  t   <span class="ot">&lt;-</span> x[,<span class="dv">1</span>]</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  ka  <span class="ot">&lt;-</span> psi[id,<span class="dv">1</span>]</span>
@@ -699,19 +740,19 @@ I({\hat\theta}) &amp;  \triangleq \  - \frac{\partial^2}{\partial \theta \partia
 <span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The model is defined in a saemixModel object. The structural model and some initial values for the vector of population parameters <span class="math inline">\psi_{\rm pop}</span> are required</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-28_40c920f1ea396a83fc06a228186e3fe6">
-<div class="sourceCode" id="cb17"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model =</span> model1_nlme,</span>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-28_0ce7ed40dbf4fc189e6f4ed61115e738">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model =</span> model1_nlme,</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">psi0  =</span> <span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Several options for selecting and running the algorithms can be defined, including the estimation of the individual parameters (<code>map=TRUE</code>), the estimation of the Fisher information matrix and the log-likelihood by linearization (<code>fim=TRUE</code>), or the estimation of the log-likelihood by importance sampling (<code>ll.is=TRUE</code>, ignored for this course).</p>
 <p><code>seed</code> is a integer used for the random number generator: running the algorithms several times with the same seed ensures that the results will be the same.</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-30_72ba621237af8d4191e65f016a0abef2">
-<div class="sourceCode" id="cb18"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>saemix_options <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">map=</span><span class="cn">TRUE</span>, <span class="at">fim=</span><span class="cn">TRUE</span>, <span class="at">ll.is=</span><span class="cn">FALSE</span>, <span class="at">displayProgress=</span><span class="cn">FALSE</span>, <span class="at">save=</span><span class="cn">FALSE</span>, <span class="at">seed=</span><span class="dv">632545</span>)</span>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-30_e39e3cc2480907ae966991860c29b183">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>saemix_options <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">map=</span><span class="cn">TRUE</span>, <span class="at">fim=</span><span class="cn">TRUE</span>, <span class="at">ll.is=</span><span class="cn">FALSE</span>, <span class="at">displayProgress=</span><span class="cn">FALSE</span>, <span class="at">save=</span><span class="cn">FALSE</span>, <span class="at">seed=</span><span class="dv">632545</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>saemix_fit1    <span class="ot">&lt;-</span> <span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>A summary of the results of the estimation algorithm can be displayed</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-32_0967c315f530f28a87bd6d89503f89f5">
-<div class="sourceCode" id="cb19"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>saemix_fit1<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-32_bd08d8f3e36228ee2fdaaf80dfb9925a">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>saemix_fit1<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>Fixed effects
  Parameter Estimate   SE     CV(%)
@@ -734,8 +775,8 @@ Likelihood computed by linearisation
 </div>
 </div>
 <p>The individual parameters estimates are also available</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-34_c10c8c0e1ef5ada984e061a050958244">
-<div class="sourceCode" id="cb21"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>psi <span class="ot">&lt;-</span> <span class="fu">psi</span>(saemix_fit1)</span>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-34_ba1e2e28e4849c70271a266bc51d1ee2">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>psi <span class="ot">&lt;-</span> <span class="fu">psi</span>(saemix_fit1)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>psi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>          ka        V         ke
@@ -754,23 +795,23 @@ Likelihood computed by linearisation
 </div>
 </div>
 <p>These individual parameter estimates can be used for computing and plotting individual predictions</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-36_eb4d244c2ea52bf350d7c403b333ff6f">
-<div class="sourceCode" id="cb23"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>saemix_fit <span class="ot">&lt;-</span> <span class="fu">saemix.predict</span>(saemix_fit1)</span>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-36_0d8387eaad15e49472d7588dcae99a4c">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>saemix_fit <span class="ot">&lt;-</span> <span class="fu">saemix.predict</span>(saemix_fit1)</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">saemix.plot.fits</span>(saemix_fit1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid" width="960"></p>
 </div>
 </div>
 <p>Several diagnostic fit plots can be displayed, including the plot of the observations versus individual predictions</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-38_d622fbe558f3d119b31b5e5876cab834">
-<div class="sourceCode" id="cb24"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saemix.plot.obsvspred</span>(saemix_fit1,<span class="at">level=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-38_dd2fc7a3d8ab2b99486c9438f7a64e10">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saemix.plot.obsvspred</span>(saemix_fit1,<span class="at">level=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-38-1.png" class="img-fluid" width="768"></p>
 </div>
 </div>
 <p>and the plot of the residuals versus time, and versus individual predictions,</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-40_4df2d0f16ed0598037a78928987609e7">
-<div class="sourceCode" id="cb25"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saemix.plot.scatterresiduals</span>(saemix_fit1, <span class="at">level=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-40_c2d76088d5e0439fc0551c17f897db25">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saemix.plot.scatterresiduals</span>(saemix_fit1, <span class="at">level=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid" width="960"></p>
 </div>
@@ -787,12 +828,12 @@ Likelihood computed by linearisation
 <p><span class="math display">y_{ij}  = f(t_{ij} ,\psi_i) + a \varepsilon_{ij}</span></p>
 <p>where <span class="math inline">\varepsilon_{ij} \sim^{\mathrm{iid}} \mathcal{N}(0, 1)</span>.</p>
 <p>The error model can be defined as an argument of <code>saemixModel</code> (default is the constant error model)</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-42_58a4404e430d280bd9772e898196a7b6">
-<div class="sourceCode" id="cb26"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model=</span>model1_nlme, <span class="at">psi0=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>), <span class="at">error.model=</span><span class="st">"constant"</span>)</span>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-42_773aaaab5a7b6b163b9a5b7e918932cc">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model=</span>model1_nlme, <span class="at">psi0=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>), <span class="at">error.model=</span><span class="st">"constant"</span>)</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>fit.constant <span class="ot">&lt;-</span> <span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-44_f55aa1754fd2f32136bbbb2a48af04ab">
-<div class="sourceCode" id="cb27"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>fit.constant<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-44_16cd97e3cac3c293049a85a878db3798">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>fit.constant<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>Fixed effects
  Parameter Estimate   SE     CV(%)
@@ -817,12 +858,12 @@ Likelihood computed by linearisation
 <p><strong>Proportional error model:</strong></p>
 <p>Proportional error models assume that the standard deviation of <span class="math inline">\varepsilon_{ij}</span> is proportional to the predicted response: <span class="math inline">\varepsilon_{ij} = \ b\, f(t_{ij} ,\psi_i) \, \varepsilon_{ij}</span> where <span class="math inline">\varepsilon_{ij} \sim^{\mathrm{iid}} \mathcal{N}(0, 1)</span>. Then,</p>
 <p><span class="math display">y_{ij}  = f(t_{ij} ,\psi_i) + b f(t_{ij} ,\psi_i) \, \varepsilon_{ij}</span></p>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-46_30daab2fb469d595ff8ddb502ac5e6c9">
-<div class="sourceCode" id="cb29"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model=</span>model1_nlme, <span class="at">psi0=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>), <span class="at">error.model=</span><span class="st">"proportional"</span>)</span>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-46_98782b4a9db3d612ade120b5de9f9e07">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model=</span>model1_nlme, <span class="at">psi0=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>), <span class="at">error.model=</span><span class="st">"proportional"</span>)</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>fit.proportional <span class="ot">&lt;-</span> <span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-48_f69e7dd7e4abdb1b982d3f084a2228e4">
-<div class="sourceCode" id="cb30"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>fit.proportional<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-48_9771a34434226e471fb3b3ead3ccb7a2">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>fit.proportional<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>Fixed effects
  Parameter Estimate   SE     CV(%)
@@ -847,32 +888,32 @@ Likelihood computed by linearisation
 <p><strong>Combined error model:</strong></p>
 <p>A combined error model additively combines a constant and a proportional error model: <span class="math inline">\varepsilon_{ij} = (a +\ b\, f(t_{ij} ,\psi_i)) \, \varepsilon_{ij}</span> where <span class="math inline">\varepsilon_{ij} \sim^{\mathrm{iid}} \mathcal{N}(0, 1)</span>. Then,</p>
 <p><span class="math display">y_{ij}  = f(t_{ij} ,\psi_i) +  (a + b f(t_{ij} ,\psi_i)) \, \varepsilon_{ij}</span></p>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-50_e2c228712a4392e248a7b71ddaf889c9">
-<div class="sourceCode" id="cb32"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model=</span>model1_nlme, <span class="at">psi0=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>), <span class="at">error.model=</span><span class="st">"combined"</span>)</span>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-50_7f6110c5a94b66a01825232b5f10f135">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model=</span>model1_nlme, <span class="at">psi0=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>), <span class="at">error.model=</span><span class="st">"combined"</span>)</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>fit.combined <span class="ot">&lt;-</span> <span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-52_9ee8b4a537e4c79aed52e8f1c45e758e">
-<div class="sourceCode" id="cb33"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>fit.combined<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-52_e8179d80628920bdcf9bd41cc415f56a">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>fit.combined<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>Fixed effects
  Parameter Estimate   SE     CV(%)
- ka         1.7563  0.32470 18.49 
- V         32.4770  1.58184  4.87 
- ke         0.0891  0.00599  6.73 
- a.         0.4100  0.11978 29.21 
- b.         0.0632  0.02335 36.96 
+ ka         1.7485  0.31851 18.22 
+ V         32.3376  1.53076  4.73 
+ ke         0.0897  0.00659  7.35 
+ a.         0.5853  0.13156 22.48 
+ b.         0.0820  0.02455 29.96 
 
 Variance of random effects
  Parameter Estimate   SE      CV(%)
- omega2.ka 1.09e+00  0.49750 45.6  
- omega2.V  2.14e+01 11.04619 51.7  
- omega2.ke 2.17e-04  0.00016 73.5  
+ omega2.ka 1.05e+00 4.78e-01 45.6  
+ omega2.V  1.93e+01 1.03e+01 53.1  
+ omega2.ke 2.74e-04 1.91e-04 69.5  
 
 Statistical criteria
 Likelihood computed by linearisation
-      -2LL= 338.7119 
-       AIC= 354.7119 
-       BIC= 358.5912 </code></pre>
+      -2LL= 341.6021 
+       AIC= 357.6021 
+       BIC= 361.4814 </code></pre>
 </div>
 </div>
 <p><strong>Exponential error model:</strong></p>
@@ -880,12 +921,12 @@ Likelihood computed by linearisation
 \log(y_{ij})  &amp; = \log(f(t_{ij} ,\psi_i)) + a \varepsilon_{ij} \\
 y_{ij}  &amp; = f(t_{ij} ,\psi_i) \ e^{a \varepsilon_{ij}}
 \end{aligned}</span></p>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-54_4e610ad401d79dcf69c42559aa30594e">
-<div class="sourceCode" id="cb35"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model=</span>model1_nlme, <span class="at">psi0=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>), <span class="at">error.model=</span><span class="st">"exponential"</span>)</span>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-54_95f9fd436433178edbc5c0200f95778d">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model=</span>model1_nlme, <span class="at">psi0=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>), <span class="at">error.model=</span><span class="st">"exponential"</span>)</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>fit.exponential <span class="ot">&lt;-</span> <span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-56_43faf694f9e9e36e52a081400ae76dbb">
-<div class="sourceCode" id="cb36"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>fit.exponential<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-56_ceb0687ba26dea8f1da6a84709dafc03">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>fit.exponential<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>Fixed effects
  Parameter Estimate   SE     CV(%)
@@ -942,15 +983,15 @@ x = \frac{1}{1+e^{-\mathrm{logit}(x)}}
 <p><span class="math display">\mathrm{probit}(\psi_i) = \psi^{-1}(\psi_i) \ \sim \  \mathcal{N}( \mathrm{probit}(\psi_{\rm pop}) \ , \ \omega^2) . </span></p>
 <p>The distribution of each individual parameter can be defined using the argument <code>transform.par</code> (0=normal, 1=log-normal, 2=probit, 3=logit). Default are normal distributions, i.e.&nbsp;a vector of 0.</p>
 <p>If we want to use, for example, a normal distribution for <span class="math inline">V</span> and log-normal distributions for <span class="math inline">k_a</span> and <span class="math inline">k_e</span>, then, <code>transform.par</code> should be the vector c(1,0,1):</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-58_3ba076e1357ff4826a594a70e6c684d9">
-<div class="sourceCode" id="cb38"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>saemix_model<span class="ot">&lt;-</span><span class="fu">saemixModel</span>(<span class="at">model         =</span> model1_nlme,</span>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-58_12c874374a138a3d85acc3d9b0c9e959">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>saemix_model<span class="ot">&lt;-</span><span class="fu">saemixModel</span>(<span class="at">model         =</span> model1_nlme,</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">psi0          =</span> <span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>),</span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">transform.par =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>))</span>
 <span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>saemix_fit2 <span class="ot">&lt;-</span><span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-60_1cb94778aaf9b343f278df027a7ae3d8">
-<div class="sourceCode" id="cb39"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>saemix_fit2<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-60_791c01d48220d583bbd627aab2f8526d">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>saemix_fit2<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>Fixed effects
  Parameter Estimate   SE     CV(%)
@@ -991,8 +1032,8 @@ Likelihood computed by linearisation
 <p><span class="math display">V_i = V_{\rm pop} + \beta \, (w_i-w_{\rm pop}) + \eta_{V,i} \ .</span></p>
 <p>Indeed, the predicted volume for a typical individual is now <span class="math inline">V_{\rm pop}</span>.</p>
 <p>Assume that we decide to use 70kg as typical weight in the theophylline study. The saemixData object now needs to include <span class="math inline">w_i-70</span>:</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-62_db51fd08f0bef51bcb76aec32d5bfdcb">
-<div class="sourceCode" id="cb41"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>theophylline<span class="sc">$</span>w70 <span class="ot">&lt;-</span> theophylline<span class="sc">$</span>weight <span class="sc">-</span> <span class="dv">70</span></span>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-62_48f1c71af520b62a0877bb79bc155e3c">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>theophylline<span class="sc">$</span>w70 <span class="ot">&lt;-</span> theophylline<span class="sc">$</span>weight <span class="sc">-</span> <span class="dv">70</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>saemix_data <span class="ot">&lt;-</span> <span class="fu">saemixData</span>(<span class="at">name.data       =</span> theophylline,</span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.group      =</span> <span class="fu">c</span>(<span class="st">"id"</span>),</span>
 <span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.predictors =</span> <span class="fu">c</span>(<span class="st">"time"</span>),</span>
@@ -1000,16 +1041,16 @@ Likelihood computed by linearisation
 <span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.covariates =</span> <span class="fu">c</span>(<span class="st">"w70"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here, only the volume <span class="math inline">V</span> is function of the weight. The covariate model is therefore encoded as vector (0,1,0).</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-64_ffa3e02c09616809c4b482b1cedab173">
-<div class="sourceCode" id="cb42"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model           =</span> model1_nlme,</span>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-64_459a2ad71e80e04915647543b85fdbf6">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model           =</span> model1_nlme,</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">psi0            =</span> <span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>),</span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">transform.par   =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>),</span>
 <span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>                            <span class="at">covariate.model =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>))</span>
 <span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>saemix_fit3 <span class="ot">&lt;-</span> <span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-66_d1b3e4c552fb872fdd1bd24fc3b48c2b">
-<div class="sourceCode" id="cb43"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>saemix_fit3<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-66_033a4c1e7c2e70abdf86e415527c7c02">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>saemix_fit3<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>Fixed effects
  Parameter   Estimate   SE     CV(%) p-value
@@ -1041,8 +1082,8 @@ Likelihood computed by linearisation
 <p><span class="math display">V_i = V_{\rm pop}  \left(\frac{w_i}{w_{\rm pop}}\right)^{\beta} e^{\eta_{V,i}} \ .</span></p>
 <p>We see that, using this model, the predicted volume for a typical individual is <span class="math inline">V_{\rm pop}</span>.</p>
 <p>The saemixData object now needs to include <span class="math inline">\log(w_i/70)</span> a covariate,</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-68_06bf1eb18a4e91a2131cb1ddb99f82c3">
-<div class="sourceCode" id="cb45"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>theophylline<span class="sc">$</span>lw70 <span class="ot">&lt;-</span> <span class="fu">log</span>(theophylline<span class="sc">$</span>weight<span class="sc">/</span><span class="dv">70</span>)</span>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-68_34a9d5ac5fa15ec5fa91f434f77e2022">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>theophylline<span class="sc">$</span>lw70 <span class="ot">&lt;-</span> <span class="fu">log</span>(theophylline<span class="sc">$</span>weight<span class="sc">/</span><span class="dv">70</span>)</span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>saemix_data <span class="ot">&lt;-</span> <span class="fu">saemixData</span>(<span class="at">name.data       =</span> theophylline,</span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.group      =</span> <span class="fu">c</span>(<span class="st">"id"</span>),</span>
 <span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.predictors =</span> <span class="fu">c</span>(<span class="st">"time"</span>),</span>
@@ -1050,16 +1091,16 @@ Likelihood computed by linearisation
 <span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.covariates =</span> <span class="fu">c</span>(<span class="st">"lw70"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The covariate model is again encoded as the (row) vector (0,1,0) but the transformation is now encoded as 1 for the three parameters</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-70_f0335090487a0b26cf8fad178f2ddd1b">
-<div class="sourceCode" id="cb46"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model           =</span> model1_nlme,</span>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-70_7f14a156c728897292b46e8d0a9f0be3">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model           =</span> model1_nlme,</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">psi0            =</span> <span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>),</span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">transform.par   =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>),</span>
 <span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>                            <span class="at">covariate.model =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>))</span>
 <span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>saemix_fit4 <span class="ot">&lt;-</span> <span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-72_98fc93972df8c01a183a1b6314b958c0">
-<div class="sourceCode" id="cb47"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>saemix_fit4<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-72_467449ba920a97da936429e880f67594">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>saemix_fit4<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>Fixed effects
  Parameter    Estimate   SE    CV(%) p-value
@@ -1088,8 +1129,8 @@ Likelihood computed by linearisation
 <p>Until now, the random effects were assumed to be uncorrelated, i.e.&nbsp;the variance-covariance matrix <span class="math inline">\Omega</span> was a diagonal matrix (default covariance model for <strong>saemix</strong>).</p>
 <p>Correlations between random effects can be introduced with the input argument <code>covariance.model</code>, a square matrix of size equal to the number of parameters in the model, giving the variance-covariance structure of the model: 1s correspond to estimated variances (in the diagonal) or covariances (off-diagonal elements). The structure of the matrix <span class="math inline">\Omega</span> should be block.</p>
 <p>Consider, for instance a model where <span class="math inline">k_a</span> is fixed in the population, i.e.&nbsp;<span class="math inline">\omega_{k_a}=0</span> (and thus <span class="math inline">k_{a_i}={k_a}_{\text{pop}}</span> for all <span class="math inline">i</span>), and where <span class="math inline">\log(V)</span> and <span class="math inline">\log(k_e)</span> are correlated, i.e <span class="math inline">\eta_V</span> and <span class="math inline">\eta_{k_e})</span> are correlated:</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-74_d1fe70de0fe0d67349d7d520aed6bc31">
-<div class="sourceCode" id="cb49"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>saemix_model<span class="ot">&lt;-</span><span class="fu">saemixModel</span>(<span class="at">model           =</span> model1_nlme,</span>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-74_a690dee6f2fb9c8c031182cad230b5a9">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>saemix_model<span class="ot">&lt;-</span><span class="fu">saemixModel</span>(<span class="at">model           =</span> model1_nlme,</span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">psi0            =</span> <span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>),</span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">transform.par   =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>),</span>
 <span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">covariate.model =</span> <span class="fu">t</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>)),</span>
@@ -1097,8 +1138,8 @@ Likelihood computed by linearisation
 <span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>saemix_fit5 <span class="ot">&lt;-</span> <span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-76_90db196820b3a706f5b2230cebf2e655">
-<div class="sourceCode" id="cb50"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>saemix_fit5<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-76_32e65cf25b9c5851d8d468e951515dc2">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>saemix_fit5<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>Fixed effects
  Parameter    Estimate   SE    CV(%) p-value
@@ -1130,9 +1171,28 @@ Likelihood computed by linearisation
 </section>
 </section>
 </section>
+
 </main> <!-- /main -->
-<script type="application/javascript">
+<script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -1152,7 +1212,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     button.blur();
     // flash "checked"
     button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
     setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
     }, 1000);
     // clear code selection
@@ -1179,31 +1259,50 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      let href = ref.getAttribute('href');
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
     });
   }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
   var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
   for (var i=0; i<bibliorefs.length; i++) {
     const ref = bibliorefs[i];
-    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
-    tippyHover(ref, function() {
-      var popup = window.document.createElement('div');
-      cites.forEach(function(cite) {
-        var citeDiv = window.document.createElement('div');
-        citeDiv.classList.add('hanging-indent');
-        citeDiv.classList.add('csl-entry');
-        var biblioDiv = window.document.getElementById('ref-' + cite);
-        if (biblioDiv) {
-          citeDiv.innerHTML = biblioDiv.innerHTML;
-        }
-        popup.appendChild(citeDiv);
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
       });
-      return popup.innerHTML;
-    });
+    }
   }
 });
 </script>
@@ -1220,6 +1319,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
+
 
 
 </body></html>
