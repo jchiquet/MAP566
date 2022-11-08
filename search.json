@@ -571,7 +571,7 @@
     "href": "index.html#schedule-tentative",
     "title": "Welcome",
     "section": "Schedule (tentative)",
-    "text": "Schedule (tentative)\nTeachers : Julien Chiquet (lecture + 1 PC), Geneviève Robin (2 PC)\nCourse Evaluation: 2 individual homework assignments + a final exam/project\nCourse Language: French with all material in English\n\nStatistical tests (x2)\n\nTwo-populations comparison\nPower analysis\nMultiple Testing\n\nRegression models (x2)\n\nLinear and Non Linear Regression models\nNonlinear regression models\nInference Diagnostic, Model comparison\n\nMixed effects models (x2)\n\nLinear mixed effects models\nNonlinear mixed effects models\n\nMixture models and model-based clustering (x3)\n\nGaussian mixture models for data clustering\nHierarchical and Spectral clustering for Graph\nStochastic Block Models\n(Variational) EM algorithm"
+    "text": "Schedule (tentative)\nTeachers : Julien Chiquet (lecture + 1 PC), Katia Meziani (1 PC), Zacharie Naulet (1 PC)\nCourse Evaluation: 2 individual homework assignments + a final exam/project\nCourse Language: French with all material in English\n\nStatistical tests (x2)\n\nTwo-populations comparison\nPower analysis\nMultiple Testing\n\nRegression models (x2)\n\nLinear and Non Linear Regression models\nNonlinear regression models\nInference Diagnostic, Model comparison\n\nMixed effects models (x2)\n\nLinear mixed effects models\nNonlinear mixed effects models\n\nMixture models and model-based clustering (x3)\n\nGaussian mixture models for data clustering\nHierarchical and Spectral clustering for Graph\nStochastic Block Models\n(Variational) EM algorithm"
   },
   {
     "objectID": "getting-started.html",
