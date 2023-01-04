@@ -1,9 +1,8 @@
 ---
-title: 'Hypothesis Tesing'
-subtitle: 'Exercices'
+title: 'Statistical tests: exercices'
 ---
 
-## Preliminary {.unnumbered}
+## Preliminary
 
 Only functions from `R`-base and stats (preloaded) are required plus packages from the tidyverse for data representation and manipulation:
 
@@ -38,6 +37,15 @@ conditions
 
 *Hint:* Perform a $F$ test to compare the two variances using the `var.test` function (`> ?var.test` for more information about this function)
 
+  5. Considering that the measures of control and treatment are made on the same gene, do a paired t-test.
+
+*Hint:* Use `t.test` with option `paired = TRUE`.
+
+  6. For a significance level $\alpha=10^{-10}$, plot the power of the paired and Welch t-test for $n$ varying from 3 to 20, taking the observed value of the statistic as $\delta$.
+
+*Hint:* Use the `power.t.test` function.
+
+  7. For $n=10$ samples, plot the power of the paired and Welch t-test for $\alpha$ varying from $10^{-12} to $10^{-5}, taking the observed value of the statistic as $\delta$.
 
 ## Smoking, no smoking
 

@@ -28,6 +28,7 @@ First 10 lines of data:
 -----------------------------------
 Nonlinear mixed-effects model
   Model function
+  Model type:  structural
 function(psi, id, x) { 
   t <- x[,1]
   A <- psi[id, 1]
@@ -36,7 +37,7 @@ function(psi, id, x) {
   ypred <- A*exp(-exp(-b*(t-c)))
   ypred
 }
-<bytecode: 0x5574dec0e860>
+<bytecode: 0x560162b910f8>
   Nb of parameters: 3 
       parameter names:  A b c 
       distribution:
@@ -49,7 +50,7 @@ function(psi, id, x) {
 A 1 0 0
 b 0 1 0
 c 0 0 1
-  Error model: constant , initial values: a.=1 
+  Error model: constant , initial values: a.1=1 
     No covariate in the model.
     Initial values
                A   b   c
@@ -75,17 +76,17 @@ Pop.CondInit 500 0.2 0.2
 -----------------  Fixed effects  ------------------
 ----------------------------------------------------
      Parameter Estimate SE     CV(%)
-[1,] A         527.870  8.2753   1.6
-[2,] b           0.217  0.0071   3.3
-[3,] c           0.061  0.0794 129.6
-[4,] a.         12.238  0.4063   3.3
+[1,] A         528.150  8.4048   1.6
+[2,] b           0.216  0.0072   3.3
+[3,] c           0.064  0.0799 125.2
+[4,] a.1        12.203  0.4093   3.4
 ----------------------------------------------------
 -----------  Variance of random effects  -----------
 ----------------------------------------------------
   Parameter Estimate SE     CV(%)
-A omega2.A  0.009    0.0021 24   
-b omega2.b  0.028    0.0093 33   
-c omega2.c  0.191    0.0553 29   
+A omega2.A  0.0093   0.0022 24   
+b omega2.b  0.0296   0.0096 32   
+c omega2.c  0.1939   0.0560 29   
 ----------------------------------------------------
 ------  Correlation matrix of random effects  ------
 ----------------------------------------------------
@@ -97,7 +98,7 @@ omega2.c 0        0        1
 ---------------  Statistical criteria  -------------
 ----------------------------------------------------
 Likelihood computed by linearisation
-      -2LL= 4703.59 
-      AIC = 4717.59 
-      BIC = 4729.412 
+      -2LL= 4704.198 
+      AIC = 4718.198 
+      BIC = 4730.02 
 ----------------------------------------------------
