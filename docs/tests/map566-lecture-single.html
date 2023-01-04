@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.262">
+<meta name="generator" content="quarto-1.2.269">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -193,7 +193,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <li class="dropdown-header">Exercices</li>
         <li>
     <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html">
- <span class="dropdown-text">Hypothesis Tesing</span></a>
+ <span class="dropdown-text">Statistical tests: exercices</span></a>
   </li>  
     </ul>
   </li>
@@ -355,7 +355,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/tests/map566-lab-tests.html" class="sidebar-item-text sidebar-link">Hypothesis Tesing</a>
+  <a href="../../docs/tests/map566-lab-tests.html" class="sidebar-item-text sidebar-link">Statistical tests: exercices</a>
   </div>
 </li>
       </ul>
@@ -418,7 +418,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="preliminary" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="preliminary">Preliminary</h3>
 <p>Only functions from <code>R</code>-base and stats (preloaded) are required plus packages from the <strong>tidyverse</strong> for data representation and manipulation.</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/tests-config_3bfa21cc51b78c2ea09b5657845d060b">
+<div class="cell" data-hash="map566-lecture-single_cache/html/tests-config_2fd69a36ec2d3669c963cf566a23cd95">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify)  <span class="co"># extend some ggplot2 features</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)        <span class="co"># power study in R</span></span>
@@ -429,23 +429,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
 <p>A feeding study served to authorize the MON863 maize, a genetically modified organism (GMO) developed by the Monsanto company, by the European and American authorities. It included male and female rats. For each sex, one group was fed with GMOs in the equilibrated diet, and one with the closest control regimen without GMOs.</p>
 <p>We are interested in the weight of the rats after a period of 14 weeks.</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-2_a64aed7aa4f3b416441143255b8e9f22">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-1_dfe177643d5d7ee794f4e9c55aaee0fa">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../data/ratWeight.csv"</span>) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(week <span class="sc">==</span> <span class="dv">14</span>) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>week)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stderr">
-<pre><code>Rows: 2235 Columns: 6</code></pre>
-</div>
-<div class="cell-output-stderr">
-<pre><code>── Column specification ────────────────────────────────────────────────────────
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 2235 Columns: 6
+── Column specification ────────────────────────────────────────────────────────
 Delimiter: ","
 chr (4): id, regime, gender, dosage
-dbl (2): week, weight</code></pre>
-</div>
-<div class="cell-output-stderr">
-<pre><code>
+dbl (2): week, weight
+
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
 <div data-pagedtable="false">
@@ -456,24 +452,24 @@ dbl (2): week, weight</code></pre>
 </div>
 </div>
 <p>The data per gender and regime is displayed below</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-4_aff46316ba2a73e8bb48e25fa4cc5eec">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-2_1fb1d2193f38e9976edb69efdc7bfcb8">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="sc">%&gt;%</span> </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> gender, <span class="at">y =</span> weight) <span class="sc">+</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="fu">aes</span>(<span class="at">fill =</span> regime)) <span class="sc">+</span> <span class="fu">geom_jitter</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span>  <span class="fu">ylab</span>(<span class="st">"weight (g)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="sc">%&gt;%</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> gender, <span class="at">y =</span> weight) <span class="sc">+</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="fu">aes</span>(<span class="at">fill =</span> regime)) <span class="sc">+</span> <span class="fu">geom_jitter</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span>  <span class="fu">ylab</span>(<span class="st">"weight (g)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-single_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="960"></p>
+<p><img src="map566-lecture-single_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="960"></p>
 </div>
 </div>
 <p>The following table provides the mean weight in each group</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-6_10c4b534d7cae0234fa2a10e9ca009fe">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-3_2c80fa55e956e4f5c5935175afb3b1c4">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(regime, gender) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="st">'average weight'</span> <span class="ot">=</span> <span class="fu">mean</span>(weight), <span class="at">count =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(regime, gender) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="st">'average weight'</span> <span class="ot">=</span> <span class="fu">mean</span>(weight), <span class="at">count =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 
@@ -491,15 +487,15 @@ dbl (2): week, weight</code></pre>
 <section id="one-sample-t-test" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="one-sample-t-test"><span class="header-section-number">2.1</span> One sample t-test</h2>
 <p>Before considering the problem of comparing two groups, let us start looking at the weight of the male rats only:</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-8_62c90c9b9dc649d2282edd8374f4ffb8">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-4_456a176f7acb9cea748e32d0b4f645ee">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="sc">%&gt;%</span> <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">"Male"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> regime, <span class="at">y =</span> weight) <span class="sc">+</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="fu">aes</span>(<span class="at">fill =</span> regime)) <span class="sc">+</span> <span class="fu">geom_jitter</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span>  <span class="fu">ylab</span>(<span class="st">"weight (g)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="sc">%&gt;%</span> <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">"Male"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> regime, <span class="at">y =</span> weight) <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="fu">aes</span>(<span class="at">fill =</span> regime)) <span class="sc">+</span> <span class="fu">geom_jitter</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span>  <span class="fu">ylab</span>(<span class="st">"weight (g)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-single_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="960"></p>
+<p><img src="map566-lecture-single_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="960"></p>
 </div>
 </div>
 <p>Let <span class="math inline">x_1, x_2, x_n</span> the weights of the <span class="math inline">n</span> male rats. We will assume that the <span class="math inline">x_i</span>’s are independent and normally distributed with mean <span class="math inline">\mu</span> and variance <span class="math inline">\sigma^2</span>:</p>
@@ -509,11 +505,11 @@ dbl (2): week, weight</code></pre>
 <p>We want to test</p>
 <p><span class="math display">H_0: \ ``\mu \leq \mu_0" \quad \text{versus} \quad H_1: \ ``\mu &gt; \mu_0" </span></p>
 <p>Function <code>t.test</code> can be used for performing this test:</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-10_e114182b37924b572ff9b8351b4a59f6">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> rat_weight <span class="sc">%&gt;%</span> <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">"Male"</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(<span class="st">"weight"</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>mu0 <span class="ot">&lt;-</span> <span class="dv">500</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x, <span class="at">alternative=</span><span class="st">"greater"</span>, <span class="at">mu=</span>mu0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-5_766c3fb6799168b89b60f36a74efb38c">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> rat_weight <span class="sc">%&gt;%</span> <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">"Male"</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(<span class="st">"weight"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>mu0 <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x, <span class="at">alternative=</span><span class="st">"greater"</span>, <span class="at">mu=</span>mu0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>
     One Sample t-test
 
@@ -551,15 +547,15 @@ T_{\rm stat} = \frac{(\bar{x} - \mu_0)}{s/\sqrt{n}}  </span> which follows a <sp
 &amp; \leq \mathbb{P}(t_{n-1} &gt; qt_{1-\alpha,n-1}) \\
 &amp; \leq \alpha
 \end{aligned} </span></p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-12_b33706ba06f7d7b601de7656851a9450">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>x_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(x)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>x_sd <span class="ot">&lt;-</span> <span class="fu">sd</span>(x)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> n <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>t.stat <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n)<span class="sc">*</span>(x_mean<span class="sc">-</span>mu0)<span class="sc">/</span>x_sd</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(t.stat,<span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>alpha, df))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-6_17ba4364fd04c894306a32ed41751b65">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>x_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(x)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>x_sd <span class="ot">&lt;-</span> <span class="fu">sd</span>(x)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> n <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>t.stat <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n)<span class="sc">*</span>(x_mean<span class="sc">-</span>mu0)<span class="sc">/</span>x_sd</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(t.stat,<span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>alpha, df))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.270806 1.664885</code></pre>
 </div>
 </div>
@@ -570,23 +566,23 @@ p_{\rm value} &amp; = \max\mathbb{P}_{H_0}(T_{\rm stat} &gt; T_{\rm stat}^{\rm o
 &amp;= 1 - \mathbb{P}(t_{n-1} \leq T_{\rm stat}^{\rm obs})
 \end{aligned}</span></p>
 <p>Now, <span class="math inline">T_{\rm stat} &gt; qt_{1-\alpha,n-1}</span> under <span class="math inline">H_0</span> if and only if <span class="math inline">\mathbb{P}(t_{n-1} \leq T_{\rm stat}^{\rm obs}) \geq 1-\alpha</span>. Then, the test is significant at the level <span class="math inline">\alpha</span> if and only if <span class="math inline">p_{\rm value}\leq \alpha</span>.</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-14_783f324a6406010b00515e79cb4d7cad">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>p.value <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(t.stat,df) </span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p.value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-7_296963d8065b07bd465915ed30c01e5b">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>p.value <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(t.stat,df) </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p.value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.1038119</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-16_2bbe3835da07d35047f38ebd9eeec45f">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-8_54b8482bb0d9f400598a9c1799df333e">
 
 </div>
 <p>Here, we would reject <span class="math inline">H_0</span> for any significance level <span class="math inline">\alpha \geq</span> 0.104.</p>
 <p><strong>Important:</strong> The fact that the test is not significant at the level <span class="math inline">\alpha</span> does not allow us to conclude that <span class="math inline">H_0</span> is true, i.e.&nbsp;that <span class="math inline">\mu</span> is less than or equal to 500. We can only say that the data does not allow us to conclude that <span class="math inline">\mu&gt;500</span>.</p>
 <p>Imagine now that we want to test if <span class="math inline">\mu \geq 515</span> for instance. The alternative here is <span class="math inline">H_1: \ ``\mu &lt; 515"</span>.</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-18_cdc7e00c3cd29a7336db2bc085462b5c">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>mu0 <span class="ot">&lt;-</span> <span class="dv">515</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x, <span class="at">alternative =</span> <span class="st">"less"</span>, <span class="at">mu =</span> mu0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-9_dc3c22f66c9b4cd912140ea1a792c39c">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>mu0 <span class="ot">&lt;-</span> <span class="dv">515</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x, <span class="at">alternative =</span> <span class="st">"less"</span>, <span class="at">mu =</span> mu0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>
     One Sample t-test
 
@@ -606,11 +602,11 @@ mean of x
 &amp; \leq \mathbb{P}(T_{\rm stat} &lt; qt_{\alpha,n-1} \ | \ \mu = \mu_0) \\
 &amp; \leq \alpha
 \end{aligned} </span></p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-20_c4d653cdc9d84e6558e1c77e17039a68">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>t.stat <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n)<span class="sc">*</span>(x_mean<span class="sc">-</span>mu0)<span class="sc">/</span>x_sd</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>p.value <span class="ot">&lt;-</span> <span class="fu">pt</span>(t.stat,df)</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(t.stat, df, p.value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-10_5805af783157c4a9a6db0a6e1f45df36">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>t.stat <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n)<span class="sc">*</span>(x_mean<span class="sc">-</span>mu0)<span class="sc">/</span>x_sd</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>p.value <span class="ot">&lt;-</span> <span class="fu">pt</span>(t.stat,df)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(t.stat, df, p.value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>[1] -1.79295428 77.00000000  0.03845364</code></pre>
 </div>
 </div>
@@ -619,10 +615,10 @@ mean of x
 <section id="two-sided-test" class="level3" data-number="2.1.2">
 <h3 data-number="2.1.2" class="anchored" data-anchor-id="two-sided-test"><span class="header-section-number">2.1.2</span> Two sided test</h3>
 <p>A two sided test (or two tailed test) can be used to test if <span class="math inline">\mu=500</span> for instance</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-22_4c9d1e01f3a9816d440423cce1153e58">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>mu0 <span class="ot">=</span> <span class="dv">500</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x, <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">mu  =</span>mu0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-11_436ff62dd70f49c3ad181ae7c2a2d0c1">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>mu0 <span class="ot">=</span> <span class="dv">500</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x, <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">mu  =</span>mu0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>
     One Sample t-test
 
@@ -651,15 +647,15 @@ p_{\rm value} &amp; = \mathbb{P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm ob
 &amp;= \mathbb{P}(t_{n-1} \leq -|T_{\rm stat}^{\rm obs}|) +  \mathbb{P}(t_{n-1} \geq |T_{\rm stat}^{\rm obs}|) \\
 &amp;= 2 \,\mathbb{P}(t_{n-1} \leq -|T_{\rm stat}^{\rm obs}|)
 \end{aligned}</span></p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-24_f6ed629ceb49ca922a2abea0696e26af">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>t.stat <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n)<span class="sc">*</span>(x_mean<span class="sc">-</span>mu0)<span class="sc">/</span>x_sd</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>p.value <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span><span class="fu">pt</span>(<span class="sc">-</span><span class="fu">abs</span>(t.stat),df) </span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(t.stat, df, p.value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-12_65cbb56d5d034616bea85f58b835e685">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>t.stat <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n)<span class="sc">*</span>(x_mean<span class="sc">-</span>mu0)<span class="sc">/</span>x_sd</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>p.value <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span><span class="fu">pt</span>(<span class="sc">-</span><span class="fu">abs</span>(t.stat),df) </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(t.stat, df, p.value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>[1]  1.2708058 77.0000000  0.2076238</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-26_7e02ae6b711478f9bb49a500cd1b8ddd">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-13_96d8426e4a100848c4a9b49cdceb2e88">
 
 </div>
 <p>Here, <span class="math inline">p_{\rm value}=</span> 0.208. Then, for any significance level less than 0.208, we cannot reject the hypothesis that <span class="math inline">\mu = 500</span>.</p>
@@ -667,57 +663,57 @@ p_{\rm value} &amp; = \mathbb{P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm ob
 <section id="confidence-interval-for-the-mean" class="level3" data-number="2.1.3">
 <h3 data-number="2.1.3" class="anchored" data-anchor-id="confidence-interval-for-the-mean"><span class="header-section-number">2.1.3</span> Confidence interval for the mean</h3>
 <p>We have just seen that the data doesn’t allow us to reject the hypothesis that <span class="math inline">\mu = 500</span>. But we would come to the same conclusion with other values of <span class="math inline">\mu_0</span>. In particular, we will never reject the hypothesis that <span class="math inline">\mu = \bar{x}</span>:</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-28_a4c1ef2f958e889a6cbf7c6de3c0d230">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x, <span class="at">mu=</span>x_mean, <span class="at">conf.level =</span> <span class="dv">1</span> <span class="sc">-</span> alpha)<span class="sc">$</span>p.value</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-14_2681949aa1cd7f9b75587be290d1443d">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x, <span class="at">mu=</span>x_mean, <span class="at">conf.level =</span> <span class="dv">1</span> <span class="sc">-</span> alpha)<span class="sc">$</span>p.value</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>[1] 1</code></pre>
 </div>
 </div>
 <p>For a given significance level (<span class="math inline">\alpha = 0.05</span> for instance), we will not reject the null hypothesis for values of <span class="math inline">\mu_0</span> close enough to <span class="math inline">\bar{x}</span>.</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-30_300ae58658d8a83e361c6d6654f83a9a">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>pv<span class="fl">.510</span> <span class="ot">&lt;-</span> <span class="fu">t.test</span>(x, <span class="at">mu =</span> <span class="dv">510</span>, <span class="at">conf.level =</span> <span class="dv">1</span><span class="sc">-</span>alpha)<span class="sc">$</span>p.value</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>pv<span class="fl">.497</span> <span class="ot">&lt;-</span> <span class="fu">t.test</span>(x, <span class="at">mu =</span> <span class="dv">497</span>, <span class="at">conf.level =</span> <span class="dv">1</span><span class="sc">-</span>alpha)<span class="sc">$</span>p.value</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(pv<span class="fl">.510</span>, pv<span class="fl">.497</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-15_b78fee4578ad09ece069bfcf985ba52d">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>pv<span class="fl">.510</span> <span class="ot">&lt;-</span> <span class="fu">t.test</span>(x, <span class="at">mu =</span> <span class="dv">510</span>, <span class="at">conf.level =</span> <span class="dv">1</span><span class="sc">-</span>alpha)<span class="sc">$</span>p.value</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>pv<span class="fl">.497</span> <span class="ot">&lt;-</span> <span class="fu">t.test</span>(x, <span class="at">mu =</span> <span class="dv">497</span>, <span class="at">conf.level =</span> <span class="dv">1</span><span class="sc">-</span>alpha)<span class="sc">$</span>p.value</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(pv<span class="fl">.510</span>, pv<span class="fl">.497</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.44265350 0.06340045</code></pre>
 </div>
 </div>
 <p>On the other hand, we will reject <span class="math inline">H_0</span> for values of <span class="math inline">\mu_0</span> far enough from <span class="math inline">\bar{x}</span>:</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-32_5690f846dbafad09f3c3b31a6a18703e">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>pv<span class="fl">.520</span> <span class="ot">&lt;-</span> <span class="fu">t.test</span>(x, <span class="at">mu =</span> <span class="dv">520</span>, <span class="at">conf.level =</span> <span class="dv">1</span><span class="sc">-</span>alpha)<span class="sc">$</span>p.value</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>pv<span class="fl">.490</span> <span class="ot">&lt;-</span> <span class="fu">t.test</span>(x, <span class="at">mu =</span> <span class="dv">490</span>, <span class="at">conf.level =</span> <span class="dv">1</span><span class="sc">-</span>alpha)<span class="sc">$</span>p.value</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(pv<span class="fl">.520</span>, pv<span class="fl">.490</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-16_7b5ec5e26505b27a71a020fb970238cd">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>pv<span class="fl">.520</span> <span class="ot">&lt;-</span> <span class="fu">t.test</span>(x, <span class="at">mu =</span> <span class="dv">520</span>, <span class="at">conf.level =</span> <span class="dv">1</span><span class="sc">-</span>alpha)<span class="sc">$</span>p.value</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>pv<span class="fl">.490</span> <span class="ot">&lt;-</span> <span class="fu">t.test</span>(x, <span class="at">mu =</span> <span class="dv">490</span>, <span class="at">conf.level =</span> <span class="dv">1</span><span class="sc">-</span>alpha)<span class="sc">$</span>p.value</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(pv<span class="fl">.520</span>, pv<span class="fl">.490</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.006204188 0.001406681</code></pre>
 </div>
 </div>
 <p>There exist two values of <span class="math inline">\mu_0</span> for which the decision is borderline</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-34_6c8b7ef373df360704bbea7121be0825">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>pv1 <span class="ot">&lt;-</span> <span class="fu">t.test</span>(x, <span class="at">mu =</span> <span class="fl">496.47</span>, <span class="at">conf.level =</span> <span class="dv">1</span><span class="sc">-</span>alpha)<span class="sc">$</span>p.value</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>pv2 <span class="ot">&lt;-</span> <span class="fu">t.test</span>(x, <span class="at">mu =</span> <span class="fl">515.97</span>, <span class="at">conf.level =</span> <span class="dv">1</span><span class="sc">-</span>alpha)<span class="sc">$</span>p.value</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(pv1,pv2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-17_04714999a343e30bf38d3be0f1e712c1">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>pv1 <span class="ot">&lt;-</span> <span class="fu">t.test</span>(x, <span class="at">mu =</span> <span class="fl">496.47</span>, <span class="at">conf.level =</span> <span class="dv">1</span><span class="sc">-</span>alpha)<span class="sc">$</span>p.value</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>pv2 <span class="ot">&lt;-</span> <span class="fu">t.test</span>(x, <span class="at">mu =</span> <span class="fl">515.97</span>, <span class="at">conf.level =</span> <span class="dv">1</span><span class="sc">-</span>alpha)<span class="sc">$</span>p.value</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(pv1,pv2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.04993761 0.05001986</code></pre>
 </div>
 </div>
 <p>In fact, for a given <span class="math inline">\alpha</span>, these two values <span class="math inline">\mu_{\alpha,{\rm lower}}</span> and <span class="math inline">\mu_{\alpha,{\rm upper}}</span> define a <em>confidence interval</em> for <span class="math inline">\mu</span>: We are ``confident’’ at the level <span class="math inline">1-\alpha</span> that any value between <span class="math inline">\mu_{\alpha,{\rm lower}}</span> and <span class="math inline">\mu_{\alpha,{\rm upper}}</span> is a possible value for <span class="math inline">\mu</span>.</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-36_39bbb8703c181c42d316a4dfee5883a5">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-18_11d54e766d4c971dee50313a55ee9361">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>mu     <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">490</span>, <span class="dv">520</span>, <span class="at">by =</span> <span class="fl">0.25</span>)</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>t_stat <span class="ot">&lt;-</span> (x_mean <span class="sc">-</span> mu) <span class="sc">/</span> x_sd <span class="sc">*</span> <span class="fu">sqrt</span>(n)</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>pval   <span class="ot">&lt;-</span> <span class="fu">pmin</span>(<span class="fu">pt</span>(<span class="sc">-</span>t_stat, df) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(t_stat, df)),</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>               <span class="fu">pt</span>(t_stat, df) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(<span class="sc">-</span>t_stat, df)))</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>CI     <span class="ot">&lt;-</span> x_mean <span class="sc">+</span> x_sd<span class="sc">/</span><span class="fu">sqrt</span>(n) <span class="sc">*</span> <span class="fu">qt</span>(<span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>), df)</span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">mu =</span> mu, <span class="at">p.value =</span> pval) <span class="sc">%&gt;%</span> </span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> mu, <span class="at">y =</span> p.value)) <span class="sc">+</span> </span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> x_mean, <span class="at">colour=</span><span class="st">"red"</span>, <span class="at">linetype=</span><span class="dv">2</span>)<span class="sc">+</span></span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> alpha, <span class="at">colour=</span><span class="st">"green"</span>, <span class="at">linetype=</span><span class="dv">2</span>)<span class="sc">+</span></span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> CI, <span class="at">colour=</span><span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">round</span>(<span class="fu">c</span>(<span class="dv">490</span>,<span class="dv">500</span>,<span class="dv">510</span>,<span class="dv">520</span>,CI,x_mean),<span class="dv">2</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>mu     <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">490</span>, <span class="dv">520</span>, <span class="at">by =</span> <span class="fl">0.25</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>t_stat <span class="ot">&lt;-</span> (x_mean <span class="sc">-</span> mu) <span class="sc">/</span> x_sd <span class="sc">*</span> <span class="fu">sqrt</span>(n)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>pval   <span class="ot">&lt;-</span> <span class="fu">pmin</span>(<span class="fu">pt</span>(<span class="sc">-</span>t_stat, df) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(t_stat, df)),</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>               <span class="fu">pt</span>(t_stat, df) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(<span class="sc">-</span>t_stat, df)))</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>CI     <span class="ot">&lt;-</span> x_mean <span class="sc">+</span> x_sd<span class="sc">/</span><span class="fu">sqrt</span>(n) <span class="sc">*</span> <span class="fu">qt</span>(<span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>), df)</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">mu =</span> mu, <span class="at">p.value =</span> pval) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> mu, <span class="at">y =</span> p.value)) <span class="sc">+</span> </span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> x_mean, <span class="at">colour=</span><span class="st">"red"</span>, <span class="at">linetype=</span><span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> alpha, <span class="at">colour=</span><span class="st">"green"</span>, <span class="at">linetype=</span><span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> CI, <span class="at">colour=</span><span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">round</span>(<span class="fu">c</span>(<span class="dv">490</span>,<span class="dv">500</span>,<span class="dv">510</span>,<span class="dv">520</span>,CI,x_mean),<span class="dv">2</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-single_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid" width="672"></p>
+<p><img src="map566-lecture-single_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>By construction,</p>
@@ -727,9 +723,9 @@ p_{\rm value} &amp; = \mathbb{P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm ob
 \end{aligned}</span></p>
 <p>The confidence interval of level <span class="math inline">1-\alpha</span> for <span class="math inline">\mu</span> is therefore the interval <span class="math display">{\rm CI}_{1-\alpha} = \left[\bar{x} +\frac{s}{\sqrt{n}}qt_{\frac{\alpha}{2},n-1} \ \ , \ \
 \bar{x} +\frac{s}{\sqrt{n}}qt_{1-\frac{\alpha}{2},n-1}\right] </span></p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-38_3d9975fd89ca0cba1fbf276d54a9d1e9">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>(CI <span class="ot">&lt;-</span> x_mean <span class="sc">+</span> x_sd <span class="sc">/</span> <span class="fu">sqrt</span>(n) <span class="sc">*</span> <span class="fu">qt</span>(<span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>), df))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-19_badbdfad8d09a1c9b4a244a3b8c8ceb2">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>(CI <span class="ot">&lt;-</span> x_mean <span class="sc">+</span> x_sd <span class="sc">/</span> <span class="fu">sqrt</span>(n) <span class="sc">*</span> <span class="fu">qt</span>(<span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>), df))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>[1] 496.4727 515.9709</code></pre>
 </div>
 </div>
@@ -737,28 +733,28 @@ p_{\rm value} &amp; = \mathbb{P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm ob
 <p><span class="proof-title"><em>Remark</em>. </span>The fact that <span class="math inline">\mathbb{P}( \mu \in {\rm CI}_{1-\alpha}) = 1- \alpha</span> does not mean that <span class="math inline">\mu</span> is a random variable! It is the bounds of the confidence interval that are random because they are function of the data.</p>
 <p>A confidence interval of level <span class="math inline">1-\alpha</span> should be interpreted like this: imagine that we repeat the same experiment many times, with the same experimental conditions, and that we build a confidence interval for <span class="math inline">\mu</span> for each of these replicate. Then, the true mean <span class="math inline">\mu</span> will lie in the confidence interval <span class="math inline">(1-\alpha)100\%</span> of the times.</p>
 <p>Let us check this property with a Monte Carlo simulation.</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-40_a4909f9263081b438e845afb02e5dcf6">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>n_replicate <span class="ot">&lt;-</span> <span class="fl">1e5</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span>; mu <span class="ot">&lt;-</span> <span class="dv">500</span>; sd <span class="ot">&lt;-</span> <span class="dv">40</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="fu">replicate</span>(n_replicate, {</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  x  <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, mu, sd)</span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  ci <span class="ot">&lt;-</span> <span class="fu">mean</span>(x) <span class="sc">+</span> <span class="fu">sd</span>(x)<span class="sc">/</span><span class="fu">sqrt</span>(n)<span class="sc">*</span><span class="fu">qt</span>(<span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>), n<span class="dv">-1</span>)</span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  (mu <span class="sc">&gt;</span> ci[<span class="dv">1</span>] <span class="sc">&amp;</span> mu <span class="sc">&lt;</span> ci[<span class="dv">2</span>])</span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(R)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
-<pre><code>[1] 0.9503</code></pre>
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-20_a902814db84b359a58930ac12fa4e500">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>n_replicate <span class="ot">&lt;-</span> <span class="fl">1e5</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span>; mu <span class="ot">&lt;-</span> <span class="dv">500</span>; sd <span class="ot">&lt;-</span> <span class="dv">40</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="fu">replicate</span>(n_replicate, {</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  x  <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, mu, sd)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  ci <span class="ot">&lt;-</span> <span class="fu">mean</span>(x) <span class="sc">+</span> <span class="fu">sd</span>(x)<span class="sc">/</span><span class="fu">sqrt</span>(n)<span class="sc">*</span><span class="fu">qt</span>(<span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>), n<span class="dv">-1</span>)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  (mu <span class="sc">&gt;</span> ci[<span class="dv">1</span>] <span class="sc">&amp;</span> mu <span class="sc">&lt;</span> ci[<span class="dv">2</span>])</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(R)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.94955</code></pre>
 </div>
 </div>
 </div>
 <div class="remark proof">
 <p><span class="proof-title"><em>Remark</em>. </span>The decision rule to reject or not the null hypothesis can be derived from the confidence interval. Indeed, the confidence interval plays the role of an acceptance region: we reject <span class="math inline">H_0</span> if <span class="math inline">\mu_0</span> does not belong to <span class="math inline">{\rm CI}_{1-\alpha}</span>.</p>
 <p>In the case of a one sided test, the output of <code>t.test</code> called confidence interval is indeed an acceptance region for <span class="math inline">\mu</span>, but not a “confidence interval” (we cannot seriously consider that <span class="math inline">\mu</span> can take any value above 500 for instance )</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-42_c4e5d63beb9886ce1c9d7fbd39b2d5c9">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(x_mean <span class="sc">+</span> x_sd<span class="sc">/</span><span class="fu">sqrt</span>(n)<span class="sc">*</span><span class="fu">qt</span>(alpha,df) , <span class="cn">Inf</span>),</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="sc">-</span><span class="cn">Inf</span>, x_mean <span class="sc">+</span> x_sd<span class="sc">/</span><span class="fu">sqrt</span>(n)<span class="sc">*</span><span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>alpha,df)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-21_c4278b87ba01f55cd99daa53006cc491">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(x_mean <span class="sc">+</span> x_sd<span class="sc">/</span><span class="fu">sqrt</span>(n)<span class="sc">*</span><span class="fu">qt</span>(alpha,df) , <span class="cn">Inf</span>),</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="sc">-</span><span class="cn">Inf</span>, x_mean <span class="sc">+</span> x_sd<span class="sc">/</span><span class="fu">sqrt</span>(n)<span class="sc">*</span><span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>alpha,df)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>         [,1]     [,2]
 [1,] 499.0229      Inf
 [2,]     -Inf 513.4207</code></pre>
@@ -772,18 +768,18 @@ p_{\rm value} &amp; = \mathbb{P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm ob
 <section id="what-should-we-test" class="level3" data-number="2.2.1">
 <h3 data-number="2.2.1" class="anchored" data-anchor-id="what-should-we-test"><span class="header-section-number">2.2.1</span> What should we test?</h3>
 <p>Let us now compare the weights of the male and female rats.</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-44_3692d7339f42e5e717f4212c5a693908">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="sc">%&gt;%</span> </span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> gender, <span class="at">y =</span> weight) <span class="sc">+</span></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="fu">aes</span>(<span class="at">fill =</span> gender)) <span class="sc">+</span> <span class="fu">geom_jitter</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span>  <span class="fu">ylab</span>(<span class="st">"weight (g)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-22_e8393e5e6e6863da97e61f0cf5c75b2b">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="sc">%&gt;%</span> </span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> gender, <span class="at">y =</span> weight) <span class="sc">+</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="fu">aes</span>(<span class="at">fill =</span> gender)) <span class="sc">+</span> <span class="fu">geom_jitter</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span>  <span class="fu">ylab</span>(<span class="st">"weight (g)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-single_files/figure-html/unnamed-chunk-44-1.png" class="img-fluid" width="960"></p>
+<p><img src="map566-lecture-single_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="960"></p>
 </div>
 </div>
 <p>Looking at the data is more than enough for concluding that the mean weight of the males is (much) larger than the mean weight of the females Computing a <span class="math inline">p</span>-value here is of little interest </p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-46_9f9065dd55d79413d7927e85af3a843b">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(gender) <span class="sc">%&gt;%</span> <span class="fu">summarize</span>(<span class="at">average_weight =</span> <span class="fu">mean</span>(weight)) <span class="sc">%&gt;%</span> </span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-23_48d16f92612b3fe07b672225e47c27ae">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(gender) <span class="sc">%&gt;%</span> <span class="fu">summarize</span>(<span class="at">average_weight =</span> <span class="fu">mean</span>(weight)) <span class="sc">%&gt;%</span> </span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
 <div data-pagedtable="false">
@@ -792,10 +788,10 @@ p_{\rm value} &amp; = \mathbb{P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm ob
   </script>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> rat_weight <span class="sc">%&gt;%</span> <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">"Male"</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(<span class="st">"weight"</span>)</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> rat_weight <span class="sc">%&gt;%</span> <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">"Female"</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(<span class="st">"weight"</span>)</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> rat_weight <span class="sc">%&gt;%</span> <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">"Male"</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(<span class="st">"weight"</span>)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> rat_weight <span class="sc">%&gt;%</span> <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">"Female"</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(<span class="st">"weight"</span>)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>
     Welch Two Sample t-test
 
@@ -810,15 +806,15 @@ mean of x mean of y
 </div>
 </div>
 <p>Let us see now what happens if we compare the control and GMO groups for the male rats.</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-48_cbe2febfbbe27548b20beba022d73002">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="sc">%&gt;%</span> <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">"Male"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> regime, <span class="at">y =</span> weight) <span class="sc">+</span></span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">fill =</span> regime)) <span class="sc">+</span> <span class="fu">geom_jitter</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span>  <span class="fu">ylab</span>(<span class="st">"weight (g)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-24_54fcb75a006199e8ae3c91329b9a3802">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="sc">%&gt;%</span> <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">"Male"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> regime, <span class="at">y =</span> weight) <span class="sc">+</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">fill =</span> regime)) <span class="sc">+</span> <span class="fu">geom_jitter</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span>  <span class="fu">ylab</span>(<span class="st">"weight (g)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-single_files/figure-html/unnamed-chunk-48-1.png" class="img-fluid" width="960"></p>
+<p><img src="map566-lecture-single_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="960"></p>
 </div>
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> rat_weight <span class="sc">%&gt;%</span> <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">"Male"</span> <span class="sc">&amp;</span> regime <span class="sc">==</span> <span class="st">"Control"</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(<span class="st">"weight"</span>)</span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> rat_weight <span class="sc">%&gt;%</span> <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">"Male"</span> <span class="sc">&amp;</span> regime <span class="sc">==</span> <span class="st">"GMO"</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(<span class="st">"weight"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> rat_weight <span class="sc">%&gt;%</span> <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">"Male"</span> <span class="sc">&amp;</span> regime <span class="sc">==</span> <span class="st">"Control"</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(<span class="st">"weight"</span>)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> rat_weight <span class="sc">%&gt;%</span> <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">"Male"</span> <span class="sc">&amp;</span> regime <span class="sc">==</span> <span class="st">"GMO"</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(<span class="st">"weight"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We observe a difference between the two empirical means (the mean weight after 14 weeks is greater in the control group), but we cannot say how significant this difference is by simply looking at the data. Performing a statistical test is now necessary.</p>
 <p>Let <span class="math inline">x_{1}, x_{2}, \ldots, x_{n_x}</span> be the weights of the <span class="math inline">n_x</span> male rats of the control group and <span class="math inline">y_{1}, y_{2}, \ldots, y_{n_x}</span> the weights of the <span class="math inline">n_y</span> male rats of the GMO group. We will assume normal distributions for both <span class="math inline">(x_{i})</span> and <span class="math inline">(y_{i})</span>:</p>
@@ -829,10 +825,10 @@ mean of x mean of y
 <section id="assuming-equal-variances" class="level3" data-number="2.2.2">
 <h3 data-number="2.2.2" class="anchored" data-anchor-id="assuming-equal-variances"><span class="header-section-number">2.2.2</span> Assuming equal variances</h3>
 <p>We can use the function <code>t.test</code> assuming first equal variances (<span class="math inline">\sigma^2_x=\sigma_y^2</span>)</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-50_d8fbffe3235edad3da1e01b1888d0ba2">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x, y, <span class="at">conf.level =</span> <span class="dv">1</span><span class="sc">-</span>alpha, <span class="at">var.equal =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-25_ae6dc05630e0a842463ceec80e1d63ae">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x, y, <span class="at">conf.level =</span> <span class="dv">1</span><span class="sc">-</span>alpha, <span class="at">var.equal =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>
     Two Sample t-test
 
@@ -854,27 +850,27 @@ mean of x mean of y
 p_{\rm value} &amp; = \mathbb{P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm obs}|) \\
 &amp;= \mathbb{P}(t_{n_x+n_y-2} \leq -T_{\rm stat}^{\rm obs}) + 1 - \mathbb{P}(t_{n_x+n_y-2} \leq T_{\rm stat}^{\rm obs})
 \end{aligned}</span></p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-52_a0242e79190824a1ea74b2dcaf3c0755">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>nx <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>ny <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>x_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(x)</span>
-<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>y_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(y)</span>
-<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>x_sc <span class="ot">&lt;-</span> <span class="fu">sum</span>((x<span class="sc">-</span>x_mean)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>y_sc <span class="ot">&lt;-</span> <span class="fu">sum</span>((y<span class="sc">-</span>y_mean)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>xy_sd <span class="ot">&lt;-</span> <span class="fu">sqrt</span>((x_sc<span class="sc">+</span>y_sc)<span class="sc">/</span>(nx<span class="sc">+</span>ny<span class="dv">-2</span>))</span>
-<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>t.stat <span class="ot">&lt;-</span> (x_mean<span class="sc">-</span>y_mean)<span class="sc">/</span>xy_sd<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">/</span>nx<span class="sc">+</span><span class="dv">1</span><span class="sc">/</span>ny)</span>
-<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> nx <span class="sc">+</span> ny <span class="sc">-</span><span class="dv">2</span></span>
-<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>p.value <span class="ot">&lt;-</span> <span class="fu">pt</span>(<span class="sc">-</span>t.stat, df) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span> <span class="fu">pt</span>(t.stat, df))</span>
-<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(t.stat, df, p.value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-26_e4d453c579e8fad4428d4f2d81e4ef39">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>nx <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>ny <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>x_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(x)</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>y_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(y)</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>x_sc <span class="ot">&lt;-</span> <span class="fu">sum</span>((x<span class="sc">-</span>x_mean)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>y_sc <span class="ot">&lt;-</span> <span class="fu">sum</span>((y<span class="sc">-</span>y_mean)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>xy_sd <span class="ot">&lt;-</span> <span class="fu">sqrt</span>((x_sc<span class="sc">+</span>y_sc)<span class="sc">/</span>(nx<span class="sc">+</span>ny<span class="dv">-2</span>))</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>t.stat <span class="ot">&lt;-</span> (x_mean<span class="sc">-</span>y_mean)<span class="sc">/</span>xy_sd<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">/</span>nx<span class="sc">+</span><span class="dv">1</span><span class="sc">/</span>ny)</span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> nx <span class="sc">+</span> ny <span class="sc">-</span><span class="dv">2</span></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>p.value <span class="ot">&lt;-</span> <span class="fu">pt</span>(<span class="sc">-</span>t.stat, df) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span> <span class="fu">pt</span>(t.stat, df))</span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(t.stat, df, p.value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>[1]  1.5426375 76.0000000  0.1270726</code></pre>
 </div>
 </div>
 <p>The confidence interval for the mean difference <span class="math inline">\mu_x-\mu_y</span> is computed as <span class="math display">{\rm CI}_{1-\alpha} = [\bar{x} - \bar{y} +s_p \sqrt{\frac{1}{n_x}+\frac{1}{n_y}}qt_{\frac{\alpha}{2},n_x+n_y-2} \ \ , \ \
 \bar{x} - \bar{y} +s_p \sqrt{\frac{1}{n_x}+\frac{1}{n_y}}qt_{1-\frac{\alpha}{2},n_x+n_y-2} ] </span></p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-54_30aea83a7cbdf1830387a55aa6df6f06">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>x_mean <span class="sc">-</span> y_mean  <span class="sc">+</span> xy_sd<span class="sc">*</span><span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">/</span>nx<span class="sc">+</span><span class="dv">1</span><span class="sc">/</span>ny)<span class="sc">*</span><span class="fu">qt</span>(<span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>), df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-27_e1249039ac923617dda5a6d3f590a51e">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>x_mean <span class="sc">-</span> y_mean  <span class="sc">+</span> xy_sd<span class="sc">*</span><span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">/</span>nx<span class="sc">+</span><span class="dv">1</span><span class="sc">/</span>ny)<span class="sc">*</span><span class="fu">qt</span>(<span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>), df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>[1] -4.358031 34.301621</code></pre>
 </div>
 </div>
@@ -882,11 +878,11 @@ p_{\rm value} &amp; = \mathbb{P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm ob
 <section id="assuming-different-variances" class="level3" data-number="2.2.3">
 <h3 data-number="2.2.3" class="anchored" data-anchor-id="assuming-different-variances"><span class="header-section-number">2.2.3</span> Assuming different variances</h3>
 <p>Assuming equal variances for the two groups may be disputable.</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-56_37e6446c3d98883a2cd86156e1dc6dcf">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="sc">%&gt;%</span> <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">"Male"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(regime) <span class="sc">%&gt;%</span> </span>
-<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(weight), <span class="at">sd =</span> <span class="fu">sd</span>(weight))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-28_cfdeb5b09946c1dd30ca2ca662e9760e">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="sc">%&gt;%</span> <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">"Male"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(regime) <span class="sc">%&gt;%</span> </span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(weight), <span class="at">sd =</span> <span class="fu">sd</span>(weight))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 3
   regime   mean    sd
   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;
@@ -895,9 +891,9 @@ p_{\rm value} &amp; = \mathbb{P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm ob
 </div>
 </div>
 <p>We can then use the <code>t.test</code> function with different variances (which is the default)</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-58_fe7ce5a8de65c7f5a53f92f5c06fd5d5">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x, y, <span class="at">conf.level =</span> <span class="dv">1</span><span class="sc">-</span>alpha)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-29_12fcc4cfc8dd4b6a53927a5f6683bec8">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x, y, <span class="at">conf.level =</span> <span class="dv">1</span><span class="sc">-</span>alpha)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>
     Welch Two Sample t-test
 
@@ -911,7 +907,7 @@ mean of x mean of y
  513.7077  498.7359 </code></pre>
 </div>
 </div>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-60_9ec0e641d0b36eaf427fdf2c93f32b95">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-30_c97b8b0c9b1f9d1515e308d8fba8d625">
 
 </div>
 <p>The Welch (or Satterthwaite) approximation to the degrees of freedom is used instead of <span class="math inline">n_x+n_y-2=</span> 76:</p>
@@ -919,24 +915,24 @@ mean of x mean of y
 <p>Furthermore, unlike in Student’s t-test with equal variances, the denominator is not based on a pooled variance estimate:</p>
 <p><span class="math display">T_{\rm stat} = \frac{\bar{x} - \bar{y}}{ \sqrt{{s_x^2}/{n_x}+{s_y^2}/{n_y}}}  </span> where <span class="math inline">s_x^2</span> and <span class="math inline">s_y^2</span> are the empirical variances of <span class="math inline">(x_i)</span> and <span class="math inline">(y_i)</span>: <span class="math display"> s_x^2 = \frac{1}{n_x-1}\sum_{i=1}^{n_x} (x_{i}-\bar{x})^2  \quad ; \quad
 s_y^2 = \frac{1}{n_y-1}\sum_{i=1}^{n_y} (y_{i}-\bar{y})^2</span></p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-62_b5d53e6be0ba56da5ec51f7593003885">
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>sbar.xy <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">var</span>(x)<span class="sc">/</span>nx<span class="sc">+</span><span class="fu">var</span>(y)<span class="sc">/</span>ny)</span>
-<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>t.stat <span class="ot">&lt;-</span> (x_mean<span class="sc">-</span>y_mean)<span class="sc">/</span>sbar.xy</span>
-<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>cx <span class="ot">&lt;-</span> x_sc<span class="sc">/</span>(nx<span class="dv">-1</span>)<span class="sc">/</span>nx</span>
-<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>cy <span class="ot">&lt;-</span> y_sc<span class="sc">/</span>(ny<span class="dv">-1</span>)<span class="sc">/</span>ny</span>
-<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>dfw <span class="ot">&lt;-</span> (cx <span class="sc">+</span> cy)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (cx<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>(nx<span class="dv">-1</span>) <span class="sc">+</span> cy<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>(ny<span class="dv">-1</span>))</span>
-<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>p.value <span class="ot">&lt;-</span> <span class="fu">pt</span>(<span class="sc">-</span>t.stat,dfw) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span> <span class="fu">pt</span>(t.stat,dfw))</span>
-<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(t.stat, dfw, p.value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-31_52d51191dd9705720578dba3340eba31">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>sbar.xy <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">var</span>(x)<span class="sc">/</span>nx<span class="sc">+</span><span class="fu">var</span>(y)<span class="sc">/</span>ny)</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>t.stat <span class="ot">&lt;-</span> (x_mean<span class="sc">-</span>y_mean)<span class="sc">/</span>sbar.xy</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>cx <span class="ot">&lt;-</span> x_sc<span class="sc">/</span>(nx<span class="dv">-1</span>)<span class="sc">/</span>nx</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>cy <span class="ot">&lt;-</span> y_sc<span class="sc">/</span>(ny<span class="dv">-1</span>)<span class="sc">/</span>ny</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>dfw <span class="ot">&lt;-</span> (cx <span class="sc">+</span> cy)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (cx<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>(nx<span class="dv">-1</span>) <span class="sc">+</span> cy<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>(ny<span class="dv">-1</span>))</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>p.value <span class="ot">&lt;-</span> <span class="fu">pt</span>(<span class="sc">-</span>t.stat,dfw) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span> <span class="fu">pt</span>(t.stat,dfw))</span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(t.stat, dfw, p.value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>[1]  1.5426375 75.9760868  0.1270739</code></pre>
 </div>
 </div>
 <p>The confidence interval for <span class="math inline">\mu_x-\mu_y</span> is now computed as</p>
 <p><span class="math display">{\rm CI}_{1-\alpha} = [\bar{x} - \bar{y} +\sqrt{\frac{s_x^2}{n_x}+\frac{s_y^2}{n_y}} \ qt_{\frac{\alpha}{2},\mathrm{df}_W} \ \ , \ \
 \bar{x} - \bar{y} +\sqrt{\frac{s_x^2}{n_x}+\frac{s_y^2}{n_y}} \ qt_{1-\frac{\alpha}{2},\mathrm{df}_W} ] </span></p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-64_efec25304dc022e56b74057937e31909">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>x_mean<span class="sc">-</span>y_mean  <span class="sc">+</span> sbar.xy<span class="sc">*</span><span class="fu">qt</span>(<span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>),dfw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-32_bf27f42765bb94e6ec2a8521785a7e4f">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>x_mean<span class="sc">-</span>y_mean  <span class="sc">+</span> sbar.xy<span class="sc">*</span><span class="fu">qt</span>(<span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>),dfw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>[1] -4.358129 34.301719</code></pre>
 </div>
 </div>
@@ -949,18 +945,18 @@ s_y^2 = \frac{1}{n_y-1}\sum_{i=1}^{n_y} (y_{i}-\bar{y})^2</span></p>
 <p>The Mann-Whitney-Wilcoxon test is a <em>non parametric test</em>: we don’t make the assumption that the distribution of the data belongs to a family of parametric ditributions.</p>
 <p>The logic behind the Wilcoxon test is quite simple. The data are ranked to produce two rank totals, one for each group. If there is a systematic difference between the two groups, then most of the high ranks will belong to one group and most of the low ranks will belong to the other one. As a result, the rank totals will be quite different and one of the rank totals will be quite small. On the other hand, if the two groups are similar, then high and low ranks will be distributed fairly evenly between the two groups and the rank totals will be fairly similar.</p>
 <p>In our example, we don’t clearly see any of the two groups on the right or on the left of the scatter plot</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-66_478a886c49bb73122df897d50a72a89d">
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="sc">%&gt;%</span> <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">"Male"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> weight, <span class="at">y =</span> <span class="fu">as.numeric</span>(<span class="fu">as.factor</span>(regime)), <span class="at">colour=</span>regime)) <span class="sc">+</span></span>
-<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="cn">NULL</span>) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="cn">NULL</span>, <span class="at">limits=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">6</span>,<span class="dv">9</span>)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"weight (g)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-33_4165801cb90db42a330f13a1d148d193">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="sc">%&gt;%</span> <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">"Male"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> weight, <span class="at">y =</span> <span class="fu">as.numeric</span>(<span class="fu">as.factor</span>(regime)), <span class="at">colour=</span>regime)) <span class="sc">+</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="cn">NULL</span>) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="cn">NULL</span>, <span class="at">limits=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">6</span>,<span class="dv">9</span>)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"weight (g)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-single_files/figure-html/unnamed-chunk-66-1.png" class="img-fluid" width="768"></p>
+<p><img src="map566-lecture-single_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid" width="768"></p>
 </div>
 </div>
 <p>We can check that the Mann-Whitney-Wilcoxon test is not significant (at the level 0.05)</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-68_4d8e812a373400c6f6406283d736dbbd">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wilcox.test</span>(x, y, <span class="at">alternative=</span><span class="st">"two.sided"</span>, <span class="at">conf.level=</span><span class="dv">1</span><span class="sc">-</span>alpha)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-34_bdeaadd2c605991bf9e148f9a7a03468">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wilcox.test</span>(x, y, <span class="at">alternative=</span><span class="st">"two.sided"</span>, <span class="at">conf.level=</span><span class="dv">1</span><span class="sc">-</span>alpha)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>
     Wilcoxon rank sum test with continuity correction
 
@@ -975,27 +971,27 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <li>define <span class="math inline">R_x</span> (resp. <span class="math inline">R_y</span>) as the sum of the ranks for the observations which came from sample <span class="math inline">x</span> (resp. <span class="math inline">y</span>)</li>
 <li>Let <span class="math inline">W_x = R_x - {n_x(n_x+1)}/{2}</span> and <span class="math inline">W_y = R_y - {n_y(n_y+1)}/{2}</span></li>
 </ul>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-70_dd0cc050427e7369af6d50f23c99db6c">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>nx <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>ny <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
-<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>Wx <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">rank</span>(<span class="fu">c</span>(x,y))[<span class="dv">1</span><span class="sc">:</span>nx]) <span class="sc">-</span> nx<span class="sc">*</span>(nx<span class="sc">+</span><span class="dv">1</span>)<span class="sc">/</span><span class="dv">2</span></span>
-<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>Wy <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">rank</span>(<span class="fu">c</span>(y,x))[<span class="dv">1</span><span class="sc">:</span>ny]) <span class="sc">-</span> ny<span class="sc">*</span>(ny<span class="sc">+</span><span class="dv">1</span>)<span class="sc">/</span><span class="dv">2</span></span>
-<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(Wx, Wy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-35_8405ca069bd83347b9364e87f23bb251">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>nx <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>ny <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>Wx <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">rank</span>(<span class="fu">c</span>(x,y))[<span class="dv">1</span><span class="sc">:</span>nx]) <span class="sc">-</span> nx<span class="sc">*</span>(nx<span class="sc">+</span><span class="dv">1</span>)<span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>Wy <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">rank</span>(<span class="fu">c</span>(y,x))[<span class="dv">1</span><span class="sc">:</span>ny]) <span class="sc">-</span> ny<span class="sc">*</span>(ny<span class="sc">+</span><span class="dv">1</span>)<span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(Wx, Wy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>[1] 904.5 616.5</code></pre>
 </div>
 </div>
 <p>For a two sided tests and assuming that <span class="math inline">W_x^{\rm obs}&gt;W_y^{\rm obs}</span>, the <span class="math inline">p</span>-value is <span class="math display"> p_{\rm value} =  \mathbb{P}(W_y \leq W_y^{\rm obs}) + \mathbb{P}(W_x \geq W_x^{\rm obs})</span> The distribution of <span class="math inline">W_x</span> and <span class="math inline">W_y</span> are tabulated and this <span class="math inline">p</span>-value can then be computed</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-72_f46b3274a98c163ea8f1c60a981ef51f">
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pwilcox</span>(Wy,ny,nx) <span class="sc">+</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pwilcox</span>(Wx,nx,ny)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-36_516f94dd23702f7a94c48be32f7d19be">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pwilcox</span>(Wy,ny,nx) <span class="sc">+</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pwilcox</span>(Wx,nx,ny)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.1508831</code></pre>
 </div>
 </div>
 <p>We could of course exchange the roles of <span class="math inline">x</span> and <span class="math inline">y</span>. In this case the test statistic would be <span class="math inline">W_y</span> but the p-value would be the same.</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-74_73e67f7b3d7d8435e19705c43e49c2e0">
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wilcox.test</span>(y, x, <span class="at">alternative=</span><span class="st">"two.sided"</span>, <span class="at">conf.level=</span><span class="dv">1</span><span class="sc">-</span>alpha)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-37_94597b99bd30ec4fc62022efdaf55a4b">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wilcox.test</span>(y, x, <span class="at">alternative=</span><span class="st">"two.sided"</span>, <span class="at">conf.level=</span><span class="dv">1</span><span class="sc">-</span>alpha)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>
     Wilcoxon rank sum test with continuity correction
 
@@ -1006,46 +1002,46 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 </div>
 <div class="remark proof">
 <p><span class="proof-title"><em>Remark</em>. </span>It is easy to show that <span class="math inline">W_x+W_y=n_x n_y</span></p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-76_4dcccad5a22de061ce6dab5f4308393b">
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(Wx<span class="sc">+</span>Wy, nx<span class="sc">*</span>ny)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-38_64faa2ea9d6ffb636bf1a165f361aaa9">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(Wx<span class="sc">+</span>Wy, nx<span class="sc">*</span>ny)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>[1] 1521 1521</code></pre>
 </div>
 </div>
 </div>
 <p>Unlike the t-test, the Mann-Whitney-Wilcoxon does not require the assumption of normal distributions. However, it is nearly as efficient as the t-test on normal distributions. That means that both tests have similar power.</p>
 <p>This important property can easily be checked by Monte Carlo simulation. Let us simulate <span class="math inline">L</span> replicates of the experiments under <span class="math inline">H_1</span>, assuming that <span class="math inline">\mu_y=\mu_x +15</span>. We can then compare the power of both tests by comparing the rejection rates of the null hypothesis.</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-78_485f4dfe8e39c64afa9c6919c4334cc3">
-<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>n_replicate <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
-<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
-<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>mu_x <span class="ot">&lt;-</span> <span class="dv">500</span>; mu_y <span class="ot">&lt;-</span> <span class="dv">520</span></span>
-<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a>sd_x <span class="ot">&lt;-</span> sd_y <span class="ot">&lt;-</span> <span class="dv">30</span></span>
-<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a>n_x <span class="ot">&lt;-</span> n_y <span class="ot">&lt;-</span> <span class="dv">40</span></span>
-<span id="cb70-6"><a href="#cb70-6" aria-hidden="true" tabindex="-1"></a><span class="fu">replicate</span>(n_replicate, {</span>
-<span id="cb70-7"><a href="#cb70-7" aria-hidden="true" tabindex="-1"></a>  x_new <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(nx, mu_x, sd_x)</span>
-<span id="cb70-8"><a href="#cb70-8" aria-hidden="true" tabindex="-1"></a>  y_new <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(ny, mu_y, sd_y)</span>
-<span id="cb70-9"><a href="#cb70-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">Student  =</span> <span class="fu">t.test</span>(x_new, y_new)<span class="sc">$</span>p.value <span class="sc">&lt;</span> alpha,</span>
-<span id="cb70-10"><a href="#cb70-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">Wilcoxon =</span> <span class="fu">wilcox.test</span>(x_new, y_new)<span class="sc">$</span>p.value <span class="sc">&lt;</span> alpha)</span>
-<span id="cb70-11"><a href="#cb70-11" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">%&gt;%</span> <span class="fu">rowMeans</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-39_a3ec5a3f54d72a79de3dcbf612e36c5c">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>n_replicate <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>mu_x <span class="ot">&lt;-</span> <span class="dv">500</span>; mu_y <span class="ot">&lt;-</span> <span class="dv">520</span></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>sd_x <span class="ot">&lt;-</span> sd_y <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>n_x <span class="ot">&lt;-</span> n_y <span class="ot">&lt;-</span> <span class="dv">40</span></span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a><span class="fu">replicate</span>(n_replicate, {</span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>  x_new <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(nx, mu_x, sd_x)</span>
+<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a>  y_new <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(ny, mu_y, sd_y)</span>
+<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">Student  =</span> <span class="fu">t.test</span>(x_new, y_new)<span class="sc">$</span>p.value <span class="sc">&lt;</span> alpha,</span>
+<span id="cb68-10"><a href="#cb68-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">Wilcoxon =</span> <span class="fu">wilcox.test</span>(x_new, y_new)<span class="sc">$</span>p.value <span class="sc">&lt;</span> alpha)</span>
+<span id="cb68-11"><a href="#cb68-11" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">%&gt;%</span> <span class="fu">rowMeans</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code> Student Wilcoxon 
-  0.8161   0.7986 </code></pre>
+  0.8215   0.8045 </code></pre>
 </div>
 </div>
 <p>On the other hand, the Wilcoxon test may be much more powerful than the t-test for non normal distributions when the empirical mean converges slowly in distribution to the normal distribution. Such is the case, for instance, of the log-normal ditribution which is strongly skewed for large variances.</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-80_a24532e75d3af7c547bd74c31344f24b">
-<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>mu_x <span class="ot">&lt;-</span> <span class="dv">5</span>; mu_y <span class="ot">&lt;-</span> <span class="dv">6</span></span>
-<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>sd_x <span class="ot">&lt;-</span> sd_y <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>n_x <span class="ot">&lt;-</span> n_y <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a><span class="fu">replicate</span>(n_replicate, {</span>
-<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>  x_new <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">rnorm</span>(n_x, mu_x, sd_x))</span>
-<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a>  y_new <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">rnorm</span>(n_y, mu_y, sd_y))</span>
-<span id="cb72-7"><a href="#cb72-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">Student  =</span> <span class="fu">t.test</span>(x_new, y_new, <span class="at">alternative=</span><span class="st">"two.sided"</span>)<span class="sc">$</span>p.value <span class="sc">&lt;</span> alpha,</span>
-<span id="cb72-8"><a href="#cb72-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Wilcoxon =</span> <span class="fu">wilcox.test</span>(x_new, y_new, <span class="at">alternative=</span><span class="st">"two.sided"</span>)<span class="sc">$</span>p.value <span class="sc">&lt;</span> alpha)</span>
-<span id="cb72-9"><a href="#cb72-9" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">%&gt;%</span> <span class="fu">rowMeans</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-40_f0d0ee8864a61e581ad0a689f0f162af">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>mu_x <span class="ot">&lt;-</span> <span class="dv">5</span>; mu_y <span class="ot">&lt;-</span> <span class="dv">6</span></span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>sd_x <span class="ot">&lt;-</span> sd_y <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>n_x <span class="ot">&lt;-</span> n_y <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a><span class="fu">replicate</span>(n_replicate, {</span>
+<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a>  x_new <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">rnorm</span>(n_x, mu_x, sd_x))</span>
+<span id="cb70-6"><a href="#cb70-6" aria-hidden="true" tabindex="-1"></a>  y_new <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">rnorm</span>(n_y, mu_y, sd_y))</span>
+<span id="cb70-7"><a href="#cb70-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">Student  =</span> <span class="fu">t.test</span>(x_new, y_new, <span class="at">alternative=</span><span class="st">"two.sided"</span>)<span class="sc">$</span>p.value <span class="sc">&lt;</span> alpha,</span>
+<span id="cb70-8"><a href="#cb70-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Wilcoxon =</span> <span class="fu">wilcox.test</span>(x_new, y_new, <span class="at">alternative=</span><span class="st">"two.sided"</span>)<span class="sc">$</span>p.value <span class="sc">&lt;</span> alpha)</span>
+<span id="cb70-9"><a href="#cb70-9" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">%&gt;%</span> <span class="fu">rowMeans</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code> Student Wilcoxon 
-  0.6749   0.8529 </code></pre>
+  0.6647   0.8460 </code></pre>
 </div>
 </div>
 </section>
@@ -1066,48 +1062,48 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 </ol>
 <p>As an illustration, assume that the diet has a real impact on the weight: after 14 weeks, rats fed with GMOs weigh in average 15g less than control rats.</p>
 <p>It will be extremly unlikely to conclude that there is an effect with only 10 rats per group, even if we observe a difference of 15g in the two samples.</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-82_46c75b26bf151e0416f2fb540e729eb3">
-<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">500</span></span>
-<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="dv">15</span></span>
-<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="dv">30</span></span>
-<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a>x.sim <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n,mu,sd)</span>
-<span id="cb74-6"><a href="#cb74-6" aria-hidden="true" tabindex="-1"></a>y.sim <span class="ot">&lt;-</span> x.sim <span class="sc">+</span> delta</span>
-<span id="cb74-7"><a href="#cb74-7" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x.sim, y.sim)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-41_c0e23f4d14504c72e7400af125d0c442">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="dv">15</span></span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>x.sim <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n,mu,sd)</span>
+<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a>y.sim <span class="ot">&lt;-</span> x.sim <span class="sc">+</span> delta</span>
+<span id="cb72-7"><a href="#cb72-7" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x.sim, y.sim)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>
     Welch Two Sample t-test
 
 data:  x.sim and y.sim
-t = -0.86885, df = 18, p-value = 0.3964
+t = -1.0057, df = 18, p-value = 0.3279
 alternative hypothesis: true difference in means is not equal to 0
 95 percent confidence interval:
- -51.27075  21.27075
+ -46.33544  16.33544
 sample estimates:
 mean of x mean of y 
- 512.2035  527.2035 </code></pre>
+ 515.9797  530.9797 </code></pre>
 </div>
 </div>
 <p>This basic example shows that a difference considered as biologically significant may not be statistically significant.</p>
 <p>On the other hand, a small difference considered as not biologically significant (1g for instance) may be considered as statistically significant if the group sizes are large enough.</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-84_c8a4115f7de6f299ad88733384ec4d7c">
-<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
-<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>x.sim <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n,mu,sd)</span>
-<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a>y.sim <span class="ot">&lt;-</span> x.sim <span class="sc">+</span> delta</span>
-<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x.sim, y.sim)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-42_46d0638e7db504c2ff4b424a71f6d649">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>x.sim <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n,mu,sd)</span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>y.sim <span class="ot">&lt;-</span> x.sim <span class="sc">+</span> delta</span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x.sim, y.sim)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>
     Welch Two Sample t-test
 
 data:  x.sim and y.sim
-t = -2.3791, df = 19998, p-value = 0.01737
+t = -2.3336, df = 19998, p-value = 0.01963
 alternative hypothesis: true difference in means is not equal to 0
 95 percent confidence interval:
- -1.8238848 -0.1761152
+ -1.8399455 -0.1600545
 sample estimates:
 mean of x mean of y 
- 499.7058  500.7058 </code></pre>
+ 500.0773  501.0773 </code></pre>
 </div>
 </div>
 <p>This example confirms the need for a power analysis as a complement of the comparison test. We will see that equivalence testing may also be relevant for evaluating what the data allows to say.</p>
@@ -1132,23 +1128,23 @@ mean of x mean of y
 &amp;= 1 - Ft_{\mathrm{df}}\left(qt_{1-\frac{\alpha}{2},\mathrm{df}} - \frac{\delta}{s_{xy}}\right) + Ft_{\mathrm{df}}\left(qt_{\frac{\alpha}{2},\mathrm{df}} - \frac{\delta}{s_{xy}}\right)
 \end{aligned} </span></p>
 <p>As an example, let us compute the probability to detect a difference in weight of 10g with two groups of 80 rats each and assuming that the standard deviation is 30g in each group.</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-86_f5e2f8a1563108641684b731b8dd67d9">
-<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>alpha<span class="ot">=</span><span class="fl">0.05</span></span>
-<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>nx_new <span class="ot">&lt;-</span> ny_new <span class="ot">&lt;-</span> <span class="dv">80</span></span>
-<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>delta_mu <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>x_sd <span class="ot">&lt;-</span> <span class="dv">30</span></span>
-<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> nx_new <span class="sc">+</span> ny_new<span class="dv">-2</span></span>
-<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> delta_mu<span class="sc">/</span>x_sd<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">/</span>nx_new<span class="sc">+</span><span class="dv">1</span><span class="sc">/</span>ny_new)</span>
-<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">-</span><span class="fu">pt</span>(<span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>,df)<span class="sc">-</span>dt,df) <span class="sc">+</span> <span class="fu">pt</span>(<span class="fu">qt</span>(alpha<span class="sc">/</span><span class="dv">2</span>,df)<span class="sc">-</span>dt,df) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-43_74e147b5604b3729a4ddbdf4f74453c5">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>alpha<span class="ot">=</span><span class="fl">0.05</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>nx_new <span class="ot">&lt;-</span> ny_new <span class="ot">&lt;-</span> <span class="dv">80</span></span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>delta_mu <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a>x_sd <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> nx_new <span class="sc">+</span> ny_new<span class="dv">-2</span></span>
+<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> delta_mu<span class="sc">/</span>x_sd<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">/</span>nx_new<span class="sc">+</span><span class="dv">1</span><span class="sc">/</span>ny_new)</span>
+<span id="cb76-7"><a href="#cb76-7" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">-</span><span class="fu">pt</span>(<span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>,df)<span class="sc">-</span>dt,df) <span class="sc">+</span> <span class="fu">pt</span>(<span class="fu">qt</span>(alpha<span class="sc">/</span><span class="dv">2</span>,df)<span class="sc">-</span>dt,df) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.5528906</code></pre>
 </div>
 </div>
 <p>The function <code>pwr.t.test</code> allows to compute this power:</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-88_256d0bd9e28be368ff079835def15ede">
-<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.t.test</span>(<span class="at">n =</span> nx_new, <span class="at">d =</span> delta_mu<span class="sc">/</span>x_sd, <span class="at">type =</span> <span class="st">"two.sample"</span>,</span>
-<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">alternative=</span><span class="st">"two.sided"</span>, <span class="at">sig.level =</span> alpha)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-44_903738177f661db07b58a5764e41ec1d">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.t.test</span>(<span class="at">n =</span> nx_new, <span class="at">d =</span> delta_mu<span class="sc">/</span>x_sd, <span class="at">type =</span> <span class="st">"two.sample"</span>,</span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">alternative=</span><span class="st">"two.sided"</span>, <span class="at">sig.level =</span> alpha)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>
      Two-sample t test power calculation 
 
@@ -1162,24 +1158,24 @@ NOTE: n is number in *each* group</code></pre>
 </div>
 </div>
 <p>Let us perform a Monte Carlo simulation, to check this result and better understand what it means. Imagine that the “true” difference in weight is <span class="math inline">\delta=10</span>g. Then, if could repeat the same experiment a (very) large number of times, we would reject the null hypothesis in <span class="math inline">55\%</span> of cases.</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-90_3a3e312e6d72b04f7767b5cb7cd4c774">
-<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>n_replicate <span class="ot">&lt;-</span> <span class="fl">1e5</span></span>
-<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>mu_x <span class="ot">&lt;-</span> <span class="dv">500</span></span>
-<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>mu_y <span class="ot">&lt;-</span> mu_x <span class="sc">+</span> delta_mu</span>
-<span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="fu">replicate</span>(n_replicate, {</span>
-<span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a>  x_new <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(nx_new, mu_x, x_sd)</span>
-<span id="cb82-6"><a href="#cb82-6" aria-hidden="true" tabindex="-1"></a>  y_new <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(ny_new, mu_y, x_sd)</span>
-<span id="cb82-7"><a href="#cb82-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t.test</span>(x_new, y_new, <span class="at">alternative=</span><span class="st">"two.sided"</span>)<span class="sc">$</span>p.value <span class="sc">&lt;</span> alpha</span>
-<span id="cb82-8"><a href="#cb82-8" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb82-9"><a href="#cb82-9" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(R)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
-<pre><code>[1] 0.55311</code></pre>
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-45_884a1771e8323d8da2db582a214e5b70">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>n_replicate <span class="ot">&lt;-</span> <span class="fl">1e5</span></span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>mu_x <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>mu_y <span class="ot">&lt;-</span> mu_x <span class="sc">+</span> delta_mu</span>
+<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="fu">replicate</span>(n_replicate, {</span>
+<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a>  x_new <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(nx_new, mu_x, x_sd)</span>
+<span id="cb80-6"><a href="#cb80-6" aria-hidden="true" tabindex="-1"></a>  y_new <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(ny_new, mu_y, x_sd)</span>
+<span id="cb80-7"><a href="#cb80-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t.test</span>(x_new, y_new, <span class="at">alternative=</span><span class="st">"two.sided"</span>)<span class="sc">$</span>p.value <span class="sc">&lt;</span> alpha</span>
+<span id="cb80-8"><a href="#cb80-8" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb80-9"><a href="#cb80-9" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(R)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.55416</code></pre>
 </div>
 </div>
 <p>We may consider this probability as too small. If our objective is a power of 80% at least, with the same significance level, we need to increase the sample size.</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-92_49bc10b5ab95296450a66d59475b5141">
-<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.t.test</span>(<span class="at">power =</span> <span class="fl">0.8</span>, <span class="at">d =</span> delta_mu<span class="sc">/</span>x_sd, <span class="at">sig.level=</span>alpha) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-46_93101dcadfff7e80f9ac4e9fa6fe80c6">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.t.test</span>(<span class="at">power =</span> <span class="fl">0.8</span>, <span class="at">d =</span> delta_mu<span class="sc">/</span>x_sd, <span class="at">sig.level=</span>alpha) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>
      Two-sample t test power calculation 
 
@@ -1192,23 +1188,23 @@ NOTE: n is number in *each* group</code></pre>
 NOTE: n is number in *each* group</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-94_cebffcd8b38a0ea31731405c1796654d">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-47_2213fb73ca8dfee29efc9263c65f4e00">
 
 </div>
 <p>Indeed, we see that <span class="math inline">n\geq</span> 143 animals per group are required in order to reach a power of 80%.</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-96_1ab09a4e9d2f4bef83b0e783af8b7377">
-<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>nx_new <span class="ot">&lt;-</span> ny_new <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(<span class="fu">pwr.t.test</span>(<span class="at">power=</span><span class="fl">0.8</span>, <span class="at">d =</span> delta_mu<span class="sc">/</span>x_sd, <span class="at">sig.level=</span>alpha)<span class="sc">$</span>n)</span>
-<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> nx_new <span class="sc">+</span> ny_new <span class="sc">-</span> <span class="dv">2</span></span>
-<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> delta_mu<span class="sc">/</span>x_sd<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">/</span>nx_new <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>ny_new)</span>
-<span id="cb86-4"><a href="#cb86-4" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">-</span><span class="fu">pt</span>(<span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>,df)<span class="sc">-</span>dt,df) <span class="sc">+</span> <span class="fu">pt</span>(<span class="fu">qt</span>(alpha<span class="sc">/</span><span class="dv">2</span>,df)<span class="sc">-</span>dt,df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-48_dc38f97f1c946174c3ee95850985b04c">
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>nx_new <span class="ot">&lt;-</span> ny_new <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(<span class="fu">pwr.t.test</span>(<span class="at">power=</span><span class="fl">0.8</span>, <span class="at">d =</span> delta_mu<span class="sc">/</span>x_sd, <span class="at">sig.level=</span>alpha)<span class="sc">$</span>n)</span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> nx_new <span class="sc">+</span> ny_new <span class="sc">-</span> <span class="dv">2</span></span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> delta_mu<span class="sc">/</span>x_sd<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">/</span>nx_new <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>ny_new)</span>
+<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">-</span><span class="fu">pt</span>(<span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>,df)<span class="sc">-</span>dt,df) <span class="sc">+</span> <span class="fu">pt</span>(<span class="fu">qt</span>(alpha<span class="sc">/</span><span class="dv">2</span>,df)<span class="sc">-</span>dt,df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.8020466</code></pre>
 </div>
 </div>
 <p>An alternative for increasing the power consists in increasing the type I error rate</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-98_27420f206d762bde36d8718e132fdf71">
-<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.t.test</span>(<span class="at">power=</span><span class="fl">0.8</span>, <span class="at">d=</span>delta_mu<span class="sc">/</span>x_sd, <span class="at">n =</span> <span class="dv">80</span>, <span class="at">sig.level =</span> <span class="cn">NULL</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-49_6059ce01fdf005a4514b1f570965d59b">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.t.test</span>(<span class="at">power=</span><span class="fl">0.8</span>, <span class="at">d=</span>delta_mu<span class="sc">/</span>x_sd, <span class="at">n =</span> <span class="dv">80</span>, <span class="at">sig.level =</span> <span class="cn">NULL</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>
      Two-sample t test power calculation 
 

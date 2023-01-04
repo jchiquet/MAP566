@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.262">
+<meta name="generator" content="quarto-1.2.269">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -175,7 +175,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <li class="dropdown-header">Exercices</li>
         <li>
     <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html">
- <span class="dropdown-text">Hypothesis Tesing</span></a>
+ <span class="dropdown-text">Statistical tests: exercices</span></a>
   </li>  
     </ul>
   </li>
@@ -431,7 +431,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="requirements" class="level3" data-number="1.1">
 <h3 data-number="1.1" class="anchored" data-anchor-id="requirements"><span class="header-section-number">1.1</span> Requirements</h3>
 <p>The packages required for the analysis are <code>igraph</code>, <code>igraphdata</code>, <code>aricode</code> plus some others for data manipulation and representation.</p>
-<div class="cell" data-hash="map566-lab-graph-partionning_cache/html/packages_1fc34c5d9f4c1884e8d4b00093feec0e">
+<div class="cell" data-hash="map566-lab-graph-partionning_cache/html/packages_16fb17ae2c6d6b8a07a267404fb5311b">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)     <span class="co"># graph manipulation</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraphdata) <span class="co"># network data manipulation</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)  <span class="co"># data manipulation</span></span>
@@ -456,15 +456,15 @@ Advice
 <h3 data-number="1.2" class="anchored" data-anchor-id="data-set-friendship-network-of-a-uk-university-faculty"><span class="header-section-number">1.2</span> Data set: Friendship network of a UK university faculty</h3>
 <p>The personal friendship network of a faculty of a UK university, consists of 81 vertices (individuals) and 817 directed and weighted connections. The school affiliation of each individual is stored as a vertex attribute. This dataset can serve as a tested for community detection algorithms.</p>
 <p>We consider a undirected version of this network, available with the package <strong>igraphdata</strong>:</p>
-<div class="cell" data-hash="map566-lab-graph-partionning_cache/html/import dataset_9232089cb0d06a4438279a6d396f8f56">
+<div class="cell" data-hash="map566-lab-graph-partionning_cache/html/import dataset_6939199657c2eb65b2935ac22ff6b37a">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"UKfaculty"</span>, <span class="at">package =</span> <span class="st">"igraphdata"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>UKfaculty <span class="ot">&lt;-</span> <span class="fu">as.undirected</span>(UKfaculty)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>UKfaculty</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
-<pre><code>IGRAPH 09e6fee U-W- 81 577 -- 
+<div class="cell-output cell-output-stdout">
+<pre><code>IGRAPH 34aa9ed U-W- 81 577 -- 
 + attr: Type (g/c), Date (g/c), Citation (g/c), Author (g/c), Group
 | (v/n), weight (e/n)
-+ edges from 09e6fee:
++ edges from 34aa9ed:
  [1]  1-- 4  3-- 4  5-- 6  5-- 7  6-- 7  3-- 9  4-- 9  5-- 9  5--10  7--10
 [11]  5--12  7--12  5--13  7--13 10--13 12--13  2--15 14--15  5--16  7--16
 [21] 12--16 13--16  3--17  4--17  9--17  2--18  7--18 15--18 15--19 18--19

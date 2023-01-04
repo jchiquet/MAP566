@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.262">
+<meta name="generator" content="quarto-1.2.269">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -175,7 +175,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <li class="dropdown-header">Exercices</li>
         <li>
     <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html">
- <span class="dropdown-text">Hypothesis Tesing</span></a>
+ <span class="dropdown-text">Statistical tests: exercices</span></a>
   </li>  
     </ul>
   </li>
@@ -419,7 +419,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="preliminary" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="preliminary"><span class="header-section-number">1</span> Preliminary</h2>
 <p>Only functions from <code>R</code>-base and stats (preloaded) are required plus packages from the <strong>tidyverse</strong> for data representation and manipulation.</p>
-<div class="cell" data-hash="map566-lab-mixture-models_cache/html/mixture-model-lab-config_11bb28428d2e4da8bd1aff482954dd96">
+<div class="cell" data-hash="map566-lab-mixture-models_cache/html/mixture-model-lab-config_ea7e02e2b896baadf5203ded8265470c">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -427,11 +427,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="faithful-data" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="faithful-data"><span class="header-section-number">2</span> Faithful data</h2>
 <p>The <code>faithful</code> data consist of the waiting time between eruptions and the duration of the eruption for the Old Faithful geyser in Yellowstone National Park, Wyoming, USA.</p>
-<div class="cell" data-hash="map566-lab-mixture-models_cache/html/mixture-faitful-load_c41b0fea805d364bd39b3ddd706f5361">
+<div class="cell" data-hash="map566-lab-mixture-models_cache/html/mixture-faitful-load_84303a7fc1d9df28d6c9e27c6f04999d">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"faithful"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>faithful <span class="sc">%&gt;%</span> </span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x=</span>waiting) <span class="sc">+</span> <span class="fu">geom_histogram</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"waiting (mm)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stderr">
+<div class="cell-output cell-output-stderr">
 <pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 </div>
 <div class="cell-output-display">
@@ -448,7 +448,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="hint-skeleton-of-em-for-1d-mixture-of-gaussian" class="level3" data-number="2.1">
 <h3 data-number="2.1" class="anchored" data-anchor-id="hint-skeleton-of-em-for-1d-mixture-of-gaussian"><span class="header-section-number">2.1</span> Hint: skeleton of EM for 1D mixture of Gaussian</h3>
 <p>We follow what has been done during the course: we define the function that computes the value of the likelihood for each point in each component. It will be used to compute the posterior probabilities in the E-step.</p>
-<div class="cell" data-hash="map566-lab-mixture-models_cache/html/auxiliary function_249a13c86d4f937ec26ef470a0cd0037">
+<div class="cell" data-hash="map566-lab-mixture-models_cache/html/auxiliary function_ed198e4e3cd4aa116c5f4a24e6290726">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## likelihood (density) of each point in each component</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="do">## data (x) is fixed while theta is variable</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>dcomponents <span class="ot">&lt;-</span> <span class="cf">function</span>(theta, x) {</span>
@@ -460,7 +460,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then, we define an EM where the function that computes the M step is given as an argument:</p>
-<div class="cell" data-hash="map566-lab-mixture-models_cache/html/general EM_937a7c8f11a94fc0f68891aaf5a27050">
+<div class="cell" data-hash="map566-lab-mixture-models_cache/html/general EM_3c998f1c1fe8ae994fa43c2fbb96e6a2">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>mixture_gaussian1D <span class="ot">&lt;-</span> </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(x,      <span class="co"># a n-vector of data</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>           theta0, <span class="co"># starting values of vector paramter</span></span>
@@ -500,7 +500,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="epilepsy-data" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="epilepsy-data"><span class="header-section-number">3</span> Epilepsy data</h2>
 <p>The data <code>seizures.csv</code> consists of daily counts of epileptic seizures for 6 patients.</p>
-<div class="cell" data-hash="map566-lab-mixture-models_cache/html/mixture-seizures-load_cf724e0f5c8c8185c2260707ba4881d8">
+<div class="cell" data-hash="map566-lab-mixture-models_cache/html/mixture-seizures-load_e9d81ae4fd4106d4e5b27d8770f1598f">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>seizures <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'../../data/seizures.csv'</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>seizures <span class="sc">%&gt;%</span> </span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> nsz) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>( <span class="sc">~</span> id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

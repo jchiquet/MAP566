@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.262">
+<meta name="generator" content="quarto-1.2.269">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -194,7 +194,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <li class="dropdown-header">Exercices</li>
         <li>
     <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html">
- <span class="dropdown-text">Hypothesis Tesing</span></a>
+ <span class="dropdown-text">Statistical tests: exercices</span></a>
   </li>  
     </ul>
   </li>
@@ -420,7 +420,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="preliminary" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="preliminary"><span class="header-section-number">1</span> Preliminary</h2>
 <p>Only functions from <code>R</code>-base and stats (preloaded) are required plus packages from the <strong>tidyverse</strong> for data representation and manipulation.</p>
-<div class="cell" data-hash="map566-lab-polynomial-regression_cache/html/linear-regression-config_4c92fe84e7f3301d22cc7304e0c67905">
+<div class="cell" data-hash="map566-lab-polynomial-regression_cache/html/linear-regression-config_02f225481d6297c19142862aafd7c5f5">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify) <span class="co"># extend some ggplot2 features</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -430,7 +430,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 data-number="2" class="anchored" data-anchor-id="introduction"><span class="header-section-number">2</span> Introduction</h2>
 <p>The file <code>ratWeight.csv</code> consists of rat weights measured over 14 weeks during a subchronic toxicity study related to the question of genetically modified (GM) corn.</p>
 <p>We will only consider the weight of rat B38625.</p>
-<div class="cell" data-hash="map566-lab-polynomial-regression_cache/html/linear-regression-read_4d612d72dc7eedf1dca1a6a5ec80a88a">
+<div class="cell" data-hash="map566-lab-polynomial-regression_cache/html/linear-regression-read_e7fa37ac55e302fbb11d35884aaa380c">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../data/ratWeight.csv"</span>) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(id <span class="sc">==</span> <span class="st">'B38625'</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">

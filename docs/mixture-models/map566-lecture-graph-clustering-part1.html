@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.262">
+<meta name="generator" content="quarto-1.2.269">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -213,7 +213,7 @@ div.csl-indent {
         <li class="dropdown-header">Exercices</li>
         <li>
     <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html">
- <span class="dropdown-text">Hypothesis Tesing</span></a>
+ <span class="dropdown-text">Statistical tests: exercices</span></a>
   </li>  
     </ul>
   </li>
@@ -854,7 +854,7 @@ Idea
 <span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">gorder</span>(blog), A)</span>
 <span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="fu">cut</span>(blog, A, B)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.942483</code></pre>
+<pre><code>[1] 1.880536</code></pre>
 </div>
 </div>
 </section>
@@ -936,31 +936,34 @@ Heuristics for spectral clustering
 <div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/Fiedler-blogosphere-plot-1_14f420fe83d85a00e7493b47ee1a131c">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(<span class="at">y =</span> fiedler, <span class="at">colour =</span> party) <span class="sc">+</span> </span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  viridis<span class="sc">::</span><span class="fu">scale_color_viridis</span>(<span class="at">discrete =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: `qplot()` was deprecated in ggplot2 3.4.0.</code></pre>
+</div>
 <div class="cell-output-display">
 <p><img src="map566-lecture-graph-clustering-part1_files/figure-html/Fiedler-blogosphere-plot-1-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Also, and since the original motivation of the graph-cut is for two-way partionning, we collapse levels from the vector of party into a simplified left/right view (we keep the analysts into a third separated group)</p>
 <div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/left-right-party_242261bb9576b59c45f69ce7d325ca0d">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>left_vs_right <span class="ot">&lt;-</span> </span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  forcats<span class="sc">::</span><span class="fu">fct_collapse</span>(party, </span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">left =</span> <span class="fu">c</span>(<span class="st">"green"</span>, <span class="st">"left"</span>, <span class="st">"far-left"</span>, <span class="st">"center-left"</span>),</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">right =</span> <span class="fu">c</span>(<span class="st">"right"</span>, <span class="st">"liberal"</span>, <span class="st">"center-rigth"</span>),</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">analyst =</span> <span class="st">"analyst"</span></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>left_vs_right <span class="ot">&lt;-</span> </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  forcats<span class="sc">::</span><span class="fu">fct_collapse</span>(party, </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">left =</span> <span class="fu">c</span>(<span class="st">"green"</span>, <span class="st">"left"</span>, <span class="st">"far-left"</span>, <span class="st">"center-left"</span>),</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">right =</span> <span class="fu">c</span>(<span class="st">"right"</span>, <span class="st">"liberal"</span>, <span class="st">"center-rigth"</span>),</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">analyst =</span> <span class="st">"analyst"</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/Fiedler-blogosphere-plot-2_e2721fdb28d4a152363d5817522ad3fe">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(<span class="at">y =</span> fiedler, <span class="at">colour =</span> left_vs_right) <span class="sc">+</span> </span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  viridis<span class="sc">::</span><span class="fu">scale_color_viridis</span>(<span class="at">discrete =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(<span class="at">y =</span> fiedler, <span class="at">colour =</span> left_vs_right) <span class="sc">+</span> </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  viridis<span class="sc">::</span><span class="fu">scale_color_viridis</span>(<span class="at">discrete =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="map566-lecture-graph-clustering-part1_files/figure-html/Fiedler-blogosphere-plot-2-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>We can see that there exists an optimum value (or threshold) to separate left from right: if we compute the adjusted Rand index<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> between a bi-partionning obtained by thresholding the Fidler vector and our reference vector <code>left_vs_right</code>, we can see that there exists an optimal threshold maximizing this quantity:</p>
 <div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/ARIs_2656031ef7ec096c634c279056c9be3a">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>thresholds <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span>.<span class="dv">1</span>, .<span class="dv">1</span>, <span class="at">len =</span> <span class="dv">100</span>)</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>ARIs <span class="ot">&lt;-</span> <span class="fu">map_dbl</span>(thresholds, <span class="sc">~</span><span class="fu">ARI</span>(left_vs_right, fiedler <span class="sc">&gt;</span> .))</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(thresholds, ARIs) <span class="sc">+</span> <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> thresholds[<span class="fu">which.max</span>(ARIs)]) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>thresholds <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span>.<span class="dv">1</span>, .<span class="dv">1</span>, <span class="at">len =</span> <span class="dv">100</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>ARIs <span class="ot">&lt;-</span> <span class="fu">map_dbl</span>(thresholds, <span class="sc">~</span><span class="fu">ARI</span>(left_vs_right, fiedler <span class="sc">&gt;</span> .))</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(thresholds, ARIs) <span class="sc">+</span> <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> thresholds[<span class="fu">which.max</span>(ARIs)]) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="map566-lecture-graph-clustering-part1_files/figure-html/ARIs-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -1039,29 +1042,29 @@ Pseudo code for normalized spectral clustering
 </div>
 </div>
 <div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/spectral_clustering_572acfcbcfbbc3cb26fbbd3931faac3f">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>spectral_clustering <span class="ot">&lt;-</span> <span class="cf">function</span>(graph, nb_cluster, <span class="at">normalized =</span> <span class="cn">TRUE</span>) {</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Compute Laplcian matrix</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  L <span class="ot">&lt;-</span> <span class="fu">laplacian_matrix</span>(graph, <span class="at">normalized =</span> normalized) </span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Generates indices of last (smallest) K vectors</span></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  selected <span class="ot">&lt;-</span> <span class="fu">rev</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(L))[<span class="dv">1</span><span class="sc">:</span>nb_cluster] </span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Extract an normalized eigen-vectors</span></span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  U <span class="ot">&lt;-</span> <span class="fu">eigen</span>(L)<span class="sc">$</span>vectors[, selected, drop <span class="ot">=</span> <span class="cn">FALSE</span>]  <span class="co"># spectral decomposition</span></span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  U <span class="ot">&lt;-</span> <span class="fu">sweep</span>(U, <span class="dv">1</span>, <span class="fu">sqrt</span>(<span class="fu">rowSums</span>(U<span class="sc">^</span><span class="dv">2</span>)), <span class="st">'/'</span>)    </span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Perform k-means</span></span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(U, nb_cluster, <span class="at">nstart =</span> <span class="dv">40</span>)<span class="sc">$</span>cl</span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>  res</span>
-<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>spectral_clustering <span class="ot">&lt;-</span> <span class="cf">function</span>(graph, nb_cluster, <span class="at">normalized =</span> <span class="cn">TRUE</span>) {</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Compute Laplcian matrix</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  L <span class="ot">&lt;-</span> <span class="fu">laplacian_matrix</span>(graph, <span class="at">normalized =</span> normalized) </span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Generates indices of last (smallest) K vectors</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  selected <span class="ot">&lt;-</span> <span class="fu">rev</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(L))[<span class="dv">1</span><span class="sc">:</span>nb_cluster] </span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Extract an normalized eigen-vectors</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  U <span class="ot">&lt;-</span> <span class="fu">eigen</span>(L)<span class="sc">$</span>vectors[, selected, drop <span class="ot">=</span> <span class="cn">FALSE</span>]  <span class="co"># spectral decomposition</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  U <span class="ot">&lt;-</span> <span class="fu">sweep</span>(U, <span class="dv">1</span>, <span class="fu">sqrt</span>(<span class="fu">rowSums</span>(U<span class="sc">^</span><span class="dv">2</span>)), <span class="st">'/'</span>)    </span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Perform k-means</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(U, nb_cluster, <span class="at">nstart =</span> <span class="dv">40</span>)<span class="sc">$</span>cl</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>  res</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let use perform spectral clustering on the blogosphere for various number of group. We get similar performance than the best hierarchical clustering methods found above:</p>
 <div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/spectral-blog_b85ec9484d8354b6de37c451e9861e99">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>perf<span class="sc">$</span>spectral <span class="ot">&lt;-</span> <span class="fu">map</span>(nb_cluster, <span class="sc">~</span><span class="fu">spectral_clustering</span>(blog, .)) <span class="sc">%&gt;%</span> <span class="fu">map_dbl</span>(ARI, party) </span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>perf <span class="sc">%&gt;%</span>  </span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>nb_cluster, <span class="at">names_to =</span> <span class="st">"distance"</span>, <span class="at">values_to =</span> <span class="st">"ARI"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(distance) <span class="sc">%&gt;%</span> </span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> nb_cluster, <span class="at">y =</span> ARI, <span class="at">color =</span> distance) <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis</span>(<span class="at">discrete =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>perf<span class="sc">$</span>spectral <span class="ot">&lt;-</span> <span class="fu">map</span>(nb_cluster, <span class="sc">~</span><span class="fu">spectral_clustering</span>(blog, .)) <span class="sc">%&gt;%</span> <span class="fu">map_dbl</span>(ARI, party) </span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>perf <span class="sc">%&gt;%</span>  </span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>nb_cluster, <span class="at">names_to =</span> <span class="st">"distance"</span>, <span class="at">values_to =</span> <span class="st">"ARI"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(distance) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> nb_cluster, <span class="at">y =</span> ARI, <span class="at">color =</span> distance) <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis</span>(<span class="at">discrete =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="map566-lecture-graph-clustering-part1_files/figure-html/spectral-blog-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -1070,8 +1073,8 @@ Pseudo code for normalized spectral clustering
 <div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/spectral-blog-plot_87eca3a0717b626a7a811c26c8ad7f4b">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotMyMatrix</span>(<span class="fu">as_adj</span>(blog, <span class="at">sparse =</span> <span class="cn">FALSE</span>),</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">clustering =</span> <span class="fu">list</span>(<span class="at">row =</span> <span class="fu">spectral_clustering</span>(blog, <span class="dv">6</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotMyMatrix</span>(<span class="fu">as_adj</span>(blog, <span class="at">sparse =</span> <span class="cn">FALSE</span>),</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">clustering =</span> <span class="fu">list</span>(<span class="at">row =</span> <span class="fu">spectral_clustering</span>(blog, <span class="dv">6</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="map566-lecture-graph-clustering-part1_files/figure-html/spectral-blog-plot-1.png" class="img-fluid" width="672"></p>
