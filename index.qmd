@@ -8,7 +8,7 @@ The objective of this course is to show students how statistics is used in pract
 
 The students will learn to select and use appropriate statistical methodologies and acquire solid and practical skills by working-out examples on real-world data sets from various areas including medicine, genomics, ecology, and others.
 
-All analyses will be conducted mainly with the R software, possibly with interfacing to Python. No strong knowledge neither of R nor Python programming is required (only basic scripting).
+All analyses will be conducted mainly with the R software No strong knowledge neither of R is required (only basic scripting). You can find help easily on the web.
 
 ::: {.callout-note appearance="simple"}
 
@@ -21,9 +21,9 @@ We only have made some adjustments to it.
 
 ## Schedule (tentative) {.unnumbered}
 
-**Teachers** : Julien Chiquet (lecture + 1 PC), Geneviève Robin (2 PC)
+**Teachers** : Julien Chiquet (lecture + PC1), Katia Meziani (PC2), Zacharie Naulet (PC3)
 
-**Course Evaluation**: 2 individual homework assignments + a final exam/project 
+**Course Evaluation**: 1 or 2 group projects + 1 individual report in PC + a final exam/project 
 
 **Course Language**: French with all material in English
 
