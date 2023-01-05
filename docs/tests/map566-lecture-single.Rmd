@@ -464,6 +464,101 @@ $${\rm CI}_{1-\alpha} = [\bar{x} - \bar{y} +\sqrt{\frac{s_x^2}{n_x}+\frac{s_y^2}
 x_mean-y_mean  + sbar.xy*qt(c(alpha/2,1-alpha/2),dfw)
 ```
 
+## Power of a t-test
+
+Until now, we have demonstrated that the experimental data does not highlight any significant difference in weight between the control group and the GMO group.
+
+Of course, that does not mean that there is no difference between the two groups. Indeed, **absence of evidence is not evidence of absence**. In fact, no experimental study would be able to demonstrate the absence of effect of the diet on the weight. 
+
+Now, the appropriate question is rather to evaluate what the experimental study can detect.
+If feeding a population of rats with GMOs has a signicant biological effect on the weight, can we ensure with a reasonable level of confidence that our statistical test will reject the null hypothesis and conclude that there is indeed a difference in weight between the two groups?
+
+A *power analysis* allows us to determine the sample size required to detect an effect of a given size with a given degree of confidence. Conversely, it allows us to determine the probability of detecting an effect of a given size with a given level of confidence, under sample size constraints.
+
+For a given  $\delta \in {\mathbb R}$, let $\beta(\delta)$ be the type II error rate, i.e. the probability to fail rejecting $H_0$ when $\mu_x-\mu_y = \delta$, with $\delta\neq 0$.
+
+
+The power of the test is the probability to reject the null hypothesis when it is false. It is also a function of $\delta =\mu_x-\mu_y$ defined as
+
+$$ \begin{aligned}
+\eta(\delta) &= 1 - \beta(\delta) \\
+&= \mathbb{P}(\text{reject } H_0 \ | \ \mu_x-\mu_y=\delta )
+\end{aligned} $$
+
+Remember that, for a two sided test,  we reject the null hypothesis when  $|T_{\rm stat}| > qt_{1-\alpha/2, \mathrm{df}}$, where $\mathrm{df}$ is the appropriate degree of freedom.
+
+On the other hand, ${(\bar{x} - \bar{y} - \delta)}/{s_{xy}}$, where $s_{xy} = \sqrt{{s_x^2}/{n_x}+{s_y^2}/{n_y}}$, follows a $t$-distribution with $\mathrm{df}$ degrees of freedom.
+Thus,
+
+$$ \begin{aligned}
+\eta(\delta) &= 1 - \mathbb{P}\left(qt_{\frac{\alpha}{2},\mathrm{df}} < T_{\rm stat} < qt_{1 -\frac{\alpha}{2},\mathrm{df}} \ | \ \mu_x-\mu_y=\delta\right) \\
+& = 1- \mathbb{P}\left(qt_{\frac{\alpha}{2},\mathrm{df}} < \frac{\bar{x} - \bar{y}}{s_{xy}} < qt_{1-\frac{\alpha}{2},\mathrm{df}} \ | \ \mu_x-\mu_y=\delta\right) \\
+&= 1- \mathbb{P}\left(qt_{\frac{\alpha}{2},\mathrm{df}} - \frac{\delta}{s_{xy}} < \frac{\bar{x} - \bar{y} - \delta}{s_{xy}} < qt_{1-\frac{\alpha}{2},\mathrm{df}} - \frac{\delta}{s_{xy}} \ | \ \mu_x-\mu_y=\delta\right) \\
+&= 1 - Ft_{\mathrm{df}}\left(qt_{1-\frac{\alpha}{2},\mathrm{df}} - \frac{\delta}{s_{xy}}\right) + Ft_{\mathrm{df}}\left(qt_{\frac{\alpha}{2},\mathrm{df}} - \frac{\delta}{s_{xy}}\right)
+\end{aligned} $$
+
+
+As an example, let us compute the probability to detect a difference in weight of 10g with two groups of 80 rats each and assuming that the standard deviation is 30g in each group.
+
+
+```{r}
+alpha=0.05
+nx_new <- ny_new <- 80
+delta_mu <- 10
+x_sd <- 30
+df <- nx_new + ny_new-2
+dt <- delta_mu/x_sd/sqrt(1/nx_new+1/ny_new)
+1-pt(qt(1-alpha/2,df)-dt,df) + pt(qt(alpha/2,df)-dt,df) 
+```
+
+The function `pwr.t.test` allows to compute this power:
+
+```{r, message=FALSE, warning=FALSE}
+pwr.t.test(n = nx_new, d = delta_mu/x_sd, type = "two.sample",
+           alternative="two.sided", sig.level = alpha)
+```
+
+Let us perform a Monte Carlo simulation, to check this result and better understand what it means. Imagine that the "true" difference in weight is $\delta=10$g. Then, if could repeat the same experiment a (very) large number of times, we would reject the null hypothesis in $55\%$ of cases.
+
+```{r}
+n_replicate <- 1e5
+mu_x <- 500
+mu_y <- mu_x + delta_mu
+R <- replicate(n_replicate, {
+  x_new <- rnorm(nx_new, mu_x, x_sd)
+  y_new <- rnorm(ny_new, mu_y, x_sd)
+  t.test(x_new, y_new, alternative="two.sided")$p.value < alpha
+})
+mean(R)
+```
+
+We may consider this probability as too small. If our objective is a power of 80% at least, with the same significance level, we need to increase the sample size.
+
+```{r}
+pwr.t.test(power = 0.8, d = delta_mu/x_sd, sig.level=alpha) 
+```
+
+```{r, echo=FALSE}
+pwn <- ceiling(pwr.t.test(power=0.8, d = delta_mu/x_sd, sig.level=alpha)$n)
+```
+
+Indeed, we see that $n\geq$ `r pwn` animals per group are required in order to reach a power of 80%.
+
+```{r}
+nx_new <- ny_new <- ceiling(pwr.t.test(power=0.8, d = delta_mu/x_sd, sig.level=alpha)$n)
+df <- nx_new + ny_new - 2
+dt <- delta_mu/x_sd/sqrt(1/nx_new + 1/ny_new)
+1-pt(qt(1-alpha/2,df)-dt,df) + pt(qt(alpha/2,df)-dt,df)
+```
+
+An alternative for increasing the power consists in increasing the type I error rate
+
+```{r}
+pwr.t.test(power=0.8, d=delta_mu/x_sd, n = 80, sig.level = NULL) 
+```
+
+If we accept a significance level of about 20%, then we will be less demanding for rejecting $H_0$: we will reject the null hypothesis when $|T_{\rm stat}|>qt_{0.9,158}$=  `r round(qt(0.9,158),2)`, instead of $|T_{\rm stat}|>qt_{0.975,158}$=  `r round(qt(0.975,158),2)`. This strategy will therefore increase the power, but also the type I error rate.
+
 # Wilcoxon test
 
 The Mann-Whitney-Wilcoxon test, or Wilcoxon rank sum test, can be used to test if the weight in one of the two groups tends to be greater than in the other group.
@@ -564,7 +659,7 @@ replicate(n_replicate, {
 }) %>% rowMeans()
 ```
 
-# The limited role of the p-value 
+# Final remark: the limited role of the p-value 
 
 First of all it is important to emphasis that statistics is a tool for supporting decision-making. It is not a decision tool that can be used blindly.
 
@@ -603,7 +698,7 @@ hypothesis.
 
 As an illustration, assume that the diet has a real impact on the weight: after 14 weeks, rats fed with GMOs weigh in average 15g less than control rats. 
 
-It will be extremly unlikely to conclude that there is an effect with only 10 rats per group, even if we observe a difference of 15g in the two samples.
+It will be extremely unlikely to conclude that there is an effect with only 10 rats per group, even if we observe a difference of 15g in the two samples.
 
 ```{r}
 n <- 10
@@ -627,100 +722,4 @@ y.sim <- x.sim + delta
 t.test(x.sim, y.sim)
 ```
 
-This example confirms the need for a power analysis as a complement of the comparison test. We will see that equivalence testing may also be relevant for evaluating what the data allows to say. 
-
-## Power of a t-test
-
-Until now, we have demonstrated that the experimental data does not highlight any significant difference in weight between the control group and the GMO group.
-
-Of course, that does not mean that there is no difference between the two groups. Indeed, **absence of evidence is not evidence of absence**. In fact, no experimental study would be able to demonstrate the absence of effect of the diet on the weight. 
-
-Now, the appropriate question is rather to evaluate what the experimental study can detect.
-If feeding a population of rats with GMOs has a signicant biological effect on the weight, can we ensure with a reasonable level of confidence that our statistical test will reject the null hypothesis and conclude that there is indeed a difference in weight between the two groups?
-
-A *power analysis* allows us to determine the sample size required to detect an effect of a given size with a given degree of confidence. Conversely, it allows us to determine the probability of detecting an effect of a given size with a given level of confidence, under sample size constraints.
-
-For a given  $\delta \in {\mathbb R}$, let $\beta(\delta)$ be the type II error rate, i.e. the probability to fail rejecting $H_0$ when $\mu_x-\mu_y = \delta$, with $\delta\neq 0$.
-
-
-The power of the test is the probability to reject the null hypothesis when it is false. It is also a function of $\delta =\mu_x-\mu_y$ defined as
-
-$$ \begin{aligned}
-\eta(\delta) &= 1 - \beta(\delta) \\
-&= \mathbb{P}(\text{reject } H_0 \ | \ \mu_x-\mu_y=\delta )
-\end{aligned} $$
-
-Remember that, for a two sided test,  we reject the null hypothesis when  $|T_{\rm stat}| > qt_{1-\alpha/2, \mathrm{df}}$, where $\mathrm{df}$ is the appropriate degree of freedom.
-
-On the other hand, ${(\bar{x} - \bar{y} - \delta)}/{s_{xy}}$, where $s_{xy} = \sqrt{{s_x^2}/{n_x}+{s_y^2}/{n_y}}$, follows a $t$-distribution with $\mathrm{df}$ degrees of freedom.
-Thus,
-
-$$ \begin{aligned}
-\eta(\delta) &= 1 - \mathbb{P}\left(qt_{\frac{\alpha}{2},\mathrm{df}} < T_{\rm stat} < qt_{1 -\frac{\alpha}{2},\mathrm{df}} \ | \ \mu_x-\mu_y=\delta\right) \\
-& = 1- \mathbb{P}\left(qt_{\frac{\alpha}{2},\mathrm{df}} < \frac{\bar{x} - \bar{y}}{s_{xy}} < qt_{1-\frac{\alpha}{2},\mathrm{df}} \ | \ \mu_x-\mu_y=\delta\right) \\
-&= 1- \mathbb{P}\left(qt_{\frac{\alpha}{2},\mathrm{df}} - \frac{\delta}{s_{xy}} < \frac{\bar{x} - \bar{y} - \delta}{s_{xy}} < qt_{1-\frac{\alpha}{2},\mathrm{df}} - \frac{\delta}{s_{xy}} \ | \ \mu_x-\mu_y=\delta\right) \\
-&= 1 - Ft_{\mathrm{df}}\left(qt_{1-\frac{\alpha}{2},\mathrm{df}} - \frac{\delta}{s_{xy}}\right) + Ft_{\mathrm{df}}\left(qt_{\frac{\alpha}{2},\mathrm{df}} - \frac{\delta}{s_{xy}}\right)
-\end{aligned} $$
-
-
-As an example, let us compute the probability to detect a difference in weight of 10g with two groups of 80 rats each and assuming that the standard deviation is 30g in each group.
-
-
-```{r}
-alpha=0.05
-nx_new <- ny_new <- 80
-delta_mu <- 10
-x_sd <- 30
-df <- nx_new + ny_new-2
-dt <- delta_mu/x_sd/sqrt(1/nx_new+1/ny_new)
-1-pt(qt(1-alpha/2,df)-dt,df) + pt(qt(alpha/2,df)-dt,df) 
-```
-
-The function `pwr.t.test` allows to compute this power:
-
-```{r, message=FALSE, warning=FALSE}
-pwr.t.test(n = nx_new, d = delta_mu/x_sd, type = "two.sample",
-           alternative="two.sided", sig.level = alpha)
-```
-
-Let us perform a Monte Carlo simulation, to check this result and better understand what it means. Imagine that the "true" difference in weight is $\delta=10$g. Then, if could repeat the same experiment a (very) large number of times, we would reject the null hypothesis in $55\%$ of cases.
-
-```{r}
-n_replicate <- 1e5
-mu_x <- 500
-mu_y <- mu_x + delta_mu
-R <- replicate(n_replicate, {
-  x_new <- rnorm(nx_new, mu_x, x_sd)
-  y_new <- rnorm(ny_new, mu_y, x_sd)
-  t.test(x_new, y_new, alternative="two.sided")$p.value < alpha
-})
-mean(R)
-```
-
-We may consider this probability as too small. If our objective is a power of 80% at least, with the same significance level, we need to increase the sample size.
-
-```{r}
-pwr.t.test(power = 0.8, d = delta_mu/x_sd, sig.level=alpha) 
-```
-
-```{r, echo=FALSE}
-pwn <- ceiling(pwr.t.test(power=0.8, d = delta_mu/x_sd, sig.level=alpha)$n)
-```
-
-Indeed, we see that $n\geq$ `r pwn` animals per group are required in order to reach a power of 80%.
-
-```{r}
-nx_new <- ny_new <- ceiling(pwr.t.test(power=0.8, d = delta_mu/x_sd, sig.level=alpha)$n)
-df <- nx_new + ny_new - 2
-dt <- delta_mu/x_sd/sqrt(1/nx_new + 1/ny_new)
-1-pt(qt(1-alpha/2,df)-dt,df) + pt(qt(alpha/2,df)-dt,df)
-```
-
-An alternative for increasing the power consists in increasing the type I error rate
-
-```{r}
-pwr.t.test(power=0.8, d=delta_mu/x_sd, n = 80, sig.level = NULL) 
-```
-
-If we accept a significance level of about 20%, then we will be less demanding for rejecting $H_0$: we will reject the null hypothesis when $|T_{\rm stat}|>qt_{0.9,158}$=  `r round(qt(0.9,158),2)`, instead of $|T_{\rm stat}|>qt_{0.975,158}$=  `r round(qt(0.975,158),2)`. This strategy will therefore increase the power, but also the type I error rate.
-
+This example confirms the need for a power analysis as a complement of the comparison test.
