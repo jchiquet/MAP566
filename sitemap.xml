@@ -2,90 +2,90 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://jchiquet.github.io/MAP566/getting-started.html</loc>
-    <lastmod>2023-01-04T11:43:37.005Z</lastmod>
+    <lastmod>2023-01-05T20:05:35.974Z</lastmod>
   </url>
   <url>
     <loc>https://jchiquet.github.io/MAP566/index.html</loc>
-    <lastmod>2023-01-04T11:43:37.373Z</lastmod>
+    <lastmod>2023-01-05T20:05:36.362Z</lastmod>
   </url>
   <url>
     <loc>https://jchiquet.github.io/MAP566/docs/tests/map566-lecture-single.html</loc>
-    <lastmod>2023-01-04T11:43:38.541Z</lastmod>
+    <lastmod>2023-01-05T20:05:37.730Z</lastmod>
   </url>
   <url>
     <loc>https://jchiquet.github.io/MAP566/docs/tests/map566-lab-tests.html</loc>
-    <lastmod>2023-01-04T11:43:39.197Z</lastmod>
+    <lastmod>2023-01-05T20:05:38.394Z</lastmod>
   </url>
   <url>
     <loc>https://jchiquet.github.io/MAP566/docs/tests/map566-lecture-multiple.html</loc>
-    <lastmod>2023-01-04T11:43:40.117Z</lastmod>
+    <lastmod>2023-01-05T20:05:39.366Z</lastmod>
   </url>
   <url>
     <loc>https://jchiquet.github.io/MAP566/docs/mixed-models/map566-lab-nonlinear-mixed-model.html</loc>
-    <lastmod>2023-01-04T11:43:40.733Z</lastmod>
+    <lastmod>2023-01-05T20:05:39.934Z</lastmod>
   </url>
   <url>
     <loc>https://jchiquet.github.io/MAP566/docs/mixed-models/map566-lecture-linear-mixed-model.html</loc>
-    <lastmod>2023-01-04T11:43:41.953Z</lastmod>
+    <lastmod>2023-01-05T20:05:41.346Z</lastmod>
   </url>
   <url>
     <loc>https://jchiquet.github.io/MAP566/docs/mixed-models/map566-lecture-nonlinear-mixed-model.html</loc>
-    <lastmod>2023-01-04T11:43:42.901Z</lastmod>
+    <lastmod>2023-01-05T20:05:42.390Z</lastmod>
   </url>
   <url>
     <loc>https://jchiquet.github.io/MAP566/docs/mixed-models/map566-lab-linear-mixed-model.html</loc>
-    <lastmod>2023-01-04T11:43:43.505Z</lastmod>
+    <lastmod>2023-01-05T20:05:42.950Z</lastmod>
   </url>
   <url>
     <loc>https://jchiquet.github.io/MAP566/docs/mixed-models/map566-lecture-EM-linear-mixed-model.html</loc>
-    <lastmod>2023-01-04T11:43:44.205Z</lastmod>
+    <lastmod>2023-01-05T20:05:43.590Z</lastmod>
   </url>
   <url>
     <loc>https://jchiquet.github.io/MAP566/docs/regression/map566-lecture-nonlinear-regression.html</loc>
-    <lastmod>2023-01-04T11:43:45.317Z</lastmod>
+    <lastmod>2023-01-05T20:05:44.850Z</lastmod>
   </url>
   <url>
     <loc>https://jchiquet.github.io/MAP566/docs/regression/map566-lecture-regression-background.html</loc>
-    <lastmod>2023-01-04T11:43:45.829Z</lastmod>
+    <lastmod>2023-01-05T20:05:45.434Z</lastmod>
   </url>
   <url>
     <loc>https://jchiquet.github.io/MAP566/docs/regression/map566-lab-nonlinear-regression.html</loc>
-    <lastmod>2023-01-04T11:43:46.361Z</lastmod>
+    <lastmod>2023-01-05T20:05:45.930Z</lastmod>
   </url>
   <url>
     <loc>https://jchiquet.github.io/MAP566/docs/regression/map566-lecture-polynomial-regression.html</loc>
-    <lastmod>2023-01-04T11:43:47.481Z</lastmod>
+    <lastmod>2023-01-05T20:05:47.218Z</lastmod>
   </url>
   <url>
     <loc>https://jchiquet.github.io/MAP566/docs/regression/map566-lab-polynomial-regression.html</loc>
-    <lastmod>2023-01-04T11:43:48.025Z</lastmod>
+    <lastmod>2023-01-05T20:05:47.698Z</lastmod>
   </url>
   <url>
     <loc>https://jchiquet.github.io/MAP566/docs/mixture-models/map566-lab-mixture-models.html</loc>
-    <lastmod>2023-01-04T11:43:48.597Z</lastmod>
+    <lastmod>2023-01-05T20:05:48.230Z</lastmod>
   </url>
   <url>
     <loc>https://jchiquet.github.io/MAP566/docs/mixture-models/map566-lecture-graph-clustering-part1.html</loc>
-    <lastmod>2023-01-04T11:43:49.537Z</lastmod>
+    <lastmod>2023-01-05T20:05:49.322Z</lastmod>
   </url>
   <url>
     <loc>https://jchiquet.github.io/MAP566/docs/mixture-models/map566-lab-graph-partionning.html</loc>
-    <lastmod>2023-01-04T11:43:50.133Z</lastmod>
+    <lastmod>2023-01-05T20:05:49.858Z</lastmod>
   </url>
   <url>
     <loc>https://jchiquet.github.io/MAP566/docs/mixture-models/map566-lecture-mixture-models.html</loc>
-    <lastmod>2023-01-04T11:43:58.496Z</lastmod>
+    <lastmod>2023-01-05T20:05:50.834Z</lastmod>
   </url>
   <url>
     <loc>https://jchiquet.github.io/MAP566/docs/mixture-models/map566-lecture-graph-clustering-part2.html</loc>
-    <lastmod>2023-01-04T11:45:41.462Z</lastmod>
+    <lastmod>2023-01-05T20:05:51.718Z</lastmod>
   </url>
   <url>
     <loc>https://jchiquet.github.io/MAP566/docs/mixture-models/map566-lab-stochastic-blockmodels.html</loc>
-    <lastmod>2023-01-04T11:45:45.018Z</lastmod>
+    <lastmod>2023-01-05T20:05:52.286Z</lastmod>
   </url>
   <url>
     <loc>https://jchiquet.github.io/MAP566/docs/mixture-models/map566-doc-mixture-models-example.html</loc>
-    <lastmod>2023-01-04T11:45:52.078Z</lastmod>
+    <lastmod>2023-01-05T20:05:52.966Z</lastmod>
   </url>
 </urlset>
