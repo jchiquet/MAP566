@@ -358,113 +358,116 @@ head(data,10)
 ```
 We would consider the 7 first $p$-values as significant using this new correction.
 
-<!-- ## A Monte Carlo simulation -->
+## A Monte Carlo simulation
 
-<!-- Let us perform a Monte Carlo simulation to better understand the impact of these corrections. -->
+Let us perform a Monte Carlo simulation to better understand the impact of these corrections.
 
-<!-- Let us assume that we observe $(x_{ij}, 1\leq i \leq n_x, 1 \leq j \leq m)$ and $(y_{ij}, 1\leq i \leq n_y, 1 \leq j \leq m)$ where ,  -->
+Let us assume that we observe $(x_{ij}, 1\leq i \leq n_x, 1 \leq j \leq m)$ and $(y_{ij}, 1\leq i \leq n_y, 1 \leq j \leq m)$ where ,
 
-<!-- $$\begin{aligned} -->
-<!-- x_{ij} & \iid {\cal N}(\mu_{x,j} \ , \ \sigma_x^2) \\ -->
-<!-- y_{ij} & \iid {\cal N}(\mu_{y,j} \ , \ \sigma_y^2)  -->
-<!-- \end{aligned} $$ -->
+$$\begin{aligned}
+x_{ij} & \sim^{iid} {\cal N}(\mu_{x,j} \ , \ \sigma_x^2) \\
+y_{ij} & \sim^{iid} {\cal N}(\mu_{y,j} \ , \ \sigma_y^2)
+\end{aligned}$$
 
-<!-- For $j=1,2,\ldots, m$, we want to test $H_{0,j}: \mu_{x,j}=\mu_{y,j}$ versus $H_{1,j}: \mu_{x,j} \neq \mu_{y,j}$. -->
+For $j=1,2,\ldots, m$, we want to test $H_{0,j}: \mu_{x,j}=\mu_{y,j}$ versus $H_{1,j}: \mu_{x,j} \neq \mu_{y,j}$.
 
-<!-- For the simulation, we will use $m=140$, $n_x=n_y=50$, $\sigma_x^2=\sigma_y^2=1$ and $\mu_{x,j}=0$ for $1\leq j \leq m$. -->
+For the simulation, we will use $m=140$, $n_x=n_y=50$, $\sigma_x^2=\sigma_y^2=1$ and $\mu_{x,j}=0$ for $1\leq j \leq m$.
 
-<!-- Furthermore, the null hypothesis is true for the first $m_{0,\cdot}=120$ variables, assuming that $\mu_{y,j}=0$ for $1\leq j \leq m_{0,\cdot}$. Then, for $m_{0,\cdot}+1\leq j \leq m$, $\mu_{y,j}$ varies from 0.3 to 0.6, which means that the alternative hypothesis is true for these $m_{1,\cdot}=20$ variables. -->
-
-
-<!-- ```{r} -->
-<!-- nx <- 50 -->
-<!-- ny <- 50 -->
-<!-- m0 <- 120 -->
-<!-- m1 <- 20 -->
-<!-- mu.x <- rep(0, m0+m1) -->
-<!-- mu.y <- c(rep(0,m0),seq(0.3,0.6,length=m1)) -->
-<!-- ``` -->
+Furthermore, the null hypothesis is true for the first $m_{0,\cdot}=120$ variables, assuming that $\mu_{y,j}=0$ for $1\leq j \leq m_{0,\cdot}$. Then, for $m_{0,\cdot}+1\leq j \leq m$, $\mu_{y,j}$ varies from 0.3 to 0.6, which means that the alternative hypothesis is true for these $m_{1,\cdot}=20$ variables.
 
 
-<!-- For each of the $L=1000$ simulated replicate of the same experiment, we will randomly sample observation $x$ and $y$ from the model and perform a $t$-test for each of the $m=140$ variables. We therefore get $m=140$ $p$-values for each of these $L=1000$ replicates. -->
-
-<!-- ```{r} -->
-<!-- L <- 1000 -->
-<!-- m <- m0+m1 -->
-<!-- set.seed(1234) -->
-<!-- pval <- matrix(ncol=L,nrow=m) -->
-<!-- for (l in (1:L)) { -->
-<!--   x.sim <- matrix(rnorm(nx*m, mu.x), ncol=nx) -->
-<!--   y.sim <- matrix(rnorm(ny*m, mu.y), ncol=ny) -->
-<!--   dat <- cbind(x.sim, y.sim) -->
-<!--   pval[,l] <- apply(dat, 1, function(dat) { -->
-<!--     t.test(x = dat[1:nx], y = dat[(nx + 1):(nx + ny)])$p.value}) -->
-<!-- } -->
-
-<!-- ``` -->
-
-<!-- Setting the significance level $\alpha$ to 0.2, we can compute for each replicate the numbers of true and false discoveries $m_{11}$ and $m_{01}$, as well as the numbers of true and false nondiscoveries  $m_{00}$ and $m_{10}$. -->
-
-<!-- We can then compute the proportion of wrongly rejected null hypotheses -->
-
-<!-- ```{r} -->
-<!-- alpha=0.2 -->
-<!-- m01 <- colSums(pval[1:m0,] < alpha) -->
-<!-- mean(m01/m0) -->
-<!-- ``` -->
-<!-- As expected, this proportion is close to $\alpha$ which is precisely the probability to wrongly reject the null hypothesis. -->
-
-<!-- The proportion of correctly rejected null hypotheses is an estimate of the power of the test -->
-
-<!-- ```{r} -->
-<!-- m11 <- colSums(pval[(m0+1):m,] < alpha) -->
-<!-- mean(m11/m1) -->
-<!-- ``` -->
-<!-- The False Discovery Rate is estimated as the proportion of false discoveries -->
-
-<!-- ```{r} -->
-<!-- mean(m01/(m01+m11)) -->
-<!-- ``` -->
-<!-- This means that among the significant results, about 60% of them are false discoveries. -->
-
-<!-- Let us now apply the Bonferroni correction, and compute the proportion of wrongly and correctly rejected null hypotheses and the proportion of false discoveries -->
-
-<!-- ```{r} -->
-<!-- pval.b <- apply(pval,2, function(pval) {p.adjust(pval,method="bonferroni")}) -->
-<!-- m01.b <- colSums(pval.b[1:m0,] < alpha) -->
-<!-- m11.b <- colSums(pval.b[(m0+1):m,] < alpha) -->
-<!-- c(mean(m01.b/m0), mean(m11.b/m1),mean(m01.b/(m01.b+m11.b),na.rm=TRUE)) -->
-<!-- ``` -->
-<!-- Very few of the true null hypotheses are rejected, which may be a good point, but the price to pay is a very low power (less that 20%).  -->
-
-<!-- The familywise error rate (FWER) is the probability $\mathbb{P}{m_{01}\geq 1}$ to reject *at least* one of the true null hypothesis. This probability remains quite small when the Bonferroni correction is used. -->
-
-<!-- ```{r} -->
-<!-- mean(m01.b>=1) -->
-<!-- ``` -->
-
-<!-- The Benjamini-Hochberg correction increases the power and controls the FDR as expected since the proportion of false discoveries remains below the level $\alpha$. -->
+```{r test-multiple-mc-settings}
+nx <- 50
+ny <- 50
+m0 <- 120
+m1 <- 20
+mu_x <- rep(0, m0 + m1)
+mu_y <- c(rep(0, m0), seq(0.3, 0.6, length = m1))
+```
 
 
-<!-- ```{r} -->
-<!-- pval.bh <- apply(pval,2, function(pval) {p.adjust(pval,method="BH")}) -->
-<!-- m01.bh <- colSums(pval.bh[1:m0,] < alpha) -->
-<!-- m11.bh <- colSums(pval.bh[(m0+1):m,] < alpha) -->
-<!-- c(mean(m01.bh/m0), mean(m11.bh/m1),mean(m01.bh/(m01.bh+m11.bh),na.rm=TRUE)) -->
-<!-- ``` -->
+For each of the $L=1000$ simulated replicate of the same experiment, we will randomly sample observation $x$ and $y$ from the model and perform a $t$-test for each of the $m=140$ variables. We therefore get $m=140$ $p$-values for each of these $L=1000$ replicates.
 
-<!-- Lastly, we can slightly improve the BH procedure by multiplying the $p$-values by the ratio $\hat{m}_{0\cdot}/m$ -->
+```{r test-multiple-mc-simus}
+L <- 1000
+m <- m0 + m1
+set.seed(1234)
+pvalues <- replicate(L, {
+  x <- map(mu_x, ~rnorm(n = nx, mean = .x))
+  y <- map(mu_y, ~rnorm(n = ny, mean = .x))
+  map2_dbl(x, y, ~t.test(x = .x, y = .y)$p.value)
+})
+```
 
-<!-- ```{r} -->
-<!-- pval.bhc <- pval.bh -->
-<!-- for (l in (1:L)) { -->
-<!--   m0e <- sum(pval.bh[,l]>alpha) -->
-<!--   pval.bhc[,l] <- pval.bh[,l]*m0e/m -->
-<!-- } -->
+Setting the significance level $\alpha$ to 0.2, we can compute for each replicate the numbers of true and false discoveries $m_{11}$ and $m_{01}$, as well as the numbers of true and false non-discoveries  $m_{00}$ and $m_{10}$.
 
-<!-- m01.bhc <- colSums(pval.bhc[1:m0,] < alpha) -->
-<!-- m11.bhc <- colSums(pval.bhc[(m0+1):m,] < alpha) -->
-<!-- c(mean(m01.bhc/m0), mean(m11.bhc/m1),mean(m01.bhc/(m01.bhc+m11.bhc),na.rm=TRUE)) -->
-<!-- ``` -->
+We can then compute the proportion of wrongly rejected null hypotheses
+
+```{r}
+alpha <- 0.2
+m01 <- colSums(pvalues[1:m0, ] < alpha)
+mean(m01/m0)
+```
+As expected, this proportion is close to $\alpha$ which is precisely the probability to wrongly reject the null hypothesis.
+
+The proportion of correctly rejected null hypotheses is an estimate of the power of the test
+
+```{r}
+m11 <- colSums(pvalues[(m0 + 1):m,] < alpha)
+mean(m11/m1)
+```
+
+The False Discovery Rate is estimated as the proportion of false discoveries
+
+```{r}
+mean(m01/(m01+m11))
+```
+This means that among the significant results, about 60% of them are false discoveries.
+
+Let us now apply the Bonferroni correction, and compute the proportion of wrongly and correctly rejected null hypotheses and the proportion of false discoveries
+
+```{r}
+pvalues_bonferonni <- apply(pvalues, 2, p.adjust, method="bonferroni")
+m01_bonferonni <- colSums(pvalues_bonferonni[1:m0,] < alpha)
+m11_bonferonni <- colSums(pvalues_bonferonni[(m0+1):m,] < alpha)
+print(c(
+  alpha = c(mean(m01_bonferonni / m0) ,
+  power = mean(m11_bonferonni / m1) ,
+  fdr   = mean(m01_bonferonni / (m01_bonferonni + m11_bonferonni), na.rm=TRUE))))
+```
+Very few of the true null hypotheses are rejected, which may be a good point, but the price to pay is a very low power (less that 20%).
+
+The familywise error rate (FWER) is the probability $\mathbb{P}{m_{01}\geq 1}$ to reject *at least* one of the true null hypothesis. This probability remains quite small when the Bonferroni correction is used.
+
+```{r}
+mean(m01_bonferonni >= 1)
+```
+
+The Benjamini-Hochberg correction increases the power and controls the FDR as expected since the proportion of false discoveries remains below the level $\alpha$.
+
+
+```{r}
+pvalues_BH <- apply(pvalues, 2, p.adjust, method="BH")
+m01_BH <- colSums(pvalues_BH[1:m0,] < alpha)
+m11_BH <- colSums(pvalues_BH[(m0+1):m,] < alpha)
+print(c(
+  alpha = c(mean(m01_BH / m0),
+  power = mean(m11_BH / m1),
+  fdr   = mean(m01_BH/(m01_BH + m11_BH),na.rm=TRUE))))
+```
+
+Lastly, we can slightly improve the BH procedure by multiplying the $p$-values by the ratio $\hat{m}_{0\cdot}/m$
+
+```{r}
+m0m <- colSums(pvalues_BH > alpha)/m
+pvalues_BH_corrected <- sweep(pvalues_BH, 2, m0m, "*")
+
+m01_BH_corrected <- colSums(pvalues_BH_corrected[1:m0,] < alpha)
+m11_BH_corrected <- colSums(pvalues_BH_corrected[(m0+1):m,] < alpha)
+print(c(
+  alpha = c(mean(m01_BH_corrected/m0), 
+  power = mean(m11_BH_corrected/m1),
+  fdr   = mean(m01_BH_corrected/(m01_BH_corrected+m11_BH_corrected), na.rm=TRUE))))
+```
 
 ## References
