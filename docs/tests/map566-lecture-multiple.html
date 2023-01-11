@@ -410,7 +410,8 @@ div.csl-indent {
   <li><a href="#the-benjamini-hochberg-procedure" id="toc-the-benjamini-hochberg-procedure" class="nav-link" data-scroll-target="#the-benjamini-hochberg-procedure"><span class="toc-section-number">5.2</span>  The Benjamini-Hochberg procedure</a></li>
   </ul></li>
   <li><a href="#controlling-fdr" id="toc-controlling-fdr" class="nav-link" data-scroll-target="#controlling-fdr"><span class="toc-section-number">6</span>  Controlling FDR</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="toc-section-number">7</span>  References</a></li>
+  <li><a href="#a-monte-carlo-simulation" id="toc-a-monte-carlo-simulation" class="nav-link" data-scroll-target="#a-monte-carlo-simulation"><span class="toc-section-number">7</span>  A Monte Carlo simulation</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="toc-section-number">8</span>  References</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -830,94 +831,124 @@ alternative hypothesis: true location shift is less than 0</code></pre>
 </div>
 </div>
 <p>We would consider the 7 first <span class="math inline">p</span>-values as significant using this new correction.</p>
-<!-- ## A Monte Carlo simulation -->
-<!-- Let us perform a Monte Carlo simulation to better understand the impact of these corrections. -->
-<!-- Let us assume that we observe $(x_{ij}, 1\leq i \leq n_x, 1 \leq j \leq m)$ and $(y_{ij}, 1\leq i \leq n_y, 1 \leq j \leq m)$ where ,  -->
-<!-- $$\begin{aligned} -->
-<!-- x_{ij} & \iid {\cal N}(\mu_{x,j} \ , \ \sigma_x^2) \\ -->
-<!-- y_{ij} & \iid {\cal N}(\mu_{y,j} \ , \ \sigma_y^2)  -->
-<!-- \end{aligned} $$ -->
-<!-- For $j=1,2,\ldots, m$, we want to test $H_{0,j}: \mu_{x,j}=\mu_{y,j}$ versus $H_{1,j}: \mu_{x,j} \neq \mu_{y,j}$. -->
-<!-- For the simulation, we will use $m=140$, $n_x=n_y=50$, $\sigma_x^2=\sigma_y^2=1$ and $\mu_{x,j}=0$ for $1\leq j \leq m$. -->
-<!-- Furthermore, the null hypothesis is true for the first $m_{0,\cdot}=120$ variables, assuming that $\mu_{y,j}=0$ for $1\leq j \leq m_{0,\cdot}$. Then, for $m_{0,\cdot}+1\leq j \leq m$, $\mu_{y,j}$ varies from 0.3 to 0.6, which means that the alternative hypothesis is true for these $m_{1,\cdot}=20$ variables. -->
-<!-- ```{r} -->
-<!-- nx <- 50 -->
-<!-- ny <- 50 -->
-<!-- m0 <- 120 -->
-<!-- m1 <- 20 -->
-<!-- mu.x <- rep(0, m0+m1) -->
-<!-- mu.y <- c(rep(0,m0),seq(0.3,0.6,length=m1)) -->
-<!-- ``` -->
-<!-- For each of the $L=1000$ simulated replicate of the same experiment, we will randomly sample observation $x$ and $y$ from the model and perform a $t$-test for each of the $m=140$ variables. We therefore get $m=140$ $p$-values for each of these $L=1000$ replicates. -->
-<!-- ```{r} -->
-<!-- L <- 1000 -->
-<!-- m <- m0+m1 -->
-<!-- set.seed(1234) -->
-<!-- pval <- matrix(ncol=L,nrow=m) -->
-<!-- for (l in (1:L)) { -->
-<!--   x.sim <- matrix(rnorm(nx*m, mu.x), ncol=nx) -->
-<!--   y.sim <- matrix(rnorm(ny*m, mu.y), ncol=ny) -->
-<!--   dat <- cbind(x.sim, y.sim) -->
-<!--   pval[,l] <- apply(dat, 1, function(dat) { -->
-<!--     t.test(x = dat[1:nx], y = dat[(nx + 1):(nx + ny)])$p.value}) -->
-<!-- } -->
-<!-- ``` -->
-<!-- Setting the significance level $\alpha$ to 0.2, we can compute for each replicate the numbers of true and false discoveries $m_{11}$ and $m_{01}$, as well as the numbers of true and false nondiscoveries  $m_{00}$ and $m_{10}$. -->
-<!-- We can then compute the proportion of wrongly rejected null hypotheses -->
-<!-- ```{r} -->
-<!-- alpha=0.2 -->
-<!-- m01 <- colSums(pval[1:m0,] < alpha) -->
-<!-- mean(m01/m0) -->
-<!-- ``` -->
-<!-- As expected, this proportion is close to $\alpha$ which is precisely the probability to wrongly reject the null hypothesis. -->
-<!-- The proportion of correctly rejected null hypotheses is an estimate of the power of the test -->
-<!-- ```{r} -->
-<!-- m11 <- colSums(pval[(m0+1):m,] < alpha) -->
-<!-- mean(m11/m1) -->
-<!-- ``` -->
-<!-- The False Discovery Rate is estimated as the proportion of false discoveries -->
-<!-- ```{r} -->
-<!-- mean(m01/(m01+m11)) -->
-<!-- ``` -->
-<!-- This means that among the significant results, about 60% of them are false discoveries. -->
-<!-- Let us now apply the Bonferroni correction, and compute the proportion of wrongly and correctly rejected null hypotheses and the proportion of false discoveries -->
-<!-- ```{r} -->
-<!-- pval.b <- apply(pval,2, function(pval) {p.adjust(pval,method="bonferroni")}) -->
-<!-- m01.b <- colSums(pval.b[1:m0,] < alpha) -->
-<!-- m11.b <- colSums(pval.b[(m0+1):m,] < alpha) -->
-<!-- c(mean(m01.b/m0), mean(m11.b/m1),mean(m01.b/(m01.b+m11.b),na.rm=TRUE)) -->
-<!-- ``` -->
-<!-- Very few of the true null hypotheses are rejected, which may be a good point, but the price to pay is a very low power (less that 20%).  -->
-<!-- The familywise error rate (FWER) is the probability $\mathbb{P}{m_{01}\geq 1}$ to reject *at least* one of the true null hypothesis. This probability remains quite small when the Bonferroni correction is used. -->
-<!-- ```{r} -->
-<!-- mean(m01.b>=1) -->
-<!-- ``` -->
-<!-- The Benjamini-Hochberg correction increases the power and controls the FDR as expected since the proportion of false discoveries remains below the level $\alpha$. -->
-<!-- ```{r} -->
-<!-- pval.bh <- apply(pval,2, function(pval) {p.adjust(pval,method="BH")}) -->
-<!-- m01.bh <- colSums(pval.bh[1:m0,] < alpha) -->
-<!-- m11.bh <- colSums(pval.bh[(m0+1):m,] < alpha) -->
-<!-- c(mean(m01.bh/m0), mean(m11.bh/m1),mean(m01.bh/(m01.bh+m11.bh),na.rm=TRUE)) -->
-<!-- ``` -->
-<!-- Lastly, we can slightly improve the BH procedure by multiplying the $p$-values by the ratio $\hat{m}_{0\cdot}/m$ -->
-<!-- ```{r} -->
-<!-- pval.bhc <- pval.bh -->
-<!-- for (l in (1:L)) { -->
-<!--   m0e <- sum(pval.bh[,l]>alpha) -->
-<!--   pval.bhc[,l] <- pval.bh[,l]*m0e/m -->
-<!-- } -->
-<!-- m01.bhc <- colSums(pval.bhc[1:m0,] < alpha) -->
-<!-- m11.bhc <- colSums(pval.bhc[(m0+1):m,] < alpha) -->
-<!-- c(mean(m01.bhc/m0), mean(m11.bhc/m1),mean(m01.bhc/(m01.bhc+m11.bhc),na.rm=TRUE)) -->
-<!-- ``` -->
-<section id="references" class="level2" data-number="7">
+<section id="a-monte-carlo-simulation" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="a-monte-carlo-simulation"><span class="header-section-number">7</span> A Monte Carlo simulation</h2>
+<p>Let us perform a Monte Carlo simulation to better understand the impact of these corrections.</p>
+<p>Let us assume that we observe <span class="math inline">(x_{ij}, 1\leq i \leq n_x, 1 \leq j \leq m)</span> and <span class="math inline">(y_{ij}, 1\leq i \leq n_y, 1 \leq j \leq m)</span> where ,</p>
+<p><span class="math display">\begin{aligned}
+x_{ij} &amp; \sim^{iid} {\cal N}(\mu_{x,j} \ , \ \sigma_x^2) \\
+y_{ij} &amp; \sim^{iid} {\cal N}(\mu_{y,j} \ , \ \sigma_y^2)
+\end{aligned}</span></p>
+<p>For <span class="math inline">j=1,2,\ldots, m</span>, we want to test <span class="math inline">H_{0,j}: \mu_{x,j}=\mu_{y,j}</span> versus <span class="math inline">H_{1,j}: \mu_{x,j} \neq \mu_{y,j}</span>.</p>
+<p>For the simulation, we will use <span class="math inline">m=140</span>, <span class="math inline">n_x=n_y=50</span>, <span class="math inline">\sigma_x^2=\sigma_y^2=1</span> and <span class="math inline">\mu_{x,j}=0</span> for <span class="math inline">1\leq j \leq m</span>.</p>
+<p>Furthermore, the null hypothesis is true for the first <span class="math inline">m_{0,\cdot}=120</span> variables, assuming that <span class="math inline">\mu_{y,j}=0</span> for <span class="math inline">1\leq j \leq m_{0,\cdot}</span>. Then, for <span class="math inline">m_{0,\cdot}+1\leq j \leq m</span>, <span class="math inline">\mu_{y,j}</span> varies from 0.3 to 0.6, which means that the alternative hypothesis is true for these <span class="math inline">m_{1,\cdot}=20</span> variables.</p>
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/test-multiple-mc-settings_06188e0bbc1f70cbc20b823366cacae9">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>nx <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>ny <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>m0 <span class="ot">&lt;-</span> <span class="dv">120</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>mu_x <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, m0 <span class="sc">+</span> m1)</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>mu_y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>, m0), <span class="fu">seq</span>(<span class="fl">0.3</span>, <span class="fl">0.6</span>, <span class="at">length =</span> m1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>For each of the <span class="math inline">L=1000</span> simulated replicate of the same experiment, we will randomly sample observation <span class="math inline">x</span> and <span class="math inline">y</span> from the model and perform a <span class="math inline">t</span>-test for each of the <span class="math inline">m=140</span> variables. We therefore get <span class="math inline">m=140</span> <span class="math inline">p</span>-values for each of these <span class="math inline">L=1000</span> replicates.</p>
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/test-multiple-mc-simus_d4ed4b65734db66e6d54d4e7e47ba4c8">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> m0 <span class="sc">+</span> m1</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>pvalues <span class="ot">&lt;-</span> <span class="fu">replicate</span>(L, {</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">map</span>(mu_x, <span class="sc">~</span><span class="fu">rnorm</span>(<span class="at">n =</span> nx, <span class="at">mean =</span> .x))</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">map</span>(mu_y, <span class="sc">~</span><span class="fu">rnorm</span>(<span class="at">n =</span> ny, <span class="at">mean =</span> .x))</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map2_dbl</span>(x, y, <span class="sc">~</span><span class="fu">t.test</span>(<span class="at">x =</span> .x, <span class="at">y =</span> .y)<span class="sc">$</span>p.value)</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Setting the significance level <span class="math inline">\alpha</span> to 0.2, we can compute for each replicate the numbers of true and false discoveries <span class="math inline">m_{11}</span> and <span class="math inline">m_{01}</span>, as well as the numbers of true and false non-discoveries <span class="math inline">m_{00}</span> and <span class="math inline">m_{10}</span>.</p>
+<p>We can then compute the proportion of wrongly rejected null hypotheses</p>
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-21_725de3dac89f239546f8fa37edf16d62">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.2</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>m01 <span class="ot">&lt;-</span> <span class="fu">colSums</span>(pvalues[<span class="dv">1</span><span class="sc">:</span>m0, ] <span class="sc">&lt;</span> alpha)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(m01<span class="sc">/</span>m0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1992167</code></pre>
+</div>
+</div>
+<p>As expected, this proportion is close to <span class="math inline">\alpha</span> which is precisely the probability to wrongly reject the null hypothesis.</p>
+<p>The proportion of correctly rejected null hypotheses is an estimate of the power of the test</p>
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-22_05f249171def16d20160c5badde31de4">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>m11 <span class="ot">&lt;-</span> <span class="fu">colSums</span>(pvalues[(m0 <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">:</span>m,] <span class="sc">&lt;</span> alpha)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(m11<span class="sc">/</span>m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.80845</code></pre>
+</div>
+</div>
+<p>The False Discovery Rate is estimated as the proportion of false discoveries</p>
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-23_15d0db45fe7ca94cdc34dfba4486f593">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(m01<span class="sc">/</span>(m01<span class="sc">+</span>m11))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5929069</code></pre>
+</div>
+</div>
+<p>This means that among the significant results, about 60% of them are false discoveries.</p>
+<p>Let us now apply the Bonferroni correction, and compute the proportion of wrongly and correctly rejected null hypotheses and the proportion of false discoveries</p>
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-24_20a5afb93652588f421b60ff255a465e">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>pvalues_bonferonni <span class="ot">&lt;-</span> <span class="fu">apply</span>(pvalues, <span class="dv">2</span>, p.adjust, <span class="at">method=</span><span class="st">"bonferroni"</span>)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>m01_bonferonni <span class="ot">&lt;-</span> <span class="fu">colSums</span>(pvalues_bonferonni[<span class="dv">1</span><span class="sc">:</span>m0,] <span class="sc">&lt;</span> alpha)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>m11_bonferonni <span class="ot">&lt;-</span> <span class="fu">colSums</span>(pvalues_bonferonni[(m0<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>m,] <span class="sc">&lt;</span> alpha)</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">c</span>(</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">alpha =</span> <span class="fu">c</span>(<span class="fu">mean</span>(m01_bonferonni <span class="sc">/</span> m0) ,</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">power =</span> <span class="fu">mean</span>(m11_bonferonni <span class="sc">/</span> m1) ,</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">fdr   =</span> <span class="fu">mean</span>(m01_bonferonni <span class="sc">/</span> (m01_bonferonni <span class="sc">+</span> m11_bonferonni), <span class="at">na.rm=</span><span class="cn">TRUE</span>))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     alpha1 alpha.power   alpha.fdr 
+ 0.00132500  0.18750000  0.03714447 </code></pre>
+</div>
+</div>
+<p>Very few of the true null hypotheses are rejected, which may be a good point, but the price to pay is a very low power (less that 20%).</p>
+<p>The familywise error rate (FWER) is the probability <span class="math inline">\mathbb{P}{m_{01}\geq 1}</span> to reject <em>at least</em> one of the true null hypothesis. This probability remains quite small when the Bonferroni correction is used.</p>
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-25_96f03d9a4a67176539d1519956f229cd">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(m01_bonferonni <span class="sc">&gt;=</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.144</code></pre>
+</div>
+</div>
+<p>The Benjamini-Hochberg correction increases the power and controls the FDR as expected since the proportion of false discoveries remains below the level <span class="math inline">\alpha</span>.</p>
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-26_92051b32c75452b919453808de81c685">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>pvalues_BH <span class="ot">&lt;-</span> <span class="fu">apply</span>(pvalues, <span class="dv">2</span>, p.adjust, <span class="at">method=</span><span class="st">"BH"</span>)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>m01_BH <span class="ot">&lt;-</span> <span class="fu">colSums</span>(pvalues_BH[<span class="dv">1</span><span class="sc">:</span>m0,] <span class="sc">&lt;</span> alpha)</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>m11_BH <span class="ot">&lt;-</span> <span class="fu">colSums</span>(pvalues_BH[(m0<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>m,] <span class="sc">&lt;</span> alpha)</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">c</span>(</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">alpha =</span> <span class="fu">c</span>(<span class="fu">mean</span>(m01_BH <span class="sc">/</span> m0),</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">power =</span> <span class="fu">mean</span>(m11_BH <span class="sc">/</span> m1),</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">fdr   =</span> <span class="fu">mean</span>(m01_BH<span class="sc">/</span>(m01_BH <span class="sc">+</span> m11_BH),<span class="at">na.rm=</span><span class="cn">TRUE</span>))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     alpha1 alpha.power   alpha.fdr 
+ 0.01763333  0.43130000  0.17117163 </code></pre>
+</div>
+</div>
+<p>Lastly, we can slightly improve the BH procedure by multiplying the <span class="math inline">p</span>-values by the ratio <span class="math inline">\hat{m}_{0\cdot}/m</span></p>
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-27_8fcdb6e8b6d55a399f4c42d58a029f0f">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>m0m <span class="ot">&lt;-</span> <span class="fu">colSums</span>(pvalues_BH <span class="sc">&gt;</span> alpha)<span class="sc">/</span>m</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>pvalues_BH_corrected <span class="ot">&lt;-</span> <span class="fu">sweep</span>(pvalues_BH, <span class="dv">2</span>, m0m, <span class="st">"*"</span>)</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>m01_BH_corrected <span class="ot">&lt;-</span> <span class="fu">colSums</span>(pvalues_BH_corrected[<span class="dv">1</span><span class="sc">:</span>m0,] <span class="sc">&lt;</span> alpha)</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>m11_BH_corrected <span class="ot">&lt;-</span> <span class="fu">colSums</span>(pvalues_BH_corrected[(m0<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>m,] <span class="sc">&lt;</span> alpha)</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">c</span>(</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">alpha =</span> <span class="fu">c</span>(<span class="fu">mean</span>(m01_BH_corrected<span class="sc">/</span>m0), </span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">power =</span> <span class="fu">mean</span>(m11_BH_corrected<span class="sc">/</span>m1),</span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">fdr   =</span> <span class="fu">mean</span>(m01_BH_corrected<span class="sc">/</span>(m01_BH_corrected<span class="sc">+</span>m11_BH_corrected), <span class="at">na.rm=</span><span class="cn">TRUE</span>))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     alpha1 alpha.power   alpha.fdr 
+ 0.02005833  0.44570000  0.18428226 </code></pre>
+</div>
+</div>
+</section>
+<section id="references" class="level2" data-number="8">
 
 
 
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">7 References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">8 References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
 <div id="ref-benjamini1995controlling" class="csl-entry" role="doc-biblioentry">
 Benjamini, Yoav, and Yosef Hochberg. 1995. <span>“Controlling the False Discovery Rate: A Practical and Powerful Approach to Multiple Testing.”</span> <em>Journal of the Royal Statistical Society: Series B (Methodological)</em> 57 (1): 289–300.
 </div>
