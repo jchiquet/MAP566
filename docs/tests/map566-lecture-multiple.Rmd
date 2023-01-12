@@ -98,7 +98,7 @@ wilcox.test(time_test, time_control, alternative="less")
 
 Here, the $p$-value should lead us to reject the null hypothesis and conclude that 22% of the GM maize in the diet has a negative effect on the survival.
 
-## A single comparison... among many others
+### A single comparison... among many others
 
 Should we really accept this conclusion as it stands? No, because we don't know the whole story...
 Remember that there are *9 experimental groups for each sex*. Then, 18 comparisons with the control groups are performed.
@@ -139,7 +139,7 @@ how can we conclude that these differences are statistically significant?
 
 ### Permutation test
 
-::: {.callout-info}
+::: {.callout-note}
 ## Permutation test
 
 A permutation test (also called a randomization test) is a type of statistical significance test in which the distribution of the test statistic under the null hypothesis is obtained by calculating all possible values of the test statistic under rearrangements of the labels on the observed data points. If the labels are exchangeable under the null hypothesis, then the resulting tests yield exact significance levels. Prediction intervals can also be derived.
@@ -197,9 +197,10 @@ and plot them, with the original $p$-values
 ```{r, fig.height=4, fig.width=10}
 #| code-fold: true
 quantiles_pvalues %>% ggplot() +
-  geom_errorbar(aes(x = rank, ymin = low, ymax = up), width=0.2, size=1.5, colour="grey50") +
-  scale_y_log10() + xlab("regimen") + ylab("p-value") + scale_x_continuous(breaks=NULL)  +  
-  geom_point(data = all_comparisons, aes(x = 1:18, color = regime, y = p.value, shape=gender), size=4) 
+ geom_errorbar(aes(x = rank, ymin = low, ymax = up), width=0.2, linewidth=1.5, colour="grey50") +
+ scale_y_log10() + xlab("regimen") + ylab("p-value") + scale_x_continuous(breaks=NULL)  +  
+ geom_point(data = all_comparisons, aes(x = 1:18, color = regime, y = p.value, shape=gender), size=4) +
+ scale_color_viridis_d() + theme_bw()
 ```
 
 Here, all the $p$-values, including the smallest ones, belong to the 90% prediction intervals: *all the observed $p$-values behave individually how they are expected to behave under the null hypothesis*. 
@@ -217,9 +218,11 @@ stat_rank1 <- split(res, res$simu) %>% map_dbl(function(x) sort(x$statistic)[1])
 mean(stat_rank1 < all_comparisons$statistic[1])
 ```
 
-## Controlling the Family Wise Error Rate
+## Multiple testing procedures
 
-### The Bonferroni correction
+### Controlling Family Wise Error Rate
+
+#### The Bonferroni correction {-}
 
 Imagine that we perform $m$ comparisons  and that all the $m$ null hypotheses are true, i.e. $m=m_{0\cdot}$..
 If we use the same significance level $\alpha_m$ for the $m$ tests, how should we choose $\alpha_m$ in order to control the family-wise error rate (FWER)?
@@ -267,9 +270,9 @@ The Bonferroni correction is appropriate when a single false positive in a set o
 <!-- c(wilcox.test(x,y,"greater")$p.value, wilcox.test(x,y,"greater")$p.value*18) -->
 <!-- ```  -->
 
-## Controlling the False Discovery Rate
+### Controlling the False Discovery Rate
 
-### Detecting associations
+#### Detecting associations
 
 (Example from [Handbook of Biological Statistics](http://www.biostathandbook.com/multiplecomparisons.html))
 
@@ -284,9 +287,9 @@ We can see that five of the variables show a significant  $p$-value (<0.05). How
 
 Applying the Bonferroni correction, we divide $\alpha=0.05$ by the number of tests ($m=25$) to get the Bonferroni critical value, so a test would have to have $p<0.002$ to be significant. Under that criterion, only the test for total calories is significant.
 
-### The Benjamini-Hochberg procedure
+#### The Benjamini-Hochberg procedure
 
-::: {.callout-info}
+::: {.callout-note}
 ## Controlling FDR
 
 An alternative approach is to control the false discovery rate, i.e the expected proportion of "discoveries" (significant results) that are actually false positives. FDR control offers a way to increase power while maintaining some principled bound on error.
@@ -358,7 +361,7 @@ head(data,10)
 ```
 We would consider the 7 first $p$-values as significant using this new correction.
 
-## A Monte Carlo simulation
+### A Monte Carlo simulation
 
 Let us perform a Monte Carlo simulation to better understand the impact of these corrections.
 
