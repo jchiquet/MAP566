@@ -1138,7 +1138,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
   0.8222   0.8063 </code></pre>
 </div>
 </div>
-<p>On the other hand, the Wilcoxon test may be much more powerful than the t-test for non normal distributions when the empirical mean converges slowly in distribution to the normal distribution. Such is the case, for instance, of the log-normal ditribution which is strongly skewed for large variances.</p>
+<p>On the other hand, the Wilcoxon test may be much more powerful than the t-test for non normal distributions when the empirical mean converges slowly in distribution to the normal distribution. Such is the case, for instance, of the log-normal distribution which is strongly skewed for large variances.</p>
 <div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-47_8cd78732328cb7b3ed42e49cf7435fad">
 <div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>mu_x <span class="ot">&lt;-</span> <span class="dv">5</span>; mu_y <span class="ot">&lt;-</span> <span class="dv">6</span></span>
 <span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>sd_x <span class="ot">&lt;-</span> sd_y <span class="ot">&lt;-</span> <span class="dv">1</span></span>
@@ -1152,6 +1152,22 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code> Student Wilcoxon 
   0.6663   0.8466 </code></pre>
+</div>
+</div>
+<p>Note, however, that the central limit theorem ensures that the empirical means asymptotically follows a normal distribution, so that the t-test becomes more powerful even for a moderate number of replicates (the Wilcoxon test is still doing a little better though):</p>
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-48_8dab4f5e61fea8c5ae0dd86a4c70e3b1">
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>mu_x <span class="ot">&lt;-</span> <span class="dv">5</span>; mu_y <span class="ot">&lt;-</span> <span class="dv">6</span></span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>sd_x <span class="ot">&lt;-</span> sd_y <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>n_x <span class="ot">&lt;-</span> n_y <span class="ot">&lt;-</span> <span class="dv">40</span></span>
+<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a><span class="fu">replicate</span>(n_replicate, {</span>
+<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a>  x_new <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">rnorm</span>(n_x, mu_x, sd_x))</span>
+<span id="cb84-6"><a href="#cb84-6" aria-hidden="true" tabindex="-1"></a>  y_new <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">rnorm</span>(n_y, mu_y, sd_y))</span>
+<span id="cb84-7"><a href="#cb84-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">Student  =</span> <span class="fu">t.test</span>(x_new, y_new, <span class="at">alternative=</span><span class="st">"two.sided"</span>)<span class="sc">$</span>p.value <span class="sc">&lt;</span> alpha,</span>
+<span id="cb84-8"><a href="#cb84-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Wilcoxon =</span> <span class="fu">wilcox.test</span>(x_new, y_new, <span class="at">alternative=</span><span class="st">"two.sided"</span>)<span class="sc">$</span>p.value <span class="sc">&lt;</span> alpha)</span>
+<span id="cb84-9"><a href="#cb84-9" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">%&gt;%</span> <span class="fu">rowMeans</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Student Wilcoxon 
+  0.9224   0.9903 </code></pre>
 </div>
 </div>
 </section>
@@ -1172,48 +1188,48 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 </ol>
 <p>As an illustration, assume that the diet has a real impact on the weight: after 14 weeks, rats fed with GMOs weigh in average 15g less than control rats.</p>
 <p>It will be extremely unlikely to conclude that there is an effect with only 10 rats per group, even if we observe a difference of 15g in the two samples.</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-48_a7b7a0d628671c07f450b38be3379a9a">
-<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">500</span></span>
-<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="dv">15</span></span>
-<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="dv">30</span></span>
-<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a>x.sim <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n,mu,sd)</span>
-<span id="cb84-6"><a href="#cb84-6" aria-hidden="true" tabindex="-1"></a>y.sim <span class="ot">&lt;-</span> x.sim <span class="sc">+</span> delta</span>
-<span id="cb84-7"><a href="#cb84-7" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x.sim, y.sim)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-49_eee10946b38ccd4de7e7c86de57bd702">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="dv">15</span></span>
+<span id="cb86-4"><a href="#cb86-4" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb86-5"><a href="#cb86-5" aria-hidden="true" tabindex="-1"></a>x.sim <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n,mu,sd)</span>
+<span id="cb86-6"><a href="#cb86-6" aria-hidden="true" tabindex="-1"></a>y.sim <span class="ot">&lt;-</span> x.sim <span class="sc">+</span> delta</span>
+<span id="cb86-7"><a href="#cb86-7" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x.sim, y.sim)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Welch Two Sample t-test
 
 data:  x.sim and y.sim
-t = -1.3046, df = 18, p-value = 0.2085
+t = -1.2591, df = 18, p-value = 0.2241
 alternative hypothesis: true difference in means is not equal to 0
 95 percent confidence interval:
- -39.155679   9.155679
+ -40.02863  10.02863
 sample estimates:
 mean of x mean of y 
- 495.7739  510.7739 </code></pre>
+ 471.9655  486.9655 </code></pre>
 </div>
 </div>
 <p>This basic example shows that a difference considered as biologically significant may not be statistically significant.</p>
 <p>On the other hand, a small difference considered as not biologically significant (1g for instance) may be considered as statistically significant if the group sizes are large enough.</p>
-<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-49_694bdb8624f4f3acde3533ee1c275dc1">
-<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
-<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>x.sim <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n,mu,sd)</span>
-<span id="cb86-4"><a href="#cb86-4" aria-hidden="true" tabindex="-1"></a>y.sim <span class="ot">&lt;-</span> x.sim <span class="sc">+</span> delta</span>
-<span id="cb86-5"><a href="#cb86-5" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x.sim, y.sim)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-50_f3995445421df5932b2d499418f9fac3">
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a>x.sim <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n,mu,sd)</span>
+<span id="cb88-4"><a href="#cb88-4" aria-hidden="true" tabindex="-1"></a>y.sim <span class="ot">&lt;-</span> x.sim <span class="sc">+</span> delta</span>
+<span id="cb88-5"><a href="#cb88-5" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x.sim, y.sim)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Welch Two Sample t-test
 
 data:  x.sim and y.sim
-t = -2.3568, df = 19998, p-value = 0.01844
+t = -2.3484, df = 19998, p-value = 0.01886
 alternative hypothesis: true difference in means is not equal to 0
 95 percent confidence interval:
- -1.8316834 -0.1683166
+ -1.8346437 -0.1653563
 sample estimates:
 mean of x mean of y 
- 499.9159  500.9159 </code></pre>
+ 500.3192  501.3192 </code></pre>
 </div>
 </div>
 <p>This example confirms the need for a power analysis as a complement of the comparison test.</p>
