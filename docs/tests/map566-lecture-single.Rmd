@@ -645,7 +645,7 @@ replicate(n_replicate, {
 }) %>% rowMeans()
 ```
 
-On the other hand, the Wilcoxon test may be much more powerful than the t-test for non normal distributions when the empirical mean converges slowly in distribution to the normal distribution. Such is the case, for instance, of the log-normal ditribution which is strongly skewed for large variances.
+On the other hand, the Wilcoxon test may be much more powerful than the t-test for non normal distributions when the empirical mean converges slowly in distribution to the normal distribution. Such is the case, for instance, of the log-normal distribution which is strongly skewed for large variances.
 
 ```{r}
 mu_x <- 5; mu_y <- 6
@@ -658,6 +658,21 @@ replicate(n_replicate, {
     Wilcoxon = wilcox.test(x_new, y_new, alternative="two.sided")$p.value < alpha)
 }) %>% rowMeans()
 ```
+
+Note, however, that the central limit theorem ensures that the empirical means asymptotically follows a normal distribution, so that the t-test becomes more powerful even for a moderate number of replicates (the Wilcoxon test is still doing a little better though):
+
+```{r}
+mu_x <- 5; mu_y <- 6
+sd_x <- sd_y <- 1
+n_x <- n_y <- 40
+replicate(n_replicate, {
+  x_new <- exp(rnorm(n_x, mu_x, sd_x))
+  y_new <- exp(rnorm(n_y, mu_y, sd_y))
+  c(Student  = t.test(x_new, y_new, alternative="two.sided")$p.value < alpha,
+    Wilcoxon = wilcox.test(x_new, y_new, alternative="two.sided")$p.value < alpha)
+}) %>% rowMeans()
+```
+
 
 # Final remark: the limited role of the p-value 
 
