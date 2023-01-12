@@ -638,14 +638,14 @@ Permutation test
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setNames</span>(<span class="fu">c</span>(<span class="st">"low"</span>,<span class="st">"median"</span>,<span class="st">"up"</span>)) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">rank =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>and plot them, with the original <span class="math inline">p</span>-values</p>
-<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-12_6c37a7808eba4f6d90426e84b73307e3">
+<div class="cell" data-hash="map566-lecture-multiple_cache/html/unnamed-chunk-12_1bdec3c661584f827ba35373e2c206a6">
 <details>
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>quantiles_pvalues <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">x =</span> rank, <span class="at">ymin =</span> low, <span class="at">ymax =</span> up), <span class="at">width=</span><span class="fl">0.2</span>, <span class="at">linewidth=</span><span class="fl">1.5</span>, <span class="at">colour=</span><span class="st">"grey50"</span>) <span class="sc">+</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">scale_y_log10</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"regimen"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"p-value"</span>) <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="cn">NULL</span>)  <span class="sc">+</span>  </span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_point</span>(<span class="at">data =</span> all_comparisons, <span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">18</span>, <span class="at">color =</span> regime, <span class="at">y =</span> p.value, <span class="at">shape=</span>gender), <span class="at">size=</span><span class="dv">4</span>) <span class="sc">+</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a> <span class="fu">scale_color_viridis_d</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="map566-lecture-multiple_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="960"></p>
