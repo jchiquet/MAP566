@@ -399,6 +399,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#confidence-interval-for-the-model-parameters" id="toc-confidence-interval-for-the-model-parameters" class="nav-link" data-scroll-target="#confidence-interval-for-the-model-parameters"><span class="toc-section-number">2.2</span>  Confidence interval for the model parameters</a></li>
   <li><a href="#coefficient-of-determination" id="toc-coefficient-of-determination" class="nav-link" data-scroll-target="#coefficient-of-determination"><span class="toc-section-number">2.3</span>  Coefficient of determination</a></li>
   <li><a href="#f-test-of-the-overall-significance" id="toc-f-test-of-the-overall-significance" class="nav-link" data-scroll-target="#f-test-of-the-overall-significance"><span class="toc-section-number">2.4</span>  F-test of the overall significance</a></li>
+  <li><a href="#confidence-and-prediction-intervals" id="toc-confidence-and-prediction-intervals" class="nav-link" data-scroll-target="#confidence-and-prediction-intervals"><span class="toc-section-number">2.5</span>  Confidence and prediction intervals</a></li>
   </ul></li>
   <li><a href="#model-comparison" id="toc-model-comparison" class="nav-link" data-scroll-target="#model-comparison"><span class="toc-section-number">3</span>  Model comparison</a>
   <ul class="collapse">
@@ -406,16 +407,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#likelihood-ratio-test" id="toc-likelihood-ratio-test" class="nav-link" data-scroll-target="#likelihood-ratio-test"><span class="toc-section-number">3.2</span>  Likelihood ratio test</a></li>
   <li><a href="#deviance" id="toc-deviance" class="nav-link" data-scroll-target="#deviance"><span class="toc-section-number">3.3</span>  Deviance</a></li>
   <li><a href="#information-criteria" id="toc-information-criteria" class="nav-link" data-scroll-target="#information-criteria"><span class="toc-section-number">3.4</span>  Information criteria</a></li>
-  <li><a href="#confidence-and-prediction-intervals" id="toc-confidence-and-prediction-intervals" class="nav-link" data-scroll-target="#confidence-and-prediction-intervals"><span class="toc-section-number">3.5</span>  Confidence and prediction intervals</a></li>
   </ul></li>
   <li><a href="#appendix---maximum-likelihood-approach" id="toc-appendix---maximum-likelihood-approach" class="nav-link" data-scroll-target="#appendix---maximum-likelihood-approach">Appendix - Maximum likelihood approach</a>
   <ul class="collapse">
-  <li><a href="#likelihood" id="toc-likelihood" class="nav-link" data-scroll-target="#likelihood"><span class="toc-section-number">3.6</span>  Likelihood</a></li>
-  <li><a href="#maximum-likelihood-estimator" id="toc-maximum-likelihood-estimator" class="nav-link" data-scroll-target="#maximum-likelihood-estimator"><span class="toc-section-number">3.7</span>  Maximum likelihood estimator</a></li>
-  <li><a href="#the-fisher-information-matrix" id="toc-the-fisher-information-matrix" class="nav-link" data-scroll-target="#the-fisher-information-matrix"><span class="toc-section-number">3.8</span>  The Fisher Information matrix</a></li>
-  <li><a href="#some-general-definitions" id="toc-some-general-definitions" class="nav-link" data-scroll-target="#some-general-definitions"><span class="toc-section-number">3.9</span>  Some general definitions</a></li>
-  <li><a href="#the-central-limit-theorem" id="toc-the-central-limit-theorem" class="nav-link" data-scroll-target="#the-central-limit-theorem"><span class="toc-section-number">3.10</span>  The central limit theorem</a></li>
-  <li><a href="#the-fim-for-a-regression-model" id="toc-the-fim-for-a-regression-model" class="nav-link" data-scroll-target="#the-fim-for-a-regression-model"><span class="toc-section-number">3.11</span>  The FIM for a regression model</a></li>
+  <li><a href="#likelihood" id="toc-likelihood" class="nav-link" data-scroll-target="#likelihood"><span class="toc-section-number">3.5</span>  Likelihood</a></li>
+  <li><a href="#maximum-likelihood-estimator" id="toc-maximum-likelihood-estimator" class="nav-link" data-scroll-target="#maximum-likelihood-estimator"><span class="toc-section-number">3.6</span>  Maximum likelihood estimator</a></li>
+  <li><a href="#the-fisher-information-matrix" id="toc-the-fisher-information-matrix" class="nav-link" data-scroll-target="#the-fisher-information-matrix"><span class="toc-section-number">3.7</span>  The Fisher Information matrix</a></li>
+  <li><a href="#some-general-definitions" id="toc-some-general-definitions" class="nav-link" data-scroll-target="#some-general-definitions"><span class="toc-section-number">3.8</span>  Some general definitions</a></li>
+  <li><a href="#the-central-limit-theorem" id="toc-the-central-limit-theorem" class="nav-link" data-scroll-target="#the-central-limit-theorem"><span class="toc-section-number">3.9</span>  The central limit theorem</a></li>
+  <li><a href="#the-fim-for-a-regression-model" id="toc-the-fim-for-a-regression-model" class="nav-link" data-scroll-target="#the-fim-for-a-regression-model"><span class="toc-section-number">3.10</span>  The FIM for a regression model</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
@@ -815,7 +815,7 @@ Reproducing <code>lm</code> output
 <p>Using the fact that <span class="math display">
 \|y - \bar{y}\|^2 = \|X\hat{\beta} - \bar{y}\|^2 + \|y - X\hat{\beta} \|^2
 </span> We deduce that, under <span class="math inline">H_0</span>, <span class="math inline">\|X\hat{\beta} - \bar{y}\|^2/\sigma^2</span> has a <span class="math inline">\chi^2</span> distribution with <span class="math inline">(n-1) - (n-p) = p-1</span> df which leads to the conclusion since <span class="math inline">(\chi^2(\nu_1)/\nu1)/(\chi^2(\nu_2)/\nu2) = F(\nu_1,\nu_2)</span>.</p>
-<p>The <span class="math inline">p</span>-value of the F-test is therefore <span class="math display">\text{p-value(F-test)} = \mathbb{P}(F_{p-1,n-p} &gt; F_{\rm stat})=1- \mathbb{P}(F_{p-1,n-p} \leq F_{\rm stat})</span> ::: {.callout-note} ## Reproducing <code>lm</code> output</p>
+<p>The <span class="math inline">p</span>-value of the F-test is therefore <span class="math display">\text{p-value(F-test)} = \mathbb{P}(F_{p-1,n-p} &gt; F_{\rm stat})=1- \mathbb{P}(F_{p-1,n-p} \leq F_{\rm stat})</span> ::: {.callout-note} #### Reproducing <code>lm</code> output</p>
 <div class="cell" data-hash="map566-lecture-regression-background_cache/html/unnamed-chunk-8_876539a22b3814653bb1b174eaae2583">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pf</span>(F_stat, d <span class="sc">-</span> <span class="dv">1</span>, n <span class="sc">-</span> d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -830,6 +830,39 @@ F_{\rm stat} &amp;=  \frac{\|\hat{\beta}_0 + \hat{\beta}_1 x - \bar{y}\|^2}{\|y 
 \end{aligned}
 </span></p>
 <p>Furthermore, if <span class="math inline">t_{\rm stat}</span> has a <span class="math inline">t</span> distribution with <span class="math inline">n-2</span> df, then <span class="math inline">t_{\rm stat}^2</span> has a <span class="math inline">F</span> distribution with <span class="math inline">(1,n-2)</span> df. Both p-values are therefore equal.</p>
+<p><a name="poly4"></a></p>
+</section>
+<section id="confidence-and-prediction-intervals" class="level3" data-number="2.5">
+<h3 data-number="2.5" class="anchored" data-anchor-id="confidence-and-prediction-intervals"><span class="header-section-number">2.5</span> Confidence and prediction intervals</h3>
+<p>For given values <span class="math inline">x^{\mathrm{new}}</span> of the explanatory variable, we can use the fitted model for estimating the predicted response <span class="math inline">f^{\mathrm{new}}=f(x^{\mathrm{new}})</span>. This estimation is defined as</p>
+<p><span class="math display">
+\hat{f^{\mathrm{new}}} = f(x^{\mathrm{new}} ,\hat{\beta})
+</span></p>
+<p><span class="math inline">\hat{f^{\mathrm{new}}}</span> is a random variable since it is a function of the observed <span class="math inline">y</span>. We can compute a confidence interval for <span class="math inline">f^{\mathrm{new}}</span> with function <code>predict(interval = "confidence")</code>, since <span class="math inline">\hat{f^{\mathrm{new}}}= x^{\mathrm{new}} \hat{\beta}</span>, <span class="math display">
+\hat{f^{\mathrm{new}}} \sim \mathcal{N} (f^{\mathrm{new}} , {\rm Var}(\hat{f^{\mathrm{new}}} ) )
+</span></p>
+<p>where <span class="math display">\begin{aligned}
+{\rm Var}(\hat{f^{\mathrm{new}}} ) &amp;=  {x^{\mathrm{new}}} {\rm Var}(\hat{\beta}) {x^{\mathrm{new}}}^\prime \\
+&amp;= \sigma^2 x^{\mathrm{new}}(X^\prime X)^{-1}{x^{\mathrm{new}}}^\prime
+\end{aligned}</span></p>
+<p><span class="math inline">\widehat{{\rm Var}(\hat{f^{\mathrm{new}}})}</span>, an estimate of <span class="math inline">{\rm Var}(\hat{f^{\mathrm{new}}} )</span> is obtained using <span class="math inline">\hat\sigma^2</span> instead of <span class="math inline">\sigma^2</span>.</p>
+<p>Then, <span class="math display">
+\begin{aligned}
+\left({{\rm Var}(\hat{f^{\mathrm{new}}})} \right)^{-1/2}(\hat{f^{\mathrm{new}}} - f^{\mathrm{new}}) &amp;\sim \mathcal{N}(0,  {\rm Id}_{n^{\mathrm{new}}} )  \\
+\left(\widehat{{\rm Var}(\hat{f^{\mathrm{new}}})} \right)^{-1/2}(\hat{f^{\mathrm{new}}} - f^{\mathrm{new}}) &amp;\sim t_{n^{\mathrm{new}},n-p}
+\end{aligned}
+</span> where <span class="math inline">t_{n^{\mathrm{new}},n-p}</span> is the multivariate <span class="math inline">t</span> distribution with <span class="math inline">n-p</span> degrees of freedom (the components of this <span class="math inline">n^{\mathrm{new}}</span>-vector are independent and follow a <span class="math inline">t</span> distribution with <span class="math inline">n-p</span> df).</p>
+<p>Consider now a vector of new measured values <span class="math inline">y^{\mathrm{new}}</span>. We can again use the <code>predict(interval = "prediction")</code> function for computing a prediction interval for <span class="math inline">y^{\mathrm{new}}</span>. By definition of the model, <span class="math display">
+y^{\mathrm{new}} \sim \mathcal{N} (f^{\mathrm{new}} , \sigma^2 \, {\rm Id}_{n^{\mathrm{new}}} )
+</span> Then, if we want to compute a prediction interval for <span class="math inline">y^{\mathrm{new}}</span>, we must take into account the variability of <span class="math inline">y^{\mathrm{new}}</span> around <span class="math inline">f^{\mathrm{new}}</span>, but also the uncertainty on <span class="math inline">f^{\mathrm{new}}</span> since it is unknown:</p>
+<p><span class="math display">y^{\mathrm{new}} = \hat{f^{\mathrm{new}}} + (f^{\mathrm{new}}-\hat{f^{\mathrm{new}}}) + \varepsilon^{\mathrm{new}} </span> Thus, <span class="math display">
+y^{\mathrm{new}} - \hat{f^{\mathrm{new}}} \sim \mathcal{N}(0, {\rm Var}(\hat{f^{\mathrm{new}}}) + \sigma^2 \, {\rm Id}_{n^{\mathrm{new}}} )
+</span> Then, <span class="math display">
+\begin{aligned}
+\left(x^{\mathrm{new}} {\rm Var}(\hat{\beta}) x^{\mathrm{new}} + {\sigma}^2 {\rm Id}_{n^{\mathrm{new}}} \right)^{-1/2}(y^{\mathrm{new}} - \hat{f^{\mathrm{new}}}) &amp; \sim \mathcal{N}(0,  {\rm Id}_{n^{\mathrm{new}}} ) \\
+\left(x^{\mathrm{new}} \widehat{{\rm Var}(\hat{\beta})} x^{\mathrm{new}} + \hat{\sigma}^2 {\rm Id}_{n^{\mathrm{new}}} \right)^{-1/2}(y^{\mathrm{new}} - \hat{f^{\mathrm{new}}}) &amp; \sim t_{n^{\mathrm{new}},n-p}
+\end{aligned}
+</span></p>
 </section>
 </section>
 <section id="model-comparison" class="level2" data-number="3">
@@ -873,39 +906,6 @@ BIC &amp;= -2\log\ell(\hat{\theta}) + \log(n)P
 \end{aligned}
 </span> where <span class="math inline">P</span> is the number of parameters of the model, i.e.&nbsp;the length of <span class="math inline">\theta</span>.</p>
 <p>On one hand, <span class="math inline">-2\log\ell(\hat{\theta})</span> decreases when <span class="math inline">P</span> increases. On the other hand, the penalization term (<span class="math inline">2P</span> or <span class="math inline">\log(n)P</span>) increases with <span class="math inline">P</span>. The objective of these criteria is to propose a model with an optimal compromise between the goodness of fit (measured by the log-likelihood) and the complexity of the model (measured by the number of parameters <span class="math inline">P</span>).</p>
-<p><a name="poly4"></a></p>
-</section>
-<section id="confidence-and-prediction-intervals" class="level3" data-number="3.5">
-<h3 data-number="3.5" class="anchored" data-anchor-id="confidence-and-prediction-intervals"><span class="header-section-number">3.5</span> Confidence and prediction intervals</h3>
-<p>For given values <span class="math inline">x^{\mathrm{new}}</span> of the explanatory variable, we can use the fitted model for estimating the predicted response <span class="math inline">f^{\mathrm{new}}=f(x^{\mathrm{new}})</span>. This estimation is defined as</p>
-<p><span class="math display">
-\hat{f^{\mathrm{new}}} = f(x^{\mathrm{new}} ,\hat{\beta})
-</span></p>
-<p><span class="math inline">\hat{f^{\mathrm{new}}}</span> is a random variable since it is a function of the observed <span class="math inline">y</span>. We can compute a confidence interval for <span class="math inline">f^{\mathrm{new}}</span> with function <code>predict(interval = "confidence")</code>, since <span class="math inline">\hat{f^{\mathrm{new}}}= x^{\mathrm{new}} \hat{\beta}</span>, <span class="math display">
-\hat{f^{\mathrm{new}}} \sim \mathcal{N} (f^{\mathrm{new}} , {\rm Var}(\hat{f^{\mathrm{new}}} ) )
-</span></p>
-<p>where <span class="math display">\begin{aligned}
-{\rm Var}(\hat{f^{\mathrm{new}}} ) &amp;=  {x^{\mathrm{new}}} {\rm Var}(\hat{\beta}) {x^{\mathrm{new}}}^\prime \\
-&amp;= \sigma^2 x^{\mathrm{new}}(X^\prime X)^{-1}{x^{\mathrm{new}}}^\prime
-\end{aligned}</span></p>
-<p><span class="math inline">\widehat{{\rm Var}(\hat{f^{\mathrm{new}}})}</span>, an estimate of <span class="math inline">{\rm Var}(\hat{f^{\mathrm{new}}} )</span> is obtained using <span class="math inline">\hat\sigma^2</span> instead of <span class="math inline">\sigma^2</span>.</p>
-<p>Then, <span class="math display">
-\begin{aligned}
-\left({{\rm Var}(\hat{f^{\mathrm{new}}})} \right)^{-1/2}(\hat{f^{\mathrm{new}}} - f^{\mathrm{new}}) &amp;\sim \mathcal{N}(0,  {\rm Id}_{n^{\mathrm{new}}} )  \\
-\left(\widehat{{\rm Var}(\hat{f^{\mathrm{new}}})} \right)^{-1/2}(\hat{f^{\mathrm{new}}} - f^{\mathrm{new}}) &amp;\sim t_{n^{\mathrm{new}},n-p}
-\end{aligned}
-</span> where <span class="math inline">t_{n^{\mathrm{new}},n-p}</span> is the multivariate <span class="math inline">t</span> distribution with <span class="math inline">n-p</span> degrees of freedom (the components of this <span class="math inline">n^{\mathrm{new}}</span>-vector are independent and follow a <span class="math inline">t</span> distribution with <span class="math inline">n-p</span> df).</p>
-<p>Consider now a vector of new measured values <span class="math inline">y^{\mathrm{new}}</span>. We can again use the <code>predict(interval = "prediction")</code> function for computing a prediction interval for <span class="math inline">y^{\mathrm{new}}</span>. By definition of the model, <span class="math display">
-y^{\mathrm{new}} \sim \mathcal{N} (f^{\mathrm{new}} , \sigma^2 \, {\rm Id}_{n^{\mathrm{new}}} )
-</span> Then, if we want to compute a prediction interval for <span class="math inline">y^{\mathrm{new}}</span>, we must take into account the variability of <span class="math inline">y^{\mathrm{new}}</span> around <span class="math inline">f^{\mathrm{new}}</span>, but also the uncertainty on <span class="math inline">f^{\mathrm{new}}</span> since it is unknown:</p>
-<p><span class="math display">y^{\mathrm{new}} = \hat{f^{\mathrm{new}}} + (f^{\mathrm{new}}-\hat{f^{\mathrm{new}}}) + \varepsilon^{\mathrm{new}} </span> Thus, <span class="math display">
-y^{\mathrm{new}} - \hat{f^{\mathrm{new}}} \sim \mathcal{N}(0, {\rm Var}(\hat{f^{\mathrm{new}}}) + \sigma^2 \, {\rm Id}_{n^{\mathrm{new}}} )
-</span> Then, <span class="math display">
-\begin{aligned}
-\left(x^{\mathrm{new}} {\rm Var}(\hat{\beta}) x^{\mathrm{new}} + {\sigma}^2 {\rm Id}_{n^{\mathrm{new}}} \right)^{-1/2}(y^{\mathrm{new}} - \hat{f^{\mathrm{new}}}) &amp; \sim \mathcal{N}(0,  {\rm Id}_{n^{\mathrm{new}}} ) \\
-\left(x^{\mathrm{new}} \widehat{{\rm Var}(\hat{\beta})} x^{\mathrm{new}} + \hat{\sigma}^2 {\rm Id}_{n^{\mathrm{new}}} \right)^{-1/2}(y^{\mathrm{new}} - \hat{f^{\mathrm{new}}}) &amp; \sim t_{n^{\mathrm{new}},n-p}
-\end{aligned}
-</span></p>
 </section>
 </section>
 <section id="appendix---maximum-likelihood-approach" class="level2 unnumbered">
@@ -918,8 +918,8 @@ y^{\mathrm{new}} - \hat{f^{\mathrm{new}}} \sim \mathcal{N}(0, {\rm Var}(\hat{f^{
 \mathbb{P}(y ; \theta) = \prod_{j=1}^n \mathbb{P}(y_j; \theta) &amp; = \prod_{j=1}^n \frac{1}{\sqrt{2\pi \sigma^2}} \text{exp}\left(-\frac{1}{2\sigma^2}(y_j - f(x_j, \beta))^2 \right) \\
 &amp; =  (2\pi \sigma^2)^{-\frac{n}{2}} \text{exp}\left(-\frac{1}{2\sigma^2}\sum_{j=1}^n(y_j - f(x_j, \beta))^2\right).
 \end{aligned}</span></p>
-<section id="likelihood" class="level3" data-number="3.6">
-<h3 data-number="3.6" class="anchored" data-anchor-id="likelihood"><span class="header-section-number">3.6</span> Likelihood</h3>
+<section id="likelihood" class="level3" data-number="3.5">
+<h3 data-number="3.5" class="anchored" data-anchor-id="likelihood"><span class="header-section-number">3.5</span> Likelihood</h3>
 <p>For a given vector of observations <span class="math inline">y</span>, the likelihood <span class="math inline">\ell</span> is the function of the parameter <span class="math inline">\theta=(\beta,\sigma^2)</span> defined as:</p>
 <p><span class="math display">
 \ell(\theta) = \mathbb{P}(y ; \theta)
@@ -927,8 +927,8 @@ y^{\mathrm{new}} - \hat{f^{\mathrm{new}}} \sim \mathcal{N}(0, {\rm Var}(\hat{f^{
 \log\ell(\theta) = -\frac{n}{2}\log(2\pi) - \frac{n}{2}\log(\sigma^2) - \frac{1}{2\sigma^2}\sum_{j=1}^n(y_j - f(x_j,\beta))^2
 </span></p>
 </section>
-<section id="maximum-likelihood-estimator" class="level3" data-number="3.7">
-<h3 data-number="3.7" class="anchored" data-anchor-id="maximum-likelihood-estimator"><span class="header-section-number">3.7</span> Maximum likelihood estimator</h3>
+<section id="maximum-likelihood-estimator" class="level3" data-number="3.6">
+<h3 data-number="3.6" class="anchored" data-anchor-id="maximum-likelihood-estimator"><span class="header-section-number">3.6</span> Maximum likelihood estimator</h3>
 <p>Assume that <span class="math inline">\theta</span> takes its values in a subset <span class="math inline">\Theta</span> of <span class="math inline">\mathbb{R}^p</span>. Then, the <em>Maximum Likelihood</em> (ML) estimator of <span class="math inline">\theta</span> is a function of <span class="math inline">y</span> that maximizes the likelihood function:</p>
 <p><span class="math display">
 \hat{\theta} = \arg\max_{\theta \in \Theta}\ell(\theta) = \arg\max_{\theta \in \Theta}\log\ell(\theta)
@@ -957,11 +957,11 @@ n\log(2\pi) + n\log(\sigma^2) + \frac{1}{\sigma^2}\sum_{j=1}^n(y_j - f(x_j,\hat{
 \log\ell(\hat{\theta}) = -\frac{n}{2}\log(2\pi) - \frac{n}{2}\log\left(\frac{1}{n}\sum_{j=1}^n(y_j - f(x_j,\hat{\beta}))^2\right) -\frac{n}{2}
 </span></p>
 </section>
-<section id="the-fisher-information-matrix" class="level3" data-number="3.8">
-<h3 data-number="3.8" class="anchored" data-anchor-id="the-fisher-information-matrix"><span class="header-section-number">3.8</span> The Fisher Information matrix</h3>
+<section id="the-fisher-information-matrix" class="level3" data-number="3.7">
+<h3 data-number="3.7" class="anchored" data-anchor-id="the-fisher-information-matrix"><span class="header-section-number">3.7</span> The Fisher Information matrix</h3>
 </section>
-<section id="some-general-definitions" class="level3" data-number="3.9">
-<h3 data-number="3.9" class="anchored" data-anchor-id="some-general-definitions"><span class="header-section-number">3.9</span> Some general definitions</h3>
+<section id="some-general-definitions" class="level3" data-number="3.8">
+<h3 data-number="3.8" class="anchored" data-anchor-id="some-general-definitions"><span class="header-section-number">3.8</span> Some general definitions</h3>
 <p>The partial derivative of the log-likelihood with respect to <span class="math inline">\theta</span> is called the <em>score</em>. Under general regularity conditions, the expected value of the score is 0. Indeed, it is easy to show that</p>
 <p><span class="math display">\mathbb{E}\left(\frac{\partial}{\partial \theta} \log\mathbb{P}(y;\theta^\star)\right) = 0.</span></p>
 <p>where <span class="math inline">\theta^\star</span> is the ``true’’ unknown value of <span class="math inline">\theta</span> such that the observations <span class="math inline">y</span> where generated with model <span class="math inline">\mathbb{P}(\cdot;\theta^\star)</span>.</p>
@@ -976,8 +976,8 @@ I_n(\theta^\star) &amp;= -  \mathbb{E}\left(\frac{\partial^2}{\partial \theta \p
 \end{aligned}
 </span></p>
 </section>
-<section id="the-central-limit-theorem" class="level3" data-number="3.10">
-<h3 data-number="3.10" class="anchored" data-anchor-id="the-central-limit-theorem"><span class="header-section-number">3.10</span> The central limit theorem</h3>
+<section id="the-central-limit-theorem" class="level3" data-number="3.9">
+<h3 data-number="3.9" class="anchored" data-anchor-id="the-central-limit-theorem"><span class="header-section-number">3.9</span> The central limit theorem</h3>
 <p>The following central limit theorem (CLT) holds under certain regularity conditions: <span class="math display">
 I_n(\theta^\star)^{\frac{1}{2}}(\hat{\theta}-\theta^\star) \xrightarrow{n\to \infty} {\mathcal N}(0,{\rm Id}_n) .
 </span> This theorem shows that under relevant hypotheses, the estimator <span class="math inline">\hat{\theta}</span> is consistent and converges to <span class="math inline">\theta^\star</span> at rate <span class="math inline">\sqrt{n}</span> since <span class="math inline">I_n=\mathcal{O}(n)</span>.</p>
@@ -990,8 +990,8 @@ I_{y}(\hat{\theta}) &amp;= - \frac{\partial^2}{\partial \theta^2} \log\ell(\hat{
 \hat{\theta} \approx {\mathcal N}(\theta^\star , I_y(\hat{\theta})^{-1}) .
 </span> The square roots of the diagonal elements of <span class="math inline">I_y(\hat{\theta})^{-1}</span> are called the <em>standard errors</em> (s.e.) of the elements of <span class="math inline">\hat{\theta}</span>.</p>
 </section>
-<section id="the-fim-for-a-regression-model" class="level3" data-number="3.11">
-<h3 data-number="3.11" class="anchored" data-anchor-id="the-fim-for-a-regression-model"><span class="header-section-number">3.11</span> The FIM for a regression model</h3>
+<section id="the-fim-for-a-regression-model" class="level3" data-number="3.10">
+<h3 data-number="3.10" class="anchored" data-anchor-id="the-fim-for-a-regression-model"><span class="header-section-number">3.10</span> The FIM for a regression model</h3>
 <p>We have seen that, for a regression model, <span class="math display">
 \begin{aligned}
 \log\ell(\theta) &amp;= \log\ell(\beta,\sigma^2) \\

@@ -721,7 +721,7 @@ speed         3.096964  4.767853</code></pre>
 </div>
 </div>
 </div>
-<p>A prediction interval for a new measured distance <span class="math inline">y=f(x)+e</span> can also be computed. This prediction interval takes into account both the uncertainty on the predicted distance <span class="math inline">f(x)</span> and the variability of the measure, represented in the model by the residual error <span class="math inline">e</span>.</p>
+<p>A prediction interval for a new measured distance <span class="math inline">y=f(x)+\varepsilon</span> can also be computed. This prediction interval takes into account both the uncertainty on the predicted distance <span class="math inline">f(x)</span> and the variability of the measure, represented in the model by the residual error <span class="math inline">e</span>.</p>
 <div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-18_1739947c9d59e4129424639a7413b1f5">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>pred_inter <span class="ot">&lt;-</span>    <span class="fu">setNames</span>(<span class="fu">cbind</span>(new_x,</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(lm1, <span class="at">newdata =</span> new_x, <span class="at">interval =</span> <span class="st">"prediction"</span>, <span class="at">level =</span> <span class="dv">1</span> <span class="sc">-</span> alpha)),</span>
