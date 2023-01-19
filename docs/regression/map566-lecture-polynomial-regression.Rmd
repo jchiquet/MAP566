@@ -167,7 +167,7 @@ The regression line describes pretty well the global trend in the data: based on
 Several diagnostic plots are available for a `lm` object. The  first two are a plot of residuals against fitted values and a normal QQ plot.
 
 ```{r}
-autoplot(lm0, which = 1:2) ## autoplot comes from ggfortify
+autoplot(lm1, which = 1:2) ## autoplot comes from ggfortify
 ```
 
 The residual plot shows a slight (decreasing and increasing) trend which suggests that the residuals are not identically distributed around 0. Furthermore, the QQ plot shows that the  extreme residual values are not the extreme values of a normal distribution. It may be therefore necessary to improve the regression model. 
@@ -258,7 +258,7 @@ conf_inter <-
 conf_inter %>% rmarkdown::paged_table()
 ```
 
-A prediction interval for a new measured distance $y=f(x)+e$ can also be computed. This prediction interval takes into account both the uncertainty on the predicted distance $f(x)$ and the variability of the measure, represented in the model by the residual error $e$.
+A prediction interval for a new measured distance $y=f(x)+\varepsilon$ can also be computed. This prediction interval takes into account both the uncertainty on the predicted distance $f(x)$ and the variability of the measure, represented in the model by the residual error $e$.
 
 ```{r}
 pred_inter <-    setNames(cbind(new_x,
