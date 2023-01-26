@@ -469,16 +469,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <p>Even if this model is the “best” polynomial model, we may have serious doubts on the capabilities of the model to predict waiting times for durations outside of the observed range of durations.</p>
-<iframe style="border: none; width: 100%; height: 700px" frameborder="0" src="http://shiny.webpopix.org/sia/polyreg/">
-</iframe>
-<p>Furthermore, parameters of the model, i.e.&nbsp;the polynomials’ coefficients, have no obvious physical interpretation. Using a polynomial model here, we are therefore not seeking to build a structural model <span class="math inline">f</span> that approximates a physical phenomenon, but merely seeking to rely the variability in the observations to the explanatory variables <span class="math inline">x</span>, <span class="math inline">x^2</span>, …</p>
-<p>We therefore need to consider other types of models, <em>i)</em> that do not necessarily assume linear relationships between the response variable and the explanatory variables, <em>ii)</em> whose parameters have some physical interpretation.</p>
+<p><a href="http://shiny.webpopix.org/sia/polyreg/">Interactive Polynomial Regression fits</a></p>
+<p>Furthermore, parameters of the model, i.e.&nbsp;the polynomials’ coefficients, have no obvious physical interpretation. Using a polynomial model here, we are therefore not seeking to build a structural model <span class="math inline">f</span> that approximates a physical phenomenon, but merely seeking to rely the variability in the observations to the explanatory variables <span class="math inline">x</span>, <span class="math inline">x^2</span>, … We therefore need to consider other types of models, <em>i)</em> that do not necessarily assume linear relationships between the response variable and the explanatory variables, <em>ii)</em> whose parameters have some physical interpretation.</p>
 <p>A <em>logistic function</em> (or <em>logistic curve</em>) is a common “S” shape (sigmoid curve), with equation:</p>
 <p><span class="math display">
 f_1(x) = \frac{A}{1+{\rm exp}(-\gamma(x-\tau))}
 </span></p>
-<iframe iframe="" style="border: none; width: 100%; height: 400px" frameborder="0" src="http://shiny.webpopix.org/sia/nlm1/" data-external="1">
-</iframe>
+<p><a href="http://shiny.webpopix.org/sia/nlm1/">Interactive fit</a></p>
 <p>Here, <span class="math inline">A</span> is the limiting value (when <span class="math inline">x \to \infty</span>), <span class="math inline">\gamma</span> measure the steepness of the curve and <span class="math inline">\tau</span> is the <span class="math inline">x</span>-value of the sigmoid’s midpoint.</p>
 <p>This model is a nonlinear model in the sense that the regression function <span class="math inline">f_1</span> is a nonlinear function of the parameters. We can fit this model to our data using the <code>nls</code> function.</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-2_d08baf3ec410c1787266815b338c8a8f">
@@ -507,8 +504,7 @@ Achieved convergence tolerance: 6.187e-06</code></pre>
 <p><span class="math display">
 f_2(x) =  S + \frac{A-S}{1+{\rm exp}(-\gamma(x-\tau))}
 </span></p>
-<iframe iframe="" style="border: none; width: 100%; height: 400px" frameborder="0" src="http://shiny.webpopix.org/sia/nlm2/" data-external="1">
-</iframe>
+<p><a href="http://shiny.webpopix.org/sia/nlm2/">Interactive fit</a></p>
 <p>We can again use <code>nls</code> to fit this nonlinear model to the data:</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-3_8f62267602fcecd957fdb23298e2cb87">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>nlm2 <span class="ot">&lt;-</span> <span class="fu">nls</span>(waiting <span class="sc">~</span> (A<span class="sc">-</span>S) <span class="sc">/</span> ( <span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span>gamma <span class="sc">*</span> (eruptions <span class="sc">-</span> tau)) ) <span class="sc">+</span> S, faithful, <span class="at">start =</span> <span class="fu">c</span>(<span class="at">A=</span><span class="dv">90</span>, <span class="at">gamma=</span><span class="dv">2</span>, <span class="at">tau=</span><span class="dv">2</span>, <span class="at">S=</span><span class="dv">50</span>))</span>
