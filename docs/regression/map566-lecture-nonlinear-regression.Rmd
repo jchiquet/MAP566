@@ -46,9 +46,9 @@ faithful_plot
 
 Even if this model is the "best" polynomial model, we may have serious doubts on the capabilities of the model to predict waiting times for durations outside of the observed range of durations.
 
-Furthermore, parameters of the model, i.e. the polynomials' coefficients, have no obvious physical interpretation. Using a polynomial model here, we are therefore not seeking to build a structural model $f$ that approximates a physical phenomenon, but merely seeking to rely the variability in the observations to the explanatory variables $x$, $x^2$, ...  
+[Interactive Polynomial Regression fits](http://shiny.webpopix.org/sia/polyreg/)
 
-
+Furthermore, parameters of the model, i.e. the polynomials' coefficients, have no obvious physical interpretation. Using a polynomial model here, we are therefore not seeking to build a structural model $f$ that approximates a physical phenomenon, but merely seeking to rely the variability in the observations to the explanatory variables $x$, $x^2$, ... 
 We therefore need to consider other types of models, *i)* that do not necessarily assume linear relationships between the response variable and the explanatory variables, *ii)* whose parameters have some physical interpretation.
 
 A *logistic function* (or *logistic curve*) is a common "S" shape (sigmoid curve), with equation:
@@ -57,7 +57,7 @@ $$
 f_1(x) = \frac{A}{1+{\rm exp}(-\gamma(x-\tau))}
 $$
 
-<iframe src="http://shiny.webpopix.org/sia/nlm1/" style="border: none; width: 780px; height: 400px"></iframe>
+[Interactive fit](http://shiny.webpopix.org/sia/nlm1/)
 
 Here, $A$ is the limiting value (when $x \to \infty$),  $\gamma$ measure the steepness of the curve and $\tau$ is the $x$-value of the sigmoid's midpoint.
 
@@ -76,7 +76,7 @@ $$
 f_2(x) =  S + \frac{A-S}{1+{\rm exp}(-\gamma(x-\tau))}
 $$
 
-<iframe src="http://shiny.webpopix.org/sia/nlm2/" style="border: none; width: 780px; height: 400px"></iframe>
+[Interactive fit](http://shiny.webpopix.org/sia/nlm2/)
 
 We can again use `nls` to fit this nonlinear model to the data:
 
