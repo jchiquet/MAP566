@@ -85,7 +85,7 @@ gompertz <- function(psi, id, x) {
 }
 
 psi0 <- c(A = 500, b = 0.2, c = 0.2)
-distribParam <- c(1, 1, 0)
+distribParam <- c(1, 1, 1)
 NLMM_gompertz <- saemixModel(model = gompertz, psi0 = psi0, transform.par = distribParam)
 ```
 
