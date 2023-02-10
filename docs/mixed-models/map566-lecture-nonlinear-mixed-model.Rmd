@@ -178,6 +178,14 @@ theo_pred <-
 theo_plot + geom_line(data = theo_pred, aes(x=time,y=concentration), colour="#339900", size=0.75) + facet_wrap(~id)
 ```
 
+For instance for individual 9,
+
+```{r}
+model_9 <- nls(concentration ~ f1(psi, time),  start = list(psi=c(ka=1, V=40,k=0.08)), 
+               data = filter(theophylline, id == 9))
+model_9
+```
+
 ## Nonlinear mixed effects (NLME) model
 
 ### A first basic  model
