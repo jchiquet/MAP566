@@ -22,7 +22,7 @@ The `theophyllineData`  file reports data from a study of the kinetics of the an
 
 
 ```{r, message=FALSE, warning=FALSE}
-theophylline <- read_csv("../../data/theophyllineData.csv")
+theophylline <- read_csv("../../data/theophyllineData.csv") %>% mutate(id = factor(id))
 theophylline %>% rmarkdown::paged_table()
 ```
 
@@ -104,7 +104,7 @@ and plot the predicted concentration $f(t,\hat\psi)$
 #| code-fold: true
 dplot <- data.frame(time = seq(0, 40, by=0.2))
 dplot$pred_1 <- predict(model_1, newdata = dplot)
-subject1_plot + geom_line(data = dplot, aes(x = time, y=pred_1), colour="#339900", size=1)
+subject1_plot + geom_line(data = dplot, aes(x = time, y = pred_1), colour = "#339900", linewidth=1)
 ```
 
 ### Fitting a unique nonlinear model to several subjects
@@ -137,7 +137,7 @@ These estimated parameters are typical parameters and this profile is a typical 
 ```{r, fig.height=4, fig.width=10}
 #| code-fold: true
 theo_plot +  
-  geom_line(data = dplot, aes(x = time, y=pred_all), colour="#339900", size=1) + 
+  geom_line(data = dplot, aes(x = time, y=pred_all), colour="#339900", linewidth=1) + 
   facet_wrap(~ id)
 ```
 
@@ -156,7 +156,7 @@ $$\hat\psi_i = \arg\min_{\psi}  \sum_{j=1}^{n_i} \Big(y_{ij} - f(t_{ij} ,\psi)\B
 
 Each individual predicted concentration $f(t,\hat\psi_i)$ seems to predict quite well the observed concentrations for the 12 subjects:
 
-```{r}
+```{r, warning=FALSE}
 #| code-fold: true
 res <- split(theophylline, theophylline$id) %>% 
   map(~{
@@ -225,7 +225,7 @@ y_{ij} &\sim \mathcal{N}(f(t_{ij} ,\psi_i) \ , \ a^2)  \\
 The model is the joint probability distribution of $(y,\psi)$, where $y=(y_{ij}, 1\leq i \leq N, 1 \leq j \leq n_i)$ is the complete set of observations and $\psi = (\psi_i, 1\leq i \leq N)$ the $N$ vectors of individual parameters,
 
 $$\begin{aligned}
-\mathbb{P}(y,\psi;\theta) &= \prod_{i=1}^N \mathbb{P}(y_i,\psi_i;\theta) \\
+\mathbb{P}(y,\psi;\theta) &= <\prod_{i=1}^N \mathbb{P}(y_i,\psi_i;\theta) \\
 &= \prod_{i=1}^N \mathbb{P}(y_i|\psi_i;\theta)\mathbb{P}(\psi_i;\theta) 
 \end{aligned}$$
 
@@ -487,7 +487,7 @@ fit.exponential@results
 
 #### Transformation of the individual parameters
 
-Clearly, not all distributions are Gaussian. To begin with, the normal distribution has  support $\mathbb[R}$, unlike many parameters that take values in precise  intervals. For instance, some variables take only positive values (e.g., volumes and transfer rate constants) and others are restricted to bounded intervals.
+Clearly, not all distributions are Gaussian. To begin with, the normal distribution has  support $\mathbb{R}$, unlike many parameters that take values in precise  intervals. For instance, some variables take only positive values (e.g., volumes and transfer rate constants) and others are restricted to bounded intervals.
 
 Furthermore, the Gaussian distribution is symmetric, which is not a property shared by all distributions. One way to extend the use of Gaussian distributions is to consider that some transformation of the parameters in which we are interested is Gaussian.
 
@@ -521,7 +521,7 @@ $$\begin{aligned}
 
 **Logit-normal distribution:**
 
-The logit function is defined on $(0,1)$ and take its value in $\mathbb[R}$:
+The logit function is defined on $(0,1)$ and take its value in $\mathbb{R}$:
 For any $x$ in $(0,1)$,
 
 $$ \mathrm{logit}(x) = \log \left(\frac{x}{1-x}\right) \Longleftrightarrow
@@ -537,7 +537,7 @@ $$\mathrm{logit}(\psi_i) = \log \left(\frac{\psi_i}{1-\psi_i}\right)  \ \sim \ \
 The probit function is the inverse cumulative distribution function (quantile function) $\psi^{-1}$  associated with the standard normal distribution $\mathcal{N}(0,1)$. For any $x$ in $(0,1)$,
 $$
 \mathrm{probit}(x) = \psi^{-1}(x) \ \Longleftrightarrow
-\prob{\mathcal{N}(0,1) \leq \mathrm{probit}(x)} = x
+\mathbb{P}\left(\mathcal{N}(0,1) \leq \mathrm{probit}(x)\right) = x
 $$
 
 An individual parameter $\psi_i$ with a probit-normal distribution takes its values in $(0,1)$. The probit of $\psi_i$ is normally distributed:
