@@ -200,8 +200,8 @@ We can then plot the empirical distribution of the data together with the probab
 plot_mixture <- data.frame(x = 35:100)
 plot_mixture$pdf <- dmixture(plot_mixture$x, theta_hat)
 faithful %>% ggplot() + 
-  geom_histogram(aes(x = waiting, y=..density..), bins = 15) + xlab("waiting (mm)") + 
-  geom_line(data = plot_mixture, aes(x, pdf),colour="red",size=1.5)
+  geom_histogram(aes(x = waiting, y=after_stat(density)), bins = 15) + xlab("waiting (mm)") + 
+  geom_line(data = plot_mixture, aes(x, pdf),colour="red",linewidth=1.5)
 ```
 
 Comparing the empirical and theoretical cumulative distribution functions (cdf) shows how well the mixture model fits the data
