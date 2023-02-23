@@ -831,14 +831,14 @@ Idea
 <p><span class="math display">
 \begin{aligned}
 \argmin_{\{\mathcal{V}_A, \mathcal{V}_B\}} \mathrm{cut}^{N}(\mathcal{V}_A, \mathcal{V}_B),  
-\quad \mathrm{cut}^{N}(\mathcal{V}_A, \mathcal{V}_B) &amp; = \frac{\mathrm{cut}(\mathcal{V}_A, \mathcal{V}_B)}{\mathrm{Vol}(\mathcal{V}_A)} + \frac{\mathrm{cut}(\mathcal{V}_A, \mathcal{V}_B)}{\mathrm{Vol}(\mathcal{V}_B)} \\
-&amp; =  \mathrm{cut}(\mathcal{V}_A, \mathcal{V}_B)\frac{\mathrm{Vol}(\mathcal{V}_A) + \mathrm{Vol}(\mathcal{V}_B)}{\mathrm{Vol}(\mathcal{V}_A)\mathrm{Vol}(\mathcal{V}_B)} \\
+\quad \mathrm{cut}^{N}(\mathcal{V}_A, \mathcal{V}_B) &amp; =
+&amp; =  \frac{\mathrm{cut}(\mathcal{V}_A, \mathcal{V}_B)}{\mathrm{Vol}(\mathcal{V}_A) + \mathrm{Vol}(\mathcal{V}_B)} \\
 \end{aligned}
 </span></p>
 </div>
 </div>
 <p>Our function is easily modified to compute the normalized version of the graph-cut:</p>
-<div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/n-cut-function_8871808bbefa8c6ec0c84d6ce6a013ae">
+<div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/n-cut-function_da35562ae1198741888f2fe4bf47ca39">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>cut <span class="ot">&lt;-</span> <span class="cf">function</span>(graph, A, B, <span class="at">normalized  =</span> <span class="cn">TRUE</span>) {</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  Y <span class="ot">&lt;-</span> <span class="fu">as_adj</span>(graph, <span class="at">type=</span><span class="st">"upper"</span>)</span>
@@ -847,7 +847,7 @@ Idea
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (normalized) {</span>
 <span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    volA <span class="ot">&lt;-</span> <span class="fu">sum</span>(Y[A, A])</span>
 <span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    volB <span class="ot">&lt;-</span> <span class="fu">sum</span>(Y[B, B])</span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    res <span class="ot">&lt;-</span> res <span class="sc">*</span> (volA <span class="sc">+</span> volB) <span class="sc">/</span> (volA <span class="sc">*</span> volB)</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    res <span class="ot">&lt;-</span> res <span class="sc">/</span> (volA <span class="sc">+</span> volB)</span>
 <span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  res</span>
@@ -856,7 +856,7 @@ Idea
 <span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">gorder</span>(blog), A)</span>
 <span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="fu">cut</span>(blog, A, B)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.880536</code></pre>
+<pre><code>[1] 0.4520744</code></pre>
 </div>
 </div>
 </section>
@@ -875,7 +875,7 @@ x^\top (D - Y) x = x^\top D x - ( x^\top D x - 2 \mathrm{cut} (\mathcal{V}_A, \m
 </span> so that</p>
 <p><span class="math display">
 \mathrm{cut} (\mathcal{V}_A, \mathcal{V}_B) = \frac12 x^\top (D - Y) x.
-</span> From this, we can show that minimizing the normalized graph-cut is equivalent to solving an integer programming problem:</p>
+</span> From this, minimizing the normalized graph-cut is equivalent to solving an integer programming problem:</p>
 <p><span class="math display">\begin{aligned}
 &amp; \argmin_{\{\mathcal{V}_A, \mathcal{V}_B\}}  \mathrm{cut}^{N}(\mathcal{V}_A, \mathcal{V}_B) \\[1.5ex]
 \Leftrightarrow \quad &amp; \argmin_{x\in\{-1, 1\}^n} \frac{x^\top (D - Y) x}{x^\top D x}, \quad \text{s.c.} \quad x^\top D \mathbf{1}_n = 0,
