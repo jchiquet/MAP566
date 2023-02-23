@@ -37,14 +37,14 @@ function(psi, id, x) {
   ypred <- A*exp(-exp(-b*(t-c)))
   ypred
 }
-<bytecode: 0x560162b910f8>
+<bytecode: 0x5594e7610510>
   Nb of parameters: 3 
       parameter names:  A b c 
       distribution:
      Parameter Distribution Estimated
 [1,] A         log-normal   Estimated
 [2,] b         log-normal   Estimated
-[3,] c         normal       Estimated
+[3,] c         log-normal   Estimated
   Variance-covariance matrix:
   A b c
 A 1 0 0
@@ -76,17 +76,17 @@ Pop.CondInit 500 0.2 0.2
 -----------------  Fixed effects  ------------------
 ----------------------------------------------------
      Parameter Estimate SE     CV(%)
-[1,] A         528.150  8.4048   1.6
-[2,] b           0.216  0.0072   3.3
-[3,] c           0.064  0.0799 125.2
-[4,] a.1        12.203  0.4093   3.4
+[1,] A         526.896  8.5600  1.6 
+[2,] b           0.223  0.0081  3.6 
+[3,] c           0.074  0.0338 45.7 
+[4,] a.1        12.758  0.4177  3.3 
 ----------------------------------------------------
 -----------  Variance of random effects  -----------
 ----------------------------------------------------
   Parameter Estimate SE     CV(%)
-A omega2.A  0.0093   0.0022 24   
-b omega2.b  0.0296   0.0096 32   
-c omega2.c  0.1939   0.0560 29   
+A omega2.A  0.0097   0.0023 24   
+b omega2.b  0.0394   0.0113 29   
+c omega2.c  2.1018   1.1593 55   
 ----------------------------------------------------
 ------  Correlation matrix of random effects  ------
 ----------------------------------------------------
@@ -98,7 +98,7 @@ omega2.c 0        0        1
 ---------------  Statistical criteria  -------------
 ----------------------------------------------------
 Likelihood computed by linearisation
-      -2LL= 4704.198 
-      AIC = 4718.198 
-      BIC = 4730.02 
+      -2LL= 4725.109 
+      AIC = 4739.109 
+      BIC = 4750.931 
 ----------------------------------------------------

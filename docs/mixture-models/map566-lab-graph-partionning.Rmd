@@ -1,6 +1,6 @@
 ---
-title: " Graph Clustering: Spectral and hierarchical methods"
-subtitle: "An illustration on antogonistic tree/fungus network"
+title: " Graph Clustering"
+subtitle: "Spectral and hierarchical methods"
 ---
 
 ##  Introduction
