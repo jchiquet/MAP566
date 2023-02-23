@@ -78,11 +78,11 @@ Another commonly used representation is via a matrix view, where the adjacency m
 
 ```{r frenchblog-matrix-plot}
 #| code-fold: TRUE
-frenchblog2007 %>% as_adj(sparse = FALSE) %>% plotMyMatrix()
+frenchblog2007 %>% as_adj(sparse = FALSE) %>% plotMyMatrix(clustering = list(row = factor(V(frenchblog2007)$party)))
 ```
 
 :::{.callout-warning}
-In this example, one can see that the pattern of connections between the nodes is highly related to the blog classification (the political party). However, just like with any kind of clustering, this is note always the case: the data may support a natural grouping of the node which is not necessarily related a predefined classification.
+In this example, one can see that the pattern of connections between the nodes is highly related to the blog classification (the political party). However, just like with any kind of clustering, this is not always the case: the data may support a natural grouping of the node which is not necessarily related a predefined classification.
 :::
 
 :::{.callout-note}
@@ -113,7 +113,7 @@ party %>% table() %>% as_tibble() %>% rmarkdown::paged_table()
 
 #### General principle
 
-::: {.callout-info}
+::: {.callout-note}
 ### HAC: heuristic
 
 The idea of HAC applies naturally to network data just as it applies to standard data set:
@@ -167,7 +167,7 @@ $$I_W(\mathcal{P}') - I_W(\mathcal{P}) = \frac{|\mathcal{C}_k||\mathcal{C}_\ell|
 $$
 where we the inertia measures the homogenity of the size-K clustering
 
-$$I_W = \sum_{k=1}^K \sum_{i \in \mathcal{C}_k} d^2(i,\mu_{\mathcal{C}_k}), \quad I_B = \sum_{k=1}^K n_k d^2(\mu_k, \mu)$$
+$$I_W = \sum_{k=1}^K \sum_{i \in \mathcal{C}_k} d^2(i,\mu_{\mathcal{C}_k}), \quad I_B = \sum_{k=1}^K |\mathcal{C}_k| d^2(\mu_k, \mu)$$
 
 Thus, at each step, *Ward limits the loss (increase) of the intra (inter) class variance*. We recognize the same criteria as in the $K$-means algorithm.
 
