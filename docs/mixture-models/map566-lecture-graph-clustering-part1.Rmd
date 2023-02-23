@@ -332,8 +332,8 @@ A natural variant is to consider a *normalized* version of the, involving the co
 $$
 \begin{aligned}
 \argmin_{\{\mathcal{V}_A, \mathcal{V}_B\}} \mathrm{cut}^{N}(\mathcal{V}_A, \mathcal{V}_B),  
-\quad \mathrm{cut}^{N}(\mathcal{V}_A, \mathcal{V}_B) & = \frac{\mathrm{cut}(\mathcal{V}_A, \mathcal{V}_B)}{\mathrm{Vol}(\mathcal{V}_A)} + \frac{\mathrm{cut}(\mathcal{V}_A, \mathcal{V}_B)}{\mathrm{Vol}(\mathcal{V}_B)} \\
- & =  \mathrm{cut}(\mathcal{V}_A, \mathcal{V}_B)\frac{\mathrm{Vol}(\mathcal{V}_A) + \mathrm{Vol}(\mathcal{V}_B)}{\mathrm{Vol}(\mathcal{V}_A)\mathrm{Vol}(\mathcal{V}_B)} \\
+\quad \mathrm{cut}^{N}(\mathcal{V}_A, \mathcal{V}_B) & = 
+ & =  \frac{\mathrm{cut}(\mathcal{V}_A, \mathcal{V}_B)}{\mathrm{Vol}(\mathcal{V}_A) + \mathrm{Vol}(\mathcal{V}_B)} \\
 \end{aligned}
 $$
 
@@ -350,7 +350,7 @@ cut <- function(graph, A, B, normalized  = TRUE) {
   if (normalized) {
     volA <- sum(Y[A, A])
     volB <- sum(Y[B, B])
-    res <- res * (volA + volB) / (volA * volB)
+    res <- res / (volA + volB)
   }
 
   res
@@ -384,7 +384,7 @@ so that
 $$
 \mathrm{cut} (\mathcal{V}_A, \mathcal{V}_B) = \frac12 x^\top (D - Y) x.
 $$
-From this, we can show that minimizing the normalized graph-cut is equivalent to solving an integer programming problem:
+From this, minimizing the normalized graph-cut is equivalent to solving an integer programming problem:
 
 $$\begin{aligned}
 & \argmin_{\{\mathcal{V}_A, \mathcal{V}_B\}}  \mathrm{cut}^{N}(\mathcal{V}_A, \mathcal{V}_B) \\[1.5ex]
