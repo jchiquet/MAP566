@@ -431,11 +431,9 @@ div.csl-indent {
   <li><a href="#data-set-antagonistic-treefungus-interaction-network" id="toc-data-set-antagonistic-treefungus-interaction-network" class="nav-link" data-scroll-target="#data-set-antagonistic-treefungus-interaction-network"><span class="toc-section-number">2.1</span>  Data set: antagonistic tree/fungus interaction network</a></li>
   <li><a href="#analysis-of-the-treetree-data" id="toc-analysis-of-the-treetree-data" class="nav-link" data-scroll-target="#analysis-of-the-treetree-data"><span class="toc-section-number">3</span>  Analysis of the tree/tree data</a>
   <ul class="collapse">
-  <li><a href="#tree-tree-binary-interaction-networks" id="toc-tree-tree-binary-interaction-networks" class="nav-link" data-scroll-target="#tree-tree-binary-interaction-networks"><span class="toc-section-number">3.1</span>  Tree-tree binary interaction networks</a></li>
-  <li><a href="#weighted-interaction-network-with-poisson-model" id="toc-weighted-interaction-network-with-poisson-model" class="nav-link" data-scroll-target="#weighted-interaction-network-with-poisson-model"><span class="toc-section-number">3.2</span>  Weighted interaction network with Poisson model</a></li>
-  <li><a href="#including-covariate-effects" id="toc-including-covariate-effects" class="nav-link" data-scroll-target="#including-covariate-effects"><span class="toc-section-number">3.3</span>  Including covariate effects</a></li>
+  <li><a href="#weighted-interaction-network-with-poisson-model" id="toc-weighted-interaction-network-with-poisson-model" class="nav-link" data-scroll-target="#weighted-interaction-network-with-poisson-model"><span class="toc-section-number">3.1</span>  Weighted interaction network with Poisson model</a></li>
+  <li><a href="#including-covariate-effects" id="toc-including-covariate-effects" class="nav-link" data-scroll-target="#including-covariate-effects"><span class="toc-section-number">3.2</span>  Including covariate effects</a></li>
   </ul></li>
-  <li><a href="#analysis-of-the-treefungi-data-with-bipartite-sbm" id="toc-analysis-of-the-treefungi-data-with-bipartite-sbm" class="nav-link" data-scroll-target="#analysis-of-the-treefungi-data-with-bipartite-sbm"><span class="toc-section-number">4</span>  Analysis of the tree/fungi data with Bipartite SBM</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -514,26 +512,9 @@ div.csl-indent {
 <section id="analysis-of-the-treetree-data" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="analysis-of-the-treetree-data"><span class="header-section-number">3</span> Analysis of the tree/tree data</h2>
 <p>The tree-tree interactions result into a simple network.</p>
-<section id="tree-tree-binary-interaction-networks" class="level3" data-number="3.1">
-<h3 data-number="3.1" class="anchored" data-anchor-id="tree-tree-binary-interaction-networks"><span class="header-section-number">3.1</span> Tree-tree binary interaction networks</h3>
-<p>We first consider the binary network where an edge is drawn between two trees when they do share a least one common fungi. Eventually, we will assume that our matrix is the realization of the SBM:</p>
-<p><span class="math display">
-\begin{aligned}
-(Z_i) \text{ i.i.d.} \qquad &amp; Z_i \sim \mathcal{M}(1, \alpha) \\
-(Y_{ij}) \text{ indep.} \mid (Z_i) \qquad &amp; (Y_{ij} \mid Z_i=k, Z_j = \ell) \sim \mathcal{B}(\pi_{k\ell})
-\end{aligned}
-</span></p>
-<p><strong>Questions</strong></p>
-<ol type="1">
-<li><p>Extract the binary tree-tree adjacency matrix and plot it (<code>plotMyMatrix</code>). Remove isolated nodes</p></li>
-<li><p>Construct and build an igraph object to plot the network</p></li>
-<li><p>Adjust a simple binary SBM with <code>estimateSimpleSBM</code>. Become familiar with object <code>simpleSBM</code>.</p></li>
-<li><p>Select a model via ICL. Explore/check models with similar ICL (using <code>$setModel()</code>, <code>$storedModel</code>)</p></li>
-</ol>
-</section>
-<section id="weighted-interaction-network-with-poisson-model" class="level3" data-number="3.2">
-<h3 data-number="3.2" class="anchored" data-anchor-id="weighted-interaction-network-with-poisson-model"><span class="header-section-number">3.2</span> Weighted interaction network with Poisson model</h3>
-<p>Instead of considering the binary network tree-tree we may consider the weighted network where the link between two trees is the number of fungi they share.</p>
+<section id="weighted-interaction-network-with-poisson-model" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="weighted-interaction-network-with-poisson-model"><span class="header-section-number">3.1</span> Weighted interaction network with Poisson model</h3>
+<p>We consider the weighted network where the link between two trees is the number of fungi they share.</p>
 <p><span class="math display">
 \begin{aligned}
 (Z_i) \text{ i.i.d.} \qquad &amp; Z_i \sim \mathcal{M}(1, \pi) \\
@@ -541,14 +522,14 @@ div.csl-indent {
 \end{aligned}
 </span></p>
 <ol type="1">
-<li><p>Remove the isolates node from the weighted adjacency matrix</p></li>
-<li><p>Adjust a collection of Poisson SBM, explore the models.</p></li>
-<li><p>Adjust the absolute spectral clustering and modularity-based hierarchical method</p></li>
-<li><p>Compare spectral, hierarchical clustering, binary SBM and Poisson SBM with ARI/NID (package <code>aricode</code>) and alluvial plots (<code>plotAlluvial</code>) (chose the number of block selected by the Poisson SBM).</p></li>
+<li><p>Remove the isolates node from the weighted adjacency matrix (with degree equal to 0)</p></li>
+<li><p>Adjust a collection of Poisson SBM and select the best model accoriding to ICL.</p></li>
+<li><p>Adjust the spectral clustering (coded last time) and modularity-based hierarchical (<code>igraph::cluster_fast_greedy</code>) clustering methods</p></li>
+<li><p>Compare spectral, hierarchical clustering and Poisson SBM with ARI/NID (package <code>aricode</code>) and alluvial plots (<code>plotAlluvial</code>) (chose the number of block selected by the Poisson SBM).</p></li>
 </ol>
 </section>
-<section id="including-covariate-effects" class="level3" data-number="3.3">
-<h3 data-number="3.3" class="anchored" data-anchor-id="including-covariate-effects"><span class="header-section-number">3.3</span> Including covariate effects</h3>
+<section id="including-covariate-effects" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="including-covariate-effects"><span class="header-section-number">3.2</span> Including covariate effects</h3>
 <p>We have on each pair of trees 3 covariates, namely the genetic distance, the taxonomic distance and the geographic distance.</p>
 <p>Each covariate has to be introduced as a matrix: <span class="math inline">X^k_{ij}</span> corresponds to the value of the <span class="math inline">k</span>-th covariate describing the couple <span class="math inline">(i,j)</span>.</p>
 <p><span class="math display">
@@ -557,25 +538,14 @@ Y_{ij} \mid Z_i=k, Z_j = \ell \sim \mathcal{P}(\exp(\pi_{kl} + x_{ij}^\intercal 
 </span></p>
 <p><strong>Questions</strong></p>
 <ol type="1">
-<li><p>Plot the data matrix of covariates. Remove the isolated nodes (in the graph).</p></li>
-<li><p>Use k-means or hierarchical clustering to cluster the covariates data, and compare with the previous graph clustering obtained with Poisson SBM.</p></li>
+<li><p>Remove the isolated nodes in the matrices of covariates (use the same ones as in the graph).</p></li>
 <li><p>Adjust a Poisson SBM with covariates (1, 2, all of them). Use ICL to select the best model.</p></li>
-<li><p>Check your final model. Does it make any biological sense? Compare the obtained clustering with ARI/NID and alluvial plots of your final model with the model without covariates.</p></li>
+<li><p>Compare the obtained clustering with ARI/NID and alluvial plots of your final model with the model without covariates.</p></li>
 </ol>
+
+
+
 </section>
-</section>
-<section id="analysis-of-the-treefungi-data-with-bipartite-sbm" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="analysis-of-the-treefungi-data-with-bipartite-sbm"><span class="header-section-number">4</span> Analysis of the tree/fungi data with Bipartite SBM</h2>
-<p>We now consider the tree-fungi interaction network.</p>
-<p><span class="math display">
-Z^R_i \sim^{\text{iid}} \mathcal{M}(1, \alpha^R) \\
-Z^C_i \sim^{\text{iid}} \mathcal{M}(1, \alpha^C) \\
-Y_{ij} \mid Z^R_i=k, Z^C_j = \ell \sim \mathcal{f}(\gamma_{k\ell}, x_{ij}^\top \theta)
-</span></p>
-<p>Redo the whole analysis, using this time a bipartite SBM.</p>
-
-
-
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
