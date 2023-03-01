@@ -53,30 +53,9 @@ During this tutorial we are going to explore successive variants of the Stochast
 
 The tree-tree interactions result into a simple network.
 
-### Tree-tree binary interaction networks
-
-We first consider the binary network where an edge is drawn between two trees when they do share a least one common fungi. Eventually, we will assume that our matrix is the realization of the SBM: 
-
-$$
-\begin{aligned}
- (Z_i) \text{ i.i.d.} \qquad & Z_i \sim \mathcal{M}(1, \alpha) \\
- (Y_{ij}) \text{ indep.} \mid (Z_i) \qquad & (Y_{ij} \mid Z_i=k, Z_j = \ell) \sim \mathcal{B}(\pi_{k\ell})
-\end{aligned}
-$$
-
-**Questions**
-
-1. Extract the binary tree-tree adjacency matrix and plot it (`plotMyMatrix`). Remove isolated nodes
-
-2. Construct and build an igraph object to plot the network 
-
-3. Adjust a simple binary SBM with `estimateSimpleSBM`. Become familiar with object `simpleSBM`.
-
-4. Select a model via ICL. Explore/check models with similar ICL (using `$setModel()`, `$storedModel`)
-
 ### Weighted interaction network with Poisson model
 
-Instead of considering the binary network tree-tree we may consider the weighted network where the link between two trees is the number of fungi they share.
+We consider the weighted network where the link between two trees is the number of fungi they share.
 
 $$
 \begin{aligned}
@@ -85,13 +64,13 @@ $$
 \end{aligned}
 $$
 
-1. Remove the isolates node from the weighted adjacency matrix
+1. Remove the isolates node from the weighted adjacency matrix (with degree equal to 0)
 
-2. Adjust a collection of Poisson SBM, explore the models.
+2. Adjust a collection of Poisson SBM and select the best model accoriding to ICL.
 
-3. Adjust the absolute spectral clustering and modularity-based hierarchical method
+3. Adjust the spectral clustering (coded last time) and modularity-based hierarchical (`igraph::cluster_fast_greedy`) clustering methods
 
-4. Compare spectral, hierarchical clustering, binary SBM and Poisson SBM with ARI/NID (package `aricode`) and alluvial plots (`plotAlluvial`) (chose the number of block selected by the Poisson SBM).
+4. Compare spectral, hierarchical clustering and Poisson SBM with ARI/NID (package `aricode`) and alluvial plots (`plotAlluvial`) (chose the number of block selected by the Poisson SBM).
 
 ### Including covariate effects
 
@@ -107,23 +86,9 @@ $$
 
 **Questions**
 
-1. Plot the data matrix of covariates. Remove the isolated nodes (in the graph).
+1. Remove the isolated nodes in the matrices of covariates (use the same ones as in the graph).
 
-2. Use k-means or hierarchical clustering to cluster the covariates data, and compare with the previous graph clustering obtained with Poisson SBM.
+2. Adjust a Poisson SBM with covariates (1, 2, all of them). Use ICL to select the best model.
 
-3. Adjust a Poisson SBM with covariates (1, 2, all of them). Use ICL to select the best model.
-
-4. Check your final model. Does it make any biological sense? Compare the obtained clustering with ARI/NID and alluvial plots of your final model with the model without covariates. 
-
-## Analysis of the tree/fungi data with Bipartite SBM
-
-We now consider the tree-fungi interaction network.
-
-$$
-Z^R_i \sim^{\text{iid}} \mathcal{M}(1, \alpha^R) \\
-Z^C_i \sim^{\text{iid}} \mathcal{M}(1, \alpha^C) \\
-Y_{ij} \mid Z^R_i=k, Z^C_j = \ell \sim \mathcal{f}(\gamma_{k\ell}, x_{ij}^\top \theta)
-$$
-
-Redo the whole analysis, using this time a bipartite SBM.
+3. Compare the obtained clustering with ARI/NID and alluvial plots of your final model with the model without covariates. 
 
