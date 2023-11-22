@@ -14,16 +14,15 @@ All analyses will be conducted mainly with the R software No strong knowledge ne
 
 ## Important remark {.unnumbered}
 
-Much of the material used in this course is due to [Marc Lavielle](http://www.cmap.polytechnique.fr/~lavielle/), who was the first to set up the [Statistics in Actions](http://sia.webpopix.org/) course.
-We only have made some adjustments to it.
+Much of the material used in this course is due to [Marc Lavielle](http://www.cmap.polytechnique.fr/~lavielle/), who was the first to set up the course. We only have made some adjustments to it.
 
 :::
 
 ## Schedule (tentative) {.unnumbered}
 
-**Teachers** : Julien Chiquet (lecture + PC1), Katia Meziani (PC2), Zacharie Naulet (PC3)
+**Teachers** : Julien Chiquet (lecture + PC1), Angélina Roche (PC2), Zacharie Naulet (PC3)
 
-**Course Evaluation**: 1 or 2 group projects + 1 individual report in PC + a final exam/project 
+**Course Evaluation**: 1 group project (report + oral defense) + a final exam (moodle QCM with computer)
 
 **Course Language**: French with all material in English
 
@@ -44,15 +43,15 @@ We only have made some adjustments to it.
     - Linear mixed effects models
     - Nonlinear mixed effects models
 
-4. Mixture models and model-based clustering (x3)
+4. Mixture models and model-based clustering (x1)
 
     - Gaussian mixture models for data clustering
-    - Hierarchical and Spectral clustering for Graph
-    - Stochastic Block Models
-    - (Variational) EM algorithm
+    <!-- - Hierarchical and Spectral clustering for Graph -->
+    <!-- - Stochastic Block Models
+    - (Variational) EM algorithm -->
 
-<!-- 5. Change-point detection (x1) -->
+5. Change-point detection (x1)
 
-<!--     - Dynamic programming -->
-<!--     - 1D signal segmentation -->
+    - Dynamic programming
+    - 1D signal segmentation
 

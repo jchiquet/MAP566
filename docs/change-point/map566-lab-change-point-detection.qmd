@@ -1,0 +1,70 @@
+---
+title: "Detection of change points in a time series"
+subtitle: "Exercices"
+---
+
+## Preliminaries {.unnumbered}
+
+```{r, message=FALSE}
+library(tidyverse)
+theme_set(theme_bw())
+```
+
+## Detection of changes in the CAC 40 index
+
+The Figure below displays the CAC 40 index during a given period of time.
+
+```{r, fig.height=3, fig.width=8, message=FALSE, warning=FALSE}
+read_tsv(file="../../data/CAC40data.txt") %>% 
+  ggplot() +  geom_line(aes(time,y), color="#6666CC") +  ylab("CAC 40 index")
+```
+
+ 1. Assuming a piecewise constant volatility, propose a mathematical model for this data.
+ 2. Extend the dynamic programming algorithm for this model.
+ 3. Propose a segmentation of the CAC 40 index.
+
+## Segmentation of array CGH data
+
+The purpose of array-based Comparative Genomic Hybridization (array CGH) is to detect and map chromosomal
+aberrations, on a genomic scale, in a single experiment. Since chromosomal copy numbers can not be
+measured directly, two samples of genomic DNA (referred to as the reference and test DNAs) are differentially labelled with fluorescent dyes and competitively hybridized to known mapped sequences (referred to as BACs) that are immobilized on a slide. Subsequently, the ratio of the intensities of the two fluorochromes is computed and a CGH profile is constituted for each chromosome when the log2 of fluorescence ratios are ranked and plotted according to the physical position of their corresponding BACs on the genome.
+
+Each profile can be viewed as a succession of "segments" that represent homogeneous regions in the genome
+whose BACs share the same relative copy number on average.
+
+```{r, fig.height=3, fig.width=8}
+read_delim(file="../../data/CGHdata.txt", delim = " ") %>% 
+  ggplot() +  geom_point(aes(position, y), color="#6666CC") +  ylab("fluorescence")
+```
+
+ 1. Assuming that both the central value and the variability of the data are both piecewise constant, propose a mathematical model for this data.
+ 2. Extend the dynamic programming algorithm for this model.
+ 3. Propose a segmentation of the CGH profile.
+
+## Testing the presence of a change point
+
+Consider the well log data data between $t=651$ and $t=950$:
+
+```{r, fig.height=3, fig.width=8}
+read_tsv(file="../../data/wellLogData.txt") %>% slice(651:950) %>% 
+  ggplot() +  geom_point(aes(time,y), color="#6666CC") +  ylab("nuclear reponse")
+```
+
+1. Test if the mean changes at time $t=750$. Test if the mean changes at time $t=850$. What can we conclude from these two tests?
+2. Test if the mean changes somewhere between $t=651$ and $t=949$.
+
+<!-- ## Linear transition between segments
+
+The model used for the well log data assumes that the underlying signal suddenly jumps from a valor to another one. 
+
+If we look at the data more in detail, we can see that this assumption is an approximation which is not realistic: the transition around $t=252$, for instance, is not abrupt but seems to occur during some time interval.
+
+```{r, fig.height=3, fig.width=8, message=FALSE, warning=FALSE}
+read_tsv(file="../../data/wellLogData.txt") %>% slice(151:350) %>% 
+  ggplot() +  geom_point(aes(time,y), color="#6666CC") +  ylab("nuclear reponse")
+```
+
+1. Write a mathematical model which now assumes linear transitions between consecutive mean value.
+2. Propose and implement an algorithm for estimating  the underlying signal  in presence of a single change point. Apply this algorithm for estimating the undelying signal of our data between $t=151$ and $t=350$.
+3. In the case of multiple change points, how could we extend the dynamic programming algorithm for this new model?
+ -->
