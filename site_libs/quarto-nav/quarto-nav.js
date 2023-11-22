@@ -8,6 +8,47 @@ const headroomChanged = new CustomEvent("quarto-hrChanged", {
 window.document.addEventListener("DOMContentLoaded", function () {
   let init = false;
 
+  // Manage the back to top button, if one is present.
+  let lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  const scrollDownBuffer = 5;
+  const scrollUpBuffer = 35;
+  const btn = document.getElementById("quarto-back-to-top");
+  const hideBackToTop = () => {
+    btn.style.display = "none";
+  };
+  const showBackToTop = () => {
+    btn.style.display = "inline-block";
+  };
+  if (btn) {
+    window.document.addEventListener(
+      "scroll",
+      function () {
+        const currentScrollTop =
+          window.pageYOffset || document.documentElement.scrollTop;
+
+        // Shows and hides the button 'intelligently' as the user scrolls
+        if (currentScrollTop - scrollDownBuffer > lastScrollTop) {
+          hideBackToTop();
+          lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop;
+        } else if (currentScrollTop < lastScrollTop - scrollUpBuffer) {
+          showBackToTop();
+          lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop;
+        }
+
+        // Show the button at the bottom, hides it at the top
+        if (currentScrollTop <= 0) {
+          hideBackToTop();
+        } else if (
+          window.innerHeight + currentScrollTop >=
+          document.body.offsetHeight
+        ) {
+          showBackToTop();
+        }
+      },
+      false
+    );
+  }
+
   function throttle(func, wait) {
     var timeout;
     return function () {
@@ -44,6 +85,17 @@ window.document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  function dashboardOffset() {
+    const dashboardNavEl = window.document.getElementById(
+      "quarto-dashboard-header"
+    );
+    if (dashboardNavEl !== null) {
+      return dashboardNavEl.clientHeight;
+    } else {
+      return 0;
+    }
+  }
+
   function updateDocumentOffsetWithoutAnimation() {
     updateDocumentOffset(false);
   }
@@ -51,7 +103,7 @@ window.document.addEventListener("DOMContentLoaded", function () {
   function updateDocumentOffset(animated) {
     // set body offset
     const topOffset = headerOffset();
-    const bodyOffset = topOffset + footerOffset();
+    const bodyOffset = topOffset + footerOffset() + dashboardOffset();
     const bodyEl = window.document.body;
     bodyEl.setAttribute("data-bs-offset", topOffset);
     bodyEl.style.paddingTop = topOffset + "px";
@@ -152,7 +204,11 @@ window.document.addEventListener("DOMContentLoaded", function () {
   window.addEventListener(
     "hashchange",
     function (e) {
-      window.scrollTo(0, window.pageYOffset - headerOffset());
+      if (
+        getComputedStyle(document.documentElement).scrollBehavior !== "smooth"
+      ) {
+        window.scrollTo(0, window.pageYOffset - headerOffset());
+      }
     },
     false
   );
@@ -160,9 +216,9 @@ window.document.addEventListener("DOMContentLoaded", function () {
   // Observe size changed for the header
   const headerEl = window.document.querySelector("header.fixed-top");
   if (headerEl && window.ResizeObserver) {
-    const observer = new window.ResizeObserver(
-      updateDocumentOffsetWithoutAnimation
-    );
+    const observer = new window.ResizeObserver(() => {
+      setTimeout(updateDocumentOffsetWithoutAnimation, 0);
+    });
     observer.observe(headerEl, {
       attributes: true,
       childList: true,
@@ -188,7 +244,7 @@ window.document.addEventListener("DOMContentLoaded", function () {
     // Fixup any sharing links that require urls
     // Append url to any sharing urls
     const sharingLinks = window.document.querySelectorAll(
-      "a.sidebar-tools-main-item"
+      "a.sidebar-tools-main-item, a.quarto-navigation-tool, a.quarto-navbar-tools, a.quarto-navbar-tools-item"
     );
     for (let i = 0; i < sharingLinks.length; i++) {
       const sharingLink = sharingLinks[i];

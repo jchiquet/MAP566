@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.197">
+<meta name="generator" content="quarto-1.4.510">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -17,11 +17,12 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -46,43 +47,13 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -110,7 +81,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -120,10 +97,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
-
 <link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
 <script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 
@@ -134,9 +111,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a href="../../index.html" class="navbar-brand navbar-brand-logo">
     <img src="../../logo_X.jpg" alt="" class="navbar-logo">
     </a>
@@ -151,218 +128,220 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../getting-started.html" rel="" target="">
- <span class="menu-text">Getting Started</span></a>
+    <a class="nav-link" href="../../getting-started.html"> 
+<span class="menu-text">Getting Started</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/jchiquet/MAP566" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/jchiquet/MAP566"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hypothesis-testing" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hypothesis-testing" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Hypothesis Testing</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-hypothesis-testing">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/tests/map566-lecture-single.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-single.html">
  <span class="dropdown-text">Statistical Tests</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/tests/map566-lecture-multiple.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-multiple.html">
  <span class="dropdown-text">Multiple Testing</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html">
  <span class="dropdown-text">Statistical tests: exercices</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-regression-models" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-regression-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Regression models</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-regression-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html">
  <span class="dropdown-text">Polynomial Regression</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lecture-nonlinear-regression.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-nonlinear-regression.html">
  <span class="dropdown-text">Nonlinear Regression</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lab-polynomial-regression.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-polynomial-regression.html">
  <span class="dropdown-text">Polynomial Regression</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lab-nonlinear-regression.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-nonlinear-regression.html">
  <span class="dropdown-text">Nonlinear Regression</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html">
  <span class="dropdown-text">Linear Regression: Quick Recap</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixed-models" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixed-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Mixed models</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixed-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html">
  <span class="dropdown-text">Linear Mixed Effects Models</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html">
  <span class="dropdown-text">Nonlinear Mixed Effects Models</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-linear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-linear-mixed-model.html">
  <span class="dropdown-text">Linear Mixed Models</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-nonlinear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-nonlinear-mixed-model.html">
  <span class="dropdown-text">Nonlinear Mixed Effects Models</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html">
  <span class="dropdown-text">An EM Algorithm for Linear Mixed Effects Models</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Mixture models</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixture-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html">
  <span class="dropdown-text">Mixture Models</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-graph-clustering-part1.html" rel="" target="">
- <span class="dropdown-text">Hierarchical and Spectral methods for Graph clustering</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-graph-clustering-part2.html" rel="" target="">
- <span class="dropdown-text">Stochastic block Models</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">
  <span class="dropdown-text">Mixture models</span></a>
   </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-change-point-detection" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Change-point detection</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-change-point-detection">    
+        <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-graph-partionning.html" rel="" target="">
- <span class="dropdown-text">Graph Clustering</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html" rel="" target="">
- <span class="dropdown-text">Graph Clustering: Stochastic Blockmodels</span></a>
+    <a class="dropdown-item" href="../../docs/change-point/map566-lecture-change-point-detection.html">
+ <span class="dropdown-text">Detection of change points in a time series</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">Supplementary material</li>
+        <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-doc-mixture-models-example.html" rel="" target="">
- <span class="dropdown-text">Clustering and classification with model based approaches</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="https://github.com/jchiquet/MAP573/raw/master/slides/GraphClustering/GraphClustering.pdf" rel="" target="">
- <span class="dropdown-text">Slides on Graph Clustering</span></a>
+    <a class="dropdown-item" href="../../docs/change-point/map566-lab-change-point-detection.html">
+ <span class="dropdown-text">Detection of change points in a time series</span></a>
   </li>  
     </ul>
   </li>
 </ul>
-            <div class="quarto-navbar-tools">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Linear Mixed Models</h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/mixed-models/map566-lab-linear-mixed-model.html">Exercices</a></li><li class="breadcrumb-item"><a href="../../docs/mixed-models/map566-lab-linear-mixed-model.html">Linear Mixed Models</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
     </div>
   </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Lectures</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Lectures</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html" class="sidebar-item-text sidebar-link">Linear Mixed Effects Models</a>
+  <a href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Linear Mixed Effects Models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html" class="sidebar-item-text sidebar-link">Nonlinear Mixed Effects Models</a>
+  <a href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Nonlinear Mixed Effects Models</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Exercices</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Exercices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/mixed-models/map566-lab-linear-mixed-model.html" class="sidebar-item-text sidebar-link active">Linear Mixed Models</a>
+  <a href="../../docs/mixed-models/map566-lab-linear-mixed-model.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Linear Mixed Models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/mixed-models/map566-lab-nonlinear-mixed-model.html" class="sidebar-item-text sidebar-link">Nonlinear Mixed Effects Models</a>
+  <a href="../../docs/mixed-models/map566-lab-nonlinear-mixed-model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Nonlinear Mixed Effects Models</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">Supplementary material</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Supplementary material</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html" class="sidebar-item-text sidebar-link">An EM Algorithm for Linear Mixed Effects Models</a>
+  <a href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">An EM Algorithm for Linear Mixed Effects Models</span></a>
   </div>
 </li>
       </ul>
@@ -370,6 +349,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </ul>
     </div>
 </nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -377,18 +357,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    
   <ul>
   <li><a href="#preliminary" id="toc-preliminary" class="nav-link active" data-scroll-target="#preliminary">Preliminary</a></li>
-  <li><a href="#the-orange-data" id="toc-the-orange-data" class="nav-link" data-scroll-target="#the-orange-data"><span class="toc-section-number">1</span>  The <code>Orange</code> data</a></li>
-  <li><a href="#the-pastes-data" id="toc-the-pastes-data" class="nav-link" data-scroll-target="#the-pastes-data"><span class="toc-section-number">2</span>  The <code>Pastes</code> data</a></li>
-  <li><a href="#the-oats-data" id="toc-the-oats-data" class="nav-link" data-scroll-target="#the-oats-data"><span class="toc-section-number">3</span>  The <code>Oats</code> data</a></li>
+  <li><a href="#the-orange-data" id="toc-the-orange-data" class="nav-link" data-scroll-target="#the-orange-data"><span class="header-section-number">1</span> The <code>Orange</code> data</a></li>
+  <li><a href="#the-pastes-data" id="toc-the-pastes-data" class="nav-link" data-scroll-target="#the-pastes-data"><span class="header-section-number">2</span> The <code>Pastes</code> data</a></li>
+  <li><a href="#the-oats-data" id="toc-the-oats-data" class="nav-link" data-scroll-target="#the-oats-data"><span class="header-section-number">3</span> The <code>Oats</code> data</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/mixed-models/map566-lab-linear-mixed-model.html">Exercices</a></li><li class="breadcrumb-item"><a href="../../docs/mixed-models/map566-lab-linear-mixed-model.html">Linear Mixed Models</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Linear Mixed Models</h1>
+<h1 class="title">Linear Mixed Models</h1>
 <p class="subtitle lead">Exercices</p>
 </div>
 
@@ -402,7 +382,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </div>
   
 
+
 </header>
+
 
 <section id="preliminary" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="preliminary">Preliminary</h2>
@@ -423,7 +405,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>Orange<span class="sc">$</span>Tree <span class="ot">&lt;-</span> <span class="fu">factor</span>(Orange<span class="sc">$</span>Tree, <span class="at">levels =</span> <span class="fu">unique</span>(Orange<span class="sc">$</span>Tree))</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>Orange <span class="sc">%&gt;%</span> <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
 {"columns":[{"label":["Tree"],"name":[1],"type":["ord"],"align":["right"]},{"label":["age"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["circumference"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"118","3":"30"},{"1":"1","2":"484","3":"58"},{"1":"1","2":"664","3":"87"},{"1":"1","2":"1004","3":"115"},{"1":"1","2":"1231","3":"120"},{"1":"1","2":"1372","3":"142"},{"1":"1","2":"1582","3":"145"},{"1":"2","2":"118","3":"33"},{"1":"2","2":"484","3":"69"},{"1":"2","2":"664","3":"111"},{"1":"2","2":"1004","3":"156"},{"1":"2","2":"1231","3":"172"},{"1":"2","2":"1372","3":"203"},{"1":"2","2":"1582","3":"203"},{"1":"3","2":"118","3":"30"},{"1":"3","2":"484","3":"51"},{"1":"3","2":"664","3":"75"},{"1":"3","2":"1004","3":"108"},{"1":"3","2":"1231","3":"115"},{"1":"3","2":"1372","3":"139"},{"1":"3","2":"1582","3":"140"},{"1":"4","2":"118","3":"32"},{"1":"4","2":"484","3":"62"},{"1":"4","2":"664","3":"112"},{"1":"4","2":"1004","3":"167"},{"1":"4","2":"1231","3":"179"},{"1":"4","2":"1372","3":"209"},{"1":"4","2":"1582","3":"214"},{"1":"5","2":"118","3":"30"},{"1":"5","2":"484","3":"49"},{"1":"5","2":"664","3":"81"},{"1":"5","2":"1004","3":"125"},{"1":"5","2":"1231","3":"142"},{"1":"5","2":"1372","3":"174"},{"1":"5","2":"1582","3":"177"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -432,8 +413,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <div class="cell" data-hash="map566-lab-linear-mixed-model_cache/html/unnamed-chunk-1_f117fd5f515400c99e22270884bb568b">
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pl <span class="ot">&lt;-</span> </span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  Orange <span class="sc">%&gt;%</span> </span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> circumference, <span class="at">color =</span> Tree) <span class="sc">+</span> </span>
@@ -441,7 +422,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>pl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lab-linear-mixed-model_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="768"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lab-linear-mixed-model_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
 </div>
 </div>
 <ol type="1">
@@ -458,7 +443,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Pastes)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Pastes <span class="sc">%&gt;%</span> <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
 {"columns":[{"label":["strength"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["batch"],"name":[2],"type":["fct"],"align":["left"]},{"label":["cask"],"name":[3],"type":["fct"],"align":["left"]},{"label":["sample"],"name":[4],"type":["fct"],"align":["left"]}],"data":[{"1":"62.8","2":"A","3":"a","4":"A:a"},{"1":"62.6","2":"A","3":"a","4":"A:a"},{"1":"60.1","2":"A","3":"b","4":"A:b"},{"1":"62.3","2":"A","3":"b","4":"A:b"},{"1":"62.7","2":"A","3":"c","4":"A:c"},{"1":"63.1","2":"A","3":"c","4":"A:c"},{"1":"60.0","2":"B","3":"a","4":"B:a"},{"1":"61.4","2":"B","3":"a","4":"B:a"},{"1":"57.5","2":"B","3":"b","4":"B:b"},{"1":"56.9","2":"B","3":"b","4":"B:b"},{"1":"61.1","2":"B","3":"c","4":"B:c"},{"1":"58.9","2":"B","3":"c","4":"B:c"},{"1":"58.7","2":"C","3":"a","4":"C:a"},{"1":"57.5","2":"C","3":"a","4":"C:a"},{"1":"63.9","2":"C","3":"b","4":"C:b"},{"1":"63.1","2":"C","3":"b","4":"C:b"},{"1":"65.4","2":"C","3":"c","4":"C:c"},{"1":"63.7","2":"C","3":"c","4":"C:c"},{"1":"57.1","2":"D","3":"a","4":"D:a"},{"1":"56.4","2":"D","3":"a","4":"D:a"},{"1":"56.9","2":"D","3":"b","4":"D:b"},{"1":"58.6","2":"D","3":"b","4":"D:b"},{"1":"64.7","2":"D","3":"c","4":"D:c"},{"1":"64.5","2":"D","3":"c","4":"D:c"},{"1":"55.1","2":"E","3":"a","4":"E:a"},{"1":"55.1","2":"E","3":"a","4":"E:a"},{"1":"54.7","2":"E","3":"b","4":"E:b"},{"1":"54.2","2":"E","3":"b","4":"E:b"},{"1":"58.8","2":"E","3":"c","4":"E:c"},{"1":"57.5","2":"E","3":"c","4":"E:c"},{"1":"63.4","2":"F","3":"a","4":"F:a"},{"1":"64.9","2":"F","3":"a","4":"F:a"},{"1":"59.3","2":"F","3":"b","4":"F:b"},{"1":"58.1","2":"F","3":"b","4":"F:b"},{"1":"60.5","2":"F","3":"c","4":"F:c"},{"1":"60.0","2":"F","3":"c","4":"F:c"},{"1":"62.5","2":"G","3":"a","4":"G:a"},{"1":"62.6","2":"G","3":"a","4":"G:a"},{"1":"61.0","2":"G","3":"b","4":"G:b"},{"1":"58.7","2":"G","3":"b","4":"G:b"},{"1":"56.9","2":"G","3":"c","4":"G:c"},{"1":"57.7","2":"G","3":"c","4":"G:c"},{"1":"59.2","2":"H","3":"a","4":"H:a"},{"1":"59.4","2":"H","3":"a","4":"H:a"},{"1":"65.2","2":"H","3":"b","4":"H:b"},{"1":"66.0","2":"H","3":"b","4":"H:b"},{"1":"64.8","2":"H","3":"c","4":"H:c"},{"1":"64.1","2":"H","3":"c","4":"H:c"},{"1":"54.8","2":"I","3":"a","4":"I:a"},{"1":"54.8","2":"I","3":"a","4":"I:a"},{"1":"64.0","2":"I","3":"b","4":"I:b"},{"1":"64.0","2":"I","3":"b","4":"I:b"},{"1":"57.7","2":"I","3":"c","4":"I:c"},{"1":"56.8","2":"I","3":"c","4":"I:c"},{"1":"58.3","2":"J","3":"a","4":"J:a"},{"1":"59.3","2":"J","3":"a","4":"J:a"},{"1":"59.2","2":"J","3":"b","4":"J:b"},{"1":"59.2","2":"J","3":"b","4":"J:b"},{"1":"58.9","2":"J","3":"c","4":"J:c"},{"1":"56.6","2":"J","3":"c","4":"J:c"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -477,7 +461,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 `.groups` argument.</code></pre>
 </div>
 <div class="cell-output-display">
-
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
 {"columns":[{"label":["batch"],"name":[1],"type":["fct"],"align":["left"]},{"label":["cask"],"name":[2],"type":["fct"],"align":["left"]},{"label":["mean_strengh"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["sd_strength"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["n_replicat"],"name":[5],"type":["int"],"align":["right"]}],"data":[{"1":"A","2":"a","3":"62.70","4":"0.14142136","5":"2"},{"1":"A","2":"b","3":"61.20","4":"1.55563492","5":"2"},{"1":"A","2":"c","3":"62.90","4":"0.28284271","5":"2"},{"1":"B","2":"a","3":"60.70","4":"0.98994949","5":"2"},{"1":"B","2":"b","3":"57.20","4":"0.42426407","5":"2"},{"1":"B","2":"c","3":"60.00","4":"1.55563492","5":"2"},{"1":"C","2":"a","3":"58.10","4":"0.84852814","5":"2"},{"1":"C","2":"b","3":"63.50","4":"0.56568542","5":"2"},{"1":"C","2":"c","3":"64.55","4":"1.20208153","5":"2"},{"1":"D","2":"a","3":"56.75","4":"0.49497475","5":"2"},{"1":"D","2":"b","3":"57.75","4":"1.20208153","5":"2"},{"1":"D","2":"c","3":"64.60","4":"0.14142136","5":"2"},{"1":"E","2":"a","3":"55.10","4":"0.00000000","5":"2"},{"1":"E","2":"b","3":"54.45","4":"0.35355339","5":"2"},{"1":"E","2":"c","3":"58.15","4":"0.91923882","5":"2"},{"1":"F","2":"a","3":"64.15","4":"1.06066017","5":"2"},{"1":"F","2":"b","3":"58.70","4":"0.84852814","5":"2"},{"1":"F","2":"c","3":"60.25","4":"0.35355339","5":"2"},{"1":"G","2":"a","3":"62.55","4":"0.07071068","5":"2"},{"1":"G","2":"b","3":"59.85","4":"1.62634560","5":"2"},{"1":"G","2":"c","3":"57.30","4":"0.56568542","5":"2"},{"1":"H","2":"a","3":"59.30","4":"0.14142136","5":"2"},{"1":"H","2":"b","3":"65.60","4":"0.56568542","5":"2"},{"1":"H","2":"c","3":"64.45","4":"0.49497475","5":"2"},{"1":"I","2":"a","3":"54.80","4":"0.00000000","5":"2"},{"1":"I","2":"b","3":"64.00","4":"0.00000000","5":"2"},{"1":"I","2":"c","3":"57.25","4":"0.63639610","5":"2"},{"1":"J","2":"a","3":"58.80","4":"0.70710678","5":"2"},{"1":"J","2":"b","3":"59.20","4":"0.00000000","5":"2"},{"1":"J","2":"c","3":"57.75","4":"1.62634560","5":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -487,26 +470,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>There is obviously some structure in the data set and an effect of the batch level:</p>
 <div class="cell" data-hash="map566-lab-linear-mixed-model_cache/html/Paste plot_c6a170f7ba70fa8212a97789854b5ed1">
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>Pastes <span class="sc">%&gt;%</span> </span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">fct_reorder</span>(batch, strength, median), <span class="at">y =</span> strength) <span class="sc">+</span> <span class="fu">geom_boxplot</span>() <span class="sc">+</span> <span class="fu">geom_jitter</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lab-linear-mixed-model_files/figure-html/Paste plot-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lab-linear-mixed-model_files/figure-html/Paste plot-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>We can plot the cask as the function of the strength, conditionning on batch (and ) the later being reorder by strength)</p>
 <div class="cell" data-hash="map566-lab-linear-mixed-model_cache/html/Pastes plot 2_7928206bfc83b95fa8a100a356f05e7d">
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>lattice<span class="sc">::</span><span class="fu">dotplot</span>(cask <span class="sc">~</span> strength <span class="sc">|</span> <span class="fu">reorder</span>(batch, strength), Pastes,</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip =</span> <span class="cn">FALSE</span>, <span class="at">strip.left =</span> <span class="cn">TRUE</span>, <span class="at">layout =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">10</span>),</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"Cask within batch"</span>,</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"Paste strength"</span>, <span class="at">jitter.y =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lab-linear-mixed-model_files/figure-html/Pastes plot 2-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lab-linear-mixed-model_files/figure-html/Pastes plot 2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <ol type="1">
@@ -527,7 +518,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>Oats<span class="sc">$</span>Variety <span class="ot">&lt;-</span> <span class="fu">factor</span>(Oats<span class="sc">$</span>Variety, <span class="at">levels =</span> <span class="fu">unique</span>(Oats<span class="sc">$</span>Variety))</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>Oats <span class="sc">%&gt;%</span> <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
 {"columns":[{"label":["Block"],"name":[1],"type":["ord"],"align":["right"]},{"label":["Variety"],"name":[2],"type":["fct"],"align":["left"]},{"label":["nitro"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["yield"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"I","2":"Victory","3":"0.0","4":"111"},{"1":"I","2":"Victory","3":"0.2","4":"130"},{"1":"I","2":"Victory","3":"0.4","4":"157"},{"1":"I","2":"Victory","3":"0.6","4":"174"},{"1":"I","2":"Golden Rain","3":"0.0","4":"117"},{"1":"I","2":"Golden Rain","3":"0.2","4":"114"},{"1":"I","2":"Golden Rain","3":"0.4","4":"161"},{"1":"I","2":"Golden Rain","3":"0.6","4":"141"},{"1":"I","2":"Marvellous","3":"0.0","4":"105"},{"1":"I","2":"Marvellous","3":"0.2","4":"140"},{"1":"I","2":"Marvellous","3":"0.4","4":"118"},{"1":"I","2":"Marvellous","3":"0.6","4":"156"},{"1":"II","2":"Victory","3":"0.0","4":"61"},{"1":"II","2":"Victory","3":"0.2","4":"91"},{"1":"II","2":"Victory","3":"0.4","4":"97"},{"1":"II","2":"Victory","3":"0.6","4":"100"},{"1":"II","2":"Golden Rain","3":"0.0","4":"70"},{"1":"II","2":"Golden Rain","3":"0.2","4":"108"},{"1":"II","2":"Golden Rain","3":"0.4","4":"126"},{"1":"II","2":"Golden Rain","3":"0.6","4":"149"},{"1":"II","2":"Marvellous","3":"0.0","4":"96"},{"1":"II","2":"Marvellous","3":"0.2","4":"124"},{"1":"II","2":"Marvellous","3":"0.4","4":"121"},{"1":"II","2":"Marvellous","3":"0.6","4":"144"},{"1":"III","2":"Victory","3":"0.0","4":"68"},{"1":"III","2":"Victory","3":"0.2","4":"64"},{"1":"III","2":"Victory","3":"0.4","4":"112"},{"1":"III","2":"Victory","3":"0.6","4":"86"},{"1":"III","2":"Golden Rain","3":"0.0","4":"60"},{"1":"III","2":"Golden Rain","3":"0.2","4":"102"},{"1":"III","2":"Golden Rain","3":"0.4","4":"89"},{"1":"III","2":"Golden Rain","3":"0.6","4":"96"},{"1":"III","2":"Marvellous","3":"0.0","4":"89"},{"1":"III","2":"Marvellous","3":"0.2","4":"129"},{"1":"III","2":"Marvellous","3":"0.4","4":"132"},{"1":"III","2":"Marvellous","3":"0.6","4":"124"},{"1":"IV","2":"Victory","3":"0.0","4":"74"},{"1":"IV","2":"Victory","3":"0.2","4":"89"},{"1":"IV","2":"Victory","3":"0.4","4":"81"},{"1":"IV","2":"Victory","3":"0.6","4":"122"},{"1":"IV","2":"Golden Rain","3":"0.0","4":"64"},{"1":"IV","2":"Golden Rain","3":"0.2","4":"103"},{"1":"IV","2":"Golden Rain","3":"0.4","4":"132"},{"1":"IV","2":"Golden Rain","3":"0.6","4":"133"},{"1":"IV","2":"Marvellous","3":"0.0","4":"70"},{"1":"IV","2":"Marvellous","3":"0.2","4":"89"},{"1":"IV","2":"Marvellous","3":"0.4","4":"104"},{"1":"IV","2":"Marvellous","3":"0.6","4":"117"},{"1":"V","2":"Victory","3":"0.0","4":"62"},{"1":"V","2":"Victory","3":"0.2","4":"90"},{"1":"V","2":"Victory","3":"0.4","4":"100"},{"1":"V","2":"Victory","3":"0.6","4":"116"},{"1":"V","2":"Golden Rain","3":"0.0","4":"80"},{"1":"V","2":"Golden Rain","3":"0.2","4":"82"},{"1":"V","2":"Golden Rain","3":"0.4","4":"94"},{"1":"V","2":"Golden Rain","3":"0.6","4":"126"},{"1":"V","2":"Marvellous","3":"0.0","4":"63"},{"1":"V","2":"Marvellous","3":"0.2","4":"70"},{"1":"V","2":"Marvellous","3":"0.4","4":"109"},{"1":"V","2":"Marvellous","3":"0.6","4":"99"},{"1":"VI","2":"Victory","3":"0.0","4":"53"},{"1":"VI","2":"Victory","3":"0.2","4":"74"},{"1":"VI","2":"Victory","3":"0.4","4":"118"},{"1":"VI","2":"Victory","3":"0.6","4":"113"},{"1":"VI","2":"Golden Rain","3":"0.0","4":"89"},{"1":"VI","2":"Golden Rain","3":"0.2","4":"82"},{"1":"VI","2":"Golden Rain","3":"0.4","4":"86"},{"1":"VI","2":"Golden Rain","3":"0.6","4":"104"},{"1":"VI","2":"Marvellous","3":"0.0","4":"97"},{"1":"VI","2":"Marvellous","3":"0.2","4":"99"},{"1":"VI","2":"Marvellous","3":"0.4","4":"119"},{"1":"VI","2":"Marvellous","3":"0.6","4":"121"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -585,9 +575,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -623,10 +627,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -636,8 +639,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -650,6 +662,135 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    const typesetMath = (el) => {
+      if (window.MathJax) {
+        // MathJax Typeset
+        window.MathJax.typeset([el]);
+      } else if (window.katex) {
+        // KaTeX Render
+        var mathElements = el.getElementsByClassName("math");
+        var macros = [];
+        for (var i = 0; i < mathElements.length; i++) {
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            window.katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }
+    }
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        typesetMath(container);
+        return container.innerHTML
+      } else {
+        typesetMath(note);
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      typesetMath(note);
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -693,6 +834,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -718,6 +860,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -779,17 +947,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html" class="pagination-link">
+      <a href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html" class="pagination-link  aria-label=" nonlinear="" mixed="" effects="" models"="">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Nonlinear Mixed Effects Models</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../docs/mixed-models/map566-lab-nonlinear-mixed-model.html" class="pagination-link">
+      <a href="../../docs/mixed-models/map566-lab-nonlinear-mixed-model.html" class="pagination-link" aria-label="Nonlinear Mixed Effects Models">
         <span class="nav-page-text">Nonlinear Mixed Effects Models</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+
 
 
 

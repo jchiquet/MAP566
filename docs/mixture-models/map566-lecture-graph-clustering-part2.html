@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.197">
+<meta name="generator" content="quarto-1.4.510">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -17,11 +17,12 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -46,48 +47,20 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+/* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
-.hanging div.csl-entry {
+.hanging-indent div.csl-entry {
   margin-left:2em;
   text-indent:-2em;
 }
@@ -101,8 +74,7 @@ div.csl-right-inline {
 }
 div.csl-indent {
   margin-left: 2em;
-}
-</style>
+}</style>
 
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -112,8 +84,6 @@ div.csl-indent {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../docs/mixture-models/map566-lab-mixture-models.html" rel="next">
-<link href="../../docs/mixture-models/map566-lecture-graph-clustering-part1.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -129,7 +99,13 @@ div.csl-indent {
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -139,10 +115,10 @@ div.csl-indent {
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
-
 <link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
 <script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 
@@ -165,13 +141,13 @@ div.csl-indent {
 
 </head>
 
-<body class="nav-sidebar docked nav-fixed">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a href="../../index.html" class="navbar-brand navbar-brand-logo">
     <img src="../../logo_X.jpg" alt="" class="navbar-logo">
     </a>
@@ -186,240 +162,148 @@ div.csl-indent {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../getting-started.html" rel="" target="">
- <span class="menu-text">Getting Started</span></a>
+    <a class="nav-link" href="../../getting-started.html"> 
+<span class="menu-text">Getting Started</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/jchiquet/MAP566" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/jchiquet/MAP566"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hypothesis-testing" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hypothesis-testing" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Hypothesis Testing</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-hypothesis-testing">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/tests/map566-lecture-single.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-single.html">
  <span class="dropdown-text">Statistical Tests</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/tests/map566-lecture-multiple.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-multiple.html">
  <span class="dropdown-text">Multiple Testing</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html">
  <span class="dropdown-text">Statistical tests: exercices</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-regression-models" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-regression-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Regression models</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-regression-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html">
  <span class="dropdown-text">Polynomial Regression</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lecture-nonlinear-regression.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-nonlinear-regression.html">
  <span class="dropdown-text">Nonlinear Regression</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lab-polynomial-regression.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-polynomial-regression.html">
  <span class="dropdown-text">Polynomial Regression</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lab-nonlinear-regression.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-nonlinear-regression.html">
  <span class="dropdown-text">Nonlinear Regression</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html">
  <span class="dropdown-text">Linear Regression: Quick Recap</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixed-models" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixed-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Mixed models</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixed-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html">
  <span class="dropdown-text">Linear Mixed Effects Models</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html">
  <span class="dropdown-text">Nonlinear Mixed Effects Models</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-linear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-linear-mixed-model.html">
  <span class="dropdown-text">Linear Mixed Models</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-nonlinear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-nonlinear-mixed-model.html">
  <span class="dropdown-text">Nonlinear Mixed Effects Models</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html">
  <span class="dropdown-text">An EM Algorithm for Linear Mixed Effects Models</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Mixture models</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixture-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html">
  <span class="dropdown-text">Mixture Models</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-graph-clustering-part1.html" rel="" target="">
- <span class="dropdown-text">Hierarchical and Spectral methods for Graph clustering</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-graph-clustering-part2.html" rel="" target="">
- <span class="dropdown-text">Stochastic block Models</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">
  <span class="dropdown-text">Mixture models</span></a>
   </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-change-point-detection" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Change-point detection</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-change-point-detection">    
+        <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-graph-partionning.html" rel="" target="">
- <span class="dropdown-text">Graph Clustering</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html" rel="" target="">
- <span class="dropdown-text">Graph Clustering: Stochastic Blockmodels</span></a>
+    <a class="dropdown-item" href="../../docs/change-point/map566-lecture-change-point-detection.html">
+ <span class="dropdown-text">Detection of change points in a time series</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">Supplementary material</li>
+        <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-doc-mixture-models-example.html" rel="" target="">
- <span class="dropdown-text">Clustering and classification with model based approaches</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="https://github.com/jchiquet/MAP573/raw/master/slides/GraphClustering/GraphClustering.pdf" rel="" target="">
- <span class="dropdown-text">Slides on Graph Clustering</span></a>
+    <a class="dropdown-item" href="../../docs/change-point/map566-lab-change-point-detection.html">
+ <span class="dropdown-text">Detection of change points in a time series</span></a>
   </li>  
     </ul>
   </li>
 </ul>
-            <div class="quarto-navbar-tools">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Stochastic block Models</h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
-      </button>
-    </div>
-  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
-    <div class="sidebar-menu-container"> 
-    <ul class="list-unstyled mt-1">
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Lectures</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../docs/mixture-models/map566-lecture-mixture-models.html" class="sidebar-item-text sidebar-link">Mixture Models</a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../docs/mixture-models/map566-lecture-graph-clustering-part1.html" class="sidebar-item-text sidebar-link">Hierarchical and Spectral methods for Graph clustering</a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../docs/mixture-models/map566-lecture-graph-clustering-part2.html" class="sidebar-item-text sidebar-link active">Stochastic block Models</a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Exercices</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../docs/mixture-models/map566-lab-mixture-models.html" class="sidebar-item-text sidebar-link">Mixture models</a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../docs/mixture-models/map566-lab-graph-partionning.html" class="sidebar-item-text sidebar-link">Graph Clustering</a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html" class="sidebar-item-text sidebar-link">Graph Clustering: Stochastic Blockmodels</a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">Supplementary material</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../docs/mixture-models/map566-doc-mixture-models-example.html" class="sidebar-item-text sidebar-link">Clustering and classification with model based approaches</a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="https://github.com/jchiquet/MAP573/raw/master/slides/GraphClustering/GraphClustering.pdf" class="sidebar-item-text sidebar-link">Slides on Graph Clustering</a>
-  </div>
-</li>
-      </ul>
-  </li>
-    </ul>
-    </div>
-</nav>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -427,36 +311,36 @@ div.csl-indent {
    
   <ul>
   <li><a href="#preliminary" id="toc-preliminary" class="nav-link active" data-scroll-target="#preliminary">Preliminary</a></li>
-  <li><a href="#introduction-the-french-political-blogosphere" id="toc-introduction-the-french-political-blogosphere" class="nav-link" data-scroll-target="#introduction-the-french-political-blogosphere"><span class="toc-section-number">1</span>  Introduction: the French political Blogosphere</a></li>
-  <li><a href="#model-based-clustering-for-graph-data" id="toc-model-based-clustering-for-graph-data" class="nav-link" data-scroll-target="#model-based-clustering-for-graph-data"><span class="toc-section-number">2</span>  Model-based clustering for graph data</a>
+  <li><a href="#introduction-the-french-political-blogosphere" id="toc-introduction-the-french-political-blogosphere" class="nav-link" data-scroll-target="#introduction-the-french-political-blogosphere"><span class="header-section-number">1</span> Introduction: the French political Blogosphere</a></li>
+  <li><a href="#model-based-clustering-for-graph-data" id="toc-model-based-clustering-for-graph-data" class="nav-link" data-scroll-target="#model-based-clustering-for-graph-data"><span class="header-section-number">2</span> Model-based clustering for graph data</a>
   <ul class="collapse">
-  <li><a href="#the-erdös-renyi-model" id="toc-the-erdös-renyi-model" class="nav-link" data-scroll-target="#the-erdös-renyi-model"><span class="toc-section-number">2.1</span>  The Erdös-Renyi model</a></li>
-  <li><a href="#the-stochastic-block-model-sbm" id="toc-the-stochastic-block-model-sbm" class="nav-link" data-scroll-target="#the-stochastic-block-model-sbm"><span class="toc-section-number">2.2</span>  The Stochastic Block Model (SBM)</a></li>
+  <li><a href="#the-erdös-renyi-model" id="toc-the-erdös-renyi-model" class="nav-link" data-scroll-target="#the-erdös-renyi-model"><span class="header-section-number">2.1</span> The Erdös-Renyi model</a></li>
+  <li><a href="#the-stochastic-block-model-sbm" id="toc-the-stochastic-block-model-sbm" class="nav-link" data-scroll-target="#the-stochastic-block-model-sbm"><span class="header-section-number">2.2</span> The Stochastic Block Model (SBM)</a></li>
   </ul></li>
-  <li><a href="#estimation-variational-inference-of-the-binary-sbm" id="toc-estimation-variational-inference-of-the-binary-sbm" class="nav-link" data-scroll-target="#estimation-variational-inference-of-the-binary-sbm"><span class="toc-section-number">3</span>  Estimation: Variational Inference of the binary SBM</a>
+  <li><a href="#estimation-variational-inference-of-the-binary-sbm" id="toc-estimation-variational-inference-of-the-binary-sbm" class="nav-link" data-scroll-target="#estimation-variational-inference-of-the-binary-sbm"><span class="header-section-number">3</span> Estimation: Variational Inference of the binary SBM</a>
   <ul class="collapse">
-  <li><a href="#sbm-a-latent-variable-model" id="toc-sbm-a-latent-variable-model" class="nav-link" data-scroll-target="#sbm-a-latent-variable-model"><span class="toc-section-number">3.1</span>  SBM: a latent variable model</a></li>
-  <li><a href="#em-does-not-work-genuinely-for-sbm" id="toc-em-does-not-work-genuinely-for-sbm" class="nav-link" data-scroll-target="#em-does-not-work-genuinely-for-sbm"><span class="toc-section-number">3.2</span>  EM does not work genuinely for SBM</a></li>
-  <li><a href="#variational-approach-general-case" id="toc-variational-approach-general-case" class="nav-link" data-scroll-target="#variational-approach-general-case"><span class="toc-section-number">3.3</span>  Variational approach: general case</a></li>
-  <li><a href="#variational-em-for-sbm-ingredients" id="toc-variational-em-for-sbm-ingredients" class="nav-link" data-scroll-target="#variational-em-for-sbm-ingredients"><span class="toc-section-number">3.4</span>  Variational EM for SBM: ingredients</a></li>
-  <li><a href="#sbm-the-french-blogosphere" id="toc-sbm-the-french-blogosphere" class="nav-link" data-scroll-target="#sbm-the-french-blogosphere"><span class="toc-section-number">3.5</span>  SBM: the french blogosphere</a></li>
+  <li><a href="#sbm-a-latent-variable-model" id="toc-sbm-a-latent-variable-model" class="nav-link" data-scroll-target="#sbm-a-latent-variable-model"><span class="header-section-number">3.1</span> SBM: a latent variable model</a></li>
+  <li><a href="#em-does-not-work-genuinely-for-sbm" id="toc-em-does-not-work-genuinely-for-sbm" class="nav-link" data-scroll-target="#em-does-not-work-genuinely-for-sbm"><span class="header-section-number">3.2</span> EM does not work genuinely for SBM</a></li>
+  <li><a href="#variational-approach-general-case" id="toc-variational-approach-general-case" class="nav-link" data-scroll-target="#variational-approach-general-case"><span class="header-section-number">3.3</span> Variational approach: general case</a></li>
+  <li><a href="#variational-em-for-sbm-ingredients" id="toc-variational-em-for-sbm-ingredients" class="nav-link" data-scroll-target="#variational-em-for-sbm-ingredients"><span class="header-section-number">3.4</span> Variational EM for SBM: ingredients</a></li>
+  <li><a href="#sbm-the-french-blogosphere" id="toc-sbm-the-french-blogosphere" class="nav-link" data-scroll-target="#sbm-the-french-blogosphere"><span class="header-section-number">3.5</span> SBM: the french blogosphere</a></li>
   </ul></li>
-  <li><a href="#sbm-extensions" id="toc-sbm-extensions" class="nav-link" data-scroll-target="#sbm-extensions"><span class="toc-section-number">4</span>  SBM: extensions</a>
+  <li><a href="#sbm-extensions" id="toc-sbm-extensions" class="nav-link" data-scroll-target="#sbm-extensions"><span class="header-section-number">4</span> SBM: extensions</a>
   <ul class="collapse">
-  <li><a href="#including-effects-of-external-covariates" id="toc-including-effects-of-external-covariates" class="nav-link" data-scroll-target="#including-effects-of-external-covariates"><span class="toc-section-number">4.1</span>  Including effects of external covariates</a></li>
-  <li><a href="#valued-edges-network" id="toc-valued-edges-network" class="nav-link" data-scroll-target="#valued-edges-network"><span class="toc-section-number">4.2</span>  Valued-edges network</a></li>
-  <li><a href="#bipartite-sbm-aka-latent-block-models" id="toc-bipartite-sbm-aka-latent-block-models" class="nav-link" data-scroll-target="#bipartite-sbm-aka-latent-block-models"><span class="toc-section-number">4.3</span>  Bipartite SBM aka Latent Block Models</a></li>
+  <li><a href="#including-effects-of-external-covariates" id="toc-including-effects-of-external-covariates" class="nav-link" data-scroll-target="#including-effects-of-external-covariates"><span class="header-section-number">4.1</span> Including effects of external covariates</a></li>
+  <li><a href="#valued-edges-network" id="toc-valued-edges-network" class="nav-link" data-scroll-target="#valued-edges-network"><span class="header-section-number">4.2</span> Valued-edges network</a></li>
+  <li><a href="#bipartite-sbm-aka-latent-block-models" id="toc-bipartite-sbm-aka-latent-block-models" class="nav-link" data-scroll-target="#bipartite-sbm-aka-latent-block-models"><span class="header-section-number">4.3</span> Bipartite SBM aka Latent Block Models</a></li>
   </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Stochastic block Models</h1>
+<h1 class="title">Stochastic block Models</h1>
 <p class="subtitle lead">Lecture Notes</p>
 </div>
 
@@ -470,7 +354,9 @@ div.csl-indent {
   </div>
   
 
+
 </header>
+
 
 <section id="preliminary" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="preliminary">Preliminary</h2>
@@ -494,8 +380,8 @@ div.csl-indent {
 <p>We continue our example on the French political blogosphere</p>
 <p>The <code>frenchblog2007</code> data is a network dataset which consists of a single day snapshot of over 200 political blogs automatically extracted the 14 October 2006 and manually classified by the “Observatoire Présidentielle” project. It is part of the <strong>missSBM</strong> package. It is provided as an <strong>igraph</strong> object with 196 nodes. The vertex attribute “party” provides a classification of the nodes.</p>
 <div class="cell" data-hash="map566-lecture-graph-clustering-part2_cache/html/mixture-fblog-load2_9e21ca2fc5886d141d87318fc2b97dc0">
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"frenchblog2007"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(frenchblog2007)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -503,20 +389,19 @@ div.csl-indent {
 <pre><code>IGRAPH 7b93b75 UN-- 196 1432 -- 
 + attr: name (v/c), party (v/c)</code></pre>
 </div>
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">V</span>(frenchblog2007)<span class="sc">$</span>party <span class="sc">%&gt;%</span> <span class="fu">table</span>() <span class="sc">%&gt;%</span> <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
 {"columns":[{"label":["."],"name":[1],"type":["chr"],"align":["left"]},{"label":["n"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"analyst","2":"11"},{"1":"center-left","2":"11"},{"1":"center-rigth","2":"32"},{"1":"far-left","2":"7"},{"1":"far-right","2":"4"},{"1":"green","2":"9"},{"1":"left","2":"57"},{"1":"liberal","2":"25"},{"1":"right","2":"40"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>blog <span class="ot">&lt;-</span> frenchblog2007 <span class="sc">%&gt;%</span>  <span class="fu">delete_vertices</span>(<span class="fu">which</span>(<span class="fu">degree</span>(frenchblog2007) <span class="sc">&lt;=</span> <span class="dv">1</span>))</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>party <span class="ot">&lt;-</span> <span class="fu">V</span>(blog)<span class="sc">$</span>party <span class="sc">%&gt;%</span> <span class="fu">as_factor</span>()</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>Y     <span class="ot">&lt;-</span> blog <span class="sc">%&gt;%</span> <span class="fu">as_adjacency_matrix</span>()</span>
@@ -525,33 +410,36 @@ div.csl-indent {
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>party <span class="sc">%&gt;%</span> <span class="fu">table</span>() <span class="sc">%&gt;%</span> <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
 {"columns":[{"label":["."],"name":[1],"type":["chr"],"align":["left"]},{"label":["n"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"green","2":"9"},{"1":"right","2":"40"},{"1":"center-rigth","2":"32"},{"1":"left","2":"57"},{"1":"center-left","2":"11"},{"1":"far-left","2":"7"},{"1":"liberal","2":"25"},{"1":"analyst","2":"11"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.igraph</span>(frenchblog2007,</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">vertex.color =</span> <span class="fu">factor</span>(<span class="fu">V</span>(frenchblog2007)<span class="sc">$</span>party),</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">vertex.label =</span> <span class="cn">NA</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/mixture-fblog-load2-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/mixture-fblog-load2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
 <section id="model-based-clustering-for-graph-data" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="model-based-clustering-for-graph-data"><span class="header-section-number">2</span> Model-based clustering for graph data</h2>
-<div class="callout callout-style-default callout-note callout-captioned">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Motivation
 </div>
 </div>
@@ -591,7 +479,11 @@ Motivation
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(G1, <span class="at">vertex.label=</span><span class="cn">NA</span>) ; <span class="fu">plot</span>(G2, <span class="at">vertex.label=</span><span class="cn">NA</span>)</span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(G3, <span class="at">vertex.label=</span><span class="cn">NA</span>, <span class="at">layout=</span>layout.circle)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/erdos-examples-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/erdos-examples-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Because of its simplicity, a lot of mathematical derivation can be done with this model, yet its utility for adjusting real-world network is very limited since</p>
@@ -603,7 +495,11 @@ Motivation
 <p>For instance, for the graph <code>G3</code> sampled above, the empirical degree distribution and and basic clustering support the over homogeneous structure of the ER model.</p>
 <div class="cell" data-hash="map566-lecture-graph-clustering-part2_cache/html/unnamed-chunk-1_49874d5352bd473e26b4cfb40d24b1a5">
 <div class="cell-output-display">
-<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -614,12 +510,12 @@ Motivation
 <li>a statistical framework to adjust and interpret the parameters</li>
 <li>a flexible yet simple specification that fits many existing network data</li>
 </ul>
-<div class="callout callout-style-default callout-tip callout-captioned">
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Stochastic Block Model: definition
 </div>
 </div>
@@ -649,7 +545,7 @@ Y_{ij} \ | \ \{i\in{\color{#fab20a}{\bullet}},j\in{\color{#0000ff}{\bullet}}\}
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="sbm.png" class="img-fluid figure-img" style="width:50.0%"></p>
-<p></p><figcaption class="figure-caption">The binary SBM model</figcaption><p></p>
+<figcaption>The binary SBM model</figcaption>
 </figure>
 </div>
 </div>
@@ -667,7 +563,11 @@ Y_{ij} \ | \ \{i\in{\color{#fab20a}{\bullet}},j\in{\color{#0000ff}{\bullet}}\}
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(communities, <span class="at">vertex.label=</span><span class="cn">NA</span>, <span class="at">vertex.color =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">50</span>, <span class="dv">25</span>)))</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(<span class="fu">as_adj</span>(communities, <span class="at">sparse =</span><span class="cn">FALSE</span>), <span class="at">tl.pos =</span> <span class="st">"n"</span>, <span class="at">cl.pos =</span> <span class="st">'n'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/sample-sbm-community-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/sample-sbm-community-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <ul>
@@ -680,7 +580,11 @@ Y_{ij} \ | \ \{i\in{\color{#fab20a}{\bullet}},j\in{\color{#0000ff}{\bullet}}\}
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(star, <span class="at">vertex.label=</span><span class="cn">NA</span>, <span class="at">vertex.color =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>,<span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">96</span>)))</span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(<span class="fu">as_adj</span>(star, <span class="at">sparse =</span><span class="cn">FALSE</span>), <span class="at">tl.pos =</span> <span class="st">"n"</span>, <span class="at">cl.pos =</span> <span class="st">'n'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/sample-sbm-star-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/sample-sbm-star-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <ul>
@@ -693,7 +597,11 @@ Y_{ij} \ | \ \{i\in{\color{#fab20a}{\bullet}},j\in{\color{#0000ff}{\bullet}}\}
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(bipar, <span class="at">vertex.label=</span><span class="cn">NA</span>, <span class="at">vertex.color =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,<span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">35</span>, <span class="dv">5</span>, <span class="dv">45</span>)))</span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(<span class="fu">as_adj</span>(bipar, <span class="at">sparse =</span><span class="cn">FALSE</span>), <span class="at">tl.pos =</span> <span class="st">"n"</span>, <span class="at">cl.pos =</span> <span class="st">'n'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/sample-sbm-bipartite-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/sample-sbm-bipartite-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -722,7 +630,7 @@ Y_{ij} \ | \ \{i\in{\color{#fab20a}{\bullet}},j\in{\color{#0000ff}{\bullet}}\}
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="infer_sbm.png" class="img-fluid figure-img" style="width:40.0%"></p>
+<p><img src="infer_sbm.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:40.0%"></p>
 </figure>
 </div>
 </div>
@@ -762,12 +670,12 @@ Y_{ij} \ | \ \{i\in{\color{#fab20a}{\bullet}},j\in{\color{#0000ff}{\bullet}}\}
 <li><span class="math inline">\tau_{ik} = \mathbb{P}(Z_i = k | \mathbf{Y}) = \mathbb{E} \left[\mathbf{1}_{\{Z_i = k\}} | \mathbf{Y}\right].</span></li>
 <li><span class="math inline">\eta_{ijk\ell} = \mathbb{P}(Z_i = k , Z_j = \ell | \mathbf{Y}) = \mathbb{E} \left[\mathbf{1}_{\{Z_i = k\}}\mathbf{1}_{\{Z_j = \ell\}} | \mathbf{Y}\right].</span></li>
 </ul>
-<div class="callout callout-style-default callout-warning callout-captioned">
+<div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Intractable EM
 </div>
 </div>
@@ -868,7 +776,11 @@ Intractable EM
 <div class="cell" data-hash="map566-lecture-graph-clustering-part2_cache/html/fblog-simpleSbm-analysis-plot1_2145ed3a0a086c79c76adfe0a38db7c0">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sbm_full, <span class="st">"monitoring"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/fblog-simpleSbm-analysis-plot1-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/fblog-simpleSbm-analysis-plot1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -877,7 +789,11 @@ Intractable EM
 <div class="cell" data-hash="map566-lecture-graph-clustering-part2_cache/html/fblog-simpleSbm-analysis-plot2_7a7d376934d31c43ae22b9d7a97c9a27">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sbm_full)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/fblog-simpleSbm-analysis-plot2-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/fblog-simpleSbm-analysis-plot2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -886,7 +802,11 @@ Intractable EM
 <div class="cell" data-hash="map566-lecture-graph-clustering-part2_cache/html/fblog-simpleSbm-analysis-theta_86aa35ea6b0351010a8d0fbd0e0e6a26">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sbm_full<span class="sc">$</span>bestModel, <span class="st">"meso"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/fblog-simpleSbm-analysis-theta-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/fblog-simpleSbm-analysis-theta-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -895,7 +815,11 @@ Intractable EM
 <div class="cell" data-hash="map566-lecture-graph-clustering-part2_cache/html/fblog-simpleSbm-analysis-plot3_8f853553e94379c98d35b3684237dde6">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sbm_full<span class="sc">$</span>bestModel, <span class="at">dimLabels =</span> <span class="fu">list</span>(<span class="at">row =</span> <span class="st">"blogs"</span>, <span class="at">col =</span> <span class="st">"blogs"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/fblog-simpleSbm-analysis-plot3-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/fblog-simpleSbm-analysis-plot3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -904,7 +828,11 @@ Intractable EM
 <div class="cell" data-hash="map566-lecture-graph-clustering-part2_cache/html/fblog-simpleSbm-analysis-plot4_445ab338d57d5814eb4366ba950de8e5">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sbm_full<span class="sc">$</span>bestModel, <span class="st">"expected"</span>, <span class="at">dimLabels =</span> <span class="fu">list</span>(<span class="at">row =</span> <span class="st">"blogs"</span>, <span class="at">col =</span> <span class="st">"blogs"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/fblog-simpleSbm-analysis-plot4-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-graph-clustering-part2_files/figure-html/fblog-simpleSbm-analysis-plot4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -957,7 +885,7 @@ Intractable EM
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="bipartite_sbm.png" class="img-fluid figure-img" style="width:50.0%"></p>
-<p></p><figcaption class="figure-caption">binary Bipartite SBM model</figcaption><p></p>
+<figcaption>binary Bipartite SBM model</figcaption>
 </figure>
 </div>
 </div>
@@ -985,22 +913,22 @@ Y_{ij} \ | \ \{i\in{\color{#ff0000}{\bullet}},j\in{\color{#ffff00}{\bullet}}\}
 </section>
 
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
-<div id="ref-daudin2008mixture" class="csl-entry" role="doc-biblioentry">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-daudin2008mixture" class="csl-entry" role="listitem">
 Daudin, J-J, Franck Picard, and Stéphane Robin. 2008. <span>“A Mixture Model for Random Graphs.”</span> <em>Stat. Comp.</em> 18 (2): 173–83.
 </div>
-<div id="ref-wsbm" class="csl-entry" role="doc-biblioentry">
+<div id="ref-wsbm" class="csl-entry" role="listitem">
 Mariadassou, Mahendra, Stéphane Robin, and Corinne Vacher. 2010. <span>“Uncovering Latent Structure in Valued Graphs: A Variational Approach.”</span> <em>The Annals of Applied Statistics</em> 4 (2): 715–42.
 </div>
-<div id="ref-Nowicki2001" class="csl-entry" role="doc-biblioentry">
+<div id="ref-Nowicki2001" class="csl-entry" role="listitem">
 Nowicki, K., and T. A. B. Snijders. 2001. <span>“Estimation and Prediction for Stochastic Blockstructures.”</span> <em>J. Am. Stat. Soc.</em> 96 (455): 1077–87.
 </div>
-</div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+</div></section><aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
 <li id="fn1"><p>I have been involved in their development and they share some classes and have very similar interfaces<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
-</section></div></main> <!-- /main -->
+</aside></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -1028,9 +956,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -1066,10 +1008,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1079,8 +1020,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1093,6 +1043,135 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    const typesetMath = (el) => {
+      if (window.MathJax) {
+        // MathJax Typeset
+        window.MathJax.typeset([el]);
+      } else if (window.katex) {
+        // KaTeX Render
+        var mathElements = el.getElementsByClassName("math");
+        var macros = [];
+        for (var i = 0; i < mathElements.length; i++) {
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            window.katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }
+    }
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        typesetMath(container);
+        return container.innerHTML
+      } else {
+        typesetMath(note);
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      typesetMath(note);
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1136,6 +1215,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1161,6 +1241,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1220,19 +1326,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-      <a href="../../docs/mixture-models/map566-lecture-graph-clustering-part1.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Hierarchical and Spectral methods for Graph clustering</span>
-      </a>          
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="../../docs/mixture-models/map566-lab-mixture-models.html" class="pagination-link">
-        <span class="nav-page-text">Mixture models</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
+
 
 
 

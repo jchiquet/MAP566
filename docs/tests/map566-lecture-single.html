@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.197">
+<meta name="generator" content="quarto-1.4.510">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -17,11 +17,12 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -46,43 +47,13 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -109,7 +80,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -119,10 +96,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
-
 <link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
 <script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 
@@ -149,9 +126,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a href="../../index.html" class="navbar-brand navbar-brand-logo">
     <img src="../../logo_X.jpg" alt="" class="navbar-logo">
     </a>
@@ -166,198 +143,197 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../getting-started.html" rel="" target="">
- <span class="menu-text">Getting Started</span></a>
+    <a class="nav-link" href="../../getting-started.html"> 
+<span class="menu-text">Getting Started</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/jchiquet/MAP566" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/jchiquet/MAP566"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hypothesis-testing" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hypothesis-testing" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Hypothesis Testing</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-hypothesis-testing">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/tests/map566-lecture-single.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-single.html">
  <span class="dropdown-text">Statistical Tests</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/tests/map566-lecture-multiple.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-multiple.html">
  <span class="dropdown-text">Multiple Testing</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html">
  <span class="dropdown-text">Statistical tests: exercices</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-regression-models" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-regression-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Regression models</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-regression-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html">
  <span class="dropdown-text">Polynomial Regression</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lecture-nonlinear-regression.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-nonlinear-regression.html">
  <span class="dropdown-text">Nonlinear Regression</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lab-polynomial-regression.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-polynomial-regression.html">
  <span class="dropdown-text">Polynomial Regression</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lab-nonlinear-regression.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-nonlinear-regression.html">
  <span class="dropdown-text">Nonlinear Regression</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html">
  <span class="dropdown-text">Linear Regression: Quick Recap</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixed-models" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixed-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Mixed models</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixed-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html">
  <span class="dropdown-text">Linear Mixed Effects Models</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html">
  <span class="dropdown-text">Nonlinear Mixed Effects Models</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-linear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-linear-mixed-model.html">
  <span class="dropdown-text">Linear Mixed Models</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-nonlinear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-nonlinear-mixed-model.html">
  <span class="dropdown-text">Nonlinear Mixed Effects Models</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html">
  <span class="dropdown-text">An EM Algorithm for Linear Mixed Effects Models</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Mixture models</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixture-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html">
  <span class="dropdown-text">Mixture Models</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-graph-clustering-part1.html" rel="" target="">
- <span class="dropdown-text">Hierarchical and Spectral methods for Graph clustering</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-graph-clustering-part2.html" rel="" target="">
- <span class="dropdown-text">Stochastic block Models</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">
  <span class="dropdown-text">Mixture models</span></a>
   </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-change-point-detection" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Change-point detection</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-change-point-detection">    
+        <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-graph-partionning.html" rel="" target="">
- <span class="dropdown-text">Graph Clustering</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html" rel="" target="">
- <span class="dropdown-text">Graph Clustering: Stochastic Blockmodels</span></a>
+    <a class="dropdown-item" href="../../docs/change-point/map566-lecture-change-point-detection.html">
+ <span class="dropdown-text">Detection of change points in a time series</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">Supplementary material</li>
+        <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-doc-mixture-models-example.html" rel="" target="">
- <span class="dropdown-text">Clustering and classification with model based approaches</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="https://github.com/jchiquet/MAP573/raw/master/slides/GraphClustering/GraphClustering.pdf" rel="" target="">
- <span class="dropdown-text">Slides on Graph Clustering</span></a>
+    <a class="dropdown-item" href="../../docs/change-point/map566-lab-change-point-detection.html">
+ <span class="dropdown-text">Detection of change points in a time series</span></a>
   </li>  
     </ul>
   </li>
 </ul>
-            <div class="quarto-navbar-tools">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Statistical Tests</h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/tests/map566-lecture-single.html">Lectures</a></li><li class="breadcrumb-item"><a href="../../docs/tests/map566-lecture-single.html">Statistical Tests</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
     </div>
   </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Lectures</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Lectures</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/tests/map566-lecture-single.html" class="sidebar-item-text sidebar-link active">Statistical Tests</a>
+  <a href="../../docs/tests/map566-lecture-single.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Statistical Tests</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/tests/map566-lecture-multiple.html" class="sidebar-item-text sidebar-link">Multiple Testing</a>
+  <a href="../../docs/tests/map566-lecture-multiple.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multiple Testing</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Exercices</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Exercices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/tests/map566-lab-tests.html" class="sidebar-item-text sidebar-link">Statistical tests: exercices</a>
+  <a href="../../docs/tests/map566-lab-tests.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statistical tests: exercices</span></a>
   </div>
 </li>
       </ul>
@@ -365,6 +341,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </ul>
     </div>
 </nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -372,34 +349,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    
   <ul>
   <li><a href="#preliminary" id="toc-preliminary" class="nav-link active" data-scroll-target="#preliminary">Preliminary</a></li>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction"><span class="toc-section-number">1</span>  Introduction</a></li>
-  <li><a href="#students-t-test" id="toc-students-t-test" class="nav-link" data-scroll-target="#students-t-test"><span class="toc-section-number">2</span>  Student’s t-test</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
+  <li><a href="#students-t-test" id="toc-students-t-test" class="nav-link" data-scroll-target="#students-t-test"><span class="header-section-number">2</span> Student’s t-test</a>
   <ul class="collapse">
-  <li><a href="#one-sample-t-test" id="toc-one-sample-t-test" class="nav-link" data-scroll-target="#one-sample-t-test"><span class="toc-section-number">2.1</span>  One sample t-test</a>
+  <li><a href="#one-sample-t-test" id="toc-one-sample-t-test" class="nav-link" data-scroll-target="#one-sample-t-test"><span class="header-section-number">2.1</span> One sample t-test</a>
   <ul class="collapse">
-  <li><a href="#one-sided-test" id="toc-one-sided-test" class="nav-link" data-scroll-target="#one-sided-test"><span class="toc-section-number">2.1.1</span>  One sided test</a></li>
-  <li><a href="#two-sided-test" id="toc-two-sided-test" class="nav-link" data-scroll-target="#two-sided-test"><span class="toc-section-number">2.1.2</span>  Two sided test</a></li>
-  <li><a href="#confidence-interval-for-the-mean" id="toc-confidence-interval-for-the-mean" class="nav-link" data-scroll-target="#confidence-interval-for-the-mean"><span class="toc-section-number">2.1.3</span>  Confidence interval for the mean</a></li>
+  <li><a href="#one-sided-test" id="toc-one-sided-test" class="nav-link" data-scroll-target="#one-sided-test"><span class="header-section-number">2.1.1</span> One sided test</a></li>
+  <li><a href="#two-sided-test" id="toc-two-sided-test" class="nav-link" data-scroll-target="#two-sided-test"><span class="header-section-number">2.1.2</span> Two sided test</a></li>
+  <li><a href="#confidence-interval-for-the-mean" id="toc-confidence-interval-for-the-mean" class="nav-link" data-scroll-target="#confidence-interval-for-the-mean"><span class="header-section-number">2.1.3</span> Confidence interval for the mean</a></li>
   </ul></li>
-  <li><a href="#two-samples-t-test" id="toc-two-samples-t-test" class="nav-link" data-scroll-target="#two-samples-t-test"><span class="toc-section-number">2.2</span>  Two samples t-test</a>
+  <li><a href="#two-samples-t-test" id="toc-two-samples-t-test" class="nav-link" data-scroll-target="#two-samples-t-test"><span class="header-section-number">2.2</span> Two samples t-test</a>
   <ul class="collapse">
-  <li><a href="#what-should-we-test" id="toc-what-should-we-test" class="nav-link" data-scroll-target="#what-should-we-test"><span class="toc-section-number">2.2.1</span>  What should we test?</a></li>
-  <li><a href="#assuming-equal-variances" id="toc-assuming-equal-variances" class="nav-link" data-scroll-target="#assuming-equal-variances"><span class="toc-section-number">2.2.2</span>  Assuming equal variances</a></li>
-  <li><a href="#assuming-different-variances" id="toc-assuming-different-variances" class="nav-link" data-scroll-target="#assuming-different-variances"><span class="toc-section-number">2.2.3</span>  Assuming different variances</a></li>
+  <li><a href="#what-should-we-test" id="toc-what-should-we-test" class="nav-link" data-scroll-target="#what-should-we-test"><span class="header-section-number">2.2.1</span> What should we test?</a></li>
+  <li><a href="#assuming-equal-variances" id="toc-assuming-equal-variances" class="nav-link" data-scroll-target="#assuming-equal-variances"><span class="header-section-number">2.2.2</span> Assuming equal variances</a></li>
+  <li><a href="#assuming-different-variances" id="toc-assuming-different-variances" class="nav-link" data-scroll-target="#assuming-different-variances"><span class="header-section-number">2.2.3</span> Assuming different variances</a></li>
   </ul></li>
-  <li><a href="#power-of-a-t-test" id="toc-power-of-a-t-test" class="nav-link" data-scroll-target="#power-of-a-t-test"><span class="toc-section-number">2.3</span>  Power of a t-test</a></li>
+  <li><a href="#power-of-a-t-test" id="toc-power-of-a-t-test" class="nav-link" data-scroll-target="#power-of-a-t-test"><span class="header-section-number">2.3</span> Power of a t-test</a></li>
   </ul></li>
-  <li><a href="#wilcoxon-test" id="toc-wilcoxon-test" class="nav-link" data-scroll-target="#wilcoxon-test"><span class="toc-section-number">3</span>  Wilcoxon test</a></li>
-  <li><a href="#final-remark-the-limited-role-of-the-p-value" id="toc-final-remark-the-limited-role-of-the-p-value" class="nav-link" data-scroll-target="#final-remark-the-limited-role-of-the-p-value"><span class="toc-section-number">4</span>  Final remark: the limited role of the p-value</a></li>
+  <li><a href="#wilcoxon-test" id="toc-wilcoxon-test" class="nav-link" data-scroll-target="#wilcoxon-test"><span class="header-section-number">3</span> Wilcoxon test</a></li>
+  <li><a href="#final-remark-the-limited-role-of-the-p-value" id="toc-final-remark-the-limited-role-of-the-p-value" class="nav-link" data-scroll-target="#final-remark-the-limited-role-of-the-p-value"><span class="header-section-number">4</span> Final remark: the limited role of the p-value</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/tests/map566-lecture-single.html">Lectures</a></li><li class="breadcrumb-item"><a href="../../docs/tests/map566-lecture-single.html">Statistical Tests</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Statistical Tests</h1>
+<h1 class="title">Statistical Tests</h1>
 <p class="subtitle lead">Lecture Notes</p>
 </div>
 
@@ -413,7 +390,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </div>
   
 
+
 </header>
+
 
 <section id="preliminary" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="preliminary">Preliminary</h3>
@@ -443,7 +422,6 @@ dbl (2): week, weight
 </div>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
 {"columns":[{"label":["id"],"name":[1],"type":["chr"],"align":["left"]},{"label":["weight"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["regime"],"name":[3],"type":["chr"],"align":["left"]},{"label":["gender"],"name":[4],"type":["chr"],"align":["left"]},{"label":["dosage"],"name":[5],"type":["chr"],"align":["left"]}],"data":[{"1":"B38602","2":"514.9","3":"Control","4":"Male","5":"11%"},{"1":"B38603","2":"505.0","3":"Control","4":"Male","5":"11%"},{"1":"B38604","2":"545.1","3":"Control","4":"Male","5":"11%"},{"1":"B38605","2":"596.6","3":"Control","4":"Male","5":"11%"},{"1":"B38606","2":"516.8","3":"Control","4":"Male","5":"11%"},{"1":"B38607","2":"518.1","3":"Control","4":"Male","5":"11%"},{"1":"B38608","2":"539.0","3":"Control","4":"Male","5":"11%"},{"1":"B38609","2":"470.6","3":"Control","4":"Male","5":"11%"},{"1":"B38610","2":"554.8","3":"Control","4":"Male","5":"11%"},{"1":"B38611","2":"476.8","3":"Control","4":"Male","5":"11%"},{"1":"B38612","2":"527.0","3":"Control","4":"Male","5":"11%"},{"1":"B38613","2":"468.6","3":"Control","4":"Male","5":"11%"},{"1":"B38614","2":"505.3","3":"Control","4":"Male","5":"11%"},{"1":"B38615","2":"545.0","3":"Control","4":"Male","5":"11%"},{"1":"B38616","2":"473.5","3":"Control","4":"Male","5":"11%"},{"1":"B38617","2":"443.6","3":"Control","4":"Male","5":"11%"},{"1":"B38618","2":"497.7","3":"Control","4":"Male","5":"11%"},{"1":"B38619","2":"540.3","3":"Control","4":"Male","5":"11%"},{"1":"B38620","2":"493.1","3":"Control","4":"Male","5":"11%"},{"1":"B38621","2":"524.3","3":"Control","4":"Male","5":"11%"},{"1":"B38642","2":"534.7","3":"GMO","4":"Male","5":"11%"},{"1":"B38643","2":"426.9","3":"GMO","4":"Male","5":"11%"},{"1":"B38644","2":"498.9","3":"GMO","4":"Male","5":"11%"},{"1":"B38645","2":"531.6","3":"GMO","4":"Male","5":"11%"},{"1":"B38646","2":"465.3","3":"GMO","4":"Male","5":"11%"},{"1":"B38647","2":"536.2","3":"GMO","4":"Male","5":"11%"},{"1":"B38648","2":"470.9","3":"GMO","4":"Male","5":"11%"},{"1":"B38649","2":"542.6","3":"GMO","4":"Male","5":"11%"},{"1":"B38650","2":"504.1","3":"GMO","4":"Male","5":"11%"},{"1":"B38651","2":"515.9","3":"GMO","4":"Male","5":"11%"},{"1":"B38652","2":"484.6","3":"GMO","4":"Male","5":"11%"},{"1":"B38653","2":"506.7","3":"GMO","4":"Male","5":"11%"},{"1":"B38654","2":"561.5","3":"GMO","4":"Male","5":"11%"},{"1":"B38655","2":"454.8","3":"GMO","4":"Male","5":"11%"},{"1":"B38656","2":"566.4","3":"GMO","4":"Male","5":"11%"},{"1":"B38657","2":"529.2","3":"GMO","4":"Male","5":"11%"},{"1":"B38658","2":"452.3","3":"GMO","4":"Male","5":"11%"},{"1":"B38659","2":"407.2","3":"GMO","4":"Male","5":"11%"},{"1":"B38660","2":"452.0","3":"GMO","4":"Male","5":"11%"},{"1":"B38661","2":"474.7","3":"GMO","4":"Male","5":"11%"},{"1":"B38622","2":"467.4","3":"Control","4":"Male","5":"33%"},{"1":"B38623","2":"519.4","3":"Control","4":"Male","5":"33%"},{"1":"B38624","2":"463.6","3":"Control","4":"Male","5":"33%"},{"1":"B38625","2":"530.8","3":"Control","4":"Male","5":"33%"},{"1":"B38626","2":"456.3","3":"Control","4":"Male","5":"33%"},{"1":"B38627","2":"485.4","3":"Control","4":"Male","5":"33%"},{"1":"B38628","2":"506.1","3":"Control","4":"Male","5":"33%"},{"1":"B38629","2":"608.0","3":"Control","4":"Male","5":"33%"},{"1":"B38630","2":"537.4","3":"Control","4":"Male","5":"33%"},{"1":"B38631","2":"498.7","3":"Control","4":"Male","5":"33%"},{"1":"B38632","2":"518.8","3":"Control","4":"Male","5":"33%"},{"1":"B38633","2":"456.4","3":"Control","4":"Male","5":"33%"},{"1":"B38634","2":"567.7","3":"Control","4":"Male","5":"33%"},{"1":"B38635","2":"501.8","3":"Control","4":"Male","5":"33%"},{"1":"B38636","2":"540.9","3":"Control","4":"Male","5":"33%"},{"1":"B38637","2":"587.8","3":"Control","4":"Male","5":"33%"},{"1":"B38638","2":"520.9","3":"Control","4":"Male","5":"33%"},{"1":"B38639","2":"591.1","3":"Control","4":"Male","5":"33%"},{"1":"B38641","2":"420.0","3":"Control","4":"Male","5":"33%"},{"1":"B38662","2":"503.4","3":"GMO","4":"Male","5":"33%"},{"1":"B38663","2":"507.1","3":"GMO","4":"Male","5":"33%"},{"1":"B38664","2":"477.8","3":"GMO","4":"Male","5":"33%"},{"1":"B38665","2":"476.8","3":"GMO","4":"Male","5":"33%"},{"1":"B38666","2":"591.4","3":"GMO","4":"Male","5":"33%"},{"1":"B38668","2":"459.3","3":"GMO","4":"Male","5":"33%"},{"1":"B38669","2":"468.8","3":"GMO","4":"Male","5":"33%"},{"1":"B38670","2":"525.2","3":"GMO","4":"Male","5":"33%"},{"1":"B38671","2":"531.0","3":"GMO","4":"Male","5":"33%"},{"1":"B38672","2":"466.6","3":"GMO","4":"Male","5":"33%"},{"1":"B38673","2":"473.7","3":"GMO","4":"Male","5":"33%"},{"1":"B38674","2":"522.4","3":"GMO","4":"Male","5":"33%"},{"1":"B38675","2":"493.0","3":"GMO","4":"Male","5":"33%"},{"1":"B38676","2":"468.5","3":"GMO","4":"Male","5":"33%"},{"1":"B38677","2":"558.3","3":"GMO","4":"Male","5":"33%"},{"1":"B38678","2":"439.5","3":"GMO","4":"Male","5":"33%"},{"1":"B38679","2":"575.9","3":"GMO","4":"Male","5":"33%"},{"1":"B38680","2":"480.8","3":"GMO","4":"Male","5":"33%"},{"1":"B38681","2":"514.7","3":"GMO","4":"Male","5":"33%"},{"1":"B38802","2":"311.3","3":"Control","4":"Female","5":"11%"},{"1":"B38803","2":"278.2","3":"Control","4":"Female","5":"11%"},{"1":"B38804","2":"275.5","3":"Control","4":"Female","5":"11%"},{"1":"B38805","2":"292.6","3":"Control","4":"Female","5":"11%"},{"1":"B38806","2":"260.6","3":"Control","4":"Female","5":"11%"},{"1":"B38807","2":"269.9","3":"Control","4":"Female","5":"11%"},{"1":"B38808","2":"261.4","3":"Control","4":"Female","5":"11%"},{"1":"B38809","2":"297.3","3":"Control","4":"Female","5":"11%"},{"1":"B38810","2":"332.4","3":"Control","4":"Female","5":"11%"},{"1":"B38811","2":"278.2","3":"Control","4":"Female","5":"11%"},{"1":"B38812","2":"284.7","3":"Control","4":"Female","5":"11%"},{"1":"B38813","2":"263.9","3":"Control","4":"Female","5":"11%"},{"1":"B38814","2":"258.9","3":"Control","4":"Female","5":"11%"},{"1":"B38815","2":"256.7","3":"Control","4":"Female","5":"11%"},{"1":"B38816","2":"292.7","3":"Control","4":"Female","5":"11%"},{"1":"B38817","2":"251.2","3":"Control","4":"Female","5":"11%"},{"1":"B38818","2":"271.5","3":"Control","4":"Female","5":"11%"},{"1":"B38819","2":"263.1","3":"Control","4":"Female","5":"11%"},{"1":"B38820","2":"264.1","3":"Control","4":"Female","5":"11%"},{"1":"B38821","2":"303.7","3":"Control","4":"Female","5":"11%"},{"1":"B38842","2":"274.9","3":"GMO","4":"Female","5":"11%"},{"1":"B38843","2":"259.0","3":"GMO","4":"Female","5":"11%"},{"1":"B38844","2":"303.1","3":"GMO","4":"Female","5":"11%"},{"1":"B38845","2":"259.3","3":"GMO","4":"Female","5":"11%"},{"1":"B38846","2":"265.0","3":"GMO","4":"Female","5":"11%"},{"1":"B38847","2":"290.4","3":"GMO","4":"Female","5":"11%"},{"1":"B38848","2":"259.2","3":"GMO","4":"Female","5":"11%"},{"1":"B38849","2":"314.6","3":"GMO","4":"Female","5":"11%"},{"1":"B38850","2":"313.6","3":"GMO","4":"Female","5":"11%"},{"1":"B38851","2":"298.4","3":"GMO","4":"Female","5":"11%"},{"1":"B38852","2":"297.1","3":"GMO","4":"Female","5":"11%"},{"1":"B38853","2":"282.2","3":"GMO","4":"Female","5":"11%"},{"1":"B38854","2":"275.9","3":"GMO","4":"Female","5":"11%"},{"1":"B38855","2":"278.2","3":"GMO","4":"Female","5":"11%"},{"1":"B38856","2":"309.2","3":"GMO","4":"Female","5":"11%"},{"1":"B38857","2":"277.8","3":"GMO","4":"Female","5":"11%"},{"1":"B38858","2":"312.4","3":"GMO","4":"Female","5":"11%"},{"1":"B38859","2":"267.8","3":"GMO","4":"Female","5":"11%"},{"1":"B38860","2":"282.8","3":"GMO","4":"Female","5":"11%"},{"1":"B38861","2":"301.0","3":"GMO","4":"Female","5":"11%"},{"1":"B38822","2":"247.9","3":"Control","4":"Female","5":"33%"},{"1":"B38823","2":"281.0","3":"Control","4":"Female","5":"33%"},{"1":"B38824","2":"281.9","3":"Control","4":"Female","5":"33%"},{"1":"B38825","2":"288.0","3":"Control","4":"Female","5":"33%"},{"1":"B38826","2":"295.0","3":"Control","4":"Female","5":"33%"},{"1":"B38827","2":"307.4","3":"Control","4":"Female","5":"33%"},{"1":"B38828","2":"258.7","3":"Control","4":"Female","5":"33%"},{"1":"B38829","2":"267.0","3":"Control","4":"Female","5":"33%"},{"1":"B38830","2":"285.3","3":"Control","4":"Female","5":"33%"},{"1":"B38831","2":"253.1","3":"Control","4":"Female","5":"33%"},{"1":"B38832","2":"255.3","3":"Control","4":"Female","5":"33%"},{"1":"B38833","2":"293.4","3":"Control","4":"Female","5":"33%"},{"1":"B38834","2":"279.4","3":"Control","4":"Female","5":"33%"},{"1":"B38835","2":"276.7","3":"Control","4":"Female","5":"33%"},{"1":"B38836","2":"315.6","3":"Control","4":"Female","5":"33%"},{"1":"B38837","2":"248.7","3":"Control","4":"Female","5":"33%"},{"1":"B38838","2":"271.4","3":"Control","4":"Female","5":"33%"},{"1":"B38839","2":"276.4","3":"Control","4":"Female","5":"33%"},{"1":"B38840","2":"309.6","3":"Control","4":"Female","5":"33%"},{"1":"B38841","2":"271.6","3":"Control","4":"Female","5":"33%"},{"1":"B38862","2":"337.6","3":"GMO","4":"Female","5":"33%"},{"1":"B38863","2":"239.3","3":"GMO","4":"Female","5":"33%"},{"1":"B38864","2":"318.1","3":"GMO","4":"Female","5":"33%"},{"1":"B38865","2":"245.6","3":"GMO","4":"Female","5":"33%"},{"1":"B38866","2":"344.0","3":"GMO","4":"Female","5":"33%"},{"1":"B38867","2":"297.7","3":"GMO","4":"Female","5":"33%"},{"1":"B38868","2":"295.6","3":"GMO","4":"Female","5":"33%"},{"1":"B38869","2":"270.3","3":"GMO","4":"Female","5":"33%"},{"1":"B38870","2":"305.9","3":"GMO","4":"Female","5":"33%"},{"1":"B38871","2":"271.2","3":"GMO","4":"Female","5":"33%"},{"1":"B38872","2":"276.1","3":"GMO","4":"Female","5":"33%"},{"1":"B38873","2":"329.7","3":"GMO","4":"Female","5":"33%"},{"1":"B38874","2":"270.7","3":"GMO","4":"Female","5":"33%"},{"1":"B38875","2":"264.8","3":"GMO","4":"Female","5":"33%"},{"1":"B38876","2":"314.1","3":"GMO","4":"Female","5":"33%"},{"1":"B38877","2":"268.1","3":"GMO","4":"Female","5":"33%"},{"1":"B38878","2":"245.2","3":"GMO","4":"Female","5":"33%"},{"1":"B38879","2":"293.9","3":"GMO","4":"Female","5":"33%"},{"1":"B38880","2":"278.5","3":"GMO","4":"Female","5":"33%"},{"1":"B38881","2":"304.6","3":"GMO","4":"Female","5":"33%"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -453,26 +431,29 @@ dbl (2): week, weight
 </div>
 <p>The data per gender and regime is displayed below</p>
 <div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-2_1fb1d2193f38e9976edb69efdc7bfcb8">
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="sc">%&gt;%</span> </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> gender, <span class="at">y =</span> weight) <span class="sc">+</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="fu">aes</span>(<span class="at">fill =</span> regime)) <span class="sc">+</span> <span class="fu">geom_jitter</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span>  <span class="fu">ylab</span>(<span class="st">"weight (g)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-single_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="960"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-single_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The following table provides the mean weight in each group</p>
 <div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-3_2c80fa55e956e4f5c5935175afb3b1c4">
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(regime, gender) <span class="sc">%&gt;%</span> </span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="st">'average weight'</span> <span class="ot">=</span> <span class="fu">mean</span>(weight), <span class="at">count =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span> </span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
 {"columns":[{"label":["regime"],"name":[1],"type":["chr"],"align":["left"]},{"label":["gender"],"name":[2],"type":["chr"],"align":["left"]},{"label":["average weight"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["count"],"name":[4],"type":["int"],"align":["right"]}],"data":[{"1":"Control","2":"Female","3":"278.2825","4":"40"},{"1":"Control","2":"Male","3":"513.7077","4":"39"},{"1":"GMO","2":"Female","3":"287.3225","4":"40"},{"1":"GMO","2":"Male","3":"498.7359","4":"39"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -488,14 +469,18 @@ dbl (2): week, weight
 <h2 data-number="2.1" class="anchored" data-anchor-id="one-sample-t-test"><span class="header-section-number">2.1</span> One sample t-test</h2>
 <p>Before considering the problem of comparing two groups, let us start looking at the weight of the male rats only:</p>
 <div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-4_456a176f7acb9cea748e32d0b4f645ee">
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="sc">%&gt;%</span> <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">"Male"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> regime, <span class="at">y =</span> weight) <span class="sc">+</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="fu">aes</span>(<span class="at">fill =</span> regime)) <span class="sc">+</span> <span class="fu">geom_jitter</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span>  <span class="fu">ylab</span>(<span class="st">"weight (g)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-single_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="960"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-single_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Let <span class="math inline">x_1, x_2, x_n</span> the weights of the <span class="math inline">n</span> male rats. We will assume that the <span class="math inline">x_i</span>’s are independent and normally distributed with mean <span class="math inline">\mu</span> and variance <span class="math inline">\sigma^2</span>:</p>
@@ -692,8 +677,8 @@ p_{\rm value} &amp; = \mathbb{P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm ob
 </div>
 <p>In fact, for a given <span class="math inline">\alpha</span>, these two values <span class="math inline">\mu_{\alpha,{\rm lower}}</span> and <span class="math inline">\mu_{\alpha,{\rm upper}}</span> define a <em>confidence interval</em> for <span class="math inline">\mu</span>: We are ``confident’’ at the level <span class="math inline">1-\alpha</span> that any value between <span class="math inline">\mu_{\alpha,{\rm lower}}</span> and <span class="math inline">\mu_{\alpha,{\rm upper}}</span> is a possible value for <span class="math inline">\mu</span>.</p>
 <div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-18_11d54e766d4c971dee50313a55ee9361">
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>mu     <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">490</span>, <span class="dv">520</span>, <span class="at">by =</span> <span class="fl">0.25</span>)</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>t_stat <span class="ot">&lt;-</span> (x_mean <span class="sc">-</span> mu) <span class="sc">/</span> x_sd <span class="sc">*</span> <span class="fu">sqrt</span>(n)</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>pval   <span class="ot">&lt;-</span> <span class="fu">pmin</span>(<span class="fu">pt</span>(<span class="sc">-</span>t_stat, df) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(t_stat, df)),</span>
@@ -707,7 +692,11 @@ p_{\rm value} &amp; = \mathbb{P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm ob
 <span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">round</span>(<span class="fu">c</span>(<span class="dv">490</span>,<span class="dv">500</span>,<span class="dv">510</span>,<span class="dv">520</span>,CI,x_mean),<span class="dv">2</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-single_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-single_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>By construction,</p>
@@ -767,7 +756,11 @@ p_{\rm value} &amp; = \mathbb{P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm ob
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> gender, <span class="at">y =</span> weight) <span class="sc">+</span></span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="fu">aes</span>(<span class="at">fill =</span> gender)) <span class="sc">+</span> <span class="fu">geom_jitter</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span>  <span class="fu">ylab</span>(<span class="st">"weight (g)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-single_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="960"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-single_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Looking at the data is more than enough for concluding that the mean weight of the males is (much) larger than the mean weight of the females Computing a <span class="math inline">p</span>-value here is of little interest </p>
@@ -775,7 +768,6 @@ p_{\rm value} &amp; = \mathbb{P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm ob
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(gender) <span class="sc">%&gt;%</span> <span class="fu">summarize</span>(<span class="at">average_weight =</span> <span class="fu">mean</span>(weight)) <span class="sc">%&gt;%</span> </span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
 {"columns":[{"label":["gender"],"name":[1],"type":["chr"],"align":["left"]},{"label":["average_weight"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"Female","2":"282.8025"},{"1":"Male","2":"506.2218"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -805,7 +797,11 @@ mean of x mean of y
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> regime, <span class="at">y =</span> weight) <span class="sc">+</span></span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">fill =</span> regime)) <span class="sc">+</span> <span class="fu">geom_jitter</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span>  <span class="fu">ylab</span>(<span class="st">"weight (g)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-single_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="960"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-single_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> rat_weight <span class="sc">%&gt;%</span> <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">"Male"</span> <span class="sc">&amp;</span> regime <span class="sc">==</span> <span class="st">"Control"</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(<span class="st">"weight"</span>)</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> rat_weight <span class="sc">%&gt;%</span> <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">"Male"</span> <span class="sc">&amp;</span> regime <span class="sc">==</span> <span class="st">"GMO"</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(<span class="st">"weight"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1050,7 +1046,11 @@ NOTE: n is number in *each* group</code></pre>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> weight, <span class="at">y =</span> <span class="fu">as.numeric</span>(<span class="fu">as.factor</span>(regime)), <span class="at">colour=</span>regime)) <span class="sc">+</span></span>
 <span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="cn">NULL</span>) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="cn">NULL</span>, <span class="at">limits=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">6</span>,<span class="dv">9</span>)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"weight (g)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-single_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid" width="768"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-single_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>We can check that the Mann-Whitney-Wilcoxon test is not significant (at the level 0.05)</p>
@@ -1255,9 +1255,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -1293,10 +1307,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1306,8 +1319,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1320,6 +1342,135 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    const typesetMath = (el) => {
+      if (window.MathJax) {
+        // MathJax Typeset
+        window.MathJax.typeset([el]);
+      } else if (window.katex) {
+        // KaTeX Render
+        var mathElements = el.getElementsByClassName("math");
+        var macros = [];
+        for (var i = 0; i < mathElements.length; i++) {
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            window.katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }
+    }
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        typesetMath(container);
+        return container.innerHTML
+      } else {
+        typesetMath(note);
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      typesetMath(note);
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1363,6 +1514,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1388,6 +1540,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1451,12 +1629,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../docs/tests/map566-lecture-multiple.html" class="pagination-link">
+      <a href="../../docs/tests/map566-lecture-multiple.html" class="pagination-link" aria-label="Multiple Testing">
         <span class="nav-page-text">Multiple Testing</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+
 
 
 

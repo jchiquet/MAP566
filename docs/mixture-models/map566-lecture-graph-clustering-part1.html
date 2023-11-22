@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.197">
+<meta name="generator" content="quarto-1.4.510">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -17,11 +17,12 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -46,48 +47,20 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+/* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
-.hanging div.csl-entry {
+.hanging-indent div.csl-entry {
   margin-left:2em;
   text-indent:-2em;
 }
@@ -101,8 +74,7 @@ div.csl-right-inline {
 }
 div.csl-indent {
   margin-left: 2em;
-}
-</style>
+}</style>
 
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -112,8 +84,6 @@ div.csl-indent {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../docs/mixture-models/map566-lecture-graph-clustering-part2.html" rel="next">
-<link href="../../docs/mixture-models/map566-lecture-mixture-models.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -129,7 +99,13 @@ div.csl-indent {
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -139,10 +115,10 @@ div.csl-indent {
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
-
 <link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
 <script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 
@@ -165,13 +141,13 @@ div.csl-indent {
 
 </head>
 
-<body class="nav-sidebar docked nav-fixed">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a href="../../index.html" class="navbar-brand navbar-brand-logo">
     <img src="../../logo_X.jpg" alt="" class="navbar-logo">
     </a>
@@ -186,240 +162,148 @@ div.csl-indent {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../getting-started.html" rel="" target="">
- <span class="menu-text">Getting Started</span></a>
+    <a class="nav-link" href="../../getting-started.html"> 
+<span class="menu-text">Getting Started</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/jchiquet/MAP566" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/jchiquet/MAP566"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hypothesis-testing" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hypothesis-testing" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Hypothesis Testing</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-hypothesis-testing">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/tests/map566-lecture-single.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-single.html">
  <span class="dropdown-text">Statistical Tests</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/tests/map566-lecture-multiple.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-multiple.html">
  <span class="dropdown-text">Multiple Testing</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html">
  <span class="dropdown-text">Statistical tests: exercices</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-regression-models" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-regression-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Regression models</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-regression-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html">
  <span class="dropdown-text">Polynomial Regression</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lecture-nonlinear-regression.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-nonlinear-regression.html">
  <span class="dropdown-text">Nonlinear Regression</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lab-polynomial-regression.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-polynomial-regression.html">
  <span class="dropdown-text">Polynomial Regression</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lab-nonlinear-regression.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-nonlinear-regression.html">
  <span class="dropdown-text">Nonlinear Regression</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html">
  <span class="dropdown-text">Linear Regression: Quick Recap</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixed-models" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixed-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Mixed models</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixed-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html">
  <span class="dropdown-text">Linear Mixed Effects Models</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html">
  <span class="dropdown-text">Nonlinear Mixed Effects Models</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-linear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-linear-mixed-model.html">
  <span class="dropdown-text">Linear Mixed Models</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-nonlinear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-nonlinear-mixed-model.html">
  <span class="dropdown-text">Nonlinear Mixed Effects Models</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html">
  <span class="dropdown-text">An EM Algorithm for Linear Mixed Effects Models</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Mixture models</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixture-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html">
  <span class="dropdown-text">Mixture Models</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-graph-clustering-part1.html" rel="" target="">
- <span class="dropdown-text">Hierarchical and Spectral methods for Graph clustering</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-graph-clustering-part2.html" rel="" target="">
- <span class="dropdown-text">Stochastic block Models</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">
  <span class="dropdown-text">Mixture models</span></a>
   </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-change-point-detection" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Change-point detection</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-change-point-detection">    
+        <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-graph-partionning.html" rel="" target="">
- <span class="dropdown-text">Graph Clustering</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html" rel="" target="">
- <span class="dropdown-text">Graph Clustering: Stochastic Blockmodels</span></a>
+    <a class="dropdown-item" href="../../docs/change-point/map566-lecture-change-point-detection.html">
+ <span class="dropdown-text">Detection of change points in a time series</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">Supplementary material</li>
+        <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-doc-mixture-models-example.html" rel="" target="">
- <span class="dropdown-text">Clustering and classification with model based approaches</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="https://github.com/jchiquet/MAP573/raw/master/slides/GraphClustering/GraphClustering.pdf" rel="" target="">
- <span class="dropdown-text">Slides on Graph Clustering</span></a>
+    <a class="dropdown-item" href="../../docs/change-point/map566-lab-change-point-detection.html">
+ <span class="dropdown-text">Detection of change points in a time series</span></a>
   </li>  
     </ul>
   </li>
 </ul>
-            <div class="quarto-navbar-tools">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Hierarchical and Spectral methods for Graph clustering</h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
-      </button>
-    </div>
-  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
-    <div class="sidebar-menu-container"> 
-    <ul class="list-unstyled mt-1">
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Lectures</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../docs/mixture-models/map566-lecture-mixture-models.html" class="sidebar-item-text sidebar-link">Mixture Models</a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../docs/mixture-models/map566-lecture-graph-clustering-part1.html" class="sidebar-item-text sidebar-link active">Hierarchical and Spectral methods for Graph clustering</a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../docs/mixture-models/map566-lecture-graph-clustering-part2.html" class="sidebar-item-text sidebar-link">Stochastic block Models</a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Exercices</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../docs/mixture-models/map566-lab-mixture-models.html" class="sidebar-item-text sidebar-link">Mixture models</a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../docs/mixture-models/map566-lab-graph-partionning.html" class="sidebar-item-text sidebar-link">Graph Clustering</a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html" class="sidebar-item-text sidebar-link">Graph Clustering: Stochastic Blockmodels</a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">Supplementary material</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../docs/mixture-models/map566-doc-mixture-models-example.html" class="sidebar-item-text sidebar-link">Clustering and classification with model based approaches</a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="https://github.com/jchiquet/MAP573/raw/master/slides/GraphClustering/GraphClustering.pdf" class="sidebar-item-text sidebar-link">Slides on Graph Clustering</a>
-  </div>
-</li>
-      </ul>
-  </li>
-    </ul>
-    </div>
-</nav>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -427,26 +311,26 @@ div.csl-indent {
    
   <ul>
   <li><a href="#preliminary" id="toc-preliminary" class="nav-link active" data-scroll-target="#preliminary">Preliminary</a></li>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction"><span class="toc-section-number">1</span>  Introduction</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a>
   <ul class="collapse">
-  <li><a href="#network-data-and-binary-graphs-minimal-notation" id="toc-network-data-and-binary-graphs-minimal-notation" class="nav-link" data-scroll-target="#network-data-and-binary-graphs-minimal-notation"><span class="toc-section-number">1.1</span>  Network data and binary graphs: minimal notation</a></li>
-  <li><a href="#the-french-political-blogosphere" id="toc-the-french-political-blogosphere" class="nav-link" data-scroll-target="#the-french-political-blogosphere"><span class="toc-section-number">1.2</span>  The French political Blogosphere</a></li>
+  <li><a href="#network-data-and-binary-graphs-minimal-notation" id="toc-network-data-and-binary-graphs-minimal-notation" class="nav-link" data-scroll-target="#network-data-and-binary-graphs-minimal-notation"><span class="header-section-number">1.1</span> Network data and binary graphs: minimal notation</a></li>
+  <li><a href="#the-french-political-blogosphere" id="toc-the-french-political-blogosphere" class="nav-link" data-scroll-target="#the-french-political-blogosphere"><span class="header-section-number">1.2</span> The French political Blogosphere</a></li>
   </ul></li>
-  <li><a href="#graph-partionning" id="toc-graph-partionning" class="nav-link" data-scroll-target="#graph-partionning"><span class="toc-section-number">2</span>  Graph partionning</a>
+  <li><a href="#graph-partionning" id="toc-graph-partionning" class="nav-link" data-scroll-target="#graph-partionning"><span class="header-section-number">2</span> Graph partionning</a>
   <ul class="collapse">
-  <li><a href="#agglomerative-hierarchical-clustering-hac" id="toc-agglomerative-hierarchical-clustering-hac" class="nav-link" data-scroll-target="#agglomerative-hierarchical-clustering-hac"><span class="toc-section-number">2.1</span>  Agglomerative Hierarchical Clustering (HAC)</a></li>
-  <li><a href="#spectral-clustering" id="toc-spectral-clustering" class="nav-link" data-scroll-target="#spectral-clustering"><span class="toc-section-number">2.2</span>  Spectral Clustering</a></li>
+  <li><a href="#agglomerative-hierarchical-clustering-hac" id="toc-agglomerative-hierarchical-clustering-hac" class="nav-link" data-scroll-target="#agglomerative-hierarchical-clustering-hac"><span class="header-section-number">2.1</span> Agglomerative Hierarchical Clustering (HAC)</a></li>
+  <li><a href="#spectral-clustering" id="toc-spectral-clustering" class="nav-link" data-scroll-target="#spectral-clustering"><span class="header-section-number">2.2</span> Spectral Clustering</a></li>
   </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Hierarchical and Spectral methods for Graph clustering</h1>
+<h1 class="title">Hierarchical and Spectral methods for Graph clustering</h1>
 <p class="subtitle lead">Lecture Notes</p>
 </div>
 
@@ -460,7 +344,9 @@ div.csl-indent {
   </div>
   
 
+
 </header>
+
 
 <section id="preliminary" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="preliminary">Preliminary</h2>
@@ -516,7 +402,6 @@ div.csl-indent {
 </div>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">V</span>(frenchblog2007)<span class="sc">$</span>party <span class="sc">%&gt;%</span> <span class="fu">table</span>() <span class="sc">%&gt;%</span> <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
 {"columns":[{"label":["."],"name":[1],"type":["chr"],"align":["left"]},{"label":["n"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"analyst","2":"11"},{"1":"center-left","2":"11"},{"1":"center-rigth","2":"32"},{"1":"far-left","2":"7"},{"1":"far-right","2":"4"},{"1":"green","2":"9"},{"1":"left","2":"57"},{"1":"liberal","2":"25"},{"1":"right","2":"40"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -526,33 +411,41 @@ div.csl-indent {
 </div>
 <p>A visual representation of the network data with nodes colored according to the political party each blog belongs to is achieved as follows:</p>
 <div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/frenchblog-igraph-plot_542b293e5bedf573b289e9a876a83629">
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.igraph</span>(frenchblog2007,</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">vertex.color =</span> <span class="fu">factor</span>(<span class="fu">V</span>(frenchblog2007)<span class="sc">$</span>party),</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">vertex.label =</span> <span class="cn">NA</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-graph-clustering-part1_files/figure-html/frenchblog-igraph-plot-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-graph-clustering-part1_files/figure-html/frenchblog-igraph-plot-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Another commonly used representation is via a matrix view, where the adjacency matrix is re-ordered column-wise and row-wise according to a predefined classification. In the <code>frenchblog2007</code> data, nodes are originally reordered according to their party:</p>
 <div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/frenchblog-matrix-plot_54d1821b403f1abcf81c0fb36220e4c5">
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>frenchblog2007 <span class="sc">%&gt;%</span> <span class="fu">as_adj</span>(<span class="at">sparse =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span> <span class="fu">plotMyMatrix</span>(<span class="at">clustering =</span> <span class="fu">list</span>(<span class="at">row =</span> <span class="fu">factor</span>(<span class="fu">V</span>(frenchblog2007)<span class="sc">$</span>party)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-graph-clustering-part1_files/figure-html/frenchblog-matrix-plot-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-graph-clustering-part1_files/figure-html/frenchblog-matrix-plot-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
 </div>
-<div class="callout callout-style-default callout-warning callout-captioned">
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Warning
 </div>
 </div>
@@ -560,12 +453,12 @@ Warning
 <p>In this example, one can see that the pattern of connections between the nodes is highly related to the blog classification (the political party). However, just like with any kind of clustering, this is not always the case: the data may support a natural grouping of the node which is not necessarily related a predefined classification.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-captioned">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Note
 </div>
 </div>
@@ -587,7 +480,6 @@ Note
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>n_edges <span class="ot">&lt;-</span> <span class="fu">gsize</span>(blog)</span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>party <span class="sc">%&gt;%</span> <span class="fu">table</span>() <span class="sc">%&gt;%</span> <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
 {"columns":[{"label":["."],"name":[1],"type":["chr"],"align":["left"]},{"label":["n"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"green","2":"9"},{"1":"right","2":"40"},{"1":"center-rigth","2":"32"},{"1":"left","2":"57"},{"1":"center-left","2":"11"},{"1":"far-left","2":"7"},{"1":"liberal","2":"25"},{"1":"analyst","2":"11"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -603,12 +495,12 @@ Note
 <h3 data-number="2.1" class="anchored" data-anchor-id="agglomerative-hierarchical-clustering-hac"><span class="header-section-number">2.1</span> Agglomerative Hierarchical Clustering (HAC)</h3>
 <section id="general-principle" class="level4" data-number="2.1.1">
 <h4 data-number="2.1.1" class="anchored" data-anchor-id="general-principle"><span class="header-section-number">2.1.1</span> General principle</h4>
-<div class="callout callout-style-default callout-note callout-captioned">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 HAC: heuristic
 </div>
 </div>
@@ -649,12 +541,12 @@ HAC: heuristic
 </ul>
 <p><span class="math display">\Delta(\mathcal{C}_k, \mathcal{C}_\ell)
 = \sum_{i \in \mathcal{C}_k} \left( d^2(i, \mathbf{\mu}_{\mathcal{C}_k \cup \mathcal{C}_\ell} ) - d^2(i, \mathbf{\mu}_{\mathcal{C}_k}) \right) + \sum_{j \in \mathcal{C}_\ell} \left( d^2(j, \mathbf{\mu}_{\mathcal{C}_j \cup \mathcal{C}_\ell} ) - d^2(j, \mathbf{\mu}_{\mathcal{C}_\ell}) \right) </span></p>
-<div class="callout callout-style-default callout-note callout-captioned">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Remark
 </div>
 </div>
@@ -673,7 +565,11 @@ Remark
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>hc_basic <span class="ot">&lt;-</span> <span class="fu">hclust</span>(<span class="fu">as.dist</span>(D_basic), <span class="at">method =</span> <span class="st">"ward.D2"</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hc_basic, <span class="at">labels =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-graph-clustering-part1_files/figure-html/hclust-adjacency-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-graph-clustering-part1_files/figure-html/hclust-adjacency-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>With this distance, we consider nodes as similar when they are neighbors. A finest and smoothest way of quantifying similarity between node is to rely on the notion of shortest-path: we measure similarity between pairs of nodes by the length of their shortest path. This can be computed quickly with <em>igraph</em></p>
@@ -682,12 +578,16 @@ Remark
 </div>
 <p>This distance exhibits a strong block-wise pattern that connects to communities</p>
 <div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/distance-shortest-path-coorplot_52d327d10977378a877d722bc3663c2d">
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>corrplot<span class="sc">::</span><span class="fu">corrplot</span>(D_path, <span class="at">tl.pos =</span> <span class="st">'n'</span>, <span class="at">is.corr =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-graph-clustering-part1_files/figure-html/distance-shortest-path-coorplot-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-graph-clustering-part1_files/figure-html/distance-shortest-path-coorplot-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The corresponding dendrogram (hierarchy) obtained with Ward’s criterion is well balanced.</p>
@@ -695,7 +595,11 @@ Remark
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>hc_path <span class="ot">&lt;-</span> <span class="fu">hclust</span>(<span class="fu">as.dist</span>(D_path), <span class="at">method =</span> <span class="st">"ward.D2"</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hc_path, <span class="at">labels =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-graph-clustering-part1_files/figure-html/hclust-shortest-path-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-graph-clustering-part1_files/figure-html/hclust-shortest-path-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>We can now check whether the clustering found is matching some external/prior knowledge that we have (here, the political party for instance). Many metrics for comparing several clusterings are available. We chose the popular Adjusted Rand Index (<span class="citation" data-cites="RandIndex">Rand (<a href="#ref-RandIndex" role="doc-biblioref">1971</a>)</span>, <span class="citation" data-cites="ARI">Steinley (<a href="#ref-ARI" role="doc-biblioref">2004</a>)</span>):</p>
@@ -708,8 +612,8 @@ Remark
 </div>
 <p>The gain is clear when considering the more sound distance based on shortest-path.</p>
 <div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/perf-paritionning-plot_746cdace13bbeced830824aa9574efbb">
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>perf <span class="sc">%&gt;%</span>  </span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>nb_cluster, <span class="at">names_to =</span> <span class="st">"distance"</span>, <span class="at">values_to =</span> <span class="st">"ARI"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(distance) <span class="sc">%&gt;%</span> </span>
@@ -717,7 +621,11 @@ Remark
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-graph-clustering-part1_files/figure-html/perf-paritionning-plot-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-graph-clustering-part1_files/figure-html/perf-paritionning-plot-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -733,7 +641,11 @@ Remark
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>hc_modularity <span class="ot">&lt;-</span> <span class="fu">cluster_fast_greedy</span>(blog)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hc_modularity, blog, <span class="at">vertex.label=</span><span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-graph-clustering-part1_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-graph-clustering-part1_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p><strong>Edge Betweeness</strong> (as introduced by <span class="citation" data-cites="betweeness">Newman and Girvan (<a href="#ref-betweeness" role="doc-biblioref">2004</a>)</span>): it is defined by the number of shortest paths that go through a edge in a graph.</p>
@@ -741,7 +653,11 @@ Remark
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>hc_betweeness <span class="ot">&lt;-</span> <span class="fu">cluster_edge_betweenness</span>(blog)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hc_betweeness, blog, <span class="at">vertex.label=</span><span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-graph-clustering-part1_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-graph-clustering-part1_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Regarding the similarity with our reference clustering (the party), the performances are at part with the preceeding methods, even if edge betweeness seems to capture more generic patterns:</p>
@@ -752,8 +668,8 @@ Remark
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.hclust</span>() <span class="sc">%&gt;%</span> <span class="fu">cutree</span>(nb_cluster) <span class="sc">%&gt;%</span> <span class="fu">apply</span>(<span class="dv">2</span>, ARI, party)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/plot-perf2_51e627a0f2244e71450e03aacc438dcc">
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>perf <span class="sc">%&gt;%</span>  </span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>nb_cluster, <span class="at">names_to =</span> <span class="st">"distance"</span>, <span class="at">values_to =</span> <span class="st">"ARI"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(distance) <span class="sc">%&gt;%</span> </span>
@@ -761,7 +677,11 @@ Remark
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-graph-clustering-part1_files/figure-html/plot-perf2-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-graph-clustering-part1_files/figure-html/plot-perf2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -784,7 +704,6 @@ Remark
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">degree</span>(blog) <span class="sc">%&gt;%</span> <span class="fu">split</span>(party) <span class="sc">%&gt;%</span> <span class="fu">map_dbl</span>(sum) <span class="sc">%&gt;%</span> </span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
 {"columns":[{"label":["value"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"63"},{"1":"460"},{"1":"482"},{"1":"1102"},{"1":"92"},{"1":"44"},{"1":"350"},{"1":"269"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -798,7 +717,11 @@ Remark
 </span> that is, the cut is the sum of the weights of the edge set that connect the two components <span class="math inline">clV_A</span> and <span class="math inline">\mathcal{V}_B</span>. For instance, in this simple binary graph, the graph cut between <span class="math inline">\mathcal{V}_A= \{1,2,3,4,10\}</span> and <span class="math inline">\mathcal{V}_B= \{5,6,7,8,9\}</span> is 2.</p>
 <div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/graph-cut-plot_3e1544acb0601da7584357dee19c664a">
 <div class="cell-output-display">
-<p><img src="map566-lecture-graph-clustering-part1_files/figure-html/graph-cut-plot-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-graph-clustering-part1_files/figure-html/graph-cut-plot-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>We can easily define a function to compute the cut</p>
@@ -815,12 +738,12 @@ Remark
 <pre><code>[1] 2</code></pre>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-captioned">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Idea
 </div>
 </div>
@@ -885,12 +808,12 @@ x^\top (D - Y) x = x^\top D x - ( x^\top D x - 2 \mathrm{cut} (\mathcal{V}_A, \m
 <p><span class="math display">
 \argmin_{x\in[-1, 1]^n} x^\top (D - Y) x, \quad \text{s.c.} \quad x^\top D x = 1 \Leftrightarrow (D - Y) x = \lambda D x .
 </span> where <span class="math inline">\mathbf{L} = D - Y</span> is called the <strong>Laplacian matrix</strong> of the graph <span class="math inline">\mathcal{G}</span>.</p>
-<div class="callout callout-style-default callout-tip callout-captioned">
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Proposition: Spectrum of <span class="math inline">\mathbf{L}</span>
 </div>
 </div>
@@ -909,12 +832,12 @@ Proposition: Spectrum of <span class="math inline">\mathbf{L}</span>
 <div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/compute-laplacian_f5bb3f477a1e003af5bedaf37163e4ac">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="fu">laplacian_matrix</span>(blog)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="callout callout-style-default callout-note callout-captioned">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Heuristics for spectral clustering
 </div>
 </div>
@@ -942,7 +865,11 @@ Heuristics for spectral clustering
 <pre><code>Warning: `qplot()` was deprecated in ggplot2 3.4.0.</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-graph-clustering-part1_files/figure-html/Fiedler-blogosphere-plot-1-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-graph-clustering-part1_files/figure-html/Fiedler-blogosphere-plot-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Also, and since the original motivation of the graph-cut is for two-way partionning, we collapse levels from the vector of party into a simplified left/right view (we keep the analysts into a third separated group)</p>
@@ -958,7 +885,11 @@ Heuristics for spectral clustering
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(<span class="at">y =</span> fiedler, <span class="at">colour =</span> left_vs_right) <span class="sc">+</span> </span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  viridis<span class="sc">::</span><span class="fu">scale_color_viridis</span>(<span class="at">discrete =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-graph-clustering-part1_files/figure-html/Fiedler-blogosphere-plot-2-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-graph-clustering-part1_files/figure-html/Fiedler-blogosphere-plot-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>We can see that there exists an optimum value (or threshold) to separate left from right: if we compute the adjusted Rand index<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> between a bi-partionning obtained by thresholding the Fidler vector and our reference vector <code>left_vs_right</code>, we can see that there exists an optimal threshold maximizing this quantity:</p>
@@ -967,7 +898,11 @@ Heuristics for spectral clustering
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>ARIs <span class="ot">&lt;-</span> <span class="fu">map_dbl</span>(thresholds, <span class="sc">~</span><span class="fu">ARI</span>(left_vs_right, fiedler <span class="sc">&gt;</span> .))</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(thresholds, ARIs) <span class="sc">+</span> <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> thresholds[<span class="fu">which.max</span>(ARIs)]) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-graph-clustering-part1_files/figure-html/ARIs-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-graph-clustering-part1_files/figure-html/ARIs-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <!-- ```{r Ncut} -->
@@ -981,12 +916,12 @@ Heuristics for spectral clustering
 <section id="spectral-clustering-algorithms" class="level4" data-number="2.2.4">
 <h4 data-number="2.2.4" class="anchored" data-anchor-id="spectral-clustering-algorithms"><span class="header-section-number">2.2.4</span> Spectral clustering algorithms</h4>
 <p>Various heuristics generalize the approach defined above to more than 2 groups. They all rely on the spectral property of the Laplacian given above, from which we can derive the following additional properties:</p>
-<div class="callout callout-style-default callout-tip callout-captioned">
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Spectrum and Graph
 </div>
 </div>
@@ -1004,12 +939,12 @@ Spectrum and Graph
 <li>Applying a simple clustering algorithm to the rows of the <span class="math inline">K</span> first eigenvectors separate the components</li>
 </ol>
 <p><span class="math inline">\rightsquigarrow</span> The principle generalizes to a fully connected graph (with a single component): spectral clustering tends to separates groups of nodes which are highly connected together</p>
-<div class="callout callout-style-default callout-tip callout-captioned">
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Variants in the definition of the graph Laplacian
 </div>
 </div>
@@ -1024,12 +959,12 @@ Variants in the definition of the graph Laplacian
 </span> with eigenvalues <span class="math inline">1-\lambda_n \leq \dots \leq 1-\lambda_2 \leq 1-\lambda_1 = 1</span>, where <span class="math inline">0=\lambda_1\leq \dots \leq \lambda_n</span> are the eigenvalues of <span class="math inline">\mathbf{L}_N</span>.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-captioned">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Pseudo code for normalized spectral clustering
 </div>
 </div>
@@ -1068,26 +1003,34 @@ Pseudo code for normalized spectral clustering
 <span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> nb_cluster, <span class="at">y =</span> ARI, <span class="at">color =</span> distance) <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span></span>
 <span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis</span>(<span class="at">discrete =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-graph-clustering-part1_files/figure-html/spectral-blog-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-graph-clustering-part1_files/figure-html/spectral-blog-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Once reorder according to the best clustering (obtained <span class="math inline">k=6</span>) groups, the original data matrix looks as follows</p>
 <div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/spectral-blog-plot_87eca3a0717b626a7a811c26c8ad7f4b">
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotMyMatrix</span>(<span class="fu">as_adj</span>(blog, <span class="at">sparse =</span> <span class="cn">FALSE</span>),</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">clustering =</span> <span class="fu">list</span>(<span class="at">row =</span> <span class="fu">spectral_clustering</span>(blog, <span class="dv">6</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-graph-clustering-part1_files/figure-html/spectral-blog-plot-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-graph-clustering-part1_files/figure-html/spectral-blog-plot-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
 </div>
-<div class="callout callout-style-default callout-warning callout-captioned">
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Some limitations
 </div>
 </div>
@@ -1111,32 +1054,32 @@ Some limitations
 </section>
 
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
-<div id="ref-chung1997spectral" class="csl-entry" role="doc-biblioentry">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-chung1997spectral" class="csl-entry" role="listitem">
 Chung, Fan RK, and Fan Chung Graham. 1997. <em>Spectral Graph Theory</em>. 92. American Mathematical Soc.
 </div>
-<div id="ref-modularity" class="csl-entry" role="doc-biblioentry">
+<div id="ref-modularity" class="csl-entry" role="listitem">
 Clauset, Aaron, Mark EJ Newman, and Cristopher Moore. 2004. <span>“Finding Community Structure in Very Large Networks.”</span> <em>Physical Review E</em> 70 (6): 066111.
 </div>
-<div id="ref-betweeness" class="csl-entry" role="doc-biblioentry">
+<div id="ref-betweeness" class="csl-entry" role="listitem">
 Newman, Mark EJ, and Michelle Girvan. 2004. <span>“Finding and Evaluating Community Structure in Networks.”</span> <em>Physical Review E</em> 69 (2): 026113.
 </div>
-<div id="ref-ng2002spectral" class="csl-entry" role="doc-biblioentry">
+<div id="ref-ng2002spectral" class="csl-entry" role="listitem">
 Ng, Andrew Y, Michael I Jordan, and Yair Weiss. 2002. <span>“On Spectral Clustering: Analysis and an Algorithm.”</span> In <em>Advances in Neural Information Processing Systems</em>, 849–56.
 </div>
-<div id="ref-RandIndex" class="csl-entry" role="doc-biblioentry">
+<div id="ref-RandIndex" class="csl-entry" role="listitem">
 Rand, William M. 1971. <span>“Objective Criteria for the Evaluation of Clustering Methods.”</span> <em>Journal of the American Statistical Association</em> 66 (336): 846–50.
 </div>
-<div id="ref-rohe2011spectral" class="csl-entry" role="doc-biblioentry">
+<div id="ref-rohe2011spectral" class="csl-entry" role="listitem">
 Rohe, Karl, Sourav Chatterjee, and Bin Yu. 2011. <span>“Spectral Clustering and the High-Dimensional Stochastic Blockmodel.”</span> <em>The Annals of Statistics</em> 39 (4): 1878–1915.
 </div>
-<div id="ref-ARI" class="csl-entry" role="doc-biblioentry">
+<div id="ref-ARI" class="csl-entry" role="listitem">
 Steinley, Douglas. 2004. <span>“Properties of the Hubert-Arable Adjusted Rand Index.”</span> <em>Psychological Methods</em> 9 (3): 386.
 </div>
-<div id="ref-von2007tutorial" class="csl-entry" role="doc-biblioentry">
+<div id="ref-von2007tutorial" class="csl-entry" role="listitem">
 Von Luxburg, Ulrike. 2007. <span>“A Tutorial on Spectral Clustering.”</span> <em>Statistics and Computing</em> 17 (4): 395–416.
 </div>
-</div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+</div></section><aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
 <li id="fn1"><p>A “nice” side-effect is that the ‘far-right’ blogs have removed from the study. Amazing for data collected only a decade ago…<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
@@ -1144,7 +1087,7 @@ Von Luxburg, Ulrike. 2007. <span>“A Tutorial on Spectral Clustering.”</span>
 <li id="fn3"><p>let as an exercise<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn4"><p>a measure of comparison between two classification<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
-</section></div></main> <!-- /main -->
+</aside></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -1172,9 +1115,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -1210,10 +1167,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1223,8 +1179,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1237,6 +1202,135 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    const typesetMath = (el) => {
+      if (window.MathJax) {
+        // MathJax Typeset
+        window.MathJax.typeset([el]);
+      } else if (window.katex) {
+        // KaTeX Render
+        var mathElements = el.getElementsByClassName("math");
+        var macros = [];
+        for (var i = 0; i < mathElements.length; i++) {
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            window.katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }
+    }
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        typesetMath(container);
+        return container.innerHTML
+      } else {
+        typesetMath(note);
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      typesetMath(note);
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1280,6 +1374,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1305,6 +1400,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1364,19 +1485,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-      <a href="../../docs/mixture-models/map566-lecture-mixture-models.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Mixture Models</span>
-      </a>          
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="../../docs/mixture-models/map566-lecture-graph-clustering-part2.html" class="pagination-link">
-        <span class="nav-page-text">Stochastic block Models</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
+
 
 
 

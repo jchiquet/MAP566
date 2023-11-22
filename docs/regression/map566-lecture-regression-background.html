@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.197">
+<meta name="generator" content="quarto-1.4.510">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -17,11 +17,12 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -46,43 +47,13 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -109,7 +80,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -119,7 +96,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 
@@ -146,9 +124,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a href="../../index.html" class="navbar-brand navbar-brand-logo">
     <img src="../../logo_X.jpg" alt="" class="navbar-logo">
     </a>
@@ -163,218 +141,220 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../getting-started.html" rel="" target="">
- <span class="menu-text">Getting Started</span></a>
+    <a class="nav-link" href="../../getting-started.html"> 
+<span class="menu-text">Getting Started</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/jchiquet/MAP566" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/jchiquet/MAP566"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hypothesis-testing" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hypothesis-testing" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Hypothesis Testing</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-hypothesis-testing">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/tests/map566-lecture-single.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-single.html">
  <span class="dropdown-text">Statistical Tests</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/tests/map566-lecture-multiple.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-multiple.html">
  <span class="dropdown-text">Multiple Testing</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html">
  <span class="dropdown-text">Statistical tests: exercices</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-regression-models" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-regression-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Regression models</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-regression-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html">
  <span class="dropdown-text">Polynomial Regression</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lecture-nonlinear-regression.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-nonlinear-regression.html">
  <span class="dropdown-text">Nonlinear Regression</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lab-polynomial-regression.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-polynomial-regression.html">
  <span class="dropdown-text">Polynomial Regression</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lab-nonlinear-regression.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-nonlinear-regression.html">
  <span class="dropdown-text">Nonlinear Regression</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html">
  <span class="dropdown-text">Linear Regression: Quick Recap</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixed-models" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixed-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Mixed models</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixed-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html">
  <span class="dropdown-text">Linear Mixed Effects Models</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html">
  <span class="dropdown-text">Nonlinear Mixed Effects Models</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-linear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-linear-mixed-model.html">
  <span class="dropdown-text">Linear Mixed Models</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-nonlinear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-nonlinear-mixed-model.html">
  <span class="dropdown-text">Nonlinear Mixed Effects Models</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html">
  <span class="dropdown-text">An EM Algorithm for Linear Mixed Effects Models</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Mixture models</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixture-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html">
  <span class="dropdown-text">Mixture Models</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-graph-clustering-part1.html" rel="" target="">
- <span class="dropdown-text">Hierarchical and Spectral methods for Graph clustering</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-graph-clustering-part2.html" rel="" target="">
- <span class="dropdown-text">Stochastic block Models</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">
  <span class="dropdown-text">Mixture models</span></a>
   </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-change-point-detection" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Change-point detection</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-change-point-detection">    
+        <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-graph-partionning.html" rel="" target="">
- <span class="dropdown-text">Graph Clustering</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html" rel="" target="">
- <span class="dropdown-text">Graph Clustering: Stochastic Blockmodels</span></a>
+    <a class="dropdown-item" href="../../docs/change-point/map566-lecture-change-point-detection.html">
+ <span class="dropdown-text">Detection of change points in a time series</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">Supplementary material</li>
+        <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-doc-mixture-models-example.html" rel="" target="">
- <span class="dropdown-text">Clustering and classification with model based approaches</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="https://github.com/jchiquet/MAP573/raw/master/slides/GraphClustering/GraphClustering.pdf" rel="" target="">
- <span class="dropdown-text">Slides on Graph Clustering</span></a>
+    <a class="dropdown-item" href="../../docs/change-point/map566-lab-change-point-detection.html">
+ <span class="dropdown-text">Detection of change points in a time series</span></a>
   </li>  
     </ul>
   </li>
 </ul>
-            <div class="quarto-navbar-tools">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Linear Regression: Quick Recap</h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/regression/map566-lecture-regression-background.html">Supplementary material</a></li><li class="breadcrumb-item"><a href="../../docs/regression/map566-lecture-regression-background.html">Linear Regression: Quick Recap</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
     </div>
   </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Lectures</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Lectures</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/regression/map566-lecture-polynomial-regression.html" class="sidebar-item-text sidebar-link">Polynomial Regression</a>
+  <a href="../../docs/regression/map566-lecture-polynomial-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Polynomial Regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/regression/map566-lecture-nonlinear-regression.html" class="sidebar-item-text sidebar-link">Nonlinear Regression</a>
+  <a href="../../docs/regression/map566-lecture-nonlinear-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Nonlinear Regression</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Exercices</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Exercices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/regression/map566-lab-polynomial-regression.html" class="sidebar-item-text sidebar-link">Polynomial Regression</a>
+  <a href="../../docs/regression/map566-lab-polynomial-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Polynomial Regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/regression/map566-lab-nonlinear-regression.html" class="sidebar-item-text sidebar-link">Nonlinear Regression</a>
+  <a href="../../docs/regression/map566-lab-nonlinear-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Nonlinear Regression</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">Supplementary material</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Supplementary material</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/regression/map566-lecture-regression-background.html" class="sidebar-item-text sidebar-link active">Linear Regression: Quick Recap</a>
+  <a href="../../docs/regression/map566-lecture-regression-background.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Linear Regression: Quick Recap</span></a>
   </div>
 </li>
       </ul>
@@ -382,6 +362,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </ul>
     </div>
 </nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -389,45 +370,45 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    
   <ul>
   <li><a href="#regression-models" id="toc-regression-models" class="nav-link active" data-scroll-target="#regression-models">Regression models</a></li>
-  <li><a href="#ordinary-least-squares" id="toc-ordinary-least-squares" class="nav-link" data-scroll-target="#ordinary-least-squares"><span class="toc-section-number">1</span>  Ordinary least squares</a>
+  <li><a href="#ordinary-least-squares" id="toc-ordinary-least-squares" class="nav-link" data-scroll-target="#ordinary-least-squares"><span class="header-section-number">1</span> Ordinary least squares</a>
   <ul class="collapse">
-  <li><a href="#least-squares-estimator" id="toc-least-squares-estimator" class="nav-link" data-scroll-target="#least-squares-estimator"><span class="toc-section-number">1.1</span>  Least squares estimator</a></li>
-  <li><a href="#estimation-of-the-residual-error-variance" id="toc-estimation-of-the-residual-error-variance" class="nav-link" data-scroll-target="#estimation-of-the-residual-error-variance"><span class="toc-section-number">1.2</span>  Estimation of the residual error variance</a></li>
-  <li><a href="#the-standard-errors-of-the-estimates" id="toc-the-standard-errors-of-the-estimates" class="nav-link" data-scroll-target="#the-standard-errors-of-the-estimates"><span class="toc-section-number">1.3</span>  The standard errors of the estimates</a></li>
+  <li><a href="#least-squares-estimator" id="toc-least-squares-estimator" class="nav-link" data-scroll-target="#least-squares-estimator"><span class="header-section-number">1.1</span> Least squares estimator</a></li>
+  <li><a href="#estimation-of-the-residual-error-variance" id="toc-estimation-of-the-residual-error-variance" class="nav-link" data-scroll-target="#estimation-of-the-residual-error-variance"><span class="header-section-number">1.2</span> Estimation of the residual error variance</a></li>
+  <li><a href="#the-standard-errors-of-the-estimates" id="toc-the-standard-errors-of-the-estimates" class="nav-link" data-scroll-target="#the-standard-errors-of-the-estimates"><span class="header-section-number">1.3</span> The standard errors of the estimates</a></li>
   </ul></li>
-  <li><a href="#statistical-inference-and-diagnostics" id="toc-statistical-inference-and-diagnostics" class="nav-link" data-scroll-target="#statistical-inference-and-diagnostics"><span class="toc-section-number">2</span>  Statistical inference and diagnostics</a>
+  <li><a href="#statistical-inference-and-diagnostics" id="toc-statistical-inference-and-diagnostics" class="nav-link" data-scroll-target="#statistical-inference-and-diagnostics"><span class="header-section-number">2</span> Statistical inference and diagnostics</a>
   <ul class="collapse">
-  <li><a href="#statistical-tests-for-the-model-parameters" id="toc-statistical-tests-for-the-model-parameters" class="nav-link" data-scroll-target="#statistical-tests-for-the-model-parameters"><span class="toc-section-number">2.1</span>  Statistical tests for the model parameters</a></li>
-  <li><a href="#confidence-interval-for-the-model-parameters" id="toc-confidence-interval-for-the-model-parameters" class="nav-link" data-scroll-target="#confidence-interval-for-the-model-parameters"><span class="toc-section-number">2.2</span>  Confidence interval for the model parameters</a></li>
-  <li><a href="#coefficient-of-determination" id="toc-coefficient-of-determination" class="nav-link" data-scroll-target="#coefficient-of-determination"><span class="toc-section-number">2.3</span>  Coefficient of determination</a></li>
-  <li><a href="#f-test-of-the-overall-significance" id="toc-f-test-of-the-overall-significance" class="nav-link" data-scroll-target="#f-test-of-the-overall-significance"><span class="toc-section-number">2.4</span>  F-test of the overall significance</a></li>
-  <li><a href="#confidence-and-prediction-intervals" id="toc-confidence-and-prediction-intervals" class="nav-link" data-scroll-target="#confidence-and-prediction-intervals"><span class="toc-section-number">2.5</span>  Confidence and prediction intervals</a></li>
+  <li><a href="#statistical-tests-for-the-model-parameters" id="toc-statistical-tests-for-the-model-parameters" class="nav-link" data-scroll-target="#statistical-tests-for-the-model-parameters"><span class="header-section-number">2.1</span> Statistical tests for the model parameters</a></li>
+  <li><a href="#confidence-interval-for-the-model-parameters" id="toc-confidence-interval-for-the-model-parameters" class="nav-link" data-scroll-target="#confidence-interval-for-the-model-parameters"><span class="header-section-number">2.2</span> Confidence interval for the model parameters</a></li>
+  <li><a href="#coefficient-of-determination" id="toc-coefficient-of-determination" class="nav-link" data-scroll-target="#coefficient-of-determination"><span class="header-section-number">2.3</span> Coefficient of determination</a></li>
+  <li><a href="#f-test-of-the-overall-significance" id="toc-f-test-of-the-overall-significance" class="nav-link" data-scroll-target="#f-test-of-the-overall-significance"><span class="header-section-number">2.4</span> F-test of the overall significance</a></li>
+  <li><a href="#confidence-and-prediction-intervals" id="toc-confidence-and-prediction-intervals" class="nav-link" data-scroll-target="#confidence-and-prediction-intervals"><span class="header-section-number">2.5</span> Confidence and prediction intervals</a></li>
   </ul></li>
-  <li><a href="#model-comparison" id="toc-model-comparison" class="nav-link" data-scroll-target="#model-comparison"><span class="toc-section-number">3</span>  Model comparison</a>
+  <li><a href="#model-comparison" id="toc-model-comparison" class="nav-link" data-scroll-target="#model-comparison"><span class="header-section-number">3</span> Model comparison</a>
   <ul class="collapse">
-  <li><a href="#anova" id="toc-anova" class="nav-link" data-scroll-target="#anova"><span class="toc-section-number">3.1</span>  ANOVA</a></li>
-  <li><a href="#likelihood-ratio-test" id="toc-likelihood-ratio-test" class="nav-link" data-scroll-target="#likelihood-ratio-test"><span class="toc-section-number">3.2</span>  Likelihood ratio test</a></li>
-  <li><a href="#deviance" id="toc-deviance" class="nav-link" data-scroll-target="#deviance"><span class="toc-section-number">3.3</span>  Deviance</a></li>
-  <li><a href="#information-criteria" id="toc-information-criteria" class="nav-link" data-scroll-target="#information-criteria"><span class="toc-section-number">3.4</span>  Information criteria</a></li>
+  <li><a href="#anova" id="toc-anova" class="nav-link" data-scroll-target="#anova"><span class="header-section-number">3.1</span> ANOVA</a></li>
+  <li><a href="#likelihood-ratio-test" id="toc-likelihood-ratio-test" class="nav-link" data-scroll-target="#likelihood-ratio-test"><span class="header-section-number">3.2</span> Likelihood ratio test</a></li>
+  <li><a href="#deviance" id="toc-deviance" class="nav-link" data-scroll-target="#deviance"><span class="header-section-number">3.3</span> Deviance</a></li>
+  <li><a href="#information-criteria" id="toc-information-criteria" class="nav-link" data-scroll-target="#information-criteria"><span class="header-section-number">3.4</span> Information criteria</a></li>
   </ul></li>
   <li><a href="#appendix---maximum-likelihood-approach" id="toc-appendix---maximum-likelihood-approach" class="nav-link" data-scroll-target="#appendix---maximum-likelihood-approach">Appendix - Maximum likelihood approach</a>
   <ul class="collapse">
-  <li><a href="#likelihood" id="toc-likelihood" class="nav-link" data-scroll-target="#likelihood"><span class="toc-section-number">3.5</span>  Likelihood</a></li>
-  <li><a href="#maximum-likelihood-estimator" id="toc-maximum-likelihood-estimator" class="nav-link" data-scroll-target="#maximum-likelihood-estimator"><span class="toc-section-number">3.6</span>  Maximum likelihood estimator</a></li>
-  <li><a href="#the-fisher-information-matrix" id="toc-the-fisher-information-matrix" class="nav-link" data-scroll-target="#the-fisher-information-matrix"><span class="toc-section-number">3.7</span>  The Fisher Information matrix</a></li>
-  <li><a href="#some-general-definitions" id="toc-some-general-definitions" class="nav-link" data-scroll-target="#some-general-definitions"><span class="toc-section-number">3.8</span>  Some general definitions</a></li>
-  <li><a href="#the-central-limit-theorem" id="toc-the-central-limit-theorem" class="nav-link" data-scroll-target="#the-central-limit-theorem"><span class="toc-section-number">3.9</span>  The central limit theorem</a></li>
-  <li><a href="#the-fim-for-a-regression-model" id="toc-the-fim-for-a-regression-model" class="nav-link" data-scroll-target="#the-fim-for-a-regression-model"><span class="toc-section-number">3.10</span>  The FIM for a regression model</a></li>
+  <li><a href="#likelihood" id="toc-likelihood" class="nav-link" data-scroll-target="#likelihood"><span class="header-section-number">3.5</span> Likelihood</a></li>
+  <li><a href="#maximum-likelihood-estimator" id="toc-maximum-likelihood-estimator" class="nav-link" data-scroll-target="#maximum-likelihood-estimator"><span class="header-section-number">3.6</span> Maximum likelihood estimator</a></li>
+  <li><a href="#the-fisher-information-matrix" id="toc-the-fisher-information-matrix" class="nav-link" data-scroll-target="#the-fisher-information-matrix"><span class="header-section-number">3.7</span> The Fisher Information matrix</a></li>
+  <li><a href="#some-general-definitions" id="toc-some-general-definitions" class="nav-link" data-scroll-target="#some-general-definitions"><span class="header-section-number">3.8</span> Some general definitions</a></li>
+  <li><a href="#the-central-limit-theorem" id="toc-the-central-limit-theorem" class="nav-link" data-scroll-target="#the-central-limit-theorem"><span class="header-section-number">3.9</span> The central limit theorem</a></li>
+  <li><a href="#the-fim-for-a-regression-model" id="toc-the-fim-for-a-regression-model" class="nav-link" data-scroll-target="#the-fim-for-a-regression-model"><span class="header-section-number">3.10</span> The FIM for a regression model</a></li>
   </ul></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/regression/map566-lecture-regression-background.html">Supplementary material</a></li><li class="breadcrumb-item"><a href="../../docs/regression/map566-lecture-regression-background.html">Linear Regression: Quick Recap</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Linear Regression: Quick Recap</h1>
+<h1 class="title">Linear Regression: Quick Recap</h1>
 <p class="subtitle lead">Lecture Notes</p>
 </div>
 
@@ -441,7 +422,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </div>
   
 
+
 </header>
+
 
 <section id="regression-models" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="regression-models">Regression models</h2>
@@ -449,12 +432,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>where <span class="math inline">f</span> is a <em>structural model</em> which depends on a <span class="math inline">p</span>-vector of parameters <span class="math inline">\beta</span>. We will assume that the residuals <span class="math inline">(\varepsilon_j)</span> are independent random variables with mean 0 and variance <span class="math inline">\sigma^2</span>: <span class="math display">
 \mathbb{E}(\varepsilon_j) = 0 \quad ; \quad  \mathbb{E}(\varepsilon^2_j) = \sigma^2 \quad ; \quad \mathbb{E}(\varepsilon_j \varepsilon_k) = 0  \ (j \neq k)
 </span></p>
-<div class="callout callout-style-default callout-note callout-captioned">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Reproducing <code>lm</code> output
 </div>
 </div>
@@ -499,12 +482,12 @@ RSS(\beta) = \sum_{j=1}^n (y_j - f(x_j))^2 = \|y - X\beta \|^2
 <p>Then, <span class="math display">
 \hat{\beta} = \arg\min_{\beta} \|y - X\beta \|^2 = (X^\prime X)^{-1}X^\prime y
 </span></p>
-<div class="callout callout-style-default callout-note callout-captioned">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Reproducing <code>lm</code> output
 </div>
 </div>
@@ -550,12 +533,12 @@ Reproducing <code>lm</code> output
 \end{aligned}
 </span></p>
 <p>The standard deviation of the residual errors, called <em>residual standard error</em> in <code>R</code>, is the square root of this estimated variance</p>
-<div class="callout callout-style-default callout-note callout-captioned">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Reproducing <code>lm</code> output
 </div>
 </div>
@@ -589,12 +572,12 @@ Reproducing <code>lm</code> output
 \end{aligned}
 </span></p>
 <p>We can therefore use this formula to compute the variance covariance matrix of <span class="math inline">\hat\beta</span>.</p>
-<div class="callout callout-style-default callout-note callout-captioned">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Reproducing <code>lm</code> output
 </div>
 </div>
@@ -618,12 +601,12 @@ speed         -2.658823  0.1726509</code></pre>
 </div>
 <p>Then, the standard error of each component of <span class="math inline">\hat\beta</span> is defined as the square root of the diagonal elements of the variance-covariance matrix <span class="math inline">V=\mathbb{V}{\hat\beta}</span>:</p>
 <p><span class="math display">{\rm se}(\hat\beta_k) = \sqrt{V_{k k}} </span></p>
-<div class="callout callout-style-default callout-note callout-captioned">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Reproducing <code>lm</code> output
 </div>
 </div>
@@ -657,12 +640,12 @@ H_{k,0} : ``\beta_k = 0"  \quad \text{versus} \quad H_{k,1}: ``\beta_k \neq 0" <
 <p><span class="math display">
 p_k= \mathbb{P}{|t_{n-d}| \geq |t_{{\rm stat}, k}^{\rm obs}| } = 2(1 - \mathbb{P}{t_{n-d} \leq |t_{{\rm stat}, k}^{\rm obs}| } )
 </span></p>
-<div class="callout callout-style-default callout-note callout-captioned">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Reproducing <code>lm</code> output
 </div>
 </div>
@@ -689,12 +672,12 @@ Reproducing <code>lm</code> output
 <p><span class="math display">{\rm CI}_{1-\alpha}(\beta_k) = [\hat{\beta}_k + qt_{\alpha/2, n-d}\ {\rm se}(\hat{\beta}_k) \ , \ \hat{\beta}_k + qt_{1-\alpha/2, n-d}\ {\rm se}(\hat{\beta}_k)]</span> where <span class="math inline">qt_{\alpha/2, n-d}</span> and <span class="math inline">qt_{1-\alpha/2, n-d}</span> are the quantiles of order <span class="math inline">\alpha/2</span> and <span class="math inline">1-\alpha/2</span> for a <span class="math inline">t</span>-distribution with <span class="math inline">n-p</span> df.</p>
 <p>Indeed, we can easily check that <span class="math inline">\mathbb{P}{{\rm CI}_{1-\alpha}(\beta_k) \ni \beta_k} = 1-\alpha</span>.</p>
 <p>The function <code>confint</code> computes such confidence intervals for <span class="math inline">\beta</span> (default level = 95%))</p>
-<div class="callout callout-style-default callout-note callout-captioned">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Reproducing <code>lm</code> output
 </div>
 </div>
@@ -728,12 +711,12 @@ speed         3.096964  4.767853</code></pre>
 <p><span class="math display">
 R^2 =  \frac{\|X\hat{\beta} - \bar{y}\|^2}{\|y - \bar{y}\|^2} = 1 - \frac{\|y - X\hat{\beta} \|^2}{\|y - \bar{y}\|^2}
 </span></p>
-<div class="callout callout-style-default callout-note callout-captioned">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Reproducing <code>lm</code> output
 </div>
 </div>
@@ -760,12 +743,12 @@ R^2_{\rm adj} &amp;=  1 - \frac{\|y - X\hat{\beta} \|^2/(n-p)}{\|y - \bar{y}\|^2
 \end{aligned}
 </span></p>
 <p>The R-squared is a purely descriptive statistics. The adjusted R-squared should be preferably used to compare the explanatory power of models built from the same dataset.</p>
-<div class="callout callout-style-default callout-note callout-captioned">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Reproducing <code>lm</code> output
 </div>
 </div>
@@ -793,12 +776,12 @@ H_1 &amp;:  \quad (\beta_1, \beta_2, \cdots ,\beta_p) \neq (0, 0, \cdots, 0)
 F_{\rm stat} &amp;=  \frac{\|X\hat{\beta} - \bar{y}\|^2/(p-1)}{\|y - X\hat{\beta} \|^2/(n-p)}
 \end{aligned}
 </span></p>
-<div class="callout callout-style-default callout-note callout-captioned">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Reproducing <code>lm</code> output
 </div>
 </div>
@@ -1072,9 +1055,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -1110,10 +1107,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1123,8 +1119,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1137,6 +1142,135 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    const typesetMath = (el) => {
+      if (window.MathJax) {
+        // MathJax Typeset
+        window.MathJax.typeset([el]);
+      } else if (window.katex) {
+        // KaTeX Render
+        var mathElements = el.getElementsByClassName("math");
+        var macros = [];
+        for (var i = 0; i < mathElements.length; i++) {
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            window.katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }
+    }
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        typesetMath(container);
+        return container.innerHTML
+      } else {
+        typesetMath(note);
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      typesetMath(note);
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1180,6 +1314,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1205,6 +1340,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1266,7 +1427,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../docs/regression/map566-lab-nonlinear-regression.html" class="pagination-link">
+      <a href="../../docs/regression/map566-lab-nonlinear-regression.html" class="pagination-link  aria-label=" nonlinear="" regression"="">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Nonlinear Regression</span>
       </a>          
   </div>
@@ -1274,6 +1435,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
+
 
 
 

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.197">
+<meta name="generator" content="quarto-1.4.510">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -17,11 +17,12 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -46,43 +47,13 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -109,7 +80,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -119,10 +96,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
-
 <link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
 <script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 
@@ -149,9 +126,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a href="../../index.html" class="navbar-brand navbar-brand-logo">
     <img src="../../logo_X.jpg" alt="" class="navbar-logo">
     </a>
@@ -166,218 +143,220 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../getting-started.html" rel="" target="">
- <span class="menu-text">Getting Started</span></a>
+    <a class="nav-link" href="../../getting-started.html"> 
+<span class="menu-text">Getting Started</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/jchiquet/MAP566" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/jchiquet/MAP566"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hypothesis-testing" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hypothesis-testing" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Hypothesis Testing</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-hypothesis-testing">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/tests/map566-lecture-single.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-single.html">
  <span class="dropdown-text">Statistical Tests</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/tests/map566-lecture-multiple.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-multiple.html">
  <span class="dropdown-text">Multiple Testing</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html">
  <span class="dropdown-text">Statistical tests: exercices</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-regression-models" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-regression-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Regression models</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-regression-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html">
  <span class="dropdown-text">Polynomial Regression</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lecture-nonlinear-regression.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-nonlinear-regression.html">
  <span class="dropdown-text">Nonlinear Regression</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lab-polynomial-regression.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-polynomial-regression.html">
  <span class="dropdown-text">Polynomial Regression</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lab-nonlinear-regression.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-nonlinear-regression.html">
  <span class="dropdown-text">Nonlinear Regression</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html">
  <span class="dropdown-text">Linear Regression: Quick Recap</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixed-models" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixed-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Mixed models</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixed-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html">
  <span class="dropdown-text">Linear Mixed Effects Models</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html">
  <span class="dropdown-text">Nonlinear Mixed Effects Models</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-linear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-linear-mixed-model.html">
  <span class="dropdown-text">Linear Mixed Models</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-nonlinear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-nonlinear-mixed-model.html">
  <span class="dropdown-text">Nonlinear Mixed Effects Models</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html">
  <span class="dropdown-text">An EM Algorithm for Linear Mixed Effects Models</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Mixture models</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixture-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html">
  <span class="dropdown-text">Mixture Models</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-graph-clustering-part1.html" rel="" target="">
- <span class="dropdown-text">Hierarchical and Spectral methods for Graph clustering</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-graph-clustering-part2.html" rel="" target="">
- <span class="dropdown-text">Stochastic block Models</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">
  <span class="dropdown-text">Mixture models</span></a>
   </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-change-point-detection" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Change-point detection</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-change-point-detection">    
+        <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-graph-partionning.html" rel="" target="">
- <span class="dropdown-text">Graph Clustering</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html" rel="" target="">
- <span class="dropdown-text">Graph Clustering: Stochastic Blockmodels</span></a>
+    <a class="dropdown-item" href="../../docs/change-point/map566-lecture-change-point-detection.html">
+ <span class="dropdown-text">Detection of change points in a time series</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">Supplementary material</li>
+        <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-doc-mixture-models-example.html" rel="" target="">
- <span class="dropdown-text">Clustering and classification with model based approaches</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="https://github.com/jchiquet/MAP573/raw/master/slides/GraphClustering/GraphClustering.pdf" rel="" target="">
- <span class="dropdown-text">Slides on Graph Clustering</span></a>
+    <a class="dropdown-item" href="../../docs/change-point/map566-lab-change-point-detection.html">
+ <span class="dropdown-text">Detection of change points in a time series</span></a>
   </li>  
     </ul>
   </li>
 </ul>
-            <div class="quarto-navbar-tools">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Polynomial Regression</h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/regression/map566-lecture-polynomial-regression.html">Lectures</a></li><li class="breadcrumb-item"><a href="../../docs/regression/map566-lecture-polynomial-regression.html">Polynomial Regression</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
     </div>
   </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Lectures</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Lectures</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/regression/map566-lecture-polynomial-regression.html" class="sidebar-item-text sidebar-link active">Polynomial Regression</a>
+  <a href="../../docs/regression/map566-lecture-polynomial-regression.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Polynomial Regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/regression/map566-lecture-nonlinear-regression.html" class="sidebar-item-text sidebar-link">Nonlinear Regression</a>
+  <a href="../../docs/regression/map566-lecture-nonlinear-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Nonlinear Regression</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Exercices</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Exercices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/regression/map566-lab-polynomial-regression.html" class="sidebar-item-text sidebar-link">Polynomial Regression</a>
+  <a href="../../docs/regression/map566-lab-polynomial-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Polynomial Regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/regression/map566-lab-nonlinear-regression.html" class="sidebar-item-text sidebar-link">Nonlinear Regression</a>
+  <a href="../../docs/regression/map566-lab-nonlinear-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Nonlinear Regression</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">Supplementary material</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Supplementary material</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/regression/map566-lecture-regression-background.html" class="sidebar-item-text sidebar-link">Linear Regression: Quick Recap</a>
+  <a href="../../docs/regression/map566-lecture-regression-background.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Linear Regression: Quick Recap</span></a>
   </div>
 </li>
       </ul>
@@ -385,6 +364,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </ul>
     </div>
 </nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -392,39 +372,39 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    
   <ul>
   <li><a href="#preliminary" id="toc-preliminary" class="nav-link active" data-scroll-target="#preliminary">Preliminary</a></li>
-  <li><a href="#the-cars-data-example" id="toc-the-cars-data-example" class="nav-link" data-scroll-target="#the-cars-data-example"><span class="toc-section-number">1</span>  The ‘cars’ data example</a></li>
-  <li><a href="#fitting-polynomial-models" id="toc-fitting-polynomial-models" class="nav-link" data-scroll-target="#fitting-polynomial-models"><span class="toc-section-number">2</span>  Fitting polynomial models</a>
+  <li><a href="#the-cars-data-example" id="toc-the-cars-data-example" class="nav-link" data-scroll-target="#the-cars-data-example"><span class="header-section-number">1</span> The ‘cars’ data example</a></li>
+  <li><a href="#fitting-polynomial-models" id="toc-fitting-polynomial-models" class="nav-link" data-scroll-target="#fitting-polynomial-models"><span class="header-section-number">2</span> Fitting polynomial models</a>
   <ul class="collapse">
-  <li><a href="#fitting-a-polynomial-model-as-a-linear-model" id="toc-fitting-a-polynomial-model-as-a-linear-model" class="nav-link" data-scroll-target="#fitting-a-polynomial-model-as-a-linear-model"><span class="toc-section-number">2.1</span>  Fitting a polynomial model as a linear model</a></li>
-  <li><a href="#fitting-a-polynomial-of-degree-0" id="toc-fitting-a-polynomial-of-degree-0" class="nav-link" data-scroll-target="#fitting-a-polynomial-of-degree-0"><span class="toc-section-number">2.2</span>  Fitting a polynomial of degree 0</a></li>
-  <li><a href="#fitting-a-polynomial-of-degree-1" id="toc-fitting-a-polynomial-of-degree-1" class="nav-link" data-scroll-target="#fitting-a-polynomial-of-degree-1"><span class="toc-section-number">2.3</span>  Fitting a polynomial of degree 1</a></li>
-  <li><a href="#fitting-a-polynomial-of-degree-2" id="toc-fitting-a-polynomial-of-degree-2" class="nav-link" data-scroll-target="#fitting-a-polynomial-of-degree-2"><span class="toc-section-number">2.4</span>  Fitting a polynomial of degree 2</a></li>
-  <li><a href="#fitting-a-polynomial-without-intercept" id="toc-fitting-a-polynomial-without-intercept" class="nav-link" data-scroll-target="#fitting-a-polynomial-without-intercept"><span class="toc-section-number">2.5</span>  Fitting a polynomial without intercept</a></li>
-  <li><a href="#using-orthogonal-polynomials" id="toc-using-orthogonal-polynomials" class="nav-link" data-scroll-target="#using-orthogonal-polynomials"><span class="toc-section-number">2.6</span>  Using orthogonal polynomials</a></li>
+  <li><a href="#fitting-a-polynomial-model-as-a-linear-model" id="toc-fitting-a-polynomial-model-as-a-linear-model" class="nav-link" data-scroll-target="#fitting-a-polynomial-model-as-a-linear-model"><span class="header-section-number">2.1</span> Fitting a polynomial model as a linear model</a></li>
+  <li><a href="#fitting-a-polynomial-of-degree-0" id="toc-fitting-a-polynomial-of-degree-0" class="nav-link" data-scroll-target="#fitting-a-polynomial-of-degree-0"><span class="header-section-number">2.2</span> Fitting a polynomial of degree 0</a></li>
+  <li><a href="#fitting-a-polynomial-of-degree-1" id="toc-fitting-a-polynomial-of-degree-1" class="nav-link" data-scroll-target="#fitting-a-polynomial-of-degree-1"><span class="header-section-number">2.3</span> Fitting a polynomial of degree 1</a></li>
+  <li><a href="#fitting-a-polynomial-of-degree-2" id="toc-fitting-a-polynomial-of-degree-2" class="nav-link" data-scroll-target="#fitting-a-polynomial-of-degree-2"><span class="header-section-number">2.4</span> Fitting a polynomial of degree 2</a></li>
+  <li><a href="#fitting-a-polynomial-without-intercept" id="toc-fitting-a-polynomial-without-intercept" class="nav-link" data-scroll-target="#fitting-a-polynomial-without-intercept"><span class="header-section-number">2.5</span> Fitting a polynomial without intercept</a></li>
+  <li><a href="#using-orthogonal-polynomials" id="toc-using-orthogonal-polynomials" class="nav-link" data-scroll-target="#using-orthogonal-polynomials"><span class="header-section-number">2.6</span> Using orthogonal polynomials</a></li>
   </ul></li>
-  <li><a href="#model-comparison" id="toc-model-comparison" class="nav-link" data-scroll-target="#model-comparison"><span class="toc-section-number">3</span>  Model comparison</a>
+  <li><a href="#model-comparison" id="toc-model-comparison" class="nav-link" data-scroll-target="#model-comparison"><span class="header-section-number">3</span> Model comparison</a>
   <ul class="collapse">
-  <li><a href="#t-test" id="toc-t-test" class="nav-link" data-scroll-target="#t-test"><span class="toc-section-number">3.1</span>  t-test</a></li>
-  <li><a href="#analysis-of-variance-anova" id="toc-analysis-of-variance-anova" class="nav-link" data-scroll-target="#analysis-of-variance-anova"><span class="toc-section-number">3.2</span>  Analysis-of-variance (anova)</a></li>
-  <li><a href="#likelihood-ratio-test-lrt" id="toc-likelihood-ratio-test-lrt" class="nav-link" data-scroll-target="#likelihood-ratio-test-lrt"><span class="toc-section-number">3.3</span>  Likelihood ratio test (LRT)</a></li>
-  <li><a href="#information-criteria" id="toc-information-criteria" class="nav-link" data-scroll-target="#information-criteria"><span class="toc-section-number">3.4</span>  Information criteria</a></li>
+  <li><a href="#t-test" id="toc-t-test" class="nav-link" data-scroll-target="#t-test"><span class="header-section-number">3.1</span> t-test</a></li>
+  <li><a href="#analysis-of-variance-anova" id="toc-analysis-of-variance-anova" class="nav-link" data-scroll-target="#analysis-of-variance-anova"><span class="header-section-number">3.2</span> Analysis-of-variance (anova)</a></li>
+  <li><a href="#likelihood-ratio-test-lrt" id="toc-likelihood-ratio-test-lrt" class="nav-link" data-scroll-target="#likelihood-ratio-test-lrt"><span class="header-section-number">3.3</span> Likelihood ratio test (LRT)</a></li>
+  <li><a href="#information-criteria" id="toc-information-criteria" class="nav-link" data-scroll-target="#information-criteria"><span class="header-section-number">3.4</span> Information criteria</a></li>
   </ul></li>
-  <li><a href="#data-transformation" id="toc-data-transformation" class="nav-link" data-scroll-target="#data-transformation"><span class="toc-section-number">4</span>  Data transformation</a></li>
-  <li><a href="#log-based-tranformations" id="toc-log-based-tranformations" class="nav-link" data-scroll-target="#log-based-tranformations"><span class="toc-section-number">5</span>  Log based tranformations</a>
+  <li><a href="#data-transformation" id="toc-data-transformation" class="nav-link" data-scroll-target="#data-transformation"><span class="header-section-number">4</span> Data transformation</a></li>
+  <li><a href="#log-based-tranformations" id="toc-log-based-tranformations" class="nav-link" data-scroll-target="#log-based-tranformations"><span class="header-section-number">5</span> Log based tranformations</a>
   <ul class="collapse">
-  <li><a href="#diagnostic-plots" id="toc-diagnostic-plots" class="nav-link" data-scroll-target="#diagnostic-plots"><span class="toc-section-number">5.1</span>  Diagnostic plots</a></li>
-  <li><a href="#confidence-interval-and-prediction-interval-1" id="toc-confidence-interval-and-prediction-interval-1" class="nav-link" data-scroll-target="#confidence-interval-and-prediction-interval-1"><span class="toc-section-number">5.2</span>  Confidence interval and prediction interval</a></li>
-  <li><a href="#model-comparison-1" id="toc-model-comparison-1" class="nav-link" data-scroll-target="#model-comparison-1"><span class="toc-section-number">5.3</span>  Model comparison</a></li>
+  <li><a href="#diagnostic-plots" id="toc-diagnostic-plots" class="nav-link" data-scroll-target="#diagnostic-plots"><span class="header-section-number">5.1</span> Diagnostic plots</a></li>
+  <li><a href="#confidence-interval-and-prediction-interval-1" id="toc-confidence-interval-and-prediction-interval-1" class="nav-link" data-scroll-target="#confidence-interval-and-prediction-interval-1"><span class="header-section-number">5.2</span> Confidence interval and prediction interval</a></li>
+  <li><a href="#model-comparison-1" id="toc-model-comparison-1" class="nav-link" data-scroll-target="#model-comparison-1"><span class="header-section-number">5.3</span> Model comparison</a></li>
   </ul></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/regression/map566-lecture-polynomial-regression.html">Lectures</a></li><li class="breadcrumb-item"><a href="../../docs/regression/map566-lecture-polynomial-regression.html">Polynomial Regression</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Polynomial Regression</h1>
+<h1 class="title">Polynomial Regression</h1>
 <p class="subtitle lead">Lecture Notes</p>
 </div>
 
@@ -438,7 +418,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </div>
   
 
+
 </header>
+
 
 <section id="preliminary" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="preliminary">Preliminary</h2>
@@ -457,7 +439,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(cars)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>cars <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
 {"columns":[{"label":["speed"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["dist"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"4","2":"2"},{"1":"4","2":"10"},{"1":"7","2":"4"},{"1":"7","2":"22"},{"1":"8","2":"16"},{"1":"9","2":"10"},{"1":"10","2":"18"},{"1":"10","2":"26"},{"1":"10","2":"34"},{"1":"11","2":"17"},{"1":"11","2":"28"},{"1":"12","2":"14"},{"1":"12","2":"20"},{"1":"12","2":"24"},{"1":"12","2":"28"},{"1":"13","2":"26"},{"1":"13","2":"34"},{"1":"13","2":"34"},{"1":"13","2":"46"},{"1":"14","2":"26"},{"1":"14","2":"36"},{"1":"14","2":"60"},{"1":"14","2":"80"},{"1":"15","2":"20"},{"1":"15","2":"26"},{"1":"15","2":"54"},{"1":"16","2":"32"},{"1":"16","2":"40"},{"1":"17","2":"32"},{"1":"17","2":"40"},{"1":"17","2":"50"},{"1":"18","2":"42"},{"1":"18","2":"56"},{"1":"18","2":"76"},{"1":"18","2":"84"},{"1":"19","2":"36"},{"1":"19","2":"46"},{"1":"19","2":"68"},{"1":"20","2":"32"},{"1":"20","2":"48"},{"1":"20","2":"52"},{"1":"20","2":"56"},{"1":"20","2":"64"},{"1":"22","2":"66"},{"1":"23","2":"54"},{"1":"24","2":"70"},{"1":"24","2":"92"},{"1":"24","2":"93"},{"1":"24","2":"120"},{"1":"25","2":"85"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -467,8 +448,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>Scatter plots can help visualize any relationship between the explanatory variable <em>speed</em> (also called regression variable, or predictor) and the response variable <em>dist</em>.</p>
 <div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-2_60000595c961c5111ad7fc38fc9ff852">
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>cars_plot <span class="ot">&lt;-</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  cars <span class="sc">%&gt;%</span> </span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span>  <span class="fu">aes</span>(<span class="at">x =</span> speed, <span class="at">y =</span> dist) <span class="sc">+</span> </span>
@@ -476,7 +457,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>cars_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Based on this data, our objective is to build a regression model of the form</p>
@@ -550,14 +535,18 @@ Coefficients:
 </div>
 <p>Looking how the model fits the data is more than enough for concluding that this model is miss-specified.</p>
 <div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-5_ad720999050cf8199002f256902f384c">
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>cars_plot <span class="ot">&lt;-</span> cars_plot <span class="sc">+</span> </span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="dv">1</span>, <span class="at">se =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>cars_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Indeed, a clear increasing trend is visible in the data while the model assumes that there is no trend. We therefore reject this first model.</p>
@@ -622,7 +611,11 @@ speed         3.096964  4.767853</code></pre>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">colour=</span><span class="st">"#339900"</span>)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>cars_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The regression line describes pretty well the global trend in the data: based on this graphic, there is no reason to reject the model.</p>
@@ -630,7 +623,11 @@ speed         3.096964  4.767853</code></pre>
 <div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-10_ebf4870da374f2ad937fe4a36b915ac1">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(lm1, <span class="at">which =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>) <span class="do">## autoplot comes from ggfortify</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The residual plot shows a slight (decreasing and increasing) trend which suggests that the residuals are not identically distributed around 0. Furthermore, the QQ plot shows that the extreme residual values are not the extreme values of a normal distribution. It may be therefore necessary to improve the regression model.</p>
@@ -653,8 +650,8 @@ speed         3.096964  4.767853</code></pre>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(cars_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-13_fa870b72ee1e0feb549815fc20faa307">
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>cars_pred_plot <span class="ot">&lt;-</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  cars_training <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span>  <span class="fu">aes</span>(<span class="at">x =</span> speed, <span class="at">y =</span> dist) <span class="sc">+</span> </span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">colour=</span><span class="st">"#993399"</span>) <span class="sc">+</span>  <span class="fu">xlab</span>(<span class="st">"Speed mph)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Stopping distance (ft)"</span>) <span class="sc">+</span> </span>
@@ -664,7 +661,11 @@ speed         3.096964  4.767853</code></pre>
 <span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>cars_pred_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>On one hand, it is reassuring to see that removing part of the data has a very little impact on the predictions. On the other hand, the predictive performance of the model remains limited because of the natural variability of the data. Indeed, this model built with the training sample only explains 71 % of the variabilility of the new test sample.</p>
@@ -684,8 +685,8 @@ speed         3.096964  4.767853</code></pre>
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(cars_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-16_847e374ac0dccde0dfb07499cd938f81">
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>cars_pred_plot <span class="ot">&lt;-</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  cars_training <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span>  <span class="fu">aes</span>(<span class="at">x =</span> speed, <span class="at">y =</span> dist) <span class="sc">+</span> </span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">colour=</span><span class="st">"#993399"</span>) <span class="sc">+</span>  <span class="fu">xlab</span>(<span class="st">"Speed mph)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Stopping distance (ft)"</span>) <span class="sc">+</span> </span>
@@ -695,7 +696,11 @@ speed         3.096964  4.767853</code></pre>
 <span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>cars_pred_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>We see that the model now underestimate the stopping distance for the largest speeds. In conclusion, the model may be used with confidence for predicting the stopping distance for given speeds which are central values. Another model should probably be developed for predicting stopping distances for extreme speed values.</p>
@@ -715,7 +720,6 @@ speed         3.096964  4.767853</code></pre>
 <span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">"speed"</span>, <span class="st">"dist"</span>, <span class="st">"lwr"</span>, <span class="st">"upr"</span>))</span>
 <span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>conf_inter <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["speed"],"name":[1],"type":["int"],"align":["right"]},{"label":["dist"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["lwr"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["upr"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"6","2":"6.015358","3":"-2.973341","4":"15.00406","_rn_":"1"},{"1":"7","2":"9.947766","3":"1.678977","4":"18.21656","_rn_":"2"},{"1":"8","2":"13.880175","3":"6.307527","4":"21.45282","_rn_":"3"},{"1":"9","2":"17.812584","3":"10.905120","4":"24.72005","_rn_":"4"},{"1":"10","2":"21.744993","3":"15.461917","4":"28.02807","_rn_":"5"},{"1":"11","2":"25.677401","3":"19.964525","4":"31.39028","_rn_":"6"},{"1":"12","2":"29.609810","3":"24.395138","4":"34.82448","_rn_":"7"},{"1":"13","2":"33.542219","3":"28.731336","4":"38.35310","_rn_":"8"},{"1":"14","2":"37.474628","3":"32.947783","4":"42.00147","_rn_":"9"},{"1":"15","2":"41.407036","3":"37.021152","4":"45.79292","_rn_":"10"},{"1":"16","2":"45.339445","3":"40.937676","4":"49.74121","_rn_":"11"},{"1":"17","2":"49.271854","3":"44.698988","4":"53.84472","_rn_":"12"},{"1":"18","2":"53.204263","3":"48.321378","4":"58.08715","_rn_":"13"},{"1":"19","2":"57.136672","3":"51.829133","4":"62.44421","_rn_":"14"},{"1":"20","2":"61.069080","3":"55.247285","4":"66.89088","_rn_":"15"},{"1":"21","2":"65.001489","3":"58.597384","4":"71.40559","_rn_":"16"},{"1":"22","2":"68.933898","3":"61.896301","4":"75.97149","_rn_":"17"},{"1":"23","2":"72.866307","3":"65.156644","4":"80.57597","_rn_":"18"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -730,7 +734,6 @@ speed         3.096964  4.767853</code></pre>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">"speed"</span>, <span class="st">"dist"</span>, <span class="st">"lwr"</span>, <span class="st">"upr"</span>))</span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>pred_inter <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["speed"],"name":[1],"type":["int"],"align":["right"]},{"label":["dist"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["lwr"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["upr"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"6","2":"6.015358","3":"-26.187314","4":"38.21803","_rn_":"1"},{"1":"7","2":"9.947766","3":"-22.061423","4":"41.95696","_rn_":"2"},{"1":"8","2":"13.880175","3":"-17.956287","4":"45.71664","_rn_":"3"},{"1":"9","2":"17.812584","3":"-13.872245","4":"49.49741","_rn_":"4"},{"1":"10","2":"21.744993","3":"-9.809601","4":"53.29959","_rn_":"5"},{"1":"11","2":"25.677401","3":"-5.768620","4":"57.12342","_rn_":"6"},{"1":"12","2":"29.609810","3":"-1.749529","4":"60.96915","_rn_":"7"},{"1":"13","2":"33.542219","3":"2.247492","4":"64.83695","_rn_":"8"},{"1":"14","2":"37.474628","3":"6.222305","4":"68.72695","_rn_":"9"},{"1":"15","2":"41.407036","3":"10.174821","4":"72.63925","_rn_":"10"},{"1":"16","2":"45.339445","3":"14.104995","4":"76.57390","_rn_":"11"},{"1":"17","2":"49.271854","3":"18.012832","4":"80.53088","_rn_":"12"},{"1":"18","2":"53.204263","3":"21.898386","4":"84.51014","_rn_":"13"},{"1":"19","2":"57.136672","3":"25.761756","4":"88.51159","_rn_":"14"},{"1":"20","2":"61.069080","3":"29.603089","4":"92.53507","_rn_":"15"},{"1":"21","2":"65.001489","3":"33.422574","4":"96.58040","_rn_":"16"},{"1":"22","2":"68.933898","3":"37.220445","4":"100.64735","_rn_":"17"},{"1":"23","2":"72.866307","3":"40.996976","4":"104.73564","_rn_":"18"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -740,14 +743,18 @@ speed         3.096964  4.767853</code></pre>
 </div>
 <p>Let us plot these two intervals.</p>
 <div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-19_c30212f50769ece77f586dc5407d9981">
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>cars_training <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span>  <span class="fu">aes</span>(<span class="at">x =</span> speed, <span class="at">y =</span> dist) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> conf_inter, <span class="fu">aes</span>(<span class="at">ymin =</span> lwr, <span class="at">ymax =</span> upr), <span class="at">fill =</span> <span class="st">"red"</span> , <span class="at">alpha =</span> <span class="fl">0.75</span>) <span class="sc">+</span></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> pred_inter, <span class="fu">aes</span>(<span class="at">ymin =</span> lwr, <span class="at">ymax =</span> upr), <span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">alpha =</span> <span class="fl">0.25</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>These intervals are of very little interest and should not be used in practice. Indeed, we can see that both the confidence interval and the prediction interval contain negative values for small or moderate speeds, which is obviously unrealistic… We’ll see later how to transform the model and/or the data in order to take into account some constraints about the data.</p>
@@ -798,24 +805,32 @@ I(speed^2)    0.8929849 -0.9794765  1.0000000</code></pre>
 <p>The R-squared indicate that 66.7% of the variability of the data is explained by a polynomial of degree 2, instead of 65.1% with a polynomial of degree 1. On the other hand, the standard deviation of the residual error is 15.18 ft with this model instead of 15.38 ft with the previous one. These improvements are really too small to justify the use of a quadratic polynomial.</p>
 <p>Nevertheless, plotting the data together with the fitted polynomial suggests that the extreme values are better predicted with a polynomial of degree 2 than with a straight line.</p>
 <div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-22_8ca8e38f87cfa5bd26ec227835f97cc9">
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>cars_plot <span class="sc">+</span> </span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">2</span>, <span class="at">raw =</span> <span class="cn">TRUE</span>), <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">colour=</span><span class="st">"#339900"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The predictive performance of the model need to be assesed in order to confirm this property of the model. We can again use the 80% most central data points to build the model and test it on the 20% remaining data points.</p>
 <div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-23_54615097dea450684ba3713e4f030b0a">
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>cars_plot <span class="sc">+</span> </span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data =</span> cars_training, <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">2</span>, <span class="at">raw =</span> <span class="cn">TRUE</span>), <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">colour=</span><span class="st">"#339900"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The shape of the polynomial is totally different when it is built using the training data only. That means that the model is quite unstable, depending strongly on some data values. Then, repeating the same experiment (under the same experimental conditions) would probably lead to significantly different results.</p>
@@ -850,8 +865,8 @@ f(x) =  c_1 x + c_2 x^2 + \ldots + c_d x^d
 </div>
 <p>We can plot the data with the predicted response <span class="math inline">f(x)</span>, confidence interval for <span class="math inline">f(x)</span> and prediction intervals for new observations <span class="math inline">y</span>.</p>
 <div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-26_df6dd0a3f5502beeaf732858c09330ef">
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>new_x <span class="ot">&lt;-</span> <span class="fu">data.frame</span>( <span class="at">speed =</span> (<span class="dv">6</span><span class="sc">:</span><span class="dv">23</span>))</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(new_x, <span class="at">dist =</span> <span class="fu">predict</span>(lm2_no_inter, <span class="at">newdata =</span> new_x))</span>
@@ -869,7 +884,11 @@ f(x) =  c_1 x + c_2 x^2 + \ldots + c_d x^d
 <span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> fit, <span class="fu">aes</span>(<span class="at">x =</span> speed, <span class="at">y =</span> dist), <span class="at">colour=</span><span class="st">"#339900"</span>, <span class="at">size =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Confidence interval for <span class="math inline">f(x)</span> now only contain positive values for any <span class="math inline">x&gt;0</span> and is reduce to 0 when <span class="math inline">x=0</span>.</p>
@@ -1192,14 +1211,22 @@ lm2  4 426.4202</code></pre>
 <span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>  cars_plot <span class="sc">+</span> <span class="fu">scale_x_log10</span>(),</span>
 <span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>  cars_plot <span class="sc">+</span> <span class="fu">scale_y_log10</span>(), <span class="at">nrow =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-42-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-42-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>None of thee two plots show any linear trend. Then, let us try with a log-log transformation.</p>
 <div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-43_3554622b581246e3dba8b71680505f89">
 <div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>cars_plot <span class="sc">+</span> <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-43-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-43-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Looks much better!</p>
@@ -1238,20 +1265,28 @@ F-statistic: 131.9 on 1 and 48 DF,  p-value: 2.259e-15</code></pre>
 <span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">colour=</span><span class="st">"#993399"</span>) </span>
 <span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a>cars_plot_log <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-45-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-45-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>This plot, plus the two following diagnostic plots, show that the model fits quite well the data.</p>
 <div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-46_d58eaa0abe2d421cba7dc5ef7474235b">
 <div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(lm1_log, <span class="at">which =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-46-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-46-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>In the next plot, we compare the fits obtained when the model is built using the complete data (green) and when only the training sample is used (red).</p>
 <div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-47_aa3096921962fef6d8323b4fd8b4f438">
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>training <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">6</span><span class="sc">:</span><span class="dv">45</span>)</span>
 <span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>cars_test     <span class="ot">&lt;-</span> cars[<span class="sc">-</span>training, ]</span>
 <span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>cars_training <span class="ot">&lt;-</span> cars[ training , ]</span>
@@ -1264,7 +1299,11 @@ F-statistic: 131.9 on 1 and 48 DF,  p-value: 2.259e-15</code></pre>
 <span id="cb84-10"><a href="#cb84-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">se =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-47-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-47-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>These two models are very similar: the estimation is relatively insensible to extreme values.</p>
@@ -1273,8 +1312,8 @@ F-statistic: 131.9 on 1 and 48 DF,  p-value: 2.259e-15</code></pre>
 <h3 data-number="5.2" class="anchored" data-anchor-id="confidence-interval-and-prediction-interval-1"><span class="header-section-number">5.2</span> Confidence interval and prediction interval</h3>
 <p>Based on the previous analysis, the model can be used for predicting stopping distances for a wide range of speeds. Let us compute and display the confidence interval for the regression line (of the model <code>lm(log(dist) ~ log(speed)))</code> and the prediction interval for new observed log-distances.</p>
 <div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-48_4fda2a69be218355573445b09b3a7653">
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
 <span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>new_x <span class="ot">&lt;-</span> <span class="fu">data.frame</span>( <span class="at">speed =</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">30</span>)</span>
 <span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(new_x, <span class="at">log_dist =</span> <span class="fu">predict</span>(lm1_log, <span class="at">newdata =</span> new_x))</span>
@@ -1293,13 +1332,17 @@ F-statistic: 131.9 on 1 and 48 DF,  p-value: 2.259e-15</code></pre>
 <span id="cb85-16"><a href="#cb85-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">xlab</span>(<span class="st">"speed (mph)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"stopping distance (ft)"</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-48-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-48-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>We can derive from these intervals a confidence interval and a prediction interval for the non transformed data (i.e.&nbsp;using the original scale).</p>
 <div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-49_68262f38fec525e7ed376e1b7595d073">
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>cars_training <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span>  <span class="fu">aes</span>(<span class="at">x =</span> speed, <span class="at">y =</span> dist) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> conf_inter, <span class="fu">aes</span>(<span class="at">ymin =</span> <span class="fu">exp</span>(lwr), <span class="at">ymax =</span> <span class="fu">exp</span>(upr)), <span class="at">fill =</span> <span class="st">"red"</span> , <span class="at">alpha =</span> <span class="fl">0.75</span>) <span class="sc">+</span></span>
 <span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> pred_inter, <span class="fu">aes</span>(<span class="at">ymin =</span> <span class="fu">exp</span>(lwr), <span class="at">ymax =</span> <span class="fu">exp</span>(upr)), <span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">alpha =</span> <span class="fl">0.25</span>) <span class="sc">+</span></span>
@@ -1307,7 +1350,11 @@ F-statistic: 131.9 on 1 and 48 DF,  p-value: 2.259e-15</code></pre>
 <span id="cb86-5"><a href="#cb86-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">xlab</span>(<span class="st">"speed (mph)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"stopping distance (ft)"</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-49-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-polynomial-regression_files/figure-html/unnamed-chunk-49-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The general trend describes quite well how the stopping distance increases with the speed. Nevertheless, the residual error model seems to over-estimate the variability of the data for the greatest speeds.</p>
@@ -1387,9 +1434,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -1425,10 +1486,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1438,8 +1498,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1452,6 +1521,135 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    const typesetMath = (el) => {
+      if (window.MathJax) {
+        // MathJax Typeset
+        window.MathJax.typeset([el]);
+      } else if (window.katex) {
+        // KaTeX Render
+        var mathElements = el.getElementsByClassName("math");
+        var macros = [];
+        for (var i = 0; i < mathElements.length; i++) {
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            window.katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }
+    }
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        typesetMath(container);
+        return container.innerHTML
+      } else {
+        typesetMath(note);
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      typesetMath(note);
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1495,6 +1693,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1520,6 +1719,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1583,12 +1808,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../docs/regression/map566-lecture-nonlinear-regression.html" class="pagination-link">
+      <a href="../../docs/regression/map566-lecture-nonlinear-regression.html" class="pagination-link" aria-label="Nonlinear Regression">
         <span class="nav-page-text">Nonlinear Regression</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+
 
 
 

@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.510">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>MAP566 - Stats in Action - Detection of change points in a time series</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../docs/change-point/map566-lab-change-point-detection.html" rel="next">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../logo_X.jpg" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">MAP566 - Stats in Action</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../getting-started.html"> 
+<span class="menu-text">Getting Started</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/jchiquet/MAP566"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hypothesis-testing" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Hypothesis Testing</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-hypothesis-testing">    
+        <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-single.html">
+ <span class="dropdown-text">Statistical Tests</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-multiple.html">
+ <span class="dropdown-text">Multiple Testing</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Exercices</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html">
+ <span class="dropdown-text">Statistical tests: exercices</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-regression-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Regression models</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-regression-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html">
+ <span class="dropdown-text">Polynomial Regression</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-nonlinear-regression.html">
+ <span class="dropdown-text">Nonlinear Regression</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Exercices</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-polynomial-regression.html">
+ <span class="dropdown-text">Polynomial Regression</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-nonlinear-regression.html">
+ <span class="dropdown-text">Nonlinear Regression</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html">
+ <span class="dropdown-text">Linear Regression: Quick Recap</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixed-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Mixed models</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixed-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html">
+ <span class="dropdown-text">Linear Mixed Effects Models</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html">
+ <span class="dropdown-text">Nonlinear Mixed Effects Models</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Exercices</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-linear-mixed-model.html">
+ <span class="dropdown-text">Linear Mixed Models</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-nonlinear-mixed-model.html">
+ <span class="dropdown-text">Nonlinear Mixed Effects Models</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html">
+ <span class="dropdown-text">An EM Algorithm for Linear Mixed Effects Models</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Mixture models</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixture-models">    
+        <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html">
+ <span class="dropdown-text">Mixture Models</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Exercices</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">
+ <span class="dropdown-text">Mixture models</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-change-point-detection" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Change-point detection</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-change-point-detection">    
+        <li class="dropdown-header">Lectures</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/change-point/map566-lecture-change-point-detection.html">
+ <span class="dropdown-text">Detection of change points in a time series</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Exercices</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/change-point/map566-lab-change-point-detection.html">
+ <span class="dropdown-text">Detection of change points in a time series</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/change-point/map566-lecture-change-point-detection.html">Lectures</a></li><li class="breadcrumb-item"><a href="../../docs/change-point/map566-lecture-change-point-detection.html">Detection of change points in a time series</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Lectures</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/change-point/map566-lecture-change-point-detection.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Detection of change points in a time series</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Exercices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/change-point/map566-lab-change-point-detection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Detection of change points in a time series</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#preliminary" id="toc-preliminary" class="nav-link active" data-scroll-target="#preliminary">Preliminary</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
+  <li><a href="#a-mathematical-model" id="toc-a-mathematical-model" class="nav-link" data-scroll-target="#a-mathematical-model"><span class="header-section-number">2</span> A mathematical model</a></li>
+  <li><a href="#mle" id="toc-mle" class="nav-link" data-scroll-target="#mle"><span class="header-section-number">3</span> Maximum likelihood estimation</a></li>
+  <li><a href="#single" id="toc-single" class="nav-link" data-scroll-target="#single"><span class="header-section-number">4</span> Detection of a single change point</a>
+  <ul class="collapse">
+  <li><a href="#the-residual-sum-of-squares" id="toc-the-residual-sum-of-squares" class="nav-link" data-scroll-target="#the-residual-sum-of-squares"><span class="header-section-number">4.1</span> The residual sum of squares</a></li>
+  </ul></li>
+  <li><a href="#some-statistical-properties-of-hattau" id="toc-some-statistical-properties-of-hattau" class="nav-link" data-scroll-target="#some-statistical-properties-of-hattau"><span class="header-section-number">5</span> Some statistical properties of <span class="math inline">\hat{\tau}</span></a>
+  <ul class="collapse">
+  <li><a href="#testing-the-presence-of-a-change-point" id="toc-testing-the-presence-of-a-change-point" class="nav-link" data-scroll-target="#testing-the-presence-of-a-change-point"><span class="header-section-number">5.1</span> Testing the presence of a change-point</a></li>
+  </ul></li>
+  <li><a href="#detection-of-multiple-change-points" id="toc-detection-of-multiple-change-points" class="nav-link" data-scroll-target="#detection-of-multiple-change-points"><span class="header-section-number">6</span> Detection of multiple change points</a>
+  <ul class="collapse">
+  <li><a href="#a-dynamic-programming-algorithm" id="toc-a-dynamic-programming-algorithm" class="nav-link" data-scroll-target="#a-dynamic-programming-algorithm"><span class="header-section-number">6.1</span> A dynamic programming algorithm</a></li>
+  <li><a href="#application-to-the-well-log-data" id="toc-application-to-the-well-log-data" class="nav-link" data-scroll-target="#application-to-the-well-log-data"><span class="header-section-number">6.2</span> Application to the well-log data</a></li>
+  <li><a href="#selecting-the-number-of-change-points" id="toc-selecting-the-number-of-change-points" class="nav-link" data-scroll-target="#selecting-the-number-of-change-points"><span class="header-section-number">6.3</span> Selecting the number of change points</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/change-point/map566-lecture-change-point-detection.html">Lectures</a></li><li class="breadcrumb-item"><a href="../../docs/change-point/map566-lecture-change-point-detection.html">Detection of change points in a time series</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Detection of change points in a time series</h1>
+<p class="subtitle lead">Lecture Notes</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="preliminary" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="preliminary">Preliminary</h2>
+<p>Only functions from <code>R</code>-base and stats (preloaded) are required plus packages from the <strong>tidyverse</strong> for data representation and manipulation.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="introduction" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1</span> Introduction</h2>
+<p>An example of well-log data is shown in Fig. 1, and consists of measurements of the nuclear magnetic response of underground rocks.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="at">file=</span><span class="st">"../../data/wellLogData.txt"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(d) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(time, y), <span class="at">color=</span><span class="st">"#6666CC"</span>) <span class="sc">+</span>  <span class="fu">ylab</span>(<span class="st">"nuclear reponse"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="map566-lecture-change-point-detection_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The x-axis represent either the time <span class="math inline">t</span> at which the measurements were made, or the depth <span class="math inline">z=z(t)</span> at which they were collected.</p>
+<p>In drilling for oil, the problem of recovering the underlying signal of well-log data, such as that shown in the Figure above, is of practical importance.</p>
+<p>Here, we will make the asumption that the underlying signal is piecewise constant, each constant segment relating to a stratum of a single type of rock. The jump discontinuities in the signal occur each time that a new rock stratum is met.</p>
+<p>Hence, the problem consists in identifying</p>
+<ul>
+<li>the number of strata,</li>
+<li>the location of the discontinuities,</li>
+<li>the value of the underlying signal in each stratum.</li>
+</ul>
+<p>In order to solve this problem, the observed phenomena and the geological model described above now need to be, respectively, represented and translated into a mathematical model.</p>
+</section>
+<section id="a-mathematical-model" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="a-mathematical-model"><span class="header-section-number">2</span> A mathematical model</h2>
+<p>Our model assumes that the data fluctuates around some underlying signal <span class="math inline">f</span> associated to the magnetic properties of the earth. Here, <span class="math inline">f(t)</span> represents the ``true’’ nuclear reponse at time <span class="math inline">t</span> (or at depth <span class="math inline">z(t)</span>). Then, if <span class="math inline">t_1, t_2, \ldots, t_n</span> are the <span class="math inline">n</span> sampling time, we can decompose <span class="math inline">y_j</span> as</p>
+<p><span class="math display"> y_j = f(t_j) + \varepsilon_j \quad ; \quad 1\leq j \leq n </span></p>
+<p>where <span class="math inline">(\varepsilon_j)</span> is a sequence of <em>residual errors</em>. These differences between predicted and observed values include measurement errors and modeling errors, due to the natural imperfections in mathematical models for representing complex physical phenomena.</p>
+<p>Assuming that the magnetic properties of the rock do not change within each stratum means that <span class="math inline">f</span> is piecewise constant. More precisely, we assume that there exist discontinuity instants <span class="math inline">\tau_1, \tau_2, \ldots \tau_{K-1}</span> and nuclear response values <span class="math inline">\mu_1, \mu_2, \ldots,\mu_K</span> such that</p>
+<p><span class="math display"> f(t) =  \mu_k \quad \text{if } \ \tau_{k-1} &lt; t \leq \tau_k </span> where <span class="math inline">K</span> is the number of strata, and where <span class="math inline">\tau_0=0</span> and <span class="math inline">\tau_K=n</span>.</p>
+<p>Thus, for any <span class="math inline">\tau_{k-1} &lt; j \leq \tau_k</span>,</p>
+<p><span class="math display">
+y_j = \mu_k + \varepsilon_j
+</span></p>
+<p>In a probabilistic framework, the sequence of residual errors <span class="math inline">(\varepsilon_j,1 \leq i \leq n)</span> is a sequence of random variables with mean zero. Then, <span class="math inline">(y_j)</span> is a sequence of random variables with piecewise constant mean:</p>
+<p><span class="math display">\mathbb{E}(y_j) = \mu_k \quad {\rm if} \ \tau_{k-1} &lt; j \leq \tau_k</span>.</p>
+<p>Within this framework, the problem of detecting discontinuities therefore reduces to the detection of abrupt changes in the mean of <span class="math inline">(y_j)</span>.</p>
+<p>If we are thinking in some likelihood based approach for solving this problem, we need to go a little bit further in the definition of the probability distribution of the observed data. Let us asume, for instance, that <span class="math inline">(\varepsilon_j,1 \leq j \leq n)</span> is a sequence of independent and identically distributed Gaussian variables:</p>
+<p><span class="math display">\varepsilon_j \sim^{\text{iid}} {\cal N}(0,\sigma^2).</span></p>
+<p>Then, <span class="math inline">(y_j)</span> is also a sequence of independent Gaussian variables:</p>
+<p><span class="math display"> y_j \sim  {\cal N}(\mu_k,\sigma^2) \quad {\rm if} \ \tau_{k-1} &lt; j \leq \tau_k</span></p>
+<p>We can now express our original problem in mathematical terms. Indeed, we aim to estimate</p>
+<ul>
+<li>the number <span class="math inline">K</span> of segments,</li>
+<li>the sequence <span class="math inline">(\tau_k, 1 \leq k \leq {K-1})</span>,</li>
+<li>the sequence <span class="math inline">(\mu_k, 1\leq k \leq K)</span>.</li>
+</ul>
+</section>
+<section id="mle" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="mle"><span class="header-section-number">3</span> Maximum likelihood estimation</h2>
+<p>The model is parametric model which depends on a vector of parameters <span class="math inline">\theta = (\mu_1,\ldots, \mu_K,\sigma^2,\tau_1,\ldots,\tau_{K-1})</span>.</p>
+<p>We can then derive the <em>likelihood function</em>:</p>
+<p><span class="math display">\begin{aligned}
+\ell(\theta;y_1,y_2,\ldots,y_n) &amp;= \mathbb{P}(y_1,y_2,\ldots,y_n;\theta) \\
+&amp;= \prod_{k=1}^K \mathbb{P}(y_{\tau_{k-1}+1},\ldots ,y_{\tau_{k}};\mu_k,\sigma^2) \\
+&amp;= \prod_{k=1}^K (2\pi \sigma^2)^{\frac{-(\tau_k-\tau_{k-1})}{2}}
+{\rm exp}\left\{-\frac{1}{2\sigma^2}\sum_{j=\tau_{k-1}+1}^{\tau_k}  (y_j-\mu_k)^2\right\}  \\
+&amp;= (2\pi \sigma^2)^{\frac{-n}{2}} {\rm exp}\left\{-\frac{1}{2\sigma^2}\sum_{k=1}^K\sum_{j=\tau_{k-1}+1}^{\tau_k}  (y_j-\mu_k)^2.\right\}
+\end{aligned}</span></p>
+<p>We can classically decompose the maximum likelihood estimation of <span class="math inline">\theta</span> into two steps:</p>
+<ol type="1">
+<li>the means <span class="math inline">(\mu_k)</span> and the change points <span class="math inline">(\tau_k)</span> are estimated by minimizing <span class="math display"> J(\mu_1,\ldots, \mu_K,\tau_1,\ldots,\tau_{K-1}) = \sum_{k=1}^K\sum_{j=\tau_{k-1}+1}^{\tau_k}  (y_j-\mu_k)^2</span></li>
+<li>the estimator of the variance <span class="math inline">\sigma^2</span> is the empirical variance of the estimated residuals: <span class="math display"> \hat{\sigma}^2 = \frac{1}{n} \sum_{k=1}^K\sum_{j=\hat{\tau}_{k-1}+1}^{\hat{\tau}_k}  (y_j-\hat{\mu}_k)^2</span></li>
+</ol>
+<p>The second step is straightforward. We will focus here on the first step, i.e.&nbsp;the minimization of <span class="math inline">J(\mu_1,\ldots, \mu_K,\tau_1,\ldots,\tau_{K-1})</span>.</p>
+<p>We can first remark that, for a given sequence of change points <span class="math inline">\tau_1, \ldots, \tau_{K-1}</span>, <span class="math inline">J</span> can easily be minimized with respect to <span class="math inline">\mu_1,\ldots, \mu_K</span>. Indeed,</p>
+<p><span class="math display">\begin{aligned}
+\hat{\mu}_k(\tau_{k-1},\tau_k) &amp;= \overline{y}_{\tau_{k-1}+1:\tau_k} \\
+&amp;= \frac{1}{\tau_k-\tau_{k-1}}\sum_{j=\tau_{k-1}+1}^{\tau_k} y_j
+\end{aligned}</span></p>
+<p>minimizes <span class="math inline">\sum_{j=\tau_{k-1}+1}^{\tau_k} (y_j-\mu_k)^2</span>.</p>
+<p>Plugging the estimated mean values <span class="math inline">(\hat{\mu}_k(\tau_{k-1},\tau_k))</span> into <span class="math inline">J</span> leads to a new function <span class="math inline">U</span> to minimize and which is now a function of <span class="math inline">\tau_1,\ldots,\tau_{K-1}</span>:</p>
+<p><span class="math display">\begin{aligned}
+U(\tau_1,\ldots,\tau_{K-1}) &amp;= J(\hat{\mu}_1(\tau_0,\tau_1),\ldots, \hat{\mu}_K(\tau_{K-1},\tau_{K}),\tau_1,\ldots,\tau_{K-1}) \\
+&amp;= \sum_{k=1}^K\sum_{j=\tau_{k-1}+1}^{\tau_k}  (y_j-\overline{y}_{\tau_{k-1}+1:\tau_k})^2
+\end{aligned}</span></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Remark
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Because of the normality assumption, the maximum likelihood (ML) estimator of the change points coincides with the least-square (LS) estimator.</p>
+</div>
+</div>
+</section>
+<section id="single" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="single"><span class="header-section-number">4</span> Detection of a single change point</h2>
+<section id="the-residual-sum-of-squares" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="the-residual-sum-of-squares"><span class="header-section-number">4.1</span> The residual sum of squares</h3>
+<p>Before tackling the problem of detecting multiple change points in a time series, let us start with an easier one: the detection of a single change point.</p>
+<p>Consider, for instance, our data until time 200:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">200</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> d[<span class="dv">1</span><span class="sc">:</span>n,]</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>d1) <span class="sc">+</span>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(time,y), <span class="at">color=</span><span class="st">"#6666CC"</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"time"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"nuclear reponse"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-change-point-detection_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We clearly ``see’’ a jump in the mean before time 100. How can we automatically identify the time of such change?</p>
+<p>Our model assumes that the data fluctuates around a signal which is piecewise constant: <span class="math display"> f(t) = \left\{ \begin{array}{ll} \mu_1 &amp; \text{if } t\leq \tau \\ \mu_2 &amp; \text{if } t&gt; \tau \end{array} \right.</span></p>
+<p>For estimating the parameters of the model, i.e <span class="math inline">\mu_1</span>, <span class="math inline">\mu_2</span> and <span class="math inline">\tau</span>, the least-square method minimizes the residual sum of squares (RSS)</p>
+<p><span class="math display">
+U(\tau) = \sum_{j=1}^\tau (y_j - \overline{y}_{1:\tau})^2 + \sum_{j=\tau+1}^n (y_j - \overline{y}_{\tau+1:n})^2
+</span></p>
+<p>Then, <span class="math display">\begin{aligned}
+\hat{\tau} &amp;= {\rm arg}\min_{1\leq \tau \leq n-1} U(\tau) \\
+\hat{\mu}_1 &amp;= \overline{y}_{1:\hat\tau} \\
+\hat{\mu}_2 &amp;= \overline{y}_{\hat\tau+1:n} \\
+\hat{\sigma}^2 &amp;= \frac{U(\hat\tau)}{n}
+\end{aligned}</span></p>
+<p>Of course, the goal is to minimize <span class="math inline">U</span> with respect to <span class="math inline">\tau</span>. But looking at the sequence of residuals is also valuable for diagnostic purpose. Indeed, remember that the sequence of residuals <span class="math inline">(e_j)</span> is supposed to randomly fluctuate around 0, without showing any kind of trend. Then, a fitted model which produces residuals that exhibit some clear trend should be rejected.</p>
+<p>The residual sum of squares <span class="math inline">U</span> displayed below is minimum for <span class="math inline">\hat{\tau} = 93</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> d1<span class="sc">$</span>y </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>U <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">tau=</span>(<span class="dv">1</span><span class="sc">:</span>(n<span class="dv">-1</span>)),<span class="at">RSS=</span><span class="dv">0</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (tau <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span>(n<span class="dv">-1</span>))) {</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  m1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(y[<span class="dv">1</span><span class="sc">:</span>tau])</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  m2 <span class="ot">&lt;-</span> <span class="fu">mean</span>(y[(tau<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n])</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  m <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(m1,tau),<span class="fu">rep</span>(m2,(n<span class="sc">-</span>tau)))</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  e <span class="ot">&lt;-</span> y <span class="sc">-</span> m</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  U[tau,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">sum</span>(e<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>tau.est <span class="ot">&lt;-</span> <span class="fu">which.min</span>(U<span class="sc">$</span>RSS)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>U.min <span class="ot">&lt;-</span> U[tau.est,<span class="dv">2</span>]</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">c</span>(tau.est, U.min))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]   93.000 1096.269</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>U) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(tau,RSS)) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>tau.est,<span class="at">y=</span>U.min), <span class="at">colour=</span><span class="st">"red"</span>, <span class="at">size=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-change-point-detection_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Remark
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The objective function to minimize is not convex. Then, any efficient method for convex optimization (for scalar function) may lead to some local minimum instead of the global one.</p>
+</div>
+</div>
+<p>The optimal segmentation and the residuals obtained with <span class="math inline">\hat{\tau} = 93</span> are diplayed in the next Figure.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(y[<span class="dv">1</span><span class="sc">:</span>tau.est])</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">mean</span>(y[(tau.est<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n])</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(m1,tau.est),<span class="fu">rep</span>(m2,(n<span class="sc">-</span>tau.est)))</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>d1<span class="sc">$</span>e <span class="ot">&lt;-</span> y <span class="sc">-</span> m</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>dm <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x1=</span><span class="fu">c</span>(<span class="dv">0</span>,tau.est<span class="fl">+0.5</span>), <span class="at">x2=</span><span class="fu">c</span>(tau.est<span class="fl">+0.5</span>,n), <span class="at">y1=</span><span class="fu">c</span>(m1,m2), <span class="at">y2=</span><span class="fu">c</span>(m1,m2))</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>pl1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>d1) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(time, y), <span class="at">color=</span><span class="st">"#6666CC"</span>)  <span class="sc">+</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x=</span>x1, <span class="at">y=</span>y1, <span class="at">xend=</span>x2, <span class="at">yend=</span>y2), <span class="at">colour=</span><span class="st">"green"</span>, <span class="at">data=</span>dm, <span class="at">size=</span><span class="fl">0.75</span>) <span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> (tau.est<span class="fl">+0.5</span>), <span class="at">color=</span><span class="st">"red"</span>, <span class="at">size=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pl2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>d1) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(time, e), <span class="at">color=</span><span class="st">"#6666CC"</span>)  <span class="sc">+</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="dv">0</span>,<span class="at">xend=</span>n,<span class="at">y=</span><span class="dv">0</span>,<span class="at">yend=</span><span class="dv">0</span>), <span class="at">colour=</span><span class="st">"green"</span>, <span class="at">data=</span>dm, <span class="at">size=</span><span class="fl">0.75</span>) </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(pl1, pl2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-change-point-detection_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The model we are challenging with our data assumes constant mean values before and after <span class="math inline">\tau=93</span>. Residuals do not exhibit any clear trend. Thus, based on this diagnostic plot, there is no good reason for rejecting this model.</p>
+<p>The assumptions made for the probability ditribution of the residual errors could also be tested:</p>
+<ol type="1">
+<li>Neither the Shapiro-Wilk test nor the normal QQ plot suggest to reject the normality assumption:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(d1<span class="sc">$</span>e)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-change-point-detection_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(d1<span class="sc">$</span>e)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  d1$e
+W = 0.98776, p-value = 0.08299</code></pre>
+</div>
+</div>
+<ol start="2" type="1">
+<li>The sequence of autocorrelations does not suggest to reject the hypothesis of uncorrelated residual errors:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(d1<span class="sc">$</span>e, <span class="at">ylab =</span> <span class="st">"autocorrelation"</span>, <span class="at">main=</span><span class="st">" "</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-change-point-detection_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>These results mean that assuming that the residuals are <em>i.i.d.</em> is acceptable. Then, we can be quite confident that the Least-Square criterion used for estimating the change-points has very good (not to say optimal) statistical properties.</p>
+</section>
+</section>
+<section id="some-statistical-properties-of-hattau" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="some-statistical-properties-of-hattau"><span class="header-section-number">5</span> Some statistical properties of <span class="math inline">\hat{\tau}</span></h2>
+<p>Until now, the main conclusion of this study is that a model with constant mean values before and after <span class="math inline">\tau=93</span> cannot be rejected.</p>
+<p>Nevertheless, we would come to the same conclusion with <span class="math inline">\tau=92</span> or <span class="math inline">\tau=94</span>but probably not with <span class="math inline">\tau=90</span> or <span class="math inline">\tau=110</span>.</p>
+<p>Indeed, even if <span class="math inline">\hat{\tau}=93</span> is the ML estimate of <span class="math inline">\tau</span>, there remains some degree of uncertainty about the location of the change point since <span class="math inline">\hat{\tau}</span> is a random variable.</p>
+<p>What can we say about the ML estimator <span class="math inline">\hat{\tau}</span> and the estimation error <span class="math inline">\hat{\tau} - \tau^\star</span>, where <span class="math inline">\tau^\star</span> is the “true” change point?</p>
+<p>The theoretical properties of <span class="math inline">\hat{\tau}</span> are not easy to derive (this is beyond the scope of this course). On the other hand, Monte Carlo simulation enables us to easily investigate these properties.</p>
+<p>Then, the change-point is estimated for each of these simulated series and the sequence of estimates <span class="math inline">(\hat\tau_1, \hat\tau_2, \ldots , \hat\tau_M)</span> is used:</p>
+<ul>
+<li>for estimating the probability distribution of <span class="math inline">\hat\tau</span> by the empirical distribution of <span class="math inline">(\hat\tau_m, 1 \leq m \leq M)</span></li>
+<li>for estimating the expected absolute error <span class="math inline">\esp{|\hat\tau - \tau^\star|}</span> by the mean absolute error <span class="math display">\frac{1}{M}\sum_{m=1}^M |\hat\tau_m - \tau^\star|</span></li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Remarks
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>For a given <span class="math inline">n</span>, the properties of <span class="math inline">\hat{\tau}</span> only depends on <span class="math inline">(\mu_2-\mu_1)/\sigma</span>. We therefore arbitrarly fix <span class="math inline">\mu_1=0</span> and <span class="math inline">\sigma^2=1</span>.</p></li>
+<li><p>As with any Monte Carlo study, increasing the Monte Carlo size <span class="math inline">M</span> improve the accuracy of the results, i.e.&nbsp;the empirical distribution of <span class="math inline">(\hat\tau_m, 1 \leq m \leq M)</span> looks more and more like the unknown probability distribution of <span class="math inline">\hat\tau</span>, but the computational effort is also increased.</p></li>
+</ul>
+</div>
+</div>
+<p>Note that, for a given number <span class="math inline">n</span> of data points and a given change point <span class="math inline">\tau^\star</span>, the estimation error decreases with the absolute difference of the two means <span class="math inline">\delta = |\mu_2-\mu_1|</span>.</p>
+<p>Let us display the ditribution of <span class="math inline">\hat{\tau}</span> estimated by Monde Carlo simulation with the R function <a href="cpf.R"><code>cpf</code></a>, with <span class="math inline">n=100</span> and <span class="math inline">\delta=0.5</span>, 0.75, 1, 2.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>Q <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (delta <span class="cf">in</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="dv">1</span>, <span class="dv">2</span>)) </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  Q[[<span class="fu">length</span>(Q) <span class="sc">+</span> <span class="dv">1</span>]] <span class="ot">&lt;-</span> <span class="fu">cpf</span>(<span class="at">tau.star=</span><span class="dv">25</span>, delta, <span class="at">n=</span><span class="dv">100</span>, M, <span class="at">plot=</span><span class="cn">TRUE</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">do.call</span>(grid.arrange, <span class="fu">c</span>(Q, <span class="at">nrow =</span> <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-change-point-detection_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>for a given jump <span class="math inline">\delta</span>, the magnitude of the absolute estimation error <span class="math inline">|\hat{\tau} - \tau^\star|</span> does not seem to change with <span class="math inline">n</span>. On the other hand, the relative error <span class="math inline">|\hat{\tau} - \tau^\star|/n</span> clearly decrease with <span class="math inline">n</span>.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>Q <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (n <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">500</span>)) </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  Q[[<span class="fu">length</span>(Q) <span class="sc">+</span> <span class="dv">1</span>]] <span class="ot">&lt;-</span> <span class="fu">cpf</span>(<span class="fu">round</span>(n<span class="sc">/</span><span class="dv">4</span>), delta, n, M, <span class="at">plot=</span><span class="cn">TRUE</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">do.call</span>(grid.arrange, <span class="fu">c</span>(Q, <span class="at">nrow =</span> <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-change-point-detection_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Let us display the mean absolute error obtained with different value of <span class="math inline">n</span> and <span class="math inline">\delta</span>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="dv">200</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>vd <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.75</span>, <span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>vn <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">50</span>,<span class="dv">75</span>,<span class="dv">100</span>,<span class="dv">125</span>,<span class="dv">150</span>, <span class="fu">seq</span>(<span class="dv">200</span>,<span class="dv">500</span>,<span class="at">by=</span><span class="dv">100</span>))</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>E <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (j <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(vd)))</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  delta <span class="ot">&lt;-</span> vd[j]</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  Ej <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">delta=</span>delta, <span class="at">n=</span>vn, <span class="at">mae=</span><span class="cn">NA</span>)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (k <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(vn))) { </span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    n <span class="ot">&lt;-</span> vn[k]</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    e <span class="ot">&lt;-</span> <span class="fu">cpf</span>(<span class="at">tau.star=</span>n<span class="sc">/</span><span class="dv">2</span>, delta, n, M, <span class="at">plot=</span><span class="cn">FALSE</span>)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    Ej<span class="sc">$</span>mae[k] <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">abs</span>(e))</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  E <span class="ot">&lt;-</span> <span class="fu">rbind</span>(E, Ej)</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>E, <span class="fu">aes</span>(n,mae, <span class="at">colour=</span><span class="fu">factor</span>(delta))) <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"mean absolute error"</span>) <span class="sc">+</span> <span class="fu">scale_colour_discrete</span>(<span class="at">name=</span><span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">" "</span>,delta)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-change-point-detection_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This plot shows that the expected absolute error <span class="math inline">\esp{|\hat\tau-\tau^\star|}</span> does not depends on <span class="math inline">n</span> but decreases with <span class="math inline">\delta</span>.</p>
+<p>The main theoretical result concerning <span class="math inline">\hat{\tau}</span> for our Gaussian model (assuming i.i.d. residual) states that <span class="math display">
+|\hat{\tau} - \tau^\star| = {\cal O}_{\rm P}(\frac{1}{\delta^2}),
+</span> which means that <span class="math inline">\prob{\delta^2|\hat{\tau} - \tau^\star| &gt; A}</span> tends to 0 as <span class="math inline">A</span> goes to infinity. In other words, when <span class="math inline">\delta</span> increases, the expected absolute error decreases, in theory, as <span class="math inline">1/\delta^2</span>.</p>
+<p>We can easily check by simulation that the empirical absolute error (displayed above) multiplied by <span class="math inline">\delta^2</span> is a random variable which does not exhibit any dependence with respect to <span class="math inline">n</span> and <span class="math inline">\delta</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>E, <span class="fu">aes</span>(n,mae<span class="sc">*</span>delta<span class="sc">^</span><span class="dv">2</span>, <span class="at">colour=</span><span class="fu">factor</span>(delta))) <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="fu">c</span>(.<span class="dv">8</span>, .<span class="dv">8</span>)) <span class="sc">+</span> <span class="fu">scale_colour_discrete</span>(<span class="at">name=</span><span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">" "</span>,delta)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-change-point-detection_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="testing-the-presence-of-a-change-point" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="testing-the-presence-of-a-change-point"><span class="header-section-number">5.1</span> Testing the presence of a change-point</h3>
+<p>Until now, we only considered the problem of estimating a change point, assuming that there exits a change in the mean of the series <span class="math inline">(y_j,1\leq j \leq n)</span>. But what happens if there is no jump in the underlying signal?</p>
+<p>We therefore need some criteria to decide if the change that has been detected is statistically significant or not. We can formulate our problem in terms of two hypotheses:</p>
+<ul>
+<li><span class="math inline">{\cal H}_0</span> : there is no change and the mean remains constant</li>
+<li><span class="math inline">{\cal H}_1</span> : the mean changes abruptly at some (unknown) instant <span class="math inline">\tau^\star</span></li>
+</ul>
+<p>Before considering the general problem of testing <span class="math inline">{\cal H}_0</span> against <span class="math inline">{\cal H}_1</span>, consider, for any <span class="math inline">1\leq \tau \leq n-1</span>, the simple alternative hypothesis</p>
+<ul>
+<li><span class="math inline">{\cal H}_\tau</span>: the mean changes at time <span class="math inline">\tau</span>.</li>
+</ul>
+<p>Under <span class="math inline">{\cal H}_\tau</span>, the model is</p>
+<ul>
+<li><span class="math inline">{\cal M}_\tau</span> : <span class="math inline">y_j=\mu_1+\varepsilon_j</span> for <span class="math inline">1 \leq j \leq \tau</span> and <span class="math inline">y_j=\mu_2+\varepsilon_j</span> for <span class="math inline">\tau+1 \leq j \leq n</span> where <span class="math inline">\varepsilon_j \sim^{\text{iid}} {\cal N}(0,\sigma^2)</span>.</li>
+</ul>
+<p>The problem of testing if the mean changes at a given time <span class="math inline">\tau</span> thus reduces to testing if the means <span class="math inline">\mu_1</span> and <span class="math inline">\mu_2</span> (before and after <span class="math inline">\tau</span>) are equal.</p>
+<p>Let us test, for instance, if the means before and after <span class="math inline">t=50</span> are equal:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">200</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>tau <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(y[<span class="dv">1</span><span class="sc">:</span>tau],y[(tau<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n],<span class="at">var.equal =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Two Sample t-test
+
+data:  y[1:tau] and y[(tau + 1):n]
+t = -9.1881, df = 198, p-value &lt; 2.2e-16
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -7.462614 -4.825304
+sample estimates:
+mean of x mean of y 
+ 126.2105  132.3544 </code></pre>
+</div>
+</div>
+<p>The test is clearly significant: we can conclude that the means before and after <span class="math inline">t=50</span> are different. Nevertheless, this result does not allows us to conclude that the mean jumps at time <span class="math inline">t=50</span>. Indeed, we would also reject the null hypothesis for other possible values of <span class="math inline">\tau</span>, including <span class="math inline">150</span> for instance:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(y[<span class="dv">1</span><span class="sc">:</span><span class="dv">150</span>],y[(<span class="dv">151</span>)<span class="sc">:</span>n],<span class="at">var.equal =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Two Sample t-test
+
+data:  y[1:150] and y[(151):n]
+t = -8.1992, df = 198, p-value = 2.997e-14
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -7.018332 -4.296874
+sample estimates:
+mean of x mean of y 
+ 129.4041  135.0617 </code></pre>
+</div>
+</div>
+<p>Let us compute the test statistics <span class="math inline">S_\tau</span> and the associated <span class="math inline">p</span>-value <span class="math inline">p_\tau</span> for all possible values of <span class="math inline">\tau</span>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>t.stat <span class="ot">&lt;-</span> t.pval <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (tau <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span>(n<span class="dv">-1</span>))) {</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  test.tau <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y[<span class="dv">1</span><span class="sc">:</span>tau],y[(tau<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n],<span class="at">var.equal =</span> T)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  t.stat <span class="ot">&lt;-</span> <span class="fu">c</span>(t.stat , <span class="fu">abs</span>(test.tau<span class="sc">$</span>statistic))</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  t.pval <span class="ot">&lt;-</span> <span class="fu">c</span>(t.pval , test.tau<span class="sc">$</span>p.value)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>tau.max <span class="ot">&lt;-</span> <span class="fu">which.max</span>(t.stat)</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>S.max <span class="ot">&lt;-</span> t.stat[tau.max]</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>p.min <span class="ot">&lt;-</span> t.pval[tau.max]</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">c</span>(tau.max, S.max, p.min))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           t            t              
+9.300000e+01 2.563787e+01 7.937425e-65 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>pl1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">tau=</span><span class="dv">1</span><span class="sc">:</span>(n<span class="dv">-1</span>), t.stat)) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(tau,t.stat)) <span class="sc">+</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>tau.max,<span class="at">y=</span>S.max), <span class="at">colour=</span><span class="st">"red"</span>, <span class="at">size=</span><span class="dv">2</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>pl2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">tau=</span><span class="dv">1</span><span class="sc">:</span>(n<span class="dv">-1</span>), t.pval)) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(tau,t.pval)) <span class="sc">+</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>tau.max,<span class="at">y=</span>p.min), <span class="at">colour=</span><span class="st">"red"</span>, <span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">scale_y_continuous</span>(<span class="at">trans=</span><span class="st">'log10'</span>)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(pl1, pl2, <span class="at">nrow=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-change-point-detection_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We can remark that the sequence of <span class="math inline">t</span>-statistics <span class="math inline">(S_\tau,1\leq \tau\leq n-1)</span> reaches its maximum value when the sequence of <span class="math inline">p</span>-values <span class="math inline">(p_\tau,1\leq \tau\leq n-1)</span> reaches its minimum value, i.e.&nbsp;when <span class="math inline">\tau=\hat\tau=93</span>.</p>
+<p>Let’s go back now to our original problem of testing if there is a change at some unknown instant <span class="math inline">\tau^\star</span>. The decision rule now depends on <span class="math inline">S_{\rm max}=\max(S_\tau,1\leq \tau\leq n-1)</span> (or equivalently on <span class="math inline">p_{\rm min}=\min(p_\tau,1\leq \tau\leq n-1)</span>.</p>
+<p>Indeed, we will reject <span class="math inline">{\cal H}_0</span> if <span class="math inline">S_{\rm max}</span> is larger than some given threshold. More precisley, in order to control the level of the test, we will reject the null if <span class="math inline">S_{\rm max} &gt; q_{S_{\rm max},1-\alpha}</span>, where <span class="math inline">q_{S_{\rm max},1-\alpha}</span> is the quantile of order <span class="math inline">1-\alpha</span> of <span class="math inline">S_{\rm max}</span>, i.e.&nbsp;such that <span class="math display">\prob{S_{\rm max} &gt; q_{S_{\rm max},1-\alpha}} = \alpha</span></p>
+<p><span class="math inline">S_{\rm max}</span> is the maximum value of a collection of <span class="math inline">n-1</span> random variables having a <span class="math inline">t</span> distribution under the null hypothesis. Furthermore, these <span class="math inline">n-1</span> random variables are dependent since they all are function of the same serie <span class="math inline">(y_j,1\leq j \leq n)</span>.</p>
+<p>The distribution of <span class="math inline">S_{\rm max}</span> is then quite complex… but it can be approximated by Monte Carlo simulation:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>S.max <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (m <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span>M)) {</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  y.sim <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  t.stat <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (tau <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span>(n<span class="dv">-1</span>))) {</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    test.tau <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y.sim[<span class="dv">1</span><span class="sc">:</span>tau],y.sim[(tau<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n],<span class="at">var.equal =</span> T)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    t.stat <span class="ot">&lt;-</span> <span class="fu">c</span>(t.stat , <span class="fu">abs</span>(test.tau<span class="sc">$</span>statistic))</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  tau.max <span class="ot">&lt;-</span> <span class="fu">which.max</span>(t.stat)</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  S.max <span class="ot">&lt;-</span> <span class="fu">c</span>(S.max, t.stat[tau.max])</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(S.max, <span class="at">breaks=</span><span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-change-point-detection_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Quantiles of the distribution of <span class="math inline">S_{\rm max}</span> can then be estimated by the empirical quantiles of the simulated sequence <span class="math inline">(S_{\rm max,m} , 1 \leq m \leq M)</span>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.01</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(S.max,<span class="dv">1</span><span class="sc">-</span>alpha)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     95%      99% 
+3.152412 3.619060 </code></pre>
+</div>
+</div>
+<p>We can use these empirical quantiles for designing the test and decide, for instance, to conclude that there is a change if <span class="math inline">S_{\rm max}&gt;</span> 3.15 (significance level = 0.05).</p>
+<p>Note that these quantiles are greater that the quantiles of a <span class="math inline">t</span>-distribution:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>, n<span class="dv">-1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.971957 2.600760</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="detection-of-multiple-change-points" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="detection-of-multiple-change-points"><span class="header-section-number">6</span> Detection of multiple change points</h2>
+<section id="a-dynamic-programming-algorithm" class="level3" data-number="6.1">
+<h3 data-number="6.1" class="anchored" data-anchor-id="a-dynamic-programming-algorithm"><span class="header-section-number">6.1</span> A dynamic programming algorithm</h3>
+<p>We have seen that the <a href="#mle">maximum likelihood method</a> and the least-square method both consist in minimizing the function <span class="math inline">U(\tau)</span> defined as</p>
+<p><span class="math display">
+U(\tau_1,\ldots,\tau_{K-1})
+= \sum_{k=1}^K\sum_{j=\tau_{k-1}+1}^{\tau_k}  (y_j-\overline{y}_{\tau_{k-1}+1:\tau_k})^2
+</span></p>
+<p>The algorithm used for estimating a <a href="#single">single change point</a> consists in an exhaustive search of this minimum. Such brute-force search becomes unfeasible when the number of change points increases. Indeed, the number of configurations of change points to compare is of the order of <span class="math inline">\left(\begin{array}{c}n \\ K \end{array} \right)</span></p>
+<p>A dynamic programming algorithm is extremly efficient for solving this optimization problem with a time complexity <span class="math inline">O(n^2)</span> only.</p>
+<p>Imagine we want to do a trip from 1 to <span class="math inline">n</span> in <span class="math inline">K</span> steps. Let <span class="math inline">\tau_1</span>, <span class="math inline">\tau_2</span>, , <span class="math inline">\tau_{K-1}</span> be a given position of travel stops. Assume now that the <span class="math inline">k</span>th step between stop <span class="math inline">\tau_{k-1}</span> and stop <span class="math inline">\tau_k</span> has a cost <span class="math inline">u(\tau_{k-1},\tau_k)</span> that only depends on <span class="math inline">(y_{\tau_{k-1}+1}, \ldots , y_{\tau_k})</span>. Then, the total cost of this trip is</p>
+<p><span class="math display">
+U(\tau_1,\ldots,\tau_{K-1})  = \sum_{k=1}^K u(\tau_{k-1},\tau_k)
+</span> In the particular case of changes in the mean, <span class="math display">
+u(\tau_{k-1},\tau_k) = \sum_{j=\tau_{k-1}+1}^{\tau_k}  (y_j-\overline{y}_{\tau_{k-1}+1:\tau_k})^2
+</span> The algorithm uses a recursive optimization scheme. Indeed, if we know how to go (i.e.&nbsp;where to stop) from any position <span class="math inline">j</span> to <span class="math inline">n</span> in <span class="math inline">k-1</span> steps, then, for any <span class="math inline">j^\prime&lt;j</span>, the optimal trip from <span class="math inline">j^\prime</span> to <span class="math inline">n</span> in <span class="math inline">k</span> steps and that first stops at <span class="math inline">j</span> is already known.</p>
+<p>Let <span class="math inline">u^{(k-1)}(j,n)</span> be the cost of the optimal travel from <span class="math inline">j</span> to <span class="math inline">n</span> in <span class="math inline">k-1</span> steps. Then,</p>
+<p><span class="math display">u^{(k)}(j^\prime,n) = \min_{j^\prime&lt; j &lt; n}\left(u(j^\prime,j) + u^{(k-1)}(j,n)\right)</span> and we now know how to go from <span class="math inline">j^\prime</span> to <span class="math inline">n</span> in <span class="math inline">k</span> steps.</p>
+<p>This algorithm is implemented in the R function <code>dynProg.mean</code>. For a given maximum number of segments <span class="math inline">K_{\rm max}</span>, this function returns:</p>
+<ul>
+<li>for <span class="math inline">2 \leq K \leq K_{\rm max}</span> segments, the <span class="math inline">K-1</span> estimated change points <span class="math inline">(\hat\tau_{K,k}, 1 \leq k \leq K-1)</span> defined as <span class="math display">
+(\hat\tau_{K,1}, \ldots , \hat\tau_{K,K-1}) = \argmin{\tau_{1} &lt; \ldots &lt; \tau_{K-1}} U(\tau_{1}, \ldots , \tau_{K-1})
+</span></li>
+<li>the values of the objective function, i.e.&nbsp;the residual sum of squares, obtained with <span class="math inline">2 \leq K \leq K_{\rm max}</span>: <span class="math display">
+U_K = U(\hat\tau_{K,1}, \ldots , \hat\tau_{K,K-1})
+</span></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>dynProg.mean <span class="ot">&lt;-</span> <span class="cf">function</span>(y, Kmax, <span class="at">Lmin=</span><span class="dv">1</span>) </span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  Nr  <span class="ot">&lt;-</span> Kmax <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  V <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">Inf</span>, <span class="at">nrow =</span> n, <span class="at">ncol =</span> n)</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (j1 <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span>(n<span class="sc">-</span>Lmin<span class="sc">+</span><span class="dv">1</span>))){</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (j2 <span class="cf">in</span> ((j1<span class="sc">+</span>Lmin<span class="dv">-1</span>)<span class="sc">:</span>n)) {</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>      yj <span class="ot">&lt;-</span> y[j1<span class="sc">:</span>j2]</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>      nj <span class="ot">&lt;-</span> j2<span class="sc">-</span>j1<span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>      V[j1,j2] <span class="ot">&lt;-</span> <span class="fu">sum</span>(yj<span class="sc">^</span><span class="dv">2</span>) <span class="sc">-</span> (<span class="fu">sum</span>(yj)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>nj</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>  U <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">length=</span>Kmax)</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>  U[<span class="dv">1</span>] <span class="ot">&lt;-</span> V[<span class="dv">1</span>,n]</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>  D <span class="ot">&lt;-</span> V[,n] </span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>  Pos <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">nrow =</span> n, <span class="at">ncol =</span> Nr) </span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>  Pos[n,] <span class="ot">&lt;-</span> <span class="fu">rep</span>(n,Nr)    </span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>  tau.mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">nrow =</span> Nr,<span class="at">ncol =</span> Nr) </span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>Nr){</span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>(n<span class="dv">-1</span>)){</span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>      dist <span class="ot">&lt;-</span> V[j,j<span class="sc">:</span>(n<span class="dv">-1</span>)] <span class="sc">+</span> D[(j<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n]</span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>      D[j] <span class="ot">&lt;-</span> <span class="fu">min</span>(dist)</span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>      Pos[j,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">which.min</span>(dist) <span class="sc">+</span> j</span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (k <span class="sc">&gt;</span> <span class="dv">1</span>) { Pos[j,<span class="dv">2</span><span class="sc">:</span>k] <span class="ot">&lt;-</span> Pos[Pos[j,<span class="dv">1</span>],<span class="dv">1</span><span class="sc">:</span>(k<span class="dv">-1</span>)] }</span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a>    U[k<span class="sc">+</span><span class="dv">1</span>] <span class="ot">&lt;-</span> D[<span class="dv">1</span>]</span>
+<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a>    tau.mat[k,<span class="dv">1</span><span class="sc">:</span>k] <span class="ot">&lt;-</span> Pos[<span class="dv">1</span>,<span class="dv">1</span><span class="sc">:</span>k]<span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">Test=</span>tau.mat, <span class="at">obj=</span><span class="fu">data.frame</span>(<span class="at">K=</span>(<span class="dv">1</span><span class="sc">:</span>Kmax),<span class="at">U=</span>U))</span>
+<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a>  out</span>
+<span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="application-to-the-well-log-data" class="level3" data-number="6.2">
+<h3 data-number="6.2" class="anchored" data-anchor-id="application-to-the-well-log-data"><span class="header-section-number">6.2</span> Application to the well-log data</h3>
+<p>TODO</p>
+</section>
+<section id="selecting-the-number-of-change-points" class="level3" data-number="6.3">
+<h3 data-number="6.3" class="anchored" data-anchor-id="selecting-the-number-of-change-points"><span class="header-section-number">6.3</span> Selecting the number of change points</h3>
+<p>We see a significant improvement of the fit when we start adding change points. The sequence of residuals also looks more and more as a sequence of <span class="math inline">i.i.d.</span> centered random variables. Nevertheless these improvements suddenly become less obvious after detecting the main 8 jumps that are clearly visible. Indeed, adding more change points only allows to detect very small changes in the empirical mean and reduces the residual sum of squares very slightly.</p>
+<p>A method for selecting an “optimal” number of segments consists in looking at the objective function obtained with different number of segments.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>Kmax <span class="ot">&lt;-</span> <span class="dv">20</span> <span class="co"># maximum number of segments</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>Lmin <span class="ot">&lt;-</span> <span class="dv">1</span>  <span class="co"># minimum length of a segment</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">dynProg.mean</span>(d<span class="sc">$</span>y,Kmax,Lmin)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>pl <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>r<span class="sc">$</span>obj) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(K,U), <span class="at">size=</span><span class="dv">1</span>, <span class="at">colour=</span><span class="st">"purple"</span>)<span class="sc">+</span> </span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(K,U), <span class="at">size=</span><span class="dv">2</span>, <span class="at">colour=</span><span class="st">"purple"</span>)</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(pl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-change-point-detection_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>As expected, the sequence <span class="math inline">(U_K , 1\leq K\leq K_{\rm max})</span> decreases significantly between <span class="math inline">K=1</span> and <span class="math inline">K=9</span>. Then, the decrease is much lower. The value of <span class="math inline">K</span> at which the slope abruptly changes provides an estimate <span class="math inline">\hat{K}</span> of the number of segments.</p>
+<p>We then deduce the <span class="math inline">\hat{K}-1</span> change points <span class="math inline">(\hat\tau_{\hat{K},1}, \ldots , \hat\tau_{\hat{K},\hat{K}-1} )</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>Kopt <span class="ot">&lt;-</span> <span class="dv">9</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(r<span class="sc">$</span>Test[(Kopt<span class="dv">-1</span>),<span class="dv">1</span><span class="sc">:</span>(Kopt<span class="dv">-1</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]   93  252  433  614  976 1036 1098 1158</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> d<span class="sc">$</span>y</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>Topt <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,r<span class="sc">$</span>Test[(Kopt<span class="dv">-1</span>),<span class="dv">1</span><span class="sc">:</span>(Kopt<span class="dv">-1</span>)],n)</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>Tr <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,Topt[<span class="dv">2</span><span class="sc">:</span>Kopt]<span class="sc">+</span><span class="fl">0.5</span>,n)</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>dm <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (k <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span>Kopt)) {</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  m <span class="ot">&lt;-</span> <span class="fu">mean</span>(y[(Topt[k]<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>Topt[k<span class="sc">+</span><span class="dv">1</span>]])</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  dm <span class="ot">&lt;-</span> <span class="fu">rbind</span>(dm, <span class="fu">c</span>(Tr[k],Tr[k<span class="sc">+</span><span class="dv">1</span>],m,m))</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(dm) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"x1"</span>,<span class="st">"x2"</span>,<span class="st">"y1"</span>,<span class="st">"y2"</span>)</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>pl <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>d) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(time, y), <span class="at">color=</span><span class="st">"#6666CC"</span>)  <span class="sc">+</span></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> Tr[<span class="dv">2</span><span class="sc">:</span>Kopt], <span class="at">color=</span><span class="st">"red"</span>, <span class="at">size=</span><span class="fl">0.25</span>) <span class="sc">+</span></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x=</span>x1, <span class="at">y=</span>y1, <span class="at">xend=</span>x2, <span class="at">yend=</span>y2), <span class="at">colour=</span><span class="st">"green"</span>, <span class="at">data=</span>dm, <span class="at">size=</span><span class="fl">0.75</span>)</span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-change-point-detection_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Let’s have a look at the objective function between <span class="math inline">K=9</span> and <span class="math inline">K=20</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>pl <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>r<span class="sc">$</span>obj[<span class="dv">9</span><span class="sc">:</span><span class="dv">20</span>,]) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(K,U), <span class="at">size=</span><span class="dv">1</span>, <span class="at">colour=</span><span class="st">"purple"</span>)<span class="sc">+</span> </span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(K,U), <span class="at">size=</span><span class="dv">2</span>, <span class="at">colour=</span><span class="st">"purple"</span>)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(pl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-change-point-detection_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We notice another change in the slope at <span class="math inline">K=12</span>. The segmentation with <span class="math inline">K=12</span> segments is displayed below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>Kopt <span class="ot">&lt;-</span> <span class="dv">12</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(r<span class="sc">$</span>Test[(Kopt<span class="dv">-1</span>),<span class="dv">1</span><span class="sc">:</span>(Kopt<span class="dv">-1</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]   93  251  254  262  433  614  793  976 1036 1098 1158</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>Topt <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,r<span class="sc">$</span>Test[(Kopt<span class="dv">-1</span>),<span class="dv">1</span><span class="sc">:</span>(Kopt<span class="dv">-1</span>)],n)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>Tr <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,Topt[<span class="dv">2</span><span class="sc">:</span>Kopt]<span class="sc">+</span><span class="fl">0.5</span>,n)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>dm <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (k <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span>Kopt)) {</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  m <span class="ot">&lt;-</span> <span class="fu">mean</span>(y[(Topt[k]<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>Topt[k<span class="sc">+</span><span class="dv">1</span>]])</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  dm <span class="ot">&lt;-</span> <span class="fu">rbind</span>(dm, <span class="fu">c</span>(Tr[k],Tr[k<span class="sc">+</span><span class="dv">1</span>],m,m))</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(dm) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"x1"</span>,<span class="st">"x2"</span>,<span class="st">"y1"</span>,<span class="st">"y2"</span>)</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>pl <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>d) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(time, y), <span class="at">color=</span><span class="st">"#6666CC"</span>)  <span class="sc">+</span></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> Tr[<span class="dv">2</span><span class="sc">:</span>Kopt], <span class="at">color=</span><span class="st">"red"</span>, <span class="at">size=</span><span class="fl">0.25</span>) <span class="sc">+</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x=</span>x1, <span class="at">y=</span>y1, <span class="at">xend=</span>x2, <span class="at">yend=</span>y2), <span class="at">colour=</span><span class="st">"green"</span>, <span class="at">data=</span>dm, <span class="at">size=</span><span class="fl">0.75</span>)</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-change-point-detection_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Remark
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Statistical modelling of the observed data allows us to get the optimal segmentation for any number of strata <span class="math inline">K</span> and propose some possible number of strata (<span class="math inline">K=9</span> and <span class="math inline">K=12</span> appear to be the favourite numbers of strata). However, it is important to keep in mind that only a geologist or a geophysicist may decide which change points are physically significant. It is not a statistical criteria that can decide, for instance, if the change point located at <span class="math inline">t=793</span> (obtained with <span class="math inline">K=12</span> segments) should be associated to a significant change of the magnetic properties of the stratum identified between <span class="math inline">t=614</span> and <span class="math inline">t=976</span>.</p>
+</div>
+</div>
+<p>The interested reader may look at the following references: <span class="citation" data-cites="fearnhead2019">Fearnhead and Rigaill (<a href="#ref-fearnhead2019" role="doc-biblioref">2019</a>)</span>, <span class="citation" data-cites="fearnhead2019">Fearnhead and Rigaill (<a href="#ref-fearnhead2019" role="doc-biblioref">2019</a>)</span>, <span class="citation" data-cites="picard2004">Picard et al. (<a href="#ref-picard2004" role="doc-biblioref">2004</a>)</span>, <span class="citation" data-cites="lavielle2000">Lavielle and Moulines (<a href="#ref-lavielle2000" role="doc-biblioref">2000</a>)</span>, <span class="citation" data-cites="bai1994">Bai (<a href="#ref-bai1994" role="doc-biblioref">1994</a>)</span></p>
+</section>
+</section>
+<section id="references" class="level2 unnumbered">
+
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-bai1994" class="csl-entry" role="listitem">
+Bai, Jushan. 1994. <span>“Least Squares Estimation of a Shift in Linear Processes.”</span> <em>Journal of Time Series Analysis</em> 15 (5): 453–72.
+</div>
+<div id="ref-fearnhead2019" class="csl-entry" role="listitem">
+Fearnhead, Paul, and Guillem Rigaill. 2019. <span>“Changepoint Detection in the Presence of Outliers.”</span> <em>Journal of the American Statistical Association</em> 114 (525): 169–83.
+</div>
+<div id="ref-lavielle2000" class="csl-entry" role="listitem">
+Lavielle, Marc, and Eric Moulines. 2000. <span>“Least-Squares Estimation of an Unknown Number of Shifts in a Time Series.”</span> <em>Journal of Time Series Analysis</em> 21 (1): 33–59.
+</div>
+<div id="ref-picard2004" class="csl-entry" role="listitem">
+Picard, Franck, Stéphane Robin, Marc Lavielle, Christian Vaisse, Gilles Celeux, and Jean-Jacques Daudin. 2004. <span>“A Statistical Approach for CGH Microarray Data Analysis.”</span> PhD thesis, INRIA.
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    const typesetMath = (el) => {
+      if (window.MathJax) {
+        // MathJax Typeset
+        window.MathJax.typeset([el]);
+      } else if (window.katex) {
+        // KaTeX Render
+        var mathElements = el.getElementsByClassName("math");
+        var macros = [];
+        for (var i = 0; i < mathElements.length; i++) {
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            window.katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }
+    }
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        typesetMath(container);
+        return container.innerHTML
+      } else {
+        typesetMath(note);
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      typesetMath(note);
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../docs/change-point/map566-lab-change-point-detection.html" class="pagination-link" aria-label="Detection of change points in a time series">
+        <span class="nav-page-text">Detection of change points in a time series</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

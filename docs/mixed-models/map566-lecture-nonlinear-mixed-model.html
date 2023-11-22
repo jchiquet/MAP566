@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.197">
+<meta name="generator" content="quarto-1.4.510">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -17,11 +17,12 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -46,43 +47,13 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -110,7 +81,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -120,10 +97,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
-
 <link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
 <script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 
@@ -150,9 +127,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a href="../../index.html" class="navbar-brand navbar-brand-logo">
     <img src="../../logo_X.jpg" alt="" class="navbar-logo">
     </a>
@@ -167,218 +144,220 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../getting-started.html" rel="" target="">
- <span class="menu-text">Getting Started</span></a>
+    <a class="nav-link" href="../../getting-started.html"> 
+<span class="menu-text">Getting Started</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/jchiquet/MAP566" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/jchiquet/MAP566"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hypothesis-testing" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hypothesis-testing" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Hypothesis Testing</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-hypothesis-testing">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/tests/map566-lecture-single.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-single.html">
  <span class="dropdown-text">Statistical Tests</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/tests/map566-lecture-multiple.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/tests/map566-lecture-multiple.html">
  <span class="dropdown-text">Multiple Testing</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/tests/map566-lab-tests.html">
  <span class="dropdown-text">Statistical tests: exercices</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-regression-models" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-regression-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Regression models</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-regression-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-polynomial-regression.html">
  <span class="dropdown-text">Polynomial Regression</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lecture-nonlinear-regression.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-nonlinear-regression.html">
  <span class="dropdown-text">Nonlinear Regression</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lab-polynomial-regression.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-polynomial-regression.html">
  <span class="dropdown-text">Polynomial Regression</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lab-nonlinear-regression.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lab-nonlinear-regression.html">
  <span class="dropdown-text">Nonlinear Regression</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
         <li>
-    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/regression/map566-lecture-regression-background.html">
  <span class="dropdown-text">Linear Regression: Quick Recap</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixed-models" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixed-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Mixed models</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixed-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html">
  <span class="dropdown-text">Linear Mixed Effects Models</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html">
  <span class="dropdown-text">Nonlinear Mixed Effects Models</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-linear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-linear-mixed-model.html">
  <span class="dropdown-text">Linear Mixed Models</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-nonlinear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lab-nonlinear-mixed-model.html">
  <span class="dropdown-text">Nonlinear Mixed Effects Models</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html">
  <span class="dropdown-text">An EM Algorithm for Linear Mixed Effects Models</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mixture-models" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Mixture models</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-mixture-models">    
         <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html">
  <span class="dropdown-text">Mixture Models</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-graph-clustering-part1.html" rel="" target="">
- <span class="dropdown-text">Hierarchical and Spectral methods for Graph clustering</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-graph-clustering-part2.html" rel="" target="">
- <span class="dropdown-text">Stochastic block Models</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html" rel="" target="">
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">
  <span class="dropdown-text">Mixture models</span></a>
   </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-change-point-detection" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Change-point detection</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-change-point-detection">    
+        <li class="dropdown-header">Lectures</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-graph-partionning.html" rel="" target="">
- <span class="dropdown-text">Graph Clustering</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html" rel="" target="">
- <span class="dropdown-text">Graph Clustering: Stochastic Blockmodels</span></a>
+    <a class="dropdown-item" href="../../docs/change-point/map566-lecture-change-point-detection.html">
+ <span class="dropdown-text">Detection of change points in a time series</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">Supplementary material</li>
+        <li class="dropdown-header">Exercices</li>
         <li>
-    <a class="dropdown-item" href="../../docs/mixture-models/map566-doc-mixture-models-example.html" rel="" target="">
- <span class="dropdown-text">Clustering and classification with model based approaches</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="https://github.com/jchiquet/MAP573/raw/master/slides/GraphClustering/GraphClustering.pdf" rel="" target="">
- <span class="dropdown-text">Slides on Graph Clustering</span></a>
+    <a class="dropdown-item" href="../../docs/change-point/map566-lab-change-point-detection.html">
+ <span class="dropdown-text">Detection of change points in a time series</span></a>
   </li>  
     </ul>
   </li>
 </ul>
-            <div class="quarto-navbar-tools">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Nonlinear Mixed Effects Models</h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html">Lectures</a></li><li class="breadcrumb-item"><a href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html">Nonlinear Mixed Effects Models</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
     </div>
   </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Lectures</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Lectures</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html" class="sidebar-item-text sidebar-link">Linear Mixed Effects Models</a>
+  <a href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Linear Mixed Effects Models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html" class="sidebar-item-text sidebar-link active">Nonlinear Mixed Effects Models</a>
+  <a href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Nonlinear Mixed Effects Models</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Exercices</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Exercices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/mixed-models/map566-lab-linear-mixed-model.html" class="sidebar-item-text sidebar-link">Linear Mixed Models</a>
+  <a href="../../docs/mixed-models/map566-lab-linear-mixed-model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Linear Mixed Models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/mixed-models/map566-lab-nonlinear-mixed-model.html" class="sidebar-item-text sidebar-link">Nonlinear Mixed Effects Models</a>
+  <a href="../../docs/mixed-models/map566-lab-nonlinear-mixed-model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Nonlinear Mixed Effects Models</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">Supplementary material</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Supplementary material</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html" class="sidebar-item-text sidebar-link">An EM Algorithm for Linear Mixed Effects Models</a>
+  <a href="../../docs/mixed-models/map566-lecture-EM-linear-mixed-model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">An EM Algorithm for Linear Mixed Effects Models</span></a>
   </div>
 </li>
       </ul>
@@ -386,6 +365,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </ul>
     </div>
 </nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -393,31 +373,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    
   <ul>
   <li><a href="#preliminary" id="toc-preliminary" class="nav-link active" data-scroll-target="#preliminary">Preliminary</a></li>
-  <li><a href="#introduction-the-theophylline-data-set" id="toc-introduction-the-theophylline-data-set" class="nav-link" data-scroll-target="#introduction-the-theophylline-data-set"><span class="toc-section-number">1</span>  Introduction: the <code>theophylline</code> data set</a></li>
-  <li><a href="#fitting-nonlinear-models-to-the-data" id="toc-fitting-nonlinear-models-to-the-data" class="nav-link" data-scroll-target="#fitting-nonlinear-models-to-the-data"><span class="toc-section-number">2</span>  Fitting nonlinear models to the data</a>
+  <li><a href="#introduction-the-theophylline-data-set" id="toc-introduction-the-theophylline-data-set" class="nav-link" data-scroll-target="#introduction-the-theophylline-data-set"><span class="header-section-number">1</span> Introduction: the <code>theophylline</code> data set</a></li>
+  <li><a href="#fitting-nonlinear-models-to-the-data" id="toc-fitting-nonlinear-models-to-the-data" class="nav-link" data-scroll-target="#fitting-nonlinear-models-to-the-data"><span class="header-section-number">2</span> Fitting nonlinear models to the data</a>
   <ul class="collapse">
-  <li><a href="#fitting-a-nonlinear-model-to-a-single-subject" id="toc-fitting-a-nonlinear-model-to-a-single-subject" class="nav-link" data-scroll-target="#fitting-a-nonlinear-model-to-a-single-subject"><span class="toc-section-number">2.1</span>  Fitting a nonlinear model to a single subject</a></li>
-  <li><a href="#fitting-a-unique-nonlinear-model-to-several-subjects" id="toc-fitting-a-unique-nonlinear-model-to-several-subjects" class="nav-link" data-scroll-target="#fitting-a-unique-nonlinear-model-to-several-subjects"><span class="toc-section-number">2.2</span>  Fitting a unique nonlinear model to several subjects</a></li>
-  <li><a href="#fitting-several-nonlinear-models-to-several-subjects" id="toc-fitting-several-nonlinear-models-to-several-subjects" class="nav-link" data-scroll-target="#fitting-several-nonlinear-models-to-several-subjects"><span class="toc-section-number">2.3</span>  Fitting several nonlinear models to several subjects</a></li>
+  <li><a href="#fitting-a-nonlinear-model-to-a-single-subject" id="toc-fitting-a-nonlinear-model-to-a-single-subject" class="nav-link" data-scroll-target="#fitting-a-nonlinear-model-to-a-single-subject"><span class="header-section-number">2.1</span> Fitting a nonlinear model to a single subject</a></li>
+  <li><a href="#fitting-a-unique-nonlinear-model-to-several-subjects" id="toc-fitting-a-unique-nonlinear-model-to-several-subjects" class="nav-link" data-scroll-target="#fitting-a-unique-nonlinear-model-to-several-subjects"><span class="header-section-number">2.2</span> Fitting a unique nonlinear model to several subjects</a></li>
+  <li><a href="#fitting-several-nonlinear-models-to-several-subjects" id="toc-fitting-several-nonlinear-models-to-several-subjects" class="nav-link" data-scroll-target="#fitting-several-nonlinear-models-to-several-subjects"><span class="header-section-number">2.3</span> Fitting several nonlinear models to several subjects</a></li>
   </ul></li>
-  <li><a href="#nonlinear-mixed-effects-nlme-model" id="toc-nonlinear-mixed-effects-nlme-model" class="nav-link" data-scroll-target="#nonlinear-mixed-effects-nlme-model"><span class="toc-section-number">3</span>  Nonlinear mixed effects (NLME) model</a>
+  <li><a href="#nonlinear-mixed-effects-nlme-model" id="toc-nonlinear-mixed-effects-nlme-model" class="nav-link" data-scroll-target="#nonlinear-mixed-effects-nlme-model"><span class="header-section-number">3</span> Nonlinear mixed effects (NLME) model</a>
   <ul class="collapse">
-  <li><a href="#a-first-basic-model" id="toc-a-first-basic-model" class="nav-link" data-scroll-target="#a-first-basic-model"><span class="toc-section-number">3.1</span>  A first basic model</a></li>
-  <li><a href="#tasks-methods-and-algorithms" id="toc-tasks-methods-and-algorithms" class="nav-link" data-scroll-target="#tasks-methods-and-algorithms"><span class="toc-section-number">3.2</span>  Tasks, methods and algorithms</a></li>
+  <li><a href="#a-first-basic-model" id="toc-a-first-basic-model" class="nav-link" data-scroll-target="#a-first-basic-model"><span class="header-section-number">3.1</span> A first basic model</a></li>
+  <li><a href="#tasks-methods-and-algorithms" id="toc-tasks-methods-and-algorithms" class="nav-link" data-scroll-target="#tasks-methods-and-algorithms"><span class="header-section-number">3.2</span> Tasks, methods and algorithms</a></li>
   </ul></li>
-  <li><a href="#fitting-a-nlme-model-to-the-theophylline-data" id="toc-fitting-a-nlme-model-to-the-theophylline-data" class="nav-link" data-scroll-target="#fitting-a-nlme-model-to-the-theophylline-data"><span class="toc-section-number">4</span>  Fitting a NLME model to the theophylline data</a>
+  <li><a href="#fitting-a-nlme-model-to-the-theophylline-data" id="toc-fitting-a-nlme-model-to-the-theophylline-data" class="nav-link" data-scroll-target="#fitting-a-nlme-model-to-the-theophylline-data"><span class="header-section-number">4</span> Fitting a NLME model to the theophylline data</a>
   <ul class="collapse">
-  <li><a href="#some-extensions-of-the-model" id="toc-some-extensions-of-the-model" class="nav-link" data-scroll-target="#some-extensions-of-the-model"><span class="toc-section-number">4.1</span>  Some extensions of the model</a></li>
+  <li><a href="#some-extensions-of-the-model" id="toc-some-extensions-of-the-model" class="nav-link" data-scroll-target="#some-extensions-of-the-model"><span class="header-section-number">4.1</span> Some extensions of the model</a></li>
   </ul></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html">Lectures</a></li><li class="breadcrumb-item"><a href="../../docs/mixed-models/map566-lecture-nonlinear-mixed-model.html">Nonlinear Mixed Effects Models</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Nonlinear Mixed Effects Models</h1>
+<h1 class="title">Nonlinear Mixed Effects Models</h1>
 </div>
 
 
@@ -430,7 +410,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </div>
   
 
+
 </header>
+
 
 <section id="preliminary" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="preliminary">Preliminary</h2>
@@ -451,7 +433,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>theophylline <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../data/theophyllineData.csv"</span>) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">id =</span> <span class="fu">factor</span>(id))</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>theophylline <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
 {"columns":[{"label":["id"],"name":[1],"type":["fct"],"align":["left"]},{"label":["time"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["concentration"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["weight"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"0.25","3":"2.84","4":"79.6"},{"1":"1","2":"0.57","3":"6.57","4":"79.6"},{"1":"1","2":"1.12","3":"10.50","4":"79.6"},{"1":"1","2":"2.02","3":"9.66","4":"79.6"},{"1":"1","2":"3.82","3":"8.58","4":"79.6"},{"1":"1","2":"5.10","3":"8.36","4":"79.6"},{"1":"1","2":"7.03","3":"7.47","4":"79.6"},{"1":"1","2":"9.05","3":"6.89","4":"79.6"},{"1":"1","2":"12.12","3":"5.94","4":"79.6"},{"1":"1","2":"24.37","3":"3.28","4":"79.6"},{"1":"2","2":"0.27","3":"1.72","4":"72.4"},{"1":"2","2":"0.52","3":"7.91","4":"72.4"},{"1":"2","2":"1.00","3":"8.31","4":"72.4"},{"1":"2","2":"1.92","3":"8.33","4":"72.4"},{"1":"2","2":"3.50","3":"6.85","4":"72.4"},{"1":"2","2":"5.02","3":"6.08","4":"72.4"},{"1":"2","2":"7.03","3":"5.40","4":"72.4"},{"1":"2","2":"9.00","3":"4.55","4":"72.4"},{"1":"2","2":"12.00","3":"3.01","4":"72.4"},{"1":"2","2":"24.30","3":"0.90","4":"72.4"},{"1":"3","2":"0.27","3":"4.40","4":"70.5"},{"1":"3","2":"0.58","3":"6.90","4":"70.5"},{"1":"3","2":"1.02","3":"8.20","4":"70.5"},{"1":"3","2":"2.02","3":"7.80","4":"70.5"},{"1":"3","2":"3.62","3":"7.50","4":"70.5"},{"1":"3","2":"5.08","3":"6.20","4":"70.5"},{"1":"3","2":"7.07","3":"5.30","4":"70.5"},{"1":"3","2":"9.00","3":"4.90","4":"70.5"},{"1":"3","2":"12.15","3":"3.70","4":"70.5"},{"1":"3","2":"24.17","3":"1.05","4":"70.5"},{"1":"4","2":"0.35","3":"1.89","4":"72.7"},{"1":"4","2":"0.60","3":"4.60","4":"72.7"},{"1":"4","2":"1.07","3":"8.60","4":"72.7"},{"1":"4","2":"2.13","3":"8.38","4":"72.7"},{"1":"4","2":"3.50","3":"7.54","4":"72.7"},{"1":"4","2":"5.02","3":"6.88","4":"72.7"},{"1":"4","2":"7.02","3":"5.78","4":"72.7"},{"1":"4","2":"9.02","3":"5.33","4":"72.7"},{"1":"4","2":"11.98","3":"4.19","4":"72.7"},{"1":"4","2":"24.65","3":"1.15","4":"72.7"},{"1":"5","2":"0.30","3":"2.02","4":"54.6"},{"1":"5","2":"0.52","3":"5.63","4":"54.6"},{"1":"5","2":"1.00","3":"11.40","4":"54.6"},{"1":"5","2":"2.02","3":"9.33","4":"54.6"},{"1":"5","2":"3.50","3":"8.74","4":"54.6"},{"1":"5","2":"5.02","3":"7.56","4":"54.6"},{"1":"5","2":"7.02","3":"7.09","4":"54.6"},{"1":"5","2":"9.10","3":"5.90","4":"54.6"},{"1":"5","2":"12.00","3":"4.37","4":"54.6"},{"1":"5","2":"24.35","3":"1.57","4":"54.6"},{"1":"6","2":"0.27","3":"1.29","4":"80.0"},{"1":"6","2":"0.58","3":"3.08","4":"80.0"},{"1":"6","2":"1.15","3":"6.44","4":"80.0"},{"1":"6","2":"2.03","3":"6.32","4":"80.0"},{"1":"6","2":"3.57","3":"5.53","4":"80.0"},{"1":"6","2":"5.00","3":"4.94","4":"80.0"},{"1":"6","2":"7.00","3":"4.02","4":"80.0"},{"1":"6","2":"9.22","3":"3.46","4":"80.0"},{"1":"6","2":"12.10","3":"2.78","4":"80.0"},{"1":"6","2":"23.85","3":"0.92","4":"80.0"},{"1":"7","2":"0.25","3":"0.85","4":"64.6"},{"1":"7","2":"0.50","3":"2.35","4":"64.6"},{"1":"7","2":"1.02","3":"5.02","4":"64.6"},{"1":"7","2":"2.02","3":"6.58","4":"64.6"},{"1":"7","2":"3.48","3":"7.09","4":"64.6"},{"1":"7","2":"5.00","3":"6.66","4":"64.6"},{"1":"7","2":"6.98","3":"5.25","4":"64.6"},{"1":"7","2":"9.00","3":"4.39","4":"64.6"},{"1":"7","2":"12.05","3":"3.53","4":"64.6"},{"1":"7","2":"24.22","3":"1.15","4":"64.6"},{"1":"8","2":"0.25","3":"3.05","4":"70.5"},{"1":"8","2":"0.52","3":"3.05","4":"70.5"},{"1":"8","2":"0.98","3":"7.31","4":"70.5"},{"1":"8","2":"2.02","3":"7.56","4":"70.5"},{"1":"8","2":"3.53","3":"6.59","4":"70.5"},{"1":"8","2":"5.05","3":"5.88","4":"70.5"},{"1":"8","2":"7.15","3":"4.73","4":"70.5"},{"1":"8","2":"9.07","3":"4.57","4":"70.5"},{"1":"8","2":"12.10","3":"3.00","4":"70.5"},{"1":"8","2":"24.12","3":"1.25","4":"70.5"},{"1":"9","2":"0.30","3":"7.37","4":"86.4"},{"1":"9","2":"0.63","3":"9.03","4":"86.4"},{"1":"9","2":"1.05","3":"7.14","4":"86.4"},{"1":"9","2":"2.02","3":"6.33","4":"86.4"},{"1":"9","2":"3.53","3":"5.66","4":"86.4"},{"1":"9","2":"5.02","3":"5.67","4":"86.4"},{"1":"9","2":"7.17","3":"4.24","4":"86.4"},{"1":"9","2":"8.80","3":"4.11","4":"86.4"},{"1":"9","2":"11.60","3":"3.16","4":"86.4"},{"1":"9","2":"24.43","3":"1.12","4":"86.4"},{"1":"10","2":"0.37","3":"2.89","4":"58.2"},{"1":"10","2":"0.77","3":"5.22","4":"58.2"},{"1":"10","2":"1.02","3":"6.41","4":"58.2"},{"1":"10","2":"2.05","3":"7.83","4":"58.2"},{"1":"10","2":"3.55","3":"10.21","4":"58.2"},{"1":"10","2":"5.05","3":"9.18","4":"58.2"},{"1":"10","2":"7.08","3":"8.02","4":"58.2"},{"1":"10","2":"9.38","3":"7.14","4":"58.2"},{"1":"10","2":"12.10","3":"5.68","4":"58.2"},{"1":"10","2":"23.70","3":"2.42","4":"58.2"},{"1":"11","2":"0.25","3":"4.86","4":"65.0"},{"1":"11","2":"0.50","3":"7.24","4":"65.0"},{"1":"11","2":"0.98","3":"8.00","4":"65.0"},{"1":"11","2":"1.98","3":"6.81","4":"65.0"},{"1":"11","2":"3.60","3":"5.87","4":"65.0"},{"1":"11","2":"5.02","3":"5.22","4":"65.0"},{"1":"11","2":"7.03","3":"4.45","4":"65.0"},{"1":"11","2":"9.03","3":"3.62","4":"65.0"},{"1":"11","2":"12.12","3":"2.69","4":"65.0"},{"1":"11","2":"24.08","3":"0.86","4":"65.0"},{"1":"12","2":"0.25","3":"1.25","4":"60.5"},{"1":"12","2":"0.50","3":"3.96","4":"60.5"},{"1":"12","2":"1.00","3":"7.82","4":"60.5"},{"1":"12","2":"2.00","3":"9.72","4":"60.5"},{"1":"12","2":"3.52","3":"9.75","4":"60.5"},{"1":"12","2":"5.07","3":"8.57","4":"60.5"},{"1":"12","2":"7.07","3":"6.59","4":"60.5"},{"1":"12","2":"9.03","3":"6.11","4":"60.5"},{"1":"12","2":"12.05","3":"4.57","4":"60.5"},{"1":"12","2":"24.15","3":"1.17","4":"60.5"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -463,25 +444,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The 12 subjects received 320 mg of theophylline at time 0.</p>
 <p>Let us plot the data, i.e.&nbsp;the concentration versus time:</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-2_f61e22d696ebc7c1168ed2f87c099d2b">
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>theo_plot <span class="ot">&lt;-</span> theophylline <span class="sc">%&gt;%</span> </span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> concentration) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">color=</span><span class="st">"#993399"</span>, <span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"time (h)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"concentration (mg/l)"</span>)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>theo_plot <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">color=</span><span class="st">"#993399"</span>, <span class="fu">aes</span>(<span class="at">group =</span> id))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="864"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>We can also plot the 12 individual concentration profiles on 12 separated plots,</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-3_f57fa7abb24570ea1cd9fcc7d064c133">
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>theo_plot <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>( <span class="sc">~</span> id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The pattern is similar for the 12 individuals: the concentration first increases during the absorption phase and then decreases during the elimination phase. Nevertheless, we clearly see some differences between these profiles which are not only due to the residual errors. In particular, we see that the patients absorb and eliminate the drug more or less rapidly.</p>
@@ -500,7 +489,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"time (h)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"concentration (mg/l)"</span>) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">11</span>))</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>subject1_plot <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">color=</span><span class="st">"#993399"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="960"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>We may want to fit a nonlinear model to this data of the form</p>
@@ -530,14 +523,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>and plot the predicted concentration <span class="math inline">f(t,\hat\psi)</span></p>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-7_23ff0319d63995953873a7262beab3f6">
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dplot <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">time =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">40</span>, <span class="at">by=</span><span class="fl">0.2</span>))</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>dplot<span class="sc">$</span>pred_1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_1, <span class="at">newdata =</span> dplot)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>subject1_plot <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">data =</span> dplot, <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> pred_1), <span class="at">colour =</span> <span class="st">"#339900"</span>, <span class="at">linewidth=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="960"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -558,25 +555,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-9_89a5a221db057250faa5b2952c81def2">
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dplot<span class="sc">$</span>pred_all <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_all, <span class="at">newdata =</span> dplot)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>theo_plot <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">data =</span> dplot, <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> pred_all), <span class="at">colour=</span><span class="st">"#339900"</span>, <span class="at">size=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="960"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>These estimated parameters are typical parameters and this profile is a typical profile for this sample of patients: by definition, they do not take into account the variability between the patients and therefore do not provide good individual predictions.</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-10_149906484c7402a014ec05bebb556039">
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>theo_plot <span class="sc">+</span>  </span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> dplot, <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y=</span>pred_all), <span class="at">colour=</span><span class="st">"#339900"</span>, <span class="at">linewidth=</span><span class="dv">1</span>) <span class="sc">+</span> </span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="960"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -589,8 +594,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><span class="math display">\hat\psi_i = \arg\min_{\psi}  \sum_{j=1}^{n_i} \Big(y_{ij} - f(t_{ij} ,\psi)\Big)^2 \quad , \quad 1\leq i \leq N</span></p>
 <p>Each individual predicted concentration <span class="math inline">f(t,\hat\psi_i)</span> seems to predict quite well the observed concentrations for the 12 subjects:</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-11_0993db3b968430ae40e53942d9102705">
-<details>
-<summary>Show the code</summary>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">split</span>(theophylline, theophylline<span class="sc">$</span>id) <span class="sc">%&gt;%</span> </span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="sc">~</span>{</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  model_i <span class="ot">&lt;-</span> <span class="fu">nls</span>(concentration <span class="sc">~</span> <span class="fu">f1</span>(psi, time), </span>
@@ -611,7 +616,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>theo_plot <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">data =</span> theo_pred, <span class="fu">aes</span>(<span class="at">x=</span>time,<span class="at">y=</span>concentration), <span class="at">colour=</span><span class="st">"#339900"</span>, <span class="at">size=</span><span class="fl">0.75</span>) <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>For instance for individual 9,</p>
@@ -818,21 +827,33 @@ Likelihood computed by linearisation
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>saemix_fit <span class="ot">&lt;-</span> <span class="fu">saemix.predict</span>(saemix_fit1)</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">saemix.plot.fits</span>(saemix_fit1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="960"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Several diagnostic fit plots can be displayed, including the plot of the observations versus individual predictions</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-20_4827d055f30a61ba0edf07c1c2a7d50f">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saemix.plot.obsvspred</span>(saemix_fit1,<span class="at">level=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="768"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>and the plot of the residuals versus time, and versus individual predictions,</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-21_6c62addd028552cf06ff931ef1aeb7e8">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saemix.plot.scatterresiduals</span>(saemix_fit1, <span class="at">level=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="960"></p>
+<div>
+<figure class="figure">
+<p><img src="map566-lecture-nonlinear-mixed-model_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
 </div>
 </div>
 <section id="some-extensions-of-the-model" class="level3" data-number="4.1">
@@ -1219,9 +1240,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -1257,10 +1292,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1270,8 +1304,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1284,6 +1327,135 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    const typesetMath = (el) => {
+      if (window.MathJax) {
+        // MathJax Typeset
+        window.MathJax.typeset([el]);
+      } else if (window.katex) {
+        // KaTeX Render
+        var mathElements = el.getElementsByClassName("math");
+        var macros = [];
+        for (var i = 0; i < mathElements.length; i++) {
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            window.katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }
+    }
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        typesetMath(container);
+        return container.innerHTML
+      } else {
+        typesetMath(note);
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      typesetMath(note);
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1327,6 +1499,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1352,6 +1525,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1413,17 +1612,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html" class="pagination-link">
+      <a href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html" class="pagination-link  aria-label=" linear="" mixed="" effects="" models"="">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Linear Mixed Effects Models</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../docs/mixed-models/map566-lab-linear-mixed-model.html" class="pagination-link">
+      <a href="../../docs/mixed-models/map566-lab-linear-mixed-model.html" class="pagination-link" aria-label="Linear Mixed Models">
         <span class="nav-page-text">Linear Mixed Models</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+
 
 
 

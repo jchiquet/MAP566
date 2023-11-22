@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>MAP566 - Stats in Action - Mixture models</title>
+<title>MAP566 - Stats in Action - Detection of change points in a time series</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,7 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../docs/mixture-models/map566-lecture-mixture-models.html" rel="prev">
+<link href="../../docs/change-point/map566-lecture-change-point-detection.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -101,6 +101,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
 
 </head>
 
@@ -268,7 +284,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/mixture-models/map566-lab-mixture-models.html">Exercices</a></li><li class="breadcrumb-item"><a href="../../docs/mixture-models/map566-lab-mixture-models.html">Mixture models</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/change-point/map566-lab-change-point-detection.html">Exercices</a></li><li class="breadcrumb-item"><a href="../../docs/change-point/map566-lab-change-point-detection.html">Detection of change points in a time series</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -291,8 +307,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/mixture-models/map566-lecture-mixture-models.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Mixture Models</span></a>
+  <a href="../../docs/change-point/map566-lecture-change-point-detection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Detection of change points in a time series</span></a>
   </div>
 </li>
       </ul>
@@ -308,8 +324,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/mixture-models/map566-lab-mixture-models.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Mixture models</span></a>
+  <a href="../../docs/change-point/map566-lab-change-point-detection.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Detection of change points in a time series</span></a>
   </div>
 </li>
       </ul>
@@ -324,21 +340,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#preliminary" id="toc-preliminary" class="nav-link active" data-scroll-target="#preliminary"><span class="header-section-number">1</span> Preliminary</a></li>
-  <li><a href="#faithful-data" id="toc-faithful-data" class="nav-link" data-scroll-target="#faithful-data"><span class="header-section-number">2</span> Faithful data</a>
-  <ul class="collapse">
-  <li><a href="#hint-skeleton-of-em-for-1d-mixture-of-gaussian" id="toc-hint-skeleton-of-em-for-1d-mixture-of-gaussian" class="nav-link" data-scroll-target="#hint-skeleton-of-em-for-1d-mixture-of-gaussian"><span class="header-section-number">2.1</span> Hint: skeleton of EM for 1D mixture of Gaussian</a></li>
-  </ul></li>
-  <li><a href="#epilepsy-data" id="toc-epilepsy-data" class="nav-link" data-scroll-target="#epilepsy-data"><span class="header-section-number">3</span> Epilepsy data</a></li>
+  <li><a href="#preliminaries" id="toc-preliminaries" class="nav-link active" data-scroll-target="#preliminaries">Preliminaries</a></li>
+  <li><a href="#detection-of-changes-in-the-cac-40-index" id="toc-detection-of-changes-in-the-cac-40-index" class="nav-link" data-scroll-target="#detection-of-changes-in-the-cac-40-index"><span class="header-section-number">1</span> Detection of changes in the CAC 40 index</a></li>
+  <li><a href="#segmentation-of-array-cgh-data" id="toc-segmentation-of-array-cgh-data" class="nav-link" data-scroll-target="#segmentation-of-array-cgh-data"><span class="header-section-number">2</span> Segmentation of array CGH data</a></li>
+  <li><a href="#testing-the-presence-of-a-change-point" id="toc-testing-the-presence-of-a-change-point" class="nav-link" data-scroll-target="#testing-the-presence-of-a-change-point"><span class="header-section-number">3</span> Testing the presence of a change point</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/mixture-models/map566-lab-mixture-models.html">Exercices</a></li><li class="breadcrumb-item"><a href="../../docs/mixture-models/map566-lab-mixture-models.html">Mixture models</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/change-point/map566-lab-change-point-detection.html">Exercices</a></li><li class="breadcrumb-item"><a href="../../docs/change-point/map566-lab-change-point-detection.html">Detection of change points in a time series</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Mixture models</h1>
+<h1 class="title">Detection of change points in a time series</h1>
 <p class="subtitle lead">Exercices</p>
 </div>
 
@@ -356,111 +370,114 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="preliminary" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="preliminary"><span class="header-section-number">1</span> Preliminary</h2>
-<p>Only functions from <code>R</code>-base and stats (preloaded) are required plus packages from the <strong>tidyverse</strong> for data representation and manipulation.</p>
-<div class="cell" data-hash="map566-lab-mixture-models_cache/html/mixture-model-lab-config_ea7e02e2b896baadf5203ded8265470c">
+<section id="preliminaries" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="preliminaries">Preliminaries</h2>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="faithful-data" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="faithful-data"><span class="header-section-number">2</span> Faithful data</h2>
-<p>The <code>faithful</code> data consist of the waiting time between eruptions and the duration of the eruption for the Old Faithful geyser in Yellowstone National Park, Wyoming, USA.</p>
-<div class="cell" data-hash="map566-lab-mixture-models_cache/html/mixture-faitful-load_84303a7fc1d9df28d6c9e27c6f04999d">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"faithful"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>faithful <span class="sc">%&gt;%</span> </span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x=</span>waiting) <span class="sc">+</span> <span class="fu">geom_histogram</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"waiting (mm)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="detection-of-changes-in-the-cac-40-index" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="detection-of-changes-in-the-cac-40-index"><span class="header-section-number">1</span> Detection of changes in the CAC 40 index</h2>
+<p>The Figure below displays the CAC 40 index during a given period of time.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_tsv</span>(<span class="at">file=</span><span class="st">"../../data/CAC40data.txt"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(time,y), <span class="at">color=</span><span class="st">"#6666CC"</span>) <span class="sc">+</span>  <span class="fu">ylab</span>(<span class="st">"CAC 40 index"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="map566-lab-change-point-detection_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<ol type="1">
+<li>Assuming a piecewise constant volatility, propose a mathematical model for this data.</li>
+<li>Extend the dynamic programming algorithm for this model.</li>
+<li>Propose a segmentation of the CAC 40 index.</li>
+</ol>
+</section>
+<section id="segmentation-of-array-cgh-data" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="segmentation-of-array-cgh-data"><span class="header-section-number">2</span> Segmentation of array CGH data</h2>
+<p>The purpose of array-based Comparative Genomic Hybridization (array CGH) is to detect and map chromosomal aberrations, on a genomic scale, in a single experiment. Since chromosomal copy numbers can not be measured directly, two samples of genomic DNA (referred to as the reference and test DNAs) are differentially labelled with fluorescent dyes and competitively hybridized to known mapped sequences (referred to as BACs) that are immobilized on a slide. Subsequently, the ratio of the intensities of the two fluorochromes is computed and a CGH profile is constituted for each chromosome when the log2 of fluorescence ratios are ranked and plotted according to the physical position of their corresponding BACs on the genome.</p>
+<p>Each profile can be viewed as a succession of “segments” that represent homogeneous regions in the genome whose BACs share the same relative copy number on average.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_delim</span>(<span class="at">file=</span><span class="st">"../../data/CGHdata.txt"</span>, <span class="at">delim =</span> <span class="st">" "</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(position, y), <span class="at">color=</span><span class="st">"#6666CC"</span>) <span class="sc">+</span>  <span class="fu">ylab</span>(<span class="st">"fluorescence"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>Rows: 93 Columns: 2
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: " "
+dbl (2): position, y
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="map566-lab-mixture-models_files/figure-html/mixture-faitful-load-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Fit variants of a mixture of two Gaussian distributions to the faithful data.</p>
-<ol type="1">
-<li><p>assuming different proportions, means and variances for the 2 distributions</p></li>
-<li><p>assuming same variances</p></li>
-<li><p>assuming same means</p></li>
-<li><p>assuming same proportions</p></li>
-</ol>
-<section id="hint-skeleton-of-em-for-1d-mixture-of-gaussian" class="level3" data-number="2.1">
-<h3 data-number="2.1" class="anchored" data-anchor-id="hint-skeleton-of-em-for-1d-mixture-of-gaussian"><span class="header-section-number">2.1</span> Hint: skeleton of EM for 1D mixture of Gaussian</h3>
-<p>We follow what has been done during the course: we define the function that computes the value of the likelihood for each point in each component. It will be used to compute the posterior probabilities in the E-step.</p>
-<div class="cell" data-hash="map566-lab-mixture-models_cache/html/auxiliary function_ed198e4e3cd4aa116c5f4a24e6290726">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## likelihood (density) of each point in each component</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="do">## data (x) is fixed while theta is variable</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>dcomponents <span class="ot">&lt;-</span> <span class="cf">function</span>(theta, x) {</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mapply</span>(</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>      <span class="cf">function</span>(pi, mu, sigma) pi <span class="sc">*</span> <span class="fu">dnorm</span>(x, mu, sigma),</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>      theta<span class="sc">$</span>pi, theta<span class="sc">$</span>mu, theta<span class="sc">$</span>sigma,</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">SIMPLIFY =</span> <span class="cn">TRUE</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Then, we define an EM where the function that computes the M step is given as an argument:</p>
-<div class="cell" data-hash="map566-lab-mixture-models_cache/html/general EM_3c998f1c1fe8ae994fa43c2fbb96e6a2">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>mixture_gaussian1D <span class="ot">&lt;-</span> </span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(x,      <span class="co"># a n-vector of data</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>           theta0, <span class="co"># starting values of vector paramter</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">M_step    =</span> M_step_general, <span class="co"># an R function</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">max_iter  =</span> <span class="dv">100</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">threshold =</span> <span class="fl">1e-6</span>) {</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="do">## initialization</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  likelihoods  <span class="ot">&lt;-</span> <span class="fu">dcomponents</span>(theta0, x) </span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  deviance     <span class="ot">&lt;-</span> <span class="fu">numeric</span>(max_iter)</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  deviance[<span class="dv">1</span>]  <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">sum</span>(<span class="fu">log</span>(<span class="fu">rowSums</span>(likelihoods)))</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (t <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>max_iter) {</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># E step</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    tau <span class="ot">&lt;-</span> likelihoods <span class="sc">/</span> <span class="fu">rowSums</span>(likelihoods)</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># M step</span></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    theta <span class="ot">&lt;-</span> <span class="fu">M_step</span>(tau, x)</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="do">## Assessing convergence</span></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    likelihoods   <span class="ot">&lt;-</span> <span class="fu">dcomponents</span>(theta, x)</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    deviance[t<span class="sc">+</span><span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sum</span>(<span class="fu">log</span>(<span class="fu">rowSums</span>(likelihoods)))</span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    <span class="do">## prepare next iterations</span></span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">abs</span>(deviance[t <span class="sc">+</span> <span class="dv">1</span>] <span class="sc">-</span> deviance[t]) <span class="sc">&lt;</span> threshold)</span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>      <span class="cf">break</span></span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">theta =</span> theta, <span class="at">deviance =</span> deviance[t <span class="sc">+</span> <span class="dv">1</span>])</span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-</section>
-<section id="epilepsy-data" class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="epilepsy-data"><span class="header-section-number">3</span> Epilepsy data</h2>
-<p>The data <code>seizures.csv</code> consists of daily counts of epileptic seizures for 6 patients.</p>
-<div class="cell" data-hash="map566-lab-mixture-models_cache/html/mixture-seizures-load_e9d81ae4fd4106d4e5b27d8770f1598f">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>seizures <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'../../data/seizures.csv'</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>seizures <span class="sc">%&gt;%</span> </span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> nsz) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>( <span class="sc">~</span> id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="map566-lab-mixture-models_files/figure-html/mixture-seizures-load-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="map566-lab-change-point-detection_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="768"></p>
 </figure>
 </div>
 </div>
 </div>
 <ol type="1">
-<li><p>Select the id 12 and fit a Poisson distribution to the number of seizures for this patient.</p></li>
-<li><p>Implement and use a EM algorithm for fitting a mixture of 2 Poisson distributions to this data</p></li>
-<li><p>Compare the two models</p></li>
+<li>Assuming that both the central value and the variability of the data are both piecewise constant, propose a mathematical model for this data.</li>
+<li>Extend the dynamic programming algorithm for this model.</li>
+<li>Propose a segmentation of the CGH profile.</li>
 </ol>
+</section>
+<section id="testing-the-presence-of-a-change-point" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="testing-the-presence-of-a-change-point"><span class="header-section-number">3</span> Testing the presence of a change point</h2>
+<p>Consider the well log data data between <span class="math inline">t=651</span> and <span class="math inline">t=950</span>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_tsv</span>(<span class="at">file=</span><span class="st">"../../data/wellLogData.txt"</span>) <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">651</span><span class="sc">:</span><span class="dv">950</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(time,y), <span class="at">color=</span><span class="st">"#6666CC"</span>) <span class="sc">+</span>  <span class="fu">ylab</span>(<span class="st">"nuclear reponse"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 1267 Columns: 2
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: "\t"
+dbl (2): time, y
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="map566-lab-change-point-detection_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<ol type="1">
+<li>Test if the mean changes at time <span class="math inline">t=750</span>. Test if the mean changes at time <span class="math inline">t=850</span>. What can we conclude from these two tests?</li>
+<li>Test if the mean changes somewhere between <span class="math inline">t=651</span> and <span class="math inline">t=949</span>.</li>
+</ol>
+<!-- ## Linear transition between segments
+
+The model used for the well log data assumes that the underlying signal suddenly jumps from a valor to another one. 
+
+If we look at the data more in detail, we can see that this assumption is an approximation which is not realistic: the transition around $t=252$, for instance, is not abrupt but seems to occur during some time interval.
+
+
+::: {.cell}
+
+```{.r .cell-code}
+read_tsv(file="../../data/wellLogData.txt") %>% slice(151:350) %>% 
+  ggplot() +  geom_point(aes(time,y), color="#6666CC") +  ylab("nuclear reponse")
+```
+
+::: {.cell-output-display}
+![](map566-lab-change-point-detection_files/figure-html/unnamed-chunk-5-1.png){width=768}
+:::
+:::
+
+
+1. Write a mathematical model which now assumes linear transitions between consecutive mean value.
+2. Propose and implement an algorithm for estimating  the underlying signal  in presence of a single change point. Apply this algorithm for estimating the undelying signal of our data between $t=151$ and $t=350$.
+3. In the case of multiple change points, how could we extend the dynamic programming algorithm for this new model?
+ -->
 
 
 </section>
@@ -865,8 +882,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../docs/mixture-models/map566-lecture-mixture-models.html" class="pagination-link  aria-label=" mixture="" models"="">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Mixture Models</span>
+      <a href="../../docs/change-point/map566-lecture-change-point-detection.html" class="pagination-link  aria-label=" detection="" of="" change="" points="" in="" a="" time="" series"="">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Detection of change points in a time series</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
