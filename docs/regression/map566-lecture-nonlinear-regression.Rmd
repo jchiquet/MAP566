@@ -46,8 +46,6 @@ faithful_plot
 
 Even if this model is the "best" polynomial model, we may have serious doubts on the capabilities of the model to predict waiting times for durations outside of the observed range of durations.
 
-[Interactive Polynomial Regression fits](http://shiny.webpopix.org/sia/polyreg/)
-
 Furthermore, parameters of the model, i.e. the polynomials' coefficients, have no obvious physical interpretation. Using a polynomial model here, we are therefore not seeking to build a structural model $f$ that approximates a physical phenomenon, but merely seeking to rely the variability in the observations to the explanatory variables $x$, $x^2$, ... 
 We therefore need to consider other types of models, *i)* that do not necessarily assume linear relationships between the response variable and the explanatory variables, *ii)* whose parameters have some physical interpretation.
 
@@ -56,8 +54,6 @@ A *logistic function* (or *logistic curve*) is a common "S" shape (sigmoid curve
 $$
 f_1(x) = \frac{A}{1+{\rm exp}(-\gamma(x-\tau))}
 $$
-
-[Interactive fit](http://shiny.webpopix.org/sia/nlm1/)
 
 Here, $A$ is the limiting value (when $x \to \infty$),  $\gamma$ measure the steepness of the curve and $\tau$ is the $x$-value of the sigmoid's midpoint.
 
@@ -569,7 +565,7 @@ logLik_A <- map(values_A, ~
 ```{r}
 #| code-fold: true
 data.frame(A = values_A, logLik = logLik_A) %>% 
-ggplot() + aes(x = A, y = logLik) + geom_line(color="blue", size=1) + 
+ggplot() + aes(x = A, y = logLik) + geom_line(color="blue", linewidth=1) + 
   geom_vline(xintercept = beta_hat[1], color="red", linetype = "longdash") + 
   scale_x_continuous(breaks = c(seq(85,110, by = 5), round(beta_hat[[1]],2)),"A")
 ```
