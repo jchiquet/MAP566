@@ -523,7 +523,6 @@ Achieved convergence tolerance: 6.211e-06</code></pre>
 <p><span class="math display">
 f_2(x) =  S + \frac{A-S}{1+{\rm exp}(-\gamma(x-\tau))}
 </span></p>
-<p><a href="http://shiny.webpopix.org/sia/nlm2/">Interactive fit</a></p>
 <p>We can again use <code>nls</code> to fit this nonlinear model to the data:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>nlm2 <span class="ot">&lt;-</span> <span class="fu">nls</span>(waiting <span class="sc">~</span> (A<span class="sc">-</span>S) <span class="sc">/</span> ( <span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span>gamma <span class="sc">*</span> (eruptions <span class="sc">-</span> tau)) ) <span class="sc">+</span> S, faithful, <span class="at">start =</span> <span class="fu">c</span>(<span class="at">A=</span><span class="dv">90</span>, <span class="at">gamma=</span><span class="dv">2</span>, <span class="at">tau=</span><span class="dv">2</span>, <span class="at">S=</span><span class="dv">50</span>))</span>
