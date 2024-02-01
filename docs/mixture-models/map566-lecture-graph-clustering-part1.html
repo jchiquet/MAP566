@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.510">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -114,6 +114,7 @@ div.csl-indent {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -138,6 +139,33 @@ div.csl-indent {
 }}});
   </script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -412,7 +440,7 @@ div.csl-indent {
 <p>A visual representation of the network data with nodes colored according to the political party each blog belongs to is achieved as follows:</p>
 <div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/frenchblog-igraph-plot_542b293e5bedf573b289e9a876a83629">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.igraph</span>(frenchblog2007,</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">vertex.color =</span> <span class="fu">factor</span>(<span class="fu">V</span>(frenchblog2007)<span class="sc">$</span>party),</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">vertex.label =</span> <span class="cn">NA</span></span>
@@ -429,7 +457,7 @@ div.csl-indent {
 <p>Another commonly used representation is via a matrix view, where the adjacency matrix is re-ordered column-wise and row-wise according to a predefined classification. In the <code>frenchblog2007</code> data, nodes are originally reordered according to their party:</p>
 <div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/frenchblog-matrix-plot_54d1821b403f1abcf81c0fb36220e4c5">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>frenchblog2007 <span class="sc">%&gt;%</span> <span class="fu">as_adj</span>(<span class="at">sparse =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span> <span class="fu">plotMyMatrix</span>(<span class="at">clustering =</span> <span class="fu">list</span>(<span class="at">row =</span> <span class="fu">factor</span>(<span class="fu">V</span>(frenchblog2007)<span class="sc">$</span>party)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
@@ -579,7 +607,7 @@ Remark
 <p>This distance exhibits a strong block-wise pattern that connects to communities</p>
 <div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/distance-shortest-path-coorplot_52d327d10977378a877d722bc3663c2d">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>corrplot<span class="sc">::</span><span class="fu">corrplot</span>(D_path, <span class="at">tl.pos =</span> <span class="st">'n'</span>, <span class="at">is.corr =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
@@ -613,7 +641,7 @@ Remark
 <p>The gain is clear when considering the more sound distance based on shortest-path.</p>
 <div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/perf-paritionning-plot_746cdace13bbeced830824aa9574efbb">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>perf <span class="sc">%&gt;%</span>  </span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>nb_cluster, <span class="at">names_to =</span> <span class="st">"distance"</span>, <span class="at">values_to =</span> <span class="st">"ARI"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(distance) <span class="sc">%&gt;%</span> </span>
@@ -669,7 +697,7 @@ Remark
 </div>
 <div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/plot-perf2_51e627a0f2244e71450e03aacc438dcc">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>perf <span class="sc">%&gt;%</span>  </span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>nb_cluster, <span class="at">names_to =</span> <span class="st">"distance"</span>, <span class="at">values_to =</span> <span class="st">"ARI"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(distance) <span class="sc">%&gt;%</span> </span>
@@ -1013,7 +1041,7 @@ Pseudo code for normalized spectral clustering
 <p>Once reorder according to the best clustering (obtained <span class="math inline">k=6</span>) groups, the original data matrix looks as follows</p>
 <div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/spectral-blog-plot_87eca3a0717b626a7a811c26c8ad7f4b">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotMyMatrix</span>(<span class="fu">as_adj</span>(blog, <span class="at">sparse =</span> <span class="cn">FALSE</span>),</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">clustering =</span> <span class="fu">list</span>(<span class="at">row =</span> <span class="fu">spectral_clustering</span>(blog, <span class="dv">6</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -1054,7 +1082,7 @@ Some limitations
 </section>
 
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-chung1997spectral" class="csl-entry" role="listitem">
 Chung, Fan RK, and Fan Chung Graham. 1997. <em>Spectral Graph Theory</em>. 92. American Mathematical Soc.
 </div>
@@ -1079,7 +1107,7 @@ Steinley, Douglas. 2004. <span>“Properties of the Hubert-Arable Adjusted Rand 
 <div id="ref-von2007tutorial" class="csl-entry" role="listitem">
 Von Luxburg, Ulrike. 2007. <span>“A Tutorial on Spectral Clustering.”</span> <em>Statistics and Computing</em> 17 (4): 395–416.
 </div>
-</div></section><aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+</div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
 <li id="fn1"><p>A “nice” side-effect is that the ‘far-right’ blogs have removed from the study. Amazing for data collected only a decade ago…<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
@@ -1087,7 +1115,7 @@ Von Luxburg, Ulrike. 2007. <span>“A Tutorial on Spectral Clustering.”</span>
 <li id="fn3"><p>let as an exercise<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn4"><p>a measure of comparison between two classification<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
-</aside></div></main> <!-- /main -->
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -1216,27 +1244,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
     }
     stripColumnClz(note)
-    const typesetMath = (el) => {
-      if (window.MathJax) {
-        // MathJax Typeset
-        window.MathJax.typeset([el]);
-      } else if (window.katex) {
-        // KaTeX Render
-        var mathElements = el.getElementsByClassName("math");
-        var macros = [];
-        for (var i = 0; i < mathElements.length; i++) {
-          var texText = mathElements[i].firstChild;
-          if (mathElements[i].tagName == "SPAN") {
-            window.katex.render(texText.data, mathElements[i], {
-              displayMode: mathElements[i].classList.contains('display'),
-              throwOnError: false,
-              macros: macros,
-              fleqn: false
-            });
-          }
-        }
-      }
-    }
     if (id === null || id.startsWith('sec-')) {
       // Special case sections, only their first couple elements
       const container = document.createElement("div");
@@ -1251,10 +1258,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             break;
           }
         }
-        typesetMath(container);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
         return container.innerHTML
       } else {
-        typesetMath(note);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
         return note.innerHTML;
       }
     } else {
@@ -1263,8 +1274,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (anchorLink) {
         anchorLink.remove();
       }
-      typesetMath(note);
-      return note.innerHTML;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {
@@ -1490,4 +1508,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-</body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

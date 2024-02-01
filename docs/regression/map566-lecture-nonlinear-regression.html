@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.510">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -96,6 +96,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -118,6 +119,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }}});
   </script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -415,7 +443,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="preliminary" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="preliminary">Preliminary</h2>
 <p>Only functions from <code>R</code>-base and stats (preloaded) are required plus packages from the <strong>tidyverse</strong> for data representation and manipulation. You could also try the package <strong>broom</strong> that standardizes the output of built-in R functions for statistical modelling</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/linear-regression-config_0e567c18565acdf8c5859c4b4cea44fc">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -425,9 +453,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1</span> Introduction</h2>
 <p>The <code>faithful</code> data (provided by the <code>R</code> base package <strong>datasets</strong>) consist of the waiting time between eruptions and the duration of the eruption for the Old Faithful geyser in Yellowstone National Park, Wyoming, USA.</p>
 <p>Let us see how these data look like.</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-1_afbaec5e96a4517f3eaaff4f833fc7d5">
+<div class="cell">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>faithful_plot <span class="ot">&lt;-</span> </span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  faithful <span class="sc">%&gt;%</span> </span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> eruptions, <span class="at">y =</span> waiting) <span class="sc">+</span> </span>
@@ -445,10 +473,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>We aim to fit a model to this data that describes the relationship between duration and waiting time.</p>
 <p>If we try to fit a fit a polynomial model, we can check that a polynomial of degree 4 is considered as the “best polynomial model”.</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/faithful-poly4-fit_50d14da90a4879553ed4d6c65389ad68">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>poly4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(waiting <span class="sc">~</span><span class="fu">poly</span>(eruptions, <span class="dv">4</span>), <span class="at">data =</span> faithful)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/faithful-poly4-plot_84a5316f0fe0327d2293c6d38fce7b44">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>faithful_plot <span class="ot">&lt;-</span> </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  faithful_plot <span class="sc">+</span> </span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">4</span>), <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">colour=</span><span class="st">"#339900"</span>)</span>
@@ -462,16 +490,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Even if this model is the “best” polynomial model, we may have serious doubts on the capabilities of the model to predict waiting times for durations outside of the observed range of durations.</p>
-<p><a href="http://shiny.webpopix.org/sia/polyreg/">Interactive Polynomial Regression fits</a></p>
 <p>Furthermore, parameters of the model, i.e.&nbsp;the polynomials’ coefficients, have no obvious physical interpretation. Using a polynomial model here, we are therefore not seeking to build a structural model <span class="math inline">f</span> that approximates a physical phenomenon, but merely seeking to rely the variability in the observations to the explanatory variables <span class="math inline">x</span>, <span class="math inline">x^2</span>, … We therefore need to consider other types of models, <em>i)</em> that do not necessarily assume linear relationships between the response variable and the explanatory variables, <em>ii)</em> whose parameters have some physical interpretation.</p>
 <p>A <em>logistic function</em> (or <em>logistic curve</em>) is a common “S” shape (sigmoid curve), with equation:</p>
 <p><span class="math display">
 f_1(x) = \frac{A}{1+{\rm exp}(-\gamma(x-\tau))}
 </span></p>
-<p><a href="http://shiny.webpopix.org/sia/nlm1/">Interactive fit</a></p>
 <p>Here, <span class="math inline">A</span> is the limiting value (when <span class="math inline">x \to \infty</span>), <span class="math inline">\gamma</span> measure the steepness of the curve and <span class="math inline">\tau</span> is the <span class="math inline">x</span>-value of the sigmoid’s midpoint.</p>
 <p>This model is a nonlinear model in the sense that the regression function <span class="math inline">f_1</span> is a nonlinear function of the parameters.We can fit this model to our data using the <code>nls</code> function.</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-2_d08baf3ec410c1787266815b338c8a8f">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>nlm1 <span class="ot">&lt;-</span> <span class="fu">nls</span>(waiting <span class="sc">~</span>  A <span class="sc">/</span> ( <span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span> gamma <span class="sc">*</span> (eruptions <span class="sc">-</span>tau))), faithful, <span class="at">start =</span> <span class="fu">c</span>(<span class="at">A=</span><span class="dv">70</span>, <span class="at">gamma=</span><span class="dv">2</span>, <span class="at">tau=</span><span class="dv">1</span>))</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(nlm1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -499,7 +525,7 @@ f_2(x) =  S + \frac{A-S}{1+{\rm exp}(-\gamma(x-\tau))}
 </span></p>
 <p><a href="http://shiny.webpopix.org/sia/nlm2/">Interactive fit</a></p>
 <p>We can again use <code>nls</code> to fit this nonlinear model to the data:</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-3_8f62267602fcecd957fdb23298e2cb87">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>nlm2 <span class="ot">&lt;-</span> <span class="fu">nls</span>(waiting <span class="sc">~</span> (A<span class="sc">-</span>S) <span class="sc">/</span> ( <span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span>gamma <span class="sc">*</span> (eruptions <span class="sc">-</span> tau)) ) <span class="sc">+</span> S, faithful, <span class="at">start =</span> <span class="fu">c</span>(<span class="at">A=</span><span class="dv">90</span>, <span class="at">gamma=</span><span class="dv">2</span>, <span class="at">tau=</span><span class="dv">2</span>, <span class="at">S=</span><span class="dv">50</span>))</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(nlm2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -522,9 +548,9 @@ Achieved convergence tolerance: 6.243e-06</code></pre>
 </div>
 </div>
 <p>We can now compute and plot the waiting times predicted with these two fitted models</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-4_63083c0b13bad72938f3ea8b194773d3">
+<div class="cell">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>faithful_plot <span class="ot">&lt;-</span> faithful_plot <span class="sc">+</span> </span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">method  =</span> <span class="st">"nls"</span>,  <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"#E69F00"</span>,</span>
@@ -567,18 +593,18 @@ Achieved convergence tolerance: 6.243e-06</code></pre>
 <p>We define the first model <span class="math inline">{\cal M}_1</span> as</p>
 <p><span class="math display">y_j = f_1(x_j,\beta) + \varepsilon_j \quad ; \quad 1\leq j \leq n</span></p>
 <p>where <span class="math inline">f_1</span> is the logistic function defined above and where <span class="math inline">\beta = (A,\gamma,\tau)</span>. In <code>R</code>,</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-5_2ab155356343bd7268ada43bcb914550">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>f_1  <span class="ot">&lt;-</span> <span class="cf">function</span>(beta, x) {</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  A <span class="ot">&lt;-</span> beta[<span class="dv">1</span>]; gamma <span class="ot">&lt;-</span> beta[<span class="dv">2</span>]; tau <span class="ot">&lt;-</span> beta[<span class="dv">3</span>]</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  A <span class="sc">/</span> ( <span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span> gamma <span class="sc">*</span> (x<span class="sc">-</span>tau)))</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let us check that function <code>nls</code> computes the nonlinear least-squares estimates of the parameters of the (nonlinear) model, that is, solve the above optimization problem in <span class="math inline">\beta</span>. We first create a function that computes the residual sum of squares for a given vector of parameters <span class="math inline">\beta</span>, which will be the objective (or cost) function from the optimization point of view:</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-6_65f62b2d1dbb5a2b9498435ed72e9895">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>rss_1 <span class="ot">&lt;-</span> <span class="cf">function</span>(beta, x, y) <span class="fu">sum</span>( (y <span class="sc">-</span> <span class="fu">f_1</span>(beta, x) )<span class="sc">^</span><span class="dv">2</span> ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then the LS estimate of <span class="math inline">\beta</span> can be computed using <code>nlm</code> (nonlinear minimization) which minimizes the residuals sum of squares using a Newton-type algorithm.</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-7_6a85c1a8bb7e020c90ed733e3a859086">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>optim_nlm1 <span class="ot">&lt;-</span> <span class="fu">nlm</span>(rss_1, <span class="fu">c</span>(<span class="at">A =</span> <span class="dv">90</span>, <span class="at">gamma =</span> <span class="dv">2</span>, <span class="at">tau =</span> <span class="dv">2</span>), faithful<span class="sc">$</span>eruptions, faithful<span class="sc">$</span>waiting)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>beta_hat <span class="ot">&lt;-</span> <span class="fu">setNames</span>(optim_nlm1<span class="sc">$</span>estimate, <span class="fu">names</span>(<span class="fu">coef</span>(nlm1)))</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>beta_hat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -597,7 +623,7 @@ Achieved convergence tolerance: 6.243e-06</code></pre>
 <p><span class="math display">
 \hat{\sigma} = \sqrt{\hat{\sigma}^2}
 </span></p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-8_24fe06f4afdd79dd90fb722840200b11">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>n  <span class="ot">&lt;-</span> <span class="fu">nrow</span>(faithful)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>p  <span class="ot">&lt;-</span> <span class="fu">length</span>(beta_hat)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> (n <span class="sc">-</span> p)</span>
@@ -624,7 +650,7 @@ Achieved convergence tolerance: 6.243e-06</code></pre>
 <p><span class="math display">
 \hat{\sigma}^2_{\rm ml} = \frac{1}{n} \sum_{j=1}^n \left(y_j - f(x_j,\hat{\beta})\right)^2, \qquad \hat{\sigma}_{\rm ml} = \sqrt{\hat{\sigma}^2_{\rm ml}}
 </span></p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-9_b1afc01ee147b716a5890f5bf93c038c">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>sigma_hat_ML <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">rss_1</span>(beta_hat, faithful<span class="sc">$</span>eruptions, faithful<span class="sc">$</span>waiting) <span class="sc">/</span> n)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>sigma_hat_ML</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -639,7 +665,7 @@ Achieved convergence tolerance: 6.243e-06</code></pre>
 <section id="linearization-approach" class="level4" data-number="2.2.1">
 <h4 data-number="2.2.1" class="anchored" data-anchor-id="linearization-approach"><span class="header-section-number">2.2.1</span> Linearization approach</h4>
 <p>An <code>nls</code> object has methods for several generic functions, including <code>vcov</code> which computes the variance-covariance matrix of the estimated parameters <span class="math inline">\hat{\beta}</span>.</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-10_fd531a8265f1c2f63a8b0a55eb7d3bc7">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vcov</span>(nlm1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>               A        gamma          tau
@@ -649,7 +675,7 @@ tau    0.4320326 -0.008769221  0.011923449</code></pre>
 </div>
 </div>
 <p>The standard errors of the estimates are then the square roots of the diagonal elements of this matrix</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-11_27d9069e84372346e251200b716cb1e3">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">diag</span>(<span class="fu">vcov</span>(nlm1)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        A     gamma       tau 
@@ -666,7 +692,7 @@ z_j = g_j \ \beta + \varepsilon_j.
 </span></p>
 <p>Writing this model in the matrix form <span class="math inline">z=G\, \beta + \varepsilon</span> where <span class="math inline">g_j</span> is the <span class="math inline">j</span>th row of matrix <span class="math inline">G</span>, we can check that the LS estimator of <span class="math inline">\beta</span> for this model is the LS estimator of the original model <span class="math inline">\hat{\beta}</span></p>
 <div id="prp-linearization" class="theorem proposition">
-<p><span class="theorem-title"><strong>Proposition 1 (Equivalence of the two LS estimate) </strong></span>The LS estimator of the linearized model is equivalent to the LS estimator of the original model:</p>
+<p><span class="theorem-title"><strong>Proposition 1 (Equivalence of the two LS estimate)</strong></span> The LS estimator of the linearized model is equivalent to the LS estimator of the original model:</p>
 <p><span class="math display">
 \begin{aligned}
 \hat{\beta} &amp;=  \arg\min_{\beta}\sum_{j=1}^n(y_j - f(x_j,\beta))^2 \\
@@ -689,7 +715,7 @@ z_j = g_j \ \beta + \varepsilon_j.
 <p>Thus, <span class="math inline">\tilde\beta=\hat\beta</span> <span class="math inline">\Box</span>.</p>
 </div>
 <p>Let us check this property numerically:</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-12_c56a127c38120c3bb00090afdfca17fd">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>hx <span class="ot">&lt;-</span> <span class="fu">deriv</span>(</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">expr    =</span> y <span class="sc">~</span> A <span class="sc">/</span> ( <span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span> gamma <span class="sc">*</span> (x <span class="sc">-</span> tau))), </span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">namevec =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"gamma"</span>, <span class="st">"tau"</span>), </span>
@@ -708,7 +734,7 @@ tau    1.462268</code></pre>
 </div>
 <p>Since <span class="math inline">\hat{\beta} =(G^\prime G)^{-1}G^\prime z</span>, the variance-covariance of <span class="math inline">\hat\beta</span> can be approximated by</p>
 <p><span class="math display">\mathbb{V}_{\rm lin}(\hat\beta) = \hat\sigma^2 (G^\prime G)^{-1} </span></p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-13_1d947b2b00630faa4cb656725670e600">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>V_lin <span class="ot">&lt;-</span> sigma_hat<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span><span class="fu">solve</span>(<span class="fu">t</span>(G)<span class="sc">%*%</span>G)</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>V_lin</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -719,7 +745,7 @@ tau    0.4320764 -0.008769862  0.011924743</code></pre>
 </div>
 </div>
 <p>and we can derive standard errors <span class="math inline">({\rm se}_{\rm lin}(\hat{\beta}_k), 1 \leq k \leq p)</span> for the parameter estimates,</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-14_c4a049d37d5a24c513d8f3ffcbcf23e6">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>se_lin <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(V_lin))</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>se_lin</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -740,7 +766,7 @@ I_y({\hat\beta}) &amp;= - \frac{\partial^2}{\partial \beta \partial \beta^\prime
 <p>Then, the Central Limit Theorem states that the variance of <span class="math inline">\hat{\beta}</span> can be approximated by the inverse of <span class="math inline">I_y(\hat{\beta})</span>:</p>
 <p><span class="math display">\mathbb{V}_{\rm ml}(\hat{\beta}) = I_y(\hat{\beta})^{-1}. </span></p>
 <p>Function <code>nlm</code> can return the Hessian of the function <code>rss_1</code> to minimize, i.e.&nbsp;the matrix of the second derivatives <span class="math inline">\partial^2/\partial \beta \partial \beta^\prime \sum_{j=1}^n(y_j - f(x_j,\hat\beta))^2</span></p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-15_3785220a8e8cf717b64e43b4637c67ed">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>optim_nlm1 <span class="ot">&lt;-</span> <span class="fu">nlm</span>(rss_1, <span class="fu">c</span>(<span class="dv">90</span>, <span class="dv">2</span>, <span class="dv">2</span>), faithful<span class="sc">$</span>eruptions, faithful<span class="sc">$</span>waiting, <span class="at">hessian =</span> <span class="st">"true"</span>)</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>H <span class="ot">&lt;-</span> optim_nlm1<span class="sc">$</span>hessian</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>H</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -752,7 +778,7 @@ I_y({\hat\beta}) &amp;= - \frac{\partial^2}{\partial \beta \partial \beta^\prime
 </div>
 </div>
 <p>We then derive the FIM and the variance <span class="math inline">\mathbb{V}_{\rm ml}(\hat{\beta})</span>:</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-16_28ac2c2c778e32996abcf4b01fdccfef">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>V_ml <span class="ot">&lt;-</span> <span class="fu">solve</span>(H<span class="sc">/</span>(<span class="dv">2</span><span class="sc">*</span>sigma_hat_ML<span class="sc">^</span><span class="dv">2</span>))</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>V_ml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -763,7 +789,7 @@ I_y({\hat\beta}) &amp;= - \frac{\partial^2}{\partial \beta \partial \beta^\prime
 </div>
 </div>
 <p>and</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-17_705af6df1f7e970c58b92154f140a322">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>se_ml <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(V_ml))</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>se_ml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -790,7 +816,7 @@ I_y({\hat\beta}) &amp;= - \frac{\partial^2}{\partial \beta \partial \beta^\prime
 <!-- ``` -->
 <!-- ::: -->
 <p>Beside, using the fact that <span class="math inline">\mathbb{V}(\chi^2(k))=2k</span>, we can show that <span class="math inline">\mathbb{V}(\hat{\sigma}^2) \approx 2\sigma^4/n</span>. Then the standard error of <span class="math inline">\hat{\sigma}</span> is approximately <span class="math inline">\hat{\sigma}/\sqrt{2n}</span>.</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-18_12b105d5df9cc961c1c3a8d08b730ccc">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>sigma_hat<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">2</span><span class="sc">*</span>n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.2470817</code></pre>
@@ -810,8 +836,8 @@ y^{(\ell)}_j = f(x_j,\hat{\beta}) + \hat{\sigma} \varepsilon^{(\ell)}_j \quad ; 
 <p>The variance-covariance matrix of <span class="math inline">\hat\beta</span> is then estimated by the empirical variance-covariance matrix of <span class="math inline">(\hat\beta^{(\ell)})</span>:</p>
 <p><span class="math display"> \mathbb{V}_{\rm mc}(\hat{\beta}) = \frac{1}{L-1}\sum_{\ell=1}^L ( \hat\beta^{(\ell)} - \bar{\beta} )( \hat\beta^{(\ell)} - \bar{ \beta} )^\prime
 </span></p>
-<p>where <span class="math inline">\bar{ \beta} = 1/L \sum_{\ell=1}^L \hat\beta^{(\ell)}</span>.</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-19_74d25fb9b606a0830217f0dfc3030e41">
+<p>where <span class="math inline">\bar{ \beta} = 1/L \sum_{\ell=1}^L  \hat\beta^{(\ell)}</span>.</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>y_hat_ref <span class="ot">&lt;-</span> <span class="fu">predict</span>(nlm1)</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>beta_hat <span class="ot">&lt;-</span> <span class="fu">coef</span>(nlm1)</span>
@@ -824,24 +850,24 @@ y^{(\ell)}_j = f(x_j,\hat{\beta}) + \hat{\sigma} \varepsilon^{(\ell)}_j \quad ; 
 <span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>V_mc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           [,1]        [,2]        [,3]
-[1,] 28.5565572 -0.49314314  0.81256654
-[2,] -0.4931431  0.01037146 -0.01170049
-[3,]  0.8125665 -0.01170049  0.02734161</code></pre>
+[1,] 27.0193082 -0.49290098  0.73934710
+[2,] -0.4929010  0.01036602 -0.01164034
+[3,]  0.7393471 -0.01164034  0.02408383</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-20_f8b172e51f405a0a4c6f9b68f38b39e7">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>se_mc <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(V_mc))</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>se_mc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 5.3438336 0.1018404 0.1653530</code></pre>
+<pre><code>[1] 5.1980100 0.1018137 0.1551896</code></pre>
 </div>
 </div>
-<div class="remark proof">
+<div class="proof remark">
 <p><span class="proof-title"><em>Remark</em>. </span>It would be equivalent to directly compute the empirical standard deviation of each component of the sequence <span class="math inline">(\hat\beta^{(\ell)})</span>:</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-21_97f87c898cc72f5e2bf28990f695b326">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(betas_boot, <span class="dv">2</span>, sd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 5.3438336 0.1018404 0.1653530</code></pre>
+<pre><code>[1] 5.1980100 0.1018137 0.1551896</code></pre>
 </div>
 </div>
 </div>
@@ -852,7 +878,7 @@ y^{(\ell)}_j = f(x_j,\hat{\beta}) + \hat{\sigma} \varepsilon^{(\ell)}_j \quad ; 
 <section id="statistical-tests-for-the-model-parameters" class="level3" data-number="2.3">
 <h3 data-number="2.3" class="anchored" data-anchor-id="statistical-tests-for-the-model-parameters"><span class="header-section-number">2.3</span> Statistical tests for the model parameters</h3>
 <p>The summary of model <code>nlm1</code> includes several informations about the model parameters:</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-22_5737bc8269f4bb8769c9497ddea14daf">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(nlm1)<span class="sc">$</span>coefficient</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        Estimate Std. Error   t value     Pr(&gt;|t|)
@@ -865,7 +891,7 @@ tau    1.4622598  0.1091945 13.391326 1.110071e-31</code></pre>
 <p><span class="math inline">t_k = (\hat{\beta}_k - \beta_k)/{\rm se}(\hat{\beta}_k)</span> follows a <span class="math inline">t</span>-distribution with <span class="math inline">n-p</span> degrees of freedom. We can then perform a <span class="math inline">t</span>-test to test if <span class="math inline">\beta_k=0</span>.</p>
 <p>The test statistics is <span class="math inline">t_{{\rm stat}, k} = {\hat{\beta}_k}/{{\rm se}(\hat{\beta}_k)}</span> and the <span class="math inline">p</span>-value for this test is</p>
 <p><span class="math display">p_k = 2(1 - \mathbb{P}(T_{n-d} \leq |t_{{\rm stat}, k}| ) </span></p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-23_ac55d05cce961bc63688cb5926397830">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>t_stat  <span class="ot">&lt;-</span> beta_hat<span class="sc">/</span>se_lin</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>p_value <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(<span class="fu">abs</span>(t_stat), n<span class="sc">-</span>p))</span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(beta_hat, se_lin, t_stat, p_value) <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -884,7 +910,7 @@ tau     1.4623 0.1092 13.3906       0</code></pre>
 <p>Using the linearized model <span class="math inline">z = G\beta + \varepsilon</span>, we can compute a confidence interval for each component of <span class="math inline">\beta</span> as we do with any linear model:</p>
 <p><span class="math display">{\rm CI}_{{\rm lin}, 1-\alpha}(\beta_k) = [\hat{\beta}_k + qt_{\alpha/2, n-p}\ {\rm se}_{\rm lin}(\hat{\beta}_k) \ , \ \hat{\beta}_k + qt_{1-\alpha/2, n-p}\ {\rm se}_{\rm lin}(\hat{\beta}_k)]</span></p>
 <p>where <span class="math inline">qt_{p,\nu}</span> is the quantile of order <span class="math inline">p</span> for a <span class="math inline">t</span>-distribution with <span class="math inline">\nu</span> degree of freedom.</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-24_e28f3e9c2afcabaffdf2f5883a494f33">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>level <span class="ot">&lt;-</span> <span class="fl">0.95</span></span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> level</span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>CI_linearized <span class="ot">&lt;-</span> </span>
@@ -905,7 +931,7 @@ tau    1.2472635   1.6772560</code></pre>
 <h4 data-number="2.4.2" class="anchored" data-anchor-id="maximum-likelihood-approach-1"><span class="header-section-number">2.4.2</span> Maximum likelihood approach</h4>
 <p>We can adopt the same approach with the ML estimate. Here, the standard errors <span class="math inline">({\rm se}_{\rm ml}(\hat{\beta}_k), 1 \leq k \leq p)</span> are derived from the asymptotic variance-covariance matrix of the parameter estimates <span class="math inline">V_{\rm ml}(\hat{\beta})</span> .</p>
 <p><span class="math display">{\rm CI}_{{\rm ml},1-\alpha}(\beta_k) = [\hat{\beta}_k + qt_{\alpha/2, n-p}\ {\rm se}_{\rm ml}(\hat{\beta}_k) \ , \ \hat{\beta}_k + qt_{1-\alpha/2, n-p}\ {\rm se}_{\rm ml}(\hat{\beta}_k)]</span></p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-25_45a5e5df7378dc064e63539cbc6ba089">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>CI_ML <span class="ot">&lt;-</span> </span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(</span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>    beta_hat <span class="sc">+</span> <span class="fu">qt</span>(alpha<span class="sc">/</span><span class="dv">2</span>,n<span class="sc">-</span>p) <span class="sc">*</span> se_ml,</span>
@@ -922,9 +948,9 @@ tau    1.2597849   1.6647346</code></pre>
 </section>
 <section id="parametric-bootstrap-1" class="level4" data-number="2.4.3">
 <h4 data-number="2.4.3" class="anchored" data-anchor-id="parametric-bootstrap-1"><span class="header-section-number">2.4.3</span> Parametric bootstrap</h4>
-<p>The sequence <span class="math inline">(\hat{\beta}^{(\ell)}, 1 \leq \ell \leq L)</span> obtained by Monte Carlo simulation can be used for computing an empirical confidence interval:</p>
-<p><span class="math display">{\rm CI}_{{\rm mc},1-\alpha}(\beta_k) = [\hat{\beta}_{k,\alpha/2} \ , \ \hat{\beta}_{k,1-\alpha/2} ]  </span> where, for any <span class="math inline">0 &lt; p &lt; 1</span>, <span class="math inline">\hat{\beta}_{k,p}</span> is the empirical quantile of order <span class="math inline">p</span> of <span class="math inline">(\hat{\beta}^{(\ell)}_k, 1 \leq \ell \leq L)</span>:</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-26_6e965bc3d390dd23483e4a00636d5ce2">
+<p>The sequence <span class="math inline">(\hat{\beta}^{(\ell)}, 1 \leq  \ell \leq L)</span> obtained by Monte Carlo simulation can be used for computing an empirical confidence interval:</p>
+<p><span class="math display">{\rm CI}_{{\rm mc},1-\alpha}(\beta_k) = [\hat{\beta}_{k,\alpha/2} \ , \ \hat{\beta}_{k,1-\alpha/2} ]  </span> where, for any <span class="math inline">0 &lt; p &lt; 1</span>, <span class="math inline">\hat{\beta}_{k,p}</span> is the empirical quantile of order <span class="math inline">p</span> of <span class="math inline">(\hat{\beta}^{(\ell)}_k, 1 \leq  \ell \leq L)</span>:</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>CI_bootstrap <span class="ot">&lt;-</span> </span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(<span class="fu">as.matrix</span>(betas_boot), <span class="dv">2</span>, quantile, <span class="at">probs =</span> <span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t</span>() <span class="sc">%&gt;%</span> <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span> </span>
@@ -932,12 +958,12 @@ tau    1.2597849   1.6647346</code></pre>
 <span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>CI_bootstrap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        2.5%       97.5%
-1 86.8765805 106.6834164
-2  0.4557504   0.8504932
-3  1.3327844   1.8918216</code></pre>
+1 86.7787669 106.9205636
+2  0.4561864   0.8477302
+3  1.3088312   1.9176370</code></pre>
 </div>
 </div>
-<div class="remark proof">
+<div class="proof remark">
 <p><span class="proof-title"><em>Remark</em>. </span>These confidence intervals are slightly biased. We will use a linear model to explain where this bias comes from and show how to remove it.</p>
 <p>Consider the linear model <span class="math inline">y = X\beta + \sigma\varepsilon</span>. A confidence interval of level <span class="math inline">1-\alpha</span> for <span class="math inline">\beta_k</span> is</p>
 <p><span class="math display">{\rm CI}_{ 1-\alpha}(\beta_k) = [\hat{\beta}_k + qt_{\alpha/2, n-d}\ {\rm se}_(\hat{\beta}_k) \ , \ \hat{\beta}_k + qt_{1-\alpha/2, n-d}\ {\rm se}(\hat{\beta}_k)]</span></p>
@@ -951,14 +977,14 @@ tau    1.2597849   1.6647346</code></pre>
 <p>An unbiased confidence interval for <span class="math inline">\beta_k</span> is therefore</p>
 <p><span class="math display">{\rm CI}^\star_{{\rm mc},1-\alpha}(\beta_k) = [\hat{\beta}_k + \frac{qt_{\alpha/2, n-d}}{q\mathcal{N}_{\alpha/2}}(\hat{\beta}_{k,\alpha/2} - \hat{\beta}_k)\ , \  \hat{\beta}_k + \frac{qt_{1-\alpha/2, n-d}}{q\mathcal{N}_{1-\alpha/2}}(\hat{\beta}_{k,1-\alpha/2} - \hat{\beta}_k)]  </span></p>
 <p>The same correction can be used for nonlinear models:</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-27_d74953e29480d480786198592f1e98e0">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>rq <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>,df)<span class="sc">/</span><span class="fu">qnorm</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>)</span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>beta_hat <span class="sc">+</span> rq<span class="sc">*</span>(CI_bootstrap <span class="sc">-</span> beta_hat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        2.5%       97.5%
-1 86.8484099 106.7447622
-2  0.4549205   0.8514473
-3  1.3321992   1.8937630</code></pre>
+1 86.7501543 106.9829812
+2  0.4553584   0.8486718
+3  1.3081377   1.9196951</code></pre>
 </div>
 </div>
 </div>
@@ -966,7 +992,7 @@ tau    1.2597849   1.6647346</code></pre>
 <section id="profile-likelihood" class="level4" data-number="2.4.4">
 <h4 data-number="2.4.4" class="anchored" data-anchor-id="profile-likelihood"><span class="header-section-number">2.4.4</span> Profile likelihood</h4>
 <p>Function <code>confint</code> uses the profile likelihood method for computing confidence intervals for parameters in a fitted model.</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-28_66e76e0af94b444693897e3257366598">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>CI_profiled <span class="ot">&lt;-</span> <span class="fu">confint</span>(nlm1, <span class="at">level =</span> level)</span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>CI_profiled</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -981,7 +1007,7 @@ tau    1.3109469   1.8569351</code></pre>
 <p><span class="math display">\ell_p(\beta_1) = \max_{\beta_2, \ldots, \beta_d}\ell(\beta_1, \beta_2, \ldots, \beta_d )</span></p>
 <p><span class="math inline">\ell_p(\beta_1)</span> does no longer depend on <span class="math inline">\beta_2, \ldots, \beta_d</span> since it has been profiled out.</p>
 <p>As an example, let us compute and display the profile log-likelihood of <span class="math inline">A</span> for model <code>nlm1</code></p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-29_5852a1e4716953c26945a8f280ef250b">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>f_1A <span class="ot">&lt;-</span> <span class="cf">function</span>(gamma,tau,x,A){A<span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>(<span class="sc">-</span>gamma<span class="sc">*</span>(x<span class="sc">-</span>tau)))}</span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>values_A <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">86</span>, <span class="dv">110</span>, <span class="at">by =</span> <span class="fl">0.1</span>)</span>
 <span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>start    <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">gamma =</span> beta_hat[<span class="dv">2</span>], <span class="at">tau =</span> beta_hat[<span class="dv">3</span>])</span>
@@ -989,18 +1015,14 @@ tau    1.3109469   1.8569351</code></pre>
 <span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nls</span>(waiting <span class="sc">~</span>  .x <span class="sc">/</span> ( <span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span> gamma <span class="sc">*</span> (eruptions <span class="sc">-</span> tau))), faithful, <span class="at">start =</span> start)</span>
 <span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> <span class="fu">map</span>(logLik) <span class="sc">%&gt;%</span> <span class="fu">map_dbl</span>(as.numeric)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-30_6f487f538452c53ee6ca6c20369388c3">
+<div class="cell">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">A =</span> values_A, <span class="at">logLik =</span> logLik_A) <span class="sc">%&gt;%</span> </span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> A, <span class="at">y =</span> logLik) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">color=</span><span class="st">"blue"</span>, <span class="at">size=</span><span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> A, <span class="at">y =</span> logLik) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">color=</span><span class="st">"blue"</span>, <span class="at">linewidth=</span><span class="dv">1</span>) <span class="sc">+</span> </span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> beta_hat[<span class="dv">1</span>], <span class="at">color=</span><span class="st">"red"</span>, <span class="at">linetype =</span> <span class="st">"longdash"</span>) <span class="sc">+</span> </span>
 <span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="fu">seq</span>(<span class="dv">85</span>,<span class="dv">110</span>, <span class="at">by =</span> <span class="dv">5</span>), <span class="fu">round</span>(beta_hat[[<span class="dv">1</span>]],<span class="dv">2</span>)),<span class="st">"A"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-ℹ Please use `linewidth` instead.</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1020,31 +1042,35 @@ $$\begin{aligned}
  &= {\mathbb P}(\beta_{\alpha,1} \leq \beta \leq \beta_{\alpha,2})
 \end{aligned}$$
 -->
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-31_637e699bdcfc8e6f2370d28e8b11a27e">
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>qlevel <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(level,<span class="dv">1</span>)</span>
-<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>lp_A <span class="ot">&lt;-</span> <span class="cf">function</span>(A, qlevel) {</span>
-<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>  nlm1_A <span class="ot">&lt;-</span> <span class="fu">nls</span>(waiting <span class="sc">~</span>  A <span class="sc">/</span> ( <span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span> gamma <span class="sc">*</span> (eruptions <span class="sc">-</span> tau))), faithful, </span>
-<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">start =</span> <span class="fu">list</span>(<span class="at">gamma =</span> beta_hat[<span class="dv">2</span>], <span class="at">tau =</span> beta_hat[<span class="dv">3</span>]))</span>
-<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="dv">2</span><span class="sc">*</span>(<span class="fu">logLik</span>(nlm1) <span class="sc">-</span> <span class="fu">logLik</span>(nlm1_A) ) <span class="sc">-</span> qlevel) </span>
-<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>  res</span>
-<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a>c1_A <span class="ot">&lt;-</span> <span class="fu">uniroot</span>(lp_A, <span class="fu">c</span>(<span class="dv">80</span>,  beta_hat[<span class="dv">1</span>]), qlevel)<span class="sc">$</span>root</span>
-<span id="cb59-11"><a href="#cb59-11" aria-hidden="true" tabindex="-1"></a>c2_A <span class="ot">&lt;-</span> <span class="fu">uniroot</span>(lp_A, <span class="fu">c</span>(beta_hat[<span class="dv">1</span>], <span class="dv">110</span>), qlevel)<span class="sc">$</span>root</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>qlevel <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(level,<span class="dv">1</span>)</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>lp_A <span class="ot">&lt;-</span> <span class="cf">function</span>(A, qlevel) {</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>  nlm1_A <span class="ot">&lt;-</span> <span class="fu">nls</span>(waiting <span class="sc">~</span>  A <span class="sc">/</span> ( <span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span> gamma <span class="sc">*</span> (eruptions <span class="sc">-</span> tau))), faithful, </span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">start =</span> <span class="fu">list</span>(<span class="at">gamma =</span> beta_hat[<span class="dv">2</span>], <span class="at">tau =</span> beta_hat[<span class="dv">3</span>]))</span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="dv">2</span><span class="sc">*</span>(<span class="fu">logLik</span>(nlm1) <span class="sc">-</span> <span class="fu">logLik</span>(nlm1_A) ) <span class="sc">-</span> qlevel) </span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>  res</span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>c1_A <span class="ot">&lt;-</span> <span class="fu">uniroot</span>(lp_A, <span class="fu">c</span>(<span class="dv">80</span>,  beta_hat[<span class="dv">1</span>]), qlevel)<span class="sc">$</span>root</span>
+<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>c2_A <span class="ot">&lt;-</span> <span class="fu">uniroot</span>(lp_A, <span class="fu">c</span>(beta_hat[<span class="dv">1</span>], <span class="dv">110</span>), qlevel)<span class="sc">$</span>root</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-32_0fcd742a91ffb927376c46f38fbce5f3">
+<div class="cell">
 <details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>dlogLik_A <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span>(<span class="fu">as.numeric</span>(<span class="fu">logLik</span>(nlm1)) <span class="sc">-</span> logLik_A)</span>
-<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">A =</span> values_A, <span class="at">dlogLik =</span> dlogLik_A) <span class="sc">%&gt;%</span> </span>
-<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(values_A,dlogLik), <span class="at">size=</span><span class="dv">1</span>, <span class="at">color=</span><span class="st">"blue"</span>) <span class="sc">+</span> </span>
-<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span>qlevel, <span class="at">color=</span><span class="st">"red"</span>, <span class="at">linetype =</span> <span class="st">"longdash"</span>) <span class="sc">+</span></span>
-<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> c1_A, <span class="at">xend =</span> c1_A, <span class="at">y=</span><span class="sc">-</span><span class="cn">Inf</span>, <span class="at">yend=</span>qlevel),  <span class="at">color=</span><span class="st">"red"</span>, <span class="at">linetype =</span> <span class="st">"longdash"</span>)  <span class="sc">+</span></span>
-<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> c2_A, <span class="at">xend =</span> c2_A, <span class="at">y=</span><span class="sc">-</span><span class="cn">Inf</span>, <span class="at">yend=</span>qlevel),  <span class="at">color=</span><span class="st">"red"</span>, <span class="at">linetype =</span> <span class="st">"longdash"</span>)  <span class="sc">+</span></span>
-<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">6</span>,<span class="fu">round</span>(qlevel,<span class="dv">2</span>)),<span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="fu">seq</span>(<span class="dv">85</span>,<span class="dv">100</span>,<span class="at">by=</span><span class="dv">5</span>),<span class="fu">round</span>(c1_A,<span class="dv">1</span>),<span class="fu">round</span>(c2_A,<span class="dv">1</span>), <span class="dv">110</span>),<span class="st">"A"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>dlogLik_A <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span>(<span class="fu">as.numeric</span>(<span class="fu">logLik</span>(nlm1)) <span class="sc">-</span> logLik_A)</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">A =</span> values_A, <span class="at">dlogLik =</span> dlogLik_A) <span class="sc">%&gt;%</span> </span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(values_A,dlogLik), <span class="at">size=</span><span class="dv">1</span>, <span class="at">color=</span><span class="st">"blue"</span>) <span class="sc">+</span> </span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span>qlevel, <span class="at">color=</span><span class="st">"red"</span>, <span class="at">linetype =</span> <span class="st">"longdash"</span>) <span class="sc">+</span></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> c1_A, <span class="at">xend =</span> c1_A, <span class="at">y=</span><span class="sc">-</span><span class="cn">Inf</span>, <span class="at">yend=</span>qlevel),  <span class="at">color=</span><span class="st">"red"</span>, <span class="at">linetype =</span> <span class="st">"longdash"</span>)  <span class="sc">+</span></span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> c2_A, <span class="at">xend =</span> c2_A, <span class="at">y=</span><span class="sc">-</span><span class="cn">Inf</span>, <span class="at">yend=</span>qlevel),  <span class="at">color=</span><span class="st">"red"</span>, <span class="at">linetype =</span> <span class="st">"longdash"</span>)  <span class="sc">+</span></span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">6</span>,<span class="fu">round</span>(qlevel,<span class="dv">2</span>)),<span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="fu">seq</span>(<span class="dv">85</span>,<span class="dv">100</span>,<span class="at">by=</span><span class="dv">5</span>),<span class="fu">round</span>(c1_A,<span class="dv">1</span>),<span class="fu">round</span>(c2_A,<span class="dv">1</span>), <span class="dv">110</span>),<span class="st">"A"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1054,7 +1080,7 @@ $$\begin{aligned}
 </div>
 </div>
 <p>Let us now compute the profile likelihood confidence intervals for <span class="math inline">\gamma</span> and <span class="math inline">\tau</span></p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-33_35887142efd66ed52ce6000e235b1e99">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>lp_gamma <span class="ot">&lt;-</span> <span class="cf">function</span>(gamma) {</span>
 <span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>  nlm1_gamma <span class="ot">&lt;-</span> <span class="fu">nls</span>(waiting <span class="sc">~</span>  A<span class="sc">/</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span>gamma<span class="sc">*</span>(eruptions<span class="sc">-</span>tau))), faithful,</span>
 <span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">start =</span> <span class="fu">list</span>(<span class="at">A=</span>beta_hat[<span class="dv">1</span>],<span class="at">tau=</span>beta_hat[<span class="dv">3</span>]))</span>
@@ -1083,10 +1109,10 @@ gamma  0.4636369   0.8310879
 tau    1.3118040   1.8520538</code></pre>
 </div>
 </div>
-<div class="remark proof">
+<div class="proof remark">
 <p><span class="proof-title"><em>Remark</em>. </span>The <code>confint</code> R function doesn’t use a <span class="math inline">\chi^2</span> distribution with 1 df for the LRT statistics <span class="math inline">LR_{\rm stat}</span> (which is theoretically the right asymptotic distribution).</p>
 <p>On the contrary, the square root of <span class="math inline">LR_{\rm stat}</span> is assumed to follow a half <span class="math inline">t</span>-distribution with <span class="math inline">n-p</span> df. Then, the null hypothesis <span class="math inline">H_0</span> is rejected when <span class="math inline">LR_{\rm stat}&gt; qt_{1-\alpha/2,n-p}^2</span>.</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-34_9bd59690020ddb7b5970b06a86302730">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>qlevel <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>,df)<span class="sc">^</span><span class="dv">2</span></span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>c1R_A <span class="ot">&lt;-</span> <span class="fu">uniroot</span>(lp_A, <span class="fu">c</span>(<span class="dv">80</span>,  beta_hat[<span class="dv">1</span>]), qlevel)<span class="sc">$</span>root</span>
 <span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>c2R_A <span class="ot">&lt;-</span> <span class="fu">uniroot</span>(lp_A, <span class="fu">c</span>(beta_hat[<span class="dv">1</span>], <span class="dv">110</span>), qlevel)<span class="sc">$</span>root</span>
@@ -1110,9 +1136,9 @@ tau    1.3118040   1.8520538</code></pre>
 <li>the residuals versus predicted waiting times,</li>
 <li>the distribution of the residuals</li>
 </ol>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-35_217b75cc9cb20845a04888d3b3d4a0ca">
+<div class="cell">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="do">## unfortunately, no plotting function is defined for 'nls' object</span></span>
 <span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>residual_nlm1 <span class="ot">&lt;-</span> <span class="fu">resid</span>(nlm1)<span class="sc">/</span><span class="fu">sd</span>(<span class="fu">resid</span>(nlm1))</span>
 <span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
@@ -1141,9 +1167,9 @@ tau    1.3118040   1.8520538</code></pre>
 <section id="model-comparison" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="model-comparison"><span class="header-section-number">4</span> Model comparison</h2>
 <p>We can produce the same the diagnostic plots with model <code>nlm2</code> and arrive at the same conclusion concerning this model.</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-36_710f9126dc70b82d6acedecba854ebf5">
+<div class="cell">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>residual_nlm2 <span class="ot">&lt;-</span> <span class="fu">resid</span>(nlm2)<span class="sc">/</span><span class="fu">sd</span>(<span class="fu">resid</span>(nlm2))</span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
 <span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">predict</span>(nlm2), faithful<span class="sc">$</span>waiting)</span>
@@ -1167,7 +1193,7 @@ tau    1.3118040   1.8520538</code></pre>
 </div>
 <p>Since <code>nlm1</code> and <code>nlm2</code> are two possible model for fitting our data, we need some criteria for comparing them. The statistical tests and the information criteria used for comparing linear models can also be used for comparing nonlinear models.</p>
 <p>First, we can perform a ANOVA for testing model <code>nlm1</code> against model <code>nlm2</code> since these two models are nested (<code>nlm1</code> correponds to <code>nlm2</code> when <span class="math inline">S=0</span>)</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-37_dc79dbcd94dd35f497a7d569a4595415">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(nlm1, nlm2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Variance Table
@@ -1185,7 +1211,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p><span class="math display">
 F_{\rm stat} = \frac{(RSS_1 - RSS_2)/(d_2-d_1)}{(RSS_2)/(n-d_2}
 </span></p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-38_7979b6d20b78dab313066bc81c8d070b">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>RSS1 <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">resid</span>(nlm1)<span class="sc">^</span><span class="dv">2</span>)</span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>RSS2 <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">resid</span>(nlm2)<span class="sc">^</span><span class="dv">2</span>)</span>
 <span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>p1   <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">coef</span>(nlm1))</span>
@@ -1198,14 +1224,14 @@ F_{\rm stat} = \frac{(RSS_1 - RSS_2)/(d_2-d_1)}{(RSS_2)/(n-d_2}
 </div>
 <p><em>Remark:</em> since the model is nonlinear, we cannot decompose the residual sum of squares <span class="math inline">RSS_1</span> as we did with linear models. Indeed, here,</p>
 <p><span class="math display">\|y- f_1(x,\hat\beta_1)\|^2 \neq \|f_1(x,\beta_1) - f_2(x,\hat\beta_2)\|^2 + \|y- f_2(x,\hat\beta_2)\|^2</span></p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-39_c427708206521ff99d1510e09c59f8ec">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(RSS1<span class="sc">-</span>RSS2, <span class="fu">sum</span>((<span class="fu">predict</span>(nlm1)<span class="sc">-</span><span class="fu">predict</span>(nlm2))<span class="sc">^</span><span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 464.2987 520.3559</code></pre>
 </div>
 </div>
 <p>Another way to test <code>nlm1</code> against <code>nlm2</code> consists in testing if <span class="math inline">S=0</span> in model <code>nlm2</code>:</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-40_5d28de6f05efe47aee4eeb39b064f213">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(nlm2)<span class="sc">$</span>coefficients</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       Estimate Std. Error   t value      Pr(&gt;|t|)
@@ -1217,7 +1243,7 @@ S     51.322077  1.8302942 28.040343  1.110792e-81</code></pre>
 </div>
 <p>Even if both tests clearly prefer model <code>nlm2</code>, we can remark that the <span class="math inline">t</span>-test and the <span class="math inline">F</span>-test are not equivalent since the models are nonlinear.</p>
 <p>Information criteria such as AIC and BIC also prefer model <code>nlm2</code>:</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-41_e7a269775bea99e55ff8cb4e69d98cef">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.matrix</span>(<span class="fu">AIC</span>(nlm1, nlm2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     df      AIC
@@ -1262,7 +1288,7 @@ f(x_0 , \beta) \simeq f(x_0 , \hat{\beta}) + \nabla f(x_0 , \hat{\beta})(\beta -
 <p>Then,</p>
 <p><span class="math display">{\rm CI}_{{\rm lin}, 1-\alpha}(y_0) = [f(x_0,\hat{\beta}) + qt_{\alpha/2, n-p}\ {\rm s.e.}(\hat{y}_0) \ , \ f(x_0,\hat{\beta}) + qt_{1-\alpha/2, n-p}\ {\rm s.e.}(\hat{y}_0)]</span></p>
 <p>As an example, let us compute the variance of <span class="math inline">f_2(x_0, \hat{\beta}_2)</span> for <span class="math inline">x_0 = 1, 1.1, 1.2, \ldots, 5.9, 6</span>,</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-42_6dfce66d29688a686d7dcb5fd181d895">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>f_prime <span class="ot">&lt;-</span> <span class="fu">deriv</span>(y <span class="sc">~</span> (A<span class="sc">-</span>S)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>(<span class="sc">-</span>gamma<span class="sc">*</span>(x<span class="sc">-</span>tau))) <span class="sc">+</span> S, <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"gamma"</span>, <span class="st">"tau"</span>, <span class="st">"S"</span>), <span class="cf">function</span>(A, gamma, tau, S, x){} ) </span>
 <span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>x_new <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">6</span>, <span class="at">by=</span><span class="fl">0.1</span>)</span>
 <span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>beta_hat <span class="ot">&lt;-</span> <span class="fu">coef</span>(nlm2)</span>
@@ -1271,7 +1297,7 @@ f(x_0 , \beta) \simeq f(x_0 , \hat{\beta}) + \nabla f(x_0 , \hat{\beta})(\beta -
 <span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a>GS <span class="ot">&lt;-</span> <span class="fu">rowSums</span>((grad_new <span class="sc">%*%</span> <span class="fu">vcov</span>(nlm2)) <span class="sc">*</span> grad_new)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can then derive a <span class="math inline">95\%</span> confidence interval for each <span class="math inline">f_2(x_0,\beta)</span></p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-43_0bc91dbfccc4debed2ab66a8f839cb71">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
 <span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>delta_f <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(GS) <span class="sc">*</span> <span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>,  n <span class="sc">-</span> <span class="fu">length</span>(beta_hat))</span>
 <span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>df_delta <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
@@ -1282,14 +1308,14 @@ f(x_0 , \beta) \simeq f(x_0 , \hat{\beta}) + \nabla f(x_0 , \hat{\beta})(\beta -
 <span id="cb80-8"><a href="#cb80-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>and for each <span class="math inline">y_0</span></p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-44_eaa1b24ebf47bf27f7e9d788cdf7aadd">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>delta_y    <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(GS <span class="sc">+</span> <span class="fu">sigma</span>(nlm2)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">*</span><span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>,df)</span>
 <span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>df_delta[<span class="fu">c</span>(<span class="st">"lwr_pred"</span>,<span class="st">"upr_pred"</span>)] <span class="ot">&lt;-</span> <span class="fu">cbind</span>(f_new <span class="sc">-</span> delta_y,f_new <span class="sc">+</span> delta_y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can now plot these two intervals together with the data:</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-45_88cefb34f60e6fb0f4d4e4f094be9788">
+<div class="cell">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(faithful)  <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> eruptions, <span class="at">y =</span> waiting)) <span class="sc">+</span></span>
 <span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_ribbon</span>(<span class="at">data=</span>df_delta, <span class="fu">aes</span>(<span class="at">x=</span>x_new, <span class="at">ymin=</span>lwr_pred, <span class="at">ymax=</span>upr_pred), <span class="at">alpha=</span><span class="fl">0.1</span>, <span class="at">fill=</span><span class="st">"blue"</span>) <span class="sc">+</span> </span>
 <span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data=</span>df_delta, <span class="fu">aes</span>(<span class="at">x=</span>x_new, <span class="at">ymin=</span>lwr_conf, <span class="at">ymax=</span>upr_conf), <span class="at">alpha=</span><span class="fl">0.2</span>, <span class="at">fill=</span><span class="st">"#339900"</span>) <span class="sc">+</span>   <span class="fu">geom_line</span>(<span class="at">data=</span>df_delta, <span class="fu">aes</span>(<span class="at">x=</span>x_new, <span class="at">y=</span>f_new), <span class="at">colour=</span><span class="st">"#339900"</span>, <span class="at">size=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1325,7 +1351,7 @@ f(x_0 , \beta) \simeq f(x_0 , \hat{\beta}) + \nabla f(x_0 , \hat{\beta})(\beta -
 &amp; [f(x_0,\hat{\beta}) + \frac{qt_{\alpha/2, n-d}}{q\mathcal{N}_{\alpha/2}}(y_{0,\alpha/2} - f(x_0,\hat{\beta}))\ , \  f(x_0,\hat{\beta}) + \frac{qt_{1-\alpha/2, n-d}}{q\mathcal{N}_{1-\alpha/2}}(y_{0,1-\alpha/2} - f(x_0,\hat{\beta}))]  
 \end{aligned}</span></p>
 <p>Let us compute these confidence and prediction interval bu boostraping for the <span class="math inline">f_2</span>:</p>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-46_c8530e2fca837da8525548013fbea609">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>f_hat <span class="ot">&lt;-</span> <span class="cf">function</span>(beta, x){ beta[<span class="dv">4</span>] <span class="sc">+</span> (beta[<span class="dv">1</span>]<span class="sc">-</span>beta[<span class="dv">4</span>])<span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>(<span class="sc">-</span>beta[<span class="dv">2</span>]<span class="sc">*</span>(x<span class="sc">-</span>beta[<span class="dv">3</span>]))) }</span>
 <span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>beta_hat  <span class="ot">&lt;-</span> <span class="fu">coef</span>(nlm2)</span>
 <span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>y_hat_ref <span class="ot">&lt;-</span> <span class="fu">f_hat</span>(beta_hat, x)</span>
@@ -1336,27 +1362,24 @@ f(x_0 , \beta) \simeq f(x_0 , \hat{\beta}) + \nabla f(x_0 , \hat{\beta})(\beta -
 <span id="cb83-8"><a href="#cb83-8" aria-hidden="true" tabindex="-1"></a>  nlm2_b <span class="ot">&lt;-</span> <span class="fu">nls</span>(y_b <span class="sc">~</span> <span class="fu">f_hat</span>(beta, x), <span class="at">start =</span> <span class="fu">list</span>(<span class="at">beta =</span> beta_hat))</span>
 <span id="cb83-9"><a href="#cb83-9" aria-hidden="true" tabindex="-1"></a>  f_b <span class="ot">&lt;-</span> <span class="fu">predict</span>(nlm2_b, <span class="at">newdata =</span> df_mc)</span>
 <span id="cb83-10"><a href="#cb83-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">f_hat =</span> f_b, <span class="at">y_hat =</span> f_b <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="fu">sigma</span>(nlm2)))</span>
-<span id="cb83-11"><a href="#cb83-11" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in parallel::mclapply(1:1000, function(b) {: scheduled core 2
-encountered error in user code, all values of the job will be affected</code></pre>
+<span id="cb83-11"><a href="#cb83-11" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb83-12"><a href="#cb83-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-13"><a href="#cb83-13" aria-hidden="true" tabindex="-1"></a>df_mc[<span class="fu">c</span>(<span class="st">"lwr_conf"</span>,<span class="st">"upr_conf"</span>)] <span class="ot">&lt;-</span> </span>
+<span id="cb83-14"><a href="#cb83-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(res, <span class="st">"f_hat"</span>) <span class="sc">%&gt;%</span> <span class="fu">reduce</span>(rbind) <span class="sc">%&gt;%</span> </span>
+<span id="cb83-15"><a href="#cb83-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(<span class="dv">2</span>, quantile, <span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>)) <span class="sc">%&gt;%</span> <span class="fu">t</span>()</span>
+<span id="cb83-16"><a href="#cb83-16" aria-hidden="true" tabindex="-1"></a>df_mc[<span class="fu">c</span>(<span class="st">"lwr_pred"</span>,<span class="st">"upr_pred"</span>)] <span class="ot">&lt;-</span></span>
+<span id="cb83-17"><a href="#cb83-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(res, <span class="st">"y_hat"</span>) <span class="sc">%&gt;%</span> <span class="fu">reduce</span>(rbind) <span class="sc">%&gt;%</span> </span>
+<span id="cb83-18"><a href="#cb83-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(<span class="dv">2</span>, quantile, <span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>)) <span class="sc">%&gt;%</span> <span class="fu">t</span>()</span>
+<span id="cb83-19"><a href="#cb83-19" aria-hidden="true" tabindex="-1"></a><span class="do">## removing bias</span></span>
+<span id="cb83-20"><a href="#cb83-20" aria-hidden="true" tabindex="-1"></a>df_mc[,(<span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>)] <span class="ot">&lt;-</span> f_new <span class="sc">+</span> rq<span class="sc">*</span>(df_mc[,(<span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>)] <span class="sc">-</span> f_new)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>df_mc[<span class="fu">c</span>(<span class="st">"lwr_conf"</span>,<span class="st">"upr_conf"</span>)] <span class="ot">&lt;-</span> </span>
-<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(res, <span class="st">"f_hat"</span>) <span class="sc">%&gt;%</span> <span class="fu">reduce</span>(rbind) <span class="sc">%&gt;%</span> </span>
-<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(<span class="dv">2</span>, quantile, <span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>)) <span class="sc">%&gt;%</span> <span class="fu">t</span>()</span>
-<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a>df_mc[<span class="fu">c</span>(<span class="st">"lwr_pred"</span>,<span class="st">"upr_pred"</span>)] <span class="ot">&lt;-</span></span>
-<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(res, <span class="st">"y_hat"</span>) <span class="sc">%&gt;%</span> <span class="fu">reduce</span>(rbind) <span class="sc">%&gt;%</span> </span>
-<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(<span class="dv">2</span>, quantile, <span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>)) <span class="sc">%&gt;%</span> <span class="fu">t</span>()</span>
-<span id="cb85-7"><a href="#cb85-7" aria-hidden="true" tabindex="-1"></a><span class="do">## removing bias</span></span>
-<span id="cb85-8"><a href="#cb85-8" aria-hidden="true" tabindex="-1"></a>df_mc[,(<span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>)] <span class="ot">&lt;-</span> f_new <span class="sc">+</span> rq<span class="sc">*</span>(df_mc[,(<span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>)] <span class="sc">-</span> f_new)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-hash="map566-lecture-nonlinear-regression_cache/html/unnamed-chunk-47_a64cd7bea373a81f29d0e491a7f4db3c">
+<div class="cell">
 <details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(faithful)  <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> eruptions, <span class="at">y =</span> waiting)) <span class="sc">+</span></span>
-<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_ribbon</span>(<span class="at">data=</span>df_mc, <span class="fu">aes</span>(<span class="at">x=</span>x_new, <span class="at">ymin=</span>lwr_pred, <span class="at">ymax=</span>upr_pred), <span class="at">alpha=</span><span class="fl">0.1</span>, <span class="at">fill=</span><span class="st">"blue"</span>) <span class="sc">+</span> </span>
-<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data=</span>df_mc, <span class="fu">aes</span>(<span class="at">x=</span>x_new, <span class="at">ymin=</span>lwr_conf, <span class="at">ymax=</span>upr_conf), <span class="at">alpha=</span><span class="fl">0.2</span>, <span class="at">fill=</span><span class="st">"#339900"</span>) <span class="sc">+</span>   </span>
-<span id="cb86-4"><a href="#cb86-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>df_mc, <span class="fu">aes</span>(<span class="at">x=</span>x_new, <span class="at">y=</span>f_new), <span class="at">colour=</span><span class="st">"#339900"</span>, <span class="at">size=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(faithful)  <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> eruptions, <span class="at">y =</span> waiting)) <span class="sc">+</span></span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_ribbon</span>(<span class="at">data=</span>df_mc, <span class="fu">aes</span>(<span class="at">x=</span>x_new, <span class="at">ymin=</span>lwr_pred, <span class="at">ymax=</span>upr_pred), <span class="at">alpha=</span><span class="fl">0.1</span>, <span class="at">fill=</span><span class="st">"blue"</span>) <span class="sc">+</span> </span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data=</span>df_mc, <span class="fu">aes</span>(<span class="at">x=</span>x_new, <span class="at">ymin=</span>lwr_conf, <span class="at">ymax=</span>upr_conf), <span class="at">alpha=</span><span class="fl">0.2</span>, <span class="at">fill=</span><span class="st">"#339900"</span>) <span class="sc">+</span>   </span>
+<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>df_mc, <span class="fu">aes</span>(<span class="at">x=</span>x_new, <span class="at">y=</span>f_new), <span class="at">colour=</span><span class="st">"#339900"</span>, <span class="at">size=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1500,27 +1523,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
     }
     stripColumnClz(note)
-    const typesetMath = (el) => {
-      if (window.MathJax) {
-        // MathJax Typeset
-        window.MathJax.typeset([el]);
-      } else if (window.katex) {
-        // KaTeX Render
-        var mathElements = el.getElementsByClassName("math");
-        var macros = [];
-        for (var i = 0; i < mathElements.length; i++) {
-          var texText = mathElements[i].firstChild;
-          if (mathElements[i].tagName == "SPAN") {
-            window.katex.render(texText.data, mathElements[i], {
-              displayMode: mathElements[i].classList.contains('display'),
-              throwOnError: false,
-              macros: macros,
-              fleqn: false
-            });
-          }
-        }
-      }
-    }
     if (id === null || id.startsWith('sec-')) {
       // Special case sections, only their first couple elements
       const container = document.createElement("div");
@@ -1535,10 +1537,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             break;
           }
         }
-        typesetMath(container);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
         return container.innerHTML
       } else {
-        typesetMath(note);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
         return note.innerHTML;
       }
     } else {
@@ -1547,8 +1553,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (anchorLink) {
         anchorLink.remove();
       }
-      typesetMath(note);
-      return note.innerHTML;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {
@@ -1786,4 +1799,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-</body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

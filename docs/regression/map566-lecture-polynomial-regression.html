@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.510">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -95,6 +95,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -119,6 +120,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }}});
   </script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -449,7 +477,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Scatter plots can help visualize any relationship between the explanatory variable <em>speed</em> (also called regression variable, or predictor) and the response variable <em>dist</em>.</p>
 <div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-2_60000595c961c5111ad7fc38fc9ff852">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>cars_plot <span class="ot">&lt;-</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  cars <span class="sc">%&gt;%</span> </span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span>  <span class="fu">aes</span>(<span class="at">x =</span> speed, <span class="at">y =</span> dist) <span class="sc">+</span> </span>
@@ -536,7 +564,7 @@ Coefficients:
 <p>Looking how the model fits the data is more than enough for concluding that this model is miss-specified.</p>
 <div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-5_ad720999050cf8199002f256902f384c">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>cars_plot <span class="ot">&lt;-</span> cars_plot <span class="sc">+</span> </span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="dv">1</span>, <span class="at">se =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>cars_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -651,7 +679,7 @@ speed         3.096964  4.767853</code></pre>
 </div>
 <div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-13_fa870b72ee1e0feb549815fc20faa307">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>cars_pred_plot <span class="ot">&lt;-</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  cars_training <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span>  <span class="fu">aes</span>(<span class="at">x =</span> speed, <span class="at">y =</span> dist) <span class="sc">+</span> </span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">colour=</span><span class="st">"#993399"</span>) <span class="sc">+</span>  <span class="fu">xlab</span>(<span class="st">"Speed mph)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Stopping distance (ft)"</span>) <span class="sc">+</span> </span>
@@ -686,7 +714,7 @@ speed         3.096964  4.767853</code></pre>
 </div>
 <div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-16_847e374ac0dccde0dfb07499cd938f81">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>cars_pred_plot <span class="ot">&lt;-</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  cars_training <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span>  <span class="fu">aes</span>(<span class="at">x =</span> speed, <span class="at">y =</span> dist) <span class="sc">+</span> </span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">colour=</span><span class="st">"#993399"</span>) <span class="sc">+</span>  <span class="fu">xlab</span>(<span class="st">"Speed mph)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Stopping distance (ft)"</span>) <span class="sc">+</span> </span>
@@ -744,7 +772,7 @@ speed         3.096964  4.767853</code></pre>
 <p>Let us plot these two intervals.</p>
 <div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-19_c30212f50769ece77f586dc5407d9981">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>cars_training <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span>  <span class="fu">aes</span>(<span class="at">x =</span> speed, <span class="at">y =</span> dist) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> conf_inter, <span class="fu">aes</span>(<span class="at">ymin =</span> lwr, <span class="at">ymax =</span> upr), <span class="at">fill =</span> <span class="st">"red"</span> , <span class="at">alpha =</span> <span class="fl">0.75</span>) <span class="sc">+</span></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> pred_inter, <span class="fu">aes</span>(<span class="at">ymin =</span> lwr, <span class="at">ymax =</span> upr), <span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">alpha =</span> <span class="fl">0.25</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -806,7 +834,7 @@ I(speed^2)    0.8929849 -0.9794765  1.0000000</code></pre>
 <p>Nevertheless, plotting the data together with the fitted polynomial suggests that the extreme values are better predicted with a polynomial of degree 2 than with a straight line.</p>
 <div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-22_8ca8e38f87cfa5bd26ec227835f97cc9">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>cars_plot <span class="sc">+</span> </span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">2</span>, <span class="at">raw =</span> <span class="cn">TRUE</span>), <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">colour=</span><span class="st">"#339900"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -821,7 +849,7 @@ I(speed^2)    0.8929849 -0.9794765  1.0000000</code></pre>
 <p>The predictive performance of the model need to be assesed in order to confirm this property of the model. We can again use the 80% most central data points to build the model and test it on the 20% remaining data points.</p>
 <div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-23_54615097dea450684ba3713e4f030b0a">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>cars_plot <span class="sc">+</span> </span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data =</span> cars_training, <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">2</span>, <span class="at">raw =</span> <span class="cn">TRUE</span>), <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">colour=</span><span class="st">"#339900"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -866,7 +894,7 @@ f(x) =  c_1 x + c_2 x^2 + \ldots + c_d x^d
 <p>We can plot the data with the predicted response <span class="math inline">f(x)</span>, confidence interval for <span class="math inline">f(x)</span> and prediction intervals for new observations <span class="math inline">y</span>.</p>
 <div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-26_df6dd0a3f5502beeaf732858c09330ef">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>new_x <span class="ot">&lt;-</span> <span class="fu">data.frame</span>( <span class="at">speed =</span> (<span class="dv">6</span><span class="sc">:</span><span class="dv">23</span>))</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(new_x, <span class="at">dist =</span> <span class="fu">predict</span>(lm2_no_inter, <span class="at">newdata =</span> new_x))</span>
@@ -1089,7 +1117,7 @@ poly(speed, degree = 2)1 145.55226   15.17607  9.590906 1.211446e-12
 poly(speed, degree = 2)2  22.99576   15.17607  1.515265 1.364024e-01</code></pre>
 </div>
 </div>
-<p>Based on these results, we can conclude that <span class="math inline">c_0 \neq 0</span> and <span class="math inline">c_1 \neq 0</span>. On the other hand, the data does not allow us to conclude that <span class="math inline">c_2 \neq 0</span>.</p>
+<p>Based on these results, we can conclude that <span class="math inline">c_0 \neq  0</span> and <span class="math inline">c_1 \neq  0</span>. On the other hand, the data does not allow us to conclude that <span class="math inline">c_2 \neq  0</span>.</p>
 </section>
 <section id="analysis-of-variance-anova" class="level3" data-number="3.2">
 <h3 data-number="3.2" class="anchored" data-anchor-id="analysis-of-variance-anova"><span class="header-section-number">3.2</span> Analysis-of-variance (anova)</h3>
@@ -1286,7 +1314,7 @@ F-statistic: 131.9 on 1 and 48 DF,  p-value: 2.259e-15</code></pre>
 <p>In the next plot, we compare the fits obtained when the model is built using the complete data (green) and when only the training sample is used (red).</p>
 <div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-47_aa3096921962fef6d8323b4fd8b4f438">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>training <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">6</span><span class="sc">:</span><span class="dv">45</span>)</span>
 <span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>cars_test     <span class="ot">&lt;-</span> cars[<span class="sc">-</span>training, ]</span>
 <span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>cars_training <span class="ot">&lt;-</span> cars[ training , ]</span>
@@ -1313,7 +1341,7 @@ F-statistic: 131.9 on 1 and 48 DF,  p-value: 2.259e-15</code></pre>
 <p>Based on the previous analysis, the model can be used for predicting stopping distances for a wide range of speeds. Let us compute and display the confidence interval for the regression line (of the model <code>lm(log(dist) ~ log(speed)))</code> and the prediction interval for new observed log-distances.</p>
 <div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-48_4fda2a69be218355573445b09b3a7653">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
 <span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>new_x <span class="ot">&lt;-</span> <span class="fu">data.frame</span>( <span class="at">speed =</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">30</span>)</span>
 <span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(new_x, <span class="at">log_dist =</span> <span class="fu">predict</span>(lm1_log, <span class="at">newdata =</span> new_x))</span>
@@ -1342,7 +1370,7 @@ F-statistic: 131.9 on 1 and 48 DF,  p-value: 2.259e-15</code></pre>
 <p>We can derive from these intervals a confidence interval and a prediction interval for the non transformed data (i.e.&nbsp;using the original scale).</p>
 <div class="cell" data-hash="map566-lecture-polynomial-regression_cache/html/unnamed-chunk-49_68262f38fec525e7ed376e1b7595d073">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>cars_training <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span>  <span class="fu">aes</span>(<span class="at">x =</span> speed, <span class="at">y =</span> dist) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> conf_inter, <span class="fu">aes</span>(<span class="at">ymin =</span> <span class="fu">exp</span>(lwr), <span class="at">ymax =</span> <span class="fu">exp</span>(upr)), <span class="at">fill =</span> <span class="st">"red"</span> , <span class="at">alpha =</span> <span class="fl">0.75</span>) <span class="sc">+</span></span>
 <span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> pred_inter, <span class="fu">aes</span>(<span class="at">ymin =</span> <span class="fu">exp</span>(lwr), <span class="at">ymax =</span> <span class="fu">exp</span>(upr)), <span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">alpha =</span> <span class="fl">0.25</span>) <span class="sc">+</span></span>
@@ -1535,27 +1563,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
     }
     stripColumnClz(note)
-    const typesetMath = (el) => {
-      if (window.MathJax) {
-        // MathJax Typeset
-        window.MathJax.typeset([el]);
-      } else if (window.katex) {
-        // KaTeX Render
-        var mathElements = el.getElementsByClassName("math");
-        var macros = [];
-        for (var i = 0; i < mathElements.length; i++) {
-          var texText = mathElements[i].firstChild;
-          if (mathElements[i].tagName == "SPAN") {
-            window.katex.render(texText.data, mathElements[i], {
-              displayMode: mathElements[i].classList.contains('display'),
-              throwOnError: false,
-              macros: macros,
-              fleqn: false
-            });
-          }
-        }
-      }
-    }
     if (id === null || id.startsWith('sec-')) {
       // Special case sections, only their first couple elements
       const container = document.createElement("div");
@@ -1570,10 +1577,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             break;
           }
         }
-        typesetMath(container);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
         return container.innerHTML
       } else {
-        typesetMath(note);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
         return note.innerHTML;
       }
     } else {
@@ -1582,8 +1593,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (anchorLink) {
         anchorLink.remove();
       }
-      typesetMath(note);
-      return note.innerHTML;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {
@@ -1818,4 +1836,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-</body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

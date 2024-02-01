@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.510">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -95,6 +95,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -119,6 +120,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }}});
   </script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -450,7 +478,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Let us plot the data, i.e.&nbsp;the distance versus age.</p>
 <div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-2_a3cffa284f46776c66909868c80126a9">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>orthodont_plot <span class="ot">&lt;-</span> Orthodont <span class="sc">%&gt;%</span> </span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> distance, <span class="at">color =</span> Sex) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>orthodont_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -497,7 +525,7 @@ F-statistic: 36.56 on 1 and 106 DF,  p-value: 2.248e-08</code></pre>
 <p>Let us plot the predicted distance <span class="math inline">\hat{a}_0 + \hat{a}_1 \times {\rm age}</span> together with the observed distances</p>
 <div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-4_a17a5b8291f250116bb8aff8a81f893c">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>orthodont_plot <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> <span class="fu">predict</span>(lm1))) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
@@ -511,7 +539,7 @@ F-statistic: 36.56 on 1 and 106 DF,  p-value: 2.248e-08</code></pre>
 <p>If we now display explicitly the boys and girls, we see that we are missing something: we underestimate the distance for the boys and overestimate it for the girls.</p>
 <div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-5_b17aa02c2b709a46da22f9ef2070f1db">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>orthodont_plot <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> <span class="fu">predict</span>(lm1))) <span class="sc">+</span> <span class="fu">facet_grid</span>( <span class="sc">~</span> Sex ) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
@@ -553,7 +581,7 @@ F-statistic: 36.41 on 2 and 105 DF,  p-value: 9.726e-13</code></pre>
 </div>
 <div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-7_d74244a5b83d61e0ffd28a5a44862d36">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>orthodont_plot <span class="sc">+</span>   </span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> <span class="fu">predict</span>(lm2))) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -595,7 +623,7 @@ F-statistic: 38.26 on 2 and 105 DF,  p-value: 3.31e-13</code></pre>
 </div>
 <div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-9_38ea1af39239f401d5dee1215da29037">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>orthodont_plot <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> <span class="fu">predict</span>(lm3))) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
@@ -637,7 +665,7 @@ F-statistic: 25.39 on 3 and 104 DF,  p-value: 2.108e-12</code></pre>
 </div>
 <div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-11_fd45c439dbb8788879bcc323649038e5">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>orthodont_plot <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> <span class="fu">predict</span>(lm4))) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
@@ -697,7 +725,7 @@ F-statistic: 36.65 on 1 and 62 DF,  p-value: 9.024e-08</code></pre>
 </ul>
 <p><span class="math display">\text{linear model 4':} \quad \quad y_j = c_{0} +  \delta_{0F}\times \mathbf{1}_{{\rm Sex}_j={\rm F}} + (c_{1}  +
 \delta_{1F}\times{\rm age}_j\times \mathbf{1}_{{\rm Sex}_j={\rm F}})\times{\rm age}_j  + \varepsilon_j</span></p>
-<p>where <span class="math inline">c_{1}=c_{1M}</span> and <span class="math inline">c_{1} + \delta_{1F}=c_{1F}</span>. This model is implemented by defining the interaction between Sex and age as <code>age*Sex</code>:</p>
+<p>where <span class="math inline">c_{1}=c_{1M}</span> and <span class="math inline">c_{1}  + \delta_{1F}=c_{1F}</span>. This model is implemented by defining the interaction between Sex and age as <code>age*Sex</code>:</p>
 <div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-14_757644cc911fe0af11ef134e10f79438">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>lm4b <span class="ot">&lt;-</span> <span class="fu">lm</span>(distance<span class="sc">~</span>age<span class="sc">*</span>Sex, <span class="at">data=</span>Orthodont)</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm4b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -753,7 +781,7 @@ lm4  5 501.6524</code></pre>
 <p>Let us look at the <em>individual fits</em> for 8 subjects,</p>
 <div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-17_eb7e64e32fc6610a6dd5dbe13b17e11a">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>selected <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">"M0"</span>,<span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>),<span class="fu">paste0</span>(<span class="st">"F0"</span>,<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>))</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>Orthodont_selected <span class="ot">&lt;-</span> <span class="fu">filter</span>(Orthodont, Subject <span class="sc">%in%</span> selected)</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>Orthodont_selected <span class="sc">%&gt;%</span> </span>
@@ -772,7 +800,7 @@ lm4  5 501.6524</code></pre>
 <p>Indeed, we didn’t take into account the fact that the data are <em>repeated measurements</em> made on the same subjects. A more convenient plot for this type of data consists in joining the data of a same individual:</p>
 <div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-18_a75ceadf977673e58532b84939f43a9f">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> Orthodont) <span class="sc">+</span> </span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> distance, <span class="at">color =</span> Subject), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span> </span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> distance, <span class="at">color =</span> Subject)) <span class="sc">+</span> <span class="fu">facet_grid</span>(<span class="sc">~</span>Sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1072,7 +1100,7 @@ age          0.6858038</code></pre>
 <p>Individual predicted distances can also be computed and plotted with the observed distances</p>
 <div class="cell" data-hash="map566-lecture-linear-mixed-model_cache/html/unnamed-chunk-25_3d9b5baf52282f5f9590688325e7b2bd">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>Orthodont<span class="sc">$</span>pred_lmem <span class="ot">&lt;-</span> <span class="fu">fitted</span>(lmem)</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>Orthodont <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Subject <span class="sc">%in%</span> selected) <span class="sc">%&gt;%</span> </span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> distance), <span class="at">color=</span><span class="st">"red"</span>, <span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span> </span>
@@ -1586,7 +1614,7 @@ lme.ergo2 11 143.0005
 lme.ergo3  4 148.6678</code></pre>
 </div>
 </div>
-<div class="remark proof">
+<div class="proof remark">
 <p><span class="proof-title"><em>Remark</em>. </span>The interaction between the testing subject and the stool type cannot be taken into account with this design as there is no replication.</p>
 </div>
 </section>
@@ -1794,27 +1822,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
     }
     stripColumnClz(note)
-    const typesetMath = (el) => {
-      if (window.MathJax) {
-        // MathJax Typeset
-        window.MathJax.typeset([el]);
-      } else if (window.katex) {
-        // KaTeX Render
-        var mathElements = el.getElementsByClassName("math");
-        var macros = [];
-        for (var i = 0; i < mathElements.length; i++) {
-          var texText = mathElements[i].firstChild;
-          if (mathElements[i].tagName == "SPAN") {
-            window.katex.render(texText.data, mathElements[i], {
-              displayMode: mathElements[i].classList.contains('display'),
-              throwOnError: false,
-              macros: macros,
-              fleqn: false
-            });
-          }
-        }
-      }
-    }
     if (id === null || id.startsWith('sec-')) {
       // Special case sections, only their first couple elements
       const container = document.createElement("div");
@@ -1829,10 +1836,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             break;
           }
         }
-        typesetMath(container);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
         return container.innerHTML
       } else {
-        typesetMath(note);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
         return note.innerHTML;
       }
     } else {
@@ -1841,8 +1852,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (anchorLink) {
         anchorLink.remove();
       }
-      typesetMath(note);
-      return note.innerHTML;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {
@@ -2077,4 +2095,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-</body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

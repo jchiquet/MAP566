@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.510">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -95,6 +95,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -119,6 +120,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }}});
   </script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -432,7 +460,7 @@ dbl (2): week, weight
 <p>The data per gender and regime is displayed below</p>
 <div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-2_1fb1d2193f38e9976edb69efdc7bfcb8">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="sc">%&gt;%</span> </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> gender, <span class="at">y =</span> weight) <span class="sc">+</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="fu">aes</span>(<span class="at">fill =</span> regime)) <span class="sc">+</span> <span class="fu">geom_jitter</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span>  <span class="fu">ylab</span>(<span class="st">"weight (g)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -448,7 +476,7 @@ dbl (2): week, weight
 <p>The following table provides the mean weight in each group</p>
 <div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-3_2c80fa55e956e4f5c5935175afb3b1c4">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(regime, gender) <span class="sc">%&gt;%</span> </span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="st">'average weight'</span> <span class="ot">=</span> <span class="fu">mean</span>(weight), <span class="at">count =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span> </span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -470,7 +498,7 @@ dbl (2): week, weight
 <p>Before considering the problem of comparing two groups, let us start looking at the weight of the male rats only:</p>
 <div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-4_456a176f7acb9cea748e32d0b4f645ee">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>rat_weight <span class="sc">%&gt;%</span> <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">"Male"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> regime, <span class="at">y =</span> weight) <span class="sc">+</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="fu">aes</span>(<span class="at">fill =</span> regime)) <span class="sc">+</span> <span class="fu">geom_jitter</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span>  <span class="fu">ylab</span>(<span class="st">"weight (g)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -678,7 +706,7 @@ p_{\rm value} &amp; = \mathbb{P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm ob
 <p>In fact, for a given <span class="math inline">\alpha</span>, these two values <span class="math inline">\mu_{\alpha,{\rm lower}}</span> and <span class="math inline">\mu_{\alpha,{\rm upper}}</span> define a <em>confidence interval</em> for <span class="math inline">\mu</span>: We are ``confident’’ at the level <span class="math inline">1-\alpha</span> that any value between <span class="math inline">\mu_{\alpha,{\rm lower}}</span> and <span class="math inline">\mu_{\alpha,{\rm upper}}</span> is a possible value for <span class="math inline">\mu</span>.</p>
 <div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-18_11d54e766d4c971dee50313a55ee9361">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>mu     <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">490</span>, <span class="dv">520</span>, <span class="at">by =</span> <span class="fl">0.25</span>)</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>t_stat <span class="ot">&lt;-</span> (x_mean <span class="sc">-</span> mu) <span class="sc">/</span> x_sd <span class="sc">*</span> <span class="fu">sqrt</span>(n)</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>pval   <span class="ot">&lt;-</span> <span class="fu">pmin</span>(<span class="fu">pt</span>(<span class="sc">-</span>t_stat, df) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(t_stat, df)),</span>
@@ -712,7 +740,7 @@ p_{\rm value} &amp; = \mathbb{P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm ob
 <pre><code>[1] 496.4727 515.9709</code></pre>
 </div>
 </div>
-<div class="remark proof">
+<div class="proof remark">
 <p><span class="proof-title"><em>Remark</em>. </span>The fact that <span class="math inline">\mathbb{P}( \mu \in {\rm CI}_{1-\alpha}) = 1- \alpha</span> does not mean that <span class="math inline">\mu</span> is a random variable! It is the bounds of the confidence interval that are random because they are function of the data.</p>
 <p>A confidence interval of level <span class="math inline">1-\alpha</span> should be interpreted like this: imagine that we repeat the same experiment many times, with the same experimental conditions, and that we build a confidence interval for <span class="math inline">\mu</span> for each of these replicate. Then, the true mean <span class="math inline">\mu</span> will lie in the confidence interval <span class="math inline">(1-\alpha)100\%</span> of the times.</p>
 <p>Let us check this property with a Monte Carlo simulation.</p>
@@ -730,7 +758,7 @@ p_{\rm value} &amp; = \mathbb{P}_{H_0}(|T_{\rm stat}| &gt; |T_{\rm stat}^{\rm ob
 </div>
 </div>
 </div>
-<div class="remark proof">
+<div class="proof remark">
 <p><span class="proof-title"><em>Remark</em>. </span>The decision rule to reject or not the null hypothesis can be derived from the confidence interval. Indeed, the confidence interval plays the role of an acceptance region: we reject <span class="math inline">H_0</span> if <span class="math inline">\mu_0</span> does not belong to <span class="math inline">{\rm CI}_{1-\alpha}</span>.</p>
 <p>In the case of a one sided test, the output of <code>t.test</code> called confidence interval is indeed an acceptance region for <span class="math inline">\mu</span>, but not a “confidence interval” (we cannot seriously consider that <span class="math inline">\mu</span> can take any value above 500 for instance )</p>
 <div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-21_c4278b87ba01f55cd99daa53006cc491">
@@ -1100,7 +1128,7 @@ W = 616.5, p-value = 0.1516
 alternative hypothesis: true location shift is not equal to 0</code></pre>
 </div>
 </div>
-<div class="remark proof">
+<div class="proof remark">
 <p><span class="proof-title"><em>Remark</em>. </span>It is easy to show that <span class="math inline">W_x+W_y=n_x n_y</span></p>
 <div class="cell" data-hash="map566-lecture-single_cache/html/unnamed-chunk-45_1d8cc8604892c95f352471487a67fae1">
 <div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(Wx<span class="sc">+</span>Wy, nx<span class="sc">*</span>ny)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1356,27 +1384,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
     }
     stripColumnClz(note)
-    const typesetMath = (el) => {
-      if (window.MathJax) {
-        // MathJax Typeset
-        window.MathJax.typeset([el]);
-      } else if (window.katex) {
-        // KaTeX Render
-        var mathElements = el.getElementsByClassName("math");
-        var macros = [];
-        for (var i = 0; i < mathElements.length; i++) {
-          var texText = mathElements[i].firstChild;
-          if (mathElements[i].tagName == "SPAN") {
-            window.katex.render(texText.data, mathElements[i], {
-              displayMode: mathElements[i].classList.contains('display'),
-              throwOnError: false,
-              macros: macros,
-              fleqn: false
-            });
-          }
-        }
-      }
-    }
     if (id === null || id.startsWith('sec-')) {
       // Special case sections, only their first couple elements
       const container = document.createElement("div");
@@ -1391,10 +1398,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             break;
           }
         }
-        typesetMath(container);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
         return container.innerHTML
       } else {
-        typesetMath(note);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
         return note.innerHTML;
       }
     } else {
@@ -1403,8 +1414,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (anchorLink) {
         anchorLink.remove();
       }
-      typesetMath(note);
-      return note.innerHTML;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {
@@ -1639,4 +1657,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-</body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

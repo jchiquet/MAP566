@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.510">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -115,6 +115,7 @@ div.csl-indent {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -139,6 +140,33 @@ div.csl-indent {
 }}});
   </script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -486,7 +514,7 @@ U(\mu_1,\mu_2,\ldots,\mu_L) &amp; =\sum_{i=1}^n \min_{k \in \{1, \ldots, K\}} (y
 <p>and plot them on the original data</p>
 <div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-5_c9c5f32bfb76ed5f25d7c9061d6af3a4">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> clustered_data, <span class="fu">aes</span>(<span class="at">x =</span> y, <span class="at">y =</span> <span class="dv">0</span>, <span class="at">colour =</span> cl_hat), <span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span> </span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> <span class="fu">data.frame</span>(<span class="at">y =</span> mu_hat, <span class="at">group =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))), <span class="fu">aes</span>(y, <span class="dv">0</span>, <span class="at">colour =</span> group), <span class="at">size=</span><span class="dv">10</span>, <span class="at">shape=</span><span class="st">"x"</span>) <span class="sc">+</span> </span>
@@ -618,7 +646,7 @@ $sigma
 <p>We can then plot the empirical distribution of the data together with the probability density function of the mixture:</p>
 <div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-10_269ac061141f4ca32200b3fd0423cb88">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>plot_mixture <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="dv">35</span><span class="sc">:</span><span class="dv">100</span>)</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>plot_mixture<span class="sc">$</span>pdf <span class="ot">&lt;-</span> <span class="fu">dmixture</span>(plot_mixture<span class="sc">$</span>x, theta_hat)</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>faithful <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
@@ -636,7 +664,7 @@ $sigma
 <p>Comparing the empirical and theoretical cumulative distribution functions (cdf) shows how well the mixture model fits the data</p>
 <div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-11_1c96c2daaf91fecedde92410f353ae48">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>plot_mixture<span class="sc">$</span>cdf <span class="ot">&lt;-</span> <span class="fu">pmixture</span>(plot_mixture<span class="sc">$</span>x, theta_hat)</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>faithful <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_ecdf</span>(<span class="fu">aes</span>(waiting), <span class="at">geom =</span> <span class="st">"step"</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"waiting (mm)"</span>) <span class="sc">+</span> </span>
@@ -651,7 +679,7 @@ $sigma
 </div>
 </div>
 <p>The estimated mixture distribution <span class="math inline">F_{\hat{\theta}}</span> (obtained with the maximum likelihood estimate <span class="math inline">\hat\theta</span>) seems to perfectly fit the empirical distribution of the faithful data.</p>
-<p>We can perform a Kolmogorov-Smirnov test for testing <span class="math inline">H_0: y_i \sim \ F_{\hat{\theta}}</span> versus <span class="math inline">H_1: y_i \sim \!\!\!\!\!/ \ F_{\hat{\theta}}</span>:</p>
+<p>We can perform a Kolmogorov-Smirnov test for testing <span class="math inline">H_0: y_i \sim \ F_{\hat{\theta}}</span> versus <span class="math inline">H_1: y_i \sim \!\!\!\!\!/  \ F_{\hat{\theta}}</span>:</p>
 <div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-12_63f11bc29b3300d93f8959f95c8fe49c">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ks.test</span>(y, pmixture, theta_hat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -937,7 +965,7 @@ $sigma
 <p>and let us plot the convergence of the algorithm:</p>
 <div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-23_4e2271e411762dc4f092d51edcb6ab63">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>plot_singleEM <span class="ot">&lt;-</span> <span class="cf">function</span>(convergence, <span class="at">title =</span> <span class="st">"Convergence of the EM algorithm"</span>) {</span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(convergence)</span>
 <span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>  gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(</span>
@@ -967,7 +995,7 @@ $sigma
 <p>The sequence of EM estimates <span class="math inline">(\theta_k)</span> depends on the initial guess <span class="math inline">\theta_0</span>. Let us plot the convergence of the algorithm obtained with several initial values. To do this, we write a small function to automatize the plot in the same vein as in the above output.</p>
 <div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-24_52dc1d141283356c690d6a151097c81d">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>plot_convergence <span class="ot">&lt;-</span> <span class="cf">function</span>(convergence, <span class="at">title =</span> <span class="st">"Convergence of EM for random initialization"</span>) {</span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(convergence<span class="sc">$</span>simu)) convergence<span class="sc">$</span>simu <span class="ot">&lt;-</span> <span class="dv">1</span></span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(convergence)</span>
@@ -981,7 +1009,7 @@ $sigma
 </div>
 <div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-25_78d36e8a19289326462401b86e1d8253">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>convergences <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="cf">function</span>(i) {</span>
 <span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>  pi1 <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>, <span class="fl">0.1</span>, <span class="fl">0.9</span>)</span>
@@ -1102,7 +1130,7 @@ $sigma
 </section>
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-RandIndex" class="csl-entry" role="listitem">
 Rand, William M. 1971. <span>“Objective Criteria for the Evaluation of Clustering Methods.”</span> <em>Journal of the American Statistical Association</em> 66 (336): 846–50.
 </div>
@@ -1238,27 +1266,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
     }
     stripColumnClz(note)
-    const typesetMath = (el) => {
-      if (window.MathJax) {
-        // MathJax Typeset
-        window.MathJax.typeset([el]);
-      } else if (window.katex) {
-        // KaTeX Render
-        var mathElements = el.getElementsByClassName("math");
-        var macros = [];
-        for (var i = 0; i < mathElements.length; i++) {
-          var texText = mathElements[i].firstChild;
-          if (mathElements[i].tagName == "SPAN") {
-            window.katex.render(texText.data, mathElements[i], {
-              displayMode: mathElements[i].classList.contains('display'),
-              throwOnError: false,
-              macros: macros,
-              fleqn: false
-            });
-          }
-        }
-      }
-    }
     if (id === null || id.startsWith('sec-')) {
       // Special case sections, only their first couple elements
       const container = document.createElement("div");
@@ -1273,10 +1280,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             break;
           }
         }
-        typesetMath(container);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
         return container.innerHTML
       } else {
-        typesetMath(note);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
         return note.innerHTML;
       }
     } else {
@@ -1285,8 +1296,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (anchorLink) {
         anchorLink.remove();
       }
-      typesetMath(note);
-      return note.innerHTML;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {
@@ -1521,4 +1539,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-</body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

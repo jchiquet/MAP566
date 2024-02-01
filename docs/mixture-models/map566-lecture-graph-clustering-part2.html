@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.510">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -114,6 +114,7 @@ div.csl-indent {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -138,6 +139,33 @@ div.csl-indent {
 }}});
   </script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -381,7 +409,7 @@ div.csl-indent {
 <p>The <code>frenchblog2007</code> data is a network dataset which consists of a single day snapshot of over 200 political blogs automatically extracted the 14 October 2006 and manually classified by the “Observatoire Présidentielle” project. It is part of the <strong>missSBM</strong> package. It is provided as an <strong>igraph</strong> object with 196 nodes. The vertex attribute “party” provides a classification of the nodes.</p>
 <div class="cell" data-hash="map566-lecture-graph-clustering-part2_cache/html/mixture-fblog-load2_9e21ca2fc5886d141d87318fc2b97dc0">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"frenchblog2007"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(frenchblog2007)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -390,7 +418,7 @@ div.csl-indent {
 + attr: name (v/c), party (v/c)</code></pre>
 </div>
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">V</span>(frenchblog2007)<span class="sc">$</span>party <span class="sc">%&gt;%</span> <span class="fu">table</span>() <span class="sc">%&gt;%</span> <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
@@ -401,7 +429,7 @@ div.csl-indent {
 </div>
 </div>
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>blog <span class="ot">&lt;-</span> frenchblog2007 <span class="sc">%&gt;%</span>  <span class="fu">delete_vertices</span>(<span class="fu">which</span>(<span class="fu">degree</span>(frenchblog2007) <span class="sc">&lt;=</span> <span class="dv">1</span>))</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>party <span class="ot">&lt;-</span> <span class="fu">V</span>(blog)<span class="sc">$</span>party <span class="sc">%&gt;%</span> <span class="fu">as_factor</span>()</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>Y     <span class="ot">&lt;-</span> blog <span class="sc">%&gt;%</span> <span class="fu">as_adjacency_matrix</span>()</span>
@@ -417,7 +445,7 @@ div.csl-indent {
 </div>
 </div>
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.igraph</span>(frenchblog2007,</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">vertex.color =</span> <span class="fu">factor</span>(<span class="fu">V</span>(frenchblog2007)<span class="sc">$</span>party),</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">vertex.label =</span> <span class="cn">NA</span></span>
@@ -464,7 +492,7 @@ Motivation
 <h3 data-number="2.1" class="anchored" data-anchor-id="the-erdös-renyi-model"><span class="header-section-number">2.1</span> The Erdös-Renyi model</h3>
 <p>We start by the most simple, yet natural model for random graph, the Erdös-Rényi model.</p>
 <div id="def-erdosRenyi" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 1 (Erdös-Rényi model) </strong></span>Let <span class="math inline">\mathcal{V} = {1,\dots,n}</span> be a set of fixed vertices. The (simple) Erdös-Rényi model <span class="math inline">\mathcal{G}(n,\pi)</span> assumes random edges between pairs of nodes with probability <span class="math inline">\pi</span>. In orther word, the (random) adjacency matrix <span class="math inline">Y</span> is such that</p>
+<p><span class="theorem-title"><strong>Definition 1 (Erdös-Rényi model)</strong></span> Let <span class="math inline">\mathcal{V} = {1,\dots,n}</span> be a set of fixed vertices. The (simple) Erdös-Rényi model <span class="math inline">\mathcal{G}(n,\pi)</span> assumes random edges between pairs of nodes with probability <span class="math inline">\pi</span>. In orther word, the (random) adjacency matrix <span class="math inline">Y</span> is such that</p>
 <p><span class="math display">
   Y_{ij} \sim \mathcal{B}(\pi)
 </span></p>
@@ -527,7 +555,7 @@ Stochastic Block Model: definition
 </ul>
 <p>Denote by</p>
 <ul>
-<li><span class="math inline">\alpha_\bullet = \mathbb{P}(i \in \bullet)</span>, <span class="math inline">\bullet\in\mathcal{C}</span> the prior probability of group memberships,</li>
+<li><span class="math inline">\alpha_\bullet  =  \mathbb{P}(i  \in  \bullet)</span>, <span class="math inline">\bullet\in\mathcal{C}</span> the prior probability of group memberships,</li>
 <li><span class="math inline">\pi_{{\color{#fab20a}{\bullet}}{\color{#0000ff}{\bullet}}} = \mathbb{P}(i \leftrightarrow j | i\in{\color{#fab20a}{\bullet}},j\in{\color{#0000ff}{\bullet}})</span>, the probability of connection between groups.</li>
 </ul>
 <p>In the binary Stochastic Block Model, the adjacency matrix <span class="math inline">Y_{ij}</span> is random, with probability of connection between a dyad <span class="math inline">(i,j)</span> being defined conditionally on their respective group memberships, described by a vector of random variables <span class="math inline">(Z_i)_{i=1,\dots,n}</span>.</p>
@@ -544,7 +572,7 @@ Y_{ij} \ | \ \{i\in{\color{#fab20a}{\bullet}},j\in{\color{#0000ff}{\bullet}}\}
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="sbm.png" class="img-fluid figure-img" style="width:50.0%"></p>
+<p><img src="sbm.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%"></p>
 <figcaption>The binary SBM model</figcaption>
 </figure>
 </div>
@@ -609,7 +637,7 @@ Y_{ij} \ | \ \{i\in{\color{#fab20a}{\bullet}},j\in{\color{#0000ff}{\bullet}}\}
 <h4 data-number="2.2.2" class="anchored" data-anchor-id="degree-distribution"><span class="header-section-number">2.2.2</span> Degree distribution</h4>
 <p>Because it is defined as a simple mixture of Erdös-Rényi, the degree distribution of the binary SBM has a simple close form</p>
 <div id="def-degreeSBM" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 2 (SBM: Degree distribution) </strong></span>The conditional degree distribution of a node <span class="math inline">i\in q</span> is</p>
+<p><span class="theorem-title"><strong>Definition 2 (SBM: Degree distribution)</strong></span> The conditional degree distribution of a node <span class="math inline">i\in q</span> is</p>
 <p><span class="math display">
   D_i | i \in k \sim \mathrm{b}(n-1,\bar\pi) \approx \mathcal{P}(\lambda_k), \qquad \bar\pi_k = \sum_{\ell=1}^K \alpha_\ell \pi_{k\ell}, \quad \lambda_k = (n-1)\bar\pi_k
 </span></p>
@@ -878,13 +906,13 @@ Intractable EM
 <li><span class="math inline">Z^1_i = k</span> if node <span class="math inline">i</span> belongs to cluster (block) <span class="math inline">k</span>,</li>
 <li><span class="math inline">Z^2_j = \ell</span> if node <span class="math inline">j</span> belongs to cluster (block) <span class="math inline">\ell</span></li>
 </ul>
-<p>where <span class="math inline">Z^1_i, Z^2_j</span> are independent <span class="math inline">\mathbb{P}(Z^1_i = k) = \alpha^1_k,\quad \mathbb{P}(Z^2_j = \ell) = \alpha^2_\ell</span></p>
+<p>where <span class="math inline">Z^1_i, Z^2_j</span> are independent <span class="math inline">\mathbb{P}(Z^1_i = k) = \alpha^1_k,\quad  \mathbb{P}(Z^2_j = \ell) = \alpha^2_\ell</span></p>
 <p>In a nutshell,</p>
 <div class="cell" data-layout-align="center" data-hash="map566-lecture-graph-clustering-part2_cache/html/unnamed-chunk-3_824569b90d7e9dae6d3d1ccd242b3398">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="bipartite_sbm.png" class="img-fluid figure-img" style="width:50.0%"></p>
+<p><img src="bipartite_sbm.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%"></p>
 <figcaption>binary Bipartite SBM model</figcaption>
 </figure>
 </div>
@@ -892,10 +920,10 @@ Intractable EM
 </div>
 <ul>
 <li><span class="math inline">n_1</span> row nodes <span class="math inline">\mathcal{K}_1=\{{\color{#ff0000}{\bullet}},{\color{#fab20a}{\bullet}},{\color{#00ff00}{\bullet}}\}</span> classes</li>
-<li><span class="math inline">\alpha^1_\bullet = \mathbb{P}(i \in \bullet)</span>, <span class="math inline">\bullet\in\mathcal{K}_1,i=1,\dots,n</span></li>
+<li><span class="math inline">\alpha^1_\bullet  =  \mathbb{P}(i  \in  \bullet)</span>, <span class="math inline">\bullet\in\mathcal{K}_1,i=1,\dots,n</span></li>
 <li><span class="math inline">n_2</span> column nodes <span class="math inline">\mathcal{K}_2=\{{\color{#ffff00}{\bullet}},\color{black}{\bullet}\}</span> classes</li>
-<li><span class="math inline">\alpha^2_\bullet = \mathbb{P}(j \in \bullet)</span>, <span class="math inline">\bullet\in\mathcal{K}_2,j=1,\dots,m</span></li>
-<li><span class="math inline">\pi_{{\color{#ff0000}{\bullet}}{\color{#ffff00}{\bullet}}} = \mathbb{P}(i \leftrightarrow j | i\in{\color{#ff0000}{\bullet}},j\in{\color{#ffff00}{\bullet}})</span></li>
+<li><span class="math inline">\alpha^2_\bullet  =  \mathbb{P}(j  \in  \bullet)</span>, <span class="math inline">\bullet\in\mathcal{K}_2,j=1,\dots,m</span></li>
+<li><span class="math inline">\pi_{{\color{#ff0000}{\bullet}}{\color{#ffff00}{\bullet}}}   = \mathbb{P}(i \leftrightarrow j | i\in{\color{#ff0000}{\bullet}},j\in{\color{#ffff00}{\bullet}})</span></li>
 </ul>
 <p><span class="math display">\begin{aligned}
 Z^1_i  \ &amp; \sim^{\text{iid}} \mathcal{M}(1,\boldsymbol\pi^1), \quad \forall\bullet \in \mathcal{Q}_1, \\
@@ -913,7 +941,7 @@ Y_{ij} \ | \ \{i\in{\color{#ff0000}{\bullet}},j\in{\color{#ffff00}{\bullet}}\}
 </section>
 
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-daudin2008mixture" class="csl-entry" role="listitem">
 Daudin, J-J, Franck Picard, and Stéphane Robin. 2008. <span>“A Mixture Model for Random Graphs.”</span> <em>Stat. Comp.</em> 18 (2): 173–83.
 </div>
@@ -923,12 +951,12 @@ Mariadassou, Mahendra, Stéphane Robin, and Corinne Vacher. 2010. <span>“Uncov
 <div id="ref-Nowicki2001" class="csl-entry" role="listitem">
 Nowicki, K., and T. A. B. Snijders. 2001. <span>“Estimation and Prediction for Stochastic Blockstructures.”</span> <em>J. Am. Stat. Soc.</em> 96 (455): 1077–87.
 </div>
-</div></section><aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+</div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
 <li id="fn1"><p>I have been involved in their development and they share some classes and have very similar interfaces<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
-</aside></div></main> <!-- /main -->
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -1057,27 +1085,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
     }
     stripColumnClz(note)
-    const typesetMath = (el) => {
-      if (window.MathJax) {
-        // MathJax Typeset
-        window.MathJax.typeset([el]);
-      } else if (window.katex) {
-        // KaTeX Render
-        var mathElements = el.getElementsByClassName("math");
-        var macros = [];
-        for (var i = 0; i < mathElements.length; i++) {
-          var texText = mathElements[i].firstChild;
-          if (mathElements[i].tagName == "SPAN") {
-            window.katex.render(texText.data, mathElements[i], {
-              displayMode: mathElements[i].classList.contains('display'),
-              throwOnError: false,
-              macros: macros,
-              fleqn: false
-            });
-          }
-        }
-      }
-    }
     if (id === null || id.startsWith('sec-')) {
       // Special case sections, only their first couple elements
       const container = document.createElement("div");
@@ -1092,10 +1099,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             break;
           }
         }
-        typesetMath(container);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
         return container.innerHTML
       } else {
-        typesetMath(note);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
         return note.innerHTML;
       }
     } else {
@@ -1104,8 +1115,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (anchorLink) {
         anchorLink.remove();
       }
-      typesetMath(note);
-      return note.innerHTML;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {
@@ -1331,4 +1349,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-</body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/jchiquet/MAP566/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
