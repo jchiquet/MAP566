@@ -72,8 +72,6 @@ $$
 f_2(x) =  S + \frac{A-S}{1+{\rm exp}(-\gamma(x-\tau))}
 $$
 
-[Interactive fit](http://shiny.webpopix.org/sia/nlm2/)
-
 We can again use `nls` to fit this nonlinear model to the data:
 
 ```{r}
