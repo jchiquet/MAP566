@@ -201,7 +201,7 @@ plot_mixture <- data.frame(x = 35:100)
 plot_mixture$pdf <- dmixture(plot_mixture$x, theta_hat)
 faithful %>% ggplot() + 
   geom_histogram(aes(x = waiting, y=after_stat(density)), bins = 15) + xlab("waiting (mm)") + 
-  geom_line(data = plot_mixture, aes(x, pdf),colour="red",linewidth=1.5)
+  geom_line(data = plot_mixture, aes(x, pdf),colour="red",linewidth=1.5) + theme_bw()
 ```
 
 Comparing the empirical and theoretical cumulative distribution functions (cdf) shows how well the mixture model fits the data
@@ -325,9 +325,6 @@ aricode::ARI(cl_kmeans, cl_gmm)
 ```
 
 Of course, these results depend strongly on the model, i.e. on the parameters of the mixture. 
-[This Shiny app](http://shiny.webpopix.org/sia/mm2/) allows one to modify the parameters of the second distribution (the first distribution is assumed to be a normal distribution with mean 0 and variance 1) and compare the results provided by the two methods.
-
-<iframe src="http://shiny.webpopix.org/sia/mm2/" style="border: none; width: 780px; height: 600px"></iframe>
 
 ## Some EM-type algorithms
 
@@ -578,10 +575,6 @@ mySEM_mixture$deviance
 ```{r}
 plot_singleEM(mySEM_mixture$convergence, title="Convergence of S-EM")
 ```
-
-[http://shiny.webpopix.org/sia/mm4/](http://shiny.webpopix.org/sia/mm4/)
-
-<iframe src="http://shiny.webpopix.org/sia/mm4/" style="border: none; width: 780px; height: 550px"></iframe>
 
 ### References {-}
 
