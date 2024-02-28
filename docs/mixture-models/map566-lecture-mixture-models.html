@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -303,6 +303,12 @@ window.Quarto = {
     <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">
  <span class="dropdown-text">Mixture models</span></a>
   </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Supplementary material</li>
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-doc-mixture-models-example.html">
+ <span class="dropdown-text">Clustering and classification with model based approaches</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -380,6 +386,23 @@ window.Quarto = {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Supplementary material</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/mixture-models/map566-doc-mixture-models-example.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Clustering and classification with model based approaches</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -436,7 +459,7 @@ window.Quarto = {
 <section id="preliminary" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="preliminary">Preliminary</h2>
 <p>Functions from <code>R</code>-base and stats (preloaded) are required plus packages from the <strong>tidyverse</strong> for data representation and manipulation. We will also use the package <strong>mixtools</strong>, which implements EM for simple mixture models to check our own implementation, and the package <strong>aricode</strong> for computing various metrics and for comparing clustering:</p>
-<div class="cell" data-hash="map566-lecture-mixture-models_cache/html/tests-config_5050c9ef522ced7bbefb6af29cbaf9da">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(aricode)</span>
@@ -449,7 +472,7 @@ window.Quarto = {
 <section id="the-data" class="level3" data-number="1.1">
 <h3 data-number="1.1" class="anchored" data-anchor-id="the-data"><span class="header-section-number">1.1</span> The data</h3>
 <p>The <code>faithful</code> data consists of the waiting time between eruptions and the duration of the eruption for the Old Faithful geyser in Yellowstone National Park, Wyoming, USA.</p>
-<div class="cell" data-hash="map566-lecture-mixture-models_cache/html/mixture-faitful-load_8ccaf11186c8764e9d010a834cf3a2b3">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"faithful"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>faithful <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -461,12 +484,12 @@ window.Quarto = {
 </div>
 </div>
 <p>For convenience, in the following, the data vector will be denoted by <span class="math inline">y</span>, with <span class="math inline">n</span> entries:</p>
-<div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-1_204b5898e9529e4895cfd5e86f5b1d28">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> faithful<span class="sc">$</span>waiting</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We will consider the waiting time in the following. Let us display the empirical distribution of this variable (an histogram).</p>
-<div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-2_8052a6613b8527d59141626e7ab346ea">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>faithful <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x =</span> waiting), <span class="at">bins =</span> <span class="dv">15</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"waiting (mm)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -493,7 +516,7 @@ U(\mu_1,\mu_2,\ldots,\mu_L) &amp; =\sum_{i=1}^n \min_{k \in \{1, \ldots, K\}} (y
 <p>For <span class="math inline">k=1,2,\ldots, K</span>, the solution <span class="math inline">\hat\mu_k</span> is the empirical mean computed in cluster <span class="math inline">k</span>. Let <span class="math inline">n_k = \sum_{i=1}^n \mathbf{1}_{\{{z}_i=k\}}</span> be the number of observation belonging to cluster <span class="math inline">k</span>. Then</p>
 <p><span class="math display"> \hat{\mu}_k =  \frac{1}{n_k} \sum_{i=1}^n y_i \mathbf{1}_{\{z_i=k\}} </span></p>
 <p>Let us compute the centers of the two clusters for our faithful data:</p>
-<div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-3_b7ae13fd1e15bf7608cf1d77db6f3069">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>U <span class="ot">&lt;-</span> <span class="cf">function</span>(mu, y) {</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(<span class="fu">pmin</span>((y<span class="sc">-</span>mu[<span class="dv">1</span>])<span class="sc">^</span><span class="dv">2</span>, (y<span class="sc">-</span>mu[<span class="dv">2</span>])<span class="sc">^</span><span class="dv">2</span>))</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>}</span>
@@ -505,14 +528,14 @@ U(\mu_1,\mu_2,\ldots,\mu_L) &amp; =\sum_{i=1}^n \min_{k \in \{1, \ldots, K\}} (y
 </div>
 </div>
 <p>We can then classify the <span class="math inline">n</span> observations into these 2 clusters</p>
-<div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-4_17d68817d34f29abd9a5e2d91bd70184">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>cl_hat <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, n)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>in_cl2 <span class="ot">&lt;-</span> <span class="fu">which</span> ((y<span class="sc">-</span>mu_hat[<span class="dv">1</span>])<span class="sc">^</span><span class="dv">2</span> <span class="sc">&gt;</span> (y<span class="sc">-</span>mu_hat[<span class="dv">2</span>])<span class="sc">^</span><span class="dv">2</span> )</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>cl_hat[in_cl2] <span class="ot">&lt;-</span> <span class="dv">2</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>clustered_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(y, <span class="at">cl_hat =</span> <span class="fu">factor</span>(cl_hat))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>and plot them on the original data</p>
-<div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-5_c9c5f32bfb76ed5f25d7c9061d6af3a4">
+<div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
@@ -529,7 +552,7 @@ U(\mu_1,\mu_2,\ldots,\mu_L) &amp; =\sum_{i=1}^n \min_{k \in \{1, \ldots, K\}} (y
 </div>
 </div>
 <p>and compute the sizes, the empirical means and standard deviations for each cluster:</p>
-<div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-6_d23e82968dfbce9e0f5f513752f03efb">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>clustered_data <span class="sc">%&gt;%</span> </span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(cl_hat) <span class="sc">%&gt;%</span> </span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">count =</span> <span class="fu">n</span>(), <span class="at">means =</span> <span class="fu">mean</span>(y), <span class="at">stdev =</span> <span class="fu">sd</span>(y))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -543,23 +566,23 @@ U(\mu_1,\mu_2,\ldots,\mu_L) &amp; =\sum_{i=1}^n \min_{k \in \{1, \ldots, K\}} (y
 </div>
 <div class="callout-info">
 <p>The base-<code>R</code> function <code>kmeans</code> generalizes that problem to more than <span class="math inline">2</span> clusters:</p>
-<div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-7_24c889c7d5c59625068e2b3ecf96a20b">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>kmeans_out <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(y, <span class="at">centers =</span> <span class="dv">2</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>kmeans_out<span class="sc">$</span>size</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 172 100</code></pre>
+<pre><code>[1] 100 172</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.vector</span>(kmeans_out<span class="sc">$</span>centers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 80.28488 54.75000</code></pre>
+<pre><code>[1] 54.75000 80.28488</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(kmeans_out<span class="sc">$</span>withinss<span class="sc">/</span>(kmeans_out<span class="sc">$</span>size<span class="dv">-1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 5.627335 5.895341</code></pre>
+<pre><code>[1] 5.895341 5.627335</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(kmeans_out<span class="sc">$</span>cl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1 2 1 2 1 2</code></pre>
+<pre><code>[1] 2 1 2 1 2 1</code></pre>
 </div>
 </div>
 </div>
@@ -591,7 +614,7 @@ U(\mu_1,\mu_2,\ldots,\mu_L) &amp; =\sum_{i=1}^n \min_{k \in \{1, \ldots, K\}} (y
 &amp;= \prod_{i=1}^n \left( \sum_{k=1}^K \frac{\pi_k}{\sqrt{2\pi \sigma^2_k}} \ \exp \left\{-\frac{1}{2\sigma_k^2}(y_i - \mu_k)^2 \right\}  \right)
 \end{aligned}</span></p>
 <p>We can define functions to compute the density and probability distribution for our mixture as a function of the vector of parameters <span class="math inline">\theta</span>:</p>
-<div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-8_3162ffabf47c19ee03404e21fd451995">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>dmixture <span class="ot">&lt;-</span> <span class="cf">function</span>(x, theta) {</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mapply</span>(</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>      <span class="cf">function</span>(pik, muk, sigmak) pik <span class="sc">*</span> <span class="fu">dnorm</span>(x, muk, sigmak),</span>
@@ -620,7 +643,7 @@ U(\mu_1,\mu_2,\ldots,\mu_L) &amp; =\sum_{i=1}^n \min_{k \in \{1, \ldots, K\}} (y
 </div>
 <p>The maximum likelihood (ML) estimate of <span class="math inline">\theta</span> cannot be computed in a closed form but several methods can be used for maximizing this likelihood function.</p>
 <p>For instance, a Newton-type algorithm can be used for minimizing the deviance <span class="math inline">-2\log(\ell(\theta , y))</span>.</p>
-<div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-9_5ca59c21eb56679a3bf08212cb0e29ab">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="do">## trick: nlm diverge if two parameters are used for pi, so force the summation to 1</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>objective <span class="ot">&lt;-</span> <span class="cf">function</span>(theta, y) {</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  theta_l <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">pi =</span> <span class="fu">c</span>(theta[<span class="dv">1</span>], <span class="dv">1</span> <span class="sc">-</span> theta[<span class="dv">1</span>]), <span class="at">mu =</span> theta[<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>], <span class="at">sigma =</span> theta[<span class="dv">4</span><span class="sc">:</span><span class="dv">5</span>])</span>
@@ -644,14 +667,14 @@ $sigma
 </div>
 </div>
 <p>We can then plot the empirical distribution of the data together with the probability density function of the mixture:</p>
-<div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-10_269ac061141f4ca32200b3fd0423cb88">
+<div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>plot_mixture <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="dv">35</span><span class="sc">:</span><span class="dv">100</span>)</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>plot_mixture<span class="sc">$</span>pdf <span class="ot">&lt;-</span> <span class="fu">dmixture</span>(plot_mixture<span class="sc">$</span>x, theta_hat)</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>faithful <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x =</span> waiting, <span class="at">y=</span><span class="fu">after_stat</span>(density)), <span class="at">bins =</span> <span class="dv">15</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"waiting (mm)"</span>) <span class="sc">+</span> </span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> plot_mixture, <span class="fu">aes</span>(x, pdf),<span class="at">colour=</span><span class="st">"red"</span>,<span class="at">linewidth=</span><span class="fl">1.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> plot_mixture, <span class="fu">aes</span>(x, pdf),<span class="at">colour=</span><span class="st">"red"</span>,<span class="at">linewidth=</span><span class="fl">1.5</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -662,7 +685,7 @@ $sigma
 </div>
 </div>
 <p>Comparing the empirical and theoretical cumulative distribution functions (cdf) shows how well the mixture model fits the data</p>
-<div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-11_1c96c2daaf91fecedde92410f353ae48">
+<div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>plot_mixture<span class="sc">$</span>cdf <span class="ot">&lt;-</span> <span class="fu">pmixture</span>(plot_mixture<span class="sc">$</span>x, theta_hat)</span>
@@ -670,6 +693,10 @@ $sigma
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_ecdf</span>(<span class="fu">aes</span>(waiting), <span class="at">geom =</span> <span class="st">"step"</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"waiting (mm)"</span>) <span class="sc">+</span> </span>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> plot_mixture, <span class="fu">aes</span>(x, cdf),<span class="at">colour=</span><span class="st">"red"</span>,<span class="at">size=</span><span class="fl">1.5</span>) <span class="sc">+</span>  <span class="fu">ylab</span>(<span class="st">"cdf"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -680,8 +707,8 @@ $sigma
 </div>
 <p>The estimated mixture distribution <span class="math inline">F_{\hat{\theta}}</span> (obtained with the maximum likelihood estimate <span class="math inline">\hat\theta</span>) seems to perfectly fit the empirical distribution of the faithful data.</p>
 <p>We can perform a Kolmogorov-Smirnov test for testing <span class="math inline">H_0: y_i \sim \ F_{\hat{\theta}}</span> versus <span class="math inline">H_1: y_i \sim \!\!\!\!\!/  \ F_{\hat{\theta}}</span>:</p>
-<div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-12_63f11bc29b3300d93f8959f95c8fe49c">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ks.test</span>(y, pmixture, theta_hat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ks.test</span>(y, pmixture, theta_hat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Asymptotic one-sample Kolmogorov-Smirnov test
@@ -699,17 +726,17 @@ alternative hypothesis: two-sided</code></pre>
 &amp;= \frac{\frac{\hat\pi_k}{\sqrt{2\pi \hat\sigma_k^2}} \exp \left\{-\frac{1}{2\hat\sigma_k^2}(y_i - \hat\mu_k)^2 \right\}}
 {\sum_{j=1}^K\frac{\hat\pi_j}{\sqrt{2\pi \hat\sigma_j^2}} \exp \left\{-\frac{1}{2\hat\sigma_j^2}(y_i - \hat\mu_j)^2 \right\}}
 \end{aligned}</span></p>
-<div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-13_c3b617a0413b5888f639b9f3ccfebcbf">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>dcomponents <span class="ot">&lt;-</span> <span class="cf">function</span>(theta, x) {</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mapply</span>(</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>      <span class="cf">function</span>(pik, muk, sigmak) pik <span class="sc">*</span> <span class="fu">dnorm</span>(x, muk, sigmak),</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>      theta<span class="sc">$</span>pi, theta<span class="sc">$</span>mu, theta<span class="sc">$</span>sigma,</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">SIMPLIFY =</span> <span class="cn">TRUE</span></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>tau <span class="ot">&lt;-</span> <span class="fu">dcomponents</span>(theta_hat, y)</span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>tau <span class="sc">%&gt;%</span> <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span> <span class="fu">setNames</span>(<span class="fu">c</span>(<span class="st">"comp.1"</span>, <span class="st">"comp.2"</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_column</span>(<span class="at">y =</span> y) <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>dcomponents <span class="ot">&lt;-</span> <span class="cf">function</span>(theta, x) {</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mapply</span>(</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>      <span class="cf">function</span>(pik, muk, sigmak) pik <span class="sc">*</span> <span class="fu">dnorm</span>(x, muk, sigmak),</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>      theta<span class="sc">$</span>pi, theta<span class="sc">$</span>mu, theta<span class="sc">$</span>sigma,</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">SIMPLIFY =</span> <span class="cn">TRUE</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>tau <span class="ot">&lt;-</span> <span class="fu">dcomponents</span>(theta_hat, y)</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>tau <span class="sc">%&gt;%</span> <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span> <span class="fu">setNames</span>(<span class="fu">c</span>(<span class="st">"comp.1"</span>, <span class="st">"comp.2"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_column</span>(<span class="at">y =</span> y) <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
@@ -719,25 +746,25 @@ alternative hypothesis: two-sided</code></pre>
 </div>
 </div>
 <p>The Expectation - Maximization (EM) algorithm (implemented in the <code>mixtools</code> library for instance) could also be used for computing the ML estimate of <span class="math inline">\theta</span>. Both algorithms provide the same results.</p>
-<div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-14_f7803224d313786e9ffcefa21795d2f5">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>mixture_EM <span class="ot">&lt;-</span> <span class="fu">normalmixEM</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>mixture_EM <span class="ot">&lt;-</span> <span class="fu">normalmixEM</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>number of iterations= 46 </code></pre>
+<pre><code>number of iterations= 33 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">pi =</span> mixture_EM<span class="sc">$</span>lambda, <span class="at">mu=</span>mixture_EM<span class="sc">$</span>mu,<span class="at">sigma=</span>mixture_EM<span class="sc">$</span>sigma)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">pi =</span> mixture_EM<span class="sc">$</span>lambda, <span class="at">mu=</span>mixture_EM<span class="sc">$</span>mu,<span class="at">sigma=</span>mixture_EM<span class="sc">$</span>sigma)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$pi
-[1] 0.360887 0.639113
+[1] 0.3608868 0.6391132
 
 $mu
-[1] 54.61490 80.09109
+[1] 54.61489 80.09109
 
 $sigma
-[1] 5.871247 5.867714</code></pre>
+[1] 5.871240 5.867719</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-15_e20b7a584db82c8abe8ee9c0ea2b3436">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mixture_EM, <span class="at">which=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mixture_EM, <span class="at">which=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -746,12 +773,12 @@ $sigma
 </div>
 </div>
 </div>
-<div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-16_fb51ec014534577b691e571bb67d31f3">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>mixture_EM<span class="sc">$</span>posterior <span class="sc">%&gt;%</span> <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>mixture_EM<span class="sc">$</span>posterior <span class="sc">%&gt;%</span> <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["comp.1"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["comp.2"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"1.030887e-04","2":"9.998969e-01"},{"1":"9.999093e-01","2":"9.065949e-05"},{"1":"4.135760e-03","2":"9.958642e-01"},{"1":"9.673821e-01","2":"3.261790e-02"},{"1":"1.223592e-06","2":"9.999988e-01"},{"1":"9.998100e-01","2":"1.899870e-04"},{"1":"1.333621e-07","2":"9.999999e-01"},{"1":"1.223592e-06","2":"9.999988e-01"},{"1":"9.999902e-01","2":"9.846820e-06"},{"1":"1.223592e-06","2":"9.999988e-01"},{"1":"9.999093e-01","2":"9.065949e-05"},{"1":"2.561736e-06","2":"9.999974e-01"},{"1":"2.158497e-04","2":"9.997842e-01"},{"1":"9.999995e-01","2":"5.099775e-07"},{"1":"5.363482e-06","2":"9.999946e-01"},{"1":"9.999794e-01","2":"2.063909e-05"},{"1":"9.673821e-01","2":"3.261790e-02"},{"1":"2.561736e-06","2":"9.999974e-01"},{"1":"9.999794e-01","2":"2.063909e-05"},{"1":"1.030887e-04","2":"9.998969e-01"},{"1":"9.999902e-01","2":"9.846820e-06"},{"1":"9.999995e-01","2":"5.099775e-07"},{"1":"2.158497e-04","2":"9.997842e-01"},{"1":"1.434178e-01","2":"8.565822e-01"},{"1":"4.135760e-03","2":"9.958642e-01"},{"1":"5.363482e-06","2":"9.999946e-01"},{"1":"9.998100e-01","2":"1.899870e-04"},{"1":"9.459296e-04","2":"9.990541e-01"},{"1":"2.158497e-04","2":"9.997842e-01"},{"1":"1.030887e-04","2":"9.998969e-01"},{"1":"8.623021e-03","2":"9.913770e-01"},{"1":"4.519117e-04","2":"9.995481e-01"},{"1":"6.061799e-01","2":"3.938201e-01"},{"1":"4.923341e-05","2":"9.999508e-01"},{"1":"4.135760e-03","2":"9.958642e-01"},{"1":"9.999794e-01","2":"2.063909e-05"},{"1":"9.999989e-01","2":"1.069081e-06"},{"1":"4.923341e-05","2":"9.999508e-01"},{"1":"9.963484e-01","2":"3.651582e-03"},{"1":"3.043492e-08","2":"1.000000e+00"},{"1":"4.923341e-05","2":"9.999508e-01"},{"1":"9.982541e-01","2":"1.745894e-03"},{"1":"2.561736e-06","2":"9.999974e-01"},{"1":"9.982541e-01","2":"1.745894e-03"},{"1":"8.623021e-03","2":"9.913770e-01"},{"1":"5.363482e-06","2":"9.999946e-01"},{"1":"8.710683e-01","2":"1.289317e-01"},{"1":"9.999567e-01","2":"4.325785e-05"},{"1":"1.122983e-05","2":"9.999888e-01"},{"1":"9.963484e-01","2":"3.651582e-03"},{"1":"1.978995e-03","2":"9.980210e-01"},{"1":"3.043492e-08","2":"1.000000e+00"},{"1":"9.999093e-01","2":"9.065949e-05"},{"1":"4.923341e-05","2":"9.999508e-01"},{"1":"9.999093e-01","2":"9.065949e-05"},{"1":"5.363482e-06","2":"9.999946e-01"},{"1":"3.675641e-02","2":"9.632436e-01"},{"1":"8.710683e-01","2":"1.289317e-01"},{"1":"4.519117e-04","2":"9.995481e-01"},{"1":"2.351321e-05","2":"9.999765e-01"},{"1":"9.963484e-01","2":"3.651582e-03"},{"1":"2.561736e-06","2":"9.999974e-01"},{"1":"9.999989e-01","2":"1.069081e-06"},{"1":"1.122983e-05","2":"9.999888e-01"},{"1":"9.923788e-01","2":"7.621232e-03"},{"1":"6.946603e-09","2":"1.000000e+00"},{"1":"2.158497e-04","2":"9.997842e-01"},{"1":"2.158497e-04","2":"9.997842e-01"},{"1":"7.632973e-01","2":"2.367027e-01"},{"1":"8.623021e-03","2":"9.913770e-01"},{"1":"1.122983e-05","2":"9.999888e-01"},{"1":"9.996019e-01","2":"3.980816e-04"},{"1":"1.030887e-04","2":"9.998969e-01"},{"1":"3.675641e-02","2":"9.632436e-01"},{"1":"9.673821e-01","2":"3.261790e-02"},{"1":"9.459296e-04","2":"9.990541e-01"},{"1":"9.923788e-01","2":"7.621232e-03"},{"1":"2.158497e-04","2":"9.997842e-01"},{"1":"9.459296e-04","2":"9.990541e-01"},{"1":"5.363482e-06","2":"9.999946e-01"},{"1":"1.978995e-03","2":"9.980210e-01"},{"1":"1.122983e-05","2":"9.999888e-01"},{"1":"7.401376e-02","2":"9.259862e-01"},{"1":"7.632973e-01","2":"2.367027e-01"},{"1":"8.623021e-03","2":"9.913770e-01"},{"1":"1.333621e-07","2":"9.999999e-01"},{"1":"9.459296e-04","2":"9.990541e-01"},{"1":"4.923341e-05","2":"9.999508e-01"},{"1":"9.999989e-01","2":"1.069081e-06"},{"1":"5.844582e-07","2":"9.999994e-01"},{"1":"9.923788e-01","2":"7.621232e-03"},{"1":"3.043492e-08","2":"1.000000e+00"},{"1":"9.999953e-01","2":"4.697683e-06"},{"1":"2.158497e-04","2":"9.997842e-01"},{"1":"9.340151e-01","2":"6.598486e-02"},{"1":"1.789206e-02","2":"9.821079e-01"},{"1":"2.561736e-06","2":"9.999974e-01"},{"1":"1.978995e-03","2":"9.980210e-01"},{"1":"9.999902e-01","2":"9.846820e-06"},{"1":"1.122983e-05","2":"9.999888e-01"},{"1":"9.673821e-01","2":"3.261790e-02"},{"1":"1.333621e-07","2":"9.999999e-01"},{"1":"9.999978e-01","2":"2.241069e-06"},{"1":"5.363482e-06","2":"9.999946e-01"},{"1":"2.351321e-05","2":"9.999765e-01"},{"1":"9.999995e-01","2":"5.099775e-07"},{"1":"2.561736e-06","2":"9.999974e-01"},{"1":"9.999794e-01","2":"2.063909e-05"},{"1":"5.844582e-07","2":"9.999994e-01"},{"1":"2.351321e-05","2":"9.999765e-01"},{"1":"1.978995e-03","2":"9.980210e-01"},{"1":"9.963484e-01","2":"3.651582e-03"},{"1":"6.370812e-08","2":"9.999999e-01"},{"1":"1.030887e-04","2":"9.998969e-01"},{"1":"9.963484e-01","2":"3.651582e-03"},{"1":"2.351321e-05","2":"9.999765e-01"},{"1":"9.999953e-01","2":"4.697683e-06"},{"1":"1.223592e-06","2":"9.999988e-01"},{"1":"9.963484e-01","2":"3.651582e-03"},{"1":"2.791807e-07","2":"9.999997e-01"},{"1":"9.999567e-01","2":"4.325785e-05"},{"1":"1.434178e-01","2":"8.565822e-01"},{"1":"4.519117e-04","2":"9.995481e-01"},{"1":"9.996019e-01","2":"3.980816e-04"},{"1":"1.333621e-07","2":"9.999999e-01"},{"1":"2.351321e-05","2":"9.999765e-01"},{"1":"9.999999e-01","2":"1.160341e-07"},{"1":"1.122983e-05","2":"9.999888e-01"},{"1":"9.998100e-01","2":"1.899870e-04"},{"1":"3.043492e-08","2":"1.000000e+00"},{"1":"9.999999e-01","2":"1.160341e-07"},{"1":"5.363482e-06","2":"9.999946e-01"},{"1":"9.996019e-01","2":"3.980816e-04"},{"1":"6.370812e-08","2":"9.999999e-01"},{"1":"9.999998e-01","2":"2.432629e-07"},{"1":"1.122983e-05","2":"9.999888e-01"},{"1":"9.999902e-01","2":"9.846820e-06"},{"1":"5.844582e-07","2":"9.999994e-01"},{"1":"9.999567e-01","2":"4.325785e-05"},{"1":"1.030887e-04","2":"9.998969e-01"},{"1":"2.351321e-05","2":"9.999765e-01"},{"1":"9.923788e-01","2":"7.621232e-03"},{"1":"1.122983e-05","2":"9.999888e-01"},{"1":"4.519117e-04","2":"9.995481e-01"},{"1":"9.459296e-04","2":"9.990541e-01"},{"1":"9.963484e-01","2":"3.651582e-03"},{"1":"4.923341e-05","2":"9.999508e-01"},{"1":"9.999978e-01","2":"2.241069e-06"},{"1":"3.620389e-10","2":"1.000000e+00"},{"1":"9.999567e-01","2":"4.325785e-05"},{"1":"4.519117e-04","2":"9.995481e-01"},{"1":"4.519117e-04","2":"9.995481e-01"},{"1":"7.632973e-01","2":"2.367027e-01"},{"1":"2.351321e-05","2":"9.999765e-01"},{"1":"3.675641e-02","2":"9.632436e-01"},{"1":"7.401376e-02","2":"9.259862e-01"},{"1":"2.351321e-05","2":"9.999765e-01"},{"1":"3.318909e-09","2":"1.000000e+00"},{"1":"9.999567e-01","2":"4.325785e-05"},{"1":"6.370812e-08","2":"9.999999e-01"},{"1":"9.999999e-01","2":"1.160341e-07"},{"1":"5.844582e-07","2":"9.999994e-01"},{"1":"9.982541e-01","2":"1.745894e-03"},{"1":"2.158497e-04","2":"9.997842e-01"},{"1":"6.061799e-01","2":"3.938201e-01"},{"1":"9.459296e-04","2":"9.990541e-01"},{"1":"9.340151e-01","2":"6.598486e-02"},{"1":"1.333621e-07","2":"9.999999e-01"},{"1":"9.999794e-01","2":"2.063909e-05"},{"1":"3.318909e-09","2":"1.000000e+00"},{"1":"9.999978e-01","2":"2.241069e-06"},{"1":"9.991661e-01","2":"8.338850e-04"},{"1":"4.519117e-04","2":"9.995481e-01"},{"1":"2.596607e-01","2":"7.403393e-01"},{"1":"2.351321e-05","2":"9.999765e-01"},{"1":"2.351321e-05","2":"9.999765e-01"},{"1":"8.623021e-03","2":"9.913770e-01"},{"1":"9.999953e-01","2":"4.697683e-06"},{"1":"1.223592e-06","2":"9.999988e-01"},{"1":"4.135760e-03","2":"9.958642e-01"},{"1":"9.998100e-01","2":"1.899870e-04"},{"1":"4.519117e-04","2":"9.995481e-01"},{"1":"5.363482e-06","2":"9.999946e-01"},{"1":"5.363482e-06","2":"9.999946e-01"},{"1":"9.999902e-01","2":"9.846820e-06"},{"1":"2.158497e-04","2":"9.997842e-01"},{"1":"2.561736e-06","2":"9.999974e-01"},{"1":"9.999998e-01","2":"2.432629e-07"},{"1":"5.363482e-06","2":"9.999946e-01"},{"1":"9.998100e-01","2":"1.899870e-04"},{"1":"2.351321e-05","2":"9.999765e-01"},{"1":"9.991661e-01","2":"8.338850e-04"},{"1":"9.459296e-04","2":"9.990541e-01"},{"1":"2.561736e-06","2":"9.999974e-01"},{"1":"4.519117e-04","2":"9.995481e-01"},{"1":"2.351321e-05","2":"9.999765e-01"},{"1":"2.791807e-07","2":"9.999997e-01"},{"1":"4.519117e-04","2":"9.995481e-01"},{"1":"9.999902e-01","2":"9.846820e-06"},{"1":"2.158497e-04","2":"9.997842e-01"},{"1":"9.923788e-01","2":"7.621232e-03"},{"1":"1.122983e-05","2":"9.999888e-01"},{"1":"1.454001e-08","2":"1.000000e+00"},{"1":"9.999567e-01","2":"4.325785e-05"},{"1":"2.158497e-04","2":"9.997842e-01"},{"1":"9.999998e-01","2":"2.432629e-07"},{"1":"4.519117e-04","2":"9.995481e-01"},{"1":"2.561736e-06","2":"9.999974e-01"},{"1":"9.999978e-01","2":"2.241069e-06"},{"1":"5.363482e-06","2":"9.999946e-01"},{"1":"3.675641e-02","2":"9.632436e-01"},{"1":"4.923341e-05","2":"9.999508e-01"},{"1":"9.999978e-01","2":"2.241069e-06"},{"1":"1.978995e-03","2":"9.980210e-01"},{"1":"8.710683e-01","2":"1.289317e-01"},{"1":"9.459296e-04","2":"9.990541e-01"},{"1":"9.999567e-01","2":"4.325785e-05"},{"1":"1.585746e-09","2":"1.000000e+00"},{"1":"9.998100e-01","2":"1.899870e-04"},{"1":"9.459296e-04","2":"9.990541e-01"},{"1":"9.999953e-01","2":"4.697683e-06"},{"1":"1.122983e-05","2":"9.999888e-01"},{"1":"9.999093e-01","2":"9.065949e-05"},{"1":"1.978995e-03","2":"9.980210e-01"},{"1":"2.158497e-04","2":"9.997842e-01"},{"1":"1.030887e-04","2":"9.998969e-01"},{"1":"2.158497e-04","2":"9.997842e-01"},{"1":"2.158497e-04","2":"9.997842e-01"},{"1":"7.401376e-02","2":"9.259862e-01"},{"1":"1.030887e-04","2":"9.998969e-01"},{"1":"7.401376e-02","2":"9.259862e-01"},{"1":"9.999093e-01","2":"9.065949e-05"},{"1":"5.844582e-07","2":"9.999994e-01"},{"1":"9.999953e-01","2":"4.697683e-06"},{"1":"3.043492e-08","2":"1.000000e+00"},{"1":"9.999093e-01","2":"9.065949e-05"},{"1":"9.999093e-01","2":"9.065949e-05"},{"1":"4.519117e-04","2":"9.995481e-01"},{"1":"1.030887e-04","2":"9.998969e-01"},{"1":"8.710683e-01","2":"1.289317e-01"},{"1":"1.978995e-03","2":"9.980210e-01"},{"1":"9.999995e-01","2":"5.099775e-07"},{"1":"5.844582e-07","2":"9.999994e-01"},{"1":"9.340151e-01","2":"6.598486e-02"},{"1":"1.223592e-06","2":"9.999988e-01"},{"1":"1.122983e-05","2":"9.999888e-01"},{"1":"9.991661e-01","2":"8.338850e-04"},{"1":"1.122983e-05","2":"9.999888e-01"},{"1":"4.235437e-01","2":"5.764563e-01"},{"1":"4.135760e-03","2":"9.958642e-01"},{"1":"9.999093e-01","2":"9.065949e-05"},{"1":"5.363482e-06","2":"9.999946e-01"},{"1":"8.623021e-03","2":"9.913770e-01"},{"1":"8.623021e-03","2":"9.913770e-01"},{"1":"1.333621e-07","2":"9.999999e-01"},{"1":"4.923341e-05","2":"9.999508e-01"},{"1":"3.675641e-02","2":"9.632436e-01"},{"1":"5.363482e-06","2":"9.999946e-01"},{"1":"9.996019e-01","2":"3.980816e-04"},{"1":"1.030887e-04","2":"9.998969e-01"},{"1":"2.158497e-04","2":"9.997842e-01"},{"1":"2.561736e-06","2":"9.999974e-01"},{"1":"9.982541e-01","2":"1.745894e-03"},{"1":"5.363482e-06","2":"9.999946e-01"},{"1":"1.000000e+00","2":"2.639729e-08"},{"1":"9.923788e-01","2":"7.621232e-03"},{"1":"1.978995e-03","2":"9.980210e-01"},{"1":"2.351321e-05","2":"9.999765e-01"},{"1":"9.999998e-01","2":"2.432629e-07"},{"1":"3.043492e-08","2":"1.000000e+00"},{"1":"9.999998e-01","2":"2.432629e-07"},{"1":"4.135760e-03","2":"9.958642e-01"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["comp.1"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["comp.2"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"1.030859e-04","2":"9.998969e-01"},{"1":"9.999093e-01","2":"9.066136e-05"},{"1":"4.135680e-03","2":"9.958643e-01"},{"1":"9.673816e-01","2":"3.261836e-02"},{"1":"1.223544e-06","2":"9.999988e-01"},{"1":"9.998100e-01","2":"1.899907e-04"},{"1":"1.333559e-07","2":"9.999999e-01"},{"1":"1.223544e-06","2":"9.999988e-01"},{"1":"9.999902e-01","2":"9.847065e-06"},{"1":"1.223544e-06","2":"9.999988e-01"},{"1":"9.999093e-01","2":"9.066136e-05"},{"1":"2.561643e-06","2":"9.999974e-01"},{"1":"2.158444e-04","2":"9.997842e-01"},{"1":"9.999995e-01","2":"5.099940e-07"},{"1":"5.363299e-06","2":"9.999946e-01"},{"1":"9.999794e-01","2":"2.063958e-05"},{"1":"9.673816e-01","2":"3.261836e-02"},{"1":"2.561643e-06","2":"9.999974e-01"},{"1":"9.999794e-01","2":"2.063958e-05"},{"1":"1.030859e-04","2":"9.998969e-01"},{"1":"9.999902e-01","2":"9.847065e-06"},{"1":"9.999995e-01","2":"5.099940e-07"},{"1":"2.158444e-04","2":"9.997842e-01"},{"1":"1.434160e-01","2":"8.565840e-01"},{"1":"4.135680e-03","2":"9.958643e-01"},{"1":"5.363299e-06","2":"9.999946e-01"},{"1":"9.998100e-01","2":"1.899907e-04"},{"1":"9.459090e-04","2":"9.990541e-01"},{"1":"2.158444e-04","2":"9.997842e-01"},{"1":"1.030859e-04","2":"9.998969e-01"},{"1":"8.622865e-03","2":"9.913771e-01"},{"1":"4.519013e-04","2":"9.995481e-01"},{"1":"6.061765e-01","2":"3.938235e-01"},{"1":"4.923202e-05","2":"9.999508e-01"},{"1":"4.135680e-03","2":"9.958643e-01"},{"1":"9.999794e-01","2":"2.063958e-05"},{"1":"9.999989e-01","2":"1.069114e-06"},{"1":"4.923202e-05","2":"9.999508e-01"},{"1":"9.963484e-01","2":"3.651640e-03"},{"1":"3.043333e-08","2":"1.000000e+00"},{"1":"4.923202e-05","2":"9.999508e-01"},{"1":"9.982541e-01","2":"1.745923e-03"},{"1":"2.561643e-06","2":"9.999974e-01"},{"1":"9.982541e-01","2":"1.745923e-03"},{"1":"8.622865e-03","2":"9.913771e-01"},{"1":"5.363299e-06","2":"9.999946e-01"},{"1":"8.710667e-01","2":"1.289333e-01"},{"1":"9.999567e-01","2":"4.325880e-05"},{"1":"1.122947e-05","2":"9.999888e-01"},{"1":"9.963484e-01","2":"3.651640e-03"},{"1":"1.978954e-03","2":"9.980210e-01"},{"1":"3.043333e-08","2":"1.000000e+00"},{"1":"9.999093e-01","2":"9.066136e-05"},{"1":"4.923202e-05","2":"9.999508e-01"},{"1":"9.999093e-01","2":"9.066136e-05"},{"1":"5.363299e-06","2":"9.999946e-01"},{"1":"3.675583e-02","2":"9.632442e-01"},{"1":"8.710667e-01","2":"1.289333e-01"},{"1":"4.519013e-04","2":"9.995481e-01"},{"1":"2.351250e-05","2":"9.999765e-01"},{"1":"9.963484e-01","2":"3.651640e-03"},{"1":"2.561643e-06","2":"9.999974e-01"},{"1":"9.999989e-01","2":"1.069114e-06"},{"1":"1.122947e-05","2":"9.999888e-01"},{"1":"9.923787e-01","2":"7.621348e-03"},{"1":"6.946197e-09","2":"1.000000e+00"},{"1":"2.158444e-04","2":"9.997842e-01"},{"1":"2.158444e-04","2":"9.997842e-01"},{"1":"7.632947e-01","2":"2.367053e-01"},{"1":"8.622865e-03","2":"9.913771e-01"},{"1":"1.122947e-05","2":"9.999888e-01"},{"1":"9.996019e-01","2":"3.980889e-04"},{"1":"1.030859e-04","2":"9.998969e-01"},{"1":"3.675583e-02","2":"9.632442e-01"},{"1":"9.673816e-01","2":"3.261836e-02"},{"1":"9.459090e-04","2":"9.990541e-01"},{"1":"9.923787e-01","2":"7.621348e-03"},{"1":"2.158444e-04","2":"9.997842e-01"},{"1":"9.459090e-04","2":"9.990541e-01"},{"1":"5.363299e-06","2":"9.999946e-01"},{"1":"1.978954e-03","2":"9.980210e-01"},{"1":"1.122947e-05","2":"9.999888e-01"},{"1":"7.401268e-02","2":"9.259873e-01"},{"1":"7.632947e-01","2":"2.367053e-01"},{"1":"8.622865e-03","2":"9.913771e-01"},{"1":"1.333559e-07","2":"9.999999e-01"},{"1":"9.459090e-04","2":"9.990541e-01"},{"1":"4.923202e-05","2":"9.999508e-01"},{"1":"9.999989e-01","2":"1.069114e-06"},{"1":"5.844341e-07","2":"9.999994e-01"},{"1":"9.923787e-01","2":"7.621348e-03"},{"1":"3.043333e-08","2":"1.000000e+00"},{"1":"9.999953e-01","2":"4.697808e-06"},{"1":"2.158444e-04","2":"9.997842e-01"},{"1":"9.340143e-01","2":"6.598573e-02"},{"1":"1.789176e-02","2":"9.821082e-01"},{"1":"2.561643e-06","2":"9.999974e-01"},{"1":"1.978954e-03","2":"9.980210e-01"},{"1":"9.999902e-01","2":"9.847065e-06"},{"1":"1.122947e-05","2":"9.999888e-01"},{"1":"9.673816e-01","2":"3.261836e-02"},{"1":"1.333559e-07","2":"9.999999e-01"},{"1":"9.999978e-01","2":"2.241132e-06"},{"1":"5.363299e-06","2":"9.999946e-01"},{"1":"2.351250e-05","2":"9.999765e-01"},{"1":"9.999995e-01","2":"5.099940e-07"},{"1":"2.561643e-06","2":"9.999974e-01"},{"1":"9.999794e-01","2":"2.063958e-05"},{"1":"5.844341e-07","2":"9.999994e-01"},{"1":"2.351250e-05","2":"9.999765e-01"},{"1":"1.978954e-03","2":"9.980210e-01"},{"1":"9.963484e-01","2":"3.651640e-03"},{"1":"6.370498e-08","2":"9.999999e-01"},{"1":"1.030859e-04","2":"9.998969e-01"},{"1":"9.963484e-01","2":"3.651640e-03"},{"1":"2.351250e-05","2":"9.999765e-01"},{"1":"9.999953e-01","2":"4.697808e-06"},{"1":"1.223544e-06","2":"9.999988e-01"},{"1":"9.963484e-01","2":"3.651640e-03"},{"1":"2.791685e-07","2":"9.999997e-01"},{"1":"9.999567e-01","2":"4.325880e-05"},{"1":"1.434160e-01","2":"8.565840e-01"},{"1":"4.519013e-04","2":"9.995481e-01"},{"1":"9.996019e-01","2":"3.980889e-04"},{"1":"1.333559e-07","2":"9.999999e-01"},{"1":"2.351250e-05","2":"9.999765e-01"},{"1":"9.999999e-01","2":"1.160383e-07"},{"1":"1.122947e-05","2":"9.999888e-01"},{"1":"9.998100e-01","2":"1.899907e-04"},{"1":"3.043333e-08","2":"1.000000e+00"},{"1":"9.999999e-01","2":"1.160383e-07"},{"1":"5.363299e-06","2":"9.999946e-01"},{"1":"9.996019e-01","2":"3.980889e-04"},{"1":"6.370498e-08","2":"9.999999e-01"},{"1":"9.999998e-01","2":"2.432713e-07"},{"1":"1.122947e-05","2":"9.999888e-01"},{"1":"9.999902e-01","2":"9.847065e-06"},{"1":"5.844341e-07","2":"9.999994e-01"},{"1":"9.999567e-01","2":"4.325880e-05"},{"1":"1.030859e-04","2":"9.998969e-01"},{"1":"2.351250e-05","2":"9.999765e-01"},{"1":"9.923787e-01","2":"7.621348e-03"},{"1":"1.122947e-05","2":"9.999888e-01"},{"1":"4.519013e-04","2":"9.995481e-01"},{"1":"9.459090e-04","2":"9.990541e-01"},{"1":"9.963484e-01","2":"3.651640e-03"},{"1":"4.923202e-05","2":"9.999508e-01"},{"1":"9.999978e-01","2":"2.241132e-06"},{"1":"3.620127e-10","2":"1.000000e+00"},{"1":"9.999567e-01","2":"4.325880e-05"},{"1":"4.519013e-04","2":"9.995481e-01"},{"1":"4.519013e-04","2":"9.995481e-01"},{"1":"7.632947e-01","2":"2.367053e-01"},{"1":"2.351250e-05","2":"9.999765e-01"},{"1":"3.675583e-02","2":"9.632442e-01"},{"1":"7.401268e-02","2":"9.259873e-01"},{"1":"2.351250e-05","2":"9.999765e-01"},{"1":"3.318704e-09","2":"1.000000e+00"},{"1":"9.999567e-01","2":"4.325880e-05"},{"1":"6.370498e-08","2":"9.999999e-01"},{"1":"9.999999e-01","2":"1.160383e-07"},{"1":"5.844341e-07","2":"9.999994e-01"},{"1":"9.982541e-01","2":"1.745923e-03"},{"1":"2.158444e-04","2":"9.997842e-01"},{"1":"6.061765e-01","2":"3.938235e-01"},{"1":"9.459090e-04","2":"9.990541e-01"},{"1":"9.340143e-01","2":"6.598573e-02"},{"1":"1.333559e-07","2":"9.999999e-01"},{"1":"9.999794e-01","2":"2.063958e-05"},{"1":"3.318704e-09","2":"1.000000e+00"},{"1":"9.999978e-01","2":"2.241132e-06"},{"1":"9.991661e-01","2":"8.338996e-04"},{"1":"4.519013e-04","2":"9.995481e-01"},{"1":"2.596579e-01","2":"7.403421e-01"},{"1":"2.351250e-05","2":"9.999765e-01"},{"1":"2.351250e-05","2":"9.999765e-01"},{"1":"8.622865e-03","2":"9.913771e-01"},{"1":"9.999953e-01","2":"4.697808e-06"},{"1":"1.223544e-06","2":"9.999988e-01"},{"1":"4.135680e-03","2":"9.958643e-01"},{"1":"9.998100e-01","2":"1.899907e-04"},{"1":"4.519013e-04","2":"9.995481e-01"},{"1":"5.363299e-06","2":"9.999946e-01"},{"1":"5.363299e-06","2":"9.999946e-01"},{"1":"9.999902e-01","2":"9.847065e-06"},{"1":"2.158444e-04","2":"9.997842e-01"},{"1":"2.561643e-06","2":"9.999974e-01"},{"1":"9.999998e-01","2":"2.432713e-07"},{"1":"5.363299e-06","2":"9.999946e-01"},{"1":"9.998100e-01","2":"1.899907e-04"},{"1":"2.351250e-05","2":"9.999765e-01"},{"1":"9.991661e-01","2":"8.338996e-04"},{"1":"9.459090e-04","2":"9.990541e-01"},{"1":"2.561643e-06","2":"9.999974e-01"},{"1":"4.519013e-04","2":"9.995481e-01"},{"1":"2.351250e-05","2":"9.999765e-01"},{"1":"2.791685e-07","2":"9.999997e-01"},{"1":"4.519013e-04","2":"9.995481e-01"},{"1":"9.999902e-01","2":"9.847065e-06"},{"1":"2.158444e-04","2":"9.997842e-01"},{"1":"9.923787e-01","2":"7.621348e-03"},{"1":"1.122947e-05","2":"9.999888e-01"},{"1":"1.453921e-08","2":"1.000000e+00"},{"1":"9.999567e-01","2":"4.325880e-05"},{"1":"2.158444e-04","2":"9.997842e-01"},{"1":"9.999998e-01","2":"2.432713e-07"},{"1":"4.519013e-04","2":"9.995481e-01"},{"1":"2.561643e-06","2":"9.999974e-01"},{"1":"9.999978e-01","2":"2.241132e-06"},{"1":"5.363299e-06","2":"9.999946e-01"},{"1":"3.675583e-02","2":"9.632442e-01"},{"1":"4.923202e-05","2":"9.999508e-01"},{"1":"9.999978e-01","2":"2.241132e-06"},{"1":"1.978954e-03","2":"9.980210e-01"},{"1":"8.710667e-01","2":"1.289333e-01"},{"1":"9.459090e-04","2":"9.990541e-01"},{"1":"9.999567e-01","2":"4.325880e-05"},{"1":"1.585642e-09","2":"1.000000e+00"},{"1":"9.998100e-01","2":"1.899907e-04"},{"1":"9.459090e-04","2":"9.990541e-01"},{"1":"9.999953e-01","2":"4.697808e-06"},{"1":"1.122947e-05","2":"9.999888e-01"},{"1":"9.999093e-01","2":"9.066136e-05"},{"1":"1.978954e-03","2":"9.980210e-01"},{"1":"2.158444e-04","2":"9.997842e-01"},{"1":"1.030859e-04","2":"9.998969e-01"},{"1":"2.158444e-04","2":"9.997842e-01"},{"1":"2.158444e-04","2":"9.997842e-01"},{"1":"7.401268e-02","2":"9.259873e-01"},{"1":"1.030859e-04","2":"9.998969e-01"},{"1":"7.401268e-02","2":"9.259873e-01"},{"1":"9.999093e-01","2":"9.066136e-05"},{"1":"5.844341e-07","2":"9.999994e-01"},{"1":"9.999953e-01","2":"4.697808e-06"},{"1":"3.043333e-08","2":"1.000000e+00"},{"1":"9.999093e-01","2":"9.066136e-05"},{"1":"9.999093e-01","2":"9.066136e-05"},{"1":"4.519013e-04","2":"9.995481e-01"},{"1":"1.030859e-04","2":"9.998969e-01"},{"1":"8.710667e-01","2":"1.289333e-01"},{"1":"1.978954e-03","2":"9.980210e-01"},{"1":"9.999995e-01","2":"5.099940e-07"},{"1":"5.844341e-07","2":"9.999994e-01"},{"1":"9.340143e-01","2":"6.598573e-02"},{"1":"1.223544e-06","2":"9.999988e-01"},{"1":"1.122947e-05","2":"9.999888e-01"},{"1":"9.991661e-01","2":"8.338996e-04"},{"1":"1.122947e-05","2":"9.999888e-01"},{"1":"4.235402e-01","2":"5.764598e-01"},{"1":"4.135680e-03","2":"9.958643e-01"},{"1":"9.999093e-01","2":"9.066136e-05"},{"1":"5.363299e-06","2":"9.999946e-01"},{"1":"8.622865e-03","2":"9.913771e-01"},{"1":"8.622865e-03","2":"9.913771e-01"},{"1":"1.333559e-07","2":"9.999999e-01"},{"1":"4.923202e-05","2":"9.999508e-01"},{"1":"3.675583e-02","2":"9.632442e-01"},{"1":"5.363299e-06","2":"9.999946e-01"},{"1":"9.996019e-01","2":"3.980889e-04"},{"1":"1.030859e-04","2":"9.998969e-01"},{"1":"2.158444e-04","2":"9.997842e-01"},{"1":"2.561643e-06","2":"9.999974e-01"},{"1":"9.982541e-01","2":"1.745923e-03"},{"1":"5.363299e-06","2":"9.999946e-01"},{"1":"1.000000e+00","2":"2.639839e-08"},{"1":"9.923787e-01","2":"7.621348e-03"},{"1":"1.978954e-03","2":"9.980210e-01"},{"1":"2.351250e-05","2":"9.999765e-01"},{"1":"9.999998e-01","2":"2.432713e-07"},{"1":"3.043333e-08","2":"1.000000e+00"},{"1":"9.999998e-01","2":"2.432713e-07"},{"1":"4.135680e-03","2":"9.958643e-01"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -760,58 +787,58 @@ $sigma
 <section id="mixture-model-versus-clustering" class="level3" data-number="1.4">
 <h3 data-number="1.4" class="anchored" data-anchor-id="mixture-model-versus-clustering"><span class="header-section-number">1.4</span> Mixture model versus clustering</h3>
 <p>Let us sample some data from a Gaussian mixture model. Of course, the labels of the simulated data are known.</p>
-<div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-17_6c4d7ab65ec6815e85f1d09cfe68c891">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>n1 <span class="ot">&lt;-</span> <span class="dv">120</span>; n2 <span class="ot">&lt;-</span> <span class="dv">80</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>some_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">c</span>(<span class="fu">rnorm</span>(n1, <span class="dv">0</span>, <span class="dv">1</span>), <span class="fu">rnorm</span>(n2, <span class="dv">3</span>, <span class="dv">1</span>)),</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">z =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="fu">c</span>(n1,n2))</span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>n1 <span class="ot">&lt;-</span> <span class="dv">120</span>; n2 <span class="ot">&lt;-</span> <span class="dv">80</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>some_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">c</span>(<span class="fu">rnorm</span>(n1, <span class="dv">0</span>, <span class="dv">1</span>), <span class="fu">rnorm</span>(n2, <span class="dv">3</span>, <span class="dv">1</span>)),</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">z =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="fu">c</span>(n1,n2))</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can use the <span class="math inline">k</span>-means method to create two clusters and compute the proportion, center and standard deviation for each cluster,</p>
-<div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-18_9678f61c4def9b013e7dcae2746374ff">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>kmeans_out <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(some_data<span class="sc">$</span>y, <span class="at">centers =</span> <span class="dv">2</span>)</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">pi    =</span> kmeans_out<span class="sc">$</span>size<span class="sc">/</span><span class="fu">sum</span>(kmeans_out<span class="sc">$</span>size),</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">mu    =</span> <span class="fu">as.vector</span>(kmeans_out<span class="sc">$</span>centers),</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">sigma =</span> <span class="fu">sqrt</span>(kmeans_out<span class="sc">$</span>withinss<span class="sc">/</span>kmeans_out<span class="sc">$</span>size))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>kmeans_out <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(some_data<span class="sc">$</span>y, <span class="at">centers =</span> <span class="dv">2</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">pi    =</span> kmeans_out<span class="sc">$</span>size<span class="sc">/</span><span class="fu">sum</span>(kmeans_out<span class="sc">$</span>size),</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">mu    =</span> <span class="fu">as.vector</span>(kmeans_out<span class="sc">$</span>centers),</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">sigma =</span> <span class="fu">sqrt</span>(kmeans_out<span class="sc">$</span>withinss<span class="sc">/</span>kmeans_out<span class="sc">$</span>size))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$pi
-[1] 0.43 0.57
+[1] 0.41 0.59
 
 $mu
-[1]  2.9545593 -0.2468699
+[1]  3.03696244 -0.08909935
 
 $sigma
-[1] 0.9027760 0.8444125</code></pre>
+[1] 0.9252033 0.9417903</code></pre>
 </div>
 </div>
 <p>We can instead consider a Gaussian mixture model, use the EM algorithm with the same data and display the estimated parameters</p>
-<div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-19_3a77410d59fa9495bbc18e8de8fcbb79">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>gmm_out <span class="ot">=</span> <span class="fu">normalmixEM</span>(some_data<span class="sc">$</span>y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>gmm_out <span class="ot">=</span> <span class="fu">normalmixEM</span>(some_data<span class="sc">$</span>y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>number of iterations= 91 </code></pre>
+<pre><code>number of iterations= 96 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">pi    =</span> gmm_out<span class="sc">$</span>lambda,</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">mu    =</span> gmm_out<span class="sc">$</span>mu,</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">sigma =</span> gmm_out<span class="sc">$</span>sigma)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">pi    =</span> gmm_out<span class="sc">$</span>lambda,</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">mu    =</span> gmm_out<span class="sc">$</span>mu,</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">sigma =</span> gmm_out<span class="sc">$</span>sigma)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$pi
-[1] 0.5804953 0.4195047
+[1] 0.634613 0.365387
 
 $mu
-[1] -0.1881143  2.9533441
+[1] 0.08319151 3.11940114
 
 $sigma
-[1] 0.9168089 0.9489557</code></pre>
+[1] 1.0977450 0.9587279</code></pre>
 </div>
 </div>
 <p>Since the “true” labels are known, we can compute the <em>classification error rate</em> for each method (in % here):</p>
-<div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-20_1a38eb00f3ac578500e7d667b34e9c6e">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>cl_kmeans <span class="ot">&lt;-</span> kmeans_out<span class="sc">$</span>cluster</span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>cl_gmm    <span class="ot">&lt;-</span> <span class="fu">apply</span>(gmm_out<span class="sc">$</span>posterior, <span class="dv">1</span>, which.max)</span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>accuracy  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">mean</span>(some_data<span class="sc">$</span>z <span class="sc">!=</span> cl_kmeans)<span class="sc">*</span><span class="dv">100</span>, <span class="fu">mean</span>(some_data<span class="sc">$</span>z <span class="sc">!=</span> cl_gmm)<span class="sc">*</span><span class="dv">100</span>)</span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>accuracy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>cl_kmeans <span class="ot">&lt;-</span> kmeans_out<span class="sc">$</span>cluster</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>cl_gmm    <span class="ot">&lt;-</span> <span class="fu">apply</span>(gmm_out<span class="sc">$</span>posterior, <span class="dv">1</span>, which.max)</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>accuracy  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">mean</span>(some_data<span class="sc">$</span>z <span class="sc">!=</span> cl_kmeans)<span class="sc">*</span><span class="dv">100</span>, <span class="fu">mean</span>(some_data<span class="sc">$</span>z <span class="sc">!=</span> cl_gmm)<span class="sc">*</span><span class="dv">100</span>)</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>accuracy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 91  9</code></pre>
+<pre><code>[1] 96  5</code></pre>
 </div>
 </div>
 </section>
@@ -826,23 +853,21 @@ RI = \frac{TP + TN} {TP + FP + FN + TN}
 <p>The ARI can also be used to compare several clusterings: the higher, the better.</p>
 </section>
 <p>In this case, the two clusterings are very close:</p>
-<div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-21_d61cfde3bcd054cef7c1633bb8e98e0d">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>aricode<span class="sc">::</span><span class="fu">ARI</span>(cl_kmeans, some_data<span class="sc">$</span>z)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>aricode<span class="sc">::</span><span class="fu">ARI</span>(cl_kmeans, some_data<span class="sc">$</span>z)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.6705837</code></pre>
+<pre><code>[1] 0.8454785</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>aricode<span class="sc">::</span><span class="fu">ARI</span>(cl_gmm   , some_data<span class="sc">$</span>z)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>aricode<span class="sc">::</span><span class="fu">ARI</span>(cl_gmm   , some_data<span class="sc">$</span>z)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.6705138</code></pre>
+<pre><code>[1] 0.8086217</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>aricode<span class="sc">::</span><span class="fu">ARI</span>(cl_kmeans, cl_gmm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>aricode<span class="sc">::</span><span class="fu">ARI</span>(cl_kmeans, cl_gmm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.9601889</code></pre>
+<pre><code>[1] 0.8453602</code></pre>
 </div>
 </div>
-<p>Of course, these results depend strongly on the model, i.e.&nbsp;on the parameters of the mixture. <a href="http://shiny.webpopix.org/sia/mm2/">This Shiny app</a> allows one to modify the parameters of the second distribution (the first distribution is assumed to be a normal distribution with mean 0 and variance 1) and compare the results provided by the two methods.</p>
-<iframe src="http://shiny.webpopix.org/sia/mm2/" style="border: none; width: 780px; height: 600px">
-</iframe>
+<p>Of course, these results depend strongly on the model, i.e.&nbsp;on the parameters of the mixture.</p>
 </section>
 <section id="some-em-type-algorithms" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="some-em-type-algorithms"><span class="header-section-number">2</span> Some EM-type algorithms</h2>
@@ -902,51 +927,51 @@ f_k(y_i \ ; \ \theta^{(t-1)}) = \frac{1}{\sigma^{(t-1)}_{k}\sqrt{2\pi}} \exp\lef
 \sigma^{(t)}_k &amp; = \frac{\sum_{i=1}^n y_i^2 \tau^{(t)}_{ik}}{\sum_{i=1}^n \tau^{(t)}_{ik}} - \left(\mu^{(t)}_k\right)^2 \\
 \end{aligned}</span></p>
 <p>For a given set of initial values <span class="math inline">\theta^{(0)} = (\boldsymbol\pi^{(0)},\boldsymbol\mu^{(0)},\boldsymbol\sigma^{(0)})</span>, the following function returns the EM estimate <span class="math inline">\theta_K</span>, the sequence of estimates <span class="math inline">(\theta^{(t)} \ , \ 0\leq t \leq T)</span> and the deviance computed with the final estimate <span class="math inline">-2\log \ell(\boldsymbol y \ ; \ \theta^T)</span>. The algorithm stops when the change in the deviance between two iteration is less than a given threshold.</p>
-<div class="cell" data-hash="map566-lecture-mixture-models_cache/html/general EM_0c890dc00abaa709c7e6d230701099fc">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>mixture_gaussian1D <span class="ot">&lt;-</span> <span class="cf">function</span>(x, theta0, <span class="at">max_iter =</span> <span class="dv">100</span>, <span class="at">threshold =</span> <span class="fl">1e-6</span>) {</span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="do">## initialization</span></span>
-<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
-<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>  deviance     <span class="ot">&lt;-</span> <span class="fu">numeric</span>(max_iter)        <span class="co"># we save the results</span></span>
-<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>  theta        <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"list"</span>, max_iter) <span class="co"># for monitoring</span></span>
-<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>  likelihoods  <span class="ot">&lt;-</span> <span class="fu">dcomponents</span>(theta0, x)</span>
-<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>  deviance[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">sum</span>(<span class="fu">log</span>(<span class="fu">rowSums</span>(likelihoods)))</span>
-<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>  theta[[<span class="dv">1</span>]]  <span class="ot">&lt;-</span> theta0</span>
-<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (t <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>max_iter) {</span>
-<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># E step</span></span>
-<span id="cb51-14"><a href="#cb51-14" aria-hidden="true" tabindex="-1"></a>    tau <span class="ot">&lt;-</span> likelihoods <span class="sc">/</span> <span class="fu">rowSums</span>(likelihoods)</span>
-<span id="cb51-15"><a href="#cb51-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-16"><a href="#cb51-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># M step</span></span>
-<span id="cb51-17"><a href="#cb51-17" aria-hidden="true" tabindex="-1"></a>    pi    <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(tau)</span>
-<span id="cb51-18"><a href="#cb51-18" aria-hidden="true" tabindex="-1"></a>    mu    <span class="ot">&lt;-</span> <span class="fu">colSums</span>(tau <span class="sc">*</span> x) <span class="sc">/</span> <span class="fu">colSums</span>(tau)</span>
-<span id="cb51-19"><a href="#cb51-19" aria-hidden="true" tabindex="-1"></a>    sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">colSums</span>(tau <span class="sc">*</span> x<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> <span class="fu">colSums</span>(tau) <span class="sc">-</span> mu<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb51-20"><a href="#cb51-20" aria-hidden="true" tabindex="-1"></a>    theta[[t <span class="sc">+</span> <span class="dv">1</span>]] <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">pi =</span> pi, <span class="at">mu =</span> mu, <span class="at">sigma =</span> sigma)</span>
-<span id="cb51-21"><a href="#cb51-21" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb51-22"><a href="#cb51-22" aria-hidden="true" tabindex="-1"></a>    <span class="do">## Assessing convergence</span></span>
-<span id="cb51-23"><a href="#cb51-23" aria-hidden="true" tabindex="-1"></a>    likelihoods   <span class="ot">&lt;-</span> <span class="fu">dcomponents</span>(theta[[t <span class="sc">+</span> <span class="dv">1</span>]], x)</span>
-<span id="cb51-24"><a href="#cb51-24" aria-hidden="true" tabindex="-1"></a>    deviance[t<span class="sc">+</span><span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sum</span>(<span class="fu">log</span>(<span class="fu">rowSums</span>(likelihoods)))</span>
-<span id="cb51-25"><a href="#cb51-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-26"><a href="#cb51-26" aria-hidden="true" tabindex="-1"></a>    <span class="do">## prepare next iterations</span></span>
-<span id="cb51-27"><a href="#cb51-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">abs</span>(deviance[t <span class="sc">+</span> <span class="dv">1</span>] <span class="sc">-</span> deviance[t]) <span class="sc">&lt;</span> threshold)</span>
-<span id="cb51-28"><a href="#cb51-28" aria-hidden="true" tabindex="-1"></a>      <span class="cf">break</span></span>
-<span id="cb51-29"><a href="#cb51-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-30"><a href="#cb51-30" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb51-31"><a href="#cb51-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-32"><a href="#cb51-32" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">cbind</span>(</span>
-<span id="cb51-33"><a href="#cb51-33" aria-hidden="true" tabindex="-1"></a>      <span class="fu">data.frame</span>(<span class="at">iteration =</span> <span class="dv">2</span><span class="sc">:</span>(t<span class="sc">+</span><span class="dv">1</span>) <span class="sc">-</span> <span class="dv">1</span>, <span class="at">deviance =</span> deviance[<span class="dv">2</span><span class="sc">:</span>(t<span class="sc">+</span><span class="dv">1</span>)]),</span>
-<span id="cb51-34"><a href="#cb51-34" aria-hidden="true" tabindex="-1"></a>      theta[<span class="dv">2</span><span class="sc">:</span>(t<span class="sc">+</span><span class="dv">1</span>)] <span class="sc">%&gt;%</span> purrr<span class="sc">::</span><span class="fu">map</span>(unlist) <span class="sc">%&gt;%</span> <span class="fu">do.call</span>(<span class="st">'rbind'</span>, .)</span>
-<span id="cb51-35"><a href="#cb51-35" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb51-36"><a href="#cb51-36" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb51-37"><a href="#cb51-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">theta =</span> theta[[t<span class="sc">+</span><span class="dv">1</span>]], <span class="at">deviance =</span> deviance[(t<span class="sc">+</span><span class="dv">1</span>)], <span class="at">convergence =</span> res)</span>
-<span id="cb51-38"><a href="#cb51-38" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>mixture_gaussian1D <span class="ot">&lt;-</span> <span class="cf">function</span>(x, theta0, <span class="at">max_iter =</span> <span class="dv">100</span>, <span class="at">threshold =</span> <span class="fl">1e-6</span>) {</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="do">## initialization</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>  deviance     <span class="ot">&lt;-</span> <span class="fu">numeric</span>(max_iter)        <span class="co"># we save the results</span></span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>  theta        <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"list"</span>, max_iter) <span class="co"># for monitoring</span></span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>  likelihoods  <span class="ot">&lt;-</span> <span class="fu">dcomponents</span>(theta0, x)</span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>  deviance[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">sum</span>(<span class="fu">log</span>(<span class="fu">rowSums</span>(likelihoods)))</span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>  theta[[<span class="dv">1</span>]]  <span class="ot">&lt;-</span> theta0</span>
+<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (t <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>max_iter) {</span>
+<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># E step</span></span>
+<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a>    tau <span class="ot">&lt;-</span> likelihoods <span class="sc">/</span> <span class="fu">rowSums</span>(likelihoods)</span>
+<span id="cb52-15"><a href="#cb52-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-16"><a href="#cb52-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># M step</span></span>
+<span id="cb52-17"><a href="#cb52-17" aria-hidden="true" tabindex="-1"></a>    pi    <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(tau)</span>
+<span id="cb52-18"><a href="#cb52-18" aria-hidden="true" tabindex="-1"></a>    mu    <span class="ot">&lt;-</span> <span class="fu">colSums</span>(tau <span class="sc">*</span> x) <span class="sc">/</span> <span class="fu">colSums</span>(tau)</span>
+<span id="cb52-19"><a href="#cb52-19" aria-hidden="true" tabindex="-1"></a>    sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">colSums</span>(tau <span class="sc">*</span> x<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> <span class="fu">colSums</span>(tau) <span class="sc">-</span> mu<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb52-20"><a href="#cb52-20" aria-hidden="true" tabindex="-1"></a>    theta[[t <span class="sc">+</span> <span class="dv">1</span>]] <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">pi =</span> pi, <span class="at">mu =</span> mu, <span class="at">sigma =</span> sigma)</span>
+<span id="cb52-21"><a href="#cb52-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb52-22"><a href="#cb52-22" aria-hidden="true" tabindex="-1"></a>    <span class="do">## Assessing convergence</span></span>
+<span id="cb52-23"><a href="#cb52-23" aria-hidden="true" tabindex="-1"></a>    likelihoods   <span class="ot">&lt;-</span> <span class="fu">dcomponents</span>(theta[[t <span class="sc">+</span> <span class="dv">1</span>]], x)</span>
+<span id="cb52-24"><a href="#cb52-24" aria-hidden="true" tabindex="-1"></a>    deviance[t<span class="sc">+</span><span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sum</span>(<span class="fu">log</span>(<span class="fu">rowSums</span>(likelihoods)))</span>
+<span id="cb52-25"><a href="#cb52-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-26"><a href="#cb52-26" aria-hidden="true" tabindex="-1"></a>    <span class="do">## prepare next iterations</span></span>
+<span id="cb52-27"><a href="#cb52-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">abs</span>(deviance[t <span class="sc">+</span> <span class="dv">1</span>] <span class="sc">-</span> deviance[t]) <span class="sc">&lt;</span> threshold)</span>
+<span id="cb52-28"><a href="#cb52-28" aria-hidden="true" tabindex="-1"></a>      <span class="cf">break</span></span>
+<span id="cb52-29"><a href="#cb52-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-30"><a href="#cb52-30" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb52-31"><a href="#cb52-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-32"><a href="#cb52-32" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">cbind</span>(</span>
+<span id="cb52-33"><a href="#cb52-33" aria-hidden="true" tabindex="-1"></a>      <span class="fu">data.frame</span>(<span class="at">iteration =</span> <span class="dv">2</span><span class="sc">:</span>(t<span class="sc">+</span><span class="dv">1</span>) <span class="sc">-</span> <span class="dv">1</span>, <span class="at">deviance =</span> deviance[<span class="dv">2</span><span class="sc">:</span>(t<span class="sc">+</span><span class="dv">1</span>)]),</span>
+<span id="cb52-34"><a href="#cb52-34" aria-hidden="true" tabindex="-1"></a>      theta[<span class="dv">2</span><span class="sc">:</span>(t<span class="sc">+</span><span class="dv">1</span>)] <span class="sc">%&gt;%</span> purrr<span class="sc">::</span><span class="fu">map</span>(unlist) <span class="sc">%&gt;%</span> <span class="fu">do.call</span>(<span class="st">'rbind'</span>, .)</span>
+<span id="cb52-35"><a href="#cb52-35" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb52-36"><a href="#cb52-36" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb52-37"><a href="#cb52-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">theta =</span> theta[[t<span class="sc">+</span><span class="dv">1</span>]], <span class="at">deviance =</span> deviance[(t<span class="sc">+</span><span class="dv">1</span>)], <span class="at">convergence =</span> res)</span>
+<span id="cb52-38"><a href="#cb52-38" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let us use this function with our faithful data</p>
-<div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-22_ebf59d9699d0d794519af8412bdc567c">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>theta0 <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">pi =</span> <span class="fu">c</span>(.<span class="dv">5</span>,.<span class="dv">5</span>), <span class="at">mu =</span> <span class="fu">c</span>(<span class="dv">60</span>,<span class="dv">70</span>), <span class="at">sigma =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>myEM_mixture <span class="ot">&lt;-</span> <span class="fu">mixture_gaussian1D</span>(y, theta0)</span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>myEM_mixture<span class="sc">$</span>theta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>theta0 <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">pi =</span> <span class="fu">c</span>(.<span class="dv">5</span>,.<span class="dv">5</span>), <span class="at">mu =</span> <span class="fu">c</span>(<span class="dv">60</span>,<span class="dv">70</span>), <span class="at">sigma =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>myEM_mixture <span class="ot">&lt;-</span> <span class="fu">mixture_gaussian1D</span>(y, theta0)</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>myEM_mixture<span class="sc">$</span>theta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$pi
 [1] 0.3608769 0.6391231
@@ -957,29 +982,29 @@ $mu
 $sigma
 [1] 5.870959 5.867927</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>myEM_mixture<span class="sc">$</span>deviance</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>myEM_mixture<span class="sc">$</span>deviance</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2068.004</code></pre>
 </div>
 </div>
 <p>and let us plot the convergence of the algorithm:</p>
-<div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-23_4e2271e411762dc4f092d51edcb6ab63">
+<div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>plot_singleEM <span class="ot">&lt;-</span> <span class="cf">function</span>(convergence, <span class="at">title =</span> <span class="st">"Convergence of the EM algorithm"</span>) {</span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(convergence)</span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>  gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(</span>
-<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>    p <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> iteration, <span class="at">y =</span> deviance)),</span>
-<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>    p <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> iteration, <span class="at">y =</span> pi1)   , <span class="at">color =</span> <span class="st">'blue'</span>) <span class="sc">+</span> </span>
-<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> iteration, <span class="at">y =</span> pi2)   , <span class="at">color =</span> <span class="st">'red'</span>),</span>
-<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>    p <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> iteration, <span class="at">y =</span> mu1)   , <span class="at">color =</span> <span class="st">'blue'</span>) <span class="sc">+</span> </span>
-<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> iteration, <span class="at">y =</span> mu2)   , <span class="at">color =</span> <span class="st">'red'</span>),</span>
-<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>    p <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> iteration, <span class="at">y =</span> sigma1), <span class="at">color =</span> <span class="st">'blue'</span>) <span class="sc">+</span> </span>
-<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> iteration, <span class="at">y =</span> sigma2), <span class="at">color =</span> <span class="st">'red'</span>),</span>
-<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">top =</span> title</span>
-<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb56-14"><a href="#cb56-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_singleEM</span>(myEM_mixture<span class="sc">$</span>convergence)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>plot_singleEM <span class="ot">&lt;-</span> <span class="cf">function</span>(convergence, <span class="at">title =</span> <span class="st">"Convergence of the EM algorithm"</span>) {</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(convergence)</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>    p <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> iteration, <span class="at">y =</span> deviance)),</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>    p <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> iteration, <span class="at">y =</span> pi1)   , <span class="at">color =</span> <span class="st">'blue'</span>) <span class="sc">+</span> </span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> iteration, <span class="at">y =</span> pi2)   , <span class="at">color =</span> <span class="st">'red'</span>),</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>    p <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> iteration, <span class="at">y =</span> mu1)   , <span class="at">color =</span> <span class="st">'blue'</span>) <span class="sc">+</span> </span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> iteration, <span class="at">y =</span> mu2)   , <span class="at">color =</span> <span class="st">'red'</span>),</span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>    p <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> iteration, <span class="at">y =</span> sigma1), <span class="at">color =</span> <span class="st">'blue'</span>) <span class="sc">+</span> </span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> iteration, <span class="at">y =</span> sigma2), <span class="at">color =</span> <span class="st">'red'</span>),</span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">top =</span> title</span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_singleEM</span>(myEM_mixture<span class="sc">$</span>convergence)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -993,40 +1018,41 @@ $sigma
 <section id="running-em-with-different-initial-values" class="level3" data-number="2.3">
 <h3 data-number="2.3" class="anchored" data-anchor-id="running-em-with-different-initial-values"><span class="header-section-number">2.3</span> Running EM with different initial values</h3>
 <p>The sequence of EM estimates <span class="math inline">(\theta_k)</span> depends on the initial guess <span class="math inline">\theta_0</span>. Let us plot the convergence of the algorithm obtained with several initial values. To do this, we write a small function to automatize the plot in the same vein as in the above output.</p>
-<div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-24_52dc1d141283356c690d6a151097c81d">
+<div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>plot_convergence <span class="ot">&lt;-</span> <span class="cf">function</span>(convergence, <span class="at">title =</span> <span class="st">"Convergence of EM for random initialization"</span>) {</span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(convergence<span class="sc">$</span>simu)) convergence<span class="sc">$</span>simu <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(convergence)</span>
-<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>  plot_list <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">c</span>(<span class="st">"pi1"</span>, <span class="st">"pi2"</span>, <span class="st">"mu1"</span>, <span class="st">"mu2"</span>, <span class="st">"sigma1"</span>, <span class="st">"sigma2"</span>), <span class="cf">function</span>(var) {</span>
-<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>    p <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes_string</span>(<span class="at">x =</span> <span class="st">"iteration"</span>, var, <span class="at">group =</span> <span class="st">"simu"</span>,  <span class="at">color =</span> <span class="st">"simu"</span>)) <span class="sc">+</span> </span>
-<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
-<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">do.call</span>(<span class="st">"grid.arrange"</span>, <span class="fu">c</span>(plot_list, <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">top =</span> title))</span>
-<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>plot_convergence <span class="ot">&lt;-</span> <span class="cf">function</span>(convergence, <span class="at">title =</span> <span class="st">"Convergence of EM for random initialization"</span>) {</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(convergence<span class="sc">$</span>simu)) convergence<span class="sc">$</span>simu <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(convergence)</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>  plot_list <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">c</span>(<span class="st">"pi1"</span>, <span class="st">"pi2"</span>, <span class="st">"mu1"</span>, <span class="st">"mu2"</span>, <span class="st">"sigma1"</span>, <span class="st">"sigma2"</span>), <span class="cf">function</span>(var) {</span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>    p <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes_string</span>(<span class="at">x =</span> <span class="st">"iteration"</span>, var, <span class="at">group =</span> <span class="st">"simu"</span>,  <span class="at">color =</span> <span class="st">"simu"</span>)) <span class="sc">+</span> </span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">do.call</span>(<span class="st">"grid.arrange"</span>, <span class="fu">c</span>(plot_list, <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">top =</span> title))</span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-25_78d36e8a19289326462401b86e1d8253">
+<div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>convergences <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="cf">function</span>(i) {</span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>  pi1 <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>, <span class="fl">0.1</span>, <span class="fl">0.9</span>)</span>
-<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>  theta0 <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">pi =</span>  <span class="fu">c</span>(pi1, <span class="dv">1</span><span class="sc">-</span>pi1),</span>
-<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">mu =</span> <span class="fu">rnorm</span>(<span class="dv">2</span>, <span class="dv">70</span>, <span class="dv">15</span>),</span>
-<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">sigma =</span> <span class="fu">rlnorm</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="fl">0.7</span>)</span>
-<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">mixture_gaussian1D</span>(y, theta0)<span class="sc">$</span>convergence</span>
-<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>  res<span class="sc">$</span>simu <span class="ot">&lt;-</span> i</span>
-<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>  res</span>
-<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">%&gt;%</span> <span class="fu">do.call</span>(rbind, .) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">simu =</span> <span class="fu">factor</span>(simu))</span>
-<span id="cb58-13"><a href="#cb58-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_convergence</span>(convergences)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>convergences <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="cf">function</span>(i) {</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>  pi1 <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>, <span class="fl">0.1</span>, <span class="fl">0.9</span>)</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>  theta0 <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">pi =</span>  <span class="fu">c</span>(pi1, <span class="dv">1</span><span class="sc">-</span>pi1),</span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">mu =</span> <span class="fu">rnorm</span>(<span class="dv">2</span>, <span class="dv">70</span>, <span class="dv">15</span>),</span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">sigma =</span> <span class="fu">rlnorm</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="fl">0.7</span>)</span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">mixture_gaussian1D</span>(y, theta0)<span class="sc">$</span>convergence</span>
+<span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a>  res<span class="sc">$</span>simu <span class="ot">&lt;-</span> i</span>
+<span id="cb59-11"><a href="#cb59-11" aria-hidden="true" tabindex="-1"></a>  res</span>
+<span id="cb59-12"><a href="#cb59-12" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">%&gt;%</span> <span class="fu">do.call</span>(rbind, .) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">simu =</span> <span class="fu">factor</span>(simu))</span>
+<span id="cb59-13"><a href="#cb59-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_convergence</span>(convergences)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: `aes_string()` was deprecated in ggplot2 3.0.0.
-ℹ Please use tidy evaluation ideoms with `aes()`</code></pre>
+ℹ Please use tidy evaluation idioms with `aes()`.
+ℹ See also `vignette("ggplot2-in-packages")` for more information.</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
@@ -1047,52 +1073,52 @@ $sigma
 {\sum_{j=1}^K \pi_{j,k-1}f_j(y_i  \ ; \ \theta^{(t-1)})}
 \end{aligned}</span></p>
 <p>We can then use these sampled labels for computing the sufficient statistics <span class="math inline">S(z^{(k)},y)</span> and updating the estimation of <span class="math inline">\theta</span> as <span class="math inline">\theta_k = \hat\Theta(S(z^{(k)},y))</span>.</p>
-<div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-26_332714b2421fbaa5bdaec19fb32af363">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>mixture_gaussian1D_SEM <span class="ot">&lt;-</span> <span class="cf">function</span>(x, theta0, <span class="at">max_iter =</span> <span class="dv">100</span>, <span class="at">threshold =</span> <span class="fl">1e-6</span>) {</span>
-<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>  <span class="do">## initialization</span></span>
-<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
-<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>  deviance     <span class="ot">&lt;-</span> <span class="fu">numeric</span>(max_iter)        <span class="co"># we save the results</span></span>
-<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>  theta        <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"list"</span>, max_iter) <span class="co"># for monitoring</span></span>
-<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>  likelihoods  <span class="ot">&lt;-</span> <span class="fu">dcomponents</span>(theta0, x)</span>
-<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a>  deviance[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">sum</span>(<span class="fu">log</span>(<span class="fu">rowSums</span>(likelihoods)))</span>
-<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>  theta[[<span class="dv">1</span>]]  <span class="ot">&lt;-</span> theta0</span>
-<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb60-11"><a href="#cb60-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (t <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>max_iter) {</span>
-<span id="cb60-12"><a href="#cb60-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-13"><a href="#cb60-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># SE step</span></span>
-<span id="cb60-14"><a href="#cb60-14" aria-hidden="true" tabindex="-1"></a>    tau1 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">*</span> (<span class="fu">runif</span>(n) <span class="sc">&lt;</span> likelihoods[, <span class="dv">1</span>] <span class="sc">/</span> <span class="fu">rowSums</span>(likelihoods))</span>
-<span id="cb60-15"><a href="#cb60-15" aria-hidden="true" tabindex="-1"></a>    tau2 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> tau1</span>
-<span id="cb60-16"><a href="#cb60-16" aria-hidden="true" tabindex="-1"></a>    tau <span class="ot">&lt;-</span> <span class="fu">cbind</span>(tau1, tau2); <span class="fu">colnames</span>(tau) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb60-17"><a href="#cb60-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-18"><a href="#cb60-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># M step</span></span>
-<span id="cb60-19"><a href="#cb60-19" aria-hidden="true" tabindex="-1"></a>    pi    <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(tau)</span>
-<span id="cb60-20"><a href="#cb60-20" aria-hidden="true" tabindex="-1"></a>    mu    <span class="ot">&lt;-</span> <span class="fu">colSums</span>(tau <span class="sc">*</span> x) <span class="sc">/</span> <span class="fu">colSums</span>(tau)</span>
-<span id="cb60-21"><a href="#cb60-21" aria-hidden="true" tabindex="-1"></a>    sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">colSums</span>(tau <span class="sc">*</span> x<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> <span class="fu">colSums</span>(tau) <span class="sc">-</span> mu<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb60-22"><a href="#cb60-22" aria-hidden="true" tabindex="-1"></a>    theta[[t <span class="sc">+</span> <span class="dv">1</span>]] <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">pi =</span> pi, <span class="at">mu =</span> mu, <span class="at">sigma =</span> sigma)</span>
-<span id="cb60-23"><a href="#cb60-23" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb60-24"><a href="#cb60-24" aria-hidden="true" tabindex="-1"></a>    <span class="do">## Assessing convergence</span></span>
-<span id="cb60-25"><a href="#cb60-25" aria-hidden="true" tabindex="-1"></a>    likelihoods   <span class="ot">&lt;-</span> <span class="fu">dcomponents</span>(theta[[t <span class="sc">+</span> <span class="dv">1</span>]], x)</span>
-<span id="cb60-26"><a href="#cb60-26" aria-hidden="true" tabindex="-1"></a>    deviance[t<span class="sc">+</span><span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sum</span>(<span class="fu">log</span>(<span class="fu">rowSums</span>(likelihoods)))</span>
-<span id="cb60-27"><a href="#cb60-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-28"><a href="#cb60-28" aria-hidden="true" tabindex="-1"></a>    <span class="do">## prepare next iterations</span></span>
-<span id="cb60-29"><a href="#cb60-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">abs</span>(deviance[t <span class="sc">+</span> <span class="dv">1</span>] <span class="sc">-</span> deviance[t]) <span class="sc">&lt;</span> threshold)</span>
-<span id="cb60-30"><a href="#cb60-30" aria-hidden="true" tabindex="-1"></a>      <span class="cf">break</span></span>
-<span id="cb60-31"><a href="#cb60-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-32"><a href="#cb60-32" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb60-33"><a href="#cb60-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-34"><a href="#cb60-34" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">cbind</span>(</span>
-<span id="cb60-35"><a href="#cb60-35" aria-hidden="true" tabindex="-1"></a>      <span class="fu">data.frame</span>(<span class="at">iteration =</span> <span class="dv">2</span><span class="sc">:</span>(t<span class="sc">+</span><span class="dv">1</span>) <span class="sc">-</span> <span class="dv">1</span>, <span class="at">deviance =</span> deviance[<span class="dv">2</span><span class="sc">:</span>(t<span class="sc">+</span><span class="dv">1</span>)]),</span>
-<span id="cb60-36"><a href="#cb60-36" aria-hidden="true" tabindex="-1"></a>      theta[<span class="dv">2</span><span class="sc">:</span>(t<span class="sc">+</span><span class="dv">1</span>)] <span class="sc">%&gt;%</span> purrr<span class="sc">::</span><span class="fu">map</span>(unlist) <span class="sc">%&gt;%</span> <span class="fu">do.call</span>(<span class="st">'rbind'</span>, .)</span>
-<span id="cb60-37"><a href="#cb60-37" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb60-38"><a href="#cb60-38" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb60-39"><a href="#cb60-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">theta =</span> theta[[t<span class="sc">+</span><span class="dv">1</span>]], <span class="at">deviance =</span> deviance[(t<span class="sc">+</span><span class="dv">1</span>)], <span class="at">convergence =</span> res)</span>
-<span id="cb60-40"><a href="#cb60-40" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>mixture_gaussian1D_SEM <span class="ot">&lt;-</span> <span class="cf">function</span>(x, theta0, <span class="at">max_iter =</span> <span class="dv">100</span>, <span class="at">threshold =</span> <span class="fl">1e-6</span>) {</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>  <span class="do">## initialization</span></span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>  deviance     <span class="ot">&lt;-</span> <span class="fu">numeric</span>(max_iter)        <span class="co"># we save the results</span></span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>  theta        <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"list"</span>, max_iter) <span class="co"># for monitoring</span></span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>  likelihoods  <span class="ot">&lt;-</span> <span class="fu">dcomponents</span>(theta0, x)</span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a>  deviance[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">sum</span>(<span class="fu">log</span>(<span class="fu">rowSums</span>(likelihoods)))</span>
+<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a>  theta[[<span class="dv">1</span>]]  <span class="ot">&lt;-</span> theta0</span>
+<span id="cb61-10"><a href="#cb61-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb61-11"><a href="#cb61-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (t <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>max_iter) {</span>
+<span id="cb61-12"><a href="#cb61-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-13"><a href="#cb61-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># SE step</span></span>
+<span id="cb61-14"><a href="#cb61-14" aria-hidden="true" tabindex="-1"></a>    tau1 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">*</span> (<span class="fu">runif</span>(n) <span class="sc">&lt;</span> likelihoods[, <span class="dv">1</span>] <span class="sc">/</span> <span class="fu">rowSums</span>(likelihoods))</span>
+<span id="cb61-15"><a href="#cb61-15" aria-hidden="true" tabindex="-1"></a>    tau2 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> tau1</span>
+<span id="cb61-16"><a href="#cb61-16" aria-hidden="true" tabindex="-1"></a>    tau <span class="ot">&lt;-</span> <span class="fu">cbind</span>(tau1, tau2); <span class="fu">colnames</span>(tau) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb61-17"><a href="#cb61-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-18"><a href="#cb61-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># M step</span></span>
+<span id="cb61-19"><a href="#cb61-19" aria-hidden="true" tabindex="-1"></a>    pi    <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(tau)</span>
+<span id="cb61-20"><a href="#cb61-20" aria-hidden="true" tabindex="-1"></a>    mu    <span class="ot">&lt;-</span> <span class="fu">colSums</span>(tau <span class="sc">*</span> x) <span class="sc">/</span> <span class="fu">colSums</span>(tau)</span>
+<span id="cb61-21"><a href="#cb61-21" aria-hidden="true" tabindex="-1"></a>    sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">colSums</span>(tau <span class="sc">*</span> x<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> <span class="fu">colSums</span>(tau) <span class="sc">-</span> mu<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb61-22"><a href="#cb61-22" aria-hidden="true" tabindex="-1"></a>    theta[[t <span class="sc">+</span> <span class="dv">1</span>]] <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">pi =</span> pi, <span class="at">mu =</span> mu, <span class="at">sigma =</span> sigma)</span>
+<span id="cb61-23"><a href="#cb61-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb61-24"><a href="#cb61-24" aria-hidden="true" tabindex="-1"></a>    <span class="do">## Assessing convergence</span></span>
+<span id="cb61-25"><a href="#cb61-25" aria-hidden="true" tabindex="-1"></a>    likelihoods   <span class="ot">&lt;-</span> <span class="fu">dcomponents</span>(theta[[t <span class="sc">+</span> <span class="dv">1</span>]], x)</span>
+<span id="cb61-26"><a href="#cb61-26" aria-hidden="true" tabindex="-1"></a>    deviance[t<span class="sc">+</span><span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sum</span>(<span class="fu">log</span>(<span class="fu">rowSums</span>(likelihoods)))</span>
+<span id="cb61-27"><a href="#cb61-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-28"><a href="#cb61-28" aria-hidden="true" tabindex="-1"></a>    <span class="do">## prepare next iterations</span></span>
+<span id="cb61-29"><a href="#cb61-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">abs</span>(deviance[t <span class="sc">+</span> <span class="dv">1</span>] <span class="sc">-</span> deviance[t]) <span class="sc">&lt;</span> threshold)</span>
+<span id="cb61-30"><a href="#cb61-30" aria-hidden="true" tabindex="-1"></a>      <span class="cf">break</span></span>
+<span id="cb61-31"><a href="#cb61-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-32"><a href="#cb61-32" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb61-33"><a href="#cb61-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-34"><a href="#cb61-34" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">cbind</span>(</span>
+<span id="cb61-35"><a href="#cb61-35" aria-hidden="true" tabindex="-1"></a>      <span class="fu">data.frame</span>(<span class="at">iteration =</span> <span class="dv">2</span><span class="sc">:</span>(t<span class="sc">+</span><span class="dv">1</span>) <span class="sc">-</span> <span class="dv">1</span>, <span class="at">deviance =</span> deviance[<span class="dv">2</span><span class="sc">:</span>(t<span class="sc">+</span><span class="dv">1</span>)]),</span>
+<span id="cb61-36"><a href="#cb61-36" aria-hidden="true" tabindex="-1"></a>      theta[<span class="dv">2</span><span class="sc">:</span>(t<span class="sc">+</span><span class="dv">1</span>)] <span class="sc">%&gt;%</span> purrr<span class="sc">::</span><span class="fu">map</span>(unlist) <span class="sc">%&gt;%</span> <span class="fu">do.call</span>(<span class="st">'rbind'</span>, .)</span>
+<span id="cb61-37"><a href="#cb61-37" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb61-38"><a href="#cb61-38" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb61-39"><a href="#cb61-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">theta =</span> theta[[t<span class="sc">+</span><span class="dv">1</span>]], <span class="at">deviance =</span> deviance[(t<span class="sc">+</span><span class="dv">1</span>)], <span class="at">convergence =</span> res)</span>
+<span id="cb61-40"><a href="#cb61-40" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-27_aa3d49d6b93da9056b6454754a0ad0fd">
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>theta0 <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">pi=</span><span class="fu">c</span>(.<span class="dv">2</span>,.<span class="dv">8</span>), <span class="at">mu=</span><span class="fu">c</span>(<span class="dv">75</span>,<span class="dv">75</span>), <span class="at">sigma=</span><span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">4</span>))</span>
-<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>mySEM_mixture <span class="ot">&lt;-</span> <span class="fu">mixture_gaussian1D_SEM</span>(y, theta0)</span>
-<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>mySEM_mixture<span class="sc">$</span>theta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>theta0 <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">pi=</span><span class="fu">c</span>(.<span class="dv">2</span>,.<span class="dv">8</span>), <span class="at">mu=</span><span class="fu">c</span>(<span class="dv">75</span>,<span class="dv">75</span>), <span class="at">sigma=</span><span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">4</span>))</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>mySEM_mixture <span class="ot">&lt;-</span> <span class="fu">mixture_gaussian1D_SEM</span>(y, theta0)</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>mySEM_mixture<span class="sc">$</span>theta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$pi
 [1] 0.3529412 0.6470588
@@ -1103,13 +1129,13 @@ $mu
 $sigma
 [1] 5.615579 6.009075</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>mySEM_mixture<span class="sc">$</span>deviance</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>mySEM_mixture<span class="sc">$</span>deviance</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2068.361</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="map566-lecture-mixture-models_cache/html/unnamed-chunk-28_5afc317a7d9621622b1484c365bbb97e">
-<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_singleEM</span>(mySEM_mixture<span class="sc">$</span>convergence, <span class="at">title=</span><span class="st">"Convergence of S-EM"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_singleEM</span>(mySEM_mixture<span class="sc">$</span>convergence, <span class="at">title=</span><span class="st">"Convergence of S-EM"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1118,9 +1144,6 @@ $sigma
 </div>
 </div>
 </div>
-<p><a href="http://shiny.webpopix.org/sia/mm4/">http://shiny.webpopix.org/sia/mm4/</a></p>
-<iframe src="http://shiny.webpopix.org/sia/mm4/" style="border: none; width: 780px; height: 550px">
-</iframe>
 </section>
 <section id="references" class="level3 unnumbered">
 
