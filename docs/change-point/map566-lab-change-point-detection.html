@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.550">
+<meta name="generator" content="quarto-1.4.537">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -275,17 +275,37 @@ window.Quarto = {
     <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html">
  <span class="dropdown-text">Mixture Models</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-graph-clustering-part1.html">
+ <span class="dropdown-text">Hierarchical and Spectral methods for Graph clustering</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-graph-clustering-part2.html">
+ <span class="dropdown-text">Stochastic block Models</span></a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
     <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">
  <span class="dropdown-text">Mixture models</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-graph-partionning.html">
+ <span class="dropdown-text">Graph Clustering</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html">
+ <span class="dropdown-text">Graph Clustering: Stochastic Blockmodels</span></a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
         <li>
     <a class="dropdown-item" href="../../docs/mixture-models/map566-doc-mixture-models-example.html">
  <span class="dropdown-text">Clustering and classification with model based approaches</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/jchiquet/MAP573/raw/master/slides/GraphClustering/GraphClustering.pdf">
+ <span class="dropdown-text">Slides on Graph Clustering</span></a>
   </li>  
     </ul>
   </li>
@@ -678,12 +698,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
-      }
+      return note.innerHTML;
     }
   }
   for (var i=0; i<xrefs.length; i++) {
@@ -906,7 +921,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../docs/change-point/map566-lecture-change-point-detection.html" class="pagination-link" aria-label="Detection of change points in a time series">
+      <a href="../../docs/change-point/map566-lecture-change-point-detection.html" class="pagination-link  aria-label=" detection="" of="" change="" points="" in="" a="" time="" series"="">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Detection of change points in a time series</span>
       </a>          
   </div>

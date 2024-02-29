@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.550">
+<meta name="generator" content="quarto-1.4.537">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -64,8 +64,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../docs/mixture-models/map566-doc-mixture-models-example.html" rel="next">
-<link href="../../docs/mixture-models/map566-lecture-mixture-models.html" rel="prev">
+<link href="../../docs/mixture-models/map566-lab-graph-partionning.html" rel="next">
+<link href="../../docs/mixture-models/map566-lecture-graph-clustering-part2.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -233,17 +233,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html">
  <span class="dropdown-text">Mixture Models</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-graph-clustering-part1.html">
+ <span class="dropdown-text">Hierarchical and Spectral methods for Graph clustering</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-graph-clustering-part2.html">
+ <span class="dropdown-text">Stochastic block Models</span></a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
     <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">
  <span class="dropdown-text">Mixture models</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-graph-partionning.html">
+ <span class="dropdown-text">Graph Clustering</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html">
+ <span class="dropdown-text">Graph Clustering: Stochastic Blockmodels</span></a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
         <li>
     <a class="dropdown-item" href="../../docs/mixture-models/map566-doc-mixture-models-example.html">
  <span class="dropdown-text">Clustering and classification with model based approaches</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/jchiquet/MAP573/raw/master/slides/GraphClustering/GraphClustering.pdf">
+ <span class="dropdown-text">Slides on Graph Clustering</span></a>
   </li>  
     </ul>
   </li>
@@ -303,6 +323,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Mixture Models</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/mixture-models/map566-lecture-graph-clustering-part1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Hierarchical and Spectral methods for Graph clustering</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/mixture-models/map566-lecture-graph-clustering-part2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Stochastic block Models</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -318,6 +350,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../../docs/mixture-models/map566-lab-mixture-models.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Mixture models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/mixture-models/map566-lab-graph-partionning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Graph Clustering</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Graph Clustering: Stochastic Blockmodels</span></a>
   </div>
 </li>
       </ul>
@@ -337,6 +381,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Clustering and classification with model based approaches</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://github.com/jchiquet/MAP573/raw/master/slides/GraphClustering/GraphClustering.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Slides on Graph Clustering</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -350,7 +400,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#preliminary" id="toc-preliminary" class="nav-link active" data-scroll-target="#preliminary"><span class="header-section-number">1</span> Preliminary</a></li>
-  <li><a href="#faithful-data" id="toc-faithful-data" class="nav-link" data-scroll-target="#faithful-data"><span class="header-section-number">2</span> Faithful data</a>
+  <li><a href="#introduction-to-mixture-models" id="toc-introduction-to-mixture-models" class="nav-link" data-scroll-target="#introduction-to-mixture-models"><span class="header-section-number">2</span> Introduction to mixture models</a>
   <ul class="collapse">
   <li><a href="#hint-skeleton-of-em-for-1d-mixture-of-gaussian" id="toc-hint-skeleton-of-em-for-1d-mixture-of-gaussian" class="nav-link" data-scroll-target="#hint-skeleton-of-em-for-1d-mixture-of-gaussian"><span class="header-section-number">2.1</span> Hint: skeleton of EM for 1D mixture of Gaussian</a></li>
   </ul></li>
@@ -384,15 +434,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="preliminary" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="preliminary"><span class="header-section-number">1</span> Preliminary</h2>
 <p>Only functions from <code>R</code>-base and stats (preloaded) are required plus packages from the <strong>tidyverse</strong> for data representation and manipulation.</p>
-<div class="cell" data-hash="map566-lab-mixture-models_cache/html/mixture-model-lab-config_ea7e02e2b896baadf5203ded8265470c">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="faithful-data" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="faithful-data"><span class="header-section-number">2</span> Faithful data</h2>
+<section id="introduction-to-mixture-models" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="introduction-to-mixture-models"><span class="header-section-number">2</span> Introduction to mixture models</h2>
 <p>The <code>faithful</code> data consist of the waiting time between eruptions and the duration of the eruption for the Old Faithful geyser in Yellowstone National Park, Wyoming, USA.</p>
-<div class="cell" data-hash="map566-lab-mixture-models_cache/html/mixture-faitful-load_84303a7fc1d9df28d6c9e27c6f04999d">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"faithful"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>faithful <span class="sc">%&gt;%</span> </span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x=</span>waiting) <span class="sc">+</span> <span class="fu">geom_histogram</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"waiting (mm)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -417,7 +467,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="hint-skeleton-of-em-for-1d-mixture-of-gaussian" class="level3" data-number="2.1">
 <h3 data-number="2.1" class="anchored" data-anchor-id="hint-skeleton-of-em-for-1d-mixture-of-gaussian"><span class="header-section-number">2.1</span> Hint: skeleton of EM for 1D mixture of Gaussian</h3>
 <p>We follow what has been done during the course: we define the function that computes the value of the likelihood for each point in each component. It will be used to compute the posterior probabilities in the E-step.</p>
-<div class="cell" data-hash="map566-lab-mixture-models_cache/html/auxiliary function_ed198e4e3cd4aa116c5f4a24e6290726">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## likelihood (density) of each point in each component</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="do">## data (x) is fixed while theta is variable</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>dcomponents <span class="ot">&lt;-</span> <span class="cf">function</span>(theta, x) {</span>
@@ -429,7 +479,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then, we define an EM where the function that computes the M step is given as an argument:</p>
-<div class="cell" data-hash="map566-lab-mixture-models_cache/html/general EM_3c998f1c1fe8ae994fa43c2fbb96e6a2">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>mixture_gaussian1D <span class="ot">&lt;-</span> </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(x,      <span class="co"># a n-vector of data</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>           theta0, <span class="co"># starting values of vector paramter</span></span>
@@ -469,7 +519,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="epilepsy-data" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="epilepsy-data"><span class="header-section-number">3</span> Epilepsy data</h2>
 <p>The data <code>seizures.csv</code> consists of daily counts of epileptic seizures for 6 patients.</p>
-<div class="cell" data-hash="map566-lab-mixture-models_cache/html/mixture-seizures-load_e9d81ae4fd4106d4e5b27d8770f1598f">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>seizures <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'../../data/seizures.csv'</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>seizures <span class="sc">%&gt;%</span> </span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> nsz) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>( <span class="sc">~</span> id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -652,12 +702,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
-      }
+      return note.innerHTML;
     }
   }
   for (var i=0; i<xrefs.length; i++) {
@@ -880,13 +925,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../docs/mixture-models/map566-lecture-mixture-models.html" class="pagination-link" aria-label="Mixture Models">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Mixture Models</span>
+      <a href="../../docs/mixture-models/map566-lecture-graph-clustering-part2.html" class="pagination-link  aria-label=" stochastic="" block="" models"="">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Stochastic block Models</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../docs/mixture-models/map566-doc-mixture-models-example.html" class="pagination-link" aria-label="Clustering and classification with model based approaches">
-        <span class="nav-page-text">Clustering and classification with model based approaches</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../docs/mixture-models/map566-lab-graph-partionning.html" class="pagination-link" aria-label="Graph Clustering">
+        <span class="nav-page-text">Graph Clustering</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

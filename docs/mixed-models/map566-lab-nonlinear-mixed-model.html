@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.550">
+<meta name="generator" content="quarto-1.4.537">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -298,17 +298,37 @@ window.Quarto = {
     <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html">
  <span class="dropdown-text">Mixture Models</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-graph-clustering-part1.html">
+ <span class="dropdown-text">Hierarchical and Spectral methods for Graph clustering</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-graph-clustering-part2.html">
+ <span class="dropdown-text">Stochastic block Models</span></a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
     <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">
  <span class="dropdown-text">Mixture models</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-graph-partionning.html">
+ <span class="dropdown-text">Graph Clustering</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html">
+ <span class="dropdown-text">Graph Clustering: Stochastic Blockmodels</span></a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
         <li>
     <a class="dropdown-item" href="../../docs/mixture-models/map566-doc-mixture-models-example.html">
  <span class="dropdown-text">Clustering and classification with model based approaches</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/jchiquet/MAP573/raw/master/slides/GraphClustering/GraphClustering.pdf">
+ <span class="dropdown-text">Slides on Graph Clustering</span></a>
   </li>  
     </ul>
   </li>
@@ -575,18 +595,18 @@ Dataset males11
 <pre><code>----------------------------------------------------
 -----------------  Fixed effects  ------------------
 ----------------------------------------------------
-  Parameter Estimate     SE  CV(%)
-1         A  528.150 8.4048   1.59
-2         b    0.216 0.0072   3.33
-3         c    0.064 0.0799 125.22
-4       a.1   12.203 0.4093   3.35
+  Parameter Estimate     SE CV(%)
+1         A  526.896 8.5600  1.62
+2         b    0.223 0.0081  3.62
+3         c    0.074 0.0338 45.72
+4       a.1   12.758 0.4177  3.27
 ----------------------------------------------------
 -----------  Variance of random effects  -----------
 ----------------------------------------------------
   Parameter Estimate     SE CV(%)
-A  omega2.A   0.0093 0.0022 23.89
-b  omega2.b   0.0296 0.0096 32.33
-c  omega2.c   0.1939 0.0560 28.86
+A  omega2.A   0.0097 0.0023 23.90
+b  omega2.b   0.0394 0.0113 28.69
+c  omega2.c   2.1018 1.1593 55.16
 ----------------------------------------------------
 ------  Correlation matrix of random effects  ------
 ----------------------------------------------------
@@ -598,9 +618,9 @@ omega2.c 0.00     0.00     1.00
 ---------------  Statistical criteria  -------------
 ----------------------------------------------------
 Likelihood computed by linearisation
-      -2LL= 4704.198 
-      AIC = 4718.198 
-      BIC = 4730.02 
+      -2LL= 4725.109 
+      AIC = 4739.109 
+      BIC = 4750.931 
 ----------------------------------------------------</code></pre>
 </div>
 </div>
@@ -657,21 +677,21 @@ Likelihood computed by linearisation
 </div>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>cov_hat <span class="sc">/</span> (d <span class="sc">%*%</span> <span class="fu">t</span>(d))               <span class="co"># correlation matrix of the estimates</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>            [,1]       [,2]        [,3]          [,4]        [,5]          [,6]
-[1,]  1.00000000 -0.1521259 -0.01686904  0.0000000000  0.00000000  0.0000000000
-[2,] -0.15212594  1.0000000  0.13204038  0.0000000000  0.00000000  0.0000000000
-[3,] -0.01686904  0.1320404  1.00000000  0.0000000000  0.00000000  0.0000000000
-[4,]  0.00000000  0.0000000  0.00000000  1.0000000000 -0.02345447 -0.0004675813
-[5,]  0.00000000  0.0000000  0.00000000 -0.0234544744  1.00000000 -0.0209439728
-[6,]  0.00000000  0.0000000  0.00000000 -0.0004675813 -0.02094397  1.0000000000
-[7,]  0.00000000  0.0000000  0.00000000 -0.0114581739 -0.07639522 -0.0581498297
+<pre><code>            [,1]       [,2]        [,3]         [,4]        [,5]         [,6]
+[1,]  1.00000000 -0.1291289 -0.01792134  0.000000000  0.00000000  0.000000000
+[2,] -0.12912886  1.0000000  0.13534620  0.000000000  0.00000000  0.000000000
+[3,] -0.01792134  0.1353462  1.00000000  0.000000000  0.00000000  0.000000000
+[4,]  0.00000000  0.0000000  0.00000000  1.000000000 -0.01712704  0.000271188
+[5,]  0.00000000  0.0000000  0.00000000 -0.017127040  1.00000000 -0.011570846
+[6,]  0.00000000  0.0000000  0.00000000  0.000271188 -0.01157085  1.000000000
+[7,]  0.00000000  0.0000000  0.00000000 -0.013440956 -0.05584212 -0.060994024
             [,7]
 [1,]  0.00000000
 [2,]  0.00000000
 [3,]  0.00000000
-[4,] -0.01145817
-[5,] -0.07639522
-[6,] -0.05814983
+[4,] -0.01344096
+[5,] -0.05584212
+[6,] -0.06099402
 [7,]  1.00000000</code></pre>
 </div>
 </div>
@@ -859,12 +879,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
-      }
+      return note.innerHTML;
     }
   }
   for (var i=0; i<xrefs.length; i++) {
@@ -1087,7 +1102,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../docs/mixed-models/map566-lab-linear-mixed-model.html" class="pagination-link" aria-label="Linear Mixed Models">
+      <a href="../../docs/mixed-models/map566-lab-linear-mixed-model.html" class="pagination-link  aria-label=" linear="" mixed="" models"="">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Linear Mixed Models</span>
       </a>          
   </div>

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.550">
+<meta name="generator" content="quarto-1.4.537">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -295,17 +295,37 @@ window.Quarto = {
     <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html">
  <span class="dropdown-text">Mixture Models</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-graph-clustering-part1.html">
+ <span class="dropdown-text">Hierarchical and Spectral methods for Graph clustering</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-graph-clustering-part2.html">
+ <span class="dropdown-text">Stochastic block Models</span></a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
     <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">
  <span class="dropdown-text">Mixture models</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-graph-partionning.html">
+ <span class="dropdown-text">Graph Clustering</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html">
+ <span class="dropdown-text">Graph Clustering: Stochastic Blockmodels</span></a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
         <li>
     <a class="dropdown-item" href="../../docs/mixture-models/map566-doc-mixture-models-example.html">
  <span class="dropdown-text">Clustering and classification with model based approaches</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/jchiquet/MAP573/raw/master/slides/GraphClustering/GraphClustering.pdf">
+ <span class="dropdown-text">Slides on Graph Clustering</span></a>
   </li>  
     </ul>
   </li>
@@ -590,6 +610,10 @@ U(\tau) = \sum_{j=1}^\tau (y_j - \overline{y}_{1:\tau})^2 + \sum_{j=\tau+1}^n (y
 <pre><code>[1]   93.000 1096.269</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>U) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(tau,RSS)) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>tau.est,<span class="at">y=</span>U.min), <span class="at">colour=</span><span class="st">"red"</span>, <span class="at">size=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in geom_point(aes(x = tau.est, y = U.min), colour = "red", size = 2): All aesthetics have length 1, but the data has 199 rows.
+ℹ Did you mean to use `annotate()`?</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -613,21 +637,25 @@ Remark
 </div>
 <p>The optimal segmentation and the residuals obtained with <span class="math inline">\hat{\tau} = 93</span> are diplayed in the next Figure.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(y[<span class="dv">1</span><span class="sc">:</span>tau.est])</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">mean</span>(y[(tau.est<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n])</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(m1,tau.est),<span class="fu">rep</span>(m2,(n<span class="sc">-</span>tau.est)))</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>d1<span class="sc">$</span>e <span class="ot">&lt;-</span> y <span class="sc">-</span> m</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>dm <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x1=</span><span class="fu">c</span>(<span class="dv">0</span>,tau.est<span class="fl">+0.5</span>), <span class="at">x2=</span><span class="fu">c</span>(tau.est<span class="fl">+0.5</span>,n), <span class="at">y1=</span><span class="fu">c</span>(m1,m2), <span class="at">y2=</span><span class="fu">c</span>(m1,m2))</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>pl1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>d1) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(time, y), <span class="at">color=</span><span class="st">"#6666CC"</span>)  <span class="sc">+</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x=</span>x1, <span class="at">y=</span>y1, <span class="at">xend=</span>x2, <span class="at">yend=</span>y2), <span class="at">colour=</span><span class="st">"green"</span>, <span class="at">data=</span>dm, <span class="at">size=</span><span class="fl">0.75</span>) <span class="sc">+</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> (tau.est<span class="fl">+0.5</span>), <span class="at">color=</span><span class="st">"red"</span>, <span class="at">size=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(y[<span class="dv">1</span><span class="sc">:</span>tau.est])</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">mean</span>(y[(tau.est<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n])</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(m1,tau.est),<span class="fu">rep</span>(m2,(n<span class="sc">-</span>tau.est)))</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>d1<span class="sc">$</span>e <span class="ot">&lt;-</span> y <span class="sc">-</span> m</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>dm <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x1=</span><span class="fu">c</span>(<span class="dv">0</span>,tau.est<span class="fl">+0.5</span>), <span class="at">x2=</span><span class="fu">c</span>(tau.est<span class="fl">+0.5</span>,n), <span class="at">y1=</span><span class="fu">c</span>(m1,m2), <span class="at">y2=</span><span class="fu">c</span>(m1,m2))</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>pl1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>d1) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(time, y), <span class="at">color=</span><span class="st">"#6666CC"</span>)  <span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x=</span>x1, <span class="at">y=</span>y1, <span class="at">xend=</span>x2, <span class="at">yend=</span>y2), <span class="at">colour=</span><span class="st">"green"</span>, <span class="at">data=</span>dm, <span class="at">size=</span><span class="fl">0.75</span>) <span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> (tau.est<span class="fl">+0.5</span>), <span class="at">color=</span><span class="st">"red"</span>, <span class="at">size=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
 ℹ Please use `linewidth` instead.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pl2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>d1) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(time, e), <span class="at">color=</span><span class="st">"#6666CC"</span>)  <span class="sc">+</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="dv">0</span>,<span class="at">xend=</span>n,<span class="at">y=</span><span class="dv">0</span>,<span class="at">yend=</span><span class="dv">0</span>), <span class="at">colour=</span><span class="st">"green"</span>, <span class="at">data=</span>dm, <span class="at">size=</span><span class="fl">0.75</span>) </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(pl1, pl2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>pl2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>d1) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(time, e), <span class="at">color=</span><span class="st">"#6666CC"</span>)  <span class="sc">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="dv">0</span>,<span class="at">xend=</span>n,<span class="at">y=</span><span class="dv">0</span>,<span class="at">yend=</span><span class="dv">0</span>), <span class="at">colour=</span><span class="st">"green"</span>, <span class="at">data=</span>dm, <span class="at">size=</span><span class="fl">0.75</span>) </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(pl1, pl2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in geom_segment(aes(x = 0, xend = n, y = 0, yend = 0), colour = "green", : All aesthetics have length 1, but the data has 2 rows.
+ℹ Did you mean to use `annotate()`?</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -642,7 +670,7 @@ Remark
 <li>Neither the Shapiro-Wilk test nor the normal QQ plot suggest to reject the normality assumption:</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(d1<span class="sc">$</span>e)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(d1<span class="sc">$</span>e)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -650,7 +678,7 @@ Remark
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(d1<span class="sc">$</span>e)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(d1<span class="sc">$</span>e)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Shapiro-Wilk normality test
@@ -663,7 +691,7 @@ W = 0.98776, p-value = 0.08299</code></pre>
 <li>The sequence of autocorrelations does not suggest to reject the hypothesis of uncorrelated residual errors:</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(d1<span class="sc">$</span>e, <span class="at">ylab =</span> <span class="st">"autocorrelation"</span>, <span class="at">main=</span><span class="st">" "</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(d1<span class="sc">$</span>e, <span class="at">ylab =</span> <span class="st">"autocorrelation"</span>, <span class="at">main=</span><span class="st">" "</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -706,12 +734,12 @@ Remarks
 <p>Note that, for a given number <span class="math inline">n</span> of data points and a given change point <span class="math inline">\tau^\star</span>, the estimation error decreases with the absolute difference of the two means <span class="math inline">\delta = |\mu_2-\mu_1|</span>.</p>
 <p>Let us display the ditribution of <span class="math inline">\hat{\tau}</span> estimated by Monde Carlo simulation with the R function <a href="cpf.R"><code>cpf</code></a>, with <span class="math inline">n=100</span> and <span class="math inline">\delta=0.5</span>, 0.75, 1, 2.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="dv">500</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>Q <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (delta <span class="cf">in</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="dv">1</span>, <span class="dv">2</span>)) </span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  Q[[<span class="fu">length</span>(Q) <span class="sc">+</span> <span class="dv">1</span>]] <span class="ot">&lt;-</span> <span class="fu">cpf</span>(<span class="at">tau.star=</span><span class="dv">25</span>, delta, <span class="at">n=</span><span class="dv">100</span>, M, <span class="at">plot=</span><span class="cn">TRUE</span>)</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">do.call</span>(grid.arrange, <span class="fu">c</span>(Q, <span class="at">nrow =</span> <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>Q <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (delta <span class="cf">in</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="dv">1</span>, <span class="dv">2</span>)) </span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  Q[[<span class="fu">length</span>(Q) <span class="sc">+</span> <span class="dv">1</span>]] <span class="ot">&lt;-</span> <span class="fu">cpf</span>(<span class="at">tau.star=</span><span class="dv">25</span>, delta, <span class="at">n=</span><span class="dv">100</span>, M, <span class="at">plot=</span><span class="cn">TRUE</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">do.call</span>(grid.arrange, <span class="fu">c</span>(Q, <span class="at">nrow =</span> <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -724,11 +752,11 @@ Remarks
 <li>for a given jump <span class="math inline">\delta</span>, the magnitude of the absolute estimation error <span class="math inline">|\hat{\tau} - \tau^\star|</span> does not seem to change with <span class="math inline">n</span>. On the other hand, the relative error <span class="math inline">|\hat{\tau} - \tau^\star|/n</span> clearly decrease with <span class="math inline">n</span>.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>Q <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (n <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">500</span>)) </span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  Q[[<span class="fu">length</span>(Q) <span class="sc">+</span> <span class="dv">1</span>]] <span class="ot">&lt;-</span> <span class="fu">cpf</span>(<span class="fu">round</span>(n<span class="sc">/</span><span class="dv">4</span>), delta, n, M, <span class="at">plot=</span><span class="cn">TRUE</span>)</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">do.call</span>(grid.arrange, <span class="fu">c</span>(Q, <span class="at">nrow =</span> <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>Q <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (n <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">500</span>)) </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  Q[[<span class="fu">length</span>(Q) <span class="sc">+</span> <span class="dv">1</span>]] <span class="ot">&lt;-</span> <span class="fu">cpf</span>(<span class="fu">round</span>(n<span class="sc">/</span><span class="dv">4</span>), delta, n, M, <span class="at">plot=</span><span class="cn">TRUE</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">do.call</span>(grid.arrange, <span class="fu">c</span>(Q, <span class="at">nrow =</span> <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -739,22 +767,22 @@ Remarks
 </div>
 <p>Let us display the mean absolute error obtained with different value of <span class="math inline">n</span> and <span class="math inline">\delta</span>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="dv">200</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>vd <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.75</span>, <span class="dv">1</span>, <span class="dv">2</span>)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>vn <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">50</span>,<span class="dv">75</span>,<span class="dv">100</span>,<span class="dv">125</span>,<span class="dv">150</span>, <span class="fu">seq</span>(<span class="dv">200</span>,<span class="dv">500</span>,<span class="at">by=</span><span class="dv">100</span>))</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>E <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (j <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(vd)))</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  delta <span class="ot">&lt;-</span> vd[j]</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  Ej <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">delta=</span>delta, <span class="at">n=</span>vn, <span class="at">mae=</span><span class="cn">NA</span>)</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (k <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(vn))) { </span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    n <span class="ot">&lt;-</span> vn[k]</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    e <span class="ot">&lt;-</span> <span class="fu">cpf</span>(<span class="at">tau.star=</span>n<span class="sc">/</span><span class="dv">2</span>, delta, n, M, <span class="at">plot=</span><span class="cn">FALSE</span>)</span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    Ej<span class="sc">$</span>mae[k] <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">abs</span>(e))</span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  E <span class="ot">&lt;-</span> <span class="fu">rbind</span>(E, Ej)</span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>E, <span class="fu">aes</span>(n,mae, <span class="at">colour=</span><span class="fu">factor</span>(delta))) <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"mean absolute error"</span>) <span class="sc">+</span> <span class="fu">scale_colour_discrete</span>(<span class="at">name=</span><span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">" "</span>,delta)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="dv">200</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>vd <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.75</span>, <span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>vn <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">50</span>,<span class="dv">75</span>,<span class="dv">100</span>,<span class="dv">125</span>,<span class="dv">150</span>, <span class="fu">seq</span>(<span class="dv">200</span>,<span class="dv">500</span>,<span class="at">by=</span><span class="dv">100</span>))</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>E <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (j <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(vd)))</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  delta <span class="ot">&lt;-</span> vd[j]</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  Ej <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">delta=</span>delta, <span class="at">n=</span>vn, <span class="at">mae=</span><span class="cn">NA</span>)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (k <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(vn))) { </span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    n <span class="ot">&lt;-</span> vn[k]</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    e <span class="ot">&lt;-</span> <span class="fu">cpf</span>(<span class="at">tau.star=</span>n<span class="sc">/</span><span class="dv">2</span>, delta, n, M, <span class="at">plot=</span><span class="cn">FALSE</span>)</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    Ej<span class="sc">$</span>mae[k] <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">abs</span>(e))</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>  E <span class="ot">&lt;-</span> <span class="fu">rbind</span>(E, Ej)</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>E, <span class="fu">aes</span>(n,mae, <span class="at">colour=</span><span class="fu">factor</span>(delta))) <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"mean absolute error"</span>) <span class="sc">+</span> <span class="fu">scale_colour_discrete</span>(<span class="at">name=</span><span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">" "</span>,delta)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -769,8 +797,13 @@ Remarks
 </span> which means that <span class="math inline">\prob{\delta^2|\hat{\tau} - \tau^\star| &gt; A}</span> tends to 0 as <span class="math inline">A</span> goes to infinity. In other words, when <span class="math inline">\delta</span> increases, the expected absolute error decreases, in theory, as <span class="math inline">1/\delta^2</span>.</p>
 <p>We can easily check by simulation that the empirical absolute error (displayed above) multiplied by <span class="math inline">\delta^2</span> is a random variable which does not exhibit any dependence with respect to <span class="math inline">n</span> and <span class="math inline">\delta</span>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>E, <span class="fu">aes</span>(n,mae<span class="sc">*</span>delta<span class="sc">^</span><span class="dv">2</span>, <span class="at">colour=</span><span class="fu">factor</span>(delta))) <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="fu">c</span>(.<span class="dv">8</span>, .<span class="dv">8</span>)) <span class="sc">+</span> <span class="fu">scale_colour_discrete</span>(<span class="at">name=</span><span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">" "</span>,delta)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>E, <span class="fu">aes</span>(n,mae<span class="sc">*</span>delta<span class="sc">^</span><span class="dv">2</span>, <span class="at">colour=</span><span class="fu">factor</span>(delta))) <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="fu">c</span>(.<span class="dv">8</span>, .<span class="dv">8</span>)) <span class="sc">+</span> <span class="fu">scale_colour_discrete</span>(<span class="at">name=</span><span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">" "</span>,delta)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: A numeric `legend.position` argument in `theme()` was deprecated in ggplot2
+3.5.0.
+ℹ Please use the `legend.position.inside` argument of `theme()` instead.</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -798,9 +831,9 @@ Remarks
 <p>The problem of testing if the mean changes at a given time <span class="math inline">\tau</span> thus reduces to testing if the means <span class="math inline">\mu_1</span> and <span class="math inline">\mu_2</span> (before and after <span class="math inline">\tau</span>) are equal.</p>
 <p>Let us test, for instance, if the means before and after <span class="math inline">t=50</span> are equal:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">200</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>tau <span class="ot">&lt;-</span> <span class="dv">50</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(y[<span class="dv">1</span><span class="sc">:</span>tau],y[(tau<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n],<span class="at">var.equal =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">200</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>tau <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(y[<span class="dv">1</span><span class="sc">:</span>tau],y[(tau<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n],<span class="at">var.equal =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Two Sample t-test
@@ -817,7 +850,7 @@ mean of x mean of y
 </div>
 <p>The test is clearly significant: we can conclude that the means before and after <span class="math inline">t=50</span> are different. Nevertheless, this result does not allows us to conclude that the mean jumps at time <span class="math inline">t=50</span>. Indeed, we would also reject the null hypothesis for other possible values of <span class="math inline">\tau</span>, including <span class="math inline">150</span> for instance:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(y[<span class="dv">1</span><span class="sc">:</span><span class="dv">150</span>],y[(<span class="dv">151</span>)<span class="sc">:</span>n],<span class="at">var.equal =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(y[<span class="dv">1</span><span class="sc">:</span><span class="dv">150</span>],y[(<span class="dv">151</span>)<span class="sc">:</span>n],<span class="at">var.equal =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Two Sample t-test
@@ -834,26 +867,34 @@ mean of x mean of y
 </div>
 <p>Let us compute the test statistics <span class="math inline">S_\tau</span> and the associated <span class="math inline">p</span>-value <span class="math inline">p_\tau</span> for all possible values of <span class="math inline">\tau</span>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>t.stat <span class="ot">&lt;-</span> t.pval <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (tau <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span>(n<span class="dv">-1</span>))) {</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  test.tau <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y[<span class="dv">1</span><span class="sc">:</span>tau],y[(tau<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n],<span class="at">var.equal =</span> T)</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  t.stat <span class="ot">&lt;-</span> <span class="fu">c</span>(t.stat , <span class="fu">abs</span>(test.tau<span class="sc">$</span>statistic))</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  t.pval <span class="ot">&lt;-</span> <span class="fu">c</span>(t.pval , test.tau<span class="sc">$</span>p.value)</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>tau.max <span class="ot">&lt;-</span> <span class="fu">which.max</span>(t.stat)</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>S.max <span class="ot">&lt;-</span> t.stat[tau.max]</span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>p.min <span class="ot">&lt;-</span> t.pval[tau.max]</span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">c</span>(tau.max, S.max, p.min))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>t.stat <span class="ot">&lt;-</span> t.pval <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (tau <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span>(n<span class="dv">-1</span>))) {</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  test.tau <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y[<span class="dv">1</span><span class="sc">:</span>tau],y[(tau<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n],<span class="at">var.equal =</span> T)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  t.stat <span class="ot">&lt;-</span> <span class="fu">c</span>(t.stat , <span class="fu">abs</span>(test.tau<span class="sc">$</span>statistic))</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  t.pval <span class="ot">&lt;-</span> <span class="fu">c</span>(t.pval , test.tau<span class="sc">$</span>p.value)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>tau.max <span class="ot">&lt;-</span> <span class="fu">which.max</span>(t.stat)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>S.max <span class="ot">&lt;-</span> t.stat[tau.max]</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>p.min <span class="ot">&lt;-</span> t.pval[tau.max]</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">c</span>(tau.max, S.max, p.min))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           t            t              
 9.300000e+01 2.563787e+01 7.937425e-65 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>pl1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">tau=</span><span class="dv">1</span><span class="sc">:</span>(n<span class="dv">-1</span>), t.stat)) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(tau,t.stat)) <span class="sc">+</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>tau.max,<span class="at">y=</span>S.max), <span class="at">colour=</span><span class="st">"red"</span>, <span class="at">size=</span><span class="dv">2</span>)</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>pl2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">tau=</span><span class="dv">1</span><span class="sc">:</span>(n<span class="dv">-1</span>), t.pval)) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(tau,t.pval)) <span class="sc">+</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>tau.max,<span class="at">y=</span>p.min), <span class="at">colour=</span><span class="st">"red"</span>, <span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span> </span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">scale_y_continuous</span>(<span class="at">trans=</span><span class="st">'log10'</span>)</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(pl1, pl2, <span class="at">nrow=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>pl1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">tau=</span><span class="dv">1</span><span class="sc">:</span>(n<span class="dv">-1</span>), t.stat)) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(tau,t.stat)) <span class="sc">+</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>tau.max,<span class="at">y=</span>S.max), <span class="at">colour=</span><span class="st">"red"</span>, <span class="at">size=</span><span class="dv">2</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>pl2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">tau=</span><span class="dv">1</span><span class="sc">:</span>(n<span class="dv">-1</span>), t.pval)) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(tau,t.pval)) <span class="sc">+</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>tau.max,<span class="at">y=</span>p.min), <span class="at">colour=</span><span class="st">"red"</span>, <span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">scale_y_continuous</span>(<span class="at">trans=</span><span class="st">'log10'</span>)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(pl1, pl2, <span class="at">nrow=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in geom_point(aes(x = tau.max, y = S.max), colour = "red", size = 2): All aesthetics have length 1, but the data has 199 rows.
+ℹ Did you mean to use `annotate()`?</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in geom_point(aes(x = tau.max, y = p.min), colour = "red", size = 2): All aesthetics have length 1, but the data has 199 rows.
+ℹ Did you mean to use `annotate()`?</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -868,20 +909,20 @@ mean of x mean of y
 <p><span class="math inline">S_{\rm max}</span> is the maximum value of a collection of <span class="math inline">n-1</span> random variables having a <span class="math inline">t</span> distribution under the null hypothesis. Furthermore, these <span class="math inline">n-1</span> random variables are dependent since they all are function of the same serie <span class="math inline">(y_j,1\leq j \leq n)</span>.</p>
 <p>The distribution of <span class="math inline">S_{\rm max}</span> is then quite complex… but it can be approximated by Monte Carlo simulation:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="dv">500</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>S.max <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (m <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span>M)) {</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  y.sim <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  t.stat <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (tau <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span>(n<span class="dv">-1</span>))) {</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    test.tau <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y.sim[<span class="dv">1</span><span class="sc">:</span>tau],y.sim[(tau<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n],<span class="at">var.equal =</span> T)</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    t.stat <span class="ot">&lt;-</span> <span class="fu">c</span>(t.stat , <span class="fu">abs</span>(test.tau<span class="sc">$</span>statistic))</span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  tau.max <span class="ot">&lt;-</span> <span class="fu">which.max</span>(t.stat)</span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  S.max <span class="ot">&lt;-</span> <span class="fu">c</span>(S.max, t.stat[tau.max])</span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(S.max, <span class="at">breaks=</span><span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>S.max <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (m <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span>M)) {</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  y.sim <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  t.stat <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (tau <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span>(n<span class="dv">-1</span>))) {</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    test.tau <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y.sim[<span class="dv">1</span><span class="sc">:</span>tau],y.sim[(tau<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n],<span class="at">var.equal =</span> T)</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    t.stat <span class="ot">&lt;-</span> <span class="fu">c</span>(t.stat , <span class="fu">abs</span>(test.tau<span class="sc">$</span>statistic))</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  tau.max <span class="ot">&lt;-</span> <span class="fu">which.max</span>(t.stat)</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>  S.max <span class="ot">&lt;-</span> <span class="fu">c</span>(S.max, t.stat[tau.max])</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(S.max, <span class="at">breaks=</span><span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -892,17 +933,17 @@ mean of x mean of y
 </div>
 <p>Quantiles of the distribution of <span class="math inline">S_{\rm max}</span> can then be estimated by the empirical quantiles of the simulated sequence <span class="math inline">(S_{\rm max,m} , 1 \leq m \leq M)</span>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.01</span>)</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(S.max,<span class="dv">1</span><span class="sc">-</span>alpha)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.01</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(S.max,<span class="dv">1</span><span class="sc">-</span>alpha)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     95%      99% 
-3.152412 3.619060 </code></pre>
+3.126768 3.436076 </code></pre>
 </div>
 </div>
-<p>We can use these empirical quantiles for designing the test and decide, for instance, to conclude that there is a change if <span class="math inline">S_{\rm max}&gt;</span> 3.15 (significance level = 0.05).</p>
+<p>We can use these empirical quantiles for designing the test and decide, for instance, to conclude that there is a change if <span class="math inline">S_{\rm max}&gt;</span> 3.13 (significance level = 0.05).</p>
 <p>Note that these quantiles are greater that the quantiles of a <span class="math inline">t</span>-distribution:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>, n<span class="dv">-1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>, n<span class="dv">-1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.971957 2.600760</code></pre>
 </div>
@@ -938,38 +979,38 @@ U_K = U(\hat\tau_{K,1}, \ldots , \hat\tau_{K,K-1})
 </span></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>dynProg.mean <span class="ot">&lt;-</span> <span class="cf">function</span>(y, Kmax, <span class="at">Lmin=</span><span class="dv">1</span>) </span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  Nr  <span class="ot">&lt;-</span> Kmax <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  V <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">Inf</span>, <span class="at">nrow =</span> n, <span class="at">ncol =</span> n)</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (j1 <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span>(n<span class="sc">-</span>Lmin<span class="sc">+</span><span class="dv">1</span>))){</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (j2 <span class="cf">in</span> ((j1<span class="sc">+</span>Lmin<span class="dv">-1</span>)<span class="sc">:</span>n)) {</span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>      yj <span class="ot">&lt;-</span> y[j1<span class="sc">:</span>j2]</span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>      nj <span class="ot">&lt;-</span> j2<span class="sc">-</span>j1<span class="sc">+</span><span class="dv">1</span></span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>      V[j1,j2] <span class="ot">&lt;-</span> <span class="fu">sum</span>(yj<span class="sc">^</span><span class="dv">2</span>) <span class="sc">-</span> (<span class="fu">sum</span>(yj)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>nj</span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>  U <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">length=</span>Kmax)</span>
-<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>  U[<span class="dv">1</span>] <span class="ot">&lt;-</span> V[<span class="dv">1</span>,n]</span>
-<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>  D <span class="ot">&lt;-</span> V[,n] </span>
-<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>  Pos <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">nrow =</span> n, <span class="at">ncol =</span> Nr) </span>
-<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>  Pos[n,] <span class="ot">&lt;-</span> <span class="fu">rep</span>(n,Nr)    </span>
-<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>  tau.mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">nrow =</span> Nr,<span class="at">ncol =</span> Nr) </span>
-<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>Nr){</span>
-<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>(n<span class="dv">-1</span>)){</span>
-<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>      dist <span class="ot">&lt;-</span> V[j,j<span class="sc">:</span>(n<span class="dv">-1</span>)] <span class="sc">+</span> D[(j<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n]</span>
-<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>      D[j] <span class="ot">&lt;-</span> <span class="fu">min</span>(dist)</span>
-<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>      Pos[j,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">which.min</span>(dist) <span class="sc">+</span> j</span>
-<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (k <span class="sc">&gt;</span> <span class="dv">1</span>) { Pos[j,<span class="dv">2</span><span class="sc">:</span>k] <span class="ot">&lt;-</span> Pos[Pos[j,<span class="dv">1</span>],<span class="dv">1</span><span class="sc">:</span>(k<span class="dv">-1</span>)] }</span>
-<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a>    U[k<span class="sc">+</span><span class="dv">1</span>] <span class="ot">&lt;-</span> D[<span class="dv">1</span>]</span>
-<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a>    tau.mat[k,<span class="dv">1</span><span class="sc">:</span>k] <span class="ot">&lt;-</span> Pos[<span class="dv">1</span>,<span class="dv">1</span><span class="sc">:</span>k]<span class="sc">-</span><span class="dv">1</span></span>
-<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">Test=</span>tau.mat, <span class="at">obj=</span><span class="fu">data.frame</span>(<span class="at">K=</span>(<span class="dv">1</span><span class="sc">:</span>Kmax),<span class="at">U=</span>U))</span>
-<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a>  out</span>
-<span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>dynProg.mean <span class="ot">&lt;-</span> <span class="cf">function</span>(y, Kmax, <span class="at">Lmin=</span><span class="dv">1</span>) </span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  Nr  <span class="ot">&lt;-</span> Kmax <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  V <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">Inf</span>, <span class="at">nrow =</span> n, <span class="at">ncol =</span> n)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (j1 <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span>(n<span class="sc">-</span>Lmin<span class="sc">+</span><span class="dv">1</span>))){</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (j2 <span class="cf">in</span> ((j1<span class="sc">+</span>Lmin<span class="dv">-1</span>)<span class="sc">:</span>n)) {</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>      yj <span class="ot">&lt;-</span> y[j1<span class="sc">:</span>j2]</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>      nj <span class="ot">&lt;-</span> j2<span class="sc">-</span>j1<span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>      V[j1,j2] <span class="ot">&lt;-</span> <span class="fu">sum</span>(yj<span class="sc">^</span><span class="dv">2</span>) <span class="sc">-</span> (<span class="fu">sum</span>(yj)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>nj</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>  U <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">length=</span>Kmax)</span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>  U[<span class="dv">1</span>] <span class="ot">&lt;-</span> V[<span class="dv">1</span>,n]</span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>  D <span class="ot">&lt;-</span> V[,n] </span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>  Pos <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">nrow =</span> n, <span class="at">ncol =</span> Nr) </span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>  Pos[n,] <span class="ot">&lt;-</span> <span class="fu">rep</span>(n,Nr)    </span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>  tau.mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">nrow =</span> Nr,<span class="at">ncol =</span> Nr) </span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>Nr){</span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>(n<span class="dv">-1</span>)){</span>
+<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a>      dist <span class="ot">&lt;-</span> V[j,j<span class="sc">:</span>(n<span class="dv">-1</span>)] <span class="sc">+</span> D[(j<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n]</span>
+<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a>      D[j] <span class="ot">&lt;-</span> <span class="fu">min</span>(dist)</span>
+<span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a>      Pos[j,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">which.min</span>(dist) <span class="sc">+</span> j</span>
+<span id="cb35-25"><a href="#cb35-25" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (k <span class="sc">&gt;</span> <span class="dv">1</span>) { Pos[j,<span class="dv">2</span><span class="sc">:</span>k] <span class="ot">&lt;-</span> Pos[Pos[j,<span class="dv">1</span>],<span class="dv">1</span><span class="sc">:</span>(k<span class="dv">-1</span>)] }</span>
+<span id="cb35-26"><a href="#cb35-26" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb35-27"><a href="#cb35-27" aria-hidden="true" tabindex="-1"></a>    U[k<span class="sc">+</span><span class="dv">1</span>] <span class="ot">&lt;-</span> D[<span class="dv">1</span>]</span>
+<span id="cb35-28"><a href="#cb35-28" aria-hidden="true" tabindex="-1"></a>    tau.mat[k,<span class="dv">1</span><span class="sc">:</span>k] <span class="ot">&lt;-</span> Pos[<span class="dv">1</span>,<span class="dv">1</span><span class="sc">:</span>k]<span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb35-29"><a href="#cb35-29" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb35-30"><a href="#cb35-30" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">Test=</span>tau.mat, <span class="at">obj=</span><span class="fu">data.frame</span>(<span class="at">K=</span>(<span class="dv">1</span><span class="sc">:</span>Kmax),<span class="at">U=</span>U))</span>
+<span id="cb35-31"><a href="#cb35-31" aria-hidden="true" tabindex="-1"></a>  out</span>
+<span id="cb35-32"><a href="#cb35-32" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="application-to-the-well-log-data" class="level3" data-number="6.2">
@@ -981,12 +1022,12 @@ U_K = U(\hat\tau_{K,1}, \ldots , \hat\tau_{K,K-1})
 <p>We see a significant improvement of the fit when we start adding change points. The sequence of residuals also looks more and more as a sequence of <span class="math inline">i.i.d.</span> centered random variables. Nevertheless these improvements suddenly become less obvious after detecting the main 8 jumps that are clearly visible. Indeed, adding more change points only allows to detect very small changes in the empirical mean and reduces the residual sum of squares very slightly.</p>
 <p>A method for selecting an “optimal” number of segments consists in looking at the objective function obtained with different number of segments.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>Kmax <span class="ot">&lt;-</span> <span class="dv">20</span> <span class="co"># maximum number of segments</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>Lmin <span class="ot">&lt;-</span> <span class="dv">1</span>  <span class="co"># minimum length of a segment</span></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">dynProg.mean</span>(d<span class="sc">$</span>y,Kmax,Lmin)</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>pl <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>r<span class="sc">$</span>obj) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(K,U), <span class="at">size=</span><span class="dv">1</span>, <span class="at">colour=</span><span class="st">"purple"</span>)<span class="sc">+</span> </span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(K,U), <span class="at">size=</span><span class="dv">2</span>, <span class="at">colour=</span><span class="st">"purple"</span>)</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(pl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>Kmax <span class="ot">&lt;-</span> <span class="dv">20</span> <span class="co"># maximum number of segments</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>Lmin <span class="ot">&lt;-</span> <span class="dv">1</span>  <span class="co"># minimum length of a segment</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">dynProg.mean</span>(d<span class="sc">$</span>y,Kmax,Lmin)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>pl <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>r<span class="sc">$</span>obj) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(K,U), <span class="at">size=</span><span class="dv">1</span>, <span class="at">colour=</span><span class="st">"purple"</span>)<span class="sc">+</span> </span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(K,U), <span class="at">size=</span><span class="dv">2</span>, <span class="at">colour=</span><span class="st">"purple"</span>)</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(pl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -998,28 +1039,28 @@ U_K = U(\hat\tau_{K,1}, \ldots , \hat\tau_{K,K-1})
 <p>As expected, the sequence <span class="math inline">(U_K , 1\leq K\leq K_{\rm max})</span> decreases significantly between <span class="math inline">K=1</span> and <span class="math inline">K=9</span>. Then, the decrease is much lower. The value of <span class="math inline">K</span> at which the slope abruptly changes provides an estimate <span class="math inline">\hat{K}</span> of the number of segments.</p>
 <p>We then deduce the <span class="math inline">\hat{K}-1</span> change points <span class="math inline">(\hat\tau_{\hat{K},1}, \ldots , \hat\tau_{\hat{K},\hat{K}-1} )</span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>Kopt <span class="ot">&lt;-</span> <span class="dv">9</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(r<span class="sc">$</span>Test[(Kopt<span class="dv">-1</span>),<span class="dv">1</span><span class="sc">:</span>(Kopt<span class="dv">-1</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>Kopt <span class="ot">&lt;-</span> <span class="dv">9</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(r<span class="sc">$</span>Test[(Kopt<span class="dv">-1</span>),<span class="dv">1</span><span class="sc">:</span>(Kopt<span class="dv">-1</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]   93  252  433  614  976 1036 1098 1158</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> d<span class="sc">$</span>y</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>Topt <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,r<span class="sc">$</span>Test[(Kopt<span class="dv">-1</span>),<span class="dv">1</span><span class="sc">:</span>(Kopt<span class="dv">-1</span>)],n)</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>Tr <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,Topt[<span class="dv">2</span><span class="sc">:</span>Kopt]<span class="sc">+</span><span class="fl">0.5</span>,n)</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>dm <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (k <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span>Kopt)) {</span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  m <span class="ot">&lt;-</span> <span class="fu">mean</span>(y[(Topt[k]<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>Topt[k<span class="sc">+</span><span class="dv">1</span>]])</span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  dm <span class="ot">&lt;-</span> <span class="fu">rbind</span>(dm, <span class="fu">c</span>(Tr[k],Tr[k<span class="sc">+</span><span class="dv">1</span>],m,m))</span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(dm) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"x1"</span>,<span class="st">"x2"</span>,<span class="st">"y1"</span>,<span class="st">"y2"</span>)</span>
-<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>pl <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>d) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(time, y), <span class="at">color=</span><span class="st">"#6666CC"</span>)  <span class="sc">+</span></span>
-<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> Tr[<span class="dv">2</span><span class="sc">:</span>Kopt], <span class="at">color=</span><span class="st">"red"</span>, <span class="at">size=</span><span class="fl">0.25</span>) <span class="sc">+</span></span>
-<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x=</span>x1, <span class="at">y=</span>y1, <span class="at">xend=</span>x2, <span class="at">yend=</span>y2), <span class="at">colour=</span><span class="st">"green"</span>, <span class="at">data=</span>dm, <span class="at">size=</span><span class="fl">0.75</span>)</span>
-<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> d<span class="sc">$</span>y</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>Topt <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,r<span class="sc">$</span>Test[(Kopt<span class="dv">-1</span>),<span class="dv">1</span><span class="sc">:</span>(Kopt<span class="dv">-1</span>)],n)</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>Tr <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,Topt[<span class="dv">2</span><span class="sc">:</span>Kopt]<span class="sc">+</span><span class="fl">0.5</span>,n)</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>dm <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (k <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span>Kopt)) {</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>  m <span class="ot">&lt;-</span> <span class="fu">mean</span>(y[(Topt[k]<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>Topt[k<span class="sc">+</span><span class="dv">1</span>]])</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>  dm <span class="ot">&lt;-</span> <span class="fu">rbind</span>(dm, <span class="fu">c</span>(Tr[k],Tr[k<span class="sc">+</span><span class="dv">1</span>],m,m))</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(dm) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"x1"</span>,<span class="st">"x2"</span>,<span class="st">"y1"</span>,<span class="st">"y2"</span>)</span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>pl <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>d) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(time, y), <span class="at">color=</span><span class="st">"#6666CC"</span>)  <span class="sc">+</span></span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> Tr[<span class="dv">2</span><span class="sc">:</span>Kopt], <span class="at">color=</span><span class="st">"red"</span>, <span class="at">size=</span><span class="fl">0.25</span>) <span class="sc">+</span></span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x=</span>x1, <span class="at">y=</span>y1, <span class="at">xend=</span>x2, <span class="at">yend=</span>y2), <span class="at">colour=</span><span class="st">"green"</span>, <span class="at">data=</span>dm, <span class="at">size=</span><span class="fl">0.75</span>)</span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1030,9 +1071,9 @@ U_K = U(\hat\tau_{K,1}, \ldots , \hat\tau_{K,K-1})
 </div>
 <p>Let’s have a look at the objective function between <span class="math inline">K=9</span> and <span class="math inline">K=20</span>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>pl <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>r<span class="sc">$</span>obj[<span class="dv">9</span><span class="sc">:</span><span class="dv">20</span>,]) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(K,U), <span class="at">size=</span><span class="dv">1</span>, <span class="at">colour=</span><span class="st">"purple"</span>)<span class="sc">+</span> </span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(K,U), <span class="at">size=</span><span class="dv">2</span>, <span class="at">colour=</span><span class="st">"purple"</span>)</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(pl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>pl <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>r<span class="sc">$</span>obj[<span class="dv">9</span><span class="sc">:</span><span class="dv">20</span>,]) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(K,U), <span class="at">size=</span><span class="dv">1</span>, <span class="at">colour=</span><span class="st">"purple"</span>)<span class="sc">+</span> </span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(K,U), <span class="at">size=</span><span class="dv">2</span>, <span class="at">colour=</span><span class="st">"purple"</span>)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(pl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1043,26 +1084,26 @@ U_K = U(\hat\tau_{K,1}, \ldots , \hat\tau_{K,K-1})
 </div>
 <p>We notice another change in the slope at <span class="math inline">K=12</span>. The segmentation with <span class="math inline">K=12</span> segments is displayed below.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>Kopt <span class="ot">&lt;-</span> <span class="dv">12</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(r<span class="sc">$</span>Test[(Kopt<span class="dv">-1</span>),<span class="dv">1</span><span class="sc">:</span>(Kopt<span class="dv">-1</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>Kopt <span class="ot">&lt;-</span> <span class="dv">12</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(r<span class="sc">$</span>Test[(Kopt<span class="dv">-1</span>),<span class="dv">1</span><span class="sc">:</span>(Kopt<span class="dv">-1</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1]   93  251  254  262  433  614  793  976 1036 1098 1158</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>Topt <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,r<span class="sc">$</span>Test[(Kopt<span class="dv">-1</span>),<span class="dv">1</span><span class="sc">:</span>(Kopt<span class="dv">-1</span>)],n)</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>Tr <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,Topt[<span class="dv">2</span><span class="sc">:</span>Kopt]<span class="sc">+</span><span class="fl">0.5</span>,n)</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>dm <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (k <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span>Kopt)) {</span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  m <span class="ot">&lt;-</span> <span class="fu">mean</span>(y[(Topt[k]<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>Topt[k<span class="sc">+</span><span class="dv">1</span>]])</span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  dm <span class="ot">&lt;-</span> <span class="fu">rbind</span>(dm, <span class="fu">c</span>(Tr[k],Tr[k<span class="sc">+</span><span class="dv">1</span>],m,m))</span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(dm) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"x1"</span>,<span class="st">"x2"</span>,<span class="st">"y1"</span>,<span class="st">"y2"</span>)</span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>pl <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>d) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(time, y), <span class="at">color=</span><span class="st">"#6666CC"</span>)  <span class="sc">+</span></span>
-<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> Tr[<span class="dv">2</span><span class="sc">:</span>Kopt], <span class="at">color=</span><span class="st">"red"</span>, <span class="at">size=</span><span class="fl">0.25</span>) <span class="sc">+</span></span>
-<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x=</span>x1, <span class="at">y=</span>y1, <span class="at">xend=</span>x2, <span class="at">yend=</span>y2), <span class="at">colour=</span><span class="st">"green"</span>, <span class="at">data=</span>dm, <span class="at">size=</span><span class="fl">0.75</span>)</span>
-<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>Topt <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,r<span class="sc">$</span>Test[(Kopt<span class="dv">-1</span>),<span class="dv">1</span><span class="sc">:</span>(Kopt<span class="dv">-1</span>)],n)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>Tr <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,Topt[<span class="dv">2</span><span class="sc">:</span>Kopt]<span class="sc">+</span><span class="fl">0.5</span>,n)</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>dm <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (k <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span>Kopt)) {</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  m <span class="ot">&lt;-</span> <span class="fu">mean</span>(y[(Topt[k]<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>Topt[k<span class="sc">+</span><span class="dv">1</span>]])</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  dm <span class="ot">&lt;-</span> <span class="fu">rbind</span>(dm, <span class="fu">c</span>(Tr[k],Tr[k<span class="sc">+</span><span class="dv">1</span>],m,m))</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(dm) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"x1"</span>,<span class="st">"x2"</span>,<span class="st">"y1"</span>,<span class="st">"y2"</span>)</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>pl <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>d) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(time, y), <span class="at">color=</span><span class="st">"#6666CC"</span>)  <span class="sc">+</span></span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> Tr[<span class="dv">2</span><span class="sc">:</span>Kopt], <span class="at">color=</span><span class="st">"red"</span>, <span class="at">size=</span><span class="fl">0.25</span>) <span class="sc">+</span></span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x=</span>x1, <span class="at">y=</span>y1, <span class="at">xend=</span>x2, <span class="at">yend=</span>y2), <span class="at">colour=</span><span class="st">"green"</span>, <span class="at">data=</span>dm, <span class="at">size=</span><span class="fl">0.75</span>)</span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1269,12 +1310,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
-      }
+      return note.innerHTML;
     }
   }
   for (var i=0; i<xrefs.length; i++) {

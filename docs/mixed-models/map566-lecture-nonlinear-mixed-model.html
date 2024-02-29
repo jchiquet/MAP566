@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.550">
+<meta name="generator" content="quarto-1.4.537">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -278,17 +278,37 @@ window.Quarto = {
     <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-mixture-models.html">
  <span class="dropdown-text">Mixture Models</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-graph-clustering-part1.html">
+ <span class="dropdown-text">Hierarchical and Spectral methods for Graph clustering</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lecture-graph-clustering-part2.html">
+ <span class="dropdown-text">Stochastic block Models</span></a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Exercices</li>
         <li>
     <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-mixture-models.html">
  <span class="dropdown-text">Mixture models</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-graph-partionning.html">
+ <span class="dropdown-text">Graph Clustering</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../docs/mixture-models/map566-lab-stochastic-blockmodels.html">
+ <span class="dropdown-text">Graph Clustering: Stochastic Blockmodels</span></a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Supplementary material</li>
         <li>
     <a class="dropdown-item" href="../../docs/mixture-models/map566-doc-mixture-models-example.html">
  <span class="dropdown-text">Clustering and classification with model based approaches</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/jchiquet/MAP573/raw/master/slides/GraphClustering/GraphClustering.pdf">
+ <span class="dropdown-text">Slides on Graph Clustering</span></a>
   </li>  
     </ul>
   </li>
@@ -552,7 +572,7 @@ window.Quarto = {
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(model_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       psi1        psi2        psi3 
- 1.77741125 29.39415966  0.05395458 </code></pre>
+ 1.77741125 29.39415968  0.05395458 </code></pre>
 </div>
 </div>
 <p>and plot the predicted concentration <span class="math inline">f(t,\hat\psi)</span></p>
@@ -585,7 +605,7 @@ window.Quarto = {
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(model_all)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       psi1        psi2        psi3 
- 1.57975379 33.42183648  0.07931028 </code></pre>
+ 1.57975380 33.42183649  0.07931028 </code></pre>
 </div>
 </div>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-9_89a5a221db057250faa5b2952c81def2">
@@ -594,6 +614,10 @@ window.Quarto = {
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dplot<span class="sc">$</span>pred_all <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_all, <span class="at">newdata =</span> dplot)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>theo_plot <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">data =</span> dplot, <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> pred_all), <span class="at">colour=</span><span class="st">"#339900"</span>, <span class="at">size=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -606,9 +630,9 @@ window.Quarto = {
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-10_149906484c7402a014ec05bebb556039">
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>theo_plot <span class="sc">+</span>  </span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> dplot, <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y=</span>pred_all), <span class="at">colour=</span><span class="st">"#339900"</span>, <span class="at">linewidth=</span><span class="dv">1</span>) <span class="sc">+</span> </span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>theo_plot <span class="sc">+</span>  </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> dplot, <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y=</span>pred_all), <span class="at">colour=</span><span class="st">"#339900"</span>, <span class="at">linewidth=</span><span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -630,24 +654,24 @@ window.Quarto = {
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-11_0993db3b968430ae40e53942d9102705">
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">split</span>(theophylline, theophylline<span class="sc">$</span>id) <span class="sc">%&gt;%</span> </span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="sc">~</span>{</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  model_i <span class="ot">&lt;-</span> <span class="fu">nls</span>(concentration <span class="sc">~</span> <span class="fu">f1</span>(psi, time), </span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">start =</span> <span class="fu">list</span>(<span class="at">psi=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>, <span class="at">V=</span><span class="dv">40</span>,<span class="at">k=</span><span class="fl">0.08</span>)), </span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> .x)</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">psi =</span> <span class="fu">coef</span>(model_i),</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y_hat =</span> <span class="fu">predict</span>(model_i, <span class="at">newdata =</span> dplot),</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">id =</span> <span class="fu">unique</span>(.x<span class="sc">$</span>id))</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    })</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>psi_hat <span class="ot">&lt;-</span> <span class="fu">map_df</span>(res, <span class="st">"psi"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setNames</span>(<span class="fu">c</span>(<span class="st">"ka"</span>,<span class="st">"V"</span>,<span class="st">"ke"</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_column</span>(<span class="at">id =</span> <span class="fu">factor</span>(<span class="fu">map_dbl</span>(res, <span class="st">"id"</span>))) </span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>theo_pred <span class="ot">&lt;-</span></span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_df</span>(res, <span class="st">"y_hat"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">everything</span>(), <span class="at">names_to =</span> <span class="st">"id"</span>, <span class="at">values_to =</span> <span class="st">"concentration"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_column</span>(<span class="at">time =</span> <span class="fu">rep</span>(dplot<span class="sc">$</span>time, <span class="at">each =</span> <span class="fu">length</span>(res)))</span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>theo_plot <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">data =</span> theo_pred, <span class="fu">aes</span>(<span class="at">x=</span>time,<span class="at">y=</span>concentration), <span class="at">colour=</span><span class="st">"#339900"</span>, <span class="at">size=</span><span class="fl">0.75</span>) <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">split</span>(theophylline, theophylline<span class="sc">$</span>id) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="sc">~</span>{</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  model_i <span class="ot">&lt;-</span> <span class="fu">nls</span>(concentration <span class="sc">~</span> <span class="fu">f1</span>(psi, time), </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">start =</span> <span class="fu">list</span>(<span class="at">psi=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>, <span class="at">V=</span><span class="dv">40</span>,<span class="at">k=</span><span class="fl">0.08</span>)), </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> .x)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">psi =</span> <span class="fu">coef</span>(model_i),</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y_hat =</span> <span class="fu">predict</span>(model_i, <span class="at">newdata =</span> dplot),</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">id =</span> <span class="fu">unique</span>(.x<span class="sc">$</span>id))</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>psi_hat <span class="ot">&lt;-</span> <span class="fu">map_df</span>(res, <span class="st">"psi"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setNames</span>(<span class="fu">c</span>(<span class="st">"ka"</span>,<span class="st">"V"</span>,<span class="st">"ke"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_column</span>(<span class="at">id =</span> <span class="fu">factor</span>(<span class="fu">map_dbl</span>(res, <span class="st">"id"</span>))) </span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>theo_pred <span class="ot">&lt;-</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_df</span>(res, <span class="st">"y_hat"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">everything</span>(), <span class="at">names_to =</span> <span class="st">"id"</span>, <span class="at">values_to =</span> <span class="st">"concentration"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_column</span>(<span class="at">time =</span> <span class="fu">rep</span>(dplot<span class="sc">$</span>time, <span class="at">each =</span> <span class="fu">length</span>(res)))</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>theo_plot <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">data =</span> theo_pred, <span class="fu">aes</span>(<span class="at">x=</span>time,<span class="at">y=</span>concentration), <span class="at">colour=</span><span class="st">"#339900"</span>, <span class="at">size=</span><span class="fl">0.75</span>) <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -659,9 +683,9 @@ window.Quarto = {
 </div>
 <p>For instance for individual 9,</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-12_086447b91bda26fcb4ca4aad6ce08da8">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>model_9 <span class="ot">&lt;-</span> <span class="fu">nls</span>(concentration <span class="sc">~</span> <span class="fu">f1</span>(psi, time),  <span class="at">start =</span> <span class="fu">list</span>(<span class="at">psi=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>, <span class="at">V=</span><span class="dv">40</span>,<span class="at">k=</span><span class="fl">0.08</span>)), </span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> <span class="fu">filter</span>(theophylline, id <span class="sc">==</span> <span class="dv">9</span>))</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>model_9</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>model_9 <span class="ot">&lt;-</span> <span class="fu">nls</span>(concentration <span class="sc">~</span> <span class="fu">f1</span>(psi, time),  <span class="at">start =</span> <span class="fu">list</span>(<span class="at">psi=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>, <span class="at">V=</span><span class="dv">40</span>,<span class="at">k=</span><span class="fl">0.08</span>)), </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> <span class="fu">filter</span>(theophylline, id <span class="sc">==</span> <span class="dv">9</span>))</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>model_9</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Nonlinear regression model
   model: concentration ~ f1(psi, time)
@@ -671,7 +695,7 @@ window.Quarto = {
  residual sum-of-squares: 2.489
 
 Number of iterations to convergence: 13 
-Achieved convergence tolerance: 3.749e-06</code></pre>
+Achieved convergence tolerance: 3.717e-06</code></pre>
 </div>
 </div>
 </section>
@@ -784,37 +808,37 @@ I({\hat\theta}) &amp;  \triangleq \  - \frac{\partial^2}{\partial \theta \partia
 <p>Let us see how to use the <strong>saemix</strong> package for fitting our model to the theophylline data.</p>
 <p>We first need to create a <code>SaemixData</code> object, defining which column of the data file should be used and their role. In our example, <code>concentration</code> is the response variable <span class="math inline">y</span>, <code>time</code> is the explanatory variable (or predictor) <span class="math inline">t</span> and <code>id</code> is the grouping variable.</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-13_f2accdf4cdf3cbbf0236982c76257a45">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>saemix_data <span class="ot">&lt;-</span> <span class="fu">saemixData</span>(<span class="at">name.data       =</span> theophylline,</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.group      =</span> <span class="st">"id"</span>,</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.predictors =</span> <span class="st">"time"</span>,</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.response   =</span> <span class="st">"concentration"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>saemix_data <span class="ot">&lt;-</span> <span class="fu">saemixData</span>(<span class="at">name.data       =</span> theophylline,</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.group      =</span> <span class="st">"id"</span>,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.predictors =</span> <span class="st">"time"</span>,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.response   =</span> <span class="st">"concentration"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The structural model is the one compartment model with first order absorption and linear elimination previously used,</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-14_f639d77e96c369e1157019f276c6d3fd">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>model1_nlme <span class="ot">&lt;-</span> <span class="cf">function</span>(psi,id,x) {</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  D   <span class="ot">&lt;-</span> <span class="dv">320</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  t   <span class="ot">&lt;-</span> x[,<span class="dv">1</span>]</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  ka  <span class="ot">&lt;-</span> psi[id,<span class="dv">1</span>]</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  V   <span class="ot">&lt;-</span> psi[id,<span class="dv">2</span>]</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  ke  <span class="ot">&lt;-</span> psi[id,<span class="dv">3</span>]</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  fpred <span class="ot">&lt;-</span> D<span class="sc">*</span>ka<span class="sc">/</span>(V<span class="sc">*</span>(ka<span class="sc">-</span>ke))<span class="sc">*</span>(<span class="fu">exp</span>(<span class="sc">-</span>ke<span class="sc">*</span>t)<span class="sc">-</span><span class="fu">exp</span>(<span class="sc">-</span>ka<span class="sc">*</span>t))</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  fpred</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>model1_nlme <span class="ot">&lt;-</span> <span class="cf">function</span>(psi,id,x) {</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  D   <span class="ot">&lt;-</span> <span class="dv">320</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  t   <span class="ot">&lt;-</span> x[,<span class="dv">1</span>]</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  ka  <span class="ot">&lt;-</span> psi[id,<span class="dv">1</span>]</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  V   <span class="ot">&lt;-</span> psi[id,<span class="dv">2</span>]</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  ke  <span class="ot">&lt;-</span> psi[id,<span class="dv">3</span>]</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  fpred <span class="ot">&lt;-</span> D<span class="sc">*</span>ka<span class="sc">/</span>(V<span class="sc">*</span>(ka<span class="sc">-</span>ke))<span class="sc">*</span>(<span class="fu">exp</span>(<span class="sc">-</span>ke<span class="sc">*</span>t)<span class="sc">-</span><span class="fu">exp</span>(<span class="sc">-</span>ka<span class="sc">*</span>t))</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  fpred</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The model is defined in a saemixModel object. The structural model and some initial values for the vector of population parameters <span class="math inline">\psi_{\rm pop}</span> are required</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-15_17dc91ce2dfa74e6846a234f47e52893">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model =</span> model1_nlme,</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">psi0  =</span> <span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model =</span> model1_nlme,</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">psi0  =</span> <span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Several options for selecting and running the algorithms can be defined, including the estimation of the individual parameters (<code>map=TRUE</code>), the estimation of the Fisher information matrix and the log-likelihood by linearization (<code>fim=TRUE</code>), or the estimation of the log-likelihood by importance sampling (<code>ll.is=TRUE</code>, ignored for this course).</p>
 <p><code>seed</code> is a integer used for the random number generator: running the algorithms several times with the same seed ensures that the results will be the same.</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-16_90a87e58511fcff6712361d79cad8376">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>saemix_options <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">map=</span><span class="cn">TRUE</span>, <span class="at">fim=</span><span class="cn">TRUE</span>, <span class="at">ll.is=</span><span class="cn">FALSE</span>, <span class="at">displayProgress=</span><span class="cn">FALSE</span>, <span class="at">save=</span><span class="cn">FALSE</span>, <span class="at">seed=</span><span class="dv">632545</span>)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>saemix_fit1    <span class="ot">&lt;-</span> <span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>saemix_options <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">map=</span><span class="cn">TRUE</span>, <span class="at">fim=</span><span class="cn">TRUE</span>, <span class="at">ll.is=</span><span class="cn">FALSE</span>, <span class="at">displayProgress=</span><span class="cn">FALSE</span>, <span class="at">save=</span><span class="cn">FALSE</span>, <span class="at">seed=</span><span class="dv">632545</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>saemix_fit1    <span class="ot">&lt;-</span> <span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>A summary of the results of the estimation algorithm can be displayed</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-17_fc2075a85ac3035f2f7114ddfa533dc0">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>saemix_fit1<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>saemix_fit1<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Fixed effects
  Parameter Estimate   SE     CV(%)
@@ -838,8 +862,8 @@ Likelihood computed by linearisation
 </div>
 <p>The individual parameters estimates are also available</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-18_d243883a0be2d42eac0c9ca74c52e0ed">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>psi <span class="ot">&lt;-</span> <span class="fu">psi</span>(saemix_fit1)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>psi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>psi <span class="ot">&lt;-</span> <span class="fu">psi</span>(saemix_fit1)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>psi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          ka        V         ke
 1  1.6618502 28.23167 0.06372162
@@ -858,8 +882,8 @@ Likelihood computed by linearisation
 </div>
 <p>These individual parameter estimates can be used for computing and plotting individual predictions</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-19_b1f3a394ae6acb47ad9602686f1e6c8f">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>saemix_fit <span class="ot">&lt;-</span> <span class="fu">saemix.predict</span>(saemix_fit1)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">saemix.plot.fits</span>(saemix_fit1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>saemix_fit <span class="ot">&lt;-</span> <span class="fu">saemix.predict</span>(saemix_fit1)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">saemix.plot.fits</span>(saemix_fit1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -870,7 +894,7 @@ Likelihood computed by linearisation
 </div>
 <p>Several diagnostic fit plots can be displayed, including the plot of the observations versus individual predictions</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-20_4827d055f30a61ba0edf07c1c2a7d50f">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saemix.plot.obsvspred</span>(saemix_fit1,<span class="at">level=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saemix.plot.obsvspred</span>(saemix_fit1,<span class="at">level=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -881,7 +905,7 @@ Likelihood computed by linearisation
 </div>
 <p>and the plot of the residuals versus time, and versus individual predictions,</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-21_6c62addd028552cf06ff931ef1aeb7e8">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saemix.plot.scatterresiduals</span>(saemix_fit1, <span class="at">level=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saemix.plot.scatterresiduals</span>(saemix_fit1, <span class="at">level=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -903,11 +927,11 @@ Likelihood computed by linearisation
 <p>where <span class="math inline">\varepsilon_{ij} \sim^{\mathrm{iid}} \mathcal{N}(0, 1)</span>.</p>
 <p>The error model can be defined as an argument of <code>saemixModel</code> (default is the constant error model)</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-22_95ff3b2aa30b93e5eeb533218ebff617">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model=</span>model1_nlme, <span class="at">psi0=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>), <span class="at">error.model=</span><span class="st">"constant"</span>)</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>fit.constant <span class="ot">&lt;-</span> <span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model=</span>model1_nlme, <span class="at">psi0=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>), <span class="at">error.model=</span><span class="st">"constant"</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>fit.constant <span class="ot">&lt;-</span> <span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-23_6f634ba13acf2dc0e61ca2a190516fe1">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>fit.constant<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>fit.constant<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Fixed effects
  Parameter Estimate   SE     CV(%)
@@ -933,11 +957,11 @@ Likelihood computed by linearisation
 <p>Proportional error models assume that the standard deviation of <span class="math inline">\varepsilon_{ij}</span> is proportional to the predicted response: <span class="math inline">\varepsilon_{ij} = \ b\, f(t_{ij} ,\psi_i) \, \varepsilon_{ij}</span> where <span class="math inline">\varepsilon_{ij} \sim^{\mathrm{iid}} \mathcal{N}(0, 1)</span>. Then,</p>
 <p><span class="math display">y_{ij}  = f(t_{ij} ,\psi_i) + b f(t_{ij} ,\psi_i) \, \varepsilon_{ij}</span></p>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-24_50a70b0ba5a1b54b01ca1230a53f6386">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model=</span>model1_nlme, <span class="at">psi0=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>), <span class="at">error.model=</span><span class="st">"proportional"</span>)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>fit.proportional <span class="ot">&lt;-</span> <span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model=</span>model1_nlme, <span class="at">psi0=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>), <span class="at">error.model=</span><span class="st">"proportional"</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>fit.proportional <span class="ot">&lt;-</span> <span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-25_d0b8b47350c8d58598973c9976e30e0e">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>fit.proportional<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>fit.proportional<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Fixed effects
  Parameter Estimate   SE     CV(%)
@@ -963,11 +987,11 @@ Likelihood computed by linearisation
 <p>A combined error model additively combines a constant and a proportional error model: <span class="math inline">\varepsilon_{ij} = (a +\ b\, f(t_{ij} ,\psi_i)) \, \varepsilon_{ij}</span> where <span class="math inline">\varepsilon_{ij} \sim^{\mathrm{iid}} \mathcal{N}(0, 1)</span>. Then,</p>
 <p><span class="math display">y_{ij}  = f(t_{ij} ,\psi_i) +  (a + b f(t_{ij} ,\psi_i)) \, \varepsilon_{ij}</span></p>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-26_a3ea1a669f1ebee54dd015fb90457f93">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model=</span>model1_nlme, <span class="at">psi0=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>), <span class="at">error.model=</span><span class="st">"combined"</span>)</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>fit.combined <span class="ot">&lt;-</span> <span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model=</span>model1_nlme, <span class="at">psi0=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>), <span class="at">error.model=</span><span class="st">"combined"</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>fit.combined <span class="ot">&lt;-</span> <span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-27_e651e33ca2bd89d921f359185b0453e5">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>fit.combined<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>fit.combined<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Fixed effects
  Parameter Estimate   SE     CV(%)
@@ -996,11 +1020,11 @@ Likelihood computed by linearisation
 y_{ij}  &amp; = f(t_{ij} ,\psi_i) \ e^{a \varepsilon_{ij}}
 \end{aligned}</span></p>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-28_d7926b399c94f4fb566e219c9a562da6">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model=</span>model1_nlme, <span class="at">psi0=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>), <span class="at">error.model=</span><span class="st">"exponential"</span>)</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>fit.exponential <span class="ot">&lt;-</span> <span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model=</span>model1_nlme, <span class="at">psi0=</span><span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>), <span class="at">error.model=</span><span class="st">"exponential"</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>fit.exponential <span class="ot">&lt;-</span> <span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-29_79ba655bef8167c3baeaa5ce92993003">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>fit.exponential<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>fit.exponential<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Fixed effects
  Parameter Estimate   SE     CV(%)
@@ -1058,14 +1082,14 @@ x = \frac{1}{1+e^{-\mathrm{logit}(x)}}
 <p>The distribution of each individual parameter can be defined using the argument <code>transform.par</code> (0=normal, 1=log-normal, 2=probit, 3=logit). Default are normal distributions, i.e.&nbsp;a vector of 0.</p>
 <p>If we want to use, for example, a normal distribution for <span class="math inline">V</span> and log-normal distributions for <span class="math inline">k_a</span> and <span class="math inline">k_e</span>, then, <code>transform.par</code> should be the vector c(1,0,1):</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-30_6ec6c223b0665db509c5838afecb8508">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>saemix_model<span class="ot">&lt;-</span><span class="fu">saemixModel</span>(<span class="at">model         =</span> model1_nlme,</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">psi0          =</span> <span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>),</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">transform.par =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>))</span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>saemix_fit2 <span class="ot">&lt;-</span><span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>saemix_model<span class="ot">&lt;-</span><span class="fu">saemixModel</span>(<span class="at">model         =</span> model1_nlme,</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">psi0          =</span> <span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>),</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">transform.par =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>))</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>saemix_fit2 <span class="ot">&lt;-</span><span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-31_9de32ed211d208d9d76973d9a7cbf1bc">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>saemix_fit2<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>saemix_fit2<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Fixed effects
  Parameter Estimate   SE     CV(%)
@@ -1107,24 +1131,24 @@ Likelihood computed by linearisation
 <p>Indeed, the predicted volume for a typical individual is now <span class="math inline">V_{\rm pop}</span>.</p>
 <p>Assume that we decide to use 70kg as typical weight in the theophylline study. The saemixData object now needs to include <span class="math inline">w_i-70</span>:</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-32_bb3ba7c1fbfc9ed2e36d11fa3cd4c99a">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>theophylline<span class="sc">$</span>w70 <span class="ot">&lt;-</span> theophylline<span class="sc">$</span>weight <span class="sc">-</span> <span class="dv">70</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>saemix_data <span class="ot">&lt;-</span> <span class="fu">saemixData</span>(<span class="at">name.data       =</span> theophylline,</span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.group      =</span> <span class="fu">c</span>(<span class="st">"id"</span>),</span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.predictors =</span> <span class="fu">c</span>(<span class="st">"time"</span>),</span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.response   =</span> <span class="fu">c</span>(<span class="st">"concentration"</span>),</span>
-<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.covariates =</span> <span class="fu">c</span>(<span class="st">"w70"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>theophylline<span class="sc">$</span>w70 <span class="ot">&lt;-</span> theophylline<span class="sc">$</span>weight <span class="sc">-</span> <span class="dv">70</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>saemix_data <span class="ot">&lt;-</span> <span class="fu">saemixData</span>(<span class="at">name.data       =</span> theophylline,</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.group      =</span> <span class="fu">c</span>(<span class="st">"id"</span>),</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.predictors =</span> <span class="fu">c</span>(<span class="st">"time"</span>),</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.response   =</span> <span class="fu">c</span>(<span class="st">"concentration"</span>),</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.covariates =</span> <span class="fu">c</span>(<span class="st">"w70"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here, only the volume <span class="math inline">V</span> is function of the weight. The covariate model is therefore encoded as vector (0,1,0).</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-33_b5971afa7b39ac8be6fa1b82942b9baa">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model           =</span> model1_nlme,</span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">psi0            =</span> <span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>),</span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">transform.par   =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>),</span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>                            <span class="at">covariate.model =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>))</span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>saemix_fit3 <span class="ot">&lt;-</span> <span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model           =</span> model1_nlme,</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">psi0            =</span> <span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>),</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">transform.par   =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>                            <span class="at">covariate.model =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>))</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>saemix_fit3 <span class="ot">&lt;-</span> <span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-34_99a2885449fb7cbc786ea6be57fa78ec">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>saemix_fit3<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>saemix_fit3<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Fixed effects
  Parameter   Estimate   SE   CV(%) p-value
@@ -1157,24 +1181,24 @@ Likelihood computed by linearisation
 <p>We see that, using this model, the predicted volume for a typical individual is <span class="math inline">V_{\rm pop}</span>.</p>
 <p>The saemixData object now needs to include <span class="math inline">\log(w_i/70)</span> a covariate,</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-35_89a0a13be773299512decef7ac335156">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>theophylline<span class="sc">$</span>lw70 <span class="ot">&lt;-</span> <span class="fu">log</span>(theophylline<span class="sc">$</span>weight<span class="sc">/</span><span class="dv">70</span>)</span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>saemix_data <span class="ot">&lt;-</span> <span class="fu">saemixData</span>(<span class="at">name.data       =</span> theophylline,</span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.group      =</span> <span class="fu">c</span>(<span class="st">"id"</span>),</span>
-<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.predictors =</span> <span class="fu">c</span>(<span class="st">"time"</span>),</span>
-<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.response   =</span> <span class="fu">c</span>(<span class="st">"concentration"</span>),</span>
-<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.covariates =</span> <span class="fu">c</span>(<span class="st">"lw70"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>theophylline<span class="sc">$</span>lw70 <span class="ot">&lt;-</span> <span class="fu">log</span>(theophylline<span class="sc">$</span>weight<span class="sc">/</span><span class="dv">70</span>)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>saemix_data <span class="ot">&lt;-</span> <span class="fu">saemixData</span>(<span class="at">name.data       =</span> theophylline,</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.group      =</span> <span class="fu">c</span>(<span class="st">"id"</span>),</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.predictors =</span> <span class="fu">c</span>(<span class="st">"time"</span>),</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.response   =</span> <span class="fu">c</span>(<span class="st">"concentration"</span>),</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">name.covariates =</span> <span class="fu">c</span>(<span class="st">"lw70"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The covariate model is again encoded as the (row) vector (0,1,0) but the transformation is now encoded as 1 for the three parameters</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-36_b5b8b1064566354c92ea7c000e418a6e">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model           =</span> model1_nlme,</span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">psi0            =</span> <span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>),</span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">transform.par   =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>),</span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>                            <span class="at">covariate.model =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>))</span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>saemix_fit4 <span class="ot">&lt;-</span> <span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>saemix_model <span class="ot">&lt;-</span> <span class="fu">saemixModel</span>(<span class="at">model           =</span> model1_nlme,</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">psi0            =</span> <span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>),</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">transform.par   =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>),</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>                            <span class="at">covariate.model =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>))</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>saemix_fit4 <span class="ot">&lt;-</span> <span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-37_d503ff6166ea3e3efa31ae5daeb9d354">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>saemix_fit4<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>saemix_fit4<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Fixed effects
  Parameter    Estimate   SE     CV(%) p-value
@@ -1204,16 +1228,16 @@ Likelihood computed by linearisation
 <p>Correlations between random effects can be introduced with the input argument <code>covariance.model</code>, a square matrix of size equal to the number of parameters in the model, giving the variance-covariance structure of the model: 1s correspond to estimated variances (in the diagonal) or covariances (off-diagonal elements). The structure of the matrix <span class="math inline">\Omega</span> should be block.</p>
 <p>Consider, for instance a model where <span class="math inline">k_a</span> is fixed in the population, i.e.&nbsp;<span class="math inline">\omega_{k_a}=0</span> (and thus <span class="math inline">k_{a_i}={k_a}_{\text{pop}}</span> for all <span class="math inline">i</span>), and where <span class="math inline">\log(V)</span> and <span class="math inline">\log(k_e)</span> are correlated, i.e <span class="math inline">\eta_V</span> and <span class="math inline">\eta_{k_e})</span> are correlated:</p>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-38_cd8ed0bdbd50b09b1cfed57523ca5bf5">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>saemix_model<span class="ot">&lt;-</span><span class="fu">saemixModel</span>(<span class="at">model           =</span> model1_nlme,</span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">psi0            =</span> <span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>),</span>
-<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">transform.par   =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>),</span>
-<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">covariate.model =</span> <span class="fu">t</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>)),</span>
-<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">covariance.model =</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>),<span class="at">nrow=</span><span class="dv">3</span>))</span>
-<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>saemix_fit5 <span class="ot">&lt;-</span> <span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>saemix_model<span class="ot">&lt;-</span><span class="fu">saemixModel</span>(<span class="at">model           =</span> model1_nlme,</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">psi0            =</span> <span class="fu">c</span>(<span class="at">ka=</span><span class="dv">1</span>,<span class="at">V=</span><span class="dv">20</span>,<span class="at">ke=</span><span class="fl">0.5</span>),</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">transform.par   =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>),</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">covariate.model =</span> <span class="fu">t</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>)),</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">covariance.model =</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>),<span class="at">nrow=</span><span class="dv">3</span>))</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>saemix_fit5 <span class="ot">&lt;-</span> <span class="fu">saemix</span>(saemix_model, saemix_data, saemix_options)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="map566-lecture-nonlinear-mixed-model_cache/html/unnamed-chunk-39_3f198a2020e75d5ac44187a60476f6a2">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>saemix_fit5<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>saemix_fit5<span class="sc">@</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Fixed effects
  Parameter    Estimate   SE     CV(%) p-value
@@ -1408,12 +1432,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
-      }
+      return note.innerHTML;
     }
   }
   for (var i=0; i<xrefs.length; i++) {
@@ -1636,7 +1655,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html" class="pagination-link" aria-label="Linear Mixed Effects Models">
+      <a href="../../docs/mixed-models/map566-lecture-linear-mixed-model.html" class="pagination-link  aria-label=" linear="" mixed="" effects="" models"="">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Linear Mixed Effects Models</span>
       </a>          
   </div>
