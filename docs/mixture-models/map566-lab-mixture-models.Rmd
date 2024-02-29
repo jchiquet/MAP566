@@ -12,7 +12,7 @@ library(tidyverse)
 theme_set(theme_bw())
 ```
 
-## Faithful data
+## Introduction to mixture models
 
 The `faithful` data consist of the waiting time between eruptions and the duration of the eruption for the Old Faithful geyser in Yellowstone National Park, Wyoming, USA.
 

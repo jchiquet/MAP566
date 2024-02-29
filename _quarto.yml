@@ -90,18 +90,18 @@ site:
         - section: "Lectures"
           contents:
             - docs/mixture-models/map566-lecture-mixture-models.Rmd
-            # - docs/mixture-models/map566-lecture-graph-clustering-part1.Rmd
-            # - docs/mixture-models/map566-lecture-graph-clustering-part2.Rmd
+            - docs/mixture-models/map566-lecture-graph-clustering-part1.Rmd
+            - docs/mixture-models/map566-lecture-graph-clustering-part2.Rmd
         - section: "Exercices"
           contents:
             - docs/mixture-models/map566-lab-mixture-models.Rmd
-            # - docs/mixture-models/map566-lab-graph-partionning.Rmd
-            # - docs/mixture-models/map566-lab-stochastic-blockmodels.Rmd
+            - docs/mixture-models/map566-lab-graph-partionning.Rmd
+            - docs/mixture-models/map566-lab-stochastic-blockmodels.Rmd
         - section: "Supplementary material"
           contents:
             - docs/mixture-models/map566-doc-mixture-models-example.Rmd
-        #     - text: "Slides on Graph Clustering"
-        #       file: https://github.com/jchiquet/MAP573/raw/master/slides/GraphClustering/GraphClustering.pdf
+            - text: "Slides on Graph Clustering"
+              file: https://github.com/jchiquet/MAP573/raw/master/slides/GraphClustering/GraphClustering.pdf
 
     - id: change-point
       title: "Change-point detection"
@@ -126,6 +126,6 @@ site:
     #         - docs/mixed-models/map566-lab-generalized-linear-mixed-models.Rmd
 
   footer:
-    left: "Last update: November 2023"
+    left: "Last update: February 2024"
 
 bibliography: biblio_map566.bib

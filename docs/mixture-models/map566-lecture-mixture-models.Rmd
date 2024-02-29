@@ -16,9 +16,9 @@ library(mixtools)
 theme_set(theme_bw())
 ```
 
-## The faithful data
+## Introduction to Gaussian mixture models
 
-### The data
+### The faithful data
 
 The `faithful` data consists of the waiting time between eruptions and the duration of the eruption for the Old Faithful geyser in Yellowstone National Park, Wyoming, USA.
 
