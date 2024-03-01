@@ -20,6 +20,7 @@ An example of well-log data is shown in Fig. 1, and consists of measurements of 
 rocks. 
 
 ```{r, message=FALSE, warning=FALSE, fig.align='center'}
+#| code-fold: true
 d <- read_tsv(file="../../data/wellLogData.txt")
 ggplot(d) + geom_line(aes(time, y), color="#6666CC") +  ylab("nuclear reponse")
 ```
@@ -137,6 +138,7 @@ Before tackling the problem of detecting multiple change points in a time series
 Consider, for instance, our data until time 200:
 
 ```{r}
+#| code-fold: true
 n <- 200
 d1 <- d[1:n,]
 ggplot(data=d1) +  geom_line(aes(time,y), color="#6666CC") + xlab("time") + ylab("nuclear reponse")
@@ -178,8 +180,14 @@ for (tau in (1:(n-1))) {
 tau.est <- which.min(U$RSS)
 U.min <- U[tau.est,2]
 print(c(tau.est, U.min))
-ggplot(data=U) + geom_line(aes(tau,RSS)) + geom_point(aes(x=tau.est,y=U.min), colour="red", size=2)
 ```
+
+
+```{r}
+#| code-fold: true
+ggplot(data=U) + geom_line(aes(tau,RSS)) + annotate("point", x=tau.est, y=U.min, colour="red", size=2)
+```
+
 
 ::: {.callout-note}
 ## Remark
@@ -190,16 +198,17 @@ The objective function to minimize is not convex. Then, any efficient method for
 The optimal segmentation and the residuals obtained with $\hat{\tau} = 93$ are diplayed in the next Figure. 
 
 ```{r}
+#| code-fold: true
 m1 <- mean(y[1:tau.est])
 m2 <- mean(y[(tau.est+1):n])
 m <- c(rep(m1,tau.est),rep(m2,(n-tau.est)))
 d1$e <- y - m
 dm <- data.frame(x1=c(0,tau.est+0.5), x2=c(tau.est+0.5,n), y1=c(m1,m2), y2=c(m1,m2))
 pl1 <- ggplot(data=d1) + geom_line(aes(time, y), color="#6666CC")  +
-  geom_segment(aes(x=x1, y=y1, xend=x2, yend=y2), colour="green", data=dm, size=0.75) +
-  geom_vline(xintercept = (tau.est+0.5), color="red", size=1)
+  geom_segment(aes(x=x1, y=y1, xend=x2, yend=y2), colour="green", data=dm, linewidth=0.75) +
+  geom_vline(xintercept = (tau.est+0.5), color="red", linewidth=1)
 pl2 <- ggplot(data=d1) + geom_line(aes(time, e), color="#6666CC")  +
-  geom_segment(aes(x=0,xend=n,y=0,yend=0), colour="green", data=dm, size=0.75) 
+  geom_segment(aes(x=0,xend=n,y=0,yend=0), colour="green", data=dm, linewidth=0.75) 
 grid.arrange(pl1, pl2)
 ```
 
@@ -228,7 +237,7 @@ These results mean that assuming that the residuals are *i.i.d.* is acceptable. 
 
 Until now, the main conclusion of this study is that a model with constant mean values before and after $\tau=93$ cannot be rejected.
 
-Nevertheless, we would come to the same conclusion with $\tau=92$ or $\tau=94$\ldots but probably not with $\tau=90$ or $\tau=110$.
+Nevertheless, we would come to the same conclusion with $\tau=92$ or $\tau=94$ but probably not with $\tau=90$ or $\tau=110$.
 
 Indeed, even if $\hat{\tau}=93$ is the ML estimate of $\tau$, there remains some degree of uncertainty about the location of the change point since $\hat{\tau}$ is a random variable.
 
@@ -239,13 +248,13 @@ The theoretical properties  of $\hat{\tau}$ are not easy to derive (this is beyo
 Then, the change-point is estimated for each of these simulated series and the sequence of estimates $(\hat\tau_1, \hat\tau_2, \ldots , \hat\tau_M)$ is used:
 
 * for estimating the probability distribution of $\hat\tau$ by the empirical distribution of $(\hat\tau_m, 1 \leq m \leq M)$ 
-* for estimating the expected absolute error  $\esp{|\hat\tau - \tau^\star|}$ by the mean absolute error 
+* for estimating the expected absolute error  $\mathbb{E} |\hat\tau - \tau^\star|$ by the mean absolute error 
 $$\frac{1}{M}\sum_{m=1}^M |\hat\tau_m - \tau^\star|$$
 
 ::: {.callout-note}
 ## Remarks 
 
-- For a given $n$, the properties of $\hat{\tau}$ only depends on $(\mu_2-\mu_1)/\sigma$. We therefore arbitrarly fix $\mu_1=0$ and $\sigma^2=1$. 
+- For a given $n$, the properties of $\hat{\tau}$ only depends on $(\mu_2-\mu_1)/\sigma$. We therefore arbitrarely fix $\mu_1=0$ and $\sigma^2=1$. 
 
 - As with any Monte Carlo study, increasing the Monte Carlo size $M$ improve the accuracy of the results, i.e. the empirical distribution of $(\hat\tau_m, 1 \leq m \leq M)$ looks more and more like the unknown probability distribution of $\hat\tau$, but the computational effort is also increased.
 
@@ -253,6 +262,7 @@ $$\frac{1}{M}\sum_{m=1}^M |\hat\tau_m - \tau^\star|$$
 
 
 ```{r, include=FALSE}
+#| code-fold: true
 cpf <- function(tau.star,delta, n, M, plot=FALSE) 
 {
   Y <- matrix(rnorm(n=M*n), nrow=n)
@@ -280,12 +290,12 @@ cpf <- function(tau.star,delta, n, M, plot=FALSE)
 
 Note that, for a given number $n$ of data points  and a given change point $\tau^\star$, the estimation error decreases with the absolute difference of the two means $\delta = |\mu_2-\mu_1|$. 
 
-Let us display the  ditribution of $\hat{\tau}$ estimated by Monde Carlo simulation with the R function [`cpf`](cpf.R),  with $n=100$ and $\delta=0.5$, 0.75, 1, 2.
+Let us display the  ditribution of $\hat{\tau}$ estimated by Monde Carlo simulation  with $n=100$ and $\delta=0.5$, 0.75, 1, 2.
 
 
 ```{r, warning=FALSE}
+#| code-fold: true
 M <- 500
-
 Q <- list()
 for (delta in c(0.5, 0.75, 1, 2)) 
   Q[[length(Q) + 1]] <- cpf(tau.star=25, delta, n=100, M, plot=TRUE)
@@ -296,6 +306,7 @@ do.call(grid.arrange, c(Q, nrow = 2))
 
 
 ```{r}
+#| code-fold: true
 delta <- 1
 Q <- list()
 for (n in c(50, 100, 200, 500)) 
@@ -307,6 +318,7 @@ Let us display the mean absolute error obtained with different value of $n$ and 
 
 
 ```{r}
+#| code-fold: true
 M <- 200
 vd <- c(0.75, 1, 2)
 vn <- c(50,75,100,125,150, seq(200,500,by=100))
@@ -326,13 +338,13 @@ ggplot(data=E, aes(n,mae, colour=factor(delta))) + geom_line() + geom_point() + 
 
 ```
 
-This plot shows that the expected absolute error $\esp{|\hat\tau-\tau^\star|}$ does not depends on $n$ but decreases with $\delta$. 
+This plot shows that the expected absolute error $\mathbb{E}{|\hat\tau-\tau^\star|}$ does not depends on $n$ but decreases with $\delta$. 
 
 The main theoretical result concerning $\hat{\tau}$ for our Gaussian model (assuming i.i.d. residual) states that
 $$
 |\hat{\tau} - \tau^\star| = {\cal O}_{\rm P}(\frac{1}{\delta^2}),
 $$
-which means that $\prob{\delta^2|\hat{\tau} - \tau^\star| > A}$ tends to 0 as $A$ goes to infinity. 
+which means that $\mathbb{P}(\delta^2|\hat{\tau} - \tau^\star| > A)$ tends to 0 as $A$ goes to infinity. 
 In other words, when $\delta$ increases, the expected absolute error decreases, in theory, as $1/\delta^2$. 
 
 We can easily check by simulation that the empirical absolute error (displayed above) multiplied by $\delta^2$ is a random variable which does not exhibit any  dependence with respect to $n$ and $\delta$. 
@@ -376,6 +388,7 @@ t.test(y[1:150],y[(151):n],var.equal = T)
 Let us compute the test statistics $S_\tau$ and the associated $p$-value $p_\tau$ for  all possible values of $\tau$:
 
 ```{r, fig.height=5, fig.width=8}
+#| code-fold: true
 t.stat <- t.pval <- NULL
 for (tau in (1:(n-1))) {
   test.tau <- t.test(y[1:tau],y[(tau+1):n],var.equal = T)
@@ -399,7 +412,7 @@ We can remark that the sequence of $t$-statistics $(S_\tau,1\leq \tau\leq n-1)$ 
 Let's go back now to our original problem of testing if there is a change at some unknown instant $\tau^\star$. The decision rule now depends on  $S_{\rm max}=\max(S_\tau,1\leq \tau\leq n-1)$ (or equivalently on $p_{\rm min}=\min(p_\tau,1\leq \tau\leq n-1)$.
 
 Indeed, we will reject ${\cal H}_0$  if $S_{\rm max}$ is larger than some given threshold. More precisley, in order to control the level of the test, we will reject the null if $S_{\rm max} > q_{S_{\rm max},1-\alpha}$, where $q_{S_{\rm max},1-\alpha}$ is the quantile of order $1-\alpha$ of $S_{\rm max}$, i.e. such that
-$$\prob{S_{\rm max} > q_{S_{\rm max},1-\alpha}} = \alpha$$
+$$\mathbb{P}(S_{\rm max} > q_{S_{\rm max},1-\alpha}) = \alpha$$
 
 $S_{\rm max}$ is the maximum value of a collection of $n-1$ random variables having a $t$ distribution under the null hypothesis.
 Furthermore, these $n-1$  random variables are dependent since they all are function of the same serie $(y_j,1\leq j \leq n)$.
