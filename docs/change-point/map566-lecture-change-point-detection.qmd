@@ -25,7 +25,7 @@ rocks.
 #| code-fold: true
 d <- read_tsv(file="../../data/wellLogData.txt")
 g <- ggplot(d) + geom_line(aes(time, y), color="#6666CC") +  ylab("nuclear reponse")
-g
+g + theme_bw()
 ```
 
 The x-axis represent either the time $t$ at which the measurements were made, or the depth $z=z(t)$ at which they were collected. 
@@ -506,37 +506,48 @@ U_K = U(\hat\tau_{K,1}, \ldots , \hat\tau_{K,K-1})
 $$
 
 ```{r}
-dynProg.mean <- function(y, Kmax, Lmin=1) 
-{
-  Nr  <- Kmax - 1
-  n <- length(y)
-  V <- matrix(Inf, nrow = n, ncol = n)
-  for (j1 in (1:(n-Lmin+1))){
-    for (j2 in ((j1+Lmin-1):n)) {
-      yj <- y[j1:j2]
-      nj <- j2-j1+1
-      V[j1,j2] <- sum(yj^2) - (sum(yj)^2)/nj
+dynProg.mean <- function(y, Kmax, Lmin=1) {
+  N_breaks  <- Kmax - 1 # number of breaks
+  n <- length(y)        # number of point 
+  ## Compute the cost u(tau_k,tau_k+1) for all tau_k, tau_{k+1}
+  u <- matrix(Inf, nrow = n, ncol = n)
+  for (tau_1 in (1:(n - Lmin + 1))) {
+    for (tau_2 in ((tau_1 + Lmin - 1):n)) {
+      yk <- y[tau_1:tau_2]
+      nk <- tau_2-tau_1 + 1
+      u[tau_1,tau_2] <- sum(yk^2) - (sum(yk)^2)/nk
     }
   }
-
-  U <- vector(length=Kmax)
-  U[1] <- V[1,n]
-  D <- V[,n] 
-  Pos <- matrix(nrow = n, ncol = Nr) 
-  Pos[n,] <- rep(n,Nr)    
-  tau.mat <- matrix(nrow = Nr,ncol = Nr) 
-  for (k in 1:Nr){
+  
+  U <- vector(length = Kmax) # U is the total cost
+  U[1] <- u[1,n]             # U(1) is the cost no breaks (K = 1, a single segment) 
+  
+  u_j_n <- u[,n] # optimal travel for j to n in (current) number of breaks
+  
+  # matrix giving the position of of the successive breaks
+  Pos     <- matrix(nrow = n, ncol = N_breaks) 
+  Pos[n,] <- rep(n, N_breaks) # last breaks is always n
+  Tau     <- matrix(nrow = N_breaks, ncol = N_breaks)  # matrix of change points/breaks
+  
+  for (k in 1:N_breaks){
+    
     for (j in 1:(n-1)){
-      dist <- V[j,j:(n-1)] + D[(j+1):n]
-      D[j] <- min(dist)
-      Pos[j,1] <- which.min(dist) + j
+      ## dynamic programming formula
+      u_jprime_n <- u[j, j:(n-1)] + u_j_n[(j+1):n]
+      u_j_n[j] <- min(u_jprime_n)
+      ## position of the best breaks through j
+      Pos[j,1] <- which.min(u_jprime_n) + j
       if (k > 1) { Pos[j,2:k] <- Pos[Pos[j,1],1:(k-1)] }
     }
-    U[k+1] <- D[1]
-    tau.mat[k,1:k] <- Pos[1,1:k]-1
+    
+    ## store results for current number of breaks                
+    U[k + 1] <- u_j_n[1]
+    Tau[k, 1:k] <- Pos[1,1:k] - 1
   }
-  out <- list(Test=tau.mat, obj=data.frame(K=(1:Kmax),U=U))
-  out
+  sigma_hat <- 
+  list(Segments = Tau,
+       RSS = data.frame(K = 1:Kmax, value = U),
+       BIC = data.frame(K = 1:Kmax, value = n * log(U) + log(n)*(1:Kmax) ))
 }
 ```
 
@@ -546,7 +557,7 @@ dynProg.mean <- function(y, Kmax, Lmin=1)
 ```{r}
 Kmax <- 20 # maximum number of segments
 Lmin <- 1  # minimum length of a segment
-r <- dynProg.mean(d$y,Kmax,Lmin)
+res <- dynProg.mean(d$y, Kmax, Lmin)
 ```
 
 ```{r plot-segmentation}
@@ -554,7 +565,7 @@ r <- dynProg.mean(d$y,Kmax,Lmin)
 plot_segmentation <- function(data, segmentation, Kopt) {
   n <- length(data$y)
 
-  Topt <- c(0,segmentation$Test[(Kopt-1),1:(Kopt-1)],n)
+  Topt <- c(0,segmentation[(Kopt-1),1:(Kopt-1)],n)
   Tr <- c(0,Topt[2:Kopt]+0.5,n)
   dm <- data.frame()
   for (k in (1:Kopt)) {
@@ -576,12 +587,13 @@ Let us represent the segmentation obtained for $K = 3, 6, 9, 12, 15, 20$ change-
 
 ```{r, show = FALSE, fig.width=8, fig.height=12}
 #| code-fold: true
-p1 <- plot_segmentation(d, r, 3) + ggtitle("K = 3")
-p2 <- plot_segmentation(d, r, 6) + ggtitle("K = 6")
-p3 <- plot_segmentation(d, r, 9) + ggtitle("K = 9")
-p4 <- plot_segmentation(d, r, 12) + ggtitle("K = 12")
-p5 <- plot_segmentation(d, r, 15) + ggtitle("K = 15")
-p6 <- plot_segmentation(d, r, 20) + ggtitle("K = 20")
+seg <- res$Segments
+p1 <- plot_segmentation(d, seg, 3) + ggtitle("K = 3")
+p2 <- plot_segmentation(d, seg, 6) + ggtitle("K = 6")
+p3 <- plot_segmentation(d, seg, 9) + ggtitle("K = 9")
+p4 <- plot_segmentation(d, seg, 12) + ggtitle("K = 12")
+p5 <- plot_segmentation(d, seg, 15) + ggtitle("K = 15")
+p6 <- plot_segmentation(d, seg, 20) + ggtitle("K = 20")
 
 grid.arrange(p1, p2, p3, p4, p5, p5, ncol=2)
 
@@ -597,9 +609,9 @@ A method for selecting an "optimal" number of segments consists in looking at th
 
 ```{r}
 #| code-fold: true
-pl <- ggplot(data=r$obj) + geom_line(aes(K,U), linewidth=1, colour="purple")+ 
-  geom_point(aes(K,U), size=2, colour="purple")
-pl
+pl_RSS <- ggplot(data=res$RSS) + aes(x = K, y = value) + 
+  geom_line(linewidth=1, colour="purple") + geom_point(size=2, colour="purple")
+pl_RSS
 ```
 
 As expected, the sequence $(U_K , 1\leq K\leq K_{\rm max})$ decreases significantly between $K=1$ and $K=9$.
@@ -610,33 +622,19 @@ We then deduce the $\hat{K}-1$ change points $(\hat\tau_{\hat{K},1}, \ldots , \h
 
 ```{r}
 Kopt <- 9
-print(r$Test[(Kopt-1),1:(Kopt-1)])
+print(res$Segments[(Kopt-1),1:(Kopt-1)])
 ```
 
 ```{r, fig.height=3, fig.width=8}
-y <- d$y
-n <- length(y)
-Topt <- c(0,r$Test[(Kopt-1),1:(Kopt-1)],n)
-Tr <- c(0,Topt[2:Kopt]+0.5,n)
-dm <- data.frame()
-for (k in (1:Kopt)) {
-  m <- mean(y[(Topt[k]+1):Topt[k+1]])
-  dm <- rbind(dm, c(Tr[k],Tr[k+1],m,m))
-}
-names(dm) <- c("x1","x2","y1","y2")
-
-pl <- ggplot(data=d) + geom_line(aes(time, y), color="#6666CC")  +
-  geom_vline(xintercept = Tr[2:Kopt], color="red", size=0.25) +
-  geom_segment(aes(x=x1, y=y1, xend=x2, yend=y2), colour="green", data=dm, size=0.75)
-plot(pl)
+plot_segmentation(d, seg, 9) + ggtitle("K = 9")
 ```
 
 Let's have a look at the objective function between $K=9$ and $K=20$. 
 
 ```{r}
-pl <- ggplot(data=r$obj[9:20,]) + geom_line(aes(K,U), size=1, colour="purple")+ 
-  geom_point(aes(K,U), size=2, colour="purple")
-print(pl)
+pl <- ggplot(data=res$RSS[9:20,]) + aes(x = K, y = value) + 
+  geom_line(linewidth=1, colour="purple")+  geom_point(size=2, colour="purple")
+pl
 ```
 
 We notice another change in the slope at $K=12$.   The segmentation with $K=12$ segments is displayed below.
@@ -644,23 +642,11 @@ We notice another change in the slope at $K=12$.   The segmentation with $K=12$ 
 
 ```{r}
 Kopt <- 12
-print(r$Test[(Kopt-1),1:(Kopt-1)])
+print(res$Segments[(Kopt-1),1:(Kopt-1)])
 ```
 
 ```{r, fig.height=3, fig.width=8}
-Topt <- c(0,r$Test[(Kopt-1),1:(Kopt-1)],n)
-Tr <- c(0,Topt[2:Kopt]+0.5,n)
-dm <- data.frame()
-for (k in (1:Kopt)) {
-  m <- mean(y[(Topt[k]+1):Topt[k+1]])
-  dm <- rbind(dm, c(Tr[k],Tr[k+1],m,m))
-}
-names(dm) <- c("x1","x2","y1","y2")
-
-pl <- ggplot(data=d) + geom_line(aes(time, y), color="#6666CC")  +
-  geom_vline(xintercept = Tr[2:Kopt], color="red", size=0.25) +
-  geom_segment(aes(x=x1, y=y1, xend=x2, yend=y2), colour="green", data=dm, size=0.75)
-plot(pl)
+plot_segmentation(d, seg, 12) + ggtitle("K = 12")
 ```
 
 ::: {.callout-note}
