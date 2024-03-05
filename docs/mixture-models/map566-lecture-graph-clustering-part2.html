@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.537">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -900,24 +900,24 @@ Intractable EM
 
  Initialization of 18 model(s). 
  Performing VEM inference
-    Model with 15 blocks.
     Model with 6 blocks.
-    Model with 10 blocks.
+    Model with 14 blocks.
+    Model with 5 blocks.
+    Model with 9 blocks.
+    Model with 15 blocks.
+    Model with 8 blocks.
+    Model with 13 blocks.
     Model with 18 blocks.
+    Model with 10 blocks.
+    Model with 4 blocks.
+    Model with 7 blocks.
+    Model with 12 blocks.
+    Model with 3 blocks.
+    Model with 16 blocks.
+    Model with 1 blocks.
+    Model with 11 blocks.
     Model with 2 blocks.
     Model with 17 blocks.
-    Model with 3 blocks.
-    Model with 8 blocks.
-    Model with 5 blocks.
-    Model with 7 blocks.
-    Model with 4 blocks.
-    Model with 1 blocks.
-    Model with 16 blocks.
-    Model with 13 blocks.
-    Model with 11 blocks.
-    Model with 9 blocks.
-    Model with 12 blocks.
-    Model with 14 blocks.
  Looking for better solutions
  Pass 1   Going forward +++++++++++++++++
                                                                                                     
@@ -1244,7 +1244,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      return note.innerHTML;
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {
@@ -1467,7 +1472,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../docs/mixture-models/map566-lecture-graph-clustering-part1.html" class="pagination-link  aria-label=" hierarchical="" and="" spectral="" methods="" for="" graph="" clustering"="">
+      <a href="../../docs/mixture-models/map566-lecture-graph-clustering-part1.html" class="pagination-link" aria-label="Hierarchical and Spectral methods for Graph clustering">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Hierarchical and Spectral methods for Graph clustering</span>
       </a>          
   </div>

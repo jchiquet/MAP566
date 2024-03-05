@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.537">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -505,7 +505,7 @@ window.Quarto = {
 <section id="preliminary" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="preliminary">Preliminary</h2>
 <p>Functions from <code>R</code>-base and stats (preloaded) are required plus packages from the <strong>tidyverse</strong> for data representation and manipulation. The package <strong>igraph</strong> is a great library for network data manipulation (interface exists in <code>Python</code>). We will also use the package <strong>aricode</strong> for computing clustering metrics. <strong>missSBM</strong> contains our illustrative data set.</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/tests-config_fbe5f0a0a120541d8974623b90ef395a">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(viridis)</span>
@@ -515,7 +515,7 @@ window.Quarto = {
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(missSBM)</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/pdf-setting_ef0631ac14bd1a04c5055dd95512b10d">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">tinytex.engine =</span> <span class="st">'xelatex'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -547,7 +547,7 @@ window.Quarto = {
 <section id="the-french-political-blogosphere" class="level3" data-number="1.2">
 <h3 data-number="1.2" class="anchored" data-anchor-id="the-french-political-blogosphere"><span class="header-section-number">1.2</span> The French political Blogosphere</h3>
 <p>The <code>frenchblog2007</code> data is a network dataset which consists of a single day snapshot of over 200 political blogs automatically extracted the 14 October 2006 and manually classified by the “Observatoire Présidentielle” project. It is part of the <strong>missSBM</strong> package. It is provided as an <strong>igraph</strong> object with 196 nodes. The vertex attribute “party” provides a classification of the nodes.</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/mixture-fblog-load1_07b4c2bd4eb2bed829e71323a22ba4e5">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"frenchblog2007"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(frenchblog2007)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -564,7 +564,7 @@ window.Quarto = {
 </div>
 </div>
 <p>A visual representation of the network data with nodes colored according to the political party each blog belongs to is achieved as follows:</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/frenchblog-igraph-plot_542b293e5bedf573b289e9a876a83629">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.igraph</span>(frenchblog2007,</span>
@@ -581,7 +581,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Another commonly used representation is via a matrix view, where the adjacency matrix is re-ordered column-wise and row-wise according to a predefined classification. In the <code>frenchblog2007</code> data, nodes are originally reordered according to their party:</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/frenchblog-matrix-plot_54d1821b403f1abcf81c0fb36220e4c5">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>frenchblog2007 <span class="sc">%&gt;%</span> <span class="fu">as_adj</span>(<span class="at">sparse =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span> <span class="fu">plotMyMatrix</span>(<span class="at">clustering =</span> <span class="fu">list</span>(<span class="at">row =</span> <span class="fu">factor</span>(<span class="fu">V</span>(frenchblog2007)<span class="sc">$</span>party)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -626,7 +626,7 @@ Note
 <p><strong>Our objective is now to automatically find a partitioning of the node, i.e.&nbsp;a clustering, that groups together nodes with similar connectivity pattern. This is known as graph clustering.</strong></p>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/export_data_a675e697d09aaefc01fa6254de4a4a70">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>blog <span class="ot">&lt;-</span> frenchblog2007 <span class="sc">%&gt;%</span>  <span class="fu">delete_vertices</span>(<span class="fu">which</span>(<span class="fu">degree</span>(frenchblog2007) <span class="sc">&lt;=</span> <span class="dv">1</span>))</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>party <span class="ot">&lt;-</span> <span class="fu">V</span>(blog)<span class="sc">$</span>party <span class="sc">%&gt;%</span> <span class="fu">as_factor</span>()</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>Y     <span class="ot">&lt;-</span> blog <span class="sc">%&gt;%</span> <span class="fu">as_adjacency_matrix</span>()</span>
@@ -714,7 +714,7 @@ Remark
 </div>
 </div>
 <p>We can apply this principle to the blog network. Let us start by using a very simple distance based on the adjacency matrix</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/hclust-adjacency_5207691f9380e661b3b211f35e1d4dc2">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>D_basic <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">as_adj</span>(blog)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>hc_basic <span class="ot">&lt;-</span> <span class="fu">hclust</span>(<span class="fu">as.dist</span>(D_basic), <span class="at">method =</span> <span class="st">"ward.D2"</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hc_basic, <span class="at">labels =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -727,11 +727,11 @@ Remark
 </div>
 </div>
 <p>With this distance, we consider nodes as similar when they are neighbors. A finest and smoothest way of quantifying similarity between node is to rely on the notion of shortest-path: we measure similarity between pairs of nodes by the length of their shortest path. This can be computed quickly with <em>igraph</em></p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/distance-shortest-path_8251fffc67d746ef178dacf686b88d28">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>D_path <span class="ot">&lt;-</span> igraph<span class="sc">::</span><span class="fu">distances</span>(blog)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This distance exhibits a strong block-wise pattern that connects to communities</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/distance-shortest-path-coorplot_52d327d10977378a877d722bc3663c2d">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>corrplot<span class="sc">::</span><span class="fu">corrplot</span>(D_path, <span class="at">tl.pos =</span> <span class="st">'n'</span>, <span class="at">is.corr =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -745,7 +745,7 @@ Remark
 </div>
 </div>
 <p>The corresponding dendrogram (hierarchy) obtained with Ward’s criterion is well balanced.</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/hclust-shortest-path_7491512a24822bb17e99d5a22e55e14b">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>hc_path <span class="ot">&lt;-</span> <span class="fu">hclust</span>(<span class="fu">as.dist</span>(D_path), <span class="at">method =</span> <span class="st">"ward.D2"</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hc_path, <span class="at">labels =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -757,7 +757,7 @@ Remark
 </div>
 </div>
 <p>We can now check whether the clustering found is matching some external/prior knowledge that we have (here, the political party for instance). Many metrics for comparing several clusterings are available. We chose the popular Adjusted Rand Index (<span class="citation" data-cites="RandIndex">Rand (<a href="#ref-RandIndex" role="doc-biblioref">1971</a>)</span>, <span class="citation" data-cites="ARI">Steinley (<a href="#ref-ARI" role="doc-biblioref">2004</a>)</span>):</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/perf-paritionning_6eaf2987154bfa7b4b177a35bb0ae785">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>nb_cluster <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>perf <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">nb_cluster =</span> nb_cluster,</span>
@@ -765,7 +765,7 @@ Remark
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">shortest_path =</span> <span class="fu">apply</span>(<span class="fu">cutree</span>(hc_path , nb_cluster), <span class="dv">2</span>, ARI, party))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The gain is clear when considering the more sound distance based on shortest-path.</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/perf-paritionning-plot_746cdace13bbeced830824aa9574efbb">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>perf <span class="sc">%&gt;%</span>  </span>
@@ -791,7 +791,7 @@ Remark
 <p><span class="math display">\mathrm{modularity}(\mathcal{C}) = \sum_{k=1}^K \left(f_{kk}(\mathcal{C}) - \mathbb{E}_{H_0}(f_{kk})\right)^2
 </span></p>
 <p>The following algorithm try to optimize the modularity by successive merges:</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/unnamed-chunk-1_48d056d92e07ca40a2eec169308becd6">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>hc_modularity <span class="ot">&lt;-</span> <span class="fu">cluster_fast_greedy</span>(blog)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hc_modularity, blog, <span class="at">vertex.label=</span><span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -803,7 +803,7 @@ Remark
 </div>
 </div>
 <p><strong>Edge Betweeness</strong> (as introduced by <span class="citation" data-cites="betweeness">Newman and Girvan (<a href="#ref-betweeness" role="doc-biblioref">2004</a>)</span>): it is defined by the number of shortest paths that go through a edge in a graph.</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/unnamed-chunk-2_e01f804cfe9bd6465facca856f21b3f5">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>hc_betweeness <span class="ot">&lt;-</span> <span class="fu">cluster_edge_betweenness</span>(blog)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hc_betweeness, blog, <span class="at">vertex.label=</span><span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -815,13 +815,13 @@ Remark
 </div>
 </div>
 <p>Regarding the similarity with our reference clustering (the party), the performances are at part with the preceeding methods, even if edge betweeness seems to capture more generic patterns:</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/perf-modularity_fe6032f04cf50b88cf62861d9eabc63b">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>perf<span class="sc">$</span>modularity <span class="ot">&lt;-</span> hc_modularity <span class="sc">%&gt;%</span> </span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.hclust</span>() <span class="sc">%&gt;%</span> <span class="fu">cutree</span>(nb_cluster) <span class="sc">%&gt;%</span> <span class="fu">apply</span>(<span class="dv">2</span>, ARI, party)</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>perf<span class="sc">$</span>betweeness <span class="ot">&lt;-</span> hc_betweeness <span class="sc">%&gt;%</span> </span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.hclust</span>() <span class="sc">%&gt;%</span> <span class="fu">cutree</span>(nb_cluster) <span class="sc">%&gt;%</span> <span class="fu">apply</span>(<span class="dv">2</span>, ARI, party)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/plot-perf2_51e627a0f2244e71450e03aacc438dcc">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>perf <span class="sc">%&gt;%</span>  </span>
@@ -854,7 +854,7 @@ Remark
 \end{aligned}
 </span> where the volume of a subset <span class="math inline">\mathcal{S}</span> of nodes is the cumulated degrees<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
 <p>For instance, in the French blog data set, the volume associated to each party would be</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/volume_party_2b967bf501709b92c4b92fb4cf5024a7">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">degree</span>(blog) <span class="sc">%&gt;%</span> <span class="fu">split</span>(party) <span class="sc">%&gt;%</span> <span class="fu">map_dbl</span>(sum) <span class="sc">%&gt;%</span> </span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -869,7 +869,7 @@ Remark
 <p><span class="math display">
 \mathrm{cut}(\mathcal{V}_A, \mathcal{V}_B) = \sum_{i\in\mathcal{V}_A, j\in\mathcal{V}_B} Y_{ij}, \qquad \mathcal{V}_A \cup \mathcal{V}_B = \mathcal{V}
 </span> that is, the cut is the sum of the weights of the edge set that connect the two components <span class="math inline">clV_A</span> and <span class="math inline">\mathcal{V}_B</span>. For instance, in this simple binary graph, the graph cut between <span class="math inline">\mathcal{V}_A= \{1,2,3,4,10\}</span> and <span class="math inline">\mathcal{V}_B= \{5,6,7,8,9\}</span> is 2.</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/graph-cut-plot_3e1544acb0601da7584357dee19c664a">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -879,7 +879,7 @@ Remark
 </div>
 </div>
 <p>We can easily define a function to compute the cut</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/cut-function_891bac74a5149b7ec137c494bb16c5ac">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>cut <span class="ot">&lt;-</span> <span class="cf">function</span>(graph, A, B) {</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">as_adj</span>(graph, <span class="at">type =</span> <span class="st">"upper"</span>)[A , B]) </span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  res</span>
@@ -915,7 +915,7 @@ Idea
 </div>
 </div>
 <p>Our function is easily modified to compute the normalized version of the graph-cut:</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/n-cut-function_da35562ae1198741888f2fe4bf47ca39">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>cut <span class="ot">&lt;-</span> <span class="cf">function</span>(graph, A, B, <span class="at">normalized  =</span> <span class="cn">TRUE</span>) {</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  Y <span class="ot">&lt;-</span> <span class="fu">as_adj</span>(graph, <span class="at">type=</span><span class="st">"upper"</span>)</span>
@@ -933,7 +933,7 @@ Idea
 <span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">gorder</span>(blog), A)</span>
 <span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="fu">cut</span>(blog, A, B)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.6</code></pre>
+<pre><code>[1] 0.4520744</code></pre>
 </div>
 </div>
 </section>
@@ -983,7 +983,7 @@ Proposition: Spectrum of <span class="math inline">\mathbf{L}</span>
 </div>
 </div>
 <p>The Laplacian is easily (and fastly) computed in <code>R</code> thanks to the igraph package. Let us compute this for the French blog graph:</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/compute-laplacian_f5bb3f477a1e003af5bedaf37163e4ac">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="fu">laplacian_matrix</span>(blog)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -1005,14 +1005,14 @@ Heuristics for spectral clustering
 <p>The Fiedler vector is the named sometimes given to the normalized eigen vector associated with the smallest <strong>positive</strong> eigen-value of <span class="math inline">\mathbf{L}</span>. It thus solves the above relaxed graph-cut problem and can be used to compute a bi-partition of a graph.</p>
 <p>Let us check how we can use theses quantities to partition the French blogosphere.</p>
 <p>We first extract the Fiedler vector</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/Fiedler-blogosphere_28638c9afb4a293ab0f4dfef5f730edd">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>spec_L <span class="ot">&lt;-</span> <span class="fu">eigen</span>(L)</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>practical_zero <span class="ot">&lt;-</span> <span class="fl">1e-12</span></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>lambda  <span class="ot">&lt;-</span> <span class="fu">min</span>(spec_L<span class="sc">$</span>values[spec_L<span class="sc">$</span>values<span class="sc">&gt;</span>practical_zero])</span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>fiedler <span class="ot">&lt;-</span> spec_L<span class="sc">$</span>vectors[, <span class="fu">which</span>(spec_L<span class="sc">$</span>values <span class="sc">==</span> lambda)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then, we plot the values of the Fiedler vector and color point according to the party to check if a part of the underlying structure of the network can indeed be found based on this quantity.</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/Fiedler-blogosphere-plot-1_14f420fe83d85a00e7493b47ee1a131c">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(<span class="at">y =</span> fiedler, <span class="at">colour =</span> party) <span class="sc">+</span> </span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  viridis<span class="sc">::</span><span class="fu">scale_color_viridis</span>(<span class="at">discrete =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -1027,7 +1027,7 @@ Heuristics for spectral clustering
 </div>
 </div>
 <p>Also, and since the original motivation of the graph-cut is for two-way partionning, we collapse levels from the vector of party into a simplified left/right view (we keep the analysts into a third separated group)</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/left-right-party_242261bb9576b59c45f69ce7d325ca0d">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>left_vs_right <span class="ot">&lt;-</span> </span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  forcats<span class="sc">::</span><span class="fu">fct_collapse</span>(party, </span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">left =</span> <span class="fu">c</span>(<span class="st">"green"</span>, <span class="st">"left"</span>, <span class="st">"far-left"</span>, <span class="st">"center-left"</span>),</span>
@@ -1035,7 +1035,7 @@ Heuristics for spectral clustering
 <span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">analyst =</span> <span class="st">"analyst"</span></span>
 <span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/Fiedler-blogosphere-plot-2_e2721fdb28d4a152363d5817522ad3fe">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(<span class="at">y =</span> fiedler, <span class="at">colour =</span> left_vs_right) <span class="sc">+</span> </span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  viridis<span class="sc">::</span><span class="fu">scale_color_viridis</span>(<span class="at">discrete =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -1047,7 +1047,7 @@ Heuristics for spectral clustering
 </div>
 </div>
 <p>We can see that there exists an optimum value (or threshold) to separate left from right: if we compute the adjusted Rand index<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> between a bi-partionning obtained by thresholding the Fidler vector and our reference vector <code>left_vs_right</code>, we can see that there exists an optimal threshold maximizing this quantity:</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/ARIs_2656031ef7ec096c634c279056c9be3a">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>thresholds <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span>.<span class="dv">1</span>, .<span class="dv">1</span>, <span class="at">len =</span> <span class="dv">100</span>)</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>ARIs <span class="ot">&lt;-</span> <span class="fu">map_dbl</span>(thresholds, <span class="sc">~</span><span class="fu">ARI</span>(left_vs_right, fiedler <span class="sc">&gt;</span> .))</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(thresholds, ARIs) <span class="sc">+</span> <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> thresholds[<span class="fu">which.max</span>(ARIs)]) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1132,7 +1132,7 @@ Pseudo code for normalized spectral clustering
 </ol>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/spectral_clustering_572acfcbcfbbc3cb26fbbd3931faac3f">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>spectral_clustering <span class="ot">&lt;-</span> <span class="cf">function</span>(graph, nb_cluster, <span class="at">normalized =</span> <span class="cn">TRUE</span>) {</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Compute Laplcian matrix</span></span>
@@ -1149,7 +1149,7 @@ Pseudo code for normalized spectral clustering
 <span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let use perform spectral clustering on the blogosphere for various number of group. We get similar performance than the best hierarchical clustering methods found above:</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/spectral-blog_b85ec9484d8354b6de37c451e9861e99">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>perf<span class="sc">$</span>spectral <span class="ot">&lt;-</span> <span class="fu">map</span>(nb_cluster, <span class="sc">~</span><span class="fu">spectral_clustering</span>(blog, .)) <span class="sc">%&gt;%</span> <span class="fu">map_dbl</span>(ARI, party) </span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>perf <span class="sc">%&gt;%</span>  </span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>nb_cluster, <span class="at">names_to =</span> <span class="st">"distance"</span>, <span class="at">values_to =</span> <span class="st">"ARI"</span>) <span class="sc">%&gt;%</span> </span>
@@ -1165,7 +1165,7 @@ Pseudo code for normalized spectral clustering
 </div>
 </div>
 <p>Once reorder according to the best clustering (obtained <span class="math inline">k=6</span>) groups, the original data matrix looks as follows</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lecture-graph-clustering-part1_cache/html/spectral-blog-plot_87eca3a0717b626a7a811c26c8ad7f4b">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotMyMatrix</span>(<span class="fu">as_adj</span>(blog, <span class="at">sparse =</span> <span class="cn">FALSE</span>),</span>
@@ -1403,7 +1403,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      return note.innerHTML;
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {
@@ -1626,7 +1631,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../docs/mixture-models/map566-lecture-mixture-models.html" class="pagination-link  aria-label=" mixture="" models"="">
+      <a href="../../docs/mixture-models/map566-lecture-mixture-models.html" class="pagination-link" aria-label="Mixture Models">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Mixture Models</span>
       </a>          
   </div>

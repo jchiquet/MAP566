@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.537">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -634,7 +634,7 @@ Permutation test
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["gender"],"name":[1],"type":["chr"],"align":["left"]},{"label":["regime"],"name":[2],"type":["chr"],"align":["left"]},{"label":["statistic"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"female","2":"RoundUp B","3":"21.0","4":"0.01192192"},{"1":"female","2":"NK603-33%","3":"27.5","4":"0.03779116"},{"1":"female","2":"NK603-33%+R","3":"27.5","4":"0.03779116"},{"1":"female","2":"NK603-22%","3":"30.0","4":"0.05331355"},{"1":"female","2":"RoundUp A","3":"32.0","4":"0.07380163"},{"1":"female","2":"NK603-11%+R","3":"41.0","4":"0.22532519"},{"1":"female","2":"NK603-22%+R","3":"44.5","4":"0.32862099"},{"1":"female","2":"NK603-11%","3":"45.0","4":"0.34481700"},{"1":"female","2":"RoundUp C","3":"51.5","4":"0.57393224"},{"1":"male","2":"NK603-22%","3":"52.0","4":"0.57503030"},{"1":"male","2":"NK603-33%+R","3":"54.0","4":"0.63327969"},{"1":"male","2":"RoundUp B","3":"59.0","4":"0.76449835"},{"1":"male","2":"RoundUp C","3":"63.0","4":"0.84716792"},{"1":"male","2":"RoundUp A","3":"65.0","4":"0.88147783"},{"1":"male","2":"NK603-11%","3":"65.5","4":"0.88798901"},{"1":"male","2":"NK603-33%","3":"69.5","4":"0.93565666"},{"1":"male","2":"NK603-11%+R","3":"73.5","4":"0.96711618"},{"1":"male","2":"NK603-22%+R","3":"77.5","4":"0.98359199"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["gender"],"name":[1],"type":["chr"],"align":["left"]},{"label":["regime"],"name":[2],"type":["chr"],"align":["left"]},{"label":["statistic"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"male","2":"NK603-22%","3":"32.5","4":"0.09811144"},{"1":"male","2":"RoundUp B","3":"34.5","4":"0.12752259"},{"1":"female","2":"RoundUp A","3":"36.0","4":"0.13777305"},{"1":"female","2":"NK603-22%+R","3":"37.0","4":"0.16072597"},{"1":"female","2":"RoundUp C","3":"38.0","4":"0.18094148"},{"1":"male","2":"NK603-11%+R","3":"37.5","4":"0.18163078"},{"1":"female","2":"RoundUp B","3":"38.5","4":"0.18704487"},{"1":"female","2":"NK603-11%+R","3":"41.0","4":"0.24618786"},{"1":"female","2":"NK603-33%","3":"46.0","4":"0.38605736"},{"1":"female","2":"NK603-11%","3":"47.5","4":"0.43222039"},{"1":"female","2":"NK603-33%+R","3":"50.0","4":"0.51701394"},{"1":"female","2":"NK603-22%","3":"52.0","4":"0.58774468"},{"1":"male","2":"NK603-33%+R","3":"52.5","4":"0.59006895"},{"1":"male","2":"NK603-33%","3":"56.0","4":"0.68946564"},{"1":"male","2":"RoundUp A","3":"60.0","4":"0.78807548"},{"1":"male","2":"NK603-22%+R","3":"61.0","4":"0.81139146"},{"1":"male","2":"NK603-11%","3":"62.5","4":"0.83904950"},{"1":"male","2":"RoundUp C","3":"70.5","4":"0.94800363"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -706,7 +706,7 @@ Permutation test
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>stat_rank1 <span class="ot">&lt;-</span> <span class="fu">split</span>(res, res<span class="sc">$</span>simu) <span class="sc">%&gt;%</span> <span class="fu">map_dbl</span>(<span class="cf">function</span>(x) <span class="fu">sort</span>(x<span class="sc">$</span>statistic)[<span class="dv">1</span>])</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(stat_rank1 <span class="sc">&lt;</span> all_comparisons<span class="sc">$</span>statistic[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.156</code></pre>
+<pre><code>[1] 0.153</code></pre>
 </div>
 </div>
 </section>
@@ -1173,7 +1173,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      return note.innerHTML;
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {
@@ -1396,7 +1401,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../docs/tests/map566-lecture-single.html" class="pagination-link  aria-label=" statistical="" tests"="">
+      <a href="../../docs/tests/map566-lecture-single.html" class="pagination-link" aria-label="Statistical Tests">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Statistical Tests</span>
       </a>          
   </div>

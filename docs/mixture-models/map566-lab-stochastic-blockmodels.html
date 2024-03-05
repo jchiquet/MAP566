@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.537">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -506,7 +506,7 @@ window.Quarto = {
 <section id="requirements" class="level3" data-number="1.1">
 <h3 data-number="1.1" class="anchored" data-anchor-id="requirements"><span class="header-section-number">1.1</span> Requirements</h3>
 <p>The packages required for the analysis are <code>sbm</code> and <code>igraph</code>, plus some others for data manipulation and representation.</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lab-stochastic-blockmodels_cache/html/packages_bec2d8272dbf1de9e7a9d63bb44b3412">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)    <span class="co"># graph manipulation</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sbm)       <span class="co"># stochastic bloc model</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># data manipulation</span></span>
@@ -528,7 +528,7 @@ window.Quarto = {
 </figure>
 </div>
 <p>We consider the fungus-tree interaction network studied by <span class="citation" data-cites="tree_fungus_network">Vacher, Piou, and Desprez-Loustau (<a href="#ref-tree_fungus_network" role="doc-biblioref">2008</a>)</span>, available with the package <strong>sbm</strong>:</p>
-<div class="cell">
+<div class="cell" data-hash="map566-lab-stochastic-blockmodels_cache/html/import dataset_ddf86e30e192fe27207035d66e6fadb5">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"fungusTreeNetwork"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(fungusTreeNetwork,  <span class="at">max.level =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -755,7 +755,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      return note.innerHTML;
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {
@@ -978,7 +983,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../docs/mixture-models/map566-lab-graph-partionning.html" class="pagination-link  aria-label=" graph="" clustering"="">
+      <a href="../../docs/mixture-models/map566-lab-graph-partionning.html" class="pagination-link" aria-label="Graph Clustering">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Graph Clustering</span>
       </a>          
   </div>

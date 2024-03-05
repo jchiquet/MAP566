@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.537">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -469,10 +469,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>UKfaculty <span class="ot">&lt;-</span> <span class="fu">as.undirected</span>(UKfaculty)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>UKfaculty</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>IGRAPH 314b62f U-W- 81 577 -- 
+<pre><code>IGRAPH 34aa9ed U-W- 81 577 -- 
 + attr: Type (g/c), Date (g/c), Citation (g/c), Author (g/c), Group
 | (v/n), weight (e/n)
-+ edges from 314b62f:
++ edges from 34aa9ed:
  [1]  1-- 4  3-- 4  5-- 6  5-- 7  6-- 7  3-- 9  4-- 9  5-- 9  5--10  7--10
 [11]  5--12  7--12  5--13  7--13 10--13 12--13  2--15 14--15  5--16  7--16
 [21] 12--16 13--16  3--17  4--17  9--17  2--18  7--18 15--18 15--19 18--19
@@ -684,7 +684,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      return note.innerHTML;
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {
@@ -907,7 +912,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../docs/mixture-models/map566-lab-mixture-models.html" class="pagination-link  aria-label=" mixture="" models"="">
+      <a href="../../docs/mixture-models/map566-lab-mixture-models.html" class="pagination-link" aria-label="Mixture models">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Mixture models</span>
       </a>          
   </div>
