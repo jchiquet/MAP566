@@ -8,6 +8,8 @@ subtitle: "Lecture Notes"
 Only functions from `R`-base and stats (preloaded) are required plus packages from the **tidyverse** for data representation and manipulation.
 
 ```{r linear-regression-config, message = FALSE}
+#| code-fold: true
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 library(tidyverse)
 library(gridExtra)
 library(parallel)
@@ -22,7 +24,8 @@ rocks.
 ```{r, message=FALSE, warning=FALSE, fig.align='center'}
 #| code-fold: true
 d <- read_tsv(file="../../data/wellLogData.txt")
-ggplot(d) + geom_line(aes(time, y), color="#6666CC") +  ylab("nuclear reponse")
+g <- ggplot(d) + geom_line(aes(time, y), color="#6666CC") +  ylab("nuclear reponse")
+g
 ```
 
 The x-axis represent either the time $t$ at which the measurements were made, or the depth $z=z(t)$ at which they were collected. 
@@ -171,21 +174,22 @@ The residual sum of squares $U$  displayed below is minimum for $\hat{\tau} = 93
 y <- d1$y 
 U <- data.frame(tau=(1:(n-1)),RSS=0)
 for (tau in (1:(n-1))) {
-  m1 <- mean(y[1:tau])
-  m2 <- mean(y[(tau+1):n])
-  m <- c(rep(m1,tau),rep(m2,(n-tau)))
-  e <- y - m
-  U[tau,2] <- sum(e^2)
+  mu1 <- mean(y[1:tau])
+  mu2 <- mean(y[(tau+1):n])
+  mu <- c(rep(mu1,tau), rep(mu2, (n-tau)))
+  U[tau,2] <- sum((y - mu)^2)
 }
-tau.est <- which.min(U$RSS)
-U.min <- U[tau.est,2]
-print(c(tau.est, U.min))
+tau_hat <- which.min(U$RSS)
+U_min <- U[tau_hat,2]
+print(c(tau_hat, U_min))
 ```
 
 
 ```{r}
 #| code-fold: true
-ggplot(data=U) + geom_line(aes(tau,RSS)) + annotate("point", x=tau.est, y=U.min, colour="red", size=2)
+U %>% ggplot() + 
+  geom_line(aes(tau, RSS)) + 
+  annotate("point", x=tau_hat, y=U_min, colour="red", size=2)
 ```
 
 
@@ -195,18 +199,23 @@ ggplot(data=U) + geom_line(aes(tau,RSS)) + annotate("point", x=tau.est, y=U.min,
 The objective function to minimize is not convex. Then, any efficient method for convex optimization (for scalar function) may lead to some local minimum instead of the global one.
 :::
 
-The optimal segmentation and the residuals obtained with $\hat{\tau} = 93$ are diplayed in the next Figure. 
+The optimal segmentation and the residuals obtained with $\hat{\tau} = 93$ are displayed in the next Figure. 
 
 ```{r}
 #| code-fold: true
-m1 <- mean(y[1:tau.est])
-m2 <- mean(y[(tau.est+1):n])
-m <- c(rep(m1,tau.est),rep(m2,(n-tau.est)))
-d1$e <- y - m
-dm <- data.frame(x1=c(0,tau.est+0.5), x2=c(tau.est+0.5,n), y1=c(m1,m2), y2=c(m1,m2))
+mu1 <- mean(y[1:tau_hat])
+mu2 <- mean(y[(tau_hat+1):n])
+mu <- c(rep(mu1,tau_hat),rep(mu2,(n-tau_hat)))
+d1$e <- y - mu
+dm <- data.frame(
+  x1 = c(0,tau_hat+0.5), 
+  x2 = c(tau_hat+0.5,n), 
+  y1 = c(mu1,mu2), 
+  y2 = c(mu1,mu2)
+  )
 pl1 <- ggplot(data=d1) + geom_line(aes(time, y), color="#6666CC")  +
   geom_segment(aes(x=x1, y=y1, xend=x2, yend=y2), colour="green", data=dm, linewidth=0.75) +
-  geom_vline(xintercept = (tau.est+0.5), color="red", linewidth=1)
+  geom_vline(xintercept = (tau_hat+0.5), color="red", linewidth=1)
 pl2 <- ggplot(data=d1) + geom_line(aes(time, e), color="#6666CC")  +
   geom_segment(aes(x=0,xend=n,y=0,yend=0), colour="green", data=dm, linewidth=0.75) 
 grid.arrange(pl1, pl2)
@@ -214,7 +223,6 @@ grid.arrange(pl1, pl2)
 
 The model we are challenging with our data assumes constant mean values before and after $\tau=93$.
 Residuals do not exhibit any clear trend. Thus, based on this diagnostic plot, there is no good reason for rejecting this model.
-
 
 The assumptions made for the probability ditribution of the residual errors could also  be tested:
 
@@ -233,7 +241,7 @@ acf(d1$e, ylab = "autocorrelation", main=" ")
 
 These results mean that assuming that the residuals are *i.i.d.* is acceptable. Then, we can be quite confident that the Least-Square criterion used for estimating the change-points has very good (not to say optimal\ldots) statistical properties.
 
-## Some statistical properties of $\hat{\tau}$
+### Some statistical properties of $\hat{\tau}$
 
 Until now, the main conclusion of this study is that a model with constant mean values before and after $\tau=93$ cannot be rejected.
 
@@ -263,7 +271,7 @@ $$\frac{1}{M}\sum_{m=1}^M |\hat\tau_m - \tau^\star|$$
 
 ```{r, include=FALSE}
 #| code-fold: true
-cpf <- function(tau.star,delta, n, M, plot=FALSE) 
+cpf <- function(tau.star, delta, n, M, plot=FALSE) 
 {
   Y <- matrix(rnorm(n=M*n), nrow=n)
   Y[(tau.star+1):n,] <- Y[(tau.star+1):n,] + delta
@@ -284,7 +292,8 @@ cpf <- function(tau.star,delta, n, M, plot=FALSE)
     res <- ggplot(d) + geom_bar(aes_string("tau")) + xlim(c(0,n)) + xlab(expression(hat(tau))) +  
     ggtitle(bquote(n==.(n)~~";"~~delta==.(delta)~~";"~~m.a.e.==.(mae))) +
     theme(plot.title = element_text(size = 12))
-  return(res)
+  
+  res
 } 
 ```
 
@@ -350,8 +359,9 @@ In other words, when $\delta$ increases, the expected absolute error decreases, 
 We can easily check by simulation that the empirical absolute error (displayed above) multiplied by $\delta^2$ is a random variable which does not exhibit any  dependence with respect to $n$ and $\delta$. 
 
 ```{r}
+#| code-fold: true
 ggplot(data=E, aes(n,mae*delta^2, colour=factor(delta))) + geom_line() + geom_point() +
-  theme(legend.position=c(.8, .8)) + scale_colour_discrete(name=expression(paste(" ",delta)))
+  theme(legend.position.inside=c(.8, .8)) + scale_colour_discrete(name=expression(paste(" ",delta)))
 ```
 
 ### Testing the presence of a change-point
@@ -533,7 +543,50 @@ dynProg.mean <- function(y, Kmax, Lmin=1)
 
 ### Application to the well-log data
 
-TODO
+```{r}
+Kmax <- 20 # maximum number of segments
+Lmin <- 1  # minimum length of a segment
+r <- dynProg.mean(d$y,Kmax,Lmin)
+```
+
+```{r plot-segmentation}
+#| code-fold: true
+plot_segmentation <- function(data, segmentation, Kopt) {
+  n <- length(data$y)
+
+  Topt <- c(0,segmentation$Test[(Kopt-1),1:(Kopt-1)],n)
+  Tr <- c(0,Topt[2:Kopt]+0.5,n)
+  dm <- data.frame()
+  for (k in (1:Kopt)) {
+    m <- mean(y[(Topt[k]+1):Topt[k+1]])
+    dm <- rbind(dm, c(Tr[k],Tr[k+1],m,m))
+  }
+  
+  names(dm) <- c("x1","x2","y1","y2")
+  pl <- ggplot(data=data) + geom_line(aes(time, y), color="#6666CC")  +
+    geom_vline(xintercept = Tr[2:Kopt], color="red", size=0.25) +
+    geom_segment(aes(x=x1, y=y1, xend=x2, yend=y2), colour="green", data=dm, size=0.75)
+  pl
+  
+}
+
+```
+
+Let us represent the segmentation obtained for $K = 3, 6, 9, 12, 15, 20$ change-points:
+
+```{r, show = FALSE, fig.width=8, fig.height=12}
+#| code-fold: true
+p1 <- plot_segmentation(d, r, 3) + ggtitle("K = 3")
+p2 <- plot_segmentation(d, r, 6) + ggtitle("K = 6")
+p3 <- plot_segmentation(d, r, 9) + ggtitle("K = 9")
+p4 <- plot_segmentation(d, r, 12) + ggtitle("K = 12")
+p5 <- plot_segmentation(d, r, 15) + ggtitle("K = 15")
+p6 <- plot_segmentation(d, r, 20) + ggtitle("K = 20")
+
+grid.arrange(p1, p2, p3, p4, p5, p5, ncol=2)
+
+```
+
 
 ### Selecting the number of change points
 
@@ -543,12 +596,10 @@ A method for selecting an "optimal" number of segments consists in looking at th
 
 
 ```{r}
-Kmax <- 20 # maximum number of segments
-Lmin <- 1  # minimum length of a segment
-r <- dynProg.mean(d$y,Kmax,Lmin)
-pl <- ggplot(data=r$obj) + geom_line(aes(K,U), size=1, colour="purple")+ 
+#| code-fold: true
+pl <- ggplot(data=r$obj) + geom_line(aes(K,U), linewidth=1, colour="purple")+ 
   geom_point(aes(K,U), size=2, colour="purple")
-print(pl)
+pl
 ```
 
 As expected, the sequence $(U_K , 1\leq K\leq K_{\rm max})$ decreases significantly between $K=1$ and $K=9$.
